@@ -1,0 +1,133 @@
+---
+title: "Jamba Overview"
+author: "James M. Ward"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Jamba Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(collapse=TRUE, comment="#>", warning=FALSE);
+library(jamba);
+```
+
+# Jamba Overview
+
+Jamba is intended to contain JAM base functions, to be re-used during
+analysis, and by other R packages. Functions are broadly divided into
+categories.
+
+## Plot functions
+
+### plotSmoothScatter
+
+A common problem when visualizing extremely large datasets is how to
+display thousands of datapoints while indicating the amount of overlap
+of those points. The R `graphics::smoothScatter()` function provides an
+adequate drop-in replacement for most uses of `plot()`, but several aspects are
+not easily customized and are targeted by the `jamba::plotSmoothScatter()`
+function.
+
+First, the `useRaster=TRUE` feature from `graphics::image()` is intended to
+enable rasterized images instead of rendering multiple polygons. The
+rasterized image saves substantial image space, is more efficiently saved
+as vectorized output in PDF and SVG, and is more efficiently displayed
+on a remote plot device. However it is not consistently honored, and
+has some problem when the plot aspect ratio is not 1:1. The
+`plotSmoothScatter` function consistently enforces `useRaster=TRUE` by
+calling a custom `jamba::imageDefault()` function, which has methods to
+handle non-square visualization.
+
+A quick way to see some enhancements of plotSmoothScatter is by running
+doTest=TRUE:
+
+```{r, fig.show='hold'}
+plotSmoothScatter(doTest=TRUE);
+```
+
+The data represents a highly correlated x- and y-axis, with a secondary
+"band" of correlation added slightly offset. Each row contains an increasing
+amount of background noise.
+
+The left column shows graphics::smoothScatter, using the same color ramp
+used by plotSmoothScatter. The secondary "band" is somewhat obscured by the
+default density function. The second and third columns show the effect
+of using custom bandwidth in plotSmoothScatter.
+
+Also, while smoothScatter displays 50 points on the extremes by default, in
+order to show the range of data which may otherwise not be visible, the
+bandwidth function in plotSmoothScatter typically displays the full extent
+of the data without these additional points.
+
+### imageByColors
+
+The `imageByColors()` function is intended to take a matrix or data.frame
+and create the equivalent of `image()`. It also displays cell labels when
+supplied in an equivalent matrix or data.frame, by default combining adjacent
+labels so only one label is displayed in the middle of a contiguous range
+of cells.
+
+This function is particularly useful
+when displaying something like experiment design,
+where each factor level in the experiment has been assigned a color.
+
+Here, we define a simple data.frame composed of colors, then use
+the data.frame to label itself:
+
+```{r, fig.show='hold'}
+a1 <- c("red","blue")[c(1,1,2)];
+b1 <- c("yellow","orange")[c(1,2,2)];
+c1 <- c("purple","orange")[c(1,2,2)];
+d1 <- c("purple","green")[c(1,2,2)];
+df1 <- data.frame(a=a1, b=b1, c=c1, d=d1);
+imageByColors(df1, cellnote=df1);
+```
+
+The `imageByColors()` function calls `imageDefault()` which obeys the
+`useRaster=TRUE` directive. It attempts to correct for blurriness in the
+output, with the benefit of efficiency in rendering.
+
+Lastly, the labels can be rotated and resized, to allow flexibility
+in positioning labels as needed in the final plot. Below we render a
+rasterized image, showing text rotated and adjusted in various ways.
+
+```{r, fig.show='hold'}
+imageByColors(df1, cellnote=df1, useRaster=TRUE, adjBy="column",
+   cexCellnote=list(c(1.5,1.5,1), c(1,1.5), c(1.6,1.2), c(1.6,1.5)),
+   srtCellnote=list(c(90,0,0), c(0,45), c(0,0,0), c(0,90,0)));
+```
+
+
+## Helper functions
+
+### mixedSort
+
+The `gtools` package introduces.
+
+### setPrompt
+
+When working with multiple R sessions, sometimes on different computers, it
+can be helpful to add visual cues to help reinforce which R session is for
+which project. The `setPrompt()` function is intended simply to update the
+R console prompt to include the project name. It also adds the R version,
+and optionally the process ID.
+
+The process ID is particularly helpful if one R session becomes inactive,
+and if there are other active R sessions open. The process ID can be a helpful
+way to kill the specific R session without fear of accidentally killing the
+wrong one.
+
+`setPrompt()` will also define the prompt using terminal colors, if the
+`crayon` package is installed, and if terminal colors are enabled.
+
+```{r}
+setPrompt("jambaVignette");
+# {jamba}-R-3.3.2_10789>
+```
+
+When using the `jamsession` R package to manage R sessions, the prompt is
+a helpful way to reinforce the name of the active R session, using the same
+name to save the session.
