@@ -1,0 +1,26 @@
+Package: jamba
+Title: Jam Base Methods
+Version: 0.0.0.9000
+Authors@R: person("James", "Ward", email="jmw86069@gmail.com", role=c("aut", "cre"))
+Description: Jam Base methods.
+    plotSmoothScatter: proper smooth scatter plot with fine detail.
+    imageDefault: rasterized image plots. imageByColors: data.frame to image.
+    mixedSort: efficient alphanumeric sort maintaining proper numeric order.
+    rbindList: list to data.frame without padding empty cells.
+    Also vectorized text styles, stackable color manipulations, vector names
+    with versioning.
+Depends: R (>= 3.3.2)
+Imports: colorspace,
+    KernSmooth
+Suggests: knitr,
+    rmarkdown,
+    RColorBrewer,
+    viridis,
+    crayon
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+URL: http://github.com/jmw86069/jamba
+BugReports: http://github.com/jmw86069/jamba/issues
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
