@@ -10,7 +10,14 @@ vignette: >
 ---
 
 ```{r, echo=FALSE}
-knitr::opts_chunk$set(collapse=TRUE, comment="#>", warning=FALSE);
+knitr::opts_chunk$set(
+  collapse=TRUE,
+  warning=FALSE,
+  message=FALSE,
+  fig.height=8, fig.width=8,
+  comment="#>",
+  fig.path="jambaVignette-"
+);
 library(jamba);
 ```
 
@@ -44,7 +51,7 @@ handle non-square visualization.
 A quick way to see some enhancements of plotSmoothScatter is by running
 doTest=TRUE:
 
-```{r, fig.show='hold'}
+```{r plotSmoothScatter, fig.show='hold'}
 plotSmoothScatter(doTest=TRUE);
 ```
 
@@ -77,7 +84,7 @@ where each factor level in the experiment has been assigned a color.
 Here, we define a simple data.frame composed of colors, then use
 the data.frame to label itself:
 
-```{r, fig.show='hold'}
+```{r imageByColors1, fig.show='hold'}
 a1 <- c("red","blue")[c(1,1,2)];
 b1 <- c("yellow","orange")[c(1,2,2)];
 c1 <- c("purple","orange")[c(1,2,2)];
@@ -94,7 +101,7 @@ Lastly, the labels can be rotated and resized, to allow flexibility
 in positioning labels as needed in the final plot. Below we render a
 rasterized image, showing text rotated and adjusted in various ways.
 
-```{r, fig.show='hold'}
+```{r imageByColors2, fig.show='hold'}
 imageByColors(df1, cellnote=df1, useRaster=TRUE, adjBy="column",
    cexCellnote=list(c(1.5,1.5,1), c(1,1.5), c(1.6,1.2), c(1.6,1.5)),
    srtCellnote=list(c(90,0,0), c(0,45), c(0,0,0), c(0,90,0)));
@@ -103,9 +110,64 @@ imageByColors(df1, cellnote=df1, useRaster=TRUE, adjBy="column",
 
 ## Helper functions
 
-### mixedSort
+### mixedSort and mixedOrder
 
-The `gtools` package introduces.
+The `gtools` package implemented a function mixedsort() which aimed to mixedSort
+vectors similar GNU version sort, where numeric values within an alphanumeric
+string would be sorted in proper numerical order.
+
+The mixedSort() function is an optimization and extension, driven by the
+desire to sort tens of thousands of gene symbols (and micro-RNAs, miRNA)
+efficiently and based upon known order. Also, because miRNA nomenclature
+includes a dash '-' character, numbers are no longer allowed to be negative
+during this sorting algorithm, unless overridden.
+For example "miR-2" should sort before "miR-11", and after "miR-1".
+
+```{r mixedSort, echo=FALSE, results='asis'}
+if (suppressPackageStartupMessages(require(gtools))) {
+    x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
+    df <- data.frame(sort=sort(x),
+        gtools_mixedsort=gtools::mixedsort(x),
+        mixedSort=mixedSort(x));
+} else {
+    x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
+    df <- data.frame(sort=sort(x),
+        mixedSort=mixedSort(x));
+}
+knitr::kable(df);
+```
+
+Note: it took roughly 12 seconds to sort 43,000 gene symbols using
+gtools::mixedsort, and roughly 0.5 seconds using mixedSort.
+
+The mixedOrder() function is actually the core ordering algorithm,
+called by mixedSort(). The mixedOrder() function does not fully behave
+like order(), in that order() accepts a list of vectors as one type of input,
+and applies the order logic to each list iteratively, in order break ties.
+Instead the mmixedOrder() function was implemented to serve that purpose.
+
+### mixedSortDF
+
+The mixedSortDF() function is a convenient wrapper around mixedSort()
+applied to data.frames. It sorts columns in a specified order, maintaining
+ties in each column, and breaking ties as warranted in subsequent columns.
+It has the added benefit of maintaining factor order, so a data.frame
+that contains a column of factors with a specified order will maintain that
+order during the sort process. This behavior is especially useful when
+sorting a data.frame with experiment design, where each column may contain
+an ordered factor indicating the proper sample group ordering.
+
+```{r mixedSortDF1, echo=TRUE, results='asis'}
+x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
+g <- rep(c("Air", "Treatment", "Control"), 2);
+gf <- factor(g, levels=c("Control","Air", "Treatment"));
+df2 <- data.frame(groupfactor=gf, miRNA=x, stringsAsFactors=FALSE);
+df2sorted <- mixedSortDF(df2);
+```
+```{r mixedSortDF2, echo=FALSE, results='asis'}
+knitr::kable(df2sorted);
+```
+
 
 ### setPrompt
 
@@ -123,10 +185,12 @@ wrong one.
 `setPrompt()` will also define the prompt using terminal colors, if the
 `crayon` package is installed, and if terminal colors are enabled.
 
-```{r}
+```{r setPrompt, echo=TRUE}
 setPrompt("jambaVignette");
 # {jamba}-R-3.3.2_10789>
 ```
+
+![setPrompt example](README-setPrompt.png)
 
 When using the `jamsession` R package to manage R sessions, the prompt is
 a helpful way to reinforce the name of the active R session, using the same

@@ -44,3 +44,11 @@ dispatched function and calling package.
 It also by default sorts parameters by name, to make it easier to find
 from among many parameters.
 }
+\examples{
+args(jargs)
+jargs(jargs)
+
+# retrieve parameters involving notes from imageByColors
+jargs(imageByColors, "note")
+
+}

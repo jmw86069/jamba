@@ -4,13 +4,13 @@
 \alias{imageDefault}
 \title{Display a color raster image}
 \usage{
-imageDefault(x = seq(0, 1, length.out = nrow(z)), y = seq(0, 1, length.out =
-  ncol(z)), z, zlim = range(z[is.finite(z)]), xlim = range(x),
-  ylim = range(y), col = heat.colors(12), add = FALSE, xaxs = "i",
-  yaxs = "i", xaxt = "n", yaxt = "n", xlab, ylab, breaks,
-  oldstyle = FALSE, useRaster = NULL, fixRasterRatio = TRUE,
-  maxRatioFix = 100, minRasterMultiple = NULL, rasterTarget = 200,
-  interpolate = getOption("interpolate", FALSE), verbose = FALSE, ...)
+imageDefault(x = seq_len(nrow(z) + 1) - 0.5, y = seq_len(ncol(z) + 1) - 0.5,
+  z, zlim = range(z[is.finite(z)]), xlim = range(x), ylim = range(y),
+  col = heat.colors(12), add = FALSE, xaxs = "i", yaxs = "i",
+  xaxt = "n", yaxt = "n", xlab, ylab, breaks, oldstyle = TRUE,
+  useRaster = NULL, fixRasterRatio = TRUE, maxRatioFix = 100,
+  minRasterMultiple = NULL, rasterTarget = 200,
+  interpolate = getOption("interpolate", TRUE), verbose = FALSE, ...)
 }
 \arguments{
 \item{x}{location of grid lines at which the intervals in z are measured.}
@@ -56,7 +56,9 @@ by other mechanisms, e.g. log-scaled y-axis tick marks.}
 \item{breaks}{numeric vector of breakpoints for colors.}
 
 \item{oldstyle}{logical whether to delineate axis coordinates with an
-integer spacing for each column and row.}
+integer spacing for each column and row. Note: the only allowed parameter
+is TRUE, since useRaster=TRUE requires it. Therefore, this function
+for consistency will only output this format.}
 
 \item{useRaster}{logical whether to force raster image scaling, which
 is especially useful for large data matrices. In this case a bitmap
@@ -100,7 +102,9 @@ in order to minimize the distortion from image-smoothing when pixels are
 not square.
 
 The function also by default creates the image map using coordinates where
-each integer represents the center point of one column or row of data.
+each integer represents the center point of one column or row of data,
+known in the default \code{\link{image}} function as \code{oldstyle=TRUE}.
+For consistency, \code{imageDefault} will only accept \code{oldstyle=TRUE}.
 }
 \examples{
 plotSmoothScatter(doTest=TRUE)

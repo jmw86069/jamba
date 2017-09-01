@@ -1519,6 +1519,14 @@ make_styles <- function
 #'    package is available, and terminal console is capable.
 #' @param verbose logical whether to print verbose output.
 #'
+#' @examples
+#' args(jargs)
+#' jargs(jargs)
+#'
+#' # retrieve parameters involving notes from imageByColors
+#' jargs(imageByColors, "note")
+#'
+#' @export
 jargs <- function
 (x, grepString=NULL, sortVars=TRUE, asList=TRUE, useColor=TRUE,
  verbose=FALSE,

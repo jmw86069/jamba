@@ -5,9 +5,9 @@
 \title{order alphanumeric values keeping numeric values in proper order}
 \usage{
 mixedOrder(x, ..., blanksFirst = TRUE, NAlast = TRUE,
-  keepNegatives = FALSE, keepInfinites = FALSE, verbose = FALSE,
-  ignore.case = TRUE, useCaseTiebreak = TRUE, returnDebug = FALSE,
-  returnType = c("order", "rank"))
+  keepNegative = FALSE, keepInfinite = FALSE, keepDecimal = FALSE,
+  verbose = FALSE, ignore.case = TRUE, useCaseTiebreak = TRUE,
+  returnDebug = FALSE, returnType = c("order", "rank"))
 }
 \arguments{
 \item{x}{input vector}
@@ -19,11 +19,17 @@ containing a value.}
 
 \item{NAlast}{logical whether to move NA entries to the end of the sort.}
 
-\item{keepNegatives}{logical whether to keep '-' associated with adjacent
+\item{keepNegative}{logical whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values.}
 
-\item{keepInfinites}{logical whether to allow "Inf" to be considered
+\item{keepInfinite}{logical whether to allow "Inf" to be considered
 a numeric infinite value.}
+
+\item{keepDecimal}{logical whether to keep the decimal in numbers,
+sorting as a true number and not as a version number. By default
+keepDecimal=FALSE, which means "v1.200" should be ordered before
+"v1.30". When keepDecimal=TRUE, the numeric sort considers only
+"1.2" and "1.3" and sorts in that order.}
 
 \item{verbose}{logical whether to print verbose output.}
 
@@ -51,7 +57,7 @@ need to sort gene symbols, and miRNA symbols in numeric order, for example:
    \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-2,miR-12,miR-122}
 }
 The function does not by default recognize negative numbers as negative,
-instead it treats '-' as a delimiter, unless keepNegatives=TRUE.
+instead it treats '-' as a delimiter, unless keepNegative=TRUE.
 
 This function also attempts to maintain '.' as part of a decimal number,
 which can be problematic when sorting IP addresses, for example.
