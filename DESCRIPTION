@@ -1,6 +1,6 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: person("James", "Ward", email="jmw86069@gmail.com", role=c("aut", "cre"))
 Description: Jam Base methods.
     plotSmoothScatter: proper smooth scatter plot with fine detail.
