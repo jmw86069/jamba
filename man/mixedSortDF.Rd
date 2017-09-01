@@ -43,9 +43,12 @@ is fully described in \code{\link{mixedSort}} and \code{\link{mixedOrder}}.
 }
 \examples{
 x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
-g <- rep(c("groupB", "groupA"), c(2,4));
+g <- rep(c("Air", "Treatment", "Control"), 2);
 df <- data.frame(group=g, miRNA=x, stringsAsFactors=FALSE);
 mixedSortDF(df);
+gf <- factor(g, levels=c("Control","Air", "Treatment"));
+df2 <- data.frame(groupfactor=gf, miRNA=x, stringsAsFactors=FALSE);
+mixedSortDF(df2);
 
 }
 \seealso{

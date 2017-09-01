@@ -901,7 +901,7 @@ rmInfinite <- function
 #'    \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-12,miR-122}
 #' }
 #' The function does not by default recognize negative numbers as negative,
-#' instead it treats '-' as a delimiter, unless keepNegatives=TRUE.
+#' instead it treats '-' as a delimiter, unless keepNegative=TRUE.
 #'
 #' This function also attempts to maintain '.' as part of a decimal number,
 #' which can be problematic when sorting IP addresses, for example.
@@ -918,7 +918,7 @@ rmInfinite <- function
 #' @param blanksFirst logical whether to order blank entries before entries
 #'    containing a value.
 #' @param NAlast logical whether to move NA entries to the end of the sort.
-#' @param keepNegatives logical whether to keep '-' associated with adjacent
+#' @param keepNegative logical whether to keep '-' associated with adjacent
 #'    numeric values, in order to sort them as negative values.
 #' @param ignore.case logical whether to ignore uppercase and lowercase
 #'    characters when defining the sort order.
@@ -934,14 +934,18 @@ rmInfinite <- function
 #'
 #' @export
 mixedSort <- function
-(x, blanksFirst=TRUE, NAlast=TRUE, keepNegatives=FALSE,
- ignore.case=FALSE, sortByName=FALSE,
+(x,
+ blanksFirst=TRUE,
+ NAlast=TRUE,
+ keepNegative=FALSE,
+ ignore.case=FALSE,
+ sortByName=FALSE,
  verbose=FALSE,
  ...)
 {
    ## Purpose is to wrapper and speed up gtools mixedsort()
    ##
-   ## keepNegatives=FALSE will try to remove '-' from the interior of a string,
+   ## keepNegative=FALSE will try to remove '-' from the interior of a string,
    ## for example
    ## c("miR-10", "miR-9") should sort the same as
    ## c("miR_10", "miR_9")
@@ -957,18 +961,18 @@ mixedSort <- function
    if (sortByName) {
       if (ignore.case) {
          x[mixedOrder(toupper(names(x)), blanksFirst=blanksFirst,
-            NAlast=NAlast, keepNegatives=keepNegatives, verbose=verbose, ...)];
+            NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
       } else {
          x[mixedOrder(names(x), blanksFirst=blanksFirst,
-            NAlast=NAlast, keepNegatives=keepNegatives, verbose=verbose, ...)];
+            NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
       }
    } else {
       if (ignore.case) {
          x[mixedOrder(toupper(x), blanksFirst=blanksFirst,
-            NAlast=NAlast, keepNegatives=keepNegatives, verbose=verbose, ...)];
+            NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
       } else {
          x[mixedOrder(x, blanksFirst=blanksFirst,
-            NAlast=NAlast, keepNegatives=keepNegatives, verbose=verbose, ...)];
+            NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
       }
    }
 }
@@ -988,7 +992,7 @@ mixedSort <- function
 #'    \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-2,miR-12,miR-122}
 #' }
 #' The function does not by default recognize negative numbers as negative,
-#' instead it treats '-' as a delimiter, unless keepNegatives=TRUE.
+#' instead it treats '-' as a delimiter, unless keepNegative=TRUE.
 #'
 #' This function also attempts to maintain '.' as part of a decimal number,
 #' which can be problematic when sorting IP addresses, for example.
@@ -1004,10 +1008,15 @@ mixedSort <- function
 #' @param blanksFirst logical whether to order blank entries before entries
 #'    containing a value.
 #' @param NAlast logical whether to move NA entries to the end of the sort.
-#' @param keepNegatives logical whether to keep '-' associated with adjacent
+#' @param keepNegative logical whether to keep '-' associated with adjacent
 #'    numeric values, in order to sort them as negative values.
-#' @param keepInfinites logical whether to allow "Inf" to be considered
+#' @param keepInfinite logical whether to allow "Inf" to be considered
 #'    a numeric infinite value.
+#' @param keepDecimal logical whether to keep the decimal in numbers,
+#'    sorting as a true number and not as a version number. By default
+#'    keepDecimal=FALSE, which means "v1.200" should be ordered before
+#'    "v1.30". When keepDecimal=TRUE, the numeric sort considers only
+#'    "1.2" and "1.3" and sorts in that order.
 #' @param ignore.case logical whether to ignore uppercase and lowercase
 #'    characters when defining the sort order.
 #' @param sortByName logical whether to sort the vector x by names(x) instead
@@ -1027,8 +1036,9 @@ mixedSort <- function
 #' @export
 mixedOrder <- function
 (x, ..., blanksFirst=TRUE, NAlast=TRUE,
- keepNegatives=FALSE,
- keepInfinites=FALSE,
+ keepNegative=FALSE,
+ keepInfinite=FALSE,
+ keepDecimal=FALSE,
  verbose=FALSE,
  ignore.case=TRUE,
  useCaseTiebreak=TRUE,
@@ -1039,7 +1049,7 @@ mixedOrder <- function
    ## the gtools package, mainly because it is painfully slow
    ## with large data.
    ##
-   ## keepNegatives=FALSE will try to remove '-' from the interior of a string,
+   ## keepNegative=FALSE will try to remove '-' from the interior of a string,
    ## for example
    ## c("miR-10", "miR-9") should sort the same as
    ## c("miR_10", "miR_9")
@@ -1083,26 +1093,46 @@ mixedOrder <- function
       x[which.nas] <- -Inf;
    }
 
-   if (keepNegatives) {
+   if (keepNegative) {
       if (verbose) {
-         printDebug("Using keepNegatives=TRUE");
+         printDebug("Using keepNegative=", "TRUE", c("orange","dodgerblue"));
       }
       ## delimString represents a decimal number with optional exponential
       delimString <- paste0("([+-]{0,1}[0-9]+[.]{0,1}[0-9]*",
          "([eE][\\+\\-]{0,1}[0-9]+\\.{0,1}[0-9]*|))");
-      delimited <- gsub(paste0(delim, "(", delim, "){1,}"), delim,
+      delimited <- gsub(paste0(delim, "(", delim, "){1,}"),
+            delim,
          gsub(delimString,
-         paste0(delim, "\\1", delim),
-         gsub("([0-9])-([0-9])", paste0("\\1", delim, "\\2"), x)));
+            paste0(delim, "\\1", delim),
+         gsub("([0-9])-([0-9])",
+            paste0("\\1", delim, "\\2"), x)));
    } else {
       if (verbose) {
-         printDebug("Using keepNegatives=FALSE");
+         printDebug("Using keepNegative=", "FALSE", c("orange","orangered"));
       }
-      delimited <- gsub(paste0(delim, "(", delim, "){1,}"), delim,
-         gsub("([-+]{0,1}[0-9]+[.]{0,1}[0-9]*)",
-         paste0(delim, "\\1", delim),
-         gsub("([0-9])-([0-9])", paste0("\\1", delim, "\\2"), 
+      if (keepDecimal) {
+         if (verbose) {
+            printDebug("Using keepDecimal=", "TRUE", c("orange","dodgerblue"));
+         }
+         delimited <- gsub(paste0(delim, "(", delim, "){1,}"),
+               delim,
+            gsub("([-+]{0,1}[0-9]+[.]{0,1}[0-9]*)",
+               paste0(delim, "\\1", delim),
+            gsub("([0-9])-([0-9])",
+               paste0("\\1", delim, "\\2"), 
             gsub("-", delim, x))));
+      } else {
+         if (verbose) {
+            printDebug("Using keepDecimal=", "FALSE", c("orange","orangered"));
+         }
+         delimited <- gsub(paste0(delim, "(", delim, "){1,}"),
+               delim,
+            gsub("([-+]{0,1}[0-9]+)",
+               paste0(delim, "\\1", delim),
+            gsub("([0-9])-([0-9])",
+               paste0("\\1", delim, "\\2"), 
+            gsub("-", delim, x))));
+      }
    }
 
    step1m <- rbindList(strsplit(delimited, delim));
@@ -1110,7 +1140,7 @@ mixedOrder <- function
    ## Split the numeric values in their own matrix
    step1mNumeric <- matrix(ncol=ncol(step1m),
       data=suppressWarnings(as.numeric(step1m)));
-   if (!keepInfinites && any(is.infinite(step1mNumeric))) {
+   if (!keepInfinite && any(is.infinite(step1mNumeric))) {
       step1mNumeric[is.infinite(step1mNumeric)] <- NA;
    }
 
@@ -1317,9 +1347,12 @@ mmixedOrder <- function
 #'
 #' @examples
 #' x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
-#' g <- rep(c("groupB", "groupA"), c(2,4));
+#' g <- rep(c("Air", "Treatment", "Control"), 2);
 #' df <- data.frame(group=g, miRNA=x, stringsAsFactors=FALSE);
 #' mixedSortDF(df);
+#' gf <- factor(g, levels=c("Control","Air", "Treatment"));
+#' df2 <- data.frame(groupfactor=gf, miRNA=x, stringsAsFactors=FALSE);
+#' mixedSortDF(df2);
 #'
 #' @export
 mixedSortDF <- function

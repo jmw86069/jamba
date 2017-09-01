@@ -7,7 +7,6 @@ output:
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
-
 # jamba
 
 The goal of jamba is to provide useful custom functions for R data
@@ -45,9 +44,15 @@ plotSmoothScatter(doTest=TRUE);
 ## mixedSort example
 
 The mixedSort() function is an optimization and extension of a similar
-function in the gtools package, called gtools::mixedsort().
-The function here has increased performance, and some ability to manage
-positive and negative numbers embedded within a character string.
+function in the gtools package, called `gtools::mixedsort()`. Due credit to
+Gregory R. Barnes for initial implementation, which inspired this function.
+
+The mixedSort() function was driven also by the
+desire to sort tens of thousands of gene symbols and micro-RNAs (miRNAs)
+efficiently, and based upon a known order. Also, because miRNA nomenclature
+includes a dash '-' character, numbers with a preceding "-" are no longer
+negative values during this sorting algorithm, unless overridden.
+For example "miR-2" should sort before "miR-11", and after "miR-1".
 
 
 |sort    |mixedSort |
@@ -58,4 +63,7 @@ positive and negative numbers embedded within a character string.
 |miR-1a  |miR-2     |
 |miR-1b  |miR-12    |
 |miR-2   |miR-122   |
+
+Note: it took roughly 12 seconds to sort 43,000 gene symbols using
+gtools::mixedsort, and roughly 0.5 seconds using mixedSort.
 

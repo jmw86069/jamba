@@ -164,7 +164,7 @@ plotSmoothScatter <- function
 
       xSub <- t(t(x[xSample,,drop=FALSE])+c(0.6,-0.4));
       x <- rbind(x, xSub);
-      oPar <- par();
+      oPar <- par(no.readonly=TRUE);
       par("mfrow"=c(3,3));
       for (noise in c(0.3,0.6,1.2)) {
          n <- seq(from=testN1+1, to=testN);
@@ -651,7 +651,9 @@ usrBox <- function
 #' not square.
 #'
 #' The function also by default creates the image map using coordinates where
-#' each integer represents the center point of one column or row of data.
+#' each integer represents the center point of one column or row of data,
+#' known in the default \code{\link{image}} function as \code{oldstyle=TRUE}.
+#' For consistency, \code{imageDefault} will only accept \code{oldstyle=TRUE}.
 #'
 #' @param x location of grid lines at which the intervals in z are measured.
 #' @param y location of grid lines at which the intervals in z are measured.
@@ -681,7 +683,9 @@ usrBox <- function
 #' @param xlab character label for the x-axis
 #' @param breaks numeric vector of breakpoints for colors.
 #' @param oldstyle logical whether to delineate axis coordinates with an
-#'    integer spacing for each column and row.
+#'    integer spacing for each column and row. Note: the only allowed parameter
+#'    is TRUE, since useRaster=TRUE requires it. Therefore, this function
+#'    for consistency will only output this format.
 #' @param useRaster logical whether to force raster image scaling, which
 #'    is especially useful for large data matrices. In this case a bitmap
 #'    raster image is created instead of polygons, then the bitmap is scaled
@@ -714,13 +718,14 @@ usrBox <- function
 #'
 #' @export
 imageDefault <- function
-(x=seq(0, 1, length.out=nrow(z)), y=seq(0, 1, length.out=ncol(z)),
+(x=seq_len(nrow(z)+1)-0.5,
+ y=seq_len(ncol(z)+1)-0.5,
  z, zlim=range(z[is.finite(z)]), xlim=range(x), ylim=range(y),
  col=heat.colors(12), add=FALSE, xaxs="i", yaxs="i", xaxt="n", yaxt="n",
- xlab, ylab, breaks, oldstyle=FALSE, useRaster=NULL,
+ xlab, ylab, breaks, oldstyle=TRUE, useRaster=NULL,
  fixRasterRatio=TRUE, maxRatioFix=100,
  minRasterMultiple=NULL, rasterTarget=200,
- interpolate=getOption("interpolate", FALSE),
+ interpolate=getOption("interpolate", TRUE),
  verbose=FALSE,
  ...)
 {
@@ -1001,7 +1006,7 @@ imageDefault <- function
       dim(zc) <- dim(z);
       zc <- t(zc)[ncol(zc):1L, , drop=FALSE];
       rasterImage(as.raster(zc), min(x), min(y), max(x), max(y),
-         interpolate=TRUE);
+         interpolate=interpolate);
       invisible(zc);
    } else {
       .External.graphics(graphics:::C_image, x, y, zi, col);

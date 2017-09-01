@@ -4,7 +4,7 @@
 \alias{mixedSort}
 \title{sort alphanumeric values keeping numeric values in proper order}
 \usage{
-mixedSort(x, blanksFirst = TRUE, NAlast = TRUE, keepNegatives = FALSE,
+mixedSort(x, blanksFirst = TRUE, NAlast = TRUE, keepNegative = FALSE,
   ignore.case = FALSE, sortByName = FALSE, verbose = FALSE, ...)
 }
 \arguments{
@@ -15,7 +15,7 @@ containing a value.}
 
 \item{NAlast}{logical whether to move NA entries to the end of the sort.}
 
-\item{keepNegatives}{logical whether to keep '-' associated with adjacent
+\item{keepNegative}{logical whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values.}
 
 \item{ignore.case}{logical whether to ignore uppercase and lowercase
@@ -45,7 +45,7 @@ need to sort gene symbols, and miRNA symbols in numeric order, for example:
    \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-12,miR-122}
 }
 The function does not by default recognize negative numbers as negative,
-instead it treats '-' as a delimiter, unless keepNegatives=TRUE.
+instead it treats '-' as a delimiter, unless keepNegative=TRUE.
 
 This function also attempts to maintain '.' as part of a decimal number,
 which can be problematic when sorting IP addresses, for example.
