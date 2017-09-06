@@ -920,6 +920,13 @@ rmInfinite <- function
 #' @param NAlast logical whether to move NA entries to the end of the sort.
 #' @param keepNegative logical whether to keep '-' associated with adjacent
 #'    numeric values, in order to sort them as negative values.
+#' @param keepInfinite logical whether to allow "Inf" to be considered
+#'    a numeric infinite value.
+#' @param keepDecimal logical whether to keep the decimal in numbers,
+#'    sorting as a true number and not as a version number. By default
+#'    keepDecimal=FALSE, which means "v1.200" should be ordered before
+#'    "v1.30". When keepDecimal=TRUE, the numeric sort considers only
+#'    "1.2" and "1.3" and sorts in that order.
 #' @param ignore.case logical whether to ignore uppercase and lowercase
 #'    characters when defining the sort order.
 #' @param sortByName logical whether to sort the vector x by names(x) instead
@@ -938,7 +945,9 @@ mixedSort <- function
  blanksFirst=TRUE,
  NAlast=TRUE,
  keepNegative=FALSE,
- ignore.case=FALSE,
+ keepInfinite=FALSE,
+ keepDecimal=FALSE,
+ ignore.case=TRUE,
  sortByName=FALSE,
  verbose=FALSE,
  ...)
@@ -970,6 +979,8 @@ mixedSort <- function
       if (ignore.case) {
          x[mixedOrder(toupper(x), blanksFirst=blanksFirst,
             NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
+         #x[mixedOrder(x, blanksFirst=blanksFirst, ignore.case=ignore.case,
+         #   NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
       } else {
          x[mixedOrder(x, blanksFirst=blanksFirst,
             NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
@@ -1100,12 +1111,13 @@ mixedOrder <- function
       ## delimString represents a decimal number with optional exponential
       delimString <- paste0("([+-]{0,1}[0-9]+[.]{0,1}[0-9]*",
          "([eE][\\+\\-]{0,1}[0-9]+\\.{0,1}[0-9]*|))");
-      delimited <- gsub(paste0(delim, "(", delim, "){1,}"),
+      delimited <- gsub(paste0("^", delim, "|", delim, "$"), "",
+         gsub(paste0(delim, "(", delim, "){1,}"),
             delim,
          gsub(delimString,
             paste0(delim, "\\1", delim),
          gsub("([0-9])-([0-9])",
-            paste0("\\1", delim, "\\2"), x)));
+            paste0("\\1", delim, "\\2"), x))));
    } else {
       if (verbose) {
          printDebug("Using keepNegative=", "FALSE", c("orange","orangered"));
@@ -1114,37 +1126,51 @@ mixedOrder <- function
          if (verbose) {
             printDebug("Using keepDecimal=", "TRUE", c("orange","dodgerblue"));
          }
-         delimited <- gsub(paste0(delim, "(", delim, "){1,}"),
+         delimited <- gsub(paste0("^", delim, "|", delim, "$"), "",
+            gsub(paste0(delim, "(", delim, "){1,}"),
                delim,
             gsub("([-+]{0,1}[0-9]+[.]{0,1}[0-9]*)",
                paste0(delim, "\\1", delim),
             gsub("([0-9])-([0-9])",
                paste0("\\1", delim, "\\2"), 
-            gsub("-", delim, x))));
+            gsub("-", delim, x)))));
       } else {
          if (verbose) {
             printDebug("Using keepDecimal=", "FALSE", c("orange","orangered"));
          }
-         delimited <- gsub(paste0(delim, "(", delim, "){1,}"),
+         delimited <- gsub(paste0("^", delim, "|", delim, "$"), "",
+            gsub(paste0(delim, "(", delim, "){1,}"),
                delim,
             gsub("([-+]{0,1}[0-9]+)",
                paste0(delim, "\\1", delim),
             gsub("([0-9])-([0-9])",
                paste0("\\1", delim, "\\2"), 
-            gsub("-", delim, x))));
+            gsub("-", delim, x)))));
       }
    }
 
+   ## Split delimited strings into columns, one row per entry
    step1m <- rbindList(strsplit(delimited, delim));
 
    ## Split the numeric values in their own matrix
    step1mNumeric <- matrix(ncol=ncol(step1m),
       data=suppressWarnings(as.numeric(step1m)));
+
+   ## Optionally convert things like "Inf" from infinite, back to
+   ## a character value
    if (!keepInfinite && any(is.infinite(step1mNumeric))) {
+      if (verbose) {
+         printDebug("Using keepInfinite=", "FALSE", c("orange","orangered"));
+      }
       step1mNumeric[is.infinite(step1mNumeric)] <- NA;
+   } else {
+      if (verbose) {
+         printDebug("Using keepInfinite=", "TRUE", c("orange","dodgerblue"));
+      }
    }
 
-   ## Put non-numeric values into their own matrix
+   ## Put non-numeric values into their own matrix, defined by non-NA
+   ## cells from step1mNumeric
    step1mCharacter <- step1m;
    step1mCharacter[!is.na(step1mNumeric)] <- NA;
 
@@ -1190,6 +1216,10 @@ mixedOrder <- function
    rankNumeric[is.na(rankNumeric) | !is.na(rankCharacter)] <- 0;
 
    if (verbose) {
+      printDebug("head(delimited):");
+      print(head(data.frame(delimited=delimited)));
+      printDebug("step1m:");
+      print(head(step1m, 20));
       printDebug("step1mCharacter:");
       print(head(step1mCharacter, 20));
       printDebug("rankCharacter:");
@@ -1202,10 +1232,24 @@ mixedOrder <- function
    }
 
    ## Make character ranks higher than any existing numerical ranks
+   ## Fill with the adjusted character string ranks
+   ## some cells are NA here since they had a numeric value
    rankOverall <- rankCharacter + 1 + max(rankNumeric, na.rm=TRUE);
+   ## Fill NA cells with the numeric rank
    rankOverall[is.na(rankOverall)] <- rankNumeric[is.na(rankOverall)];
    if (verbose) {
       printDebug("rankOverall:");
+      print(head(rankOverall, 40));
+   }
+   ## TODO: add tiebreak using the original string
+   #printDebug("dim(rankOverall):", dim(rankOverall));
+   #rankOverall <- cbind(rankOverall, rank(x, ties.method="first"));
+   #printDebug("head(x,10):", head(x,10));
+   #printDebug("dim(rankOverall):", dim(rankOverall));
+
+   if (verbose) {
+      printDebug("rankOverall:");
+      rownames(rankOverall) <- makeNames(x);
       print(head(rankOverall, 40));
    }
 
@@ -1223,6 +1267,9 @@ mixedOrder <- function
          printDebug("Returning order() tie-breaks preserved.");
       }
       iOrder <- do.call(order, as.data.frame(rankOverall));
+      ## By using match, duplicated values are all ranked by the
+      ## first occurrence, which lets this rank be useful when
+      ## combining ranks across multiple columns
       retVal <- match(x, x[iOrder]);
    }
    if (returnDebug) {

@@ -5,7 +5,8 @@
 \title{sort alphanumeric values keeping numeric values in proper order}
 \usage{
 mixedSort(x, blanksFirst = TRUE, NAlast = TRUE, keepNegative = FALSE,
-  ignore.case = FALSE, sortByName = FALSE, verbose = FALSE, ...)
+  keepInfinite = FALSE, keepDecimal = FALSE, ignore.case = FALSE,
+  sortByName = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{x}{input vector}
@@ -17,6 +18,15 @@ containing a value.}
 
 \item{keepNegative}{logical whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values.}
+
+\item{keepInfinite}{logical whether to allow "Inf" to be considered
+a numeric infinite value.}
+
+\item{keepDecimal}{logical whether to keep the decimal in numbers,
+sorting as a true number and not as a version number. By default
+keepDecimal=FALSE, which means "v1.200" should be ordered before
+"v1.30". When keepDecimal=TRUE, the numeric sort considers only
+"1.2" and "1.3" and sorts in that order.}
 
 \item{ignore.case}{logical whether to ignore uppercase and lowercase
 characters when defining the sort order.}
