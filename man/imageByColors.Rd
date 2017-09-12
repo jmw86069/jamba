@@ -8,7 +8,7 @@ imageByColors(x, useRaster = FALSE, fixRasterRatio = TRUE,
   maxRatioFix = 100, xaxt = "s", yaxt = "s", doPlot = TRUE,
   cellnote = NULL, cexCellnote = 1, srtCellnote = 0, fontCellnote = 1,
   groupCellnotes = TRUE, adjBy = c("column", "row"), verbose = FALSE,
-  xpd = NULL, doTest = FALSE, ...)
+  xpd = NULL, flip = c("none", "y", "x", "xy"), doTest = FALSE, ...)
 }
 \arguments{
 \item{x}{matrix or data.frame containing colors}
