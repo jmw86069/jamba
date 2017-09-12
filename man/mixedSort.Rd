@@ -5,7 +5,7 @@
 \title{sort alphanumeric values keeping numeric values in proper order}
 \usage{
 mixedSort(x, blanksFirst = TRUE, NAlast = TRUE, keepNegative = FALSE,
-  keepInfinite = FALSE, keepDecimal = FALSE, ignore.case = FALSE,
+  keepInfinite = FALSE, keepDecimal = FALSE, ignore.case = TRUE,
   sortByName = FALSE, verbose = FALSE, ...)
 }
 \arguments{

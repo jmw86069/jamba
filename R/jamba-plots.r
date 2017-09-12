@@ -85,6 +85,8 @@
 #'    the x-axis range, similar to its use in plot(...) generic functions.
 #' @param yaxt character value compatible with par(yaxt), used to control
 #'    the y-axis range, similar to its use in plot(...) generic functions.
+#' @param add logical whether to add to an existing active R plot, or create
+#'    a new plot window.
 #' @param applyRangeCeiling logical, indicates how to handle points outside
 #'    the visible plot range. Valid values:
 #'    \describe{
@@ -118,7 +120,7 @@ plotSmoothScatter <- function
  colramp=c("white", "lightblue", "blue", "orange", "orangered2"),
  doTest=FALSE, fillBackground=TRUE,
  naAction=c("remove", "floor0", "floor1"),
- xaxt="s", yaxt="s",
+ xaxt="s", yaxt="s", add=FALSE,
  applyRangeCeiling=TRUE, useRaster=TRUE,
  ...)
 {
@@ -237,14 +239,18 @@ plotSmoothScatter <- function
    }
    xlim4 <- sort((c(-1,1) * diff(xlim)*0.02) + xlim);
    ylim4 <- sort((c(-1,1) * diff(ylim)*0.02) + ylim);
-   ## Adjust for uneven plot aspect ratio, by using the plot par("pin") which is the actual dimensions
-   ## Note that it doesn't require the actual coordinates of the plot, just the relative size of the display
+   ## Adjust for uneven plot aspect ratio, by using the plot par("pin")
+   ## which contains the actual dimensions.
+   ## Note that it does not require the actual coordinates of the plot,
+   ## just the relative size of the display
    pin1 <- par("pin")[1] / par("pin")[2];
    bandwidthXY <- c(diff(xlim4)/bandwidthN[1], diff(ylim4)/bandwidthN[2]*pin1);
    if (fillBackground) {
-      nullPlot(doBoxes=FALSE, doUsrBox=TRUE, fill=head(colramp(11),1), xlim=xlim4, ylim=ylim4, ...);
-      axis(1, las=2);
-      axis(2, las=2);
+      nullPlot(doBoxes=FALSE, doUsrBox=TRUE, fill=head(colramp(11),1),
+         xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
+         xlim=xlim4, ylim=ylim4, add=add, ...);
+      axis(1, las=2, xaxt=xaxt);
+      axis(2, las=2, yaxt=yaxt);
       smoothScatterJam(x=x, y=y, add=TRUE,
          transformation=transformation,
          bandwidth=bandwidthXY, nbin=nbin, nrpoints=nrpoints,
@@ -258,10 +264,10 @@ plotSmoothScatter <- function
          colramp=colramp, useRaster=useRaster, ...);
    }
    invisible(list(x=x, y=y,
-                 transformation=transformation,
-                 bandwidth=bandwidthXY, nbin=nbin,
-                 xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
-                 colramp=colramp));
+      transformation=transformation,
+      bandwidth=bandwidthXY, nbin=nbin,
+      xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
+      colramp=colramp));
 }
 
 #' Smooth scatter plot, Jam style
@@ -313,6 +319,8 @@ plotSmoothScatter <- function
 #' @param ylab character y-axis label
 #' @param xlim numeric x-axis range for the plot
 #' @param ylim numeric y-axis range for the plot
+#' @param add logical whether to add to an existing active R plot, or create
+#'    a new plot window.
 #' @param xaxs character value compatible with par(xaxs), mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    range, most useful to restrict the axis range expansion done by R
@@ -345,7 +353,7 @@ smoothScatterJam <- function
  colramp=colorRampPalette(c("white", blues9)),
  nrpoints=100, pch=".", cex=1, col="black",
  transformation=function(x) x^0.25, postPlotHook=box,
- xlab=NULL, ylab=NULL, xlim, ylim,
+ xlab=NULL, ylab=NULL, xlim, ylim, add=FALSE,
  xaxs=par("xaxs"), yaxs=par("yaxs"), xaxt=par("xaxt"), yaxt=par("yaxt"),
  useRaster=NULL,
  ...)
@@ -402,10 +410,10 @@ smoothScatterJam <- function
    ym <- map$x2;
    dens <- map$fhat;
    dens[] <- transformation(dens);
-   imageDefault(xm, ym, z=dens, col=colramp(256), xlab=xlab,
+   imageDefault(xm, ym, z=dens, col=colramp(256), xlab=xlab, add=add,
       ylab=ylab, xlim=xlim, ylim=ylim, xaxs=xaxs, yaxs=yaxs, xaxt=xaxt, yaxt=yaxt,
       useRaster=useRaster, ...);
-   imageL <- list(xm=xm, ym=ym, z=dens, col=colramp(256), xlab=xlab,
+   imageL <- list(xm=xm, ym=ym, z=dens, col=colramp(256), xlab=xlab, add=add,
       ylab=ylab, xlim=xlim, ylim=ylim, xaxs=xaxs, yaxs=yaxs, xaxt=xaxt, yaxt=yaxt);
    if (!is.null(postPlotHook)) {
       postPlotHook();
@@ -721,8 +729,10 @@ imageDefault <- function
 (x=seq_len(nrow(z)+1)-0.5,
  y=seq_len(ncol(z)+1)-0.5,
  z, zlim=range(z[is.finite(z)]), xlim=range(x), ylim=range(y),
- col=heat.colors(12), add=FALSE, xaxs="i", yaxs="i", xaxt="n", yaxt="n",
- xlab, ylab, breaks, oldstyle=TRUE, useRaster=NULL,
+ col=heat.colors(12), add=FALSE,
+ xaxs="i", yaxs="i", xaxt="n", yaxt="n",
+ xlab, ylab, breaks, flip=c("none","x","y","xy"),
+ oldstyle=TRUE, useRaster=NULL,
  fixRasterRatio=TRUE, maxRatioFix=100,
  minRasterMultiple=NULL, rasterTarget=200,
  interpolate=getOption("interpolate", TRUE),
@@ -750,6 +760,7 @@ imageDefault <- function
    ## vector, for rows and columns respectively, and is extended to length 2
    ## as necessary.
    ##
+   flip <- match.arg(flip);
    if (interpolate && is.null(useRaster)) {
       useRaster <- TRUE;
    }
@@ -871,6 +882,12 @@ imageDefault <- function
       } else {
          zi <- .bincode(z, breaks, TRUE, TRUE) - 1L;
       }
+   }
+   if (igrepHas("y", flip)) {
+      ylim <- rev(ylim);
+   }
+   if (igrepHas("x", flip)) {
+      xlim <- rev(xlim);
    }
    if (!add) {
       plot(NA, NA, xlim=xlim, ylim=ylim, type="n", xaxs=xaxs,
@@ -1130,7 +1147,7 @@ imageByColors <- function
 (x, useRaster=FALSE, fixRasterRatio=TRUE, maxRatioFix=100,
  xaxt="s", yaxt="s", doPlot=TRUE, cellnote=NULL, cexCellnote=1,
  srtCellnote=0, fontCellnote=1, groupCellnotes=TRUE, adjBy=c("column","row"),
- verbose=FALSE, xpd=NULL, doTest=FALSE,
+ verbose=FALSE, xpd=NULL, flip=c("none","y","x","xy"), doTest=FALSE,
  ...)
 {
    ## Purpose is to take as input a matrix with color names
@@ -1153,6 +1170,7 @@ imageByColors <- function
    ## adjBy allows adjusting the cellnote using srtCellnote, cexCellnote, fontCellnote
    ## either by row or by column, helpful when using the colors beside a heatmap.
    adjBy <- match.arg(adjBy);
+   flip <- match.arg(flip);
 
    ## Optionally run a test demonstrating imageByColors()
    if (doTest) {
@@ -1190,40 +1208,19 @@ imageByColors <- function
       x[x %in% c(NA, "NA", "...", "", "blank", "empty", "-")] <- "transparent";
    }
 
-   if (1 == 2 && useRaster && fixRasterRatio) {
-      ## To try to deal with the raster function not handling the case of
-      ## non-square data matrices, we'll try to make the data roughly square by
-      ## duplicating some data
-      ##
-      ## First we'll only handle when there is more than 2:1 ratio. Everything
-      ## else is close enough not to bother
-      if (nrow(x) > 2*ncol(x)) {
-         dupColX <- floor(nrow(x)/ncol(x));
-         dupColX <- min(c(dupColX, maxRatioFix));
-         newCols <- rep(1:ncol(x), each=dupColX);
-         xNcolSeq <- seq(from=0.5, to=ncol(x)+0.5, length.out=length(newCols));
-         newColBreaks <- breaksByVector(newCols);
-         newColLabels <- newColBreaks$newLabels;
-         x <- x[,newCols,drop=FALSE];
-      }
-   }
    xFac <- as.factor(x);
    xFacM <- matrix(data=as.numeric(xFac), ncol=ncol(x), dimnames=dimnames(x));
    if (doPlot) {
       imageDefault(x=xNcolSeq, y=xNrowSeq, z=t(xFacM),
-            col=levels(xFac), xaxt="n", yaxt="n", oldstyle=TRUE,
-            useRaster=useRaster,
-            xlab="", ylab="", axes=FALSE,
-            fixRasterRatio=fixRasterRatio,
-            maxRatioFix=maxRatioFix,
-            verbose=verbose,
-            ...);
-      #if (!xaxt %in% "n") {
-      #   axis(1, las=2, cex.axis=0.6);
-      #}
-      #if (!yaxt %in% "n") {
-      #   axis(2, las=2, cex.axis=0.6);
-      #}
+         col=levels(xFac),
+         xaxt="n", yaxt="n", oldstyle=TRUE,
+         useRaster=useRaster,
+         xlab="", ylab="", axes=FALSE,
+         flip=flip,
+         fixRasterRatio=fixRasterRatio,
+         maxRatioFix=maxRatioFix,
+         verbose=verbose,
+         ...);
    }
    ## Optionally add labels to the cells
    if (!is.null(cellnote)) {
@@ -1458,4 +1455,408 @@ imageByColors <- function
    invisible(list(x=xNcolSeq, y=xNrowSeq, z=t(xFacM), col=levels(xFac),
       cellnoteX=cellnoteX, srtCellnoteDF=srtCellnoteDF,
       cexCellnote=cexCellnote));
+}
+
+#' Draw text with shadow border
+#'
+#' Draw text with shadow border
+#'
+#' Draws text with the same syntax as \code{graphics::text()} except that
+#' this function adds a contrasting color border around the text, which
+#' helps visibility when the background color is either not known, or is
+#' not expected to be a fixed contrasting color.
+#'
+#' The function draws the label n times with the chosed background
+#' color, then the label itself atop the background text. It does not
+#' typically have a noticeable effect on rendering time, but it may
+#' impact downstream uses in vector file formats like SVG and PDF, where
+#' text is stored as proper text and font objects. Take care when editing
+#' text that the underlying shadow text is also edited in sync.
+#'
+#' The parameter \code{doTest=TRUE} will display a visual example. The
+#' background color can be modified with \code{fill="navy"} for example.
+#'
+#'
+#' @param x,y numeric coordinates, either as vectors x and y, or x as a
+#' two-color matrix recognized by \code{\link{xy.coords}}.
+#' @param labels vector of labels to display at the corresponding xy
+#'    coordinates.
+#' @param col,bg,shadowColor the label color, and background (outline) color,
+#'    and shadow color (if \code{shadow=TRUE}), for each
+#'    element in \code{labels}. Colors are applied in order, and recycled to
+#'    \code{length(labels)} as needed. By default \code{bg} will choose
+#'    a contrasting color, based upon \code{\link{setTextContrastColor}}.
+#'    Also by default, the shadow is "black" true to its name, since it is
+#'    expected to darken the area around it.
+#' @param r the outline radius, expressed as a fraction of the width of the
+#'    character "A" as returned by \code{\link{strwidth}}.
+#' @param offset the outline offset position in xy coordinates, expressed
+#'    as a fraction of the width of the character "A" as returned by
+#'    \code{\link{strwidth}}, and \code{\link{strheight}}, respectively.
+#'    The offset is only applied when \code{shadow=TRUE} to enable the shadow
+#'    effect.
+#' @param n the number of steps around the label used to create the outline.
+#'    A higher number may be useful for very large font sizes, otherwise 8
+#'    is a reasonably good balance between detail and the number of labels
+#'    added.
+#' @param outline logical whether to enable outline drawing.
+#' @param shadow logical whether to enable shadow drawing.
+#' @param alphaOutline,alphaShadow alpha transparency to use for the outline
+#'    and shadow colors, respectively.
+#' @param doTest logical whether to create a visual example of output. Note
+#'    that it calls \code{\link{usrBox}} to color the plot area, and the
+#'    background can be overridden with something like \code{fill="navy"}.
+#' @param ... other parameters are passed to \code{\link{text}}.
+#'    Note that certain parameters are not vectorized in that function,
+#'    such as \code{srt} which requires only a fixed value. To rotate each
+#'    label independently, multiple calls to \code{\link{text}} or
+#'    \code{\link{shadowText}} must be made. Other parameters like \code{adj}
+#'    only accept up to two values, and those two values affect all label
+#'    positioning.
+#'
+#' @examples
+#' shadowText(doTest=TRUE);
+#' shadowText(doTest=TRUE, fill="navy");
+#' shadowText(doTest=TRUE, fill="red4");
+#'
+#' @export
+shadowText <- function
+(x, y=NULL, labels=NULL,
+ col="white", bg=setTextContrastColor(col),
+ r=0.1, offset=c(0.15, -0.15), n=8,
+ outline=TRUE, alphaOutline=0.9,
+ shadow=FALSE, shadowColor="black", alphaShadow=0.2,
+ cex=par("cex"), font=par("font"),
+ doTest=FALSE,
+ ...)
+{
+   ## Purpose is to draw text with a border around it to help
+   ## make text more visible even with light and dark features
+   ## beneath the text.
+   ## It can be used by overriding the text function prior to
+   ## running plot functions, e.g.
+   ## 'text<-shadowText'.
+   ## Then reset to the default text function afterwards, e.g.
+   ## 'text<-graphics::text'
+   ##
+   ## doTest=TRUE will display an example
+
+   #cex <- rep(cex, length.out=length(labels));
+   #font <- rep(font, length.out=length(labels));
+   #srt <- rep(srt, length.out=length(labels));
+
+   if (doTest) {
+      ## Example shadow text
+      nullPlot(xlim=c(1,9), ylim=c(0,10), doBoxes=FALSE,
+         doUsrBox=TRUE, ...);
+      if (length(col) == 1 && col == "white") {
+         col <- c("white", "white", "yellow", "green4", "red4", "blue");
+         bg <- setTextContrastColor(col);
+      }
+      if (length(labels) == 0) {
+         labels <- LETTERS[1:12];
+      } else {
+         labels <- rep(labels, length.out=12);
+      }
+      st1 <- shadowText(x=rep(2,9), y=9:1,
+         labels=c("outline=FALSE","shadow=FALSE",labels[1:7]),
+         outline=FALSE, shadow=FALSE,
+         col=col,
+         bg=bg,
+         cex=c(1,1,1,1,1,1,1,1,1),
+         offset=offset, n=n, r=r,
+         doTest=FALSE);
+      st2 <- shadowText(x=rep(4,9), y=9:1-0.3,
+         labels=c("outline=TRUE","shadow=FALSE",labels[1:7]),
+         outline=TRUE, shadow=FALSE,
+         col=col,
+         bg=bg,
+         cex=c(1.5,1,1,1,1,1,1,1,1),
+         offset=offset, n=n, r=r,
+         doTest=FALSE);
+      st3 <- shadowText(x=rep(6,9), y=9:1,
+         labels=c("outline=FALSE","shadow=TRUE",labels[1:7]),
+         outline=FALSE, shadow=TRUE,
+         col=col,
+         bg=bg,
+         cex=c(1,1.5,1,1,1,1,1,1,1),
+         offset=offset, n=n, r=r,
+         doTest=FALSE);
+      st4 <- shadowText(x=rep(8,9), y=9:1-0.3,
+         labels=c("outline=TRUE","shadow=TRUE",labels[1:7]),
+         outline=TRUE, shadow=TRUE,
+         col=col,
+         bg=bg,
+         cex=c(1.5,1.5,1,1,1,1,1,1,1),
+         offset=offset, n=n, r=r,
+         doTest=FALSE);
+      invisible(list(st1=st1, st2=st2, st3=st3));
+   } else {
+      cex <- rep(cex, length.out=length(labels));
+      font <- rep(font, length.out=length(labels));
+      xy <- xy.coords(x, y);
+      xo <- r * strwidth("A");
+      yo <- r * strheight("A");
+      if (length(offset) == 0) {
+         offset <- c(0.15, 0.15);
+      }
+      offset <- rep(offset, length.out=2);
+      offsetX <- offset[1] * strwidth("A");
+      offsetY <- offset[2] * strheight("A");
+
+      ## Angular sequence with n steps
+      theta <- tail(seq(0, 2*pi, length.out=n+1), -1);
+
+      ## Outline has no offset
+      if (outline) {
+         ## Make a matrix of coordinates per label
+         outlineX <- matrix(ncol=n, byrow=TRUE,
+            rep(xy$x, each=n) + cos(theta)*xo);
+         outlineY <- matrix(ncol=n, byrow=TRUE,
+            rep(xy$y, each=n) + sin(theta)*yo);
+         outlineLabels <- matrix(ncol=n, byrow=TRUE,
+            rep(labels, each=n));
+         outlineColors <- matrix(ncol=n, nrow=length(labels), byrow=TRUE,
+            rep(alpha2col(bg, alpha=alphaOutline), each=n));
+      } else {
+         outlineX <- outlineY <- outlineLabels <- outlineColors <- NULL;
+      }
+
+      ## Shadow has offset
+      if (shadow) {
+         ## Make a matrix of coordinates per label
+         shadowX <- matrix(ncol=n, byrow=TRUE,
+            rep(xy$x + offsetX, each=n) + cos(theta)*xo*1.5);
+         shadowY <- matrix(ncol=n, byrow=TRUE,
+            rep(xy$y + offsetY, each=n) + sin(theta)*yo*1.5);
+         shadowLabels <- matrix(ncol=n, byrow=TRUE,
+            rep(labels, each=n));
+         shadowColors <- matrix(ncol=n, nrow=length(labels), byrow=TRUE,
+            rep(alpha2col(shadowColor, alpha=alphaShadow), each=n));
+      } else {
+         shadowX <- shadowY <- shadowLabels <- shadowColors <- NULL;
+      }
+
+      ## Append label coordinates to shadow coordinates so the shadows
+      ## are drawn first, for each label in order. This order ensures
+      ## that overlaps are respected without any labels appearing above
+      ## another label shadow out of order.
+      allX <- cbind(shadowX, outlineX, xy$x);
+      allY <- cbind(shadowY, outlineY, xy$y);
+      allColors <- cbind(shadowColors, outlineColors,
+         rep(col, length.out=length(labels)));
+      allLabels <- cbind(shadowLabels, outlineLabels, labels);
+      #allCex <- rep(cex, n+1);
+      #allFont <- rep(font, n+1);
+      #allSrt <- rep(srt, n+1);
+
+      ## Draw labels with one text() call to make it vectorized
+      graphics::text(x=c(allX),
+         y=c(allY),
+         labels=c(allLabels),
+         col=c(allColors),
+         cex=cex, font=font,
+         ...);
+      invisible(list(allX=allX, allY=allY, allColors=allColors,
+         allLabels=allLabels));
+   }
+}
+
+#' Adjust axis label margins
+#'
+#' Adjust axis label margins
+#'
+#' This function takes a vector of axis labels, and the margin where they
+#' will be used, and adjusts the relevant axis margin to accomodate the
+#' label size, up to a maximum fraction of the figure size as defined by
+#' \code{maxFig}. It currently assumes labels are placed perpendicular to
+#' the axis, e.g. \code{las=2} when using \code{\link{text}}.
+#'
+#' Note this function does not render labels in the figure.
+#'
+#' @param x vector of axis labels
+#' @param margin single integer value indicating which margin to adjust,
+#'    using the order by \code{par("mar")}, 1=bottom, 2=left, 3=top,
+#'    4=right.
+#' @param maxFig fraction less than 1, indicating the maximum size of margin
+#'    relative to the figure size. Setting margins too large results in an
+#'    error otherwise.
+#' @param prefix character string used to add whitespace around the axis label.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' xlabs <- paste0("item_", (1:20));
+#' ylabs <- paste0("rownum_", (1:20));
+#' adjustAxisLabelMargins(xlabs, 1);
+#' adjustAxisLabelMargins(ylabs, 2);
+#' nullPlot(xlim=c(1,20), ylim=c(1,20));
+#' axis(1, at=1:20, labels=xlabs, las=2);
+#' axis(2, at=1:20, labels=ylabs, las=2);
+#'
+#' par("mar"=c(5,4,4,2));
+#' adjustAxisLabelMargins(xlabs, 3);
+#' adjustAxisLabelMargins(ylabs, 4);
+#' nullPlot(xlim=c(1,20), ylim=c(1,20));
+#' axis(3, at=1:20, labels=xlabs, las=2);
+#' axis(4, at=1:20, labels=ylabs, las=2);
+#'
+#' @export
+adjustAxisLabelMargins <- function
+(x, margin=1, maxFig=1/2,
+ prefix="-- -- ",
+ ...)
+{
+   ## Purpose is to adjust figure margins to accomodate label string length
+   ## but no greater than the maxFig proportion of figure size.
+   ##
+   ## x is a vector of axis labels
+   ##
+   ## par("mai") and par("fin") are used, with units="inches", which allows
+   ## the calculations to remain unaware of plot coordinates.
+   ##
+   ## The margin values refer to the order from par("mar"),
+   ## 1-bottom, 2-left, 3-top, 4-right
+   ## Note: If a plot device is not already open, the call to strwidth()
+   ## will open one if possible. If not possible, an error will be thrown
+   ## from strwidth().
+   if (!margin %in% c(1,2,3,4)) {
+      stop("adjustAxisLabelMargins() requires margin to be one of c(1,2,3,4).");
+   }
+
+   ## Get plot and figure sizes in inches
+   parMai <- par("mai");
+   parFin <- par("fin");
+   maxWidth <- max(strwidth(paste(prefix, x),
+      units="inches"), na.rm=TRUE);
+
+   ## Make sure label margins are not more than 1/2 the figure size
+   refMargin <- 2-(margin %% 2);
+   parMaiNew <- min(c(maxWidth, parFin[refMargin]*maxFig));
+   parMai[margin] <- parMaiNew;
+   par("mai"=parMai);
+   invisible(parMaiNew);
+}
+
+#' Show colors from a vector or list
+#'
+#' Show colors from a vector or list
+#'
+#' This function simply displays colors for review, using
+#' \code{\link{imageByColors}} to display colors and labels across the
+#' plot space.
+#'
+#' @param x vector of colors, or list of color vectors.
+#' @param labelCells logical whether to label colors atop the color itself.
+#'    If NULL (default) it will only display labels with 40 or fewer items
+#'    on either axis.
+#' @param transpose logical whether to transpose the colors to display
+#'    top-to-bottom, instead of left-to-right.
+#' @param srtCellnote numerical angle to rotate text when
+#'    \code{labelCells=TRUE}. When set to NULL, labels are vertical
+#'    srtCellnote=90 when \code{transpose=FALSE} and horizontal
+#'    srtCellnote=0 when \code{transpose=TRUE}.
+#' @param ... additional parameters are sent to \code{\link{imageByColors}}.
+#'
+#' @return invisible color matrix used in \code{\link{imageByColors}}.
+#'
+#' @examples
+#' x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7));
+#' showColors(x);
+#'
+#' if (suppressPackageStartupMessages(require(RColorBrewer))) {
+#'    y <- lapply(nameVector(RColorBrewer:::namelist), function(i){
+#'       brewer.pal(20,i);
+#'    });
+#'    showColors(y, cexCellnote=0.6, main="Brewer Colors");
+#' }
+#' if (suppressPackageStartupMessages(require(viridis))) {
+#'    z <- rgb2col(viridis.map[,c("R","G","B")]);
+#'    names(z) <- viridis.map[,"opt"];
+#'    showColors(z, labelCells=TRUE, xaxt="n", main="viridis.map colors");
+#' }
+#'
+#' @export
+showColors <- function
+(x, labelCells=NULL, transpose=FALSE, srtCellnote=NULL,
+ ...)
+{
+   ## Purpose is to show a vector of colors, or display a list of
+   ## color vectors in a table view
+   ## x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7))
+
+   if (igrepHas("list", class(x))) {
+      xM <- rbindList(x);
+      colnames(xM) <- paste0("item_", padInteger(seq_len(ncol(xM))));
+      if (length(labelCells)==0) {
+         if (max(dim(xM)) > 40) {
+            labelCells <- FALSE;
+         } else {
+            labelCells <- TRUE;
+         }
+      }
+      if (labelCells) {
+         xMnames <- rbindList(sapply(x, names));
+         if (length(xMnames) == 0) {
+            xMnames <- xM;
+         } else {
+            colnames(xMnames) <- colnames(xM);
+         }
+      } else {
+         xMnames <- xM;
+         xMnames[] <- "";
+      }
+   } else {
+      xM <- matrix(x, nrow=1);
+      if (!is.null(names(x))) {
+         colnames(xM) <- names(x);
+      }
+      if (length(labelCells)==0) {
+         if (max(dim(xM)) > 40) {
+            labelCells <- FALSE;
+         } else {
+            labelCells <- TRUE;
+         }
+      }
+      if (labelCells) {
+         if (!is.null(names(x))) {
+            xMnames <- matrix(names(x), nrow=1);
+         } else {
+            xMnames <- xM;
+         }
+      } else {
+         xMnames <- xM;
+         xMnames[] <- "";
+      }
+   }
+
+   if (transpose) {
+      ## Detect string width to adjust margins
+      adjustAxisLabelMargins(rownames(xM), 1);
+      adjustAxisLabelMargins(colnames(xM), 2);
+      if (length(srtCellnote)==0) {
+         if (nrow(xM) > ncol(xM)) {
+            srtCellnote <- 90;
+         } else {
+            srtCellnote <- 0;
+         }
+      }
+      imageByColors(t(xM), cellnote=t(xMnames),
+         flip="y",
+         srtCellnote=srtCellnote, ...);
+   } else {
+      ## Detect string width to adjust margins
+      adjustAxisLabelMargins(colnames(xM), 1);
+      adjustAxisLabelMargins(rownames(xM), 2);
+      if (is.null(srtCellnote)) {
+         if (nrow(xM) > ncol(xM)) {
+            srtCellnote <- 0;
+         } else {
+            srtCellnote <- 90;
+         }
+      }
+      imageByColors(xM, cellnote=xMnames,
+         flip="y",
+         srtCellnote=srtCellnote, ...);
+   }
+   invisible(xM);
 }

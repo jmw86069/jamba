@@ -117,7 +117,14 @@ col2hcl <- function
    x1 <- col2rgb(x);
    a1 <- col2alpha(x);
    x2 <- RGB(t(x1)[,1:3,drop=FALSE]/maxColorValue);
-   x3 <- rbind(t(coords(as(x2, "polarLUV"))), "alpha"=a1);
+   ## Note: spatstat overrides coords() with a generic function but
+   ## the colorspace function is not properly dispatched for class RGB.
+   ## Currently a weakness in R, that generic functions can be overwritten
+   ## and the only workaround is to prefix the specific package name,
+   ## which of course requires only that exact package to provide the
+   ## function. Over time, these workarounds will break, as functions
+   ## may be migrated to new packages.
+   x3 <- rbind(t(colorspace::coords(as(x2, "polarLUV"))), "alpha"=a1);
    colnames(x3) <- names(x);
    x3[is.na(x3)] <- 0;
    x3;
@@ -819,4 +826,175 @@ isColor <- function
    validBoolean <- nameVector(seq_along(x) %in% validSet, x,
       makeNamesFunc=makeNamesFunc);
    return(validBoolean);
+}
+
+#' Make a color gradient
+#'
+#' Make a color gradient
+#'
+#' This function converts a single color into a color gradient by expanding
+#' the initial color into lighter and darker colors around the central color.
+#' The amount of gradient expansion is controlled by gradientWtFactor, which
+#' is a weight factor scaled to the maximum available range of bright to
+#' dark colors.
+#'
+#' As an extension, the function can take a vector of colors, and expand each
+#' into its own color gradient, each with its own number of colors.
+#' If a vector with supplied that contains repeated colors, these colors
+#' are expanded in-place into a gradient, bypassing the value for \code{n}.
+#'
+#' If a list is supplied, a list is returned of the same length, where
+#' each vector inside the list is a color gradient of length specified
+#' by \code{n}. If the input list contains multiple values, only the first
+#' color is used to define the color gradient.
+#'
+#' @param col vector of one or more colors, or list of color vectors, or
+#'    vector of repeated colors. If the vector contains unique colors, each
+#'    color is expanded into a gradient of length \code{n}, where \code{n} is
+#'    recycled for each input color. If the vector contains repeated colors,
+#'    they are expanded in place.
+#' @param n integer vector of length one or more, which defines the number
+#'    of colors to return for each gradient.
+#' @param gradientWtFactor numeric fraction representing the amount to expand
+#'    a color toward its maximum brightness and darkness.
+#' @param reverseGradient logical whether to return light-to-dark gradient
+#'    (TRUE) or dark-to-light gradient (FALSE).
+#' @param verbose logical whether to print verbose output.
+#'
+#' @export
+color2gradient <- function
+(col, n=NULL, gradientWtFactor=2/3, reverseGradient=TRUE,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to take a single color and create a light->dark gradient
+   ##
+   ## n can be a single value, or a vector of values to be applied to
+   ## col in order
+   ##
+   ## if col is a vector of repeated colors, the colors will be split
+   ## and converted to a gradient per color
+   sMin <- 0.1;
+   sMax <- 1;
+   vMin <- 0.1;
+   vMax <- 1;
+   wtFactor <- gradientWtFactor;
+
+   ## Expand n to the length of col
+   if (!igrepHas("list", class(col))) {
+      if (is.null(names(col))) {
+         names(col) <- makeNames(col);
+      }
+      colOrig <- col;
+      ## Note that using split() orders the data by the sort() of the names
+      ## so we order by the original colors afterward to keep
+      col <- split(col, col)[unique(col)];
+      if (verbose) {
+         printDebug("col:");
+         print(head(col, 20));
+      }
+   } else {
+      colOrig <- NULL;
+   }
+   if (is.null(names(col))) {
+      names(col) <- makeNames(rep("col", length(col)));
+   }
+   ## If not given n, and if all entries are one color,
+   ## we expand each gradient an equal amount
+   doExpand <- FALSE;
+   if (is.null(n) && all(lengths(col) == 1)) {
+      n <- 3;
+   }
+   if (all(lengths(col) == 1)) {
+      doExpand <- TRUE;
+   }
+   ## If not all entries are length=1, we set n to
+   ## the length of each vector in the list. Intended
+   ## for making a vector of colors visually distinct
+   if (is.null(n)) {
+      n <- lengths(col);
+   }
+   n <- rep(n, length.out=length(col));
+   names(n) <- names(col);
+   if (verbose) {
+      printDebug("color2gradient() running.", c("orange", "lightblue"));
+      printDebug("   col:", c("orange", "lightblue"));
+      print(head(col, 10));
+      printDebug("     n:", c("orange", "lightblue"));
+      print(head(n, 10));
+   }
+
+   newColorSets <- lapply(nameVectorN(col), function(iName){
+      i <- col[[iName]];
+      if (verbose) {
+         printDebug("i:", c("orange", i));
+         print(head(i, 20));
+      }
+      if (length(unique(i)) > 1) {
+         i <- head(i, 1);
+      }
+      hsvValues <- col2hsv(i);
+      iLen <- n[iName];
+      if (verbose) {
+         printDebug("iLen:", iLen, c("orange", "lightblue"));
+      }
+      if (iLen == 1) {
+         if (is.null(names(i))) {
+            return(nameVector(head(i, 1), iName));
+         } else {
+            return(head(i, 1));
+         }
+      }
+      sValue <- hsvValues["s",1];
+      vValue <- hsvValues["v",1];
+      sRange <- approx(x=unique(c(
+            weighted.mean(c(sMax, sValue), w=c(wtFactor, 1)),
+            sValue,
+            weighted.mean(c(sMin, sValue), w=c(wtFactor, 1)))),
+         n=iLen)$y;
+      ## Keep grey as grey and not some random muddy color
+      if (sValue == 0) {
+         sRange <- sRange - sRange;
+      }
+      vRange <- approx(x=unique(c(
+            weighted.mean(c(vMin, vValue), w=c(wtFactor, 1)),
+            vValue,
+            weighted.mean(c(vMax, vValue), w=c(wtFactor, 1)))),
+         n=iLen)$y;
+      hRange <- rep(hsvValues["h",1], iLen);
+      alphaRange <- rep(hsvValues["alpha",1], iLen);
+      newColors <- hsv(h=hRange,
+         s=sRange,
+         v=vRange,
+         alpha=alphaRange);
+      if (reverseGradient) {
+         newColors <- rev(newColors);
+      }
+      if (is.null(names(i))) {
+         names(newColors) <- makeNames(rep(iName,
+            length.out=length(newColors)));
+      } else {
+         names(newColors) <- makeNames(rep(names(i),
+            length.out=length(newColors)));
+      }
+      if (verbose) {
+         printDebug("newColors:");
+         print(head(newColors, 20));
+      }
+      newColors;
+   });
+   if (!is.null(colOrig)) {
+      if (verbose) {
+         printDebug("colOrig:", c("orange", "lightblue"));
+         print(head(colOrig, 20));
+         printDebug("newColorSets:", c("orange", "lightblue"));
+         print(head(newColorSets, 20));
+      }
+      if (doExpand) {
+         newColorSets <- unlist(newColorSets);
+      } else {
+         newColorSets <- unlist(newColorSets)[names(colOrig)];
+      }
+   }
+   return(newColorSets);
 }

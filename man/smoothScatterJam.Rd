@@ -8,8 +8,8 @@ smoothScatterJam(x, y = NULL, nbin = 128, bandwidth,
   colramp = colorRampPalette(c("white", blues9)), nrpoints = 100,
   pch = ".", cex = 1, col = "black", transformation = function(x)
   x^0.25, postPlotHook = box, xlab = NULL, ylab = NULL, xlim, ylim,
-  xaxs = par("xaxs"), yaxs = par("yaxs"), xaxt = par("xaxt"),
-  yaxt = par("yaxt"), useRaster = NULL, ...)
+  add = FALSE, xaxs = par("xaxs"), yaxs = par("yaxs"),
+  xaxt = par("xaxt"), yaxt = par("yaxt"), useRaster = NULL, ...)
 }
 \arguments{
 \item{x}{numeric vector, or data matrix with two or  more columns.}
@@ -56,6 +56,9 @@ information atop the image plot, for example contours, labels, etc.}
 \item{xlim}{numeric x-axis range for the plot}
 
 \item{ylim}{numeric y-axis range for the plot}
+
+\item{add}{logical whether to add to an existing active R plot, or create
+a new plot window.}
 
 \item{xaxs}{character value compatible with par(xaxs), mainly useful
 for suppressing the x-axis, in order to produce a custom x-axis

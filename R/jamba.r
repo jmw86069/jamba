@@ -27,7 +27,9 @@
 #'    getPlotAspect,
 #'    tcount,
 #'    make_styles,
-#'    noiseFloor
+#'    noiseFloor,
+#'    deg2rad,
+#'    rad2deg
 #'
 #' @section plot functions:
 #'    plotSmoothScatter,
@@ -37,6 +39,7 @@
 #'    usrBox,
 #'    imageDefault,
 #'    imageByColors
+#'    shadowText
 #'
 #' @section string functions:
 #'    igrepHas,
@@ -1761,4 +1764,48 @@ noiseFloor <- function
       x[!is.na(x) & x > ceiling] <- newCeiling;
    }
    return(x);
+}
+
+#' Convert radians to degrees
+#'
+#' Convert radians to degrees
+#'
+#' This function simply converts radians which range from zero to pi*2,
+#' into degrees which range from 0 to 360.
+#'
+#' @param x numerical vector, expected to be radian values between zero
+#'    and pi*2.
+#' @param ... other parameters are ignored.
+#'
+#' @examples
+#' rad2deg(c(pi*2, pi/2))
+#'
+#' @export
+rad2deg <- function
+(x, ...)
+{
+   ## Purpose is to convert radians to degrees, using pi/2 as 90 degrees
+   x * (180 / pi);
+}
+
+#' Convert degrees to radians
+#'
+#' Convert degrees to radians
+#'
+#' This function simply converts degrees which range from 0 to 360,
+#' into radians which range from zero to pi*2.
+#'
+#' @param x numerical vector, expected to be degree values between zero
+#'    and 360.
+#' @param ... other parameters are ignored.
+#'
+#' @examples
+#' deg2rad(rad2deg(c(pi*2, pi/2)))/pi;
+#'
+#' @export
+deg2rad <- function
+(x, ...)
+{
+   ## Purpose is to convert degrees to radians, using pi/2 as 90 degrees
+   x * (pi / 180);
 }

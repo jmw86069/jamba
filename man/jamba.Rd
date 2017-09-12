@@ -34,7 +34,9 @@ a noticeable burden.
    getPlotAspect,
    tcount,
    make_styles,
-   noiseFloor
+   noiseFloor,
+   deg2rad,
+   rad2deg
 }
 
 \section{plot functions}{
@@ -46,6 +48,7 @@ a noticeable burden.
    usrBox,
    imageDefault,
    imageByColors
+   shadowText
 }
 
 \section{string functions}{

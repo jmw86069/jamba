@@ -9,7 +9,7 @@ plotSmoothScatter(x, y = NULL, bandwidthN = 300,
   nbin = 256, nrpoints = 0, colramp = c("white", "lightblue", "blue",
   "orange", "orangered2"), doTest = FALSE, fillBackground = TRUE,
   naAction = c("remove", "floor0", "floor1"), xaxt = "s", yaxt = "s",
-  applyRangeCeiling = TRUE, useRaster = TRUE, ...)
+  add = FALSE, applyRangeCeiling = TRUE, useRaster = TRUE, ...)
 }
 \arguments{
 \item{x}{numeric vector, or data matrix with two or  more columns.}
@@ -80,6 +80,9 @@ the x-axis range, similar to its use in plot(...) generic functions.}
 
 \item{yaxt}{character value compatible with par(yaxt), used to control
 the y-axis range, similar to its use in plot(...) generic functions.}
+
+\item{add}{logical whether to add to an existing active R plot, or create
+a new plot window.}
 
 \item{applyRangeCeiling}{logical, indicates how to handle points outside
 the visible plot range. Valid values:
