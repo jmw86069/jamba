@@ -1,7 +1,5 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -13,7 +11,8 @@ knitr::opts_chunk$set(
   message=FALSE,
   comment="#>",
   fig.path="README-"
-)
+);
+library(jamba);
 ```
 # jamba
 
@@ -23,7 +22,10 @@ analysis and visualization.
 A short overview of available methods:
 
 * __plotSmoothScatter__: proper smooth scatter plot with fine detail.
-* __imageDefault__: rasterized image plots. imageByColors: data.frame to image.
+* __imageDefault__: rasterized image plots.
+* __imageByColors__: data.frame to image plot, rapidly view a table of
+   colors. It displays repeated labels only once in the middle position,
+   which makes it useful when displaying statistical groupings. 
 * __mixedSort__: efficient alphanumeric sort maintaining proper numeric order.
 * __rbindList__: list to data.frame without padding empty cells.
 * Also vectorized text styles, stackable color manipulations, vector names

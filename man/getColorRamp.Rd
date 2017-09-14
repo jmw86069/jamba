@@ -5,7 +5,7 @@
 \title{get color ramp by name, color, or function}
 \usage{
 getColorRamp(col, n = 15, trimRamp = FALSE, verbose = FALSE,
-  defaultBaseColor = "#BBABAB77", reverseRamp = FALSE, ...)
+  defaultBaseColor = "grey90", reverseRamp = FALSE, ...)
 }
 \arguments{
 \item{col}{accepts:
@@ -48,9 +48,29 @@ for heatmaps where red is typically associated with heat and high
 numeric values.
 }
 \examples{
-getColorRamp("red");
-printDebug(getColorRamp("red"));
-printDebug(getColorRamp("RdBu"));
-printDebug(getColorRamp("RdBu_r"));
+# get a gradient using red4
+red4 <- getColorRamp("red4");
+showColors(getColorRamp(red4));
+
+# make a custom gradient
+BuOr <- getColorRamp(c("dodgerblue","grey10","orange"));
+showColors(BuOr);
+colorList <- list(red4=red4, BuOr=BuOr);
+
+# If RColorBrewer is available, use a brewer name
+if (suppressPackageStartupMessages(require(RColorBrewer))) {
+   RdBu <- getColorRamp("RdBu");
+   RdBu_r <- getColorRamp("RdBu_r");
+   colorList <- c(colorList, list(RdBu=RdBu, RdBu_r=RdBu_r));
+   showColors(RdBu);
+}
+
+if (suppressPackageStartupMessages(require(viridis))) {
+   viridisV <- getColorRamp("viridis");
+   colorList <- c(colorList, list(viridis=viridisV));
+}
+
+# for fun, put a few color ramps onto one plot
+showColors(colorList, cexCellnote=0.7);
 
 }

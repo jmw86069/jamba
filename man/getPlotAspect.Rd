@@ -7,6 +7,49 @@
 getPlotAspect(type = c("coords", "plot", "device"), parUsr = par("usr"),
   parPin = par("pin"), parDin = par("din"), ...)
 }
+\arguments{
+\item{type}{character type of aspect ratio to calculate.
+\describe{
+   \item{"coords"}{calculates plot coordinate aspect ratio, which
+      is helpful for creating proper circular shapes, for example,
+      where the x-axis and y-axis ranges are very different. Note
+      that this calculation does also correct for margin sizes.}
+   \item{"plot"}{calculates plot aspect ratio, based upon the
+      actual size of the plot, independent of the numeric coordinate
+      range of the plot. This aspect ratio reflects the relative
+      visual height and width of the plot area, ignoring margins.}
+   \item{"device"}{calculates plot aspect ratio, based upon the
+      complete graphical device, i.e. the full space including all
+      panels, margins, and plot areas.}
+}}
+
+\item{parUsr, parPin, parDin}{numeric values equivalent to their
+respective \code{par()} output, from \code{par("usr")},
+\code{par("pin")}, and \code{par("din")}. Values can be
+supplied directly, which among other things, prevents opening a
+graphical device if one is not already opened. Any call to
+\code{par()} will otherwise cause a graphic device to be opened,
+which may not be desired on a headless R server.}
+
+\item{...}{additional parameters are ignored.}
+}
 \description{
 Get aspect ratio for coordinates, plot, or device
+}
+\details{
+Returns the plot aspect ratio for a plot device, of the requested
+type, see the \code{type} parameter.
+}
+\examples{
+par("mfrow"=c(2,4));
+for (i in 1:8) {
+   nullPlot(plotAreaTitle=paste("Plot", i), xlim=c(1,100), ylim=c(1,10),
+      doMargins=FALSE);
+   axis(1, las=2);
+   axis(2, las=2);
+}
+getPlotAspect("coords");
+getPlotAspect("plot");
+getPlotAspect("device");
+
 }

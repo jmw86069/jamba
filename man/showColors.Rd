@@ -43,12 +43,18 @@ if (suppressPackageStartupMessages(require(RColorBrewer))) {
    y <- lapply(nameVector(RColorBrewer:::namelist), function(i){
       brewer.pal(20,i);
    });
-   showColors(y, cexCellnote=0.6, main="Brewer Colors");
+   showColors(y, cexCellnote=0.6, cex.axis=0.7, main="Brewer Colors");
 }
 if (suppressPackageStartupMessages(require(viridis))) {
+   # Grab the full viridis color map
    z <- rgb2col(viridis.map[,c("R","G","B")]);
-   names(z) <- viridis.map[,"opt"];
+   # label the colors using viridis.map$opt
+   names(z) <- viridis.map$opt;
    showColors(z, labelCells=TRUE, xaxt="n", main="viridis.map colors");
+   # or split the colors into a list
+   zl <- split(z, viridis.map[,"opt"]);
+   showColors(zl, labelCells=TRUE, srtCellnote=0, xaxt="n",
+      main="Viridis colors as a list");
 }
 
 }

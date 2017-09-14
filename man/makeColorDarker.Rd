@@ -21,3 +21,40 @@ gradually reduced in order to produce a visibly lighter color. The
 saturation minimu is set to 0.2, to maintain at least some amount of
 color.
 }
+\examples{
+colorV <- c("red","orange","purple","blue");
+colorVdark2 <- makeColorDarker(colorV, darkFactor=2);
+colorVlite2 <- makeColorDarker(colorV, darkFactor=-2);
+showColors(cexCellnote=0.7,
+   list(
+   `darkFactor=2`=colorVdark2,
+   `original colors`=colorV,
+   `darkFactor=-2`=colorVlite2
+   ));
+
+# these adjustments work really well inside a network diagram
+# when coloring nodes, and providing an outline of comparable
+# color.
+plot(x=c(1,2,1,2), y=c(1,2,2,1), pch=21,
+   xaxt="n", yaxt="n", xlab="", ylab="",
+   xlim=c(0.5,2.5), ylim=c(0.5,2.5),
+   bg=colorV, col=colorVdark2, cex=4, lwd=2);
+points(x=c(1,2,1,2), y=c(1,2,2,1), pch=20, cex=4,
+   col=colorVlite2);
+
+# Making a color lighter can make it easier to add labels
+# The setTextContrastColor() function also helps.
+text(x=c(1,2,1,2), y=c(1,2,2,1), 1:4,
+   col=setTextContrastColor(colorVlite2));
+
+}
+\seealso{
+jamba color manipulation functions: \code{\link{hsv2col}},
+   \code{\link{col2hsv}},\code{\link{col2hcl}},
+   \code{\link{rgb2col}},
+   \code{\link{alpha2col}},\code{\link{col2alpha}},
+   \code{\link{makeColorDarker}},
+   \code{\link{color2gradient}},
+   \code{\link{setTextContrastColor}},
+   \code{\link{showColors}}
+}

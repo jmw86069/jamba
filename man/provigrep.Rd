@@ -43,9 +43,25 @@ case-insensitive grep, starting with an ordered vector of grep patterns.
 For example, it returns entries in the order they are matched, by the
 progressive use of grep patterns.
 
+It is particularly good when using multiple grep patterns, since
+\code{grep()} does not accept multiple patterns as input. This function
+also only returns the unique matches in the order they were matched,
+which alleviates the need to run a series of \code{grep()} functions
+and collating their results.
+
 It is mainly to allow for prioritized ordering of matching entries, where
 one would like certain matching  entries first, followed by another
 set of matching entries, without duplication. For example,
 one might grep for a few patterns, but want certain pattern hits to be
 listed first.
+}
+\examples{
+# a rather comical example
+# set up a test set with labels containing several substrings
+testTerms <- c("robot","tree","dog","mailbox","pizza","noob");
+testWords <- pasteByRow(t(combn(testTerms,3)));
+
+# now pull out entries matching substrings in order
+provigrep(c("pizza", "dog", "noob", "."), testWords);
+
 }

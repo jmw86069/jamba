@@ -100,4 +100,8 @@ printDebug("List of vectors:", c("one", "two", "three"),
 printDebug("List of vectors:", c("one", "two", "three"),
    c("four", "five", "six"), collapse="\\n   ");
 
+# in an R console, or when writing to a log file, the
+# following output text is colored
+printDebug(c("red", "blue", "yellow"));
+
 }

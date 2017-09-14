@@ -1,0 +1,75 @@
+reference:
+- title: Plot functions
+  desc: Functions that create or modify base R plots
+  contents:
+  - adjustAxisLabelMargins
+  - decideMfrow
+  - getPlotAspect
+  - imageByColors
+  - imageDefault
+  - nullPlot
+  - plotSmoothScatter
+  - shadowText
+  - showColors
+  - smoothScatterJam
+  - usrBox
+- title: Color functions
+  desc: Functions that manipulate colors
+  contents:
+  - alpha2col
+  - col2alpha
+  - col2hcl
+  - col2hsv
+  - color2gradient
+  - getColorRamp
+  - hsv2col
+  - isColor
+  - makeColorDarker
+  - rgb2col
+  - setTextContrastColor
+- title: String functions
+  desc: Functions which sort or manipulate character strings
+  contents:
+  - asDate
+  - asSize
+  - breaksByVector
+  - colNum2excelName
+  - dateToDaysOld
+  - fileInfo
+  - getDate
+  - makeNames
+  - make_styles
+  - mixedOrder
+  - mixedSort
+  - mixedSortDF
+  - mmixedOrder
+  - nameVector
+  - nameVectorN
+  - pasteByRow
+  - printDebug
+  - tcount
+- title: String grep functions
+  desc: Functions specifically customizing grep functions for speed of re-use
+  contents:
+  - igrep
+  - igrepHas
+  - provigrep
+  - unigrep
+  - unvigrep
+  - vgrep
+  - vigrep
+- title: Practical functions
+  desc: Practical functions to enhance routine R work
+  contents:
+  - deg2rad
+  - jamba
+  - jargs
+  - noiseFloor
+  - padInteger
+  - padString
+  - rad2deg
+  - rbindList
+  - rmInfinite
+  - rmNA
+  - rmNULL
+  - setPrompt

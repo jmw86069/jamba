@@ -4,8 +4,53 @@
 \alias{decideMfrow}
 \title{Decide plot panel rows, columns for par(mfrow)}
 \usage{
-decideMfrow(n, method = c("aspect", "wide", "tall"), ...)
+decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE, ...)
+}
+\arguments{
+\item{n}{integer number of plot panels}
+
+\item{method}{character string indicating the type of layout to favor.
+\describe{
+   \item{"aspect"}{uses the device size and aspect ratio of the plot to try
+      to maintain roughly square plot panels.}
+   \item{"wide"}{tries to keep the columns and rows similar, erring on
+      the side of more columns than rows.}
+   \item{"tall"}{tries to keep the columns and rows similar, erring on
+      the side of more rows than columns.}
+}}
+
+\item{doTest}{logical whether to provide a visual test. Note that
+\code{n} is required as the number of plot panels requested.}
+
+\item{...}{additional parameters are ignored.}
+}
+\value{
+numeric vector length=2, with the recommended number of plot
+   rows and columns, respectively. It is intended to be used directly
+   in this form: \code{par("mfrow"=decideMfrow(n=5))}
 }
 \description{
 Decide plot panel rows, columns for par(mfrow)
+}
+\details{
+This function returns the recommended rows and columns of panels
+to be used in \code{par("mfrow")} with R base plotting. It attempts
+to use the device size and plot aspect ratio to keep panels roughly
+square. For example, a short-wide device would have more columns of panels
+than rows; a tall-thin device would have more rows than columns.
+
+The \code{doTest=TRUE} parameter will create \code{n} number of
+panels with the recommended layout, as a visual example.
+}
+\examples{
+# display a test visualization showing 6 panels
+decideMfrow(n=6, doTest=TRUE);
+
+# a manual demonstration creating 6 panels
+n <- 6;
+par(mfrow=decideMfrow(n));
+for(i in seq_len(n)){
+   nullPlot(plotAreaTitle=paste("Plot", i));
+}
+
 }

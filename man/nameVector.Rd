@@ -30,12 +30,25 @@ and when no names are supplied, it uses the vector itself to define
 names. It is helpful to run this function inside an \code{\link{lapply}}
 function call, which by default maintains names, but does not assign
 names if the input data did not already have them.
+
+When used with a data.frame, it is particularly convenient to pull out
+a named vector of values. For example, log2 fold changes by gene, where
+the gene symbols are the name of the vector.
+
+\code{nameVector(genedata[,c("Gene","log2FC")])}
 }
 \examples{
+# it generally just creates names from the vector values
 nameVector(LETTERS[1:5]);
+
+# if values are replicated, the makeNames() function makes them unique
 V <- rep(LETTERS[1:5], c(1,2,3,4,5));
 nameVector(V);
+
+# for a two-column data.frame, it creates a named vector using
+# the values in the first column, and names in the second column.
 df <- data.frame(seq_along(V), V);
+df;
 nameVector(df);
 
 }

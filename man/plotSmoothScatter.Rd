@@ -130,9 +130,11 @@ custom (and hopefully beneficial) mechanism of creating a properly-scaled
 raster image.
 }
 \examples{
-plotSmoothScatter(doTest=TRUE, colramp="viridis");
-plotSmoothScatter(doTest=TRUE, colramp="navy", fillBackground=FALSE);
-plotSmoothScatter(doTest=TRUE, colramp=c("white","navy","orange"));
+# doTest=TRUE invisibly returns the test data
+x <- plotSmoothScatter(doTest=TRUE);
+
+# so it can be plotted again with different settings
+plotSmoothScatter(x, colramp="viridis");
 
 }
 \seealso{

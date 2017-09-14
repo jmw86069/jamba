@@ -34,6 +34,8 @@ The plot space is defined using \code{par("usr")} and therefore requires
 an active R device is already opened.
 }
 \examples{
-usrBox()
+# usrBox() requires that a plot device is already open
+nullPlot(doBoxes=FALSE);
+usrBox();
 
 }

@@ -7,6 +7,41 @@
 tcount(x, doSort = TRUE, minCount = NULL, maxCount = NULL,
   nameSortFunc = sort, ...)
 }
+\arguments{
+\item{x}{vector input to use when calculating frequencies.}
+
+\item{doSort}{logical whether to sort results decreasing by frequency.}
+
+\item{minCount}{optional integer minimum frequency, any results with
+fewer counts observed will be omitted from results.}
+
+\item{maxCount}{optional integer maximum frequency for returned results.}
+
+\item{nameSortFunc}{function used to sort results after sorting by
+frequency. For example, one might use \code{\link{mixedSort}}. If NULL
+then no name sort will be applied.}
+
+\item{...}{additional parameters are ignored.}
+}
 \description{
 frequency of entries, ordered by frequency
+}
+\details{
+This function mimics output from \code{\link{table}} with two key
+differences. It sorts the results by decreasing frequency, and optionally
+filters results for a minimum frequency. It is effective when checking
+for duplicate values, and ordering them by the number of occurrences.
+
+This function has been useful when working with large vectors of gene
+identifiers, where it is not always obvious whether genes are replicated
+in a particular technological assay. Transcript microarrays for example,
+can contain many replicated genes, but often only a handful of genes are
+highly replicated, while the rest are present only once or twice on the
+array.
+}
+\examples{
+testVector <- rep(c("one", "two", "three", "four"), c(1:4));
+tcount(testVector);
+tcount(testVector, minCount=2);
+
 }
