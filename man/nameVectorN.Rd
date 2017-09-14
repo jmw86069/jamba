@@ -38,7 +38,40 @@ allows the internal function access to the name of each list element. This
 could for example be added to the data.frame.
 }
 \examples{
+# a simple integer vector with character names
 L <- nameVector(1:5, LETTERS[1:5]);
+L;
+
+# we can make a vector of names, retaining the names
 nameVectorN(L);
+
+# Now consider a named list, where the name is important
+# to keep for downstream work.
+K <- list(A=(1:3)^3, B=7:10, C=(1:4)^2);
+K;
+# Typical lapply-style work does not operate on the name,
+# making it difficult to use the name inside the function.
+# Here, we just add the name to the colnames, but anything
+# could be useful.
+lapply(K, function(i){
+    data.frame(mean=mean(i), median=median(i));
+ });
+
+# So the next step is to run lapply() on the names
+lapply(names(K), function(i){
+   iDF <- data.frame(mean=mean(K[[i]]), median=median(K[[i]]));
+   colnames(iDF) <- paste(c("mean", "median"), i);
+   iDF;
+})
+# The result is good, but the list is no longer named.
+# The nameVectorN() function is helpful for maintaining the names.
+
+# So we run lapply() on the named-names, which keeps the names in
+# the resulting list, and sends it into the function.
+lapply(nameVectorN(K), function(i){
+   iDF <- data.frame(mean=mean(K[[i]]), median=median(K[[i]]));
+   colnames(iDF) <- paste(c("mean", "median"), i);
+   iDF;
+});
 
 }

@@ -24,6 +24,8 @@ a color toward its maximum brightness and darkness.}
 (TRUE) or dark-to-light gradient (FALSE).}
 
 \item{verbose}{logical whether to print verbose output.}
+
+\item{...}{other parameters are ignored.}
 }
 \description{
 Make a color gradient
@@ -44,4 +46,38 @@ If a list is supplied, a list is returned of the same length, where
 each vector inside the list is a color gradient of length specified
 by \code{n}. If the input list contains multiple values, only the first
 color is used to define the color gradient.
+}
+\examples{
+# given a list, it returns a list
+x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7));
+showColors(x);
+
+# given a vector, it returns a vector
+xv <- color2gradient(c(red="red", blue="blue"), n=c(4,7));
+showColors(xv);
+
+# Expand colors in place
+# This process is similar to color jittering
+colors1 <- c("red","blue")[c(1,1,2,2,1,2,1,1)];
+names(colors1) <- colors1;
+colors2 <- color2gradient(colors1);
+colors2;
+showColors(list(`Input colors`=colors1, `Output colors`=colors2));
+
+# You can do the same using a list intermediate
+colors1L <- split(colors1, colors1);
+showColors(colors1L);
+colors2L <- color2gradient(colors1L);
+showColors(colors2L);
+
+}
+\seealso{
+jamba color manipulation functions: \code{\link{hsv2col}},
+   \code{\link{col2hsv}},\code{\link{col2hcl}},
+   \code{\link{rgb2col}},
+   \code{\link{alpha2col}},\code{\link{col2alpha}},
+   \code{\link{makeColorDarker}},
+   \code{\link{color2gradient}},
+   \code{\link{setTextContrastColor}},
+   \code{\link{showColors}}
 }

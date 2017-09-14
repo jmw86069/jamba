@@ -23,3 +23,6 @@ into degrees which range from 0 to 360.
 rad2deg(c(pi*2, pi/2))
 
 }
+\seealso{
+\code{\link{rad2deg}},\code{\link{deg2rad}}
+}

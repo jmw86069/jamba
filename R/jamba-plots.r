@@ -107,10 +107,13 @@
 #'    smaller object size especially in vector output files like PDF and SVG.
 #' @seealso \code{\link{smoothScatterJam}},
 #'    \code{\link[graphics]{smoothScatter}}
+#'
 #' @examples
-#' plotSmoothScatter(doTest=TRUE, colramp="viridis");
-#' plotSmoothScatter(doTest=TRUE, colramp="navy", fillBackground=FALSE);
-#' plotSmoothScatter(doTest=TRUE, colramp=c("white","navy","orange"));
+#' # doTest=TRUE invisibly returns the test data
+#' x <- plotSmoothScatter(doTest=TRUE);
+#'
+#' # so it can be plotted again with different settings
+#' plotSmoothScatter(x, colramp="viridis");
 #'
 #' @export
 plotSmoothScatter <- function
@@ -155,119 +158,111 @@ plotSmoothScatter <- function
       colramp <- colorRampPalette(getColorRamp(colramp));
    }
    if (doTest) {
-      testN <- 20000;
-      testN1 <- floor(testN*0.9);
-      testN2 <- testN - testN1;
-      x <- matrix(ncol=2, data=rnorm(testN*2));
-      x[,2] <- x[,1] + rnorm(testN)*0.1;
+      ## create somewhat noisy correlation data
+      n <- 20000;
+      x <- matrix(ncol=2, data=rnorm(n*2));
+      x[,2] <- x[,1] + rnorm(n)*0.1;
 
       ## Add secondary line offset from the main correlation
-      xSample <- sample(1:nrow(x), floor(nrow(x)/20));
-
-      xSub <- t(t(x[xSample,,drop=FALSE])+c(0.6,-0.4));
-      x <- rbind(x, xSub);
+      ## using 5% the original data
+      xSample <- sample(1:nrow(x), floor(nrow(x)*0.05));
+      xSub <- t(t(x[xSample,,drop=FALSE])+c(0.6,-0.7));
+      ## Add more noise to a subset of data
+      n1 <- 3000;
+      x2 <- rbind(x, xSub);
+      n2 <- sample(seq_len(nrow(x2)), n1);
+      x2[n2,2] <- x2[n2,1] + rnorm(n1) * 0.6;
       oPar <- par(no.readonly=TRUE);
-      par("mfrow"=c(3,3));
-      for (noise in c(0.3,0.6,1.2)) {
-         n <- seq(from=testN1+1, to=testN);
-         x[n,2] <- x[n,1] + rnorm(testN2) * noise;
-         smoothScatter(x, colramp=colramp,
-            main=paste0("smoothScatter\n",
-               "10% noise at rnorm(x)*", noise, "\n",
-               "default bandwidth"),
-            xlim=c(-4,4), ylim=c(-4,4), ...);
-         plotSmoothScatter(x, doTest=FALSE, colramp=colramp,
-            fillBackground=fillBackground,
-            main=paste0("plotSmoothScatter\n",
-               "10% noise at rnorm(x)*", noise, "\n",
-               "custom bandwidthN=", bandwidthN/2),
-            xlim=c(-4,4), ylim=c(-4,4), bandwidthN=bandwidthN/2, ...);
-         plotSmoothScatter(x, doTest=FALSE, colramp=colramp,
-            fillBackground=fillBackground,
-            main=paste0("plotSmoothScatter\n",
-               "10% noise at rnorm(x)*", noise, "\n",
-               "custom bandwidthN=", bandwidthN),
-            xlim=c(-4,4), ylim=c(-4,4), bandwidthN=bandwidthN, ...);
-      }
+      par("mfrow"=c(2,2), "mar"=c(2,3,4,1));
+      smoothScatter(x2, #col=getColorRamp("Blues"),
+         main="smoothScatter default", ylab="", xlab="");
+      plotSmoothScatter(x2, colramp=getColorRamp("Blues"),
+         main="plotSmoothScatter, Blues");
+      plotSmoothScatter(x2, colramp=colramp,
+         main="plotSmoothScatter");
+      plotSmoothScatter(x2, colramp=colramp, bandwidthN=600,
+         main="plotSmoothScatter higher bandwidth");
       par(oPar);
-      return(NULL);
-   }
-
-   if (!is.null(y) && is.numeric(y) && is.numeric(x)) {
-      x <- matrix(ncol=2, c(x, y));
-   }
-   if ((is.matrix(x) || is.data.frame(x)) && ncol(x) == 2) {
-      y <- x[,2];
-      x <- x[,1];
-   } else if (is.null(Y) && (is.matrix(x) || is.data.frame(x))) {
-      stop("Cannot handle matrix input x, when Y is NULL.");
-   }
-   ## Deal with NA values
-   if (naAction == "remove") {
-      naValues <- is.na(x) | is.na(y);
-      x <- x[!naValues];
-      y <- y[!naValues];
-   } else if (naAction == "floor0") {
-      naValuesX <- is.na(x);
-      x[naValuesX] <- 0;
-      naValuesY <- is.na(y);
-      y[naValuesY] <- 0;
-   } else if (naAction == "floor1") {
-      naValuesX <- is.na(x);
-      x[naValuesX] <- 1;
-      naValuesY <- is.na(y);
-      y[naValuesY] <- 1;
-   }
-
-   bandwidthN <- rep(bandwidthN, length.out=2);
-   if (is.null(xlim)) {
-      xlim <- range(x);
-   }
-   if (is.null(ylim)) {
-      ylim <- range(y);
-   }
-   ## Apply a ceiling to values outside the range
-   if (applyRangeCeiling) {
-      tooHighX <- x > max(xlim);
-      tooLowX <- x < min(xlim);
-      x[tooHighX] <- max(xlim);
-      x[tooLowX] <- min(xlim);
-      tooHighY <- y > max(ylim);
-      tooLowY <- y < min(ylim);
-      y[tooHighY] <- max(ylim);
-      y[tooLowY] <- min(ylim);
-   }
-   xlim4 <- sort((c(-1,1) * diff(xlim)*0.02) + xlim);
-   ylim4 <- sort((c(-1,1) * diff(ylim)*0.02) + ylim);
-   ## Adjust for uneven plot aspect ratio, by using the plot par("pin")
-   ## which contains the actual dimensions.
-   ## Note that it does not require the actual coordinates of the plot,
-   ## just the relative size of the display
-   pin1 <- par("pin")[1] / par("pin")[2];
-   bandwidthXY <- c(diff(xlim4)/bandwidthN[1], diff(ylim4)/bandwidthN[2]*pin1);
-   if (fillBackground) {
-      nullPlot(doBoxes=FALSE, doUsrBox=TRUE, fill=head(colramp(11),1),
-         xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
-         xlim=xlim4, ylim=ylim4, add=add, ...);
-      axis(1, las=2, xaxt=xaxt);
-      axis(2, las=2, yaxt=yaxt);
-      smoothScatterJam(x=x, y=y, add=TRUE,
-         transformation=transformation,
-         bandwidth=bandwidthXY, nbin=nbin, nrpoints=nrpoints,
-         xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
-         colramp=colramp, useRaster=useRaster, ...);
+      invisible(x2);
    } else {
-      smoothScatterJam(x=x, y=y,
+
+      if (!is.null(y) && is.numeric(y) && is.numeric(x)) {
+         x <- matrix(ncol=2, c(x, y));
+      }
+      if ((is.matrix(x) || is.data.frame(x)) && ncol(x) == 2) {
+         y <- x[,2];
+         x <- x[,1];
+      } else if (is.null(Y) && (is.matrix(x) || is.data.frame(x))) {
+         stop("Cannot handle matrix input x, when Y is NULL.");
+      }
+      ## Deal with NA values
+      if (naAction == "remove") {
+         naValues <- is.na(x) | is.na(y);
+         x <- x[!naValues];
+         y <- y[!naValues];
+      } else if (naAction == "floor0") {
+         naValuesX <- is.na(x);
+         x[naValuesX] <- 0;
+         naValuesY <- is.na(y);
+         y[naValuesY] <- 0;
+      } else if (naAction == "floor1") {
+         naValuesX <- is.na(x);
+         x[naValuesX] <- 1;
+         naValuesY <- is.na(y);
+         y[naValuesY] <- 1;
+      }
+
+      bandwidthN <- rep(bandwidthN, length.out=2);
+      if (is.null(xlim)) {
+         xlim <- range(x);
+      }
+      if (is.null(ylim)) {
+         ylim <- range(y);
+      }
+      ## Apply a ceiling to values outside the range
+      if (applyRangeCeiling) {
+         tooHighX <- x > max(xlim);
+         tooLowX <- x < min(xlim);
+         x[tooHighX] <- max(xlim);
+         x[tooLowX] <- min(xlim);
+         tooHighY <- y > max(ylim);
+         tooLowY <- y < min(ylim);
+         y[tooHighY] <- max(ylim);
+         y[tooLowY] <- min(ylim);
+      }
+      xlim4 <- sort((c(-1,1) * diff(xlim)*0.02) + xlim);
+      ylim4 <- sort((c(-1,1) * diff(ylim)*0.02) + ylim);
+      ## Adjust for uneven plot aspect ratio, by using the plot par("pin")
+      ## which contains the actual dimensions.
+      ## Note that it does not require the actual coordinates of the plot,
+      ## just the relative size of the display
+      pin1 <- par("pin")[1] / par("pin")[2];
+      bandwidthXY <- c(diff(xlim4)/bandwidthN[1], diff(ylim4)/bandwidthN[2]*pin1);
+      if (fillBackground) {
+         nullPlot(doBoxes=FALSE, doUsrBox=TRUE, fill=head(colramp(11),1),
+            xaxs="i", yaxs="i", xaxt="n", yaxt="n",
+            xlim=xlim4, ylim=ylim4, add=add, ...);
+         axis(1, las=2, xaxt=xaxt);
+         axis(2, las=2, yaxt=yaxt);
+         smoothScatterJam(x=x, y=y, add=TRUE,
+            transformation=transformation,
+            bandwidth=bandwidthXY, nbin=nbin, nrpoints=nrpoints,
+            xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt="n", yaxt="n",
+            colramp=colramp, useRaster=useRaster, ...);
+      } else {
+         smoothScatterJam(x=x, y=y,
+            transformation=transformation,
+            bandwidth=bandwidthXY, nbin=nbin, nrpoints=nrpoints,
+            xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
+            colramp=colramp, useRaster=useRaster, ...);
+      }
+      invisible(list(x=x, y=y,
          transformation=transformation,
-         bandwidth=bandwidthXY, nbin=nbin, nrpoints=nrpoints,
-         xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
-         colramp=colramp, useRaster=useRaster, ...);
+         bandwidth=bandwidthXY, nbin=nbin,
+         xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i",
+         xaxt=xaxt, yaxt=yaxt,
+         colramp=colramp));
    }
-   invisible(list(x=x, y=y,
-      transformation=transformation,
-      bandwidth=bandwidthXY, nbin=nbin,
-      xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
-      colramp=colramp));
 }
 
 #' Smooth scatter plot, Jam style
@@ -542,7 +537,9 @@ nullPlot <- function
       if (doMargins) {
          Margins <- capture.output(par()$mar);
          Margins <- substr(Margins, 5, nchar(Margins));
-         Margins <- paste0("  mar=c(", gsub(" ",",",Margins), ")",
+         MarginsN <- as.numeric(unlist(strsplit(Margins, "[ ]+")));
+         MarginsV <- format(MarginsN, nsmall=0, scientific=FALSE, digits=2);
+         Margins <- paste0("  mar=c(", paste(MarginsV, collapse=","), ")",
             plotNumPrefix);
          if (plotSrt == 90) {
             plotLas <- 2;
@@ -570,7 +567,9 @@ nullPlot <- function
             if (par("mar")[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
                par("las"=newLas);
-               mtext(paste0("mar[", i, "]", plotNumPrefix, "=", par("mar")[i]),
+               mtext(paste0("mar[", i, "]", plotNumPrefix, "=",
+                  format(digits=2, nsmall=0, scientific=FALSE,
+                     par("mar")[i])),
                   side=i, line=0.4, cex=0.6, col="navy",
                   outer=FALSE, las=newLas);
             }
@@ -581,7 +580,8 @@ nullPlot <- function
                newLas <- as.integer(3 - i%%2*2);
                par("las"=newLas);
                mtext(paste0("oma[", i, "]", plotNumPrefix, "=", 
-                  format(digits=2, par("oma")[i])),
+                  format(digits=2, nsmall=0, scientific=FALSE,
+                     par("oma")[i])),
                   i, line=0.4, cex=0.6, col="navy", outer=TRUE, las=newLas);
             }
          });
@@ -630,7 +630,9 @@ nullPlot <- function
 #'    seems more appropriate.
 #' @param debug logical whether to print the parUsr value being used.
 #' @examples
-#' usrBox()
+#' # usrBox() requires that a plot device is already open
+#' nullPlot(doBoxes=FALSE);
+#' usrBox();
 #'
 #' @export
 usrBox <- function
@@ -1126,10 +1128,10 @@ imageDefault <- function
 #'    \code{imageByColors}.
 #'
 #' @examples
-#' a1 <- c("red","blue")[c(1,1,2)];
+#' a1 <- c("red4","blue")[c(1,1,2)];
 #' b1 <- c("yellow","orange")[c(1,2,2)];
-#' c1 <- c("purple","orange")[c(1,1,2)];
-#' d1 <- c("purple","green")[c(1,2,2)];
+#' c1 <- c("purple","orange")[c(1,2,2)];
+#' d1 <- c("purple","green4")[c(1,2,2)];
 #' df1 <- data.frame(a=a1, b=b1, c=c1, d=d1);
 #'
 #' # default using polygons
@@ -1571,7 +1573,7 @@ shadowText <- function
          outline=TRUE, shadow=FALSE,
          col=col,
          bg=bg,
-         cex=c(1.5,1,1,1,1,1,1,1,1),
+         cex=c(1.1,1,1,1,1,1,1,1,1),
          offset=offset, n=n, r=r,
          doTest=FALSE);
       st3 <- shadowText(x=rep(6,9), y=9:1,
@@ -1579,7 +1581,7 @@ shadowText <- function
          outline=FALSE, shadow=TRUE,
          col=col,
          bg=bg,
-         cex=c(1,1.5,1,1,1,1,1,1,1),
+         cex=c(1,1.1,1,1,1,1,1,1,1),
          offset=offset, n=n, r=r,
          doTest=FALSE);
       st4 <- shadowText(x=rep(8,9), y=9:1-0.3,
@@ -1587,7 +1589,7 @@ shadowText <- function
          outline=TRUE, shadow=TRUE,
          col=col,
          bg=bg,
-         cex=c(1.5,1.5,1,1,1,1,1,1,1),
+         cex=c(1.1,1.1,1,1,1,1,1,1,1),
          offset=offset, n=n, r=r,
          doTest=FALSE);
       invisible(list(st1=st1, st2=st2, st3=st3));
@@ -1689,14 +1691,14 @@ shadowText <- function
 #' ylabs <- paste0("rownum_", (1:20));
 #' adjustAxisLabelMargins(xlabs, 1);
 #' adjustAxisLabelMargins(ylabs, 2);
-#' nullPlot(xlim=c(1,20), ylim=c(1,20));
+#' nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
 #' axis(1, at=1:20, labels=xlabs, las=2);
 #' axis(2, at=1:20, labels=ylabs, las=2);
 #'
 #' par("mar"=c(5,4,4,2));
 #' adjustAxisLabelMargins(xlabs, 3);
 #' adjustAxisLabelMargins(ylabs, 4);
-#' nullPlot(xlim=c(1,20), ylim=c(1,20));
+#' nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
 #' axis(3, at=1:20, labels=xlabs, las=2);
 #' axis(4, at=1:20, labels=ylabs, las=2);
 #'
@@ -1767,12 +1769,18 @@ adjustAxisLabelMargins <- function
 #'    y <- lapply(nameVector(RColorBrewer:::namelist), function(i){
 #'       brewer.pal(20,i);
 #'    });
-#'    showColors(y, cexCellnote=0.6, main="Brewer Colors");
+#'    showColors(y, cexCellnote=0.6, cex.axis=0.7, main="Brewer Colors");
 #' }
 #' if (suppressPackageStartupMessages(require(viridis))) {
+#'    # Grab the full viridis color map
 #'    z <- rgb2col(viridis.map[,c("R","G","B")]);
-#'    names(z) <- viridis.map[,"opt"];
+#'    # label the colors using viridis.map$opt
+#'    names(z) <- viridis.map$opt;
 #'    showColors(z, labelCells=TRUE, xaxt="n", main="viridis.map colors");
+#'    # or split the colors into a list
+#'    zl <- split(z, viridis.map[,"opt"]);
+#'    showColors(zl, labelCells=TRUE, srtCellnote=0, xaxt="n",
+#'       main="Viridis colors as a list");
 #' }
 #'
 #' @export
@@ -1795,7 +1803,7 @@ showColors <- function
          }
       }
       if (labelCells) {
-         xMnames <- rbindList(sapply(x, names));
+         xMnames <- rbindList(lapply(x, names));
          if (length(xMnames) == 0) {
             xMnames <- xM;
          } else {

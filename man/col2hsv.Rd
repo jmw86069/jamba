@@ -24,6 +24,24 @@ output can be effectively returned to R color with
 HSV color matrix.
 }
 \examples{
-hsv2col(col2hsv("#FF000055"))
+# start with a color vector
+# red and blue with partial transparency
+colorV <- c("#FF000055", "#00339999");
 
+# confirm the hsv matrix maintains transparency
+col2hsv(colorV);
+
+# convert back to the original color
+hsv2col(col2hsv(colorV));
+
+}
+\seealso{
+jamba color manipulation functions: \code{\link{hsv2col}},
+   \code{\link{col2hsv}},\code{\link{col2hcl}},
+   \code{\link{rgb2col}},
+   \code{\link{alpha2col}},\code{\link{col2alpha}},
+   \code{\link{makeColorDarker}},
+   \code{\link{color2gradient}},
+   \code{\link{setTextContrastColor}},
+   \code{\link{showColors}}
 }

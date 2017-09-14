@@ -52,8 +52,23 @@ This function is useful for things like adding labels to
 it may be ideal to label only unique elements in a contiguous set.
 }
 \examples{
-b <- rep(LETTERS[1:5], c(2,3,5,4));
+b <- rep(LETTERS[1:5], c(2,3,5,4,3));
 bb <- breaksByVector(b);
+# Example showing how labels can be minimized inside a data.frame
 data.frame(b, bb$newLabels);
+
+# Example showing how to reposition text labels
+# so duplicated labels are displayed in the middle
+# of each group
+bb2 <- breaksByVector(b, returnFractions=TRUE);
+ylabs <- c("minimal labels", "all labels");
+adjustAxisLabelMargins(2, ylabs);
+nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
+   doBoxes=FALSE, doUsrBox=TRUE);
+axis(2, las=2, at=c(1,2), ylabs);
+text(y=2, x=seq_along(b), b);
+text(y=1, x=bb2$labelPoints, bb2$useLabels);
+
+# The same process is used by imageByColors()
 
 }

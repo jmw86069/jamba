@@ -19,3 +19,13 @@ alpha range should be 255. By default maxValue=1 is returned.}
 \description{
 Define the alpha transparency per R color
 }
+\seealso{
+jamba color manipulation functions: \code{\link{hsv2col}},
+   \code{\link{col2hsv}},\code{\link{col2hcl}},
+   \code{\link{rgb2col}},
+   \code{\link{alpha2col}},\code{\link{col2alpha}},
+   \code{\link{makeColorDarker}},
+   \code{\link{color2gradient}},
+   \code{\link{setTextContrastColor}},
+   \code{\link{showColors}}
+}

@@ -347,8 +347,10 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
+#' \dontrun{
 #' setPrompt("jamba", projectColor="purple");
 #' setPrompt("jamba", usePid=FALSE);
+#' }
 #'
 #' @export
 setPrompt <- function
@@ -560,11 +562,27 @@ asSize <- function
 #' @param verbose logical whether to print verbose output.
 #'
 #' @examples
+#' # create an example data.frame
 #' a1 <- c("red","blue")[c(1,1,2)];
 #' b1 <- c("yellow","orange")[c(1,2,2)];
 #' d1 <- c("purple","green")[c(1,2,2)];
 #' df2 <- data.frame(a=a1, b=b1, d=d1);
+#' df2;
+#'
+#' # the basic output
 #' pasteByRow(df2);
+#'
+#' # Now remove an entry to show the empty field is skipped
+#' df2[3,3] <- "";
+#' pasteByRow(df2);
+#'
+#' # the output tends to make good rownames
+#' rownames(df2) <- pasteByRow(df2);
+#'
+#' # since the data.frame contains colors, we display using
+#' # imageByColors()
+#' par("mar"=c(5,10,4,2));
+#' imageByColors(df2, cellnote=df2);
 #'
 #' @export
 pasteByRow <- function
@@ -709,9 +727,24 @@ pasteByRow <- function
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
-#' b <- rep(LETTERS[1:5], c(2,3,5,4));
+#' b <- rep(LETTERS[1:5], c(2,3,5,4,3));
 #' bb <- breaksByVector(b);
+#' # Example showing how labels can be minimized inside a data.frame
 #' data.frame(b, bb$newLabels);
+#'
+#' # Example showing how to reposition text labels
+#' # so duplicated labels are displayed in the middle
+#' # of each group
+#' bb2 <- breaksByVector(b, returnFractions=TRUE);
+#' ylabs <- c("minimal labels", "all labels");
+#' adjustAxisLabelMargins(2, ylabs);
+#' nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
+#'    doBoxes=FALSE, doUsrBox=TRUE);
+#' axis(2, las=2, at=c(1,2), ylabs);
+#' text(y=2, x=seq_along(b), b);
+#' text(y=1, x=bb2$labelPoints, bb2$useLabels);
+#'
+#' # The same process is used by imageByColors()
 #'
 #' @export
 breaksByVector <- function
@@ -829,6 +862,10 @@ breaksByVector <- function
 #' # slightly different style, one entry per line, indented:
 #' printDebug("List of vectors:", c("one", "two", "three"),
 #'    c("four", "five", "six"), collapse="\n   ");
+#'
+#' # in an R console, or when writing to a log file, the
+#' # following output text is colored
+#' printDebug(c("red", "blue", "yellow"));
 #'
 #' @export
 printDebug <- function
@@ -1200,9 +1237,48 @@ colNum2excelName <- function
 #'
 #' Decide plot panel rows, columns for par(mfrow)
 #'
+#' This function returns the recommended rows and columns of panels
+#' to be used in \code{par("mfrow")} with R base plotting. It attempts
+#' to use the device size and plot aspect ratio to keep panels roughly
+#' square. For example, a short-wide device would have more columns of panels
+#' than rows; a tall-thin device would have more rows than columns.
+#'
+#' The \code{doTest=TRUE} parameter will create \code{n} number of
+#' panels with the recommended layout, as a visual example.
+#'
+#' @return numeric vector length=2, with the recommended number of plot
+#'    rows and columns, respectively. It is intended to be used directly
+#'    in this form: \code{par("mfrow"=decideMfrow(n=5))}
+#'
+#' @param n integer number of plot panels
+#' @param method character string indicating the type of layout to favor.
+#'    \describe{
+#'       \item{"aspect"}{uses the device size and aspect ratio of the plot to try
+#'          to maintain roughly square plot panels.}
+#'       \item{"wide"}{tries to keep the columns and rows similar, erring on
+#'          the side of more columns than rows.}
+#'       \item{"tall"}{tries to keep the columns and rows similar, erring on
+#'          the side of more rows than columns.}
+#'    }
+#' @param doTest logical whether to provide a visual test. Note that
+#'    \code{n} is required as the number of plot panels requested.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' # display a test visualization showing 6 panels
+#' decideMfrow(n=6, doTest=TRUE);
+#'
+#' # a manual demonstration creating 6 panels
+#' n <- 6;
+#' par(mfrow=decideMfrow(n));
+#' for(i in seq_len(n)){
+#'    nullPlot(plotAreaTitle=paste("Plot", i));
+#' }
+#'
 #' @export
 decideMfrow <- function
 (n, method=c("aspect", "wide", "tall"),
+ doTest=FALSE,
  ...)
 {
    ## Purpose is to decide how to arrange plots so that panels are roughly
@@ -1219,12 +1295,59 @@ decideMfrow <- function
       n2 <- round(n2);
       n1 <- ceiling(n/n2);
    }
+   ## Optionally provide a visual test
+   if (doTest) {
+      oPar <- par(no.readonly=TRUE);
+      on.exit(par(oPar));
+      par("mfrow"=c(n1, n2));
+      for(i in seq_len(n)){
+         nullPlot(plotAreaTitle=paste("Plot", i));
+      }
+   }
    c(n1, n2);
 }
 
 #' Get aspect ratio for coordinates, plot, or device
 #'
 #' Get aspect ratio for coordinates, plot, or device
+#'
+#' Returns the plot aspect ratio for a plot device, of the requested
+#' type, see the \code{type} parameter.
+#'
+#' @param type character type of aspect ratio to calculate.
+#'    \describe{
+#'       \item{"coords"}{calculates plot coordinate aspect ratio, which
+#'          is helpful for creating proper circular shapes, for example,
+#'          where the x-axis and y-axis ranges are very different. Note
+#'          that this calculation does also correct for margin sizes.}
+#'       \item{"plot"}{calculates plot aspect ratio, based upon the
+#'          actual size of the plot, independent of the numeric coordinate
+#'          range of the plot. This aspect ratio reflects the relative
+#'          visual height and width of the plot area, ignoring margins.}
+#'       \item{"device"}{calculates plot aspect ratio, based upon the
+#'          complete graphical device, i.e. the full space including all
+#'          panels, margins, and plot areas.}
+#'    }
+#' @param parUsr,parPin,parDin numeric values equivalent to their
+#'    respective \code{par()} output, from \code{par("usr")},
+#'    \code{par("pin")}, and \code{par("din")}. Values can be
+#'    supplied directly, which among other things, prevents opening a
+#'    graphical device if one is not already opened. Any call to
+#'    \code{par()} will otherwise cause a graphic device to be opened,
+#'    which may not be desired on a headless R server.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' par("mfrow"=c(2,4));
+#' for (i in 1:8) {
+#'    nullPlot(plotAreaTitle=paste("Plot", i), xlim=c(1,100), ylim=c(1,10),
+#'       doMargins=FALSE);
+#'    axis(1, las=2);
+#'    axis(2, las=2);
+#' }
+#' getPlotAspect("coords");
+#' getPlotAspect("plot");
+#' getPlotAspect("device");
 #'
 #' @export
 getPlotAspect <- function
@@ -1271,6 +1394,33 @@ getPlotAspect <- function
 #' frequency of entries, ordered by frequency
 #'
 #' frequency of entries, ordered by frequency
+#'
+#' This function mimics output from \code{\link{table}} with two key
+#' differences. It sorts the results by decreasing frequency, and optionally
+#' filters results for a minimum frequency. It is effective when checking
+#' for duplicate values, and ordering them by the number of occurrences.
+#'
+#' This function has been useful when working with large vectors of gene
+#' identifiers, where it is not always obvious whether genes are replicated
+#' in a particular technological assay. Transcript microarrays for example,
+#' can contain many replicated genes, but often only a handful of genes are
+#' highly replicated, while the rest are present only once or twice on the
+#' array.
+#'
+#' @param x vector input to use when calculating frequencies.
+#' @param doSort logical whether to sort results decreasing by frequency.
+#' @param minCount optional integer minimum frequency, any results with
+#'    fewer counts observed will be omitted from results.
+#' @param maxCount optional integer maximum frequency for returned results.
+#' @param nameSortFunc function used to sort results after sorting by
+#'    frequency. For example, one might use \code{\link{mixedSort}}. If NULL
+#'    then no name sort will be applied.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' testVector <- rep(c("one", "two", "three", "four"), c(1:4));
+#' tcount(testVector);
+#' tcount(testVector, minCount=2);
 #'
 #' @export
 tcount <- function
@@ -1777,6 +1927,8 @@ noiseFloor <- function
 #'    and pi*2.
 #' @param ... other parameters are ignored.
 #'
+#' @seealso \code{\link{rad2deg}},\code{\link{deg2rad}}
+#'
 #' @examples
 #' rad2deg(c(pi*2, pi/2))
 #'
@@ -1798,6 +1950,8 @@ rad2deg <- function
 #' @param x numerical vector, expected to be degree values between zero
 #'    and 360.
 #' @param ... other parameters are ignored.
+#'
+#' @seealso \code{\link{rad2deg}},\code{\link{deg2rad}}
 #'
 #' @examples
 #' deg2rad(rad2deg(c(pi*2, pi/2)))/pi;

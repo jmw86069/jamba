@@ -118,10 +118,10 @@ To do:
 }
 }
 \examples{
-a1 <- c("red","blue")[c(1,1,2)];
+a1 <- c("red4","blue")[c(1,1,2)];
 b1 <- c("yellow","orange")[c(1,2,2)];
-c1 <- c("purple","orange")[c(1,1,2)];
-d1 <- c("purple","green")[c(1,2,2)];
+c1 <- c("purple","orange")[c(1,2,2)];
+d1 <- c("purple","green4")[c(1,2,2)];
 df1 <- data.frame(a=a1, b=b1, c=c1, d=d1);
 
 # default using polygons

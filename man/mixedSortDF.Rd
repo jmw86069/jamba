@@ -42,12 +42,23 @@ by \code{\link{order}} when operating on data.frames. The sort order logic
 is fully described in \code{\link{mixedSort}} and \code{\link{mixedOrder}}.
 }
 \examples{
+# start with a vector of miRNA names
 x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
+# add some arbitrary group information
 g <- rep(c("Air", "Treatment", "Control"), 2);
+# create a data.frame
 df <- data.frame(group=g, miRNA=x, stringsAsFactors=FALSE);
+
+# sort the data.frame by each column
 mixedSortDF(df);
+
+# mixedSort respects factor order, so reorder the factor levels
+# to demonstrate. "Control" should come first, for example.'
 gf <- factor(g, levels=c("Control","Air", "Treatment"));
 df2 <- data.frame(groupfactor=gf, miRNA=x, stringsAsFactors=FALSE);
+
+# now the sort properly keeps the group factor levels in order,
+# which also sorting the miRNA names in their proper order.
 mixedSortDF(df2);
 
 }

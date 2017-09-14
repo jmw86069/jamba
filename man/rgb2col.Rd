@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba-colors.r
 \name{rgb2col}
 \alias{rgb2col}
-\title{Convert RGB to R color}
+\title{Convert RGB color matrix to R color}
 \usage{
 rgb2col(red, green = NULL, blue = NULL, alpha = NULL, names = NULL,
   maxColorValue = NULL, keepNA = TRUE, ...)
@@ -35,7 +35,7 @@ substitutes 0 for any NA values.}
 character string, this parameter is ignored.}
 }
 \description{
-Converts RGB color matrix to R hex color
+Convert RGB color matrix to R color
 }
 \details{
 This function intends to augment the \code{\link{rgb}} function, which
@@ -47,6 +47,25 @@ The output is named either by names(red), rownames(red), or if supplied,
 the value of the parameter \code{names}.
 }
 \examples{
-rgb2col(col2rgb("#FF000099", alpha=TRUE))
+# start with a color vector
+# red and blue with partial transparency
+colorV <- c("#FF000055", "#00339999");
 
+# Show the output of rgb2col
+# make sure to include alpha=TRUE to maintain alpha transparency
+col2rgb(colorV, alpha=TRUE);
+
+# confirm we can convert from RGB back to the same colors
+rgb2col(col2rgb(colorV, alpha=TRUE));
+
+}
+\seealso{
+jamba color manipulation functions: \code{\link{hsv2col}},
+   \code{\link{col2hsv}},\code{\link{col2hcl}},
+   \code{\link{rgb2col}},
+   \code{\link{alpha2col}},\code{\link{col2alpha}},
+   \code{\link{makeColorDarker}},
+   \code{\link{color2gradient}},
+   \code{\link{setTextContrastColor}},
+   \code{\link{showColors}}
 }

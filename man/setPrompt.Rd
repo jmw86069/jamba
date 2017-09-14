@@ -76,7 +76,9 @@ are used to tell readline to ignore an escape sequence when it counts the
 number of characters being displayed by the prompt.
 }
 \examples{
+\dontrun{
 setPrompt("jamba", projectColor="purple");
 setPrompt("jamba", usePid=FALSE);
+}
 
 }

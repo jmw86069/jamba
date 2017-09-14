@@ -207,6 +207,12 @@ unvigrep <- function
 #' For example, it returns entries in the order they are matched, by the
 #' progressive use of grep patterns.
 #'
+#' It is particularly good when using multiple grep patterns, since
+#' \code{grep()} does not accept multiple patterns as input. This function
+#' also only returns the unique matches in the order they were matched,
+#' which alleviates the need to run a series of \code{grep()} functions
+#' and collating their results.
+#'
 #' It is mainly to allow for prioritized ordering of matching entries, where
 #' one would like certain matching  entries first, followed by another
 #' set of matching entries, without duplication. For example,
@@ -232,6 +238,15 @@ unvigrep <- function
 #'    when you would like to know which patterns matched specific entries.
 #' @param ignore.case logical parameter sent to \code{\link{grep}}, TRUE
 #'    runs in case-insensitive mode, as by default.
+#'
+#' @examples
+#' # a rather comical example
+#' # set up a test set with labels containing several substrings
+#' testTerms <- c("robot","tree","dog","mailbox","pizza","noob");
+#' testWords <- pasteByRow(t(combn(testTerms,3)));
+#'
+#' # now pull out entries matching substrings in order
+#' provigrep(c("pizza", "dog", "noob", "."), testWords);
 #'
 #' @export
 provigrep <- function
@@ -636,6 +651,12 @@ makeNames <- function
 #' function call, which by default maintains names, but does not assign
 #' names if the input data did not already have them.
 #'
+#' When used with a data.frame, it is particularly convenient to pull out
+#' a named vector of values. For example, log2 fold changes by gene, where
+#' the gene symbols are the name of the vector.
+#'
+#' \code{nameVector(genedata[,c("Gene","log2FC")])}
+#'
 #' @param x vector input, or data.frame with two columns, the second
 #'    column is used to name values in the first column.
 #' @param y NULL or character vector of names. If NULL then x is used.
@@ -644,11 +665,19 @@ makeNames <- function
 #' @param makeNamesFunc function to make names unique, by default
 #'    \code{\link{makeNames}} which ensures names are unique.
 #' @param ... passed to makeNamesFunc
+#'
 #' @examples
+#' # it generally just creates names from the vector values
 #' nameVector(LETTERS[1:5]);
+#'
+#' # if values are replicated, the makeNames() function makes them unique
 #' V <- rep(LETTERS[1:5], c(1,2,3,4,5));
 #' nameVector(V);
+#'
+#' # for a two-column data.frame, it creates a named vector using
+#' # the values in the first column, and names in the second column.
 #' df <- data.frame(seq_along(V), V);
+#' df;
 #' nameVector(df);
 #'
 #' @export
@@ -711,8 +740,41 @@ nameVector <- function
 #'    the names(x) are not unique.
 #'
 #' @examples
+#' # a simple integer vector with character names
 #' L <- nameVector(1:5, LETTERS[1:5]);
+#' L;
+#'
+#' # we can make a vector of names, retaining the names
 #' nameVectorN(L);
+#'
+#' # Now consider a named list, where the name is important
+#' # to keep for downstream work.
+#' K <- list(A=(1:3)^3, B=7:10, C=(1:4)^2);
+#' K;
+#' # Typical lapply-style work does not operate on the name,
+#' # making it difficult to use the name inside the function.
+#' # Here, we just add the name to the colnames, but anything
+#' # could be useful.
+#' lapply(K, function(i){
+#'     data.frame(mean=mean(i), median=median(i));
+#'  });
+#'
+#' # So the next step is to run lapply() on the names
+#' lapply(names(K), function(i){
+#'    iDF <- data.frame(mean=mean(K[[i]]), median=median(K[[i]]));
+#'    colnames(iDF) <- paste(c("mean", "median"), i);
+#'    iDF;
+#' })
+#' # The result is good, but the list is no longer named.
+#' # The nameVectorN() function is helpful for maintaining the names.
+#'
+#' # So we run lapply() on the named-names, which keeps the names in
+#' # the resulting list, and sends it into the function.
+#' lapply(nameVectorN(K), function(i){
+#'    iDF <- data.frame(mean=mean(K[[i]]), median=median(K[[i]]));
+#'    colnames(iDF) <- paste(c("mean", "median"), i);
+#'    iDF;
+#' });
 #'
 #' @export
 nameVectorN <- function
@@ -1393,12 +1455,23 @@ mmixedOrder <- function
 #' @param verbose logical whether to print verbose output
 #'
 #' @examples
+#' # start with a vector of miRNA names
 #' x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
+#' # add some arbitrary group information
 #' g <- rep(c("Air", "Treatment", "Control"), 2);
+#' # create a data.frame
 #' df <- data.frame(group=g, miRNA=x, stringsAsFactors=FALSE);
+#'
+#' # sort the data.frame by each column
 #' mixedSortDF(df);
+#'
+#' # mixedSort respects factor order, so reorder the factor levels
+#' # to demonstrate. "Control" should come first, for example.'
 #' gf <- factor(g, levels=c("Control","Air", "Treatment"));
 #' df2 <- data.frame(groupfactor=gf, miRNA=x, stringsAsFactors=FALSE);
+#'
+#' # now the sort properly keeps the group factor levels in order,
+#' # which also sorting the miRNA names in their proper order.
 #' mixedSortDF(df2);
 #'
 #' @export

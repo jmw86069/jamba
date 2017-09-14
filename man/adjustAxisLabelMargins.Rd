@@ -39,14 +39,14 @@ xlabs <- paste0("item_", (1:20));
 ylabs <- paste0("rownum_", (1:20));
 adjustAxisLabelMargins(xlabs, 1);
 adjustAxisLabelMargins(ylabs, 2);
-nullPlot(xlim=c(1,20), ylim=c(1,20));
+nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
 axis(1, at=1:20, labels=xlabs, las=2);
 axis(2, at=1:20, labels=ylabs, las=2);
 
 par("mar"=c(5,4,4,2));
 adjustAxisLabelMargins(xlabs, 3);
 adjustAxisLabelMargins(ylabs, 4);
-nullPlot(xlim=c(1,20), ylim=c(1,20));
+nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
 axis(3, at=1:20, labels=xlabs, las=2);
 axis(4, at=1:20, labels=ylabs, las=2);
 

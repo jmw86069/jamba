@@ -36,6 +36,16 @@
 #'    transparency should be maintained in the text color. By default, text
 #'    alpha is not maintained, and instead is set to alpha=1, fully
 #'    opaque.
+#'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
+#'
 #' @examples
 #' setTextContrastColor(c("red","yellow","lightblue","blue4"))
 #'
@@ -98,6 +108,15 @@ setTextContrastColor <- function
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
+#'
 #' @examples
 #' col2hcl("#FF000044")
 #'
@@ -139,6 +158,15 @@ col2hcl <- function
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
+#'
 #' @export
 col2alpha <- function
 (x, maxValue=1, ...)
@@ -162,6 +190,15 @@ col2alpha <- function
 #'    recycled to length(x) as needed.
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
+#'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
 #'
 #' @export
 alpha2col <- function
@@ -192,8 +229,26 @@ alpha2col <- function
 #'
 #' @param hsvValue HSV matrix, with rownames c("h","s","v") in any order,
 #'    and optionally "alpha" rowname for alpha transparency.
+#'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
+#'
 #' @examples
-#' hsv2col(col2hsv("#FF000055"))
+#' # start with a color vector
+#' # red and blue with partial transparency
+#' colorV <- c("#FF000055", "#00339999");
+#'
+#' # confirm the hsv matrix maintains transparency
+#' col2hsv(colorV);
+#'
+#' # convert back to the original color
+#' hsv2col(col2hsv(colorV));
 #'
 #' @export
 hsv2col <- function
@@ -236,8 +291,25 @@ hsv2col <- function
 #' @param x R color
 #' @param ... additional parameters are ignored
 #'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
+#'
 #' @examples
-#' hsv2col(col2hsv("#FF000055"))
+#' # start with a color vector
+#' # red and blue with partial transparency
+#' colorV <- c("#FF000055", "#00339999");
+#'
+#' # confirm the hsv matrix maintains transparency
+#' col2hsv(colorV);
+#'
+#' # convert back to the original color
+#' hsv2col(col2hsv(colorV));
 #'
 #' @export
 col2hsv <- function
@@ -251,9 +323,9 @@ col2hsv <- function
       rgbColors["alpha",,drop=FALSE]/255));
 }
 
-#' Convert RGB to R color
+#' Convert RGB color matrix to R color
 #'
-#' Converts RGB color matrix to R hex color
+#' Convert RGB color matrix to R color
 #'
 #' This function intends to augment the \code{\link{rgb}} function, which
 #' does not handle output from \code{\link{col2rgb}}. The goal is to handle
@@ -282,8 +354,27 @@ col2hsv <- function
 #' @param keepNA logical whether to keep NA values, returning NA for any
 #'    input where red, green, and/or blue are NA. If keepNA==FALSE then it
 #'    substitutes 0 for any NA values.
+#'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
+#'
 #' @examples
-#' rgb2col(col2rgb("#FF000099", alpha=TRUE))
+#' # start with a color vector
+#' # red and blue with partial transparency
+#' colorV <- c("#FF000055", "#00339999");
+#'
+#' # Show the output of rgb2col
+#' # make sure to include alpha=TRUE to maintain alpha transparency
+#' col2rgb(colorV, alpha=TRUE);
+#'
+#' # confirm we can convert from RGB back to the same colors
+#' rgb2col(col2rgb(colorV, alpha=TRUE));
 #'
 #' @export
 rgb2col <- function
@@ -382,6 +473,41 @@ rgb2col <- function
 #' gradually reduced in order to produce a visibly lighter color. The
 #' saturation minimu is set to 0.2, to maintain at least some amount of
 #' color.
+#'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
+#'
+#' @examples
+#' colorV <- c("red","orange","purple","blue");
+#' colorVdark2 <- makeColorDarker(colorV, darkFactor=2);
+#' colorVlite2 <- makeColorDarker(colorV, darkFactor=-2);
+#' showColors(cexCellnote=0.7,
+#'    list(
+#'    `darkFactor=2`=colorVdark2,
+#'    `original colors`=colorV,
+#'    `darkFactor=-2`=colorVlite2
+#'    ));
+#'
+#' # these adjustments work really well inside a network diagram
+#' # when coloring nodes, and providing an outline of comparable
+#' # color.
+#' plot(x=c(1,2,1,2), y=c(1,2,2,1), pch=21,
+#'    xaxt="n", yaxt="n", xlab="", ylab="",
+#'    xlim=c(0.5,2.5), ylim=c(0.5,2.5),
+#'    bg=colorV, col=colorVdark2, cex=4, lwd=2);
+#' points(x=c(1,2,1,2), y=c(1,2,2,1), pch=20, cex=4,
+#'    col=colorVlite2);
+#'
+#' # Making a color lighter can make it easier to add labels
+#' # The setTextContrastColor() function also helps.
+#' text(x=c(1,2,1,2), y=c(1,2,2,1), 1:4,
+#'    col=setTextContrastColor(colorVlite2));
 #'
 #' @export
 makeColorDarker <- function
@@ -620,15 +746,35 @@ makeColorDarker <- function
 #'    of the character value.
 #'
 #' @examples
-#' getColorRamp("red");
-#' printDebug(getColorRamp("red"));
-#' printDebug(getColorRamp("RdBu"));
-#' printDebug(getColorRamp("RdBu_r"));
+#' # get a gradient using red4
+#' red4 <- getColorRamp("red4");
+#' showColors(getColorRamp(red4));
+#'
+#' # make a custom gradient
+#' BuOr <- getColorRamp(c("dodgerblue","grey10","orange"));
+#' showColors(BuOr);
+#' colorList <- list(red4=red4, BuOr=BuOr);
+#'
+#' # If RColorBrewer is available, use a brewer name
+#' if (suppressPackageStartupMessages(require(RColorBrewer))) {
+#'    RdBu <- getColorRamp("RdBu");
+#'    RdBu_r <- getColorRamp("RdBu_r");
+#'    colorList <- c(colorList, list(RdBu=RdBu, RdBu_r=RdBu_r));
+#'    showColors(RdBu);
+#' }
+#'
+#' if (suppressPackageStartupMessages(require(viridis))) {
+#'    viridisV <- getColorRamp("viridis");
+#'    colorList <- c(colorList, list(viridis=viridisV));
+#' }
+#'
+#' # for fun, put a few color ramps onto one plot
+#' showColors(colorList, cexCellnote=0.7);
 #'
 #' @export
 getColorRamp <- function
 (col, n=15, trimRamp=FALSE,
- verbose=FALSE, defaultBaseColor="#BBABAB77",
+ verbose=FALSE, defaultBaseColor="grey90",
  reverseRamp=FALSE,
  ...)
 {
@@ -860,6 +1006,39 @@ isColor <- function
 #' @param reverseGradient logical whether to return light-to-dark gradient
 #'    (TRUE) or dark-to-light gradient (FALSE).
 #' @param verbose logical whether to print verbose output.
+#' @param ... other parameters are ignored.
+#'
+#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
+#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
+#'    \code{\link{rgb2col}},
+#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
+#'    \code{\link{makeColorDarker}},
+#'    \code{\link{color2gradient}},
+#'    \code{\link{setTextContrastColor}},
+#'    \code{\link{showColors}}
+#'
+#' @examples
+#' # given a list, it returns a list
+#' x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7));
+#' showColors(x);
+#'
+#' # given a vector, it returns a vector
+#' xv <- color2gradient(c(red="red", blue="blue"), n=c(4,7));
+#' showColors(xv);
+#'
+#' # Expand colors in place
+#' # This process is similar to color jittering
+#' colors1 <- c("red","blue")[c(1,1,2,2,1,2,1,1)];
+#' names(colors1) <- colors1;
+#' colors2 <- color2gradient(colors1);
+#' colors2;
+#' showColors(list(`Input colors`=colors1, `Output colors`=colors2));
+#'
+#' # You can do the same using a list intermediate
+#' colors1L <- split(colors1, colors1);
+#' showColors(colors1L);
+#' colors2L <- color2gradient(colors1L);
+#' showColors(colors2L);
 #'
 #' @export
 color2gradient <- function
@@ -990,10 +1169,13 @@ color2gradient <- function
          printDebug("newColorSets:", c("orange", "lightblue"));
          print(head(newColorSets, 20));
       }
+      ## Remove list names before unlist() so the vector
+      ## names are applied
+      names(newColorSets) <- NULL;
       if (doExpand) {
          newColorSets <- unlist(newColorSets);
       } else {
-         newColorSets <- unlist(newColorSets)[names(colOrig)];
+         newColorSets <- unlist(newColorSets)[makeNames(names(colOrig))];
       }
    }
    return(newColorSets);

@@ -52,10 +52,26 @@ data more self-describing in some circumstances. That said, the most basic
 usefulness of this function is to create row labels.
 }
 \examples{
+# create an example data.frame
 a1 <- c("red","blue")[c(1,1,2)];
 b1 <- c("yellow","orange")[c(1,2,2)];
 d1 <- c("purple","green")[c(1,2,2)];
 df2 <- data.frame(a=a1, b=b1, d=d1);
+df2;
+
+# the basic output
 pasteByRow(df2);
+
+# Now remove an entry to show the empty field is skipped
+df2[3,3] <- "";
+pasteByRow(df2);
+
+# the output tends to make good rownames
+rownames(df2) <- pasteByRow(df2);
+
+# since the data.frame contains colors, we display using
+# imageByColors()
+par("mar"=c(5,10,4,2));
+imageByColors(df2, cellnote=df2);
 
 }

@@ -23,3 +23,6 @@ into radians which range from zero to pi*2.
 deg2rad(rad2deg(c(pi*2, pi/2)))/pi;
 
 }
+\seealso{
+\code{\link{rad2deg}},\code{\link{deg2rad}}
+}
