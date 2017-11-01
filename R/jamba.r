@@ -852,6 +852,10 @@ breaksByVector <- function
 #' @param verbose logical whether to print verbose output
 #' @param indent character optional characters used as a prefix to indent
 #'    output.
+#' @param file passed to \code{\link{cat}}, to allow sending output to
+#'    a specified file.
+#' @param append logical whether to append output, relevant only when
+#'    \code{file} specifies a filename.
 #'
 #' @examples
 #' printDebug("Testing ", "default ", "printDebug().");
@@ -869,16 +873,37 @@ breaksByVector <- function
 #'
 #' @export
 printDebug <- function
-(..., fgText=NULL,#c("orange", "lightblue"),
- bgText=NULL, fgTime="cyan", timeStamp=TRUE, comment=TRUE,
- formatNumbers=TRUE, trim=TRUE, digits=NULL, nsmall=0L, justify="left",
- big.mark="", small.mark="", zero.print=NULL, width=NULL,
- doColor=NULL, splitComments=FALSE, collapse="", sep=",", detectColors=TRUE,
+(...,
+ fgText=NULL,#c("orange", "lightblue"),
+ bgText=NULL,
+ fgTime="cyan",
+ timeStamp=TRUE,
+ comment=TRUE,
+ formatNumbers=TRUE,
+ trim=TRUE,
+ digits=NULL,
+ nsmall=0L,
+ justify="left",
+ big.mark="",
+ small.mark="",
+ zero.print=NULL,
+ width=NULL,
+ doColor=NULL,
+ splitComments=FALSE,
+ collapse="",
+ sep=",",
+ detectColors=TRUE,
  darkFactor=c(1,1.5),#-1.4,1.2),
  sFactor=c(1,1.5),#c(-1.3,1.2),
- removeNA=FALSE, replaceNULL=NULL,
+ removeNA=FALSE,
+ replaceNULL=NULL,
  adjustRgb=-0.1,
- byLine=FALSE, verbose=FALSE, indent="", keepNA=TRUE,
+ byLine=FALSE,
+ verbose=FALSE,
+ indent="",
+ keepNA=TRUE,
+ file="",
+ append=TRUE,
  x)
 {
    ## Purpose is to wrapper a print() function with optional time-date stamp
@@ -1132,7 +1157,9 @@ printDebug <- function
          if (comment) {
             printString <- c("## ", printString);
          }
-         cat(printString, "\n");
+         cat(printString, "\n",
+            file=file,
+            append=append);
       } else {
          if (timeStamp) {
             timeStampValue <- as.character(format(Sys.time(),
@@ -1144,7 +1171,9 @@ printDebug <- function
          if (comment) {
             printString <- c("#  ", printString);
          }
-         cat(printString, "\n");
+         cat(printString, "\n",
+            file=file,
+            append=append);
       }
    }
 }

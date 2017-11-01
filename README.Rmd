@@ -19,6 +19,20 @@ library(jamba);
 The goal of jamba is to provide useful custom functions for R data
 analysis and visualization.
 
+### Notes about functions that create plots
+
+Many of the plotting functions were originally developed with R base
+graphics, some but not all of which are transitioning to enable ggplot
+output as an option. The initial excitement of producing an interactive
+ggplotly plot wears off when rendering more data points than the
+plotly system can comfortably handle. Similar ceilings exist with
+ggplot, for example the display of gradient and categorical colors on
+the same plot.
+
+That said, much of the "work" of the plot functions are intended simply
+to make visual settings easier to apply.
+
+
 A short overview of available methods:
 
 * __plotSmoothScatter__: proper smooth scatter plot with fine detail.

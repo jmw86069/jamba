@@ -1,3 +1,6 @@
+template:
+  params:
+    bootswatch: cosmo
 reference:
 - title: Plot functions
   desc: Functions that create or modify base R plots

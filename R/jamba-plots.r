@@ -1683,6 +1683,8 @@ shadowText <- function
 #' @param maxFig fraction less than 1, indicating the maximum size of margin
 #'    relative to the figure size. Setting margins too large results in an
 #'    error otherwise.
+#' @param cex numeric or NULL, sent to \code{\link{strwidth}} when calculating
+#'    the string width of labels in inches.
 #' @param prefix character string used to add whitespace around the axis label.
 #' @param ... additional parameters are ignored.
 #'
@@ -1704,7 +1706,10 @@ shadowText <- function
 #'
 #' @export
 adjustAxisLabelMargins <- function
-(x, margin=1, maxFig=1/2,
+(x,
+ margin=1,
+ maxFig=1/2,
+ cex=NULL,
  prefix="-- -- ",
  ...)
 {
@@ -1729,7 +1734,8 @@ adjustAxisLabelMargins <- function
    parMai <- par("mai");
    parFin <- par("fin");
    maxWidth <- max(strwidth(paste(prefix, x),
-      units="inches"), na.rm=TRUE);
+      units="inches",
+      cex=cex), na.rm=TRUE);
 
    ## Make sure label margins are not more than 1/2 the figure size
    refMargin <- 2-(margin %% 2);
