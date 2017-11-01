@@ -1791,7 +1791,10 @@ adjustAxisLabelMargins <- function
 #'
 #' @export
 showColors <- function
-(x, labelCells=NULL, transpose=FALSE, srtCellnote=NULL,
+(x,
+ labelCells=NULL,
+ transpose=FALSE,
+ srtCellnote=NULL,
  ...)
 {
    ## Purpose is to show a vector of colors, or display a list of
