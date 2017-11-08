@@ -4,8 +4,8 @@
 \alias{adjustAxisLabelMargins}
 \title{Adjust axis label margins}
 \usage{
-adjustAxisLabelMargins(x, margin = 1, maxFig = 1/2, prefix = "-- -- ",
-  ...)
+adjustAxisLabelMargins(x, margin = 1, maxFig = 1/2, cex = NULL,
+  prefix = "-- -- ", ...)
 }
 \arguments{
 \item{x}{vector of axis labels}
@@ -17,6 +17,9 @@ using the order by \code{par("mar")}, 1=bottom, 2=left, 3=top,
 \item{maxFig}{fraction less than 1, indicating the maximum size of margin
 relative to the figure size. Setting margins too large results in an
 error otherwise.}
+
+\item{cex}{numeric or NULL, sent to \code{\link{strwidth}} when calculating
+the string width of labels in inches.}
 
 \item{prefix}{character string used to add whitespace around the axis label.}
 

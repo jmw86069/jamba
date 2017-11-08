@@ -189,11 +189,16 @@ plotSmoothScatter <- function
       if (!is.null(y) && is.numeric(y) && is.numeric(x)) {
          x <- matrix(ncol=2, c(x, y));
       }
-      if ((is.matrix(x) || is.data.frame(x)) && ncol(x) == 2) {
+      ## Handle data.frame, matrix
+      if (is.matrix(x) && ncol(x) >= 2) {
          y <- x[,2];
          x <- x[,1];
-      } else if (is.null(Y) && (is.matrix(x) || is.data.frame(x))) {
-         stop("Cannot handle matrix input x, when Y is NULL.");
+      } else if (any(class(x) %in% c("data.frame","DataFrame","tbl")) &&
+         ncol(x) >= 2) {
+         y <- x[[2]];
+         x <- x[[1]];
+      } else if (is.null(y) && (is.matrix(x) || is.data.frame(x))) {
+         stop("Cannot handle matrix input x, when y is NULL.");
       }
       ## Deal with NA values
       if (naAction == "remove") {

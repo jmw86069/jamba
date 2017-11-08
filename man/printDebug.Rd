@@ -11,7 +11,7 @@ printDebug(..., fgText = NULL, bgText = NULL, fgTime = "cyan",
   splitComments = FALSE, collapse = "", sep = ",", detectColors = TRUE,
   darkFactor = c(1, 1.5), sFactor = c(1, 1.5), removeNA = FALSE,
   replaceNULL = NULL, adjustRgb = -0.1, byLine = FALSE, verbose = FALSE,
-  indent = "", keepNA = TRUE, x)
+  indent = "", keepNA = TRUE, file = "", append = TRUE, x)
 }
 \arguments{
 \item{...}{text to be printed to the R console.}
@@ -72,6 +72,12 @@ using collapse to combine them onto one line.}
 
 \item{indent}{character optional characters used as a prefix to indent
 output.}
+
+\item{file}{passed to \code{\link{cat}}, to allow sending output to
+a specified file.}
+
+\item{append}{logical whether to append output, relevant only when
+\code{file} specifies a filename.}
 }
 \description{
 print colorized output to R console

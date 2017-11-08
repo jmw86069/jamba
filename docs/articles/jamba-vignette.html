@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jamba Overview • jamba</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -72,7 +72,7 @@
       <h1>Jamba Overview</h1>
                         <h4 class="author">James M. Ward</h4>
             
-            <h4 class="date">2017-09-15</h4>
+            <h4 class="date">2017-11-08</h4>
           </div>
 
     
@@ -91,8 +91,7 @@
 <p>A common problem when visualizing extremely large datasets is how to display thousands of datapoints while indicating the amount of overlap of those points. The R <code><a href="http://www.rdocumentation.org/packages/graphics/topics/smoothScatter">graphics::smoothScatter()</a></code> function provides an adequate drop-in replacement for most uses of <code>plot()</code>, but several aspects are not easily customized and are targeted by the <code><a href="http://www.rdocumentation.org/packages/jamba/topics/plotSmoothScatter">jamba::plotSmoothScatter()</a></code> function.</p>
 <p>First, the <code>useRaster=TRUE</code> feature from <code><a href="http://www.rdocumentation.org/packages/graphics/topics/image">graphics::image()</a></code> is intended to enable rasterized images instead of rendering multiple polygons. The rasterized image saves substantial image space, is more efficiently saved as vectorized output in PDF and SVG, and is more efficiently displayed on a remote plot device. However it is not consistently honored, and has some problem when the plot aspect ratio is not 1:1. The <code>plotSmoothScatter</code> function consistently enforces <code>useRaster=TRUE</code> by calling a custom <code><a href="http://www.rdocumentation.org/packages/jamba/topics/imageDefault">jamba::imageDefault()</a></code> function, which has methods to handle non-square visualization.</p>
 <p>A quick way to see some enhancements of plotSmoothScatter is by running doTest=TRUE:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plotSmoothScatter.html">plotSmoothScatter</a></span>(<span class="dt">doTest=</span><span class="ot">TRUE</span>);
-<span class="co">#&gt; NULL</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plotSmoothScatter.html">plotSmoothScatter</a></span>(<span class="dt">doTest=</span><span class="ot">TRUE</span>);</code></pre>
 <p><img src="jambaVignette-plotSmoothScatter-1.png" width="768"></p>
 <p>The data represents a highly correlated x- and y-axis, with a secondary “band” of correlation added slightly offset. Each row contains an increasing amount of background noise.</p>
 <p>The left column shows graphics::smoothScatter, using the same color ramp used by plotSmoothScatter. The secondary “band” is somewhat obscured by the default density function. The second and third columns show the effect of using custom bandwidth in plotSmoothScatter.</p>
