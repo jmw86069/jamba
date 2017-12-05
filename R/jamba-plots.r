@@ -1131,6 +1131,10 @@ imageDefault <- function
 #'    \code{par("xpd"=TRUE)}.
 #' @param doTest logical whether to run a test showing basic features of
 #'    \code{imageByColors}.
+#' @param keepTextAlpha logical passed to \code{\link{setTextContrastColor}}
+#'    indicating whether the text label color should inherit the alpha
+#'    transparency from the background color. If TRUE then fully transparent
+#'    background colors will not have a visible label.
 #'
 #' @examples
 #' a1 <- c("red4","blue")[c(1,1,2)];
@@ -1151,10 +1155,24 @@ imageDefault <- function
 #'    srtCellnote=list(c(90,0,0), c(0,45), c(0,0,0), c(0,90,0)));
 #' @export
 imageByColors <- function
-(x, useRaster=FALSE, fixRasterRatio=TRUE, maxRatioFix=100,
- xaxt="s", yaxt="s", doPlot=TRUE, cellnote=NULL, cexCellnote=1,
- srtCellnote=0, fontCellnote=1, groupCellnotes=TRUE, adjBy=c("column","row"),
- verbose=FALSE, xpd=NULL, flip=c("none","y","x","xy"), doTest=FALSE,
+(x,
+ useRaster=FALSE,
+ fixRasterRatio=TRUE,
+ maxRatioFix=100,
+ xaxt="s",
+ yaxt="s",
+ doPlot=TRUE,
+ cellnote=NULL,
+ cexCellnote=1,
+ srtCellnote=0,
+ fontCellnote=1,
+ groupCellnotes=TRUE,
+ adjBy=c("column","row"),
+ verbose=FALSE,
+ xpd=NULL,
+ flip=c("none","y","x","xy"),
+ keepTextAlpha=FALSE,
+ doTest=FALSE,
  ...)
 {
    ## Purpose is to take as input a matrix with color names
@@ -1406,7 +1424,9 @@ imageByColors <- function
          printDebug("head(cellX):");print(head(cellX));
          printDebug("head(paramCell):");print(head(paramCell));
       }
-      srtCellnoteDF <- data.frame(cellX=cellX, cellY=cellY, celltext=celltext,
+      srtCellnoteDF <- data.frame(cellX=cellX,
+         cellY=cellY,
+         celltext=celltext,
          cexCellnote=cexCellnote[paramCell],
          srtCellnote=srtCellnote[paramCell],
          fontCellnote=fontCellnote[paramCell],
@@ -1441,7 +1461,9 @@ imageByColors <- function
                srt=head(srtCellnoteDF[iRow,"srtCellnote"],1),
                font=head(srtCellnoteDF[iRow,"fontCellnote"],1),
                col=setTextContrastColor(srtCellnoteDF[iRow,"cellColor"],
-                  keepAlpha=TRUE, useGrey=18, ...),
+                  keepAlpha=keepTextAlpha,
+                  useGrey=18,
+                  ...),
                adj=c(0.5,0.5));
          });
       }
@@ -1459,8 +1481,12 @@ imageByColors <- function
       }
       box();
    }
-   invisible(list(x=xNcolSeq, y=xNrowSeq, z=t(xFacM), col=levels(xFac),
-      cellnoteX=cellnoteX, srtCellnoteDF=srtCellnoteDF,
+   invisible(list(x=xNcolSeq,
+      y=xNrowSeq,
+      z=t(xFacM),
+      col=levels(xFac),
+      cellnoteX=cellnoteX,
+      srtCellnoteDF=srtCellnoteDF,
       cexCellnote=cexCellnote));
 }
 
@@ -1768,6 +1794,9 @@ adjustAxisLabelMargins <- function
 #'    \code{labelCells=TRUE}. When set to NULL, labels are vertical
 #'    srtCellnote=90 when \code{transpose=FALSE} and horizontal
 #'    srtCellnote=0 when \code{transpose=TRUE}.
+#' @param adjustMargins logical indicating whether to call
+#'    \code{\link{adjustAxisLabelMargins}} to adjust the x- and y-axis
+#'    label margins to accomodate the label size.
 #' @param ... additional parameters are sent to \code{\link{imageByColors}}.
 #'
 #' @return invisible color matrix used in \code{\link{imageByColors}}.
@@ -1800,6 +1829,7 @@ showColors <- function
  labelCells=NULL,
  transpose=FALSE,
  srtCellnote=NULL,
+ adjustMargins=TRUE,
  ...)
 {
    ## Purpose is to show a vector of colors, or display a list of
@@ -1817,7 +1847,13 @@ showColors <- function
          }
       }
       if (labelCells) {
-         xMnames <- rbindList(lapply(x, names));
+         xMnames <- rbindList(lapply(x, function(i){
+            if (is.null(names(i))) {
+               rep("", length(i));
+            } else {
+               names(i);
+            }
+         }));
          if (length(xMnames) == 0) {
             xMnames <- xM;
          } else {
@@ -1851,10 +1887,18 @@ showColors <- function
       }
    }
 
+   if (adjustMargins &&
+       length(colnames(xM)) == 0 &&
+       length(rownames(xM)) == 0) {
+      adjustMargins <- FALSE;
+   }
    if (transpose) {
-      ## Detect string width to adjust margins
-      adjustAxisLabelMargins(rownames(xM), 1);
-      adjustAxisLabelMargins(colnames(xM), 2);
+      if (adjustMargins) {
+         parMar <- par("mar");
+         ## Detect string width to adjust margins
+         adjustAxisLabelMargins(rownames(xM), 1);
+         adjustAxisLabelMargins(colnames(xM), 2);
+      }
       if (length(srtCellnote)==0) {
          if (nrow(xM) > ncol(xM)) {
             srtCellnote <- 90;
@@ -1862,13 +1906,18 @@ showColors <- function
             srtCellnote <- 0;
          }
       }
-      imageByColors(t(xM), cellnote=t(xMnames),
+      imageByColors(t(xM),
+         cellnote=t(xMnames),
          flip="y",
-         srtCellnote=srtCellnote, ...);
+         srtCellnote=srtCellnote,
+         ...);
    } else {
-      ## Detect string width to adjust margins
-      adjustAxisLabelMargins(colnames(xM), 1);
-      adjustAxisLabelMargins(rownames(xM), 2);
+      if (adjustMargins) {
+         parMar <- par("mar");
+         ## Detect string width to adjust margins
+         adjustAxisLabelMargins(colnames(xM), 1);
+         adjustAxisLabelMargins(rownames(xM), 2);
+      }
       if (is.null(srtCellnote)) {
          if (nrow(xM) > ncol(xM)) {
             srtCellnote <- 0;
@@ -1876,9 +1925,14 @@ showColors <- function
             srtCellnote <- 90;
          }
       }
-      imageByColors(xM, cellnote=xMnames,
+      imageByColors(xM,
+         cellnote=xMnames,
          flip="y",
-         srtCellnote=srtCellnote, ...);
+         srtCellnote=srtCellnote,
+         ...);
+   }
+   if (adjustMargins) {
+      par("mar"=parMar);
    }
    invisible(xM);
 }

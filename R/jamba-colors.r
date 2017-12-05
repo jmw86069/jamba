@@ -511,8 +511,12 @@ rgb2col <- function
 #'
 #' @export
 makeColorDarker <- function
-(hexColor, darkFactor=2, sFactor=1, fixAlpha=NULL,
- verbose=FALSE, keepNA=FALSE,
+(hexColor,
+ darkFactor=2,
+ sFactor=1,
+ fixAlpha=NULL,
+ verbose=FALSE,
+ keepNA=FALSE,
  useMethod=1,
  ...)
 {
@@ -545,10 +549,11 @@ makeColorDarker <- function
    hexColorAll <- hexColor;
    darkFactorAll <- darkFactor;
    sFactorAll <- sFactor;
-   hexColorAllNames <- paste(rmNA(naValue="transparent", hexColor),
-      darkFactor, sFactor, fixAlpha, sep="_");
+   hexColorAllNames <- gsub("_$", "",
+      paste(rmNA(naValue="transparent", hexColor),
+         darkFactor, sFactor, fixAlpha, sep="_"));
    fixAlphaAll <- fixAlpha;
-   if (is.null(fixAlpha)) {
+   if (length(fixAlpha) == 0) {
       hexColorUniq <- unique(data.frame(stringsAsFactors=FALSE,
          check.names=FALSE,
          "hexColor"=rmNA(hexColor, naValue="transparent"),
@@ -609,6 +614,7 @@ makeColorDarker <- function
       adj3 <- adj2 * valDiff + val;
       return(adj3);
    }
+
    adjustFactorTwoStep <- function
    (val, adjFactor, val2, ...)
    {
@@ -649,7 +655,9 @@ makeColorDarker <- function
       newS1 <- newVL$val2;
       j["v",] <- newV;
       j["s",] <- newS1;
-      newS <- adjustFactor(j["s",], adjFactor=sFactor);
+      newS <- noiseFloor(minimum=0,
+         ceiling=1,
+         adjustFactor(j["s",], adjFactor=sFactor));
       j["s",] <- newS;
       darkerColors <- hsv2col(j);
    } else {
@@ -666,18 +674,6 @@ makeColorDarker <- function
          ## should be making things darker than before...
          newV <- 1-adjustFactor(1-j[3], darkFactor);
          newS <- adjustFactor(j[2], sFactor);
-         if (1 == 2) {
-            if (darkFactor < 1) {
-               newV <- 1-((1-j[3])*darkFactor);
-            } else {
-               newV <- j[3]/darkFactor;
-            }
-            if (sFactor < 1) {
-               newS <- j[2]*sFactor[i1];
-            } else {
-               newS <- 1-((1-j[2])/sFactor[i1]);
-            }
-         }
          ## crude fix so grey doesn't become brown by mistake
          newS[j[2] == 0] <- 0;
          tryCatch({
@@ -744,6 +740,11 @@ makeColorDarker <- function
 #'    color ramp. This value is ignored when a single value is supplied for
 #'    col, and where "_r" or "_rev" is detected as a substring at the end
 #'    of the character value.
+#' @param alpha logical indicating whether to honor alpha transparency
+#'    whenever \code{\link{colorRampPalette}} is called. If colors contain
+#'    no alpha transparency, this setting has no effect, otherwise the
+#'    alpha value appears to be applied using a linear gradient between
+#'    colors.
 #'
 #' @examples
 #' # get a gradient using red4
@@ -773,9 +774,13 @@ makeColorDarker <- function
 #'
 #' @export
 getColorRamp <- function
-(col, n=15, trimRamp=FALSE,
- verbose=FALSE, defaultBaseColor="grey90",
+(col,
+ n=15,
+ trimRamp=FALSE,
+ verbose=FALSE,
+ defaultBaseColor="grey90",
  reverseRamp=FALSE,
+ alpha=TRUE,
  ...)
 {
    ## Purpose is to wrapper the steps needed to take a colorRamp
@@ -818,7 +823,7 @@ getColorRamp <- function
             cols <- tail(head(cols, -1*abs(trimRamp)), -1*abs(trimRamp));
          }
          if (is.null(n)) {
-            cols <- colorRampPalette(cols);
+            cols <- colorRampPalette(cols, alpha=alpha);
          }
       } else if (col %in% RColorBrewer:::namelist) {
          if (verbose) {
@@ -843,9 +848,9 @@ getColorRamp <- function
             cols <- tail(head(cols, -1), -1);
          }
          if (is.null(n)) {
-            cols <- colorRampPalette(cols);
+            cols <- colorRampPalette(cols, alpha=alpha);
          } else {
-            cols <- colorRampPalette(cols)(n);
+            cols <- colorRampPalette(cols, alpha=alpha)(n);
          }
       } else {
          ## If given one or more colors, use them to create a color ramp
@@ -866,13 +871,15 @@ getColorRamp <- function
             }
             if (is.null(n)) {
                if (trimRamp) {
-                  cols <- colorRampPalette(tail(head(
-                     colorRampPalette(colset)(15), -1), -1));
+                  cols <- colorRampPalette(
+                     tail(head(
+                        colorRampPalette(colset, alpha=alpha)(15), -1), -1),
+                     alpha=alpha);
                } else {
-                  cols <- colorRampPalette(colset);
+                  cols <- colorRampPalette(colset, alpha=alpha);
                }
             } else {
-               cols <- colorRampPalette(colset)(n+trimRamp*2);
+               cols <- colorRampPalette(colset, alpha=alpha)(n+trimRamp*2);
                if (trimRamp) {
                   cols <- tail(head(cols, -1), -1);
                }
@@ -944,7 +951,7 @@ getColorRamp <- function
       if (verbose) {
          printDebug("getColorRamp(): ", "unrecognized color input.");
       }
-      cols <- colorRampPalette(col)(n);
+      cols <- colorRampPalette(col, alpha=alpha)(n);
    }
    return(cols);
 }
