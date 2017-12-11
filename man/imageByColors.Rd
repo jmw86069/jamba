@@ -8,7 +8,8 @@ imageByColors(x, useRaster = FALSE, fixRasterRatio = TRUE,
   maxRatioFix = 100, xaxt = "s", yaxt = "s", doPlot = TRUE,
   cellnote = NULL, cexCellnote = 1, srtCellnote = 0, fontCellnote = 1,
   groupCellnotes = TRUE, adjBy = c("column", "row"), verbose = FALSE,
-  xpd = NULL, flip = c("none", "y", "x", "xy"), doTest = FALSE, ...)
+  xpd = NULL, flip = c("none", "y", "x", "xy"), keepTextAlpha = FALSE,
+  doTest = FALSE, ...)
 }
 \arguments{
 \item{x}{matrix or data.frame containing colors}
@@ -67,6 +68,11 @@ adding any cell notes, then reverted to its previous value afterward.
 This parameter is mainly useful when cellnote labels may overhang the
 plot space, and would be cropped and not visible if
 \code{par("xpd"=TRUE)}.}
+
+\item{keepTextAlpha}{logical passed to \code{\link{setTextContrastColor}}
+indicating whether the text label color should inherit the alpha
+transparency from the background color. If TRUE then fully transparent
+background colors will not have a visible label.}
 
 \item{doTest}{logical whether to run a test showing basic features of
 \code{imageByColors}.}

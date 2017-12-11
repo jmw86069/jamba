@@ -5,7 +5,7 @@
 \title{Show colors from a vector or list}
 \usage{
 showColors(x, labelCells = NULL, transpose = FALSE, srtCellnote = NULL,
-  ...)
+  adjustMargins = TRUE, ...)
 }
 \arguments{
 \item{x}{vector of colors, or list of color vectors.}
@@ -21,6 +21,10 @@ top-to-bottom, instead of left-to-right.}
 \code{labelCells=TRUE}. When set to NULL, labels are vertical
 srtCellnote=90 when \code{transpose=FALSE} and horizontal
 srtCellnote=0 when \code{transpose=TRUE}.}
+
+\item{adjustMargins}{logical indicating whether to call
+\code{\link{adjustAxisLabelMargins}} to adjust the x- and y-axis
+label margins to accomodate the label size.}
 
 \item{...}{additional parameters are sent to \code{\link{imageByColors}}.}
 }

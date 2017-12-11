@@ -7,17 +7,24 @@
 nameVector(x, y = NULL, makeNamesFunc = makeNames, ...)
 }
 \arguments{
-\item{x}{vector input, or data.frame with two columns, the second
-column is used to name values in the first column.}
+\item{x}{vector input, or data.frame, matrix, or tibble with two columns,
+the second column is used to name values in the first column.}
 
 \item{y}{NULL or character vector of names. If NULL then x is used.
 Note that y is recycled to the length of x, prior to being sent
-to the makeNamesFunc.}
+to the makeNamesFunc.
+In fringe cases, y can be a matrix, data.frame, or tibble, in which
+case \code{\link{pasteByRow}} will be used to create a character string
+to be used for vector names. Note this case is activated only when x
+is not a two column matrix, data.frame, or tibble.}
 
 \item{makeNamesFunc}{function to make names unique, by default
 \code{\link{makeNames}} which ensures names are unique.}
 
-\item{...}{passed to makeNamesFunc}
+\item{...}{passed to \code{\link{makeNamesFunc}}, or to
+\code{\link{pasteByRow}} if y is a two column data.frame, matrix, or
+tibble. Thus, \code{sep} can be defined here as a delimiter between
+column values.}
 }
 \description{
 assign unique names for a vector
@@ -42,7 +49,7 @@ the gene symbols are the name of the vector.
 nameVector(LETTERS[1:5]);
 
 # if values are replicated, the makeNames() function makes them unique
-V <- rep(LETTERS[1:5], c(1,2,3,4,5));
+V <- rep(LETTERS[1:5], each=3);
 nameVector(V);
 
 # for a two-column data.frame, it creates a named vector using
@@ -50,5 +57,9 @@ nameVector(V);
 df <- data.frame(seq_along(V), V);
 df;
 nameVector(df);
+
+# Lastly, admittedly a fringe case, it can take a multi-column data.frame
+# to generate labels:
+nameVector(V, df);
 
 }

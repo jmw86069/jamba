@@ -5,7 +5,7 @@
 \title{get color ramp by name, color, or function}
 \usage{
 getColorRamp(col, n = 15, trimRamp = FALSE, verbose = FALSE,
-  defaultBaseColor = "grey90", reverseRamp = FALSE, ...)
+  defaultBaseColor = "grey90", reverseRamp = FALSE, alpha = TRUE, ...)
 }
 \arguments{
 \item{col}{accepts:
@@ -31,6 +31,12 @@ begin a color gradient, only used when col is a single color.}
 color ramp. This value is ignored when a single value is supplied for
 col, and where "_r" or "_rev" is detected as a substring at the end
 of the character value.}
+
+\item{alpha}{logical indicating whether to honor alpha transparency
+whenever \code{\link{colorRampPalette}} is called. If colors contain
+no alpha transparency, this setting has no effect, otherwise the
+alpha value appears to be applied using a linear gradient between
+colors.}
 }
 \description{
 get color ramp by name, color, or function

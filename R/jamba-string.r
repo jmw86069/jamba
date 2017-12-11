@@ -657,21 +657,28 @@ makeNames <- function
 #'
 #' \code{nameVector(genedata[,c("Gene","log2FC")])}
 #'
-#' @param x vector input, or data.frame with two columns, the second
-#'    column is used to name values in the first column.
+#' @param x vector input, or data.frame, matrix, or tibble with two columns,
+#'    the second column is used to name values in the first column.
 #' @param y NULL or character vector of names. If NULL then x is used.
 #'    Note that y is recycled to the length of x, prior to being sent
 #'    to the makeNamesFunc.
+#'    In fringe cases, y can be a matrix, data.frame, or tibble, in which
+#'    case \code{\link{pasteByRow}} will be used to create a character string
+#'    to be used for vector names. Note this case is activated only when x
+#'    is not a two column matrix, data.frame, or tibble.
 #' @param makeNamesFunc function to make names unique, by default
 #'    \code{\link{makeNames}} which ensures names are unique.
-#' @param ... passed to makeNamesFunc
+#' @param ... passed to \code{\link{makeNamesFunc}}, or to
+#'    \code{\link{pasteByRow}} if y is a two column data.frame, matrix, or
+#'    tibble. Thus, \code{sep} can be defined here as a delimiter between
+#'    column values.
 #'
 #' @examples
 #' # it generally just creates names from the vector values
 #' nameVector(LETTERS[1:5]);
 #'
 #' # if values are replicated, the makeNames() function makes them unique
-#' V <- rep(LETTERS[1:5], c(1,2,3,4,5));
+#' V <- rep(LETTERS[1:5], each=3);
 #' nameVector(V);
 #'
 #' # for a two-column data.frame, it creates a named vector using
@@ -680,9 +687,15 @@ makeNames <- function
 #' df;
 #' nameVector(df);
 #'
+#' # Lastly, admittedly a fringe case, it can take a multi-column data.frame
+#' # to generate labels:
+#' nameVector(V, df);
+#'
 #' @export
 nameVector <- function
-(x, y=NULL, makeNamesFunc=makeNames,
+(x,
+ y=NULL,
+ makeNamesFunc=makeNames,
  ...)
 {
    ## Purpose is to name a vector with its own values,
@@ -699,11 +712,18 @@ nameVector <- function
    if (igrepHas("dataframe", class(x))) {
       x <- as.data.frame(x);
    }
-   if (class(x) %in% c("data.frame", "matrix") && ncol(x) == 2) {
-      y <- x[,2,drop=TRUE];
-      x <- x[,1, drop=TRUE];
+   if (igrepHas("data.frame", class(x)) && ncol(x) == 2) {
+      y <- x[[2]];
+      x <- x[[1]];
+   } else if (igrepHas("matrix", class(x)) && ncol(x) == 2) {
+      y <- x[,2];
+      x <- x[,1];
    }
-   if (!is.null(y)) {
+   if (length(y) > 0) {
+      if (igrepHas("data.frame|matrix", class(y))) {
+         ## If given a data.frame use pasteByRow() to create a string
+         y <- pasteByRow(y, ...);
+      }
       names(x) <- makeNamesFunc(rep(y, length.out=length(x)), ...);
    } else {
       names(x) <- makeNamesFunc(x, ...);
