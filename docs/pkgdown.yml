@@ -1,0 +1,6 @@
+pandoc: 1.12.4.2
+pkgdown: 0.1.0.9000
+pkgdown_sha: 21b9e469e4bd7f443bf0bbf194d47760c174463e
+articles:
+  jamba-vignette: jamba-vignette.html
+

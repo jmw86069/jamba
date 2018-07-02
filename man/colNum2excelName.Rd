@@ -24,7 +24,7 @@ character vector with length(x)
 convert column number to Excel column name
 }
 \details{
-The purpose is to convert a numerical column number into a valid Excel 
+The purpose is to convert a numerical column number into a valid Excel
 column name, using LETTERS starting at A.
 This function implements an arbitrary number of digits, which may or
 may not be compatible with each version of Excel.  18,278 columns

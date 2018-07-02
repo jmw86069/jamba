@@ -9,7 +9,7 @@ nullPlot(xaxt = "n", yaxt = "n", xlab = "", ylab = "",
   doBoxes = TRUE, doUsrBox = doBoxes, fill = "#FFFF9966",
   doAxes = FALSE, doMargins = TRUE, plotAreaTitle = "Plot Area",
   plotSrt = 0, plotNumPrefix = "", bty = "n", showMarginsOnly = FALSE,
-  ...)
+  add = FALSE, ...)
 }
 \arguments{
 \item{xaxt}{character value compatible with \code{options(xaxt)}}
@@ -62,6 +62,9 @@ based upon the doBoxes parameter.}
 
 \item{showMarginsOnly}{logical whether to create a new plot or to annotate
 an existing active plot.}
+
+\item{add}{logical whether to add to an existing active R plot, or create
+a new plot window.}
 }
 \description{
 Create a blank plot with optional labels for margins

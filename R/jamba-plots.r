@@ -117,14 +117,23 @@
 #'
 #' @export
 plotSmoothScatter <- function
-(x, y=NULL, bandwidthN=300,
+(x,
+ y=NULL,
+ bandwidthN=300,
  transformation=function(x)x^0.25,
- xlim=NULL, ylim=NULL, nbin=256, nrpoints=0,
+ xlim=NULL,
+ ylim=NULL,
+ nbin=256,
+ nrpoints=0,
  colramp=c("white", "lightblue", "blue", "orange", "orangered2"),
- doTest=FALSE, fillBackground=TRUE,
+ doTest=FALSE,
+ fillBackground=TRUE,
  naAction=c("remove", "floor0", "floor1"),
- xaxt="s", yaxt="s", add=FALSE,
- applyRangeCeiling=TRUE, useRaster=TRUE,
+ xaxt="s",
+ yaxt="s",
+ add=FALSE,
+ applyRangeCeiling=TRUE,
+ useRaster=TRUE,
  ...)
 {
    ## Purpose is to wrapper the smoothScatter() function in order to increase
@@ -349,12 +358,26 @@ plotSmoothScatter <- function
 #'
 #' @export
 smoothScatterJam <- function
-(x, y=NULL, nbin=128, bandwidth,
+(x,
+ y=NULL,
+ nbin=128,
+ bandwidth,
  colramp=colorRampPalette(c("white", blues9)),
- nrpoints=100, pch=".", cex=1, col="black",
- transformation=function(x) x^0.25, postPlotHook=box,
- xlab=NULL, ylab=NULL, xlim, ylim, add=FALSE,
- xaxs=par("xaxs"), yaxs=par("yaxs"), xaxt=par("xaxt"), yaxt=par("yaxt"),
+ nrpoints=100,
+ pch=".",
+ cex=1,
+ col="black",
+ transformation=function(x) x^0.25,
+ postPlotHook=box,
+ xlab=NULL,
+ ylab=NULL,
+ xlim,
+ ylim,
+ add=FALSE,
+ xaxs=par("xaxs"),
+ yaxs=par("yaxs"),
+ xaxt=par("xaxt"),
+ yaxt=par("yaxt"),
  useRaster=NULL,
  ...)
 {
@@ -415,8 +438,12 @@ smoothScatterJam <- function
       useRaster=useRaster, ...);
    imageL <- list(xm=xm, ym=ym, z=dens, col=colramp(256), xlab=xlab, add=add,
       ylab=ylab, xlim=xlim, ylim=ylim, xaxs=xaxs, yaxs=yaxs, xaxt=xaxt, yaxt=yaxt);
-   if (!is.null(postPlotHook)) {
-      postPlotHook();
+   if (length(postPlotHook) > 0) {
+      if (igrepHas("function", class(postPlotHook))) {
+         postPlotHook(...);
+      } else {
+         postPlotHook;
+      }
    }
    if (nrpoints > 0) {
       nrpoints <- min(nrow(x), ceiling(nrpoints));
@@ -481,16 +508,32 @@ smoothScatterJam <- function
 #'    based upon the doBoxes parameter.
 #' @param showMarginsOnly logical whether to create a new plot or to annotate
 #'    an existing active plot.
+#' @param add logical whether to add to an existing active R plot, or create
+#'    a new plot window.
 #' @examples
 #' nullPlot()
 #'
 #' @export
 nullPlot <- function
-(xaxt="n", yaxt="n", xlab="", ylab="", col="transparent",
- xlim=c(1,2), ylim=c(1,2), las=par("las"),
- doBoxes=TRUE, doUsrBox=doBoxes, fill="#FFFF9966", doAxes=FALSE, doMargins=TRUE,
- plotAreaTitle="Plot Area", plotSrt=0, plotNumPrefix="", bty="n",
+(xaxt="n",
+ yaxt="n",
+ xlab="",
+ ylab="",
+ col="transparent",
+ xlim=c(1,2),
+ ylim=c(1,2),
+ las=par("las"),
+ doBoxes=TRUE,
+ doUsrBox=doBoxes,
+ fill="#FFFF9966",
+ doAxes=FALSE,
+ doMargins=TRUE,
+ plotAreaTitle="Plot Area",
+ plotSrt=0,
+ plotNumPrefix="",
+ bty="n",
  showMarginsOnly=FALSE,
+ add=FALSE,
  ...)
 {
    ## Purpose is just to create a dead-simple plot of two points,
@@ -523,27 +566,56 @@ nullPlot <- function
       parUsr <- par("usr");
       ylim <- parUsr[3:4];
       xlim <- parUsr[1:2];
-      points(range(xlim), range(ylim), xaxt=xaxt, yaxt=yaxt, col=col,
-         xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, bty=bty, add=TRUE, ...);
+      points(range(xlim),
+         range(ylim),
+         xaxt=xaxt,
+         yaxt=yaxt,
+         col=col,
+         xlab=xlab,
+         ylab=ylab,
+         xlim=xlim,
+         ylim=ylim,
+         bty=bty,
+         add=TRUE,
+         ...);
    } else {
-      plot(range(xlim), range(ylim), xaxt=xaxt, yaxt=yaxt, col=col,
-         xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, bty=bty, ...);
+      if (!add) {
+         plot(range(xlim),
+            range(ylim),
+            xaxt=xaxt,
+            yaxt=yaxt,
+            col=col,
+            xlab=xlab,
+            ylab=ylab,
+            xlim=xlim,
+            ylim=ylim,
+            bty=bty,
+            #add=add,
+            ...);
+      }
    }
 
    if (doUsrBox) {
-      usrBox(fill=fill, ...);
+      usrBox(fill=fill,
+         ...);
    }
    if (doBoxes) {
-      box("plot", col="darkred");
+      box("plot",
+         col="darkred");
 
-      box("figure",lty="dashed", col="navy");
+      box("figure",
+         lty="dashed",
+         col="navy");
 
       ## Print margins
       if (doMargins) {
          Margins <- capture.output(par()$mar);
          Margins <- substr(Margins, 5, nchar(Margins));
          MarginsN <- as.numeric(unlist(strsplit(Margins, "[ ]+")));
-         MarginsV <- format(MarginsN, nsmall=0, scientific=FALSE, digits=2);
+         MarginsV <- format(MarginsN,
+            nsmall=0,
+            scientific=FALSE,
+            digits=2);
          Margins <- paste0("  mar=c(", paste(MarginsV, collapse=","), ")",
             plotNumPrefix);
          if (plotSrt == 90) {
@@ -552,18 +624,33 @@ nullPlot <- function
             plotLas <- 1;
          }
          if (par("mar")[3] == 0) {
-            mtext(Margins, NORTH<-3, line=-1, cex=0.7, col="navy",
-               las=plotLas, adj=plotLas-1);
+            mtext(Margins,
+               NORTH<-3,
+               line=-1,
+               cex=0.7,
+               col="navy",
+               las=plotLas,
+               adj=plotLas-1);
          } else {
-            mtext(Margins, NORTH<-3, line=1, cex=0.7, col="navy",
-               las=plotLas, adj=plotLas-1);
+            mtext(Margins,
+               NORTH<-3,
+               line=1,
+               cex=0.7,
+               col="navy",
+               las=plotLas,
+               adj=plotLas-1);
          }
 
          box("inner", lty="dotted", col="darkgreen");
          if (any(par("oma") > 0)) {
-            mtext("Outer Margin Area", SOUTH<-1, line=0.4, adj=1.0,
-               cex=1.5, col="darkgreen",
-               outer=TRUE, las=plotLas);
+            mtext("Outer Margin Area",
+               SOUTH<-1,
+               line=0.4,
+               adj=1.0,
+               cex=1.5,
+               col="darkgreen",
+               outer=TRUE,
+               las=plotLas);
          }
          box("outer", lty="solid", col="darkgreen");
 
@@ -572,11 +659,16 @@ nullPlot <- function
             if (par("mar")[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
                par("las"=newLas);
-               mtext(paste0("mar[", i, "]", plotNumPrefix, "=",
-                  format(digits=2, nsmall=0, scientific=FALSE,
-                     par("mar")[i])),
-                  side=i, line=0.4, cex=0.6, col="navy",
-                  outer=FALSE, las=newLas);
+               mtext(paste0("mar[", i, "]",
+                     plotNumPrefix, "=",
+                     format(digits=2, nsmall=0, scientific=FALSE,
+                        par("mar")[i])),
+                  side=i,
+                  line=0.4,
+                  cex=0.6,
+                  col="navy",
+                  outer=FALSE,
+                  las=newLas);
             }
          });
          par("las"=1);
@@ -584,10 +676,16 @@ nullPlot <- function
             if (par("oma")[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
                par("las"=newLas);
-               mtext(paste0("oma[", i, "]", plotNumPrefix, "=", 
-                  format(digits=2, nsmall=0, scientific=FALSE,
-                     par("oma")[i])),
-                  i, line=0.4, cex=0.6, col="navy", outer=TRUE, las=newLas);
+               mtext(paste0("oma[", i, "]",
+                     plotNumPrefix, "=",
+                     format(digits=2, nsmall=0, scientific=FALSE,
+                        par("oma")[i])),
+                  i,
+                  line=0.4,
+                  cex=0.6,
+                  col="navy",
+                  outer=TRUE,
+                  las=newLas);
             }
          });
          par("las"=1);
@@ -641,7 +739,11 @@ nullPlot <- function
 #'
 #' @export
 usrBox <- function
-(fill="#FFFF9966", label=NULL, parUsr=par("usr"), debug=FALSE,
+(fill="#FFFF9966",
+ label=NULL,
+ parUsr=par("usr"),
+ debug=FALSE,
+ add=FALSE,
  ...)
 {
    ## Purpose is to draw a rectangle, filled transparent yellow,
@@ -735,13 +837,26 @@ usrBox <- function
 imageDefault <- function
 (x=seq_len(nrow(z)+1)-0.5,
  y=seq_len(ncol(z)+1)-0.5,
- z, zlim=range(z[is.finite(z)]), xlim=range(x), ylim=range(y),
- col=heat.colors(12), add=FALSE,
- xaxs="i", yaxs="i", xaxt="n", yaxt="n",
- xlab, ylab, breaks, flip=c("none","x","y","xy"),
- oldstyle=TRUE, useRaster=NULL,
- fixRasterRatio=TRUE, maxRatioFix=100,
- minRasterMultiple=NULL, rasterTarget=200,
+ z,
+ zlim=range(z[is.finite(z)]),
+ xlim=range(x),
+ ylim=range(y),
+ col=heat.colors(12),
+ add=FALSE,
+ xaxs="i",
+ yaxs="i",
+ xaxt="n",
+ yaxt="n",
+ xlab,
+ ylab,
+ breaks,
+ flip=c("none","x","y","xy"),
+ oldstyle=TRUE,
+ useRaster=NULL,
+ fixRasterRatio=TRUE,
+ maxRatioFix=100,
+ minRasterMultiple=NULL,
+ rasterTarget=200,
  interpolate=getOption("interpolate", TRUE),
  verbose=FALSE,
  ...)
@@ -1173,6 +1288,7 @@ imageByColors <- function
  flip=c("none","y","x","xy"),
  keepTextAlpha=FALSE,
  doTest=FALSE,
+ add=FALSE,
  ...)
 {
    ## Purpose is to take as input a matrix with color names
@@ -1190,7 +1306,7 @@ imageByColors <- function
    ## adding any cell notes, then reverted to its previous value afterward.
    ## if xpd=FALSE then par("xpd") will be modified to par("xpd"=FALSE) while
    ## adding any cell notes, then reverted to its previous value afterward.
-   ## The intent 
+   ## The intent
    ##
    ## adjBy allows adjusting the cellnote using srtCellnote, cexCellnote, fontCellnote
    ## either by row or by column, helpful when using the colors beside a heatmap.

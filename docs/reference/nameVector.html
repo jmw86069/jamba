@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>assign unique names for a vector <U+2014> nameVector <e2><80><a2> jamba</title>
+<title>assign unique names for a vector — nameVector • jamba</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="assign unique names for a vector — nameVector" />
+
+<meta property="og:description" content="assign unique names for a vector" />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +38,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +55,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">jamba</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">jamba</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.6.900</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -72,6 +84,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -82,6 +97,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -89,10 +105,11 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>assign unique names for a vector</h1>
+    <small>Source: <a href='http://github.com/jmw86069/jamba/blob/master/R/jamba-string.r'><code>R/jamba-string.r</code></a></small>
     </div>
 
     
@@ -101,19 +118,23 @@
 
     <pre class="usage"><span class='fu'>nameVector</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>makeNamesFunc</span> <span class='kw'>=</span> <span class='no'>makeNames</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>vector input, or data.frame with two columns, the second
-column is used to name values in the first column.</p></td>
+      <td><p>vector input, or data.frame, matrix, or tibble with two columns,
+the second column is used to name values in the first column.</p></td>
     </tr>
     <tr>
       <th>y</th>
       <td><p>NULL or character vector of names. If NULL then x is used.
 Note that y is recycled to the length of x, prior to being sent
-to the makeNamesFunc.</p></td>
+to the makeNamesFunc.
+In fringe cases, y can be a matrix, data.frame, or tibble, in which
+case <code><a href='pasteByRow.html'>pasteByRow</a></code> will be used to create a character string
+to be used for vector names. Note this case is activated only when x
+is not a two column matrix, data.frame, or tibble.</p></td>
     </tr>
     <tr>
       <th>makeNamesFunc</th>
@@ -122,7 +143,10 @@ to the makeNamesFunc.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>passed to makeNamesFunc</p></td>
+      <td><p>passed to <code>makeNamesFunc</code>, or to
+<code><a href='pasteByRow.html'>pasteByRow</a></code> if y is a two column data.frame, matrix, or
+tibble. Thus, <code>sep</code> can be defined here as a delimiter between
+column values.</p></td>
     </tr>
     </table>
     
@@ -137,8 +161,8 @@ function call, which by default maintains names, but does not assign
 names if the input data did not already have them.</p>
 <p>When used with a data.frame, it is particularly convenient to pull out
 a named vector of values. For example, log2 fold changes by gene, where
-the gene symbols are the name of the vector.
-    <code>nameVector(genedata[,c("Gene","log2FC")])</code></p>
+the gene symbols are the name of the vector.</p>
+<p><code>nameVector(genedata[,c("Gene","log2FC")])</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -146,29 +170,33 @@ the gene symbols are the name of the vector.
 <span class='fu'>nameVector</span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]);</div><div class='output co'>#&gt;   A   B   C   D   E 
 #&gt; "A" "B" "C" "D" "E" </div><div class='input'>
 <span class='co'># if values are replicated, the makeNames() function makes them unique</span>
-<span class='no'>V</span> <span class='kw'>&lt;-</span> <span class='fu'>rep</span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>));
-<span class='fu'>nameVector</span>(<span class='no'>V</span>);</div><div class='output co'>#&gt;    A B_v1 B_v2 C_v1 C_v2 C_v3 D_v1 D_v2 D_v3 D_v4 E_v1 E_v2 E_v3 E_v4 E_v5 
-#&gt;  "A"  "B"  "B"  "C"  "C"  "C"  "D"  "D"  "D"  "D"  "E"  "E"  "E"  "E"  "E" </div><div class='input'>
+<span class='no'>V</span> <span class='kw'>&lt;-</span> <span class='fu'>rep</span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>3</span>);
+<span class='fu'>nameVector</span>(<span class='no'>V</span>);</div><div class='output co'>#&gt; A_v1 A_v2 A_v3 B_v1 B_v2 B_v3 C_v1 C_v2 C_v3 D_v1 D_v2 D_v3 E_v1 E_v2 E_v3 
+#&gt;  "A"  "A"  "A"  "B"  "B"  "B"  "C"  "C"  "C"  "D"  "D"  "D"  "E"  "E"  "E" </div><div class='input'>
 <span class='co'># for a two-column data.frame, it creates a named vector using</span>
 <span class='co'># the values in the first column, and names in the second column.</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='fu'>seq_along</span>(<span class='no'>V</span>), <span class='no'>V</span>);
 <span class='no'>df</span>;</div><div class='output co'>#&gt;    seq_along.V. V
 #&gt; 1             1 A
-#&gt; 2             2 B
-#&gt; 3             3 B
-#&gt; 4             4 C
-#&gt; 5             5 C
-#&gt; 6             6 C
-#&gt; 7             7 D
-#&gt; 8             8 D
-#&gt; 9             9 D
+#&gt; 2             2 A
+#&gt; 3             3 A
+#&gt; 4             4 B
+#&gt; 5             5 B
+#&gt; 6             6 B
+#&gt; 7             7 C
+#&gt; 8             8 C
+#&gt; 9             9 C
 #&gt; 10           10 D
-#&gt; 11           11 E
-#&gt; 12           12 E
+#&gt; 11           11 D
+#&gt; 12           12 D
 #&gt; 13           13 E
 #&gt; 14           14 E
-#&gt; 15           15 E</div><div class='input'><span class='fu'>nameVector</span>(<span class='no'>df</span>);</div><div class='output co'>#&gt;    A B_v1 B_v2 C_v1 C_v2 C_v3 D_v1 D_v2 D_v3 D_v4 E_v1 E_v2 E_v3 E_v4 E_v5 
+#&gt; 15           15 E</div><div class='input'><span class='fu'>nameVector</span>(<span class='no'>df</span>);</div><div class='output co'>#&gt; A_v1 A_v2 A_v3 B_v1 B_v2 B_v3 C_v1 C_v2 C_v3 D_v1 D_v2 D_v3 E_v1 E_v2 E_v3 
 #&gt;    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 </div><div class='input'>
+<span class='co'># Lastly, admittedly a fringe case, it can take a multi-column data.frame</span>
+<span class='co'># to generate labels:</span>
+<span class='fu'>nameVector</span>(<span class='no'>V</span>, <span class='no'>df</span>);</div><div class='output co'>#&gt;  1_A  2_A  3_A  4_B  5_B  6_B  7_C  8_C  9_C 10_D 11_D 12_D 13_E 14_E 15_E 
+#&gt;  "A"  "A"  "A"  "B"  "B"  "B"  "C"  "C"  "C"  "D"  "D"  "D"  "E"  "E"  "E" </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -190,11 +218,14 @@ the gene symbols are the name of the vector.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

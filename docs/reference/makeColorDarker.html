@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>make R colors darker (or lighter) <U+2014> makeColorDarker <e2><80><a2> jamba</title>
+<title>make R colors darker (or lighter) — makeColorDarker • jamba</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="make R colors darker (or lighter) — makeColorDarker" />
+
+<meta property="og:description" content="Makes R colors darker or lighter based upon darkFactor" />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +38,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +55,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">jamba</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">jamba</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.6.900</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -72,6 +84,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -82,6 +97,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -89,10 +105,11 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>make R colors darker (or lighter)</h1>
+    <small>Source: <a href='http://github.com/jmw86069/jamba/blob/master/R/jamba-colors.r'><code>R/jamba-colors.r</code></a></small>
     </div>
 
     
@@ -115,14 +132,14 @@ color.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>jamba color manipulation functions: <code><a href='hsv2col.html'>hsv2col</a></code>,
+    <div class='dont-index'><p>jamba color manipulation functions: <code><a href='hsv2col.html'>hsv2col</a></code>,
    <code><a href='col2hsv.html'>col2hsv</a></code>,<code><a href='col2hcl.html'>col2hcl</a></code>,
    <code><a href='rgb2col.html'>rgb2col</a></code>,
    <code><a href='alpha2col.html'>alpha2col</a></code>,<code><a href='col2alpha.html'>col2alpha</a></code>,
    <code>makeColorDarker</code>,
    <code><a href='color2gradient.html'>color2gradient</a></code>,
    <code><a href='setTextContrastColor.html'>setTextContrastColor</a></code>,
-   <code><a href='showColors.html'>showColors</a></code></p>
+   <code><a href='showColors.html'>showColors</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -134,7 +151,7 @@ color.</p>
    <span class='kw'>`darkFactor=2`</span><span class='kw'>=</span><span class='no'>colorVdark2</span>,
    <span class='kw'>`original colors`</span><span class='kw'>=</span><span class='no'>colorV</span>,
    <span class='kw'>`darkFactor=-2`</span><span class='kw'>=</span><span class='no'>colorVlite2</span>
-   ));</div><div class='img'><img src='makeColorDarker-13.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+   ));</div><div class='img'><img src='makeColorDarker-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># these adjustments work really well inside a network diagram</span>
 <span class='co'># when coloring nodes, and providing an outline of comparable</span>
 <span class='co'># color.</span>
@@ -146,7 +163,7 @@ color.</p>
 <span class='co'># Making a color lighter can make it easier to add labels</span>
 <span class='co'># The setTextContrastColor() function also helps.</span>
 <span class='fu'>text</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>), <span class='kw'>y</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>1</span>), <span class='fl'>1</span>:<span class='fl'>4</span>,
-   <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='setTextContrastColor.html'>setTextContrastColor</a></span>(<span class='no'>colorVlite2</span>));</div><div class='img'><img src='makeColorDarker-14.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+   <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='setTextContrastColor.html'>setTextContrastColor</a></span>(<span class='no'>colorVlite2</span>));</div><div class='img'><img src='makeColorDarker-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -169,11 +186,14 @@ color.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

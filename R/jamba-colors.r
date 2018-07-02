@@ -122,7 +122,8 @@ setTextContrastColor <- function
 #'
 #' @export
 col2hcl <- function
-(x, maxColorValue=255,
+(x,
+ maxColorValue=255,
  ...)
 {
    ## Purpose is to convert R color to HCL
@@ -130,7 +131,7 @@ col2hcl <- function
    if (!suppressPackageStartupMessages(require(colorspace))) {
       stop("The colorspace package is required.");
    }
-   if (is.null(names(x))) {
+   if (length(names(x)) == 0) {
       names(x) <- makeNames(x);
    }
    x1 <- col2rgb(x);
@@ -337,7 +338,7 @@ col2hsv <- function
 #'
 #' @param red numeric vector of red values; or RGB numeric matrix with
 #'    rownames c("red","green","blue") in any order, with optional rowname
-#'    "alpha"; or character strings with comma-separated rgb values, in 
+#'    "alpha"; or character strings with comma-separated rgb values, in
 #'    format "100,20,10". The latter input is designed to handle web rgb
 #'    values.
 #' @param green numeric vector, or when red is a matrix or comma-delimited
@@ -378,8 +379,13 @@ col2hsv <- function
 #'
 #' @export
 rgb2col <- function
-(red, green=NULL, blue=NULL, alpha=NULL, names=NULL,
- maxColorValue=NULL, keepNA=TRUE,
+(red,
+ green=NULL,
+ blue=NULL,
+ alpha=NULL,
+ names=NULL,
+ maxColorValue=NULL,
+ keepNA=TRUE,
  ...)
 {
    ## Purpose is to augment the function rgb() which does not handle output
@@ -394,7 +400,10 @@ rgb2col <- function
    ## maxColorValue is the highest color value, by default 1, but can be
    ## set to 255 to handle 8-bit colors.
 
-   if (is.null(green) && is.null(blue)) {
+   if (length(red) == 0 || is.na(red)) {
+      return(red);
+   }
+   if (length(green) == 0 && length(blue) == 0) {
       if (igrepHas("character", class(red)) && igrepHas(",.+,", red)) {
          red <- rbindList(lapply(strsplit(red, ","), as.numeric));
          red[is.na(red)] <- 0;

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>sort data.frame keeping numeric values in proper order <U+2014> mixedSortDF <e2><80><a2> jamba</title>
+<title>sort data.frame keeping numeric values in proper order — mixedSortDF • jamba</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="sort data.frame keeping numeric values in proper order — mixedSortDF" />
+
+<meta property="og:description" content="sort data.frame keeping numeric values in proper order" />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +38,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +55,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">jamba</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">jamba</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.6.900</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -72,6 +84,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -82,6 +97,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -89,10 +105,11 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>sort data.frame keeping numeric values in proper order</h1>
+    <small>Source: <a href='http://github.com/jmw86069/jamba/blob/master/R/jamba-string.r'><code>R/jamba-string.r</code></a></small>
     </div>
 
     
@@ -102,7 +119,7 @@
     <pre class="usage"><span class='fu'>mixedSortDF</span>(<span class='no'>df</span>, <span class='kw'>byCols</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'>ncol</span>(<span class='no'>df</span>), <span class='kw'>na.last</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>decreasing</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>useRownames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -153,7 +170,7 @@ is fully described in <code><a href='mixedSort.html'>mixedSort</a></code> and <c
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='mixedOrder.html'>mixedOrder</a></code>, <code><a href='mixedSort.html'>mixedSort</a></code></p>
+    <div class='dont-index'><p><code><a href='mixedOrder.html'>mixedOrder</a></code>, <code><a href='mixedSort.html'>mixedSort</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -165,13 +182,8 @@ is fully described in <code><a href='mixedSort.html'>mixedSort</a></code> and <c
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>group</span><span class='kw'>=</span><span class='no'>g</span>, <span class='kw'>miRNA</span><span class='kw'>=</span><span class='no'>x</span>, <span class='kw'>stringsAsFactors</span><span class='kw'>=</span><span class='fl'>FALSE</span>);
 
 <span class='co'># sort the data.frame by each column</span>
-<span class='fu'>mixedSortDF</span>(<span class='no'>df</span>);</div><div class='output co'>#&gt;       group   miRNA
-#&gt; 4       Air  miR-1b
-#&gt; 1       Air  miR-12
-#&gt; 6   Control   miR-2
-#&gt; 3   Control miR-122
-#&gt; 2 Treatment   miR-1
-#&gt; 5 Treatment  miR-1a</div><div class='input'>
+<span class='fu'>mixedSortDF</span>(<span class='no'>df</span>);
+
 <span class='co'># mixedSort respects factor order, so reorder the factor levels</span>
 <span class='co'># to demonstrate. "Control" should come first, for example.'</span>
 <span class='no'>gf</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='no'>g</span>, <span class='kw'>levels</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"Control"</span>,<span class='st'>"Air"</span>, <span class='st'>"Treatment"</span>));
@@ -179,14 +191,7 @@ is fully described in <code><a href='mixedSort.html'>mixedSort</a></code> and <c
 
 <span class='co'># now the sort properly keeps the group factor levels in order,</span>
 <span class='co'># which also sorting the miRNA names in their proper order.</span>
-<span class='fu'>mixedSortDF</span>(<span class='no'>df2</span>);</div><div class='output co'>#&gt;   groupfactor   miRNA
-#&gt; 6     Control   miR-2
-#&gt; 3     Control miR-122
-#&gt; 4         Air  miR-1b
-#&gt; 1         Air  miR-12
-#&gt; 2   Treatment   miR-1
-#&gt; 5   Treatment  miR-1a</div><div class='input'>
-</div></pre>
+<span class='fu'>mixedSortDF</span>(<span class='no'>df2</span>);</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -211,11 +216,14 @@ is fully described in <code><a href='mixedSort.html'>mixedSort</a></code> and <c
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

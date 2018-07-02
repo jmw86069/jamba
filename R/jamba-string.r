@@ -341,9 +341,13 @@ provigrep <- function
 #'
 #' @export
 rbindList <- function
-(x, emptyValue="", keepListNames=TRUE,
- newColnames=NULL, newRownames=NULL,
- fixBlanks=TRUE, returnDF=FALSE,
+(x,
+ emptyValue="",
+ keepListNames=TRUE,
+ newColnames=NULL,
+ newRownames=NULL,
+ fixBlanks=TRUE,
+ returnDF=FALSE,
  verbose=FALSE,
  ...)
 {
@@ -486,6 +490,10 @@ rbindList <- function
 #' @param renameFirst logical whether to rename the first entry in a set of
 #'    duplicated entries. If FALSE then the first entry in a set will not
 #'    be versioned, even when renameOnes=TRUE.
+#' @param keepNA logical whether to retain NA values using the string "NA".
+#'    If keepNA is FALSE, then NA values will remain NA, thus causing some
+#'    names to become <NA>, which can cause problems with some downstream
+#'    functions which assume all names are either NULL or non-NA.
 #'
 #' @examples
 #' V <- rep(LETTERS[1:3], c(2,3,1));
@@ -497,9 +505,16 @@ rbindList <- function
 #'
 #' @export
 makeNames <- function
-(x, unique=TRUE, suffix="_v", renameOnes=FALSE, doPadInteger=FALSE,
- startN=1, numberStyle=c("number","letters","LETTERS"), useNchar=NULL,
+(x,
+ unique=TRUE,
+ suffix="_v",
+ renameOnes=FALSE,
+ doPadInteger=FALSE,
+ startN=1,
+ numberStyle=c("number","letters","LETTERS"),
+ useNchar=NULL,
  renameFirst=TRUE,
+ keepNA=TRUE,
  ...)
 {
    ## Purpose is to make unique names without the R mangling that comes
@@ -559,6 +574,10 @@ makeNames <- function
    doLetters <- FALSE;
    if (any(c("factor", "ordered") %in% class(x))) {
       x <- as.character(x);
+   }
+   if (keepNA && any(is.na(x))) {
+      x <- rmNA(x,
+         naValue="NA");
    }
 
    ## Convert entries to a named count of occurences of each entry
@@ -876,9 +895,13 @@ rmNULL <- function
 #'
 #' @export
 rmNA <- function
-(x, naValue=NULL, rmNULL=FALSE, nullValue=naValue,
- rmInfinite=TRUE, infiniteValue=NULL,
- rmNAnames=TRUE,
+(x,
+ naValue=NULL,
+ rmNULL=FALSE,
+ nullValue=naValue,
+ rmInfinite=TRUE,
+ infiniteValue=NULL,
+ rmNAnames=FALSE,
  verbose=FALSE,
  ...)
 {
@@ -904,7 +927,8 @@ rmNA <- function
    if (igrepHas("factor", class(x))) {
       if (any(is.na(as.character(x)))) {
          if (verbose) {
-            printDebug("rmNA(): ", "NA is present in factor x.");
+            printDebug("rmNA(): ",
+               "NA is present in factor x.");
          }
          ## If x is a factor, only modify it if there is an NA,
          ## which we must check by converting to character, in case
@@ -921,18 +945,20 @@ rmNA <- function
       }
    } else if (any(is.na(x))) {
       whichNA <- which(is.na(x));
-      if (!is.null(naValue)) {
+      if (length(naValue) > 0) {
          x[whichNA] <- naValue;
       } else {
          x <- x[-c(whichNA)];
       }
    }
+   ## Note: NULL should only occur in lists, not vectors
    if (rmNULL) {
       isNULL <- sapply(x, is.null);
       if (any(isNULL)) {
          x[isNULL] <- naValue;
       }
    }
+   ## Optionally remove entries with NA names
    if (rmNAnames && !is.null(names(x)) && any(is.na(names(x)))) {
       naNames <- which(!is.na(names(x)));
       x <- x[naNames];
@@ -1214,7 +1240,7 @@ mixedOrder <- function
             gsub("([-+]{0,1}[0-9]+[.]{0,1}[0-9]*)",
                paste0(delim, "\\1", delim),
             gsub("([0-9])-([0-9])",
-               paste0("\\1", delim, "\\2"), 
+               paste0("\\1", delim, "\\2"),
             gsub("-", delim, x)))));
       } else {
          if (verbose) {
@@ -1226,7 +1252,7 @@ mixedOrder <- function
             gsub("([-+]{0,1}[0-9]+)",
                paste0(delim, "\\1", delim),
             gsub("([0-9])-([0-9])",
-               paste0("\\1", delim, "\\2"), 
+               paste0("\\1", delim, "\\2"),
             gsub("-", delim, x)))));
       }
    }
@@ -1463,6 +1489,10 @@ mmixedOrder <- function
 #'    used by \code{\link{mmixedOrder}} to order the data.frame. Note that
 #'    negative values will reverse the sort order for the corresponding
 #'    column number.
+#'    byCols can also be a character vector of values in colnames(df),
+#'    optionally including prefix "-" to reverse the sort. Note that the
+#'    parameter \code{decreasing} can also be used to specify columns
+#'    to have reverse sort.
 #' @param na.last logical whether NA values should be ranked last
 #' @param decreasing NULL or a logical vector indicating which columns
 #'    in \code{byCols} should be sorted in decreasing order. By default, the
@@ -1473,6 +1503,7 @@ mmixedOrder <- function
 #'    effect of assuring a reproducible result, provided the rownames are
 #'    consistently defined, or if rownames are actually row numbers.
 #' @param verbose logical whether to print verbose output
+#' @param ... additional arguments passed to \code{mmixedOrder(...)}
 #'
 #' @examples
 #' # start with a vector of miRNA names
@@ -1494,9 +1525,14 @@ mmixedOrder <- function
 #' # which also sorting the miRNA names in their proper order.
 #' mixedSortDF(df2);
 #'
+#' x <- data.frame(l1=letters[1:10], l2=rep(letters[1:2+10], 5), L1=LETTERS[1:10], L2=rep(LETTERS[1:2+20], each=5))
 #' @export
 mixedSortDF <- function
-(df, byCols=1:ncol(df), na.last=TRUE, decreasing=NULL, useRownames=TRUE,
+(df,
+ byCols=1:ncol(df),
+ na.last=TRUE,
+ decreasing=NULL,
+ useRownames=TRUE,
  verbose=FALSE,
  ...)
 {
@@ -1510,36 +1546,110 @@ mixedSortDF <- function
    ## useRownames=TRUE will use rownames as a tiebreaker, the last in the
    ## sort precedence
 
-   ## Take each column only once
-   byCols <- byCols[match(unique(abs(byCols)), abs(byCols))];
-   byCols <- byCols[abs(byCols) <= ncol(df)];
+   ## Handle character input for byCols
+   if (igrepHas("character", class(byCols))) {
+      if (length(colnames(df)) == 0) {
+         ## If given colnames, but colnames(df) is empty, we cannot proceed
+         stop("mixedSortDF(): byCols is supplied as character by colnames(df) is empty.");
+      }
+      byMatch <- match(byCols, colnames(df));
 
-   ## Remove any columns with unsortable classes, e.g. list
-   byCols <- byCols[sapply(byCols, function(i){
-      !igrepHas("list", class(df[[abs(i)]]))
-   })];
-
-   if (is.null(decreasing)) {
-      decreasingV <- (byCols < 0);
-   } else {
-      decreasingV <- rep(decreasing, length.out=length(byCols));
+      ## If any colnames are not matched, check for prefix "-"
+      byMatchNA <- is.na(byMatch);
+      if (any(byMatchNA)) {
+         negByCols <- grepl("^-", byCols);
+         byMatchNAneg <- (byMatchNA & negByCols)
+         ## Make sure the prefix "-" occurs for NA match
+         if (any(byMatchNAneg)) {
+            ## Remove prefix "-" from unmatched "-" prefix colnames
+            byCols[byMatchNAneg] <- gsub("^-",
+               "",
+               byCols[byMatchNAneg]);
+            byMatch <- match(byCols, colnames(df));
+            byMatch[byMatchNAneg] <- byMatch[byMatchNAneg] * -1;
+         }
+      }
+      if (verbose) {
+         printDebug("mixedSortDF(): ",
+            "Converted byCols to integer.");
+      }
+      #byCols <- rmNA(byMatch);
    }
+
+   ## Determine byCols to keep:
+   ## each column only once
+   ## is not NA
+   ## is no greater than ncol(df)
+   ## is not a list column
+   dfColnums <- seq_len(ncol(df));
+   byColsKeep <- (!is.na(byCols) &
+      seq_along(byCols) %in% match(unique(abs(byCols)), dfColnums));
+   byColsSortable <- sapply(byCols[byColsKeep], function(i){
+      !igrepHas("list", class(df[[abs(i)]]))
+   });
+   byColsKeep[byColsKeep] <- byColsSortable;
+
+   ## Apply byCols to keep
+   byCols <- byCols[byColsKeep];
+   if (length(decreasing) > 0) {
+      decreasingV <- rep(-1*decreasing, length.out=length(byCols));
+      decreasingV <- (decreasingV[byColsKeep] * sign(byCols)) < 0;
+   } else {
+      decreasingV <- (byCols < 0);
+   }
+
    if (verbose) {
-      printDebug("byCols:", byCols);
+      printDebug("mixedSortDF(): ",
+         "byCols:",
+         byCols,
+         fgText=list("yellow", "yellow",
+            ifelse(byCols < 0,
+               "red",
+               "lightgreen")));
+      printDebug("mixedSortDF(): ",
+         "decreasing:",
+         decreasingV,
+         fgText=list("yellow", "yellow",
+            ifelse(decreasingV,
+               "red",
+               "lightgreen")));
    }
    if (igrepHas("matrix", class(df))) {
       if (useRownames && !is.null(rownames(df))) {
-         df[mmixedOrder(data.frame(check.names=FALSE, stringsAsFactors=FALSE,
-            df[,abs(byCols),drop=FALSE], rowNamesX=rownames(df)), decreasing=decreasingV, na.last=na.last, ...),,drop=FALSE];
+         dfOrder <- mmixedOrder(
+            data.frame(check.names=FALSE,
+               stringsAsFactors=FALSE,
+               df[,abs(byCols),drop=FALSE],
+               rowNamesX=rownames(df)),
+            decreasing=decreasingV,
+            na.last=na.last,
+            ...);
+         df <- df[dfOrder,,drop=FALSE];
       } else {
-         df[mmixedOrder(as.data.frame(df[,abs(byCols),drop=FALSE]), decreasing=decreasingV, na.last=na.last, ...),,drop=FALSE];
+         dfOrder <- mmixedOrder(
+            as.data.frame(df[,abs(byCols),drop=FALSE]),
+            decreasing=decreasingV,
+            na.last=na.last,
+            ...);
       }
+      df <- df[dfOrder,,drop=FALSE];
    } else {
       if (useRownames && !is.null(rownames(df))) {
-         df[mmixedOrder(data.frame(check.names=FALSE, stringsAsFactors=FALSE,
-            df[,abs(byCols),drop=FALSE], rowNamesX=rownames(df)), decreasing=decreasingV, na.last=na.last, ...),,drop=FALSE];
+         dfOrder <- mmixedOrder(
+            data.frame(check.names=FALSE,
+               stringsAsFactors=FALSE,
+               df[,abs(byCols),drop=FALSE],
+               rowNamesX=rownames(df)),
+            decreasing=decreasingV,
+            na.last=na.last,
+            ...);
+         df <- df[dfOrder,,drop=FALSE];
       } else {
-         df[mmixedOrder(df[,abs(byCols),drop=FALSE], decreasing=decreasingV, na.last=na.last, ...),,drop=FALSE];
+         dfOrder <- mmixedOrder(df[,abs(byCols),drop=FALSE],
+            decreasing=decreasingV,
+            na.last=na.last,
+            ...);
+         df <- df[dfOrder,,drop=FALSE];
       }
    }
 }

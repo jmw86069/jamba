@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Display color raster image using a matrix of colors <U+2014> imageByColors <e2><80><a2> jamba</title>
+<title>Display color raster image using a matrix of colors — imageByColors • jamba</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Display color raster image using a matrix of colors — imageByColors" />
+
+<meta property="og:description" content="Display color raster image using a matrix of colors" />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +38,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +55,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">jamba</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">jamba</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.6.900</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -72,6 +84,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -82,6 +97,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -89,10 +105,11 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Display color raster image using a matrix of colors</h1>
+    <small>Source: <a href='http://github.com/jmw86069/jamba/blob/master/R/jamba-plots.r'><code>R/jamba-plots.r</code></a></small>
     </div>
 
     
@@ -103,9 +120,10 @@
   <span class='kw'>maxRatioFix</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>xaxt</span> <span class='kw'>=</span> <span class='st'>"s"</span>, <span class='kw'>yaxt</span> <span class='kw'>=</span> <span class='st'>"s"</span>, <span class='kw'>doPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>cellnote</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cexCellnote</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>srtCellnote</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>fontCellnote</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>groupCellnotes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>adjBy</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"column"</span>, <span class='st'>"row"</span>), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>xpd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flip</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"y"</span>, <span class='st'>"x"</span>, <span class='st'>"xy"</span>), <span class='kw'>doTest</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>xpd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flip</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"y"</span>, <span class='st'>"x"</span>, <span class='st'>"xy"</span>), <span class='kw'>keepTextAlpha</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>doTest</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -190,6 +208,13 @@ plot space, and would be cropped and not visible if
 <code>par("xpd"=TRUE)</code>.</p></td>
     </tr>
     <tr>
+      <th>keepTextAlpha</th>
+      <td><p>logical passed to <code><a href='setTextContrastColor.html'>setTextContrastColor</a></code>
+indicating whether the text label color should inherit the alpha
+transparency from the background color. If TRUE then fully transparent
+background colors will not have a visible label.</p></td>
+    </tr>
+    <tr>
       <th>doTest</th>
       <td><p>logical whether to run a test showing basic features of
 <code>imageByColors</code>.</p></td>
@@ -243,13 +268,13 @@ srtCellnote=10 or srtCellnote=80.</p>
 <span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>a</span><span class='kw'>=</span><span class='no'>a1</span>, <span class='kw'>b</span><span class='kw'>=</span><span class='no'>b1</span>, <span class='kw'>c</span><span class='kw'>=</span><span class='no'>c1</span>, <span class='kw'>d</span><span class='kw'>=</span><span class='no'>d1</span>);
 
 <span class='co'># default using polygons</span>
-<span class='fu'>imageByColors</span>(<span class='no'>df1</span>, <span class='kw'>cellnote</span><span class='kw'>=</span><span class='no'>df1</span>);</div><div class='img'><img src='imageByColors-61.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>imageByColors</span>(<span class='no'>df1</span>, <span class='kw'>cellnote</span><span class='kw'>=</span><span class='no'>df1</span>);</div><div class='img'><img src='imageByColors-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># useRaster=TRUE, edges are slightly blurred with small tables</span>
-<span class='fu'>imageByColors</span>(<span class='no'>df1</span>, <span class='kw'>cellnote</span><span class='kw'>=</span><span class='no'>df1</span>, <span class='kw'>useRaster</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='img'><img src='imageByColors-62.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>imageByColors</span>(<span class='no'>df1</span>, <span class='kw'>cellnote</span><span class='kw'>=</span><span class='no'>df1</span>, <span class='kw'>useRaster</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='img'><img src='imageByColors-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># some text features, rotation, font size, etc</span>
 <span class='fu'>imageByColors</span>(<span class='no'>df1</span>, <span class='kw'>cellnote</span><span class='kw'>=</span><span class='no'>df1</span>, <span class='kw'>useRaster</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>adjBy</span><span class='kw'>=</span><span class='st'>"column"</span>,
    <span class='kw'>cexCellnote</span><span class='kw'>=</span><span class='fu'>list</span>(<span class='fu'>c</span>(<span class='fl'>1.5</span>,<span class='fl'>1.5</span>,<span class='fl'>1</span>), <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>1.5</span>), <span class='fu'>c</span>(<span class='fl'>1.6</span>,<span class='fl'>1.2</span>), <span class='fu'>c</span>(<span class='fl'>1.6</span>,<span class='fl'>1.5</span>)),
-   <span class='kw'>srtCellnote</span><span class='kw'>=</span><span class='fu'>list</span>(<span class='fu'>c</span>(<span class='fl'>90</span>,<span class='fl'>0</span>,<span class='fl'>0</span>), <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>45</span>), <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>), <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>90</span>,<span class='fl'>0</span>)));</div><div class='img'><img src='imageByColors-63.png' alt='' width='700' height='432.632880098887' /></div></pre>
+   <span class='kw'>srtCellnote</span><span class='kw'>=</span><span class='fu'>list</span>(<span class='fu'>c</span>(<span class='fl'>90</span>,<span class='fl'>0</span>,<span class='fl'>0</span>), <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>45</span>), <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>), <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>90</span>,<span class='fl'>0</span>)));</div><div class='img'><img src='imageByColors-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -270,11 +295,14 @@ srtCellnote=10 or srtCellnote=80.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

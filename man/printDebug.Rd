@@ -9,9 +9,10 @@ printDebug(..., fgText = NULL, bgText = NULL, fgTime = "cyan",
   digits = NULL, nsmall = 0L, justify = "left", big.mark = "",
   small.mark = "", zero.print = NULL, width = NULL, doColor = NULL,
   splitComments = FALSE, collapse = "", sep = ",", detectColors = TRUE,
-  darkFactor = c(1, 1.5), sFactor = c(1, 1.5), removeNA = FALSE,
-  replaceNULL = NULL, adjustRgb = -0.1, byLine = FALSE, verbose = FALSE,
-  indent = "", keepNA = TRUE, file = "", append = TRUE, x)
+  darkFactor = c(1, 1.5), sFactor = c(1, 1.5), lightMode = NULL,
+  removeNA = FALSE, replaceNULL = NULL, adjustRgb = -0.1,
+  byLine = FALSE, verbose = FALSE, indent = "", keepNA = TRUE,
+  file = "", append = TRUE, x)
 }
 \arguments{
 \item{...}{text to be printed to the R console.}
@@ -55,6 +56,13 @@ when using alternating light-dark color shading.}
 
 \item{sFactor}{numeric color saturation to apply to alternative vector
 values when using alternating light-dark color shading.}
+
+\item{lightMode}{boolean or NULL, indicating whether the text background
+color is light, thus imposing a maximum brightness for colors displayed.
+It use lightMode if defined by the function caller, otherwise it will
+use options("lightMode") if defined, lastly it will attempt to detect
+whether running inside Rstudio by checking the environment variable
+"RSTUDIO", and if so it will assume lightMode==TRUE.}
 
 \item{removeNA}{logical whether to remove NA values and not print to
 the console.}

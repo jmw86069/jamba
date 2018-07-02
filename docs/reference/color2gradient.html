@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a color gradient <U+2014> color2gradient <e2><80><a2> jamba</title>
+<title>Make a color gradient — color2gradient • jamba</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Make a color gradient — color2gradient" />
+
+<meta property="og:description" content="Make a color gradient" />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +38,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +55,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">jamba</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">jamba</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.6.900</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -72,6 +84,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -82,6 +97,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -89,10 +105,11 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Make a color gradient</h1>
+    <small>Source: <a href='http://github.com/jmw86069/jamba/blob/master/R/jamba-colors.r'><code>R/jamba-colors.r</code></a></small>
     </div>
 
     
@@ -102,7 +119,7 @@
     <pre class="usage"><span class='fu'>color2gradient</span>(<span class='no'>col</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gradientWtFactor</span> <span class='kw'>=</span> <span class='fl'>2</span>/<span class='fl'>3</span>,
   <span class='kw'>reverseGradient</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -156,23 +173,23 @@ color is used to define the color gradient.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>jamba color manipulation functions: <code><a href='hsv2col.html'>hsv2col</a></code>,
+    <div class='dont-index'><p>jamba color manipulation functions: <code><a href='hsv2col.html'>hsv2col</a></code>,
    <code><a href='col2hsv.html'>col2hsv</a></code>,<code><a href='col2hcl.html'>col2hcl</a></code>,
    <code><a href='rgb2col.html'>rgb2col</a></code>,
    <code><a href='alpha2col.html'>alpha2col</a></code>,<code><a href='col2alpha.html'>col2alpha</a></code>,
    <code><a href='makeColorDarker.html'>makeColorDarker</a></code>,
    <code>color2gradient</code>,
    <code><a href='setTextContrastColor.html'>setTextContrastColor</a></code>,
-   <code><a href='showColors.html'>showColors</a></code></p>
+   <code><a href='showColors.html'>showColors</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># given a list, it returns a list</span>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>color2gradient</span>(<span class='fu'>list</span>(<span class='kw'>Reds</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"red"</span>), <span class='kw'>Blues</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"blue"</span>)), <span class='kw'>n</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>4</span>,<span class='fl'>7</span>));
-<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>x</span>);</div><div class='img'><img src='color2gradient-116.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>x</span>);</div><div class='img'><img src='color2gradient-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># given a vector, it returns a vector</span>
 <span class='no'>xv</span> <span class='kw'>&lt;-</span> <span class='fu'>color2gradient</span>(<span class='fu'>c</span>(<span class='kw'>red</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>blue</span><span class='kw'>=</span><span class='st'>"blue"</span>), <span class='kw'>n</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>4</span>,<span class='fl'>7</span>));
-<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>xv</span>);</div><div class='img'><img src='color2gradient-117.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>xv</span>);</div><div class='img'><img src='color2gradient-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Expand colors in place</span>
 <span class='co'># This process is similar to color jittering</span>
 <span class='no'>colors1</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"red"</span>,<span class='st'>"blue"</span>)[<span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>)];
@@ -181,11 +198,11 @@ color is used to define the color gradient.</p>
 <span class='no'>colors2</span>;</div><div class='output co'>#&gt;      red_v1      red_v2     blue_v1     blue_v2      red_v3     blue_v3 
 #&gt; "#FF5C5CFF" "#E83F3FFF" "#5C5CFFFF" "#2626D1FF" "#D12626FF" "#0000A3FF" 
 #&gt;      red_v4      red_v5 
-#&gt; "#BA1111FF" "#A30000FF" </div><div class='input'><span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='fu'>list</span>(<span class='kw'>`Input colors`</span><span class='kw'>=</span><span class='no'>colors1</span>, <span class='kw'>`Output colors`</span><span class='kw'>=</span><span class='no'>colors2</span>));</div><div class='img'><img src='color2gradient-118.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+#&gt; "#BA1111FF" "#A30000FF" </div><div class='input'><span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='fu'>list</span>(<span class='kw'>`Input colors`</span><span class='kw'>=</span><span class='no'>colors1</span>, <span class='kw'>`Output colors`</span><span class='kw'>=</span><span class='no'>colors2</span>));</div><div class='img'><img src='color2gradient-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># You can do the same using a list intermediate</span>
 <span class='no'>colors1L</span> <span class='kw'>&lt;-</span> <span class='fu'>split</span>(<span class='no'>colors1</span>, <span class='no'>colors1</span>);
-<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>colors1L</span>);</div><div class='img'><img src='color2gradient-119.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='no'>colors2L</span> <span class='kw'>&lt;-</span> <span class='fu'>color2gradient</span>(<span class='no'>colors1L</span>);
-<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>colors2L</span>);</div><div class='img'><img src='color2gradient-120.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>colors1L</span>);</div><div class='img'><img src='color2gradient-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>colors2L</span> <span class='kw'>&lt;-</span> <span class='fu'>color2gradient</span>(<span class='no'>colors1L</span>);
+<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>colors2L</span>);</div><div class='img'><img src='color2gradient-5.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -209,11 +226,14 @@ color is used to define the color gradient.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

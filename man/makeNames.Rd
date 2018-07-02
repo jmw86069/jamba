@@ -6,7 +6,7 @@
 \usage{
 makeNames(x, unique = TRUE, suffix = "_v", renameOnes = FALSE,
   doPadInteger = FALSE, startN = 1, numberStyle = c("number", "letters",
-  "LETTERS"), useNchar = NULL, renameFirst = TRUE, ...)
+  "LETTERS"), useNchar = NULL, renameFirst = TRUE, keepNA = TRUE, ...)
 }
 \arguments{
 \item{x}{character vector to be used when defining names. All other
@@ -51,6 +51,11 @@ integer values with leading zero, only relevant when usePadInteger=TRUE.}
 \item{renameFirst}{logical whether to rename the first entry in a set of
 duplicated entries. If FALSE then the first entry in a set will not
 be versioned, even when renameOnes=TRUE.}
+
+\item{keepNA}{logical whether to retain NA values using the string "NA".
+If keepNA is FALSE, then NA values will remain NA, thus causing some
+names to become <NA>, which can cause problems with some downstream
+functions which assume all names are either NULL or non-NA.}
 }
 \value{
 character vector of unique names

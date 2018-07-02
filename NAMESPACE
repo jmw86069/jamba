@@ -2,9 +2,11 @@
 
 export(adjustAxisLabelMargins)
 export(alpha2col)
+export(applyLceiling)
 export(asDate)
 export(asSize)
 export(breaksByVector)
+export(checkLightMode)
 export(col2alpha)
 export(col2hcl)
 export(col2hsv)

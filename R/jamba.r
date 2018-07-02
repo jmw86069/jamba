@@ -432,7 +432,7 @@ setPrompt <- function
 
 #' convert numeric value to size
 #'
-#' convert numeric value to size 
+#' convert numeric value to size
 #'
 #' This function converts numeric input to computer size in bytes, using
 #' the most appropriate human-friendly units as possible. For example, it
@@ -599,7 +599,7 @@ pasteByRow <- function
    ## x can be a data.frame, tibble, matrix, or DataFrame.
    ##
    ## Converts factor columns to character to prevent inadvertent
-   ## use of integers which are pointers to factor levels. 
+   ## use of integers which are pointers to factor levels.
    ##
    ## condenseBlanks=TRUE will remove blank entries so there are no two
    ## delimiters back to back
@@ -841,12 +841,23 @@ breaksByVector <- function
 #'    when using alternating light-dark color shading.
 #' @param sFactor numeric color saturation to apply to alternative vector
 #'    values when using alternating light-dark color shading.
+#' @param lightMode boolean or NULL, indicating whether the text background
+#'    color is light, thus imposing a maximum brightness for colors displayed.
+#'    It use lightMode if defined by the function caller, otherwise it will
+#'    use options("jam.lightMode") if defined, lastly it will attempt to detect
+#'    whether running inside Rstudio by checking the environment variable
+#'    "RSTUDIO", and if so it will assume lightMode==TRUE.
 #' @param removeNA logical whether to remove NA values and not print to
 #'    the console.
 #' @param replaceNULL character or NULL, optionally replace NULL elements
 #'    with non-NULL character value.
 #' @param adjustRgb logical sent to \code{\link{make_styles}}, whether to
-#'    adjust RGB to prevent loss of detail with low color brightness.
+#'    adjust RGB to prevent loss of detail with low color brightness. By
+#'    default, it uses \code{getOption("jam.adjustRgb")} but when NULL,
+#'    it will use a value -0.1. This value is intended to adjust the
+#'    rounding errors caused by the crayon package conversion to ANSI
+#'    colors, since ANSI only provides 6 levels of brightness in R,G,B
+#'    channels.
 #' @param byLine logical whether to delimit lists by line instead of
 #'    using collapse to combine them onto one line.
 #' @param verbose logical whether to print verbose output
@@ -895,9 +906,10 @@ printDebug <- function
  detectColors=TRUE,
  darkFactor=c(1,1.5),#-1.4,1.2),
  sFactor=c(1,1.5),#c(-1.3,1.2),
+ lightMode=checkLightMode(),
  removeNA=FALSE,
  replaceNULL=NULL,
- adjustRgb=-0.1,
+ adjustRgb=getOption("jam.adjustRgb"),
  byLine=FALSE,
  verbose=FALSE,
  indent="",
@@ -929,7 +941,7 @@ printDebug <- function
       collapse <- "\n";
    }
 
-   ## Deal with the type of coloration we can use
+   ## Determine the type of coloration we can use
    ## by setting up a conditional array to capture various combinations
    ## of 3 options:
    ## - availability of the package crayon
@@ -942,6 +954,18 @@ printDebug <- function
       } else {
          doColor <- 0;
       }
+   }
+
+   ## adjustRgb
+   if (length(adjustRgb) == 0) {
+      adjustRgb <- -0.1;
+   }
+
+   ## Check lightMode, whether the background color is light or not
+   lightMode <- checkLightMode(lightMode);
+   if (lightMode) {
+      adjustRgb <- 0;
+      Lceiling <- 77;
    }
 
    if (length(darkFactor) <= 1) {
@@ -963,7 +987,7 @@ printDebug <- function
          fgTextBase <- unlist(fgTextBase, recursive=FALSE);
       }
       fgTextBaseIsColor <- sapply(fgTextBase, function(i){
-         all(isColor(i));
+         all(rmNA(isColor(i)));
       });
       if (fgTextBaseIsColor) {
          fgText <- fgTextBase;
@@ -987,6 +1011,13 @@ printDebug <- function
             names(i);
          }
       });
+      ## Apply L ceiling if lightMode is TRUE
+      if (lightMode) {
+         fgText <- rapply(fgText, how="list", function(i){
+            applyLceiling(i,
+               Lceiling=Lceiling);
+         });
+      }
       ## This style prints the names in the color as defined
       printDebug(xList[[1]], fgText=fgText,
          verbose=verbose, indent=paste0(indent, "   "),
@@ -1024,6 +1055,14 @@ printDebug <- function
       }
       if (length(bgText) > 0) {
          bgText <- rep(bgText, length.out=length(xList));
+      }
+
+      ## Apply L ceiling if lightMode is TRUE
+      if (lightMode) {
+         fgText <- rapply(fgText, how="list", function(i){
+            applyLceiling(i,
+               Lceiling=Lceiling);
+         });
       }
 
       xListSlength <- lengths(xList);
@@ -1178,11 +1217,96 @@ printDebug <- function
    }
 }
 
+#' check lightMode for light background color
+#'
+#' check lightMode for light background color
+#'
+#' Check the lightMode status through function parameter, options, or
+#' environment variable. If the function defines lightMode, it is used as-is.
+#' If lightMode is NULL, then options("jam.lightMode") is used if defined.
+#' Otherwise, it tries to detect whether the R session is running inside
+#' Rstudio using the environmental variable "RSTUDIO", and if so it assumes
+#' lightMode==TRUE.
+#'
+#' To set a default lightMode, add options("jam.lightMode"=TRUE) to .Rprofile, or
+#' to the relevant R script.
+#'
+#' @return logical or length=1, indicating whether lightMode is defined
+#'
+#' @param lightMode logical or NULL, indicating whether the lightMode
+#'    parameter has been defined in the function call.
+#'
+#' @examples
+#' checkLightMode(TRUE);
+#' checkLightMode();
+#'
+#' @export
+checkLightMode <- function
+(lightMode=NULL,
+ ...)
+{
+   ## Check lightMode, whether the background color is light or not
+   if (length(lightMode) == 0) {
+      if (length(getOption("jam.lightMode")) > 0) {
+         lightMode <- getOption("jam.lightMode") %in% c(1, "TRUE");
+      } else if (Sys.getenv("RSTUDIO") == 1) {
+         lightMode <- TRUE;
+      } else {
+         lightMode <- FALSE;
+      }
+   } else {
+      lightMode <- FALSE;
+   }
+   return(lightMode);
+}
+
+#' Apply a lightness ceiling to R color
+#'
+#' Apply a lightness ceiling to R color
+#'
+#' This function takes an R color, converts to HCL colorspace, then applies
+#' a ceiling to the L lightness value for all colors. It is primarily intended
+#' to make text colors dark enough for display on a light background color,
+#' for visible contrast.
+#'
+#' @return vector of R colors
+#'
+#' @param x vector of R colors, either a text value from colors() or a
+#'    valid hex color, for example "#AA3399".
+#' @param Lceiling integer length=1, indicating the maximum allowed L value
+#'    when colors are converted to HCL color space.
+#'
+#' @examples
+#' x <- c("yellow","orange","white","grey20");
+#' applyLceiling(x);
+#' printDebug(applyLceiling(x));
+#'
+#' @export
+applyLceiling <- function
+(x,
+ Lceiling=77,
+ ...)
+{
+   ## Purpose is to apply a ceiling to L values in HCL colorspace,
+   ## given standard R colors. Most commonly used when lightMode==TRUE
+   ## this function ensures text brightness does not exceed visible
+   ## contrast with a light background color.
+   if (length(col) == 0 || length(Lceiling) == 0) {
+      return(col);
+   }
+   colHcl <- col2hcl(x, ...);
+   isAbove <- (colHcl["L",] > Lceiling);
+   if (any(isAbove)) {
+      colHcl["L",isAbove] <- Lceiling;
+   }
+   hcl2col(colHcl, ...);
+}
+
 #' convert column number to Excel column name
 #'
 #' convert column number to Excel column name
 #'
-#' The purpose is to convert a numerical column number into a valid Excel 
+#' The purpose is to convert a numerical column number into a valid Excel
 #' column name, using LETTERS starting at A.
 #' This function implements an arbitrary number of digits, which may or
 #' may not be compatible with each version of Excel.  18,278 columns
@@ -1519,11 +1643,21 @@ tcount <- function
 #'
 #' @export
 make_styles <- function
-(style, text, bg=FALSE, grey=FALSE, colors=num_colors(),
- checkSat=TRUE, satCutoff=0.01, adjustRgb=0, adjustPower=1.5,
- lRange=c(0,1), sRange=c(0,1), subTransparent="grey45",
+(style,
+ text,
+ bg=FALSE,
+ grey=FALSE,
+ colors=num_colors(),
+ checkSat=TRUE,
+ satCutoff=0.01,
+ adjustRgb=0,
+ adjustPower=1.5,
+ lRange=c(0,1),
+ sRange=c(0,1),
+ subTransparent="grey45",
  alphaPower=2,
- verbose=FALSE, ...)
+ verbose=FALSE,
+ ...)
 {
    ## Purpose is to wrapper make_style for a vector of styles
    ## and text.  By default make_style() only accepts one style
@@ -1560,12 +1694,14 @@ make_styles <- function
 
    if (igrepHas("matrix", style)) {
       style <- style[,rep(1:ncol(style), length.out=length(text)),drop=FALSE];
+      styleNA <- is.na(style["red",]);
    } else {
       style <- rep(style, length.out=length(text));
       styleNA <- is.na(style);
       style <- col2rgb(style, alpha=TRUE);
       if (any(styleNA)) {
          style[,styleNA] <- NA;
+         #style["alpha",] <- rmNA(naValue=0, style["alpha",]);
       }
    }
    ## Apply alpha
@@ -1588,7 +1724,11 @@ make_styles <- function
          colnames(style) <- makeNames(rep("col", ncol(style)));
       }
       styleHsv <- col2hsv(rgb2col(style));
-      tooDark <- which(styleHsv["v",] < min(lRange));
+      if (verbose) {
+         printDebug("styleHsv:");
+         print(styleHsv);
+      }
+      tooDark <- which(!styleNA & styleHsv["v",] < min(lRange));
       if (length(tooDark) > 0) {
          style[,tooDark] <- col2rgb(makeColorDarker(
             darkFactor=-1.5/(1-min(lRange)),
@@ -1596,7 +1736,7 @@ make_styles <- function
             rgb2col(style[,tooDark,drop=FALSE])));
          styleHsv <- col2hsv(rgb2col(style));
       }
-      tooLight <- which(styleHsv["v",] > max(lRange));
+      tooLight <- which(!styleNA & styleHsv["v",] > max(lRange));
       if (length(tooLight) > 0) {
          style[,tooLight] <- col2rgb(makeColorDarker(
             darkFactor=1.2/max(lRange),
@@ -1607,14 +1747,36 @@ make_styles <- function
       styleHsv["v",] <- noiseFloor(styleHsv["v",],
          minimum=min(lRange),
          ceiling=max(lRange));
+      if (verbose) {
+         print("style (pre-lRange):");
+         print(style);
+      }
       style <- col2rgb(hsv2col(styleHsv));
+      if (length(styleNA) > 0) {
+         style[,styleNA] <- NA;
+      }
+      if (verbose) {
+         print("style (post-lRange):");
+         print(style);
+      }
    }
    if (!all(c(0,1) %in% sRange)) {
       styleHsv <- col2hsv(rgb2col(style));
       styleHsv["s",] <- noiseFloor(styleHsv["s",],
          minimum=min(sRange),
          ceiling=max(sRange));
+      if (verbose) {
+         print("style (pre-sRange):");
+         print(style);
+      }
       style <- col2rgb(hsv2col(styleHsv));
+      if (length(styleNA) > 0) {
+         style[,styleNA] <- NA;
+      }
+      if (verbose) {
+         print("style (post-sRange):");
+         print(style);
+      }
    }
 
 
@@ -1626,17 +1788,25 @@ make_styles <- function
          ## This method shifts color brightness down slightly
          style1 <- round(style/255*6 + adjustRgb);
       }
-      style <- style1 * 255/6;
-      style[style < 1] <- 1;
-      style[style > 255] <- 255;
+      if (verbose) {
+         print("style (pre-adjustRgb:");
+         print(style);
+      }
+      style[!is.na(style)] <- style1[!is.na(style)] * 255/6;
+      style[!is.na(style) & style < 1] <- 1;
+      style[!is.na(style) & style > 255] <- 255;
+      if (verbose) {
+         print("style (post-adjustRgb):");
+         print(style);
+      }
    }
 
    #orig_style_name <- style_name <- names(args)[1]
    if (checkSat) {
-      styleNA <- apply(style, 2, function(i){any(is.na(i))});
+      #styleNA <- apply(style, 2, function(i){any(is.na(i))});
       iSats <- rep(1, ncol(style));
       if (verbose) {
-         print("style:");
+         print("style (pre-checkSat):");
          print(style);
       }
       iSats[!styleNA] <- rgb2hsv(style[,!styleNA])["s",];
@@ -1644,7 +1814,7 @@ make_styles <- function
    iVals <- sapply(seq_along(text), function(i){
       iText <- text[i];
       iStyle <- style[,i,drop=FALSE];
-      if (any(is.na(iStyle)) || 
+      if (any(is.na(iStyle)) ||
          (iStyle %in% "transparent" && subTransparent %in% c(NA,"")) ) {
          iText;
       } else {
@@ -1660,7 +1830,10 @@ make_styles <- function
             print("iStyle:");
             print(iStyle);
          }
-         make_style(rgb2col(iStyle), bg=bg, colors=colors, grey=iGrey)(iText);
+         make_style(rgb2col(iStyle),
+            bg=bg,
+            colors=colors,
+            grey=iGrey)(iText);
       }
    });
    if (!is.null(names(text))) {
@@ -1699,7 +1872,19 @@ make_styles <- function
 #'    display results as a data.frame.
 #' @param useColor logical whether to display results in color, if the crayon
 #'    package is available, and terminal console is capable.
+#' @param lightMode boolean or NULL, indicating whether the text background
+#'    color is light, thus imposing a maximum brightness for colors displayed.
+#'    It use lightMode if defined by the function caller, otherwise it will
+#'    use options("jam.lightMode") if defined, lastly it will attempt to detect
+#'    whether running inside Rstudio by checking the environment variable
+#'    "RSTUDIO", and if so it will assume lightMode==TRUE.
+#' @param Lceiling integer length=1, indicating the maximum allowed L value
+#'    when colors are converted to HCL color space.
+#' @param useCollapseBase character string used to combine multiple parameter
+#'    values.
 #' @param verbose logical whether to print verbose output.
+#' @param debug integer value, greater than 0 will cause debug-type verbose
+#'    output, useful because parameters are hard!
 #'
 #' @examples
 #' args(jargs)
@@ -1710,8 +1895,16 @@ make_styles <- function
 #'
 #' @export
 jargs <- function
-(x, grepString=NULL, sortVars=TRUE, asList=TRUE, useColor=TRUE,
+(x,
+ grepString=NULL,
+ sortVars=TRUE,
+ asList=TRUE,
+ useColor=TRUE,
+ lightMode=checkLightMode(),
+ Lceiling=100,
+ useCollapseBase=", ",
  verbose=FALSE,
+ debug=0,
  ...)
 {
    ## Purpose is to clean up the args() output to my personal preferences
@@ -1725,12 +1918,24 @@ jargs <- function
    ## asList=FALSE uses data.frame colsHead() display
    ##
    ## useColor=TRUE because why not, right?
+   if ((length(lightMode) > 0 && lightMode %in% c(TRUE)) ||
+         (length(lightMode) == 0 && Sys.getenv("RSTUDIO") == 1)) {
+      lightMode <- TRUE;
+      Lceiling <- 77;
+   }
+   if (verbose) {
+      printDebug("jargs(): ",
+         "Lceiling:",
+         Lceiling);
+   }
    if (useColor) {
       if (suppressPackageStartupMessages(require(crayon))) {
          useCrayon <- TRUE;
       } else {
          if (verbose) {
-            printDebug("Turned color off since ", "crayon",
+            printDebug("jargs(): ",
+               "Turned color off since the ",
+               "crayon",
                " package is not available.");
          }
          useColor <- FALSE;
@@ -1750,144 +1955,52 @@ jargs <- function
       argsText <- argsText[vigrep(grepString, names(argsText))];
       if (length(argsText) == 0) {
          if (verbose) {
-            printDebug("No arguments matched the grepString.", fgText="yellow");
+            printDebug("jargs(): ",
+               "No arguments matched the grepString.",
+               fgText="yellow");
          }
          invisible(NULL);
       }
    }
 
-   if (asList) {
-      handleArgsText <- function(argsTextA, i,
-         col1="mediumpurple2", col2="mediumaquamarine",
-         colT="dodgerblue3", colF="red1", lRange=c(0.25,0.9),
-         ...) {
-         deTextA <- deparse(argsTextA[[i]]);
-         if (class(argsTextA[[i]]) %in% "call") {
-            ## Multi-value entry
-            argTextA <- argsTextA[[i]];
-            whichMid <- tail(seq_along(argTextA), -1);
-            whichEnds <- setdiff(seq_along(argTextA), whichMid);
-            firstArg <- deparse(argTextA[[whichEnds]]);
-            if (firstArg %in% c("function")) {
-               ## Parse functions differently than other entries
-               argTextA <- deparse(argsTextA[[i]]);
-               whichMid <- head(tail(seq_along(argTextA), -1), -1);
-               whichEnds <- setdiff(seq_along(argTextA), whichMid);
-               firstArg <- argTextA[[head(whichEnds,1)]];
-               if (length(whichMid) == 0) {
-                  argTextA[whichEnds] <- make_styles(text=argTextA[whichEnds],
-                     style=col1, adjustRgb=0, lRange=lRange);
-                  deTextA <- make_styles(text=argTextA[whichEnds], style=col1,
-                     adjustRgb=0, lRange=lRange);
-               } else {
-                  argTextA[whichMid] <- make_styles(text=argTextA[whichMid],
-                     style=col2, adjustRgb=0, lRange=lRange);
-                  argTextA[whichEnds] <- make_styles(text=argTextA[whichEnds],
-                     style=col1, adjustRgb=0, lRange=lRange);
-                  deTextA <- paste0(argTextA[head(whichEnds,1)],
-                     paste(argTextA[whichMid], collapse=", "),
-                     argTextA[tail(whichEnds,1)],
-                     collapse=" ");
-               }
-            } else {
-               if (firstArg %in% "c" &&
-                   all(isColor(as.character(argTextA[whichMid])))) {
-                  argTextB <- as.character(argTextA[whichMid]);
-                  argTextA[whichMid] <- sapply(argTextA[whichMid], function(j){
-                     handleArgsText(list(A=j),
-                        "A",
-                        col1=as.character(j),
-                        col2=as.character(j));
-                  });
-               } else {
-                  argTextA[whichMid] <- sapply(argTextA[whichMid], function(j){
-                     handleArgsText(list(A=j), "A", col1=col2, col2=col1);
-                  });
-               }
-               argTextA[whichEnds] <- make_styles(text=firstArg, style=col1,
-                  adjustRgb=0, lRange=lRange);
-               if (igrepHas("[a-zA-Z]", firstArg)) {
-                  ## Format: function("value1", "value2")
-                  deTextA <- paste0(argTextA[whichEnds], "(",
-                     paste(argTextA[whichMid], collapse=", "), ")",
-                     collapse=" ");
-               } else if (length(argTextA[whichMid]) == 2) {
-                  ## Format: "value1" || "value2"
-                  deTextA <- paste(argTextA[head(whichMid,1)],
-                     argTextA[whichEnds],
-                     argTextA[tail(whichMid,1)], sep=" ");
-               } else {
-                  argTextA <- make_styles(text=deparse(argsTextA[[i]]),
-                     style=col2, adjustRgb=0, lRange=lRange);
-                  deTextA <- argTextA;
-               }
-            }
-         } else if (length(deTextA) > 1 &&
-            igrepHas("^[a-zA-Z0-9]+[(]", deTextA[1])) {
-            ## Multi-value entry
-            whichMid <- head(tail(seq_along(deTextA), -1), -1);
-            whichEnds <- setdiff(seq_along(deTextA), whichMid);
-            deTextA[whichMid] <- make_styles(
-               text=as.character(deTextA[whichMid]),
-               style=col2,
-               adjustRgb=0,
-               lRange=lRange);
-            deTextA[whichEnds] <- make_styles(
-               text=as.character(deTextA[whichEnds]),
-               style=col1,
-               adjustRgb=0,
-               lRange=lRange);
-            aText <- paste(i, paste(deTextA, collapse=" "), sep=" = ");
-         } else if (class(argsTextA[[i]]) %in% "logical") {
-            if (igrepHas("FALSE", deTextA)) {
-               deTextA <- make_styles(text=as.character(deTextA),
-                  style=colF, adjustRgb=0, lRange=lRange);
-            } else {
-               deTextA <- make_styles(text=as.character(deTextA),
-                  style=colT, adjustRgb=0, lRange=lRange);
-            }
-         } else {
-            if (length(argsTextA[[i]]) > 0 &&
-               all(isColor(as.character(argsTextA[[i]])))) {
-               deTextA <- make_styles(text=as.character(deTextA),
-                  style=as.character(argsTextA[[i]]),
-                  adjustRgb=0.1,
-                  lRange=lRange);
-            } else {
-               deTextA <- make_styles(text=as.character(deTextA),
-                  style=col2,
-                  adjustRgb=0,
-                  lRange=lRange);
-            }
-         }
-         return(deTextA);
-      }
-
+   if (length(argsText) > 0 && asList) {
+      varLen <- nameVector(nchar(names(argsText)), names(argsText));
+      indent <- paste(rep(" ", max(varLen)+1), collapse="");
       x1 <- as.vector(gsub("=$", "", sapply(names(argsText), function(i){
          if (verbose) {
-            printDebug("i:", i);
+            printDebug("jargs(): ",
+               "i:",
+               i);
          }
-         argText <- argsText[[i]];
-         deText <- deparse(argsText[[i]]);
          if (useCrayon) {
-            col1 <- "mediumpurple2";
-            col2 <- "mediumaquamarine";
-            deText <- handleArgsText(argsText, i);
+            col1 <- applyLceiling("mediumpurple2", Lceiling=Lceiling);
+            col2 <- applyLceiling("mediumaquamarine", Lceiling=Lceiling);
+            deText <- handleArgsText(argsText[[i]],
+               col1=col1,
+               col2=col2,
+               indent=indent,
+               useCollapseBase=useCollapseBase,
+               debug=debug,
+               verbose=verbose);
          }
          aText <- paste(i, paste(deText, collapse=" "), sep=" = ");
          aText;
       })));
+      names(x1) <- names(argsText);
       if (sortVars && length(x1) > 1) {
          x2 <- mixedSort(x1);
       } else {
          x2 <- x1;
       }
-      varLen <- sapply(x2, function(i){
+      varLen <- varLen[names(x2)];
+      varLen1 <- sapply(x2, function(i){
          nchar(strsplit(i, "=")[[1]])[1]
       });
       x3 <- sapply(1:length(x2), function(i){
-         paste(c(rep(" ", max(varLen) - varLen[i]),
-                 gsub("[ ]+", " ", x2[i])), collapse="");
+         paste0(
+            c(rep(" ", max(varLen) - varLen[i]),
+               x2[i]),
+            collapse="");
       });
       cat(paste(x3, collapse=",\n"));
       cat("\n");
@@ -1899,6 +2012,405 @@ jargs <- function
       print(argsTable);
       invisible(argsTable);
    }
+}
+
+#' Handle function arguments as text
+#'
+#' Handles a list or list of lists, converting to human-readable text format
+#'
+#' This function is a rare non-exported function intended to be called by
+#' \code{jargs()}, but separated in order to help isolate the logical
+#' steps required.
+#'
+handleArgsText <- function
+(argTextA,
+ name="",
+ col1="mediumpurple2",
+ col2="mediumaquamarine",
+ colT="dodgerblue3",
+ colF="red1",
+ lRange=c(0.25,0.9),
+ indent="",
+ useCollapseList=",\n      ",
+ useCollapseBase=", ",
+ level=1,
+ debug=0,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to take input in the form of formals(functionname)
+   ## and return a formatted string suitable for printing to the R
+   ## console.
+   ##
+   #argTextA <- argsTextA[[i]];
+   if (level == 20) {
+      useCollapseBase <- useCollapseList;
+   }
+   if (class(argTextA) %in% "name") {
+      deTextA <- deparse(argTextA);
+   } else {
+      deTextA <- deparse(argTextA[[1]]);
+   }
+   #indent <- paste0(level, gsub("^[0-9]+", "", indent));
+   if (verbose) {
+      printDebug(indent, "", "handleArgsText(): ",
+         "class(argTextA):",
+         class(argTextA));
+   }
+   if (debug > 0 && verbose) {
+      printDebug(indent, "", "=== handleArgsText():\n   ",
+         "name:\n      ",
+         name, "\n   ", "",
+         "as.character(argTextA):\n      ",
+         as.character(argTextA), "\n   ", "",
+         "deTextA:\n      ",
+         deTextA,
+         sep="\n      ");
+   }
+   if (class(argTextA) %in% c("pairlist","call")) {
+      ##
+      ## Class is "call"
+      ##
+      ## Multi-value entry
+      whichMid <- tail(seq_along(argTextA), -1);
+      whichEnds <- setdiff(seq_along(argTextA), whichMid);
+      firstArg <- deparse(argTextA[[whichEnds]]);
+      firstArgName <- names(argTextA)[whichEnds];
+
+      ##
+      if (firstArg %in% "function") {
+         ##
+         ##################################
+         ## Handle functions
+         if (verbose) {
+            printDebug(indent, "", "handleArgsText(): ",
+               "firstArg is 'function'",
+               ", whichEnds=", whichEnds,
+               ", whichMid=", whichMid,
+               ", argTextA:",
+               fgText=c("mediumaquamarine","yellow"));
+            print(argTextA);
+         }
+         ## Parse functions differently than other entries
+         whichMid <- head(tail(seq_along(argTextA), -1), -1);
+         whichEnds <- setdiff(seq_along(argTextA), whichMid);
+         #firstArg <- deparse(argTextA[[1]]);
+         firstArgName <- names(argTextA)[head(whichEnds,1)];
+         fnArgs <- argTextA[[2]];
+         fnArgsText <- handleArgsText(fnArgs,
+            name=" ",
+            col1=col1,
+            col2=col2,
+            indent=paste0(indent, "   "),
+            useCollapseBase=useCollapseBase,
+            level=level+1,
+            debug=1,
+            verbose=TRUE);
+         printDebug("length(fnArgsText):", length(fnArgsText));
+
+         fnBody <- deparse(argTextA[[3]]);
+         if (length(fnBody) > 1) {
+            fnBody[2:length(fnBody)] <- paste0(indent,
+               "   ",
+               fnBody[2:length(fnBody)]);
+         }
+         fnBodyText <- paste0(fnBody, collapse="\n");
+
+         deTextA <- paste0(
+            make_styles(
+               text=c("function(",
+                  fnArgsText,
+                  ")",
+                  fnBodyText),
+               style=c(col1, col2),
+               adjustRgb=0,
+               lRange=lRange),
+            collapse=" ");
+
+         if (1 == 2) {
+            if (length(whichMid) == 0) {
+               argTextA[whichEnds] <- make_styles(text=argTextA[whichEnds],
+                  style=col1, adjustRgb=0, lRange=lRange);
+               deTextA <- make_styles(text=argTextA[whichEnds], style=col1,
+                  adjustRgb=0, lRange=lRange);
+            } else {
+               argTextA[whichMid] <- make_styles(text=argTextA[whichMid],
+                  style=col2, adjustRgb=0, lRange=lRange);
+               argTextA[whichEnds] <- make_styles(text=argTextA[whichEnds],
+                  style=col1, adjustRgb=0, lRange=lRange);
+               if (verbose) {
+                  printDebug(indent, "", "handleArgsText(): ",
+                     "Collapsing with ', '");
+               }
+               deTextA <- paste0(argTextA[head(whichEnds,1)],
+                  paste(argTextA[whichMid], collapse=", "),
+                  argTextA[tail(whichEnds,1)],
+                  collapse=" ");
+            }
+         }
+      } else {
+         ##
+         ##################################
+         ## Handle non-functions
+         if (verbose) {
+            printDebug(indent, "", "handleArgsText(): ",
+               "pairlist firstArg:",
+               firstArg);
+            #", name:", name, ", names(argTextA):", names(argTextA));
+         }
+         if (class(argTextA) %in% "pairlist" &&
+               all(isColor(as.character(argTextA[whichMid])))) {
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "'c1' && all(isColor)",
+                  ", calling handleArgsText()",
+                  fgText=c("orange", "aquamarine1"));
+            }
+            #argTextB <- as.character(argTextA[whichMid]);
+            argTextA[whichMid] <- sapply(whichMid, function(j1){
+               j <- argTextA[[j1]];
+               jName <- names(argTextA)[j1];
+               handleArgsText(j,
+                  name=jName,
+                  col1=as.character(j),
+                  col2=as.character(j),
+                  indent=paste0(indent, "   "),
+                  useCollapseBase=useCollapseBase,
+                  level=level+1,
+                  debug=debug,
+                  verbose=verbose);
+            });
+         } else {
+            if (firstArg %in% "list") {
+               useCollapseBase <- useCollapseList;
+            } else {
+               useCollapseBase <- ", ";
+            }
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "firstArg is not 'function', !all(isColor)",
+                  ", calling handleArgsText()",
+                  fgText=c("lightgreen","orange"));
+            }
+            if (class(argTextA) %in% "pairlist") {
+               whichMid <- seq_along(argTextA);
+               printDebug("whichMid:", whichMid);
+            }
+            argTextA[whichMid] <- sapply(whichMid, function(j1){
+               jName <- names(argTextA)[j1];
+               if (debug > 0 && verbose) {
+                  printDebug(indent, "calling handleArgsText(): ",
+                     "j1:",
+                     j1,
+                     ", jName:",
+                     jName,
+                     fgText=c("lightsalmon", "yellow"));
+               }
+               if (class(argTextA) %in% "pairlist") {
+                  j <- argTextA[j1];
+               } else {
+                  j <- argTextA[[j1]];
+               }
+               handleArgsText(argTextA=j,
+                  name=jName,
+                  col1=col2,
+                  col2=col1,
+                  indent=paste0(indent, "   "),
+                  useCollapseBase=useCollapseBase,
+                  level=level+1,
+                  debug=debug,
+                  verbose=verbose);
+            });
+         }
+         argTextA[whichEnds] <- make_styles(text=firstArg,
+            style=col1,
+            adjustRgb=0,
+            lRange=lRange);
+         if (igrepHas("[a-zA-Z]", firstArg)) {
+            ## Format: function("value1", "value2")
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "Format: function('value1', 'value2')",
+                  ", name:", name,
+                  fgText=c("purple1", "yellow"));
+            }
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "Collapsing params into multiple lines with '",
+                  stringi::stri_escape_unicode(useCollapseBase),
+                  "' then some indention",
+                  fgText=c("lightblue3","orange1"));
+            }
+            #useCollapse <- paste0(",\n                       ", indent);
+            if (igrepHas("[\n]", useCollapseBase)) {
+               useCollapse <- paste0(useCollapseBase, indent);
+            } else {
+               useCollapse <- useCollapseBase;
+            }
+            deTextA <- paste0(
+               ifelse(nchar(name)>0,
+                  paste0(name, "="),
+                  ""),
+               argTextA[whichEnds],
+               "(",
+               paste(argTextA[whichMid], collapse=useCollapse),
+               ")",
+               collapse=" ");
+         } else if (length(argTextA[whichMid]) == 2) {
+            ## Format: "value1" || "value2"
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "Format: 'value1' || 'value2'",
+                  ", name:",
+                  name,
+                  fgText=c("lightpink1","lightsalmon1"));
+            }
+            deTextA <- paste(argTextA[head(whichMid,1)],
+               argTextA[whichEnds],
+               argTextA[tail(whichMid,1)],
+               sep=" ");
+         } else {
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "Format: generic.",
+                  ", name:",
+                  name,
+                  fgText=c("lightskyblue","lightpink"));
+            }
+            argTextA <- make_styles(text=paste0(name,
+               ifelse(nchar(name)>0,"=",""),
+               as.character(argTextA)),
+               #argTextA <- make_styles(text=deTextA,
+               style=col2,
+               adjustRgb=0,
+               lRange=lRange);
+            deTextA <- argTextA;
+         }
+      }
+   } else if (length(deTextA) > 1 &&
+         igrepHas("^[a-zA-Z0-9]+[(]", deTextA[1])) {
+      ##
+      ## Class is not "call" but is multi-entry
+      ##
+      ## !class(argTextA) %in% "call"
+      ## Multi-value entry
+      whichMid <- head(tail(seq_along(deTextA), -1), -1);
+      whichEnds <- setdiff(seq_along(deTextA), whichMid);
+      deTextA[whichMid] <- make_styles(
+         text=as.character(deTextA[whichMid]),
+         style=col2,
+         adjustRgb=0,
+         lRange=lRange);
+      deTextA[whichEnds] <- make_styles(
+         text=as.character(deTextA[whichEnds]),
+         style=col1,
+         adjustRgb=0,
+         lRange=lRange);
+      aText <- paste(i, paste(deTextA, collapse=" "), sep=" = ");
+   } else if (class(argTextA) %in% "logical") {
+      ##
+      ## Class is logical
+      ##
+      if (igrepHas("FALSE", deTextA)) {
+         if (length(name) > 0) {
+            deTextA <- paste0(make_styles(text=c(name, "=", as.character(deTextA)),
+               style=c(col1, NA, colF),
+               adjustRgb=0,
+               lRange=lRange),
+               collapse="");
+         } else {
+            deTextA <- make_styles(text=as.character(deTextA),
+               style=colF,
+               adjustRgb=0,
+               lRange=lRange);
+         }
+      } else {
+         if (length(name) > 0) {
+            deTextA <- paste0(make_styles(text=c(name, "=", as.character(deTextA)),
+               style=colT,
+               adjustRgb=0,
+               lRange=lRange),
+               collapse="");
+         } else {
+            deTextA <- make_styles(text=as.character(deTextA),
+               style=colT,
+               adjustRgb=0,
+               lRange=lRange);
+         }
+      }
+   } else {
+      ##
+      ## Class is not "call", not "logical"
+      ##
+      if (verbose) {
+         printDebug(indent, "", "handleArgsText(): ",
+            "class(argTextA):", class(argTextA),
+            ", deTextA (before make_styles):",
+            deTextA,
+            fgText=c("lightsteelblue","lightsalmon2"));
+      }
+      if (length(argTextA) > 0 &&
+            all(isColor(as.character(argTextA)))) {
+         ##
+         ## Handle parameter values which are all colors, by using those
+         ## colors for the output text color
+         if (length(name) > 0 && nchar(name) > 0) {
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "  named ", "  colored", " parameter",
+                  fgText=c("lightpink2","lightblue3"));
+            }
+            deTextA <- paste0(make_styles(text=c(name, "=", as.character(deTextA)),
+               style=c(col1, NA, as.character(argTextA)),
+               adjustRgb=0,
+               lRange=lRange),
+               collapse="");
+         } else {
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "unnamed ", "  colored", " parameter",
+                  fgText=c("lightpink2","lightblue3"));
+            }
+            deTextA <- paste0(make_styles(text=as.character(deTextA),
+               style=as.character(argTextA),
+               adjustRgb=0,
+               lRange=lRange),
+               collapse="");
+         }
+      } else {
+         ##
+         ## Parameter values are not colors, so we use default colors here
+         if (length(name) > 0 && nchar(name) > 0) {
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "  named ", "uncolored", " parameter",
+                  fgText=c("lightpink2","lightblue3"));
+            }
+            deTextA <- paste0(make_styles(text=c(name, "=", as.character(deTextA)),
+               style=c(col2, NA, col1),
+               adjustRgb=0,
+               lRange=lRange),
+               collapse="");
+         } else {
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "unnamed ", "uncolored", " parameter",
+                  fgText=c("lightpink2","lightblue3"));
+            }
+            deTextA <- paste0(make_styles(text=as.character(deTextA),
+               style=col1,
+               adjustRgb=0,
+               lRange=lRange),
+               collapse="");
+         }
+      }
+      if (debug > 0 && verbose) {
+         printDebug(indent, "", "handleArgsText(): ",
+            "deTextA (after make_styles):", deTextA,
+            fgText=c("lightskyblue3","lightseagreen"));
+      }
+   }
+   return(deTextA);
 }
 
 #' Apply noise floor to a numeric values
@@ -1991,4 +2503,253 @@ deg2rad <- function
 {
    ## Purpose is to convert degrees to radians, using pi/2 as 90 degrees
    x * (pi / 180);
+}
+
+#' print dimensions of list object elements
+#'
+#' print dimensions of list object elements, such as a list of data.frames
+#'
+#' This function prints the dimensions of a list of objects, usually a list
+#' of data.frames, but extended to handle more complicated lists, including
+#' even S4 object slotNames().
+#'
+#' Over time, more object types will be made compatible with this function.
+#' Currently, igraph objects will print the number of nodes and edges, but
+#' requires the igraph package to be installed.
+#'
+#' @param x an S3 object inheriting from class "list", or an S4 object.
+#' @param includeClass boolean indicating whether to print the class of
+#'    each element in the input \code{x} object. Note that for S4 objects,
+#'    each element will be the object returned for each of \code{slotNames(x)}.
+#' @param doFormat boolean indicating whether to format the dimensions using
+#'    \code{format(...,big.mark=",")}, which is mainly useful for extremely
+#'    large dimensions. This parameter should probably become more broadly
+#'    useful and respectful for different locales.
+#' @param big.mark character value used when \code{doFormat=TRUE}, used in the
+#'    call to \code{format(...,big.mark)}.
+#' @param verbose logical whether to print verbose output
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' L <- list(LETTERS=LETTERS,
+#'    letters=letters,
+#'    lettersDF=data.frame(LETTERS, letters));
+#' sdim(L);
+#'
+#' @export
+sdim <- function
+(x,
+ includeClass=TRUE,
+ doFormat=FALSE,
+ big.mark=",",
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to take a list of data.frames and return the dim() of each.
+   ##
+   ## It does try to work with other object types, returning the length for
+   ## most which are not data.frame, matrix, tibble.
+   ##
+   ## includeClass is logical value indicating whether to return the class
+   ## of each object in its own column, which provides a useful summary
+   ## of the list elements.
+   ##
+   ## If the object is not "list" class, and has slotNames(x), then
+   ## they will be used instead
+   ##
+
+   getDim <- function
+   (i,
+      doFormat=FALSE,
+      includeClass=FALSE,
+      ...) {
+      ## Simply a wrapper function
+      iClass <- class(i);
+
+      ## igraph objects return the number of vertices and edges
+      if (igrepHas("igraph", iClass)) {
+         if (!suppressPackageStartupMessages(require(igraph))) {
+            stop("The igraph package is required to describe igraph objects.");
+         }
+         iDim <- c(vcount(i), ecount(i));
+      } else {
+         iDim <- tryCatch({
+            dim(i);
+         }, error=function(e){
+            length(i);
+         });
+         if (length(iDim) == 0) {
+            iDim <- length(i);
+         }
+      }
+      names(iDim) <- head(
+         c("rows",
+            "cols",
+            makeNames(renameOnes=TRUE, startN=3, suffix="",
+               tail(rep("dim", length.out=length(iDim)), -2))),
+         length(iDim));
+      if (doFormat) {
+         iDim <- format(iDim,
+            big.mark=big.mark,
+            trim=TRUE,
+            ...);
+      }
+      iDim <- as.list(iDim);
+      if (includeClass) {
+         iClass <- nameVector(class(i),
+            "class",
+            renameFirst=FALSE,
+            startN=2);
+         iDim <- c(as.list(iClass),
+            iDim);
+      }
+      data.frame(iDim);
+   }
+
+   ## Iterate each element and determine the dimensions
+   if (!igrepHas("list|tbl|tibble|data.frame|matrix", class(x)) &&
+         length(slotNames(x)) > 0) {
+      sn1 <- slotNames(x);
+      sdL <- lapply(nameVector(sn1), function(sni){
+         i <- slot(x, sni);
+         iDim <- getDim(i,
+            doFormat=doFormat,
+            includeClass=includeClass,
+            ...);
+         iDim;
+      });
+   } else {
+      if (!igrepHas("list", class(x))) {
+         if (verbose) {
+            printDebug("sdim(): ",
+               "Coercing to list(x)");
+         }
+         x <- list(x);
+      }
+      if (verbose) {
+         printDebug("sdim(): ",
+            "length(x):",
+            length(x));
+      }
+      sdL <- lapply(x, function(i){
+         iDim <- getDim(i,
+            doFormat=doFormat,
+            includeClass=includeClass,
+            ...);
+         iDim;
+      });
+   }
+   if (includeClass) {
+      sdLnames <- unique(unlist(lapply(sdL, names)));
+      sdLnamesC <- vigrep("^class", sdLnames);
+      sdLnamesD <- unvigrep("^class", sdLnames);
+      sdLnames <- c(sdLnamesD, sdLnamesC)
+      sdL <- lapply(sdL, function(i){
+         df2 <- data.frame(lapply(nameVector(sdLnames), function(i)NA));
+         df2[,colnames(i)] <- i;
+         df2;
+      });
+   }
+   sd1 <- rbindList(sdL);
+   sd1$rows <- rmNA(naValue="", sd1$rows);
+   sd1$cols <- rmNA(naValue="", sd1$cols);
+   return(sd1);
+}
+
+#' print dimensions of nested list objects
+#'
+#' print dimensions of list nested objects, such as a list of lists
+#'
+#' This function iteratively calls \code{sdim(x)} on each list element,
+#' which can be helpful for some more complicated object formats. In future,
+#' the intent is to recurse through a nested list structure, but currently
+#' this process only recurses two steps. Attempts to recurse deeper sometimes
+#' results in printing much more detail than originally intended.
+#'
+#' @param x an S3 object inheriting from class "list", typically a list of
+#'    lists, but will accept a list object in which case it simply calls
+#'    \code{sdim(x)} once, in order to avoid treating a data.frame as a list.
+#' @param includeClass boolean passed to \code{sdim()},
+#'    indicating whether to print the class of
+#'    each element in the input \code{x} object. Note that for S4 objects,
+#'    each element will be the object returned for each of \code{slotNames(x)}.
+#' @param doFormat boolean passed to \code{sdim()},
+#'    indicating whether to format the dimensions using
+#'    \code{format(...,big.mark=",")}, which is mainly useful for extremely
+#'    large dimensions. This parameter should probably become more broadly
+#'    useful and respectful for different locales.
+#' @param big.mark character passed to \code{sdim()},
+#'    value used when \code{doFormat=TRUE}, used in the
+#'    call to \code{format(...,big.mark)}.
+#' @param verbose logical whether to print verbose output
+#' @param ... additional parameters are ignored.
+#'
+#'
+#' @examples
+#' L <- list(LETTERS=LETTERS,
+#'    letters=letters,
+#'    lettersDF=data.frame(LETTERS, letters));
+#' L2 <- list(List1=L,
+#'    List2=L);
+#' ssdim(L);
+#'
+#' @export
+ssdim <- function
+(x,
+ includeClass=TRUE,
+ doFormat=FALSE,
+ big.mark=",",
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to run sdim() on a list of lists of data.frames
+   if (!any("list" %in% unlist(sclass(x)))) {
+      sdim(x);
+   } else {
+      lapply(x, function(iDFL){
+         sdim(iDFL,
+            includeClass=includeClass,
+            doFormat=doFormat,
+            big.mark=big.mark,
+            verbose=verbose);
+      });
+   }
+}
+
+#' return the classes of a list of objects
+#'
+#' return the classes of a list of objects
+#'
+#' This function takes a list and returns the classes for each
+#' object in the list. In the event an object class has multiple values,
+#' the returned object is a list, otherwise is a vector.
+#' If \code{x} is an S4 object, then \code{slotNames(x)} is used, and
+#' the class is returned for each S4 slot.
+#'
+#' @param x an S3 object inheriting from class "list", or an S4 object.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' sclass(list(LETTERS=LETTERS, letters=letters));
+#'
+#' @export
+sclass <- function
+(x,
+ ...)
+{
+   ## Purpose is to take a list of objects and return the class() of each.
+   ##
+   ## If the object is not "list" class, and has slotNames(x), then
+   ## they will be used instead
+   if (!igrepHas("list", class(x)) && length(slotNames(x)) > 0) {
+      sn1 <- slotNames(x);
+      sd1 <- sapply(sn1, function(sni){
+         class(slot(x, sni));
+      });
+   } else {
+      sd1 <- sapply(x, function(i){
+         class(i);
+      });
+   }
+   sd1;
 }

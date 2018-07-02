@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>print colorized output to R console <U+2014> printDebug <e2><80><a2> jamba</title>
+<title>print colorized output to R console — printDebug • jamba</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="print colorized output to R console — printDebug" />
+
+<meta property="og:description" content="print colorized output to R console" />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -32,6 +38,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -47,12 +55,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">jamba</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">jamba</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.6.900</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -72,6 +84,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -82,6 +97,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -89,10 +105,11 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>print colorized output to R console</h1>
+    <small>Source: <a href='http://github.com/jmw86069/jamba/blob/master/R/jamba.r'><code>R/jamba.r</code></a></small>
     </div>
 
     
@@ -104,11 +121,12 @@
   <span class='kw'>digits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nsmall</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>justify</span> <span class='kw'>=</span> <span class='st'>"left"</span>, <span class='kw'>big.mark</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>small.mark</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>zero.print</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>doColor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>splitComments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>, <span class='kw'>detectColors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>darkFactor</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>), <span class='kw'>sFactor</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>), <span class='kw'>removeNA</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>replaceNULL</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>adjustRgb</span> <span class='kw'>=</span> -<span class='fl'>0.1</span>, <span class='kw'>byLine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>indent</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>keepNA</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>x</span>)</pre>
+  <span class='kw'>darkFactor</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>), <span class='kw'>sFactor</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>), <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>removeNA</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>replaceNULL</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>adjustRgb</span> <span class='kw'>=</span> -<span class='fl'>0.1</span>,
+  <span class='kw'>byLine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>indent</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>keepNA</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>x</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -184,6 +202,15 @@ when using alternating light-dark color shading.</p></td>
 values when using alternating light-dark color shading.</p></td>
     </tr>
     <tr>
+      <th>lightMode</th>
+      <td><p>boolean or NULL, indicating whether the text background
+color is light, thus imposing a maximum brightness for colors displayed.
+It use lightMode if defined by the function caller, otherwise it will
+use options("lightMode") if defined, lastly it will attempt to detect
+whether running inside Rstudio by checking the environment variable
+"RSTUDIO", and if so it will assume lightMode==TRUE.</p></td>
+    </tr>
+    <tr>
       <th>removeNA</th>
       <td><p>logical whether to remove NA values and not print to
 the console.</p></td>
@@ -240,11 +267,11 @@ Colors in fgText are recycled to the length of '...'</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"Testing "</span>, <span class='st'>"default "</span>, <span class='st'>"printDebug()."</span>);</div><div class='output co'>#&gt; ##  (14:10:00) 08Nov2017:  Testing default printDebug(). </div><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'>c</span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>));</div><div class='output co'>#&gt; ##  (14:10:00) 08Nov2017:  List of vectors:one,two,three </div><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'>c</span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>),
-   <span class='fu'>c</span>(<span class='st'>"four"</span>, <span class='st'>"five"</span>, <span class='st'>"six"</span>), <span class='kw'>collapse</span><span class='kw'>=</span><span class='st'>" "</span>);</div><div class='output co'>#&gt; ##  (14:10:00) 08Nov2017:  List of vectors: one, two, three four, five, six </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"Testing "</span>, <span class='st'>"default "</span>, <span class='st'>"printDebug()."</span>);</div><div class='output co'>#&gt; ##  (14:22:25) 02Jul2018:  Testing default printDebug(). </div><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'>c</span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>));</div><div class='output co'>#&gt; ##  (14:22:25) 02Jul2018:  List of vectors:one,two,three </div><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'>c</span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>),
+   <span class='fu'>c</span>(<span class='st'>"four"</span>, <span class='st'>"five"</span>, <span class='st'>"six"</span>), <span class='kw'>collapse</span><span class='kw'>=</span><span class='st'>" "</span>);</div><div class='output co'>#&gt; ##  (14:22:25) 02Jul2018:  List of vectors: one, two, three four, five, six </div><div class='input'>
 <span class='co'># slightly different style, one entry per line, indented:</span>
 <span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'>c</span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>),
-   <span class='fu'>c</span>(<span class='st'>"four"</span>, <span class='st'>"five"</span>, <span class='st'>"six"</span>), <span class='kw'>collapse</span><span class='kw'>=</span><span class='st'>"\n   "</span>);</div><div class='output co'>#&gt; ##  (14:10:00) 08Nov2017:  List of vectors:
+   <span class='fu'>c</span>(<span class='st'>"four"</span>, <span class='st'>"five"</span>, <span class='st'>"six"</span>), <span class='kw'>collapse</span><span class='kw'>=</span><span class='st'>"\n   "</span>);</div><div class='output co'>#&gt; ##  (14:22:25) 02Jul2018:  List of vectors:
 #&gt;    one,
 #&gt;    two,
 #&gt;    three
@@ -253,7 +280,7 @@ Colors in fgText are recycled to the length of '...'</p>
 #&gt;    six </div><div class='input'>
 <span class='co'># in an R console, or when writing to a log file, the</span>
 <span class='co'># following output text is colored</span>
-<span class='fu'>printDebug</span>(<span class='fu'>c</span>(<span class='st'>"red"</span>, <span class='st'>"blue"</span>, <span class='st'>"yellow"</span>));</div><div class='output co'>#&gt; ##  (14:10:00) 08Nov2017:  red,blue,yellow </div><div class='input'>
+<span class='fu'>printDebug</span>(<span class='fu'>c</span>(<span class='st'>"red"</span>, <span class='st'>"blue"</span>, <span class='st'>"yellow"</span>));</div><div class='output co'>#&gt; ##  (14:22:25) 02Jul2018:  red,blue,yellow </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -275,11 +302,14 @@ Colors in fgText are recycled to the length of '...'</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

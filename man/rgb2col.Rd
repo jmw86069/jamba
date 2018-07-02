@@ -10,7 +10,7 @@ rgb2col(red, green = NULL, blue = NULL, alpha = NULL, names = NULL,
 \arguments{
 \item{red}{numeric vector of red values; or RGB numeric matrix with
 rownames c("red","green","blue") in any order, with optional rowname
-"alpha"; or character strings with comma-separated rgb values, in 
+"alpha"; or character strings with comma-separated rgb values, in
 format "100,20,10". The latter input is designed to handle web rgb
 values.}
 
