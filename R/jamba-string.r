@@ -1582,11 +1582,14 @@ mixedSortDF <- function
    ## is no greater than ncol(df)
    ## is not a list column
    dfColnums <- seq_len(ncol(df));
-   byColsKeep <- (!is.na(byCols) &
-      seq_along(byCols) %in% match(unique(abs(byCols)), dfColnums));
-   byColsSortable <- sapply(byCols[byColsKeep], function(i){
-      !igrepHas("list", class(df[[abs(i)]]))
-   });
+   byColsKeep <- (
+      !is.na(byCols) &
+      abs(byCols) %in% dfColnums &
+      seq_along(byCols) %in% match(unique(abs(byCols)), byCols)
+   );
+   byColsSortable <- sapply(abs(byCols)[byColsKeep], function(i){
+      !igrepHas("list", class(df[[i]]))
+   })
    byColsKeep[byColsKeep] <- byColsSortable;
 
    ## Apply byCols to keep
