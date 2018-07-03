@@ -1600,12 +1600,17 @@ mixedSortDF <- function
    ## Apply byCols to keep
    byCols <- byCols[byColsKeep];
    if (length(decreasing) > 0) {
-      decreasingV <- rep(-1*decreasing, length.out=length(byCols));
-      decreasingV <- (decreasingV[byColsKeep] * sign(byCols)) < 0;
+      decreasing1 <- rep(-1*decreasing, length.out=length(byCols) + useRownames);
+      decreasingV <- (decreasing1[byColsKeep] * sign(byCols)) < 0;
+      if (useRownames) {
+         decreasingV <- c(decreasingV, tail(decreasing1, 1));
+      }
    } else {
       decreasingV <- (byCols < 0);
+      if (useRownames) {
+         decreasingV <- c(decreasingV, FALSE);
+      }
    }
-
    if (verbose) {
       printDebug("mixedSortDF(): ",
          "byCols:",
@@ -1622,6 +1627,7 @@ mixedSortDF <- function
                "red",
                "lightgreen")));
    }
+   byCols <- abs(byCols);
 
    ## Check for empty byCols, if not using rownames, return df as-is
    if (length(byCols) == 0 && !useRownames) {
@@ -1629,34 +1635,34 @@ mixedSortDF <- function
    }
 
    if (igrepHas("matrix", class(df))) {
-      if (useRownames && !is.null(rownames(df))) {
+      if (useRownames) {
          dfOrder <- mmixedOrder(
             data.frame(check.names=FALSE,
                stringsAsFactors=FALSE,
-               df[,abs(byCols),drop=FALSE],
+               df[,(byCols),drop=FALSE],
                rowNamesX=rownames(df)),
             decreasing=decreasingV,
             na.last=na.last,
             ...);
       } else {
          dfOrder <- mmixedOrder(
-            as.data.frame(df[,abs(byCols),drop=FALSE]),
+            as.data.frame(df[,(byCols),drop=FALSE]),
             decreasing=decreasingV,
             na.last=na.last,
             ...);
       }
    } else {
-      if (useRownames && !is.null(rownames(df))) {
+      if (useRownames) {
          dfOrder <- mmixedOrder(
             data.frame(check.names=FALSE,
                stringsAsFactors=FALSE,
-               df[,abs(byCols),drop=FALSE],
+               df[,(byCols),drop=FALSE],
                rowNamesX=rownames(df)),
             decreasing=decreasingV,
             na.last=na.last,
             ...);
       } else {
-         dfOrder <- mmixedOrder(df[,abs(byCols),drop=FALSE],
+         dfOrder <- mmixedOrder(df[,(byCols),drop=FALSE],
             decreasing=decreasingV,
             na.last=na.last,
             ...);
