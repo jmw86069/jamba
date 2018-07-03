@@ -1529,7 +1529,7 @@ mmixedOrder <- function
 #' @export
 mixedSortDF <- function
 (df,
- byCols=1:ncol(df),
+ byCols=seq_len(ncol(df)),
  na.last=TRUE,
  decreasing=NULL,
  useRownames=TRUE,
