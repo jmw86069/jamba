@@ -1588,7 +1588,7 @@ mixedSortDF <- function
    byColsKeep <- (
       !is.na(byCols) &
       abs(byCols) %in% dfColnums &
-      seq_along(byCols) %in% match(unique(abs(byCols)), byCols)
+      seq_along(byCols) %in% match(unique(abs(byCols)), abs(byCols))
    );
    if (any(byColsKeep)) {
       byColsSortable <- sapply(abs(byCols)[byColsKeep], function(i){
