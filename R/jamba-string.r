@@ -1544,7 +1544,10 @@ mixedSortDF <- function
    ## in mmixedOrder()
    ##
    ## useRownames=TRUE will use rownames as a tiebreaker, the last in the
-   ## sort precedence
+   ## sort precedence, but only if there are rownames(df).
+   if (useRownames && length(rownames(df)) == 0) {
+      useRownames <- FALSE;
+   }
 
    ## Handle character input for byCols
    if (igrepHas("character", class(byCols))) {
@@ -1617,6 +1620,12 @@ mixedSortDF <- function
                "red",
                "lightgreen")));
    }
+
+   ## Check for empty byCols, if not using rownames, return df as-is
+   if (length(byCols) == 0 && !useRownames) {
+      return(df);
+   }
+
    if (igrepHas("matrix", class(df))) {
       if (useRownames && !is.null(rownames(df))) {
          dfOrder <- mmixedOrder(
@@ -1627,7 +1636,6 @@ mixedSortDF <- function
             decreasing=decreasingV,
             na.last=na.last,
             ...);
-         df <- df[dfOrder,,drop=FALSE];
       } else {
          dfOrder <- mmixedOrder(
             as.data.frame(df[,abs(byCols),drop=FALSE]),
@@ -1635,7 +1643,6 @@ mixedSortDF <- function
             na.last=na.last,
             ...);
       }
-      df <- df[dfOrder,,drop=FALSE];
    } else {
       if (useRownames && !is.null(rownames(df))) {
          dfOrder <- mmixedOrder(
@@ -1646,13 +1653,12 @@ mixedSortDF <- function
             decreasing=decreasingV,
             na.last=na.last,
             ...);
-         df <- df[dfOrder,,drop=FALSE];
       } else {
          dfOrder <- mmixedOrder(df[,abs(byCols),drop=FALSE],
             decreasing=decreasingV,
             na.last=na.last,
             ...);
-         df <- df[dfOrder,,drop=FALSE];
       }
    }
+   df[dfOrder,,drop=FALSE];
 }
