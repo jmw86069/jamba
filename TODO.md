@@ -1,5 +1,17 @@
 ## TODO for jamba
 
+### Functions to add
+
+* cPaste(), cPasteUnique() -- requires S4Vectors from Bioconductor, which
+should be a "Suggests" entry with conditional fallback to cover unstrsplit().
+When adding Bioconductor to DESCRIPTION, the line "biocViews:" needs to appear
+with nothing in that section. cPaste() takes a list of vectors, and returns
+a delimited character vector, usually separated by commas. It optionally
+sorts entries using mixedSort(), optimized for the whole vector instead
+of sorting each list element individually. cPasteUnique() is the same,
+except it applies unique() to each list element before calling cPaste(),
+and is also optimized across the whole list.
+
 ### jam global re-usable options
 
 The goal is to make it easier to set certain function parameters once as
