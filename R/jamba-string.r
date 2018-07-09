@@ -198,9 +198,9 @@ unvigrep <- function
    grep(..., ignore.case=ignore.case, value=value, invert=invert);
 }
 
-#' progressive case-insensitive value-grep
+#' provigrep: progressive case-insensitive value-grep
 #'
-#' progressive case-insensitive value-grep
+#' case-insensitive value-grep for a vector of patterns
 #'
 #' Purpose is to provide "progressive vigrep()",which is value-returning,
 #' case-insensitive grep, starting with an ordered vector of grep patterns.
