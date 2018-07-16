@@ -6,7 +6,7 @@
 \usage{
 setPrompt(projectName = get("projectName", envir = .GlobalEnv),
   useColor = TRUE, projectColor = "yellow", bracketColor = c("white",
-  "cyan"), usePid = TRUE, resetPrompt = FALSE, verbose = FALSE, ...)
+  "cyan4"), usePid = TRUE, resetPrompt = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{projectName}{character string representing the active project.}
@@ -24,7 +24,7 @@ back to the default R prompt, that is, no color and no projectName.}
 
 \item{verbose}{logical whether to print verbose output}
 
-\item{...}{additional parameters are ignored.}
+\item{...}{additional parameters are passed to `make_styles()`.}
 }
 \value{
 invisible character string representing the prompt used.

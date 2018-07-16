@@ -4,8 +4,8 @@
 \alias{mixedSortDF}
 \title{sort data.frame keeping numeric values in proper order}
 \usage{
-mixedSortDF(df, byCols = 1:ncol(df), na.last = TRUE, decreasing = NULL,
-  useRownames = TRUE, verbose = FALSE, ...)
+mixedSortDF(df, byCols = seq_len(ncol(df)), na.last = TRUE,
+  decreasing = NULL, useRownames = TRUE, verbose = FALSE, ...)
 }
 \arguments{
 \item{df}{data.frame input}
@@ -13,7 +13,11 @@ mixedSortDF(df, byCols = 1:ncol(df), na.last = TRUE, decreasing = NULL,
 \item{byCols}{integer vector referring to the order of columns to be
 used by \code{\link{mmixedOrder}} to order the data.frame. Note that
 negative values will reverse the sort order for the corresponding
-column number.}
+column number.
+byCols can also be a character vector of values in colnames(df),
+optionally including prefix "-" to reverse the sort. Note that the
+parameter \code{decreasing} can also be used to specify columns
+to have reverse sort.}
 
 \item{na.last}{logical whether NA values should be ranked last}
 
@@ -28,6 +32,8 @@ effect of assuring a reproducible result, provided the rownames are
 consistently defined, or if rownames are actually row numbers.}
 
 \item{verbose}{logical whether to print verbose output}
+
+\item{...}{additional arguments passed to \code{mmixedOrder(...)}}
 }
 \value{
 data.frame whose rows are ordered using \code{\link{mmixedOrder}}
@@ -61,6 +67,7 @@ df2 <- data.frame(groupfactor=gf, miRNA=x, stringsAsFactors=FALSE);
 # which also sorting the miRNA names in their proper order.
 mixedSortDF(df2);
 
+x <- data.frame(l1=letters[1:10], l2=rep(letters[1:2+10], 5), L1=LETTERS[1:10], L2=rep(LETTERS[1:2+20], each=5))
 }
 \seealso{
 \code{\link{mixedOrder}}, \code{\link{mixedSort}}

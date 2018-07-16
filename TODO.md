@@ -1,5 +1,17 @@
 ## TODO for jamba
 
+### testthat
+
+Functions in `jamba` should have their various options tested
+using the package `testthat` to help maintain consistent performance
+for future package and R builds.
+
+* `jargs()` can be tested with several example custom functions to make
+sure it produces output as desired.
+* `mixedSort()`, `mixedSortDF()`, `mixedOrder()` should have several
+basic tests to confirm it produces properly and consistently sorted
+outputs.
+
 ### Functions to add
 
 * cPaste(), cPasteUnique() -- requires S4Vectors from Bioconductor, which
@@ -58,11 +70,6 @@ lightMode=TRUE.
 it should recurse through the list, calling rbindList() on each list element
 and progressive build up one resulting data.frame or matrix.
 
-### mixedSortDF
-
-* allow byCols to accept colnames, optionally with prefix "-"
-   which should be handle by reversing the sort order for that
-   column.
 
 ### imageByColors
 

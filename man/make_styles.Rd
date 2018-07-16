@@ -5,8 +5,9 @@
 \title{vectorized make_styles for crayon output}
 \usage{
 make_styles(style, text, bg = FALSE, grey = FALSE, colors = num_colors(),
-  checkSat = TRUE, satCutoff = 0.01, adjustRgb = 0, adjustPower = 1.5,
-  lRange = c(0, 1), sRange = c(0, 1), subTransparent = "grey45",
+  checkSat = TRUE, satCutoff = 0.01, lightMode = checkLightMode(),
+  adjustRgb = getOption("jam.adjustRgb"), adjustPower = 1.5,
+  Lrange = NULL, Crange = NULL, subTransparent = "grey45",
   alphaPower = 2, verbose = FALSE, ...)
 }
 \arguments{
@@ -18,15 +19,13 @@ make_styles(style, text, bg = FALSE, grey = FALSE, colors = num_colors(),
 
 \item{colors}{integer number of colors allowed for console output}
 
-\item{adjustRgb}{numeric value when converting colors to RGB format
-by crayon, which tends to round values up, losing subtle differences
-seen because colors are often too bright.}
+\item{adjustRgb}{numeric value adjustment used during the conversion of
+RGB colors to ANSI colors, which is inherently lossy. If not defined,
+it uses the default returned by `setCLranges()` which itself uses
+\code{getOption("jam.adjustRgb")} with default=0. In order to boost
+color contrast, an alternate value of -0.1 is suggested.}
 
 \item{adjustPower}{numeric adjustment power factor}
-
-\item{lRange}{lightness range, default c(0,1)}
-
-\item{sRange}{saturation range, default c(0,1)}
 
 \item{subTransparent}{color used to substitute for "transparent" which
 a valid R color, but not a valid color for the crayon package.}
@@ -43,6 +42,10 @@ the ratio of square roots.  alphaPower=100 for minimal adjustment.}
 low saturation, in which case grey==TRUE is set.}
 
 \item{setCutoff}{numeric cutoff for color saturation when checkSat==TRUE.}
+
+\item{lRange}{lightness range, default c(0,1)}
+
+\item{sRange}{saturation range, default c(0,1)}
 }
 \description{
 vectorized make_styles for crayon output

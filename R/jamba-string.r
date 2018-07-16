@@ -1572,11 +1572,12 @@ mixedSortDF <- function
             byMatch[byMatchNAneg] <- byMatch[byMatchNAneg] * -1;
          }
       }
+      byCols <- rmNA(byMatch);
       if (verbose) {
          printDebug("mixedSortDF(): ",
-            "Converted byCols to integer.");
+            "Converted byCols to integer:",
+            byCols);
       }
-      #byCols <- rmNA(byMatch);
    }
 
    ## Determine byCols to keep:

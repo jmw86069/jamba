@@ -150,6 +150,160 @@ col2hcl <- function
    x3;
 }
 
+#' convert HCL to R color
+#'
+#' Convert an HCL color matrix to vector of R hex colors
+#'
+#' @param x matrix of colors, with rownames `"H"`, `"C"`, `"L"`, or if not
+#'    supplied it looks for vectors `H`, `C`, and `L` accordingly. It can
+#'    alternatively be supplied as an object of class `polarLUV`.
+#' @param H,C,L numeric vectors supplied as an alternative to `x`, with
+#'    ranges 0 to 360, 0 to 100, and 0 to 100, respectively.
+#' @param maxColorValue numeric value indicating the maximum RGB values,
+#'    typically scaling values to a range of 0 to 255, from the default
+#'    returned range of 0 to 1. In general, this value should not be
+#'    modified.
+#' @param ceiling numeric value indicating the maximum values allowed for
+#'    `R`, `G`, and `B` after conversion by `colorspace::as(x, "RGB")`.
+#'    This ceiling is applied after the `maxColorValue` is used to scale
+#'    numeric values, and is intended to correct for the occurrence of
+#'    values above 255, which would be outside the typical color gamut
+#'    allowed for RGB colors used in R. In general, this value should not
+#'    be modified.
+#' @param alpha optional vector of alpha values. If not supplied, and if
+#'    `x` is supplied as a matrix with rowname `"alpha"`, then values will
+#'    be used from `x["alpha",]`.
+#' @param fixup boolean indicating whether to use
+#'    `colorspace::hex(...,fixup=TRUE)` for conversion to R hex colors,
+#'    **which is not recommended** since this conversion applies some
+#'    unknown non-linear transformation for colors outside the color gamut.
+#'    It is here is an option for comparison, and if specifically needed.
+#' @param ... other arguments are ignored.
+#'
+#' @return vector of R colors, or where the input was NA, then NA
+#'    values are returned in the same order.
+#'
+#' @examples
+#' # Prepare a basic HCL matrix
+#' hclM <- col2hcl(c(red="red",
+#'    blue="blue",
+#'    yellow="yellow",
+#'    orange="#FFAA0066"));
+#' hclM;
+#'
+#' # Now convert back to R hex colors
+#' colorV <- hcl2col(hclM);
+#' colorV;
+#'
+#' showColors(colorV);
+#'
+#' @export
+hcl2col <- function
+(x=NULL,
+ H=NULL,
+ C=NULL,
+ L=NULL,
+ ceiling=255,
+ maxColorValue=255,
+ alpha=NULL,
+ fixup=NULL,
+ ...)
+{
+   ## Purpose is to convert HCL back to an R hex color string
+   ## Note that this function uses the colorspace HCL, which differs from the
+   ## used by the built-in R method hcl()
+   if (!suppressPackageStartupMessages(require(colorspace))) {
+      stop("The colorspace package is required.");
+   }
+   if (!suppressPackageStartupMessages(require(matrixStats))) {
+      useMatrixStats <- TRUE;
+   } else {
+      useMatrixStats <- FALSE;
+   }
+   if (igrepHas("polarLUV", class(x))) {
+      x <- t(colorspace::coords(x));
+      xnames <- colnames(x);
+   } else if (igrepHas("matrix", class(x))) {
+      H <- x["H",];
+      C <- x["C",];
+      L <- x["L",];
+      alpha <- x["alpha",];
+      xnames <- colnames(x);
+   } else if (length(x) == 0) {
+      if (length(H) == 0 ||
+            length(C) == 0 ||
+            length(L) == 0) {
+         stop("hcl2col() requires matrix x with rownames H, C, L; or vectors H, C, and L.");
+      }
+      x <- rbind(H=H, C=C, L=L);
+      xnames <- names(H);
+   }
+
+   if (length(alpha) > 0) {
+      a1 <- alpha;
+   } else if ("alpha" %in% rownames(x)) {
+      a1 <- x["alpha",,drop=TRUE];
+   } else {
+      a1 <- 1;
+   }
+   a1[is.na(a1)] <- 1;
+   a1 <- rep(a1, length.out=ncol(x));
+
+   a1 <- tryCatch({
+      if (max(a1) <= 1) {
+         a1 * 255;
+         #a1;
+      } else {
+         a1;
+         #a1 / 255;
+      }
+   }, error=function(e) {
+      printDebug("Error: ", e, c("orange", "lightblue"));
+      exit;
+      a1;
+   });
+
+   ## Convert to HCL using colorspace::polarLUV()
+   x2 <- polarLUV(H=t(x)[,c("H")],
+      C=t(x)[,c("C")],
+      L=t(x)[,c("L")]);
+
+   ## fixup is an optional boolean, which uses colorspace hex() to
+   ## repair any colors outside of normal RGB ranges (the color gamut),
+   ## otherwise they become NA. Note that the fixup=TRUE method is lossy,
+   ## as colorspace apparently applies a non-linear conversion strategy.
+   if (length(fixup) > 0) {
+      xCol <- hex(x2, fixup=fixup);
+      xCol <- alpha2col(xCol, alpha=a1, maxValue=255);
+      names(xCol) <- xnames;
+   } else {
+      ## use colorspace to convert to RGB, but cap the values at 255
+      ## which keeps them in the color gamut, while not being lossy
+      x3 <- round(
+         noiseFloor(
+            t(colorspace::coords(as(x2, "RGB")) * maxColorValue),
+            minimum=0,
+            ceiling=ceiling,
+            adjustNA=TRUE),
+         digits=3);
+      if (useMatrixStats) {
+         x3colMax <- colMaxs(x3);
+      } else {
+         x3colMax <- apply(x3, 2, max);
+      }
+      if (any(x3colMax) > 255) {
+         x3[,x3colMax > 255] <- t(t(x3[,x3colMax > 255, drop=FALSE]) *
+               (255 / x3colMax[x3colMax > 255]));
+      }
+      x3 <- rbind(x3, "alpha"=a1);
+      xCol <- rgb2col(x3, maxColorValue=255);
+      names(xCol) <- xnames;
+   }
+
+   xCol;
+}
+
+
 #' get R color alpha value
 #'
 #' Return the alpha transparency per R color
