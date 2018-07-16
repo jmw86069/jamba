@@ -5,7 +5,9 @@
 \title{Show R function arguments jam-style}
 \usage{
 jargs(x, grepString = NULL, sortVars = TRUE, asList = TRUE,
-  useColor = TRUE, verbose = FALSE, ...)
+  useColor = TRUE, lightMode = checkLightMode(), Crange = NULL,
+  Lrange = NULL, adjustRgb = 0, useCollapseBase = ", ", verbose = FALSE,
+  debug = 0, ...)
 }
 \arguments{
 \item{x}{function or character name of a function.}
@@ -22,7 +24,34 @@ display results as a data.frame.}
 \item{useColor}{logical whether to display results in color, if the crayon
 package is available, and terminal console is capable.}
 
+\item{lightMode}{boolean or NULL, indicating whether the text background
+color is light, thus imposing a maximum brightness for colors displayed.
+It use lightMode if defined by the function caller, otherwise it will
+use options("jam.lightMode") if defined, lastly it will attempt to detect
+whether running inside Rstudio by checking the environment variable
+"RSTUDIO", and if so it will assume lightMode==TRUE.}
+
+\item{Crange}{numeric range of chroma values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Crange by `setCLranges()`.}
+
+\item{Lrange}{numeric range of luminance values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Lrange by `setCLranges()`.}
+
+\item{adjustRgb}{numeric value adjustment used during the conversion of
+RGB colors to ANSI colors, which is inherently lossy. If not defined,
+it uses the default returned by `setCLranges()` which itself uses
+\code{getOption("jam.adjustRgb")} with default=0. In order to boost
+color contrast, an alternate value of -0.1 is suggested.}
+
+\item{useCollapseBase}{character string used to combine multiple parameter
+values.}
+
 \item{verbose}{logical whether to print verbose output.}
+
+\item{debug}{integer value, greater than 0 will cause debug-type verbose
+output, useful because parameters are hard!}
 }
 \description{
 Show R function arguments jam-style

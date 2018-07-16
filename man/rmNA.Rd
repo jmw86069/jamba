@@ -5,7 +5,7 @@
 \title{remove NA values}
 \usage{
 rmNA(x, naValue = NULL, rmNULL = FALSE, nullValue = naValue,
-  rmInfinite = TRUE, infiniteValue = NULL, rmNAnames = TRUE,
+  rmInfinite = TRUE, infiniteValue = NULL, rmNAnames = FALSE,
   verbose = FALSE, ...)
 }
 \arguments{

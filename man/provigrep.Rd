@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba-string.r
 \name{provigrep}
 \alias{provigrep}
-\title{progressive case-insensitive value-grep}
+\title{provigrep: progressive case-insensitive value-grep}
 \usage{
 provigrep(patterns, x, maxValues = NULL, sortFunc = c, rev = FALSE,
   returnType = c("vector", "list"), ignore.case = TRUE, ...)
@@ -35,7 +35,7 @@ when you would like to know which patterns matched specific entries.}
 runs in case-insensitive mode, as by default.}
 }
 \description{
-progressive case-insensitive value-grep
+case-insensitive value-grep for a vector of patterns
 }
 \details{
 Purpose is to provide "progressive vigrep()",which is value-returning,

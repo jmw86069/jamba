@@ -5,7 +5,7 @@
 \title{Draw colored box indicating R plot space}
 \usage{
 usrBox(fill = "#FFFF9966", label = NULL, parUsr = par("usr"),
-  debug = FALSE, ...)
+  debug = FALSE, add = FALSE, ...)
 }
 \arguments{
 \item{fill}{character R color used to fill the background of the plot}

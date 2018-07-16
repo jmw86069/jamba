@@ -19,12 +19,12 @@ check lightMode for light background color
 \details{
 Check the lightMode status through function parameter, options, or
 environment variable. If the function defines lightMode, it is used as-is.
-If lightMode is NULL, then options("lightMode") is used if defined.
+If lightMode is NULL, then options("jam.lightMode") is used if defined.
 Otherwise, it tries to detect whether the R session is running inside
 Rstudio using the environmental variable "RSTUDIO", and if so it assumes
 lightMode==TRUE.
 
-To set a default lightMode, add options("lightMode"=TRUE) to .Rprofile, or
+To set a default lightMode, add options("jam.lightMode"=TRUE) to .Rprofile, or
 to the relevant R script.
 }
 \examples{

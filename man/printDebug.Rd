@@ -9,10 +9,11 @@ printDebug(..., fgText = NULL, bgText = NULL, fgTime = "cyan",
   digits = NULL, nsmall = 0L, justify = "left", big.mark = "",
   small.mark = "", zero.print = NULL, width = NULL, doColor = NULL,
   splitComments = FALSE, collapse = "", sep = ",", detectColors = TRUE,
-  darkFactor = c(1, 1.5), sFactor = c(1, 1.5), lightMode = NULL,
-  removeNA = FALSE, replaceNULL = NULL, adjustRgb = -0.1,
-  byLine = FALSE, verbose = FALSE, indent = "", keepNA = TRUE,
-  file = "", append = TRUE, x)
+  darkFactor = c(1, 1.5), sFactor = c(1, 1.5),
+  lightMode = checkLightMode(), Crange = NULL, Lrange = NULL,
+  removeNA = FALSE, replaceNULL = NULL,
+  adjustRgb = getOption("jam.adjustRgb"), byLine = FALSE, verbose = FALSE,
+  indent = "", keepNA = TRUE, file = "", append = TRUE, x)
 }
 \arguments{
 \item{...}{text to be printed to the R console.}
@@ -60,9 +61,17 @@ values when using alternating light-dark color shading.}
 \item{lightMode}{boolean or NULL, indicating whether the text background
 color is light, thus imposing a maximum brightness for colors displayed.
 It use lightMode if defined by the function caller, otherwise it will
-use options("lightMode") if defined, lastly it will attempt to detect
+use options("jam.lightMode") if defined, lastly it will attempt to detect
 whether running inside Rstudio by checking the environment variable
-"RSTUDIO", and if so it will assume lightMode==TRUE.}
+"RSTUDIO", and if so it will assign lightMode TRUE.}
+
+\item{Crange}{numeric range of chroma values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Crange by `setCLranges()`.}
+
+\item{Lrange}{numeric range of luminance values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Lrange by `setCLranges()`.}
 
 \item{removeNA}{logical whether to remove NA values and not print to
 the console.}
@@ -70,8 +79,11 @@ the console.}
 \item{replaceNULL}{character or NULL, optionally replace NULL elements
 with non-NULL character value.}
 
-\item{adjustRgb}{logical sent to \code{\link{make_styles}}, whether to
-adjust RGB to prevent loss of detail with low color brightness.}
+\item{adjustRgb}{numeric value adjustment used during the conversion of
+RGB colors to ANSI colors, which is inherently lossy. If not defined,
+it uses the default returned by `setCLranges()` which itself uses
+\code{getOption("jam.adjustRgb")} with default=0. In order to boost
+color contrast, an alternate value of -0.1 is suggested.}
 
 \item{byLine}{logical whether to delimit lists by line instead of
 using collapse to combine them onto one line.}
@@ -86,6 +98,10 @@ a specified file.}
 
 \item{append}{logical whether to append output, relevant only when
 \code{file} specifies a filename.}
+}
+\value{
+This function is called for the by-product of printing
+   debug output, it returns `invisible(NULL)`, no output.
 }
 \description{
 print colorized output to R console
