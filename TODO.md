@@ -1,5 +1,11 @@
 ## TODO for jamba
 
+### Update the jamba.r overview help documentation
+
+* Add new functions to the relevant section
+* Look into how to add functions to relevant sections
+by using keywords, so the section dynamically populate
+
 ### testthat
 
 Functions in `jamba` should have their various options tested
