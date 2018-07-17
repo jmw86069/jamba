@@ -5,17 +5,24 @@
 \title{set R prompt with project name and R version}
 \usage{
 setPrompt(projectName = get("projectName", envir = .GlobalEnv),
-  useColor = TRUE, projectColor = "yellow", bracketColor = c("white",
-  "cyan4"), usePid = TRUE, resetPrompt = FALSE, verbose = FALSE, ...)
+  useColor = TRUE, projectColor = "yellow", bracketColor = "white",
+  Rcolors = c("white", "white", "white"), PIDcolor = NA,
+  promptColor = "white", usePid = TRUE, resetPrompt = FALSE,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{projectName}{character string representing the active project.}
 
 \item{useColor}{logical whether to define a color prompt if the
-\code{\link{crayon}} package is installed.}
+`crayon` package is installed.}
 
-\item{projectColor, bracketColor}{colors used when useColor==TRUE and'
-the \code{\link{crayon}} package is installed.}
+\item{projectColor, bracketColor, Rcolors, PIDcolor, promptColor}{colors
+used when useColor==TRUE and the \code{\link{crayon}} package
+is installed. `projectColor` colors the project name; `bracketColor`
+colors the curly brackets around the project; `Rcolors` can be
+a vector of 3 colors, colorizing "R", the "-" divider, and the
+R version; `PIDcolor` colors the PID when `usePid=TRUE`; and
+`promptColor` colors the `">"` at the end of the prompt.}
 
 \item{usePid}{logical whether to include the process ID in the prompt.}
 
@@ -24,7 +31,8 @@ back to the default R prompt, that is, no color and no projectName.}
 
 \item{verbose}{logical whether to print verbose output}
 
-\item{...}{additional parameters are passed to `make_styles()`.}
+\item{...}{additional parameters are passed to `make_styles()` which is
+only relevant with the argument `useColor=TRUE`.}
 }
 \value{
 invisible character string representing the prompt used.
@@ -43,7 +51,7 @@ the event an R process spins out of control, and it would be useful
 to know definitively which exact process ID is stuck, so that it can
 be killed without affecting other R sessions inadvertently.
 
-The prompt is defined in \code{options("prompt")}.
+The prompt is defined in `options("prompt")`.
 
 Note that in some cases, the color encoding of the prompt interferes
 with word wrapping, the symptom is that when typing text into the R console
@@ -55,7 +63,7 @@ the edge of the screen. There are two frequent causes of this issue:
       screen, which can happen when resizing the console, or when
       accessing an R session via GNU screen, or tmux, and the environment
       variable has not been propagated to the terminal window. Usually
-      this issue is resolved by defining \code{options("width")} manually,
+      this issue is resolved by defining `options("width")` manually,
       or by simply resizing the terminal window, which may trigger the
       appropriate environment variable updates.}
    \item{The locale}{can sometimes be mismatched with the terminal window,
@@ -63,8 +71,8 @@ the edge of the screen. There are two frequent causes of this issue:
       properly detecting the compatibility of the server. It may happen
       for example, when using PuTTY on Windows, or when using GNU screen or
       tmux on linux or Mac OSX. To troubleshoot, check
-      \code{Sys.env("LC_ALL")} which may be "C" or another locale such as
-      "en_US.UTF-8". Note that switching locale may have the effect of
+      `Sys.env("LC_ALL")` which may be `"C"` or another locale such as
+      `"en_US.UTF-8"`. Note that switching locale may have the effect of
       correcting the word wrap, but may adversely affect display of
       non-standard unicode characters.}
 }

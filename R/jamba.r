@@ -265,7 +265,7 @@ asDate <- function
 
 #' get simple date string
 #'
-#' get simple date string
+#' get simple date string in the format DDmonYYYY such as 17jul2018.
 #'
 #' Gets the current date in a simplified text string. Use
 #' \code{\link{asDate}} to convert back to Date object.
@@ -273,8 +273,8 @@ asDate <- function
 #' @return character vector with simplified date string
 #'
 #' @param t current time, by default the output of \code{\link{Sys.time}}.
-#' @param trim logical whether to trim the output of \code{\link{format}} in
-#'    the event that multiple values are sent for \code{t}.
+#' @param trim logical whether to trim the output of \code{\link{format}}
+#'    in the event that multiple values are sent for \code{t}.
 #' @param ... additional parameters sent to \code{\link{format}}
 #'
 #' @examples
@@ -302,7 +302,7 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #' to know definitively which exact process ID is stuck, so that it can
 #' be killed without affecting other R sessions inadvertently.
 #'
-#' The prompt is defined in \code{options("prompt")}.
+#' The prompt is defined in `options("prompt")`.
 #'
 #' Note that in some cases, the color encoding of the prompt interferes
 #' with word wrapping, the symptom is that when typing text into the R console
@@ -314,7 +314,7 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #'       screen, which can happen when resizing the console, or when
 #'       accessing an R session via GNU screen, or tmux, and the environment
 #'       variable has not been propagated to the terminal window. Usually
-#'       this issue is resolved by defining \code{options("width")} manually,
+#'       this issue is resolved by defining `options("width")` manually,
 #'       or by simply resizing the terminal window, which may trigger the
 #'       appropriate environment variable updates.}
 #'    \item{The locale}{can sometimes be mismatched with the terminal window,
@@ -322,8 +322,8 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #'       properly detecting the compatibility of the server. It may happen
 #'       for example, when using PuTTY on Windows, or when using GNU screen or
 #'       tmux on linux or Mac OSX. To troubleshoot, check
-#'       \code{Sys.env("LC_ALL")} which may be "C" or another locale such as
-#'       "en_US.UTF-8". Note that switching locale may have the effect of
+#'       `Sys.env("LC_ALL")` which may be `"C"` or another locale such as
+#'       `"en_US.UTF-8"`. Note that switching locale may have the effect of
 #'       correcting the word wrap, but may adversely affect display of
 #'       non-standard unicode characters.}
 #' }
@@ -335,16 +335,23 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #' number of characters being displayed by the prompt.
 #'
 #' @return invisible character string representing the prompt used.
+#'
 #' @param projectName character string representing the active project.
 #' @param useColor logical whether to define a color prompt if the
-#'    \code{\link{crayon}} package is installed.
-#' @param projectColor,bracketColor colors used when useColor==TRUE and'
-#'    the \code{\link{crayon}} package is installed.
+#'    `crayon` package is installed.
+#' @param projectColor,bracketColor,Rcolors,PIDcolor,promptColor colors
+#'    used when useColor==TRUE and the \code{\link{crayon}} package
+#'    is installed. `projectColor` colors the project name; `bracketColor`
+#'    colors the curly brackets around the project; `Rcolors` can be
+#'    a vector of 3 colors, colorizing "R", the "-" divider, and the
+#'    R version; `PIDcolor` colors the PID when `usePid=TRUE`; and
+#'    `promptColor` colors the `">"` at the end of the prompt.
 #' @param usePid logical whether to include the process ID in the prompt.
 #' @param resetPrompt logical whether to revert all changes to the prompt
 #'    back to the default R prompt, that is, no color and no projectName.
 #' @param verbose logical whether to print verbose output
-#' @param ... additional parameters are passed to `make_styles()`.
+#' @param ... additional parameters are passed to `make_styles()` which is
+#'    only relevant with the argument `useColor=TRUE`.
 #'
 #' @examples
 #' \dontrun{
@@ -357,7 +364,10 @@ setPrompt <- function
 (projectName=get("projectName", envir=.GlobalEnv),
  useColor=TRUE,
  projectColor="yellow",
- bracketColor=c("white", "cyan4"),
+ bracketColor="white",
+ Rcolors=c("white","white","white"),
+ PIDcolor=NA,
+ promptColor="white",
  usePid=TRUE,
  resetPrompt=FALSE,
  verbose=FALSE,
@@ -369,14 +379,19 @@ setPrompt <- function
    ## can be helpful when an R session hangs, but you have multiple active
    ## R sessions, and might otherwise not be able to tell which R session
    ## is problematic.
-   if (useColor %in% c(TRUE, 1) &&
-       suppressPackageStartupMessages(require(crayon))) {
+   if (length(useColor) > 0 &&
+         useColor &&
+         suppressPackageStartupMessages(require(crayon))) {
       useColor <- 1;
    } else {
       useColor <- 0;
    }
    promptValue <- "> ";
-   bracketColor <- head(bracketColor, 1);
+   projectColor <- rep(c(projectColor, "white"), length.out=1);
+   bracketColor <- rep(c(bracketColor, "white"), length.out=1);
+   Rcolors <- rep(c(rep(c(Rcolors), length.out=3), "white"), length.out=3);
+   PIDcolor <- rep(c(PIDcolor, NA), length.out=1);
+   promptColor <- rep(c(promptColor, "white"), length.out=1);
    if (verbose) {
       printDebug("setPrompt(): ",
          "useColor:",
@@ -393,64 +408,76 @@ setPrompt <- function
       if (!usePid) {
          promptValue <- paste(
             make_styles(
-               style=c(head(bracketColor,1),
-                  projectColor, head(bracketColor,1),
-                  "white", NA, NA, "white"),
-               c("{", projectName, "}",
-                  "-R", "-",
+               style=c(bracketColor,
+                  projectColor,
+                  bracketColor,
+                  NA,
+                  Rcolors,
+                  promptColor),
+               c("{",
+                  projectName,
+                  "}",
+                  "-",
+                  "R",
+                  "-",
                   paste0(R.version[c("major", "minor")], collapse="."),
                   "> "),
+               verbose=verbose,
                ...
             ),
             collapse="");
       } else {
-         styleV <- c(head(bracketColor,1),
-            projectColor, head(bracketColor,1),
-            "white", NA, NA, NA, NA, "white");
-         styleV2 <- applyCLrange(styleV,
-            Crange=setCLranges()$Crange,
-            Lrange=setCLranges()$Lrange,
-            ...);
-
          promptValue <- paste(
             make_styles(
-               style=c(head(bracketColor,1),
+               style=c(bracketColor,
                   projectColor,
-                  head(bracketColor,1),
-                  "white",
-                  NA, NA, NA, NA,
-                  "white"),
+                  bracketColor,
+                  NA,
+                  Rcolors,
+                  NA,
+                  PIDcolor,
+                  promptColor),
                c("{",
                   projectName,
                   "}",
-                  "-R", "-",
+                  "-",
+                  "R",
+                  "-",
                   paste0(R.version[c("major", "minor")], collapse="."),
-                  "_", Sys.getpid(),
+                  "_",
+                  Sys.getpid(),
                   "> "),
+               verbose=verbose,
                ...
             ),
             collapse="");
       }
-      if (verbose) {
-         cat("promptValue: '", promptValue, "'\n\n");
-      }
-      options("prompt"=promptValue);
    } else {
       if (verbose) {
          printDebug("Setting non-colorized prompt for R.");
       }
       if (!usePid) {
-         promptValue <- paste0("{", projectName, "}",
-            "-R-", paste(R.version[c("major", "minor")], collapse="."),
+         promptValue <- paste0("{",
+            projectName,
+            "}",
+            "-R-",
+            paste(R.version[c("major", "minor")], collapse="."),
             "> ");
       } else {
-         promptValue <- paste0("{", projectName, "}",
-            "-R-", paste(R.version[c("major", "minor")], collapse="."),
-            "_", Sys.getpid(),
+         promptValue <- paste0("{",
+            projectName,
+            "}",
+            "-R-",
+            paste(R.version[c("major", "minor")], collapse="."),
+            "_",
+            Sys.getpid(),
             "> ");
       }
-      options("prompt"=promptValue);
    }
+   if (verbose) {
+      cat("setPrompt() defined promptValue: '", promptValue, "'\n\n");
+   }
+   options("prompt"=promptValue);
    invisible(promptValue);
 }
 
@@ -1014,8 +1041,6 @@ printDebug <- function
    ## Determine if the color values have been defined
    if (is.null(fgText)) {
       fgTextBase <- tail(rmNULL(xList), 1);
-      #print("fgTextBase:");
-      #print(fgTextBase);
       if (igrepHas("list", class(fgTextBase[[1]]))) {
          fgTextBase <- unlist(fgTextBase, recursive=FALSE);
       }
@@ -1024,9 +1049,7 @@ printDebug <- function
       });
       if (fgTextBaseIsColor) {
          fgText <- fgTextBase;
-         #if (igrepHas("list", class(fgText[[1]]))) {
-            fgText <- unlist(fgText, recursive=FALSE);
-         #}
+         fgText <- unlist(fgText, recursive=FALSE);
          xList <- head(rmNULL(xList), -1);
       } else {
          fgText <- c("darkorange1", "dodgerblue");
@@ -1660,24 +1683,40 @@ tcount <- function
 #' @param text vector of one or more character values
 #' @param bg NULL or a vector of one or more background styles
 #' @param colors integer number of colors allowed for console output
-#' @param checkSet logical whether to check if the color is extremely
-#'    low saturation, in which case grey==TRUE is set.
-#' @param setCutoff numeric cutoff for color saturation when checkSat==TRUE.
+#' @param satCutoff numeric cutoff for color saturation, below which a color
+#'    is considered "grey" and the ANSI greyscale color set is used.
+#' @param Cgrey numeric chroma (C) value, which defines grey colors at or
+#'    below this chroma. Any colors at or below the grey cutoff will have
+#'    use ANSI greyscale coloring. To disable, set `Cgrey=-1`.
+#' @param lightMode boolean indicating whether the background color
+#'    is light (TRUE is bright), or dark (FALSE is dark.) By default
+#'    it calls `checkLightMode()` which queries `getOption("lightMode")`.
+#' @param Crange numeric range of chroma values, ranging
+#'    between 0 and 100. When NULL, default values will be
+#'    assigned to Crange. When supplied, range(Crange) is used.
+#' @param Lrange numeric range of luminance values, ranging
+#'    between 0 and 100. When NULL, default values will be
+#'    assigned to Lrange. When supplied, range(Lrange) is used.
 #' @param adjustRgb numeric value adjustment used during the conversion of
 #'    RGB colors to ANSI colors, which is inherently lossy. If not defined,
 #'    it uses the default returned by `setCLranges()` which itself uses
 #'    \code{getOption("jam.adjustRgb")} with default=0. In order to boost
 #'    color contrast, an alternate value of -0.1 is suggested.
 #' @param adjustPower numeric adjustment power factor
-#' @param lRange lightness range, default c(0,1)
-#' @param sRange saturation range, default c(0,1)
-#' @param subTransparent color used to substitute for "transparent" which
+#' @param fixYellow boolean indicating whether to "fix" the darkening of
+#'    yellow, which otherwise turns to green. Instead, since JAM can,
+#'    JAM will make the yellow slightly more golden before darkening. This
+#'    change only affects color hues between 80 and 90. This argument is
+#'    passed to `applyCLrange()`.
+#' @param colorTransparent color used to substitute for "transparent" which
 #'    a valid R color, but not a valid color for the crayon package.
 #' @param alphaPower numeric value, used to adjust the RGB values for alpha
 #'    values less than 255, by raising the ratio to 1/alphaPower, which takes
 #'    the ratio of square roots.  alphaPower=100 for minimal adjustment.
 #' @param verbose logical whether to print verbose output
 #' @param ... additional parameters are ignored
+#'
+#' @seealso `applyCLrange`, `checkLightMode`, `setCLranges`
 #'
 #' @export
 make_styles <- function
@@ -1686,14 +1725,14 @@ make_styles <- function
  bg=FALSE,
  grey=FALSE,
  colors=num_colors(),
- checkSat=TRUE,
- satCutoff=0.01,
+ Cgrey=5,
  lightMode=checkLightMode(),
+ Crange=NULL,
+ Lrange=NULL,
  adjustRgb=getOption("jam.adjustRgb"),
  adjustPower=1.5,
- Lrange=NULL,
- Crange=NULL,
- subTransparent="grey45",
+ fixYellow=TRUE,
+ colorTransparent="grey45",
  alphaPower=2,
  verbose=FALSE,
  ...)
@@ -1731,6 +1770,14 @@ make_styles <- function
       return(text);
    }
 
+   if (length(Cgrey) == 0) {
+      Cgrey <- -1;
+   }
+   if (length(colorTransparent) == 0) {
+      colorTransparent <- NA;
+   }
+
+   ## Determine Crange, Lrange, adjustRgb
    CLranges <- setCLranges(lightMode=lightMode,
       Crange=Crange,
       Lrange=Lrange);
@@ -1739,48 +1786,77 @@ make_styles <- function
    }
    Lrange <- CLranges$Lrange;
    Crange <- CLranges$Crange;
+   if (verbose) {
+      print(paste0("make_styles(): ",
+         "Crange:",
+         paste(Crange, collapse=","),
+         ", Lrange:",
+         paste(Lrange, collapse=","),
+         ", adjustRgb:",
+         adjustRgb,
+         ", fixYellow:",
+         fixYellow));
+   }
 
    if (igrepHas("matrix", style)) {
       style <- style[,rep(1:ncol(style), length.out=length(text)),drop=FALSE];
-      styleNA <- is.na(style["red",]);
+      styleNA <- (is.na(style["red",]) |
+            is.na(style["green",]) |
+            is.na(style["blue",]));
       ## Convert to color vector to apply CL range, then back to rgb
       styleV <- rgb2col(style);
-      styleV <- applyCLrange(styleV,
-         Lrange=Lrange,
-         Crange=Crange,
-         ...);
-      style <- col2rgb(styleV, alpha=TRUE);
-      if (any(styleNA)) {
-         style[,styleNA] <- NA;
-      }
    } else {
       style <- rep(style, length.out=length(text));
       styleNA <- is.na(style);
       styleV <- style;
-      styleV <- applyCLrange(styleV,
-         Lrange=Lrange,
-         Crange=Crange,
-         ...);
-      style <- col2rgb(styleV, alpha=TRUE);
-      if (any(styleNA)) {
-         style[,styleNA] <- NA;
-      }
+   }
+   if (verbose) {
+      print(paste0("styleV (before):", paste(styleV, collapse=",")));
+   }
+   ## Apply Crange, Lrange
+   styleV <- applyCLrange(styleV,
+      Lrange=Lrange,
+      Crange=Crange,
+      Cgrey=Cgrey,
+      fixYellow=fixYellow,
+      verbose=verbose,
+      ...);
+   if (verbose) {
+      print(paste0("styleV (after):", paste(styleV, collapse=",")));
+   }
+   style <- col2rgb(styleV, alpha=TRUE);
+   if (any(styleNA)) {
+      style[,styleNA] <- NA;
+   }
+   if (verbose) {
+      print(paste0("make_styles(): ",
+         "style:"));
+      print(style);
+      print(paste0("make_styles(): ",
+         "styleV:",
+         paste(styleV,
+            collapse=",")));
+      print(paste0("rownames(style):",
+         paste(rownames(style),
+            collapse=",")));
    }
 
    ## Apply alpha
    if ("alpha" %in% rownames(style) &&
-       any(rmNA(style["alpha",], naValue=0) < 255)) {
+       any(rmNA(style["alpha",], naValue=255) < 255)) {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "applying alpha."));
+      }
       alphaFactor <- (style["alpha",])^(1/alphaPower)/(255)^(1/alphaPower);
       style[c("red","green","blue"),] <- style[c("red","green","blue"),] *
          rep(alphaFactor, each=3);
    }
+   ## Check for transparent colors
+   isTransparent <- (style["alpha",] == 0);
    style <- style[c("red","green","blue"),,drop=FALSE];
-   if (verbose) {
-      print("make_styles(): ",
-         "style:");
-      print(style);
-   }
 
+   ## Adjust RGB
    if (adjustRgb != 0) {
       if (!is.na(adjustPower) && !is.null(adjustPower)) {
          ## This method uses square root transform
@@ -1789,50 +1865,34 @@ make_styles <- function
          ## This method shifts color brightness down slightly
          style1 <- round(style/255*6 + adjustRgb);
       }
-      if (verbose) {
-         print("make_styles(): ",
-            "style (pre-adjustRgb:");
-         print(style);
-      }
       style[!is.na(style)] <- style1[!is.na(style)] * 255/6;
       style[!is.na(style) & style < 1] <- 1;
       style[!is.na(style) & style > 255] <- 255;
       if (verbose) {
-         print("make_styles(): ",
-            "style (post-adjustRgb):");
+         print(paste0("make_styles(): ",
+            "style (post-adjustRgb):"));
          print(style);
       }
    }
 
-   #orig_style_name <- style_name <- names(args)[1]
-   if (checkSat) {
-      #styleNA <- apply(style, 2, function(i){any(is.na(i))});
-      iSats <- rep(1, ncol(style));
-      if (verbose) {
-         print("make_styles(): ",
-            "style (pre-checkSat):");
-         print(style);
-      }
-      iSats[!styleNA] <- rgb2hsv(style[,!styleNA])["s",];
-   }
+   ## Check color saturation for greyscale colors
+   Cvals <- rep(100, length(styleV));
+   Cvals[!styleNA] <- col2hcl(styleV[!styleNA])["C",];
+   isCgrey <- (Cvals <= Cgrey);
+
    iVals <- sapply(seq_along(text), function(i){
       iText <- text[i];
       iStyle <- style[,i,drop=FALSE];
-      if (any(is.na(iStyle)) ||
-         (iStyle %in% "transparent" && subTransparent %in% c(NA,"")) ) {
+      iGrey <- isCgrey[i];
+      if (styleNA[i]) {
          iText;
       } else {
-         if (checkSat && iSats[i] <= satCutoff) {
-            iGrey <- TRUE;
-         } else {
-            iGrey <- grey;
-         }
-         if (any(iStyle %in% c("transparent"))) {
-            iStyle[iStyle %in% c("transparent")] <- subTransparent;
+         if (isTransparent[i]) {
+            iStyle <- col2rgb(colorTransparent, alpha=TRUE);
          }
          if (verbose) {
-            print("make_styles(): ",
-               "iStyle:");
+            print(paste0("make_styles(): ",
+               "iStyle:"));
             print(iStyle);
          }
          make_style(rgb2col(iStyle),
@@ -1992,7 +2052,9 @@ applyCLrange <- function
    ## Purpose is to restrict the chroma (C) or luminance (L) ranges
    ## for a vector of R colors
    if (length(x) == 0 || all(is.na(x)) ||
-         (length(Crange) == 0 && length(Lrange) == 0)) {
+         (length(Crange) == 0 &&
+               length(Lrange) == 0 &&
+               !fixYellow)) {
       return(x);
    }
    if (is.null(names(x))) {
@@ -2024,7 +2086,7 @@ applyCLrange <- function
 
    ## Optionally "fix" yellows
    if (fixYellow) {
-      styleYellow <- (styleHcl["H",] >= 80 && styleHcl["H",] <= 90);
+      styleYellow <- (styleHcl["H",] >= 80 & styleHcl["H",] <= 90);
       if (any(styleYellow)) {
          styleHcl["H",styleYellow] <- styleHcl["H",styleYellow] - 15;
       }

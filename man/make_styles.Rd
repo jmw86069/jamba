@@ -5,10 +5,10 @@
 \title{vectorized make_styles for crayon output}
 \usage{
 make_styles(style, text, bg = FALSE, grey = FALSE, colors = num_colors(),
-  checkSat = TRUE, satCutoff = 0.01, lightMode = checkLightMode(),
+  Cgrey = 5, lightMode = checkLightMode(), Crange = NULL, Lrange = NULL,
   adjustRgb = getOption("jam.adjustRgb"), adjustPower = 1.5,
-  Lrange = NULL, Crange = NULL, subTransparent = "grey45",
-  alphaPower = 2, verbose = FALSE, ...)
+  fixYellow = TRUE, colorTransparent = "grey45", alphaPower = 2,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{style}{vector of one or more styles}
@@ -19,6 +19,22 @@ make_styles(style, text, bg = FALSE, grey = FALSE, colors = num_colors(),
 
 \item{colors}{integer number of colors allowed for console output}
 
+\item{Cgrey}{numeric chroma (C) value, which defines grey colors at or
+below this chroma. Any colors at or below the grey cutoff will have
+use ANSI greyscale coloring. To disable, set `Cgrey=-1`.}
+
+\item{lightMode}{boolean indicating whether the background color
+is light (TRUE is bright), or dark (FALSE is dark.) By default
+it calls `checkLightMode()` which queries `getOption("lightMode")`.}
+
+\item{Crange}{numeric range of chroma values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Crange. When supplied, range(Crange) is used.}
+
+\item{Lrange}{numeric range of luminance values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Lrange. When supplied, range(Lrange) is used.}
+
 \item{adjustRgb}{numeric value adjustment used during the conversion of
 RGB colors to ANSI colors, which is inherently lossy. If not defined,
 it uses the default returned by `setCLranges()` which itself uses
@@ -27,7 +43,13 @@ color contrast, an alternate value of -0.1 is suggested.}
 
 \item{adjustPower}{numeric adjustment power factor}
 
-\item{subTransparent}{color used to substitute for "transparent" which
+\item{fixYellow}{boolean indicating whether to "fix" the darkening of
+yellow, which otherwise turns to green. Instead, since JAM can,
+JAM will make the yellow slightly more golden before darkening. This
+change only affects color hues between 80 and 90. This argument is
+passed to `applyCLrange()`.}
+
+\item{colorTransparent}{color used to substitute for "transparent" which
 a valid R color, but not a valid color for the crayon package.}
 
 \item{alphaPower}{numeric value, used to adjust the RGB values for alpha
@@ -38,14 +60,8 @@ the ratio of square roots.  alphaPower=100 for minimal adjustment.}
 
 \item{...}{additional parameters are ignored}
 
-\item{checkSet}{logical whether to check if the color is extremely
-low saturation, in which case grey==TRUE is set.}
-
-\item{setCutoff}{numeric cutoff for color saturation when checkSat==TRUE.}
-
-\item{lRange}{lightness range, default c(0,1)}
-
-\item{sRange}{saturation range, default c(0,1)}
+\item{satCutoff}{numeric cutoff for color saturation, below which a color
+is considered "grey" and the ANSI greyscale color set is used.}
 }
 \description{
 vectorized make_styles for crayon output
@@ -54,4 +70,7 @@ vectorized make_styles for crayon output
 This function is essentially a vectorized version of
 \code{\link[crayon]{make_style}} in order to style a vector of
 character strings with a vector of foreground and background styles.
+}
+\seealso{
+`applyCLrange`, `checkLightMode`, `setCLranges`
 }

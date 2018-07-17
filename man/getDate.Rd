@@ -9,8 +9,8 @@ getDate(t = Sys.time(), trim = TRUE, ...)
 \arguments{
 \item{t}{current time, by default the output of \code{\link{Sys.time}}.}
 
-\item{trim}{logical whether to trim the output of \code{\link{format}} in
-the event that multiple values are sent for \code{t}.}
+\item{trim}{logical whether to trim the output of \code{\link{format}}
+in the event that multiple values are sent for \code{t}.}
 
 \item{...}{additional parameters sent to \code{\link{format}}}
 }
@@ -18,7 +18,7 @@ the event that multiple values are sent for \code{t}.}
 character vector with simplified date string
 }
 \description{
-get simple date string
+get simple date string in the format DDmonYYYY such as 17jul2018.
 }
 \details{
 Gets the current date in a simplified text string. Use
