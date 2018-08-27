@@ -32,7 +32,7 @@ name, regardless whether the entry itself is NA.}
 }
 \value{
 vector with NA entries either removed, or replaced with naValue,
-   and NULL entries either removed or replaced by nullValue.
+and NULL entries either removed or replaced by nullValue.
 }
 \description{
 remove NA values

@@ -21,11 +21,11 @@ make_styles(style, text, bg = FALSE, grey = FALSE, colors = num_colors(),
 
 \item{Cgrey}{numeric chroma (C) value, which defines grey colors at or
 below this chroma. Any colors at or below the grey cutoff will have
-use ANSI greyscale coloring. To disable, set `Cgrey=-1`.}
+use ANSI greyscale coloring. To disable, set \code{Cgrey=-1}.}
 
 \item{lightMode}{boolean indicating whether the background color
 is light (TRUE is bright), or dark (FALSE is dark.) By default
-it calls `checkLightMode()` which queries `getOption("lightMode")`.}
+it calls \code{checkLightMode()} which queries \code{getOption("lightMode")}.}
 
 \item{Crange}{numeric range of chroma values, ranging
 between 0 and 100. When NULL, default values will be
@@ -37,7 +37,7 @@ assigned to Lrange. When supplied, range(Lrange) is used.}
 
 \item{adjustRgb}{numeric value adjustment used during the conversion of
 RGB colors to ANSI colors, which is inherently lossy. If not defined,
-it uses the default returned by `setCLranges()` which itself uses
+it uses the default returned by \code{setCLranges()} which itself uses
 \code{getOption("jam.adjustRgb")} with default=0. In order to boost
 color contrast, an alternate value of -0.1 is suggested.}
 
@@ -47,7 +47,7 @@ color contrast, an alternate value of -0.1 is suggested.}
 yellow, which otherwise turns to green. Instead, since JAM can,
 JAM will make the yellow slightly more golden before darkening. This
 change only affects color hues between 80 and 90. This argument is
-passed to `applyCLrange()`.}
+passed to \code{applyCLrange()}.}
 
 \item{colorTransparent}{color used to substitute for "transparent" which
 a valid R color, but not a valid color for the crayon package.}
@@ -72,5 +72,5 @@ This function is essentially a vectorized version of
 character strings with a vector of foreground and background styles.
 }
 \seealso{
-`applyCLrange`, `checkLightMode`, `setCLranges`
+\code{applyCLrange}, \code{checkLightMode}, \code{setCLranges}
 }

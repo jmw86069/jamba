@@ -22,8 +22,8 @@ allowing grep to handle NA values as-is.}
 }
 \value{
 logical indicating whether the grep match criteria were met,
-   TRUE indicates the grep pattern was present in minCount or more
-   number of entries.
+TRUE indicates the grep pattern was present in minCount or more
+number of entries.
 }
 \description{
 vector contains any case-insensitive grep match
@@ -44,4 +44,12 @@ igrepHas("matrix", a);
 }
 \seealso{
 \code{\link{grep}}'
+
+Other jam string functions: \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{igrep}},
+  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
+  \code{\link{provigrep}}, \code{\link{unigrep}},
+  \code{\link{uniques}}, \code{\link{unvigrep}},
+  \code{\link{vgrep}}, \code{\link{vigrep}}
 }

@@ -111,16 +111,16 @@ srtCellnote=10 or srtCellnote=80.
 
 To do:
 \itemize{
-   \item{Detect the size of the area being labeled and determine whether
-      to rotate the label sideways.}
-   \item{Detect the size of the label, compared to its bounding box,
-      and resize the label to fit the available space.}
-   \item{Optionally draw border around contiguous colored and labeled
-      polygons. Whether to draw border based only upon color, or color
-      and label, or just label... it may get confusing.}
-   \item{Label proper contiguous polygons based upon color and label,
-      especially when color and label are present on multiple rows and
-      columns, but not always the same columns per row.}
+\item{Detect the size of the area being labeled and determine whether
+to rotate the label sideways.}
+\item{Detect the size of the label, compared to its bounding box,
+and resize the label to fit the available space.}
+\item{Optionally draw border around contiguous colored and labeled
+polygons. Whether to draw border based only upon color, or color
+and label, or just label... it may get confusing.}
+\item{Label proper contiguous polygons based upon color and label,
+especially when color and label are present on multiple rows and
+columns, but not always the same columns per row.}
 }
 }
 \examples{

@@ -103,6 +103,6 @@ function, with due credit and respect to its authors.
 }
 \seealso{
 \code{\link{plotSmoothScatter}},
-   \code{\link{imageDefault}},
-   \code{\link[graphics]{smoothScatter}}
+\code{\link{imageDefault}},
+\code{\link[graphics]{smoothScatter}}
 }

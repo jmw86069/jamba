@@ -27,15 +27,15 @@ call to \code{format(...,big.mark)}.}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-`data.frame` where each row indicates the dimensions of
-   each element in the input list. When `includeClass` is `TRUE` it
-   will include a column `class` which indicates the class of each
-   list element. When the input list contains arrays with more than
-   two dimensions, the first two dimensions are named `"rows"` and
-   `"columns"` with additional dimensions named `"dim3"` and so on.
-   Any list element with fewer than that many dimensions will only have
-   values populated to the relevant dimensions, for example a character
-   vector will only populate the length.
+\code{data.frame} where each row indicates the dimensions of
+each element in the input list. When \code{includeClass} is \code{TRUE} it
+will include a column \code{class} which indicates the class of each
+list element. When the input list contains arrays with more than
+two dimensions, the first two dimensions are named \code{"rows"} and
+\code{"columns"} with additional dimensions named \code{"dim3"} and so on.
+Any list element with fewer than that many dimensions will only have
+values populated to the relevant dimensions, for example a character
+vector will only populate the length.
 }
 \description{
 print dimensions of list object elements, such as a list of data.frames

@@ -10,17 +10,17 @@ getPlotAspect(type = c("coords", "plot", "device"), parUsr = par("usr"),
 \arguments{
 \item{type}{character type of aspect ratio to calculate.
 \describe{
-   \item{"coords"}{calculates plot coordinate aspect ratio, which
-      is helpful for creating proper circular shapes, for example,
-      where the x-axis and y-axis ranges are very different. Note
-      that this calculation does also correct for margin sizes.}
-   \item{"plot"}{calculates plot aspect ratio, based upon the
-      actual size of the plot, independent of the numeric coordinate
-      range of the plot. This aspect ratio reflects the relative
-      visual height and width of the plot area, ignoring margins.}
-   \item{"device"}{calculates plot aspect ratio, based upon the
-      complete graphical device, i.e. the full space including all
-      panels, margins, and plot areas.}
+\item{"coords"}{calculates plot coordinate aspect ratio, which
+is helpful for creating proper circular shapes, for example,
+where the x-axis and y-axis ranges are very different. Note
+that this calculation does also correct for margin sizes.}
+\item{"plot"}{calculates plot aspect ratio, based upon the
+actual size of the plot, independent of the numeric coordinate
+range of the plot. This aspect ratio reflects the relative
+visual height and width of the plot area, ignoring margins.}
+\item{"device"}{calculates plot aspect ratio, based upon the
+complete graphical device, i.e. the full space including all
+panels, margins, and plot areas.}
 }}
 
 \item{parUsr, parPin, parDin}{numeric values equivalent to their

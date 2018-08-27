@@ -31,18 +31,18 @@ make zero-based suffix values, for example.}
 
 \item{numberStyle}{character style for version numbering
 \describe{
-   \item{"number"}{Use integer numbers to represent each duplicated
-      entry.}
-   \item{"letters"}{Use lowercase letters to represent each duplicated
-      entry. The 27th entry uses the pattern "aa" to represent two
-      26-base digits. When doPadInteger=TRUE, a zero is still used
-      to pad the resulting version numbers, again to allow easy sorting
-      of text values, but also because there is no letter equivalent
-      for the number zero.
-      It is usually best to change the suffix to "_" or "" when using
-      "letters".}
-   \item{"LETTERS"}{Use uppercase letters to represent each duplicated
-      entry, with the same rules as applied to "letters".}
+\item{"number"}{Use integer numbers to represent each duplicated
+entry.}
+\item{"letters"}{Use lowercase letters to represent each duplicated
+entry. The 27th entry uses the pattern "aa" to represent two
+26-base digits. When doPadInteger=TRUE, a zero is still used
+to pad the resulting version numbers, again to allow easy sorting
+of text values, but also because there is no letter equivalent
+for the number zero.
+It is usually best to change the suffix to "_" or "" when using
+"letters".}
+\item{"LETTERS"}{Use uppercase letters to represent each duplicated
+entry, with the same rules as applied to "letters".}
 }}
 
 \item{useNchar}{integer or NULL, number of digits to use when padding

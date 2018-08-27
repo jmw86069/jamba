@@ -21,3 +21,12 @@ This function determines whether each element in a vector is a valid R
 color, based upon the R color names, valid hex color format, and the
 word "transparent" which is valid as an R color.
 }
+\seealso{
+Other jam color functions: \code{\link{alpha2col}},
+  \code{\link{col2alpha}}, \code{\link{col2hcl}},
+  \code{\link{col2hsv}}, \code{\link{color2gradient}},
+  \code{\link{getColorRamp}}, \code{\link{hcl2col}},
+  \code{\link{hsv2col}}, \code{\link{kable_coloring}},
+  \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
+  \code{\link{setTextContrastColor}}
+}

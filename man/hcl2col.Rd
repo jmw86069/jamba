@@ -8,16 +8,16 @@ hcl2col(x = NULL, H = NULL, C = NULL, L = NULL, ceiling = 255,
   maxColorValue = 255, alpha = NULL, fixup = NULL, ...)
 }
 \arguments{
-\item{x}{matrix of colors, with rownames `"H"`, `"C"`, `"L"`, or if not
-supplied it looks for vectors `H`, `C`, and `L` accordingly. It can
-alternatively be supplied as an object of class `polarLUV`.}
+\item{x}{matrix of colors, with rownames \code{"H"}, \code{"C"}, \code{"L"}, or if not
+supplied it looks for vectors \code{H}, \code{C}, and \code{L} accordingly. It can
+alternatively be supplied as an object of class \code{polarLUV}.}
 
-\item{H, C, L}{numeric vectors supplied as an alternative to `x`, with
+\item{H, C, L}{numeric vectors supplied as an alternative to \code{x}, with
 ranges 0 to 360, 0 to 100, and 0 to 100, respectively.}
 
 \item{ceiling}{numeric value indicating the maximum values allowed for
-`R`, `G`, and `B` after conversion by `colorspace::as(x, "RGB")`.
-This ceiling is applied after the `maxColorValue` is used to scale
+\code{R}, \code{G}, and \code{B} after conversion by \code{colorspace::as(x, "RGB")}.
+This ceiling is applied after the \code{maxColorValue} is used to scale
 numeric values, and is intended to correct for the occurrence of
 values above 255, which would be outside the typical color gamut
 allowed for RGB colors used in R. In general, this value should not
@@ -29,12 +29,12 @@ returned range of 0 to 1. In general, this value should not be
 modified.}
 
 \item{alpha}{optional vector of alpha values. If not supplied, and if
-`x` is supplied as a matrix with rowname `"alpha"`, then values will
-be used from `x["alpha",]`.}
+\code{x} is supplied as a matrix with rowname \code{"alpha"}, then values will
+be used from \code{x["alpha",]}.}
 
 \item{fixup}{boolean indicating whether to use
-`colorspace::hex(...,fixup=TRUE)` for conversion to R hex colors,
-**which is not recommended** since this conversion applies some
+\code{colorspace::hex(...,fixup=TRUE)} for conversion to R hex colors,
+\strong{which is not recommended} since this conversion applies some
 unknown non-linear transformation for colors outside the color gamut.
 It is here is an option for comparison, and if specifically needed.}
 
@@ -42,7 +42,7 @@ It is here is an option for comparison, and if specifically needed.}
 }
 \value{
 vector of R colors, or where the input was NA, then NA
-   values are returned in the same order.
+values are returned in the same order.
 }
 \description{
 Convert an HCL color matrix to vector of R hex colors
@@ -61,4 +61,13 @@ colorV;
 
 showColors(colorV);
 
+}
+\seealso{
+Other jam color functions: \code{\link{alpha2col}},
+  \code{\link{col2alpha}}, \code{\link{col2hcl}},
+  \code{\link{col2hsv}}, \code{\link{color2gradient}},
+  \code{\link{getColorRamp}}, \code{\link{hsv2col}},
+  \code{\link{isColor}}, \code{\link{kable_coloring}},
+  \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
+  \code{\link{setTextContrastColor}}
 }

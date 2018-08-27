@@ -49,12 +49,11 @@ text(x=c(1,2,1,2), y=c(1,2,2,1), 1:4,
 
 }
 \seealso{
-jamba color manipulation functions: \code{\link{hsv2col}},
-   \code{\link{col2hsv}},\code{\link{col2hcl}},
-   \code{\link{rgb2col}},
-   \code{\link{alpha2col}},\code{\link{col2alpha}},
-   \code{\link{makeColorDarker}},
-   \code{\link{color2gradient}},
-   \code{\link{setTextContrastColor}},
-   \code{\link{showColors}}
+Other jam color functions: \code{\link{alpha2col}},
+  \code{\link{col2alpha}}, \code{\link{col2hcl}},
+  \code{\link{col2hsv}}, \code{\link{color2gradient}},
+  \code{\link{getColorRamp}}, \code{\link{hcl2col}},
+  \code{\link{hsv2col}}, \code{\link{isColor}},
+  \code{\link{kable_coloring}}, \code{\link{rgb2col}},
+  \code{\link{setTextContrastColor}}
 }

@@ -15,69 +15,84 @@ The goal will be to
 maintain these methods as lightweight as possible, so
 their inclusion in an analysis workflow will not incur
 a noticeable burden.
-}
-\section{miscellaneous helper functions}{
 
-   fileInfo,
-   padInteger,
-   padString,
-   dateToDaysOld,
-   asDate,
-   getDate,
-   setPrompt,
-   pasteByRow,
-   breaksByVector,
-   printDebug,
-   rbindList,
-   colNum2excelName,
-   decideMfrow,
-   getPlotAspect,
-   tcount,
-   make_styles,
-   noiseFloor,
-   deg2rad,
-   rad2deg
+The sections and functions below are not comprehensive, but
+provide examples of useful functions. The most highly-used functions
+are: \code{\link[=printDebug]{printDebug()}}, \code{\link[=vigrep]{vigrep()}}, \code{\link[=nameVector]{nameVector()}} with \code{\link[=makeNames]{makeNames()}},
+\code{\link[=pasteByRow]{pasteByRow()}}, \code{\link[=showColors]{showColors()}}.
 }
-
 \section{plot functions}{
 
-   plotSmoothScatter,
-   smoothScatterJam,
-   imageDefault,
-   nullPlot,
-   usrBox,
-   imageDefault,
-   imageByColors
-   shadowText
+\itemize{
+\item Enhanced \code{\link[graphics:smoothScatter]{graphics::smoothScatter()}} with \code{\link[=plotSmoothScatter]{plotSmoothScatter()}}.
+\item Enhanced \code{\link[graphics:image]{graphics::image()}} with \code{\link[=imageDefault]{imageDefault()}}
+for rasterized heatmaps that preserve aspect ratio for non-square
+images; \code{\link[=imageByColors]{imageByColors()}} for \code{data.frame} of colors and optional
+labels, which by default places unique labels centered within a block of
+repeated values.
+\item Quick color display \code{\link[=showColors]{showColors()}} for vector or list of color vectors.
+\item Quick blank plot \code{\link[=nullPlot]{nullPlot()}} with optional labeling of margins.
+\item Text labels using a border outline \code{\link[=shadowText]{shadowText()}} for visible contrast.
+\item Base plot wrappers \code{\link[=getPlotAspect]{getPlotAspect()}}, \code{\link[=decideMfrow]{decideMfrow()}}.
+}
 }
 
 \section{string functions}{
 
-   igrepHas,
-   vigrep,
-   vgrep,
-   igrep,
-   unigrep,
-   unvigrep,
-   provigrep,
-   makeNames,
-   nameVector,
-   nameVectorN,
-   rmNULL,
-   rmNA,
-   rmInfinite
+\itemize{
+\item Alphanumeric sort with \code{\link[=mixedSort]{mixedSort()}}, \code{\link[=mixedOrder]{mixedOrder()}}, \code{\link[=mixedSortDF]{mixedSortDF()}}
+\item Custom wrappers to \code{\link[=grep]{grep()}} for value-return \code{\link[=vgrep]{vgrep()}}, \code{\link[=vigrep]{vigrep()}};
+case-insensitive pattern search \code{\link[=igrep]{igrep()}}, \code{\link[=vigrep]{vigrep()}};
+and grep with an ordered vector of patterns \code{\link[=provigrep]{provigrep()}}, \code{\link[=proigrep]{proigrep()}}.
+\item Name manipulations: make unique names with defined syntax
+\code{\link[=makeNames]{makeNames()}}; applying names to a vector \code{\link[=nameVector]{nameVector()}};
+named vector of names \code{\link[=nameVectorN]{nameVectorN()}} useful with \code{\link[=lapply]{lapply()}}.
+\item Row-wise concatenation from \code{data.frame} or \code{matrix} \code{\link[=pasteByRow]{pasteByRow()}}
+optionally skipping blank values; list to matrix without filling
+missing values \code{\link[=rbindList]{rbindList()}}.
+\item Sorted \code{\link[base:table]{base::table()}} with optional filter \code{\link[=tcount]{tcount()}}.
+}
 }
 
 \section{color functions}{
 
-   setTextContrastColor,
-   col2hcl,
-   col2alpha,
-   alpha2col,
-   hsv2col,
-   rgb2col,
-   makeColorDarker,
-   getColorRamp,
-   isColor
+\itemize{
+\item Color interconversion functions designed to be reversible, e.g.
+\code{\link[=col2hcl]{col2hcl()}} and \code{\link[=col2hcl]{col2hcl()}}.
+\item Set text contrast color for labels on colored background
+\code{\link[=setTextContrastColor]{setTextContrastColor()}}.
+\item Color wrapper functions \code{\link[=makeColorDarker]{makeColorDarker()}}, \code{\link[=getColorRamp]{getColorRamp()}},
+\code{\link[=showColors]{showColors()}}.
+}
+}
+
+\section{miscellaneous helper functions}{
+
+\itemize{
+\item Colored text output \code{\link[=printDebug]{printDebug()}}, colored R prompt \code{\link[=setPrompt]{setPrompt()}},
+vectorized text styling \code{\link[=make_styles]{make_styles()}}.
+\item Interconversion from degrees to radians \code{\link[=deg2rad]{deg2rad()}}, \code{\link[=rad2deg]{rad2deg()}}.
+\item Simple date string functions \code{\link[=getDate]{getDate()}}, \code{\link[=asDate]{asDate()}},
+\code{\link[=dateToDaysOld]{dateToDaysOld()}}, \code{\link[=isDate]{isDate()}}, \code{\link[=fileInfo]{fileInfo()}}.
+\item Padding character strings or integers with leading or trailing
+values \code{\link[=padString]{padString()}}, \code{\link[=padInteger]{padInteger()}}.
+\item Removing or editing missing values in place: \code{\link[=rmNA]{rmNA()}},
+\code{\link[=rmNULL]{rmNULL()}}, \code{\link[=rmInfinite]{rmInfinite()}}.
+}
+}
+
+\section{Jam options}{
+
+The \code{jamba} package recognizes some global options, but limits these
+options to include only non-analysis options. For example, no global
+option should change the numerical manipulation of data.
+\itemize{
+\item \code{jam.lightMode} - boolean, defines whether the text background
+is light (\code{TRUE} is bright) or dark (\code{FALSE} is dark) mainly for the
+purpose of restricting text output colors from \code{printDebug} so
+they have visible contrast.
+\item \code{jam.adjustRgb} - numerical setting used as a small adjustment of
+colors used by the \code{crayon} functions to produce ANSI color text.
+}
 }
 

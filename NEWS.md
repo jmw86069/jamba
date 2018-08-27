@@ -1,3 +1,23 @@
+# jamba version 0.0.11.900
+
+## new functions
+
+* `cPaste()` is an efficient method of pasting a list of vectors
+using a delimiter, to create a character vector. It uses `mixedOrder()`
+to sort entries, and optionally applies uniqueness to the vectors.
+* `uniques()` takes a list and makes each vector in the list unique,
+using an efficient mechanism that applies uniqueness to the overall
+set of values at once.
+
+## Suggests S4Vectors
+
+* The Bioconductor package `S4Vectors` implements efficient `unstrsplit()`
+used by `cPaste()`. However, S4Vectors therefore requires installing
+Bioconductor base packages, which might be a heavy installation requirement
+just for improved efficiency at this step. In future this one function
+may be reproduced here (with permission of author Dr. Pages) to
+reduce the dependency burden.
+
 # jamba version 0.0.9.900
 
 ## enhancements

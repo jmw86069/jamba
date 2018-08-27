@@ -37,17 +37,10 @@
 #'    alpha is not maintained, and instead is set to alpha=1, fully
 #'    opaque.
 #'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
-#'
 #' @examples
 #' setTextContrastColor(c("red","yellow","lightblue","blue4"))
+#'
+#' @family jam color functions
 #'
 #' @export
 setTextContrastColor <- function
@@ -108,17 +101,10 @@ setTextContrastColor <- function
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
-#'
 #' @examples
 #' col2hcl("#FF000044")
+#'
+#' @family jam color functions
 #'
 #' @export
 col2hcl <- function
@@ -196,6 +182,8 @@ col2hcl <- function
 #' colorV;
 #'
 #' showColors(colorV);
+#'
+#' @family jam color functions
 #'
 #' @export
 hcl2col <- function
@@ -313,14 +301,7 @@ hcl2col <- function
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
+#' @family jam color functions
 #'
 #' @export
 col2alpha <- function
@@ -346,14 +327,7 @@ col2alpha <- function
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
+#' @family jam color functions
 #'
 #' @export
 alpha2col <- function
@@ -385,15 +359,6 @@ alpha2col <- function
 #' @param hsvValue HSV matrix, with rownames c("h","s","v") in any order,
 #'    and optionally "alpha" rowname for alpha transparency.
 #'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
-#'
 #' @examples
 #' # start with a color vector
 #' # red and blue with partial transparency
@@ -404,6 +369,8 @@ alpha2col <- function
 #'
 #' # convert back to the original color
 #' hsv2col(col2hsv(colorV));
+#'
+#' @family jam color functions
 #'
 #' @export
 hsv2col <- function
@@ -446,15 +413,6 @@ hsv2col <- function
 #' @param x R color
 #' @param ... additional parameters are ignored
 #'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
-#'
 #' @examples
 #' # start with a color vector
 #' # red and blue with partial transparency
@@ -465,6 +423,8 @@ hsv2col <- function
 #'
 #' # convert back to the original color
 #' hsv2col(col2hsv(colorV));
+#'
+#' @family jam color functions
 #'
 #' @export
 col2hsv <- function
@@ -510,15 +470,6 @@ col2hsv <- function
 #'    input where red, green, and/or blue are NA. If keepNA==FALSE then it
 #'    substitutes 0 for any NA values.
 #'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
-#'
 #' @examples
 #' # start with a color vector
 #' # red and blue with partial transparency
@@ -530,6 +481,8 @@ col2hsv <- function
 #'
 #' # confirm we can convert from RGB back to the same colors
 #' rgb2col(col2rgb(colorV, alpha=TRUE));
+#'
+#' @family jam color functions
 #'
 #' @export
 rgb2col <- function
@@ -637,15 +590,6 @@ rgb2col <- function
 #' saturation minimu is set to 0.2, to maintain at least some amount of
 #' color.
 #'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
-#'
 #' @examples
 #' colorV <- c("red","orange","purple","blue");
 #' colorVdark2 <- makeColorDarker(colorV, darkFactor=2);
@@ -671,6 +615,8 @@ rgb2col <- function
 #' # The setTextContrastColor() function also helps.
 #' text(x=c(1,2,1,2), y=c(1,2,2,1), 1:4,
 #'    col=setTextContrastColor(colorVlite2));
+#'
+#' @family jam color functions
 #'
 #' @export
 makeColorDarker <- function
@@ -935,6 +881,8 @@ makeColorDarker <- function
 #' # for fun, put a few color ramps onto one plot
 #' showColors(colorList, cexCellnote=0.7);
 #'
+#' @family jam color functions
+#'
 #' @export
 getColorRamp <- function
 (col,
@@ -1131,6 +1079,8 @@ getColorRamp <- function
 #' @param makeNamesFunc function used to make names for the resulting vector
 #' @param ... additional parameters are ignored
 #'
+#' @family jam color functions
+#'
 #' @export
 isColor <- function
 (x, makeNamesFunc=c, ...)
@@ -1209,6 +1159,8 @@ isColor <- function
 #' showColors(colors1L);
 #' colors2L <- color2gradient(colors1L);
 #' showColors(colors2L);
+#'
+#' @family jam color functions
 #'
 #' @export
 color2gradient <- function
@@ -1361,12 +1313,12 @@ color2gradient <- function
 #' data.frame, but otherwise uses the `kableExtra` functions to
 #' apply those colors.
 #'
-#' @param df `data.frame`
+#' @param df data.frame
 #' @param colorSub named vector of R colors, whose names match entries
 #'    in the `data.frame` which are given these assigned colors.
 #' @param background_as_tile boolean defining whether a cell background
-#'    color will appear as a rounded tile (if TRUE), or a rectangle
-#'    (if FALSE.)
+#'    color will appear as a rounded tile (if `TRUE`), or a rectangle
+#'    (if `FALSE`.)
 #' @param color_cells boolean indicating whether to color individual cells
 #' @param row_color_by optional vector of `colnames` found in `df`
 #'    indicating how to colorize entire rows of a table. The typical
@@ -1383,18 +1335,20 @@ color2gradient <- function
 #'    returns an object only usable in downstream `kable` calls.
 #' @param verbose boolean indicating whether to print verbose output.
 #'
-#' @return `data.frame` or `kable` data.frame dependent upon the
+#' @return data.frame or kable data.frame dependent upon the
 #'    `return_type` argument. Note that even the `data.frame` returned
 #'    will have colors encoded into each cell, so it will likely
-#'    not be possible to manipulate as normal.
+#'    be difficult to manipulate.
 #'
 #' @examples
 #' # Note the output will produce HTML code, which will
 #' # open the Rstudio viewer when run inside Rstudio.
-#' kable_coloring(
-#'    df=data.frame(A=letters[1:5], B=LETTERS[1:5]),
-#'    colorSub=nameVector(rainbow(10), c(letters[1:5], LETTERS[1:5])),
-#'    row_color_by="B")
+#' #kable_coloring(
+#' #   df=data.frame(A=letters[1:5], B=LETTERS[1:5]),
+#' #   colorSub=nameVector(rainbow(10), c(letters[1:5], LETTERS[1:5])),
+#' #   row_color_by="B")
+#'
+#' @family jam color functions
 #'
 #' @export
 kable_coloring <- function

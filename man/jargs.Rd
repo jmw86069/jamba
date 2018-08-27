@@ -33,15 +33,15 @@ whether running inside Rstudio by checking the environment variable
 
 \item{Crange}{numeric range of chroma values, ranging
 between 0 and 100. When NULL, default values will be
-assigned to Crange by `setCLranges()`.}
+assigned to Crange by \code{setCLranges()}.}
 
 \item{Lrange}{numeric range of luminance values, ranging
 between 0 and 100. When NULL, default values will be
-assigned to Lrange by `setCLranges()`.}
+assigned to Lrange by \code{setCLranges()}.}
 
 \item{adjustRgb}{numeric value adjustment used during the conversion of
 RGB colors to ANSI colors, which is inherently lossy. If not defined,
-it uses the default returned by `setCLranges()` which itself uses
+it uses the default returned by \code{setCLranges()} which itself uses
 \code{getOption("jam.adjustRgb")} with default=0. In order to boost
 color contrast, an alternate value of -0.1 is suggested.}
 

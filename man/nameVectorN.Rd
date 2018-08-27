@@ -14,7 +14,7 @@ the names(x) are not unique.}
 }
 \value{
 vector of names, whose names are uniquely assigned using
-   \code{\link{makeNames}} using the values of the vector.
+\code{\link{makeNames}} using the values of the vector.
 }
 \description{
 define a named vector using vector names

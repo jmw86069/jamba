@@ -1,6 +1,6 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.10.900
+Version: 0.0.11.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
 Description: Jam Base methods.
@@ -10,6 +10,7 @@ Description: Jam Base methods.
     jargs: formatted, colored function arguments;
     rbindList: list to data.frame without filling empty cells;
     makeNames, nameVector: uniquely assign names to vectors
+biocViews:
 Depends: R (>= 3.3.2)
 Imports: colorspace,
     KernSmooth
@@ -17,11 +18,13 @@ Suggests: knitr,
     rmarkdown,
     RColorBrewer,
     viridis,
-    crayon
+    crayon,
+    S4Vector
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
 URL: http://github.com/jmw86069/jamba
 BugReports: http://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1

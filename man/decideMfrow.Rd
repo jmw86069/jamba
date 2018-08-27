@@ -11,12 +11,12 @@ decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE, ...)
 
 \item{method}{character string indicating the type of layout to favor.
 \describe{
-   \item{"aspect"}{uses the device size and aspect ratio of the plot to try
-      to maintain roughly square plot panels.}
-   \item{"wide"}{tries to keep the columns and rows similar, erring on
-      the side of more columns than rows.}
-   \item{"tall"}{tries to keep the columns and rows similar, erring on
-      the side of more rows than columns.}
+\item{"aspect"}{uses the device size and aspect ratio of the plot to try
+to maintain roughly square plot panels.}
+\item{"wide"}{tries to keep the columns and rows similar, erring on
+the side of more columns than rows.}
+\item{"tall"}{tries to keep the columns and rows similar, erring on
+the side of more rows than columns.}
 }}
 
 \item{doTest}{logical whether to provide a visual test. Note that
@@ -26,8 +26,8 @@ decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE, ...)
 }
 \value{
 numeric vector length=2, with the recommended number of plot
-   rows and columns, respectively. It is intended to be used directly
-   in this form: \code{par("mfrow"=decideMfrow(n=5))}
+rows and columns, respectively. It is intended to be used directly
+in this form: \code{par("mfrow"=decideMfrow(n=5))}
 }
 \description{
 Decide plot panel rows, columns for par(mfrow)

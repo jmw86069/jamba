@@ -10,62 +10,65 @@
 #' their inclusion in an analysis workflow will not incur
 #' a noticeable burden.
 #'
-#' @section miscellaneous helper functions:
-#'    fileInfo,
-#'    padInteger,
-#'    padString,
-#'    dateToDaysOld,
-#'    asDate,
-#'    getDate,
-#'    setPrompt,
-#'    pasteByRow,
-#'    breaksByVector,
-#'    printDebug,
-#'    rbindList,
-#'    colNum2excelName,
-#'    decideMfrow,
-#'    getPlotAspect,
-#'    tcount,
-#'    make_styles,
-#'    noiseFloor,
-#'    deg2rad,
-#'    rad2deg
+#' The sections and functions below are not comprehensive, but
+#' provide examples of useful functions. The most highly-used functions
+#' are: [printDebug()], [vigrep()], [nameVector()] with [makeNames()],
+#' [pasteByRow()], [showColors()].
 #'
 #' @section plot functions:
-#'    plotSmoothScatter,
-#'    smoothScatterJam,
-#'    imageDefault,
-#'    nullPlot,
-#'    usrBox,
-#'    imageDefault,
-#'    imageByColors
-#'    shadowText
+#'    * Enhanced [graphics::smoothScatter()] with [plotSmoothScatter()].
+#'    * Enhanced [graphics::image()] with [imageDefault()]
+#'    for rasterized heatmaps that preserve aspect ratio for non-square
+#'    images; [imageByColors()] for `data.frame` of colors and optional
+#'    labels, which by default places unique labels centered within a block of
+#'    repeated values.
+#'    * Quick color display [showColors()] for vector or list of color vectors.
+#'    * Quick blank plot [nullPlot()] with optional labeling of margins.
+#'    * Text labels using a border outline [shadowText()] for visible contrast.
+#'    * Base plot wrappers [getPlotAspect()], [decideMfrow()].
 #'
 #' @section string functions:
-#'    igrepHas,
-#'    vigrep,
-#'    vgrep,
-#'    igrep,
-#'    unigrep,
-#'    unvigrep,
-#'    provigrep,
-#'    makeNames,
-#'    nameVector,
-#'    nameVectorN,
-#'    rmNULL,
-#'    rmNA,
-#'    rmInfinite
+#'    * Alphanumeric sort with [mixedSort()], [mixedOrder()], [mixedSortDF()]
+#'    * Custom wrappers to [grep()] for value-return [vgrep()], [vigrep()];
+#'    case-insensitive pattern search [igrep()], [vigrep()];
+#'    and grep with an ordered vector of patterns [provigrep()], [proigrep()].
+#'    * Name manipulations: make unique names with defined syntax
+#'    [makeNames()]; applying names to a vector [nameVector()];
+#'    named vector of names [nameVectorN()] useful with [lapply()].
+#'    * Row-wise concatenation from `data.frame` or `matrix` [pasteByRow()]
+#'    optionally skipping blank values; list to matrix without filling
+#'    missing values [rbindList()].
+#'    * Sorted [base::table()] with optional filter [tcount()].
 #'
 #' @section color functions:
-#'    setTextContrastColor,
-#'    col2hcl,
-#'    col2alpha,
-#'    alpha2col,
-#'    hsv2col,
-#'    rgb2col,
-#'    makeColorDarker,
-#'    getColorRamp,
-#'    isColor
+#'    * Color interconversion functions designed to be reversible, e.g.
+#'    [col2hcl()] and [col2hcl()].
+#'    * Set text contrast color for labels on colored background
+#'    [setTextContrastColor()].
+#'    * Color wrapper functions [makeColorDarker()], [getColorRamp()],
+#'    [showColors()].
+#'
+#' @section miscellaneous helper functions:
+#'    * Colored text output [printDebug()], colored R prompt [setPrompt()],
+#'    vectorized text styling [make_styles()].
+#'    * Interconversion from degrees to radians [deg2rad()], [rad2deg()].
+#'    * Simple date string functions [getDate()], [asDate()],
+#'    [dateToDaysOld()], [isDate()], [fileInfo()].
+#'    * Padding character strings or integers with leading or trailing
+#'    values [padString()], [padInteger()].
+#'    * Removing or editing missing values in place: [rmNA()],
+#'    [rmNULL()], [rmInfinite()].
+#'
+#' @section Jam options:
+#'    The `jamba` package recognizes some global options, but limits these
+#'    options to include only non-analysis options. For example, no global
+#'    option should change the numerical manipulation of data.
+#'    * `jam.lightMode` - boolean, defines whether the text background
+#'       is light (`TRUE` is bright) or dark (`FALSE` is dark) mainly for the
+#'       purpose of restricting text output colors from `printDebug` so
+#'       they have visible contrast.
+#'    * `jam.adjustRgb` - numerical setting used as a small adjustment of
+#'       colors used by the `crayon` functions to produce ANSI color text.
 #'
 #' @docType package
 #' @name jamba

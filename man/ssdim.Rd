@@ -10,37 +10,37 @@ ssdim(x, includeClass = TRUE, doFormat = FALSE, big.mark = ",",
 \arguments{
 \item{x}{an S3 object inheriting from class "list", typically a list of
 lists, but will accept a list object in which case it simply calls
-`sdim(x)` once, in order to avoid treating a data.frame as a list.}
+\code{sdim(x)} once, in order to avoid treating a data.frame as a list.}
 
-\item{includeClass}{boolean passed to `sdim()`,
+\item{includeClass}{boolean passed to \code{sdim()},
 indicating whether to print the class of
-each element in the input `x` object. Note that for S4 objects,
-each element will be the object returned for each of `slotNames(x)`.}
+each element in the input \code{x} object. Note that for S4 objects,
+each element will be the object returned for each of \code{slotNames(x)}.}
 
-\item{doFormat}{boolean passed to `sdim()`,
+\item{doFormat}{boolean passed to \code{sdim()},
 indicating whether to format the dimensions using
-`format(...,big.mark=",")`, which is mainly useful for extremely
+\code{format(...,big.mark=",")}, which is mainly useful for extremely
 large dimensions. This parameter should probably become more broadly
 useful and respectful for different locales.}
 
-\item{big.mark}{character passed to `sdim()`,
-value used when `doFormat=TRUE`, used in the
-call to `format(...,big.mark)`.}
+\item{big.mark}{character passed to \code{sdim()},
+value used when \code{doFormat=TRUE}, used in the
+call to \code{format(...,big.mark)}.}
 
 \item{verbose}{logical whether to print verbose output}
 
 \item{...}{additional parameters are ignored.}
 }
 \value{
-`list` of `data.frame`, each row indicates the dimensions of
-   each element in the input list. When `includeClass` is `TRUE` it
-   will include a column `class` which indicates the class of each
-   list element. When the input list contains arrays with more than
-   two dimensions, the first two dimensions are named `"rows"` and
-   `"columns"` with additional dimensions named `"dim3"` and so on.
-   Any list element with fewer than that many dimensions will only have
-   values populated to the relevant dimensions, for example a character
-   vector will only populate the length.
+\code{list} of \code{data.frame}, each row indicates the dimensions of
+each element in the input list. When \code{includeClass} is \code{TRUE} it
+will include a column \code{class} which indicates the class of each
+list element. When the input list contains arrays with more than
+two dimensions, the first two dimensions are named \code{"rows"} and
+\code{"columns"} with additional dimensions named \code{"dim3"} and so on.
+Any list element with fewer than that many dimensions will only have
+values populated to the relevant dimensions, for example a character
+vector will only populate the length.
 }
 \description{
 print dimensions of list nested objects, such as a list of lists

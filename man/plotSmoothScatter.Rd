@@ -65,9 +65,9 @@ to the data range. Run doTest=TRUE with colramp="viridis" as a test.}
 \item{naAction}{character value, indicating how to handle missing NA values,
 typically when x is NA and y is not NA, or vice versa. valid values:
 \describe{
-   \item{"remove"}{ignore any points where either x or y are NA}
-   \item{"floor0"}{change any NA values to zero 0 for either x or y}
-   \item{"floor1"}{change any NA values to one 1 for either x or y}
+\item{"remove"}{ignore any points where either x or y are NA}
+\item{"floor0"}{change any NA values to zero 0 for either x or y}
+\item{"floor1"}{change any NA values to one 1 for either x or y}
 }
 The latter two options are useful when the desired plot should indicate
 the presence of an NA value in either x or y, while also indicating the
@@ -87,11 +87,11 @@ a new plot window.}
 \item{applyRangeCeiling}{logical, indicates how to handle points outside
 the visible plot range. Valid values:
 \describe{
-   \item{TRUE}{apply floor and ceiling, which fixes
-   these values to the edges of the visible plot area, so they have a
+\item{TRUE}{apply floor and ceiling, which fixes
+these values to the edges of the visible plot area, so they have a
 visible indication without forcing the plot space to be expanded outside
 what may be a more useful (zoomed) range.}
-   \item{FALSE}{do not apply floor
+\item{FALSE}{do not apply floor
 and ceiling, meaning points outside the visible range are simply not
 displayed. Not applying a ceiling is desirable for example, if there
 is a huge number of points at zero, and the presence of these points
@@ -139,5 +139,5 @@ plotSmoothScatter(x, colramp="viridis");
 }
 \seealso{
 \code{\link{smoothScatterJam}},
-   \code{\link[graphics]{smoothScatter}}
+\code{\link[graphics]{smoothScatter}}
 }

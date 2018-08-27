@@ -65,3 +65,12 @@ testWords <- pasteByRow(t(combn(testTerms,3)));
 provigrep(c("pizza", "dog", "noob", "."), testWords);
 
 }
+\seealso{
+Other jam string functions: \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{igrepHas}},
+  \code{\link{igrep}}, \code{\link{mixedOrder}},
+  \code{\link{mixedSortDF}}, \code{\link{mixedSort}},
+  \code{\link{mmixedOrder}}, \code{\link{unigrep}},
+  \code{\link{uniques}}, \code{\link{unvigrep}},
+  \code{\link{vgrep}}, \code{\link{vigrep}}
+}

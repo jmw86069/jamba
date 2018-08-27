@@ -51,10 +51,10 @@ function from the \code{gtools} package. It was extended to make it faster,
 and to handle special cases slightly differently. It was driven by some
 need to sort gene symbols, and miRNA symbols in numeric order, for example:
 \describe{
-   \item{test set:}{miR-12,miR-1,miR-122,miR-1b,miR-1a,miR-2}
-   \item{\code{sort}:}{miR-1,miR-12,miR-122,miR-1a,miR-1b,miR-2}
-   \item{\code{gtools::mixedsort}:}{miR-122,miR-12,miR-2,miR-1,miR-1a,miR-1b}
-   \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-2,miR-12,miR-122}
+\item{test set:}{miR-12,miR-1,miR-122,miR-1b,miR-1a,miR-2}
+\item{\code{sort}:}{miR-1,miR-12,miR-122,miR-1a,miR-1b,miR-2}
+\item{\code{gtools::mixedsort}:}{miR-122,miR-12,miR-2,miR-1,miR-1a,miR-1b}
+\item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-2,miR-12,miR-122}
 }
 The function does not by default recognize negative numbers as negative,
 instead it treats '-' as a delimiter, unless keepNegative=TRUE.
@@ -76,5 +76,13 @@ sort(x);
 }
 \seealso{
 \code{\link{mixedSort}}, \code{\link[gtools]{mixedorder}},
-   \code{\link[gtools]{mixedsort}}
+\code{\link[gtools]{mixedsort}}
+
+Other jam string functions: \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{igrepHas}},
+  \code{\link{igrep}}, \code{\link{mixedSortDF}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
+  \code{\link{provigrep}}, \code{\link{unigrep}},
+  \code{\link{uniques}}, \code{\link{unvigrep}},
+  \code{\link{vgrep}}, \code{\link{vigrep}}
 }

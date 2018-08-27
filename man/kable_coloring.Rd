@@ -9,57 +9,66 @@ kable_coloring(df, colorSub = NULL, background_as_tile = TRUE,
   return_type = c("kable", "data.frame"), verbose = FALSE, ...)
 }
 \arguments{
-\item{df}{`data.frame`}
+\item{df}{data.frame}
 
 \item{colorSub}{named vector of R colors, whose names match entries
-in the `data.frame` which are given these assigned colors.}
+in the \code{data.frame} which are given these assigned colors.}
 
 \item{background_as_tile}{boolean defining whether a cell background
-color will appear as a rounded tile (if TRUE), or a rectangle
-(if FALSE.)}
+color will appear as a rounded tile (if \code{TRUE}), or a rectangle
+(if \code{FALSE}.)}
 
 \item{color_cells}{boolean indicating whether to color individual cells}
 
-\item{row_color_by}{optional vector of `colnames` found in `df`
+\item{row_color_by}{optional vector of \code{colnames} found in \code{df}
 indicating how to colorize entire rows of a table. The typical
 colorization by cell will not fill the whole cell per row, so
 this colorization can be helpful to fill the remaining area.}
 
 \item{sep}{character delimiter used to combine values in multiple
-columns when `row_color_by` is supplied and contains multiple
-`colnames`. The delimited character strings are compared to
-`colorSub` to assign colors.}
+columns when \code{row_color_by} is supplied and contains multiple
+\code{colnames}. The delimited character strings are compared to
+\code{colorSub} to assign colors.}
 
 \item{return_type}{character string indicating the type of data
-to return. If `row_color_by` is supplied, then the only
-`"kable"` is allowed, otherwise `"data.frame"` is returned.
-Note that the `"kable"` option runs `%>% row_spec()` which
-returns an object only usable in downstream `kable` calls.}
+to return. If \code{row_color_by} is supplied, then the only
+\code{"kable"} is allowed, otherwise \code{"data.frame"} is returned.
+Note that the \code{"kable"} option runs \code{%>% row_spec()} which
+returns an object only usable in downstream \code{kable} calls.}
 
 \item{verbose}{boolean indicating whether to print verbose output.}
 }
 \value{
-`data.frame` or `kable` data.frame dependent upon the
-   `return_type` argument. Note that even the `data.frame` returned
-   will have colors encoded into each cell, so it will likely
-   not be possible to manipulate as normal.
+data.frame or kable data.frame dependent upon the
+\code{return_type} argument. Note that even the \code{data.frame} returned
+will have colors encoded into each cell, so it will likely
+be difficult to manipulate.
 }
 \description{
 Extend kableExtra colorization of tables in Rmarkdown files
 }
 \details{
-This function extends the `kableExtra` package, and is only
-available for use if the `kableExtra` package is installed. It is
+This function extends the \code{kableExtra} package, and is only
+available for use if the \code{kableExtra} package is installed. It is
 intended to allow specific color assignment of elements in a
-data.frame, but otherwise uses the `kableExtra` functions to
+data.frame, but otherwise uses the \code{kableExtra} functions to
 apply those colors.
 }
 \examples{
 # Note the output will produce HTML code, which will
 # open the Rstudio viewer when run inside Rstudio.
-kable_coloring(
-   df=data.frame(A=letters[1:5], B=LETTERS[1:5]),
-   colorSub=nameVector(rainbow(10), c(letters[1:5], LETTERS[1:5])),
-   row_color_by="B")
+#kable_coloring(
+#   df=data.frame(A=letters[1:5], B=LETTERS[1:5]),
+#   colorSub=nameVector(rainbow(10), c(letters[1:5], LETTERS[1:5])),
+#   row_color_by="B")
 
+}
+\seealso{
+Other jam color functions: \code{\link{alpha2col}},
+  \code{\link{col2alpha}}, \code{\link{col2hcl}},
+  \code{\link{col2hsv}}, \code{\link{color2gradient}},
+  \code{\link{getColorRamp}}, \code{\link{hcl2col}},
+  \code{\link{hsv2col}}, \code{\link{isColor}},
+  \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
+  \code{\link{setTextContrastColor}}
 }

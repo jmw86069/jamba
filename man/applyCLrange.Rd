@@ -19,7 +19,7 @@ values for the luminance (L) component.}
 \item{Cgrey}{numeric chroma (C) value, which defines grey colors at or
 below this chroma. Any colors at or below the grey cutoff will have
 their C values unchanged. This mechanism prevents converting black
-to red, for example. To disable the effect, set `Cgrey=-1`.}
+to red, for example. To disable the effect, set \code{Cgrey=-1}.}
 
 \item{fixYellow}{boolean indicating whether to "fix" the darkening of
 yellow, which otherwise turns to green. Instead, since JAM can,
@@ -28,7 +28,7 @@ change only affects color hues between 80 and 90.}
 }
 \value{
 vector of colors after applying the chroma (C) and luminance (L)
-   ranges.
+ranges.
 }
 \description{
 Apply chroma (C) and luminance (L) ranges to a vector of R colors
@@ -38,12 +38,12 @@ This function is primarily intended to restrict the range of brightness
 values so they contrast with a background color, particularly when the
 background color may be bright or dark in different scenarios.
 
-The C and L values are defined by `colorspace::polarLUV()`, where C is
-typically restricted to `0..100` and L is typically `0..100`. For some
+The C and L values are defined by \code{colorspace::polarLUV()}, where C is
+typically restricted to \code{0..100} and L is typically \code{0..100}. For some
 colors, values above 100 are allowed.
 
-Values are restricted to the given numeric range using `jamba::noiseFloor`
-and `min()` and `max()` values for the `minimum` and `ceiling`,
+Values are restricted to the given numeric range using \code{jamba::noiseFloor}
+and \code{min()} and \code{max()} values for the \code{minimum} and \code{ceiling},
 respectively.
 }
 \examples{

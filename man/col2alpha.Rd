@@ -17,12 +17,11 @@ alpha range should be 255. By default maxValue=1 is returned.}
 Return the alpha transparency per R color
 }
 \seealso{
-jamba color manipulation functions: \code{\link{hsv2col}},
-   \code{\link{col2hsv}},\code{\link{col2hcl}},
-   \code{\link{rgb2col}},
-   \code{\link{alpha2col}},\code{\link{col2alpha}},
-   \code{\link{makeColorDarker}},
-   \code{\link{color2gradient}},
-   \code{\link{setTextContrastColor}},
-   \code{\link{showColors}}
+Other jam color functions: \code{\link{alpha2col}},
+  \code{\link{col2hcl}}, \code{\link{col2hsv}},
+  \code{\link{color2gradient}}, \code{\link{getColorRamp}},
+  \code{\link{hcl2col}}, \code{\link{hsv2col}},
+  \code{\link{isColor}}, \code{\link{kable_coloring}},
+  \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
+  \code{\link{setTextContrastColor}}
 }

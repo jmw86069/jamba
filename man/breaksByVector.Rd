@@ -19,18 +19,18 @@ for labels that should be positioned between two labels}
 }
 \value{
 list
-   \describe{
-      \item{"breakPoints"}{The mid-point coordinate between each break.
-         These midpoints would be good for drawing dividing lines for
-         example.}
-      \item{"labelPoints"}{The ideal point to place a label to represent
-         the group.}
-      \item{"newLabels"}{A vector of labels the same length as the input
-         data, except using blank values except where a label should
-         be drawn. This output is good for text display.}
-      \item{"useLabels"}{The unique set of labels, without blanks,
-         corresponding to the coordinates supplied by labelPoints.}
-   }
+\describe{
+\item{"breakPoints"}{The mid-point coordinate between each break.
+These midpoints would be good for drawing dividing lines for
+example.}
+\item{"labelPoints"}{The ideal point to place a label to represent
+the group.}
+\item{"newLabels"}{A vector of labels the same length as the input
+data, except using blank values except where a label should
+be drawn. This output is good for text display.}
+\item{"useLabels"}{The unique set of labels, without blanks,
+corresponding to the coordinates supplied by labelPoints.}
+}
 }
 \description{
 breaks a vector into groups

@@ -37,6 +37,8 @@
 #' igrepHas("Data.*Frame", a);
 #' igrepHas("matrix", a);
 #'
+#' @family jam string functions
+#'
 #' @export
 igrepHas <- function
 (pattern, x=NULL, ignore.case=TRUE,
@@ -79,6 +81,8 @@ igrepHas <- function
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
 #' vigrep("d", V);
 #'
+#' @family jam string functions
+#'
 #' @export
 vigrep <- function
 (..., value=TRUE, ignore.case=TRUE)
@@ -105,6 +109,8 @@ vigrep <- function
 #' vgrep("D", V);
 #' vgrep("d", V);
 #' vigrep("d", V);
+#'
+#' @family jam string functions
 #'
 #' @export
 vgrep <- function
@@ -133,6 +139,8 @@ vgrep <- function
 #' igrep("d", V);
 #' vigrep("d", V);
 #'
+#' @family jam string functions
+#'
 #' @export
 igrep <- function
 (..., ignore.case=TRUE)
@@ -159,6 +167,8 @@ igrep <- function
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
 #' unigrep("D", V);
 #' igrep("D", V);
+#'
+#' @family jam string functions
 #'
 #' @export
 unigrep <- function
@@ -189,6 +199,8 @@ unigrep <- function
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
 #' unigrep("D", V);
 #' igrep("D", V);
+#'
+#' @family jam string functions
 #'
 #' @export
 unvigrep <- function
@@ -247,6 +259,8 @@ unvigrep <- function
 #'
 #' # now pull out entries matching substrings in order
 #' provigrep(c("pizza", "dog", "noob", "."), testWords);
+#'
+#' @family jam string functions
 #'
 #' @export
 provigrep <- function
@@ -1047,6 +1061,8 @@ rmInfinite <- function
 #' sort(x);
 #' mixedSort(x);
 #'
+#' @family jam string functions
+#'
 #' @export
 mixedSort <- function
 (x,
@@ -1151,6 +1167,8 @@ mixedSort <- function
 #' order(x);
 #' x[order(x)];
 #' sort(x);
+#'
+#' @family jam string functions
 #'
 #' @export
 mixedOrder <- function
@@ -1417,6 +1435,8 @@ mixedOrder <- function
 #'    this conversion is performed, in order to define a sort order based upon
 #'    each column in order.
 #'
+#' @family jam string functions
+#'
 #' @export
 mmixedOrder <- function
 (..., na.last=TRUE, decreasing=FALSE, verbose=FALSE, ignore.case=TRUE,
@@ -1526,6 +1546,9 @@ mmixedOrder <- function
 #' mixedSortDF(df2);
 #'
 #' x <- data.frame(l1=letters[1:10], l2=rep(letters[1:2+10], 5), L1=LETTERS[1:10], L2=rep(LETTERS[1:2+20], each=5))
+#'
+#' @family jam string functions
+#'
 #' @export
 mixedSortDF <- function
 (df,
@@ -1671,3 +1694,267 @@ mixedSortDF <- function
    }
    df[dfOrder,,drop=FALSE];
 }
+
+#' apply unique to each element of a list
+#'
+#' Apply unique to each element of a list, usually a list of vectors
+#'
+#' This function will attempt to use [S4Vectors::unique()] which is
+#' substantially faster than any `apply` family function, especially
+#' for very long lists. However, when `S4Vectors` is not installed,
+#' it applies uniqueness to the `unlist`ed vector of values, which is
+#' also substantially faster than the `apply` family functions for
+#' long lists, but which may still be less efficient than the
+#' C implementation provided by `S4Vectors`.
+#'
+#' This function will attempt to use [S4Vectors::unique()] which is
+#' substantially faster than the alternative `apply` family function,
+#' especially for very long lists.
+#'
+#' This function also by default applies a sort to each
+#' list element, using [mixedOrder()] for alphanumeric sorting. This
+#' sort is applied to the entire `unlist`ed vector, so it is also
+#' substantially faster than applying `sort` to each list element
+#' individually.
+#'
+#' When `makeUnique` is `TRUE`, it will make each list element unique,
+#' either using the [S4Vectors::unique()] function which is highly
+#' optimized, or the fallback is to use a substantially slower `apply`
+#' family function.
+#'
+#' @return `list` with unique values in each list element.
+#'
+#' @param x input list of vectors
+#' @param keepNames boolean indicating whether to keep the list element
+#'    names in the returned results.
+#' @param incomparables see [unique()] for details, this value is only
+#'    sent to [S4Vectors::unique()] when the Bioconductor package
+#'    `S4Vectors` is installed, and is ignored otherwise for efficiency.
+#' @param useBioc boolean indicating whether this function should try
+#'    to use [S4Vectors::unique()] when the Bioconductor package
+#'    `S4Vectors` is installed, otherwise it will use a somewhat less
+#'    efficient bulk operation.
+#'
+#' @family jam string functions
+#'
+#' @export
+uniques <- function
+(x,
+ keepNames=TRUE,
+ incomparables=FALSE,
+ useBioc=TRUE,
+ ...)
+{
+   ## Purpose is to take a list of vectors and return unique members
+   ## for each vector in the list.
+   ##
+   ## keepNames=TRUE will keep the first name for the each duplicated entry
+   if (useBioc && suppressPackageStartupMessages(require(S4Vectors))) {
+      useBioc <- TRUE;
+   } else {
+      useBioc <- FALSE;
+   }
+   if (useBioc) {
+      as.list(
+         unique(List(x),
+            incomparables=incomparables,
+            ...));
+   } else {
+      xu <- unlist(unname(x),
+         use.names=TRUE);
+      xNames <- names(x);
+      if (length(xNames) == 0) {
+         names(x) <- seq_along(x);
+      } else {
+         names(x) <- makeNames(names(x));
+      }
+      xn <- factor(rep(names(x), rlengths(x)),
+         levels=names(x));
+      ## Concatenate name with value so uniqueness requires both
+      xun <- paste0(xn, "!!", xu);
+      xmatch <- match(unique(xun), xun);
+      xuse <- xu[xmatch];
+      xn <- xn[xmatch];
+      if (!keepNames) {
+         xuse <- unname(xuse);
+      }
+      xlist <- split(xuse, xn);
+      names(xlist) <- xNames;
+      xlist;
+   }
+}
+
+#' paste a list into a delimited vector
+#'
+#' Paste a list of vectors into a character vector, usually delimited
+#' by a comma.
+#'
+#' This function is essentially a wrapper for [S4Vectors::unstrsplit()]
+#' except that it also optionally applies uniqueness to each vector
+#' in the list, and sorts values in each vector using [mixedOrder()].
+#'
+#' The sorting and uniqueness is applied to the `unlist`ed vector of
+#' values, which is substantially faster than any `apply` family function
+#' equivalent. The uniqueness is performed by [uniques()], which itself
+#' will use [S4Vectors::unique()] if available.
+#'
+#' @return character vector with the same names and in the same order
+#'    as the input list `x`.
+#'
+#' @param x input list of vectors
+#' @param sep character delimiter used to paste multiple values together
+#' @param doSort boolean indicating whether to sort each vector
+#'    using [mixedOrder()].
+#' @param makeUnique boolean indicating whether to make each vector in
+#'    the input list unique before pasting its values together.
+#' @param na.rm boolean indicating whether to remove NA values from
+#'    each vector in the input list. When `na.rm` is `TRUE` and a
+#'    list element contains only `NA` values, the resulting string
+#'    will be `""`.
+#' @param useBioc boolean indicating whether this function should try
+#'    to use [S4Vectors::unstrsplit()] when the Bioconductor package
+#'    `S4Vectors` is installed, otherwise it will use a much less
+#'    efficient [mapply()] operation.
+#' @param ... additional arguments are ignored.
+#'
+#' @examples
+#' L1 <- list(CA=LETTERS[c(1:4,2,7,4,6)], B=letters[c(7:11,9,3)]);
+#'
+#' cPaste(L1);
+#' #                CA                 B
+#' # "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"
+#'
+#' cPaste(L1, doSort=FALSE);
+#' #                CA                 B
+#' # "A,B,C,D,B,G,D,F"   "g,h,i,j,k,i,c"
+#'
+#' cPaste(L1, makeUnique=TRUE);
+#' #            CA             B
+#' # "A,B,C,D,F,G" "c,g,h,i,j,k"
+#'
+#' cPaste(L1, sep="; ", makeUnique=TRUE)
+#' #                 CA                  B
+#' # "A; B; C; D; F; G" "c; g; h; i; j; k"
+#'
+#' @family jam string functions
+#'
+#' @export
+cPaste <- function
+(x,
+ sep=",",
+ doSort=TRUE,
+ makeUnique=FALSE,
+ na.rm=FALSE,
+ useBioc=TRUE,
+ ...)
+{
+   ## Purpose is to utilize the vectorized function unstrsplit() from the S4Vectors package
+   if (!suppressPackageStartupMessages(require(IRanges))) {
+      warn("cPaste() is substantially faster when Bioconductor package S4Vectors is installed.");
+      #stop("The IRanges package is required by cPaste() for the CharacterList class.");
+      useBioc <- FALSE;
+   }
+   xNames <- names(x);
+   if (!igrepHas("list", class(x))) {
+      x <- list(x);
+      xNames <- NULL;
+   }
+   ## Assign temporary names if none are present
+   if (is.null(names(x))) {
+      names(x) <- seq_along(x);
+   }
+   ## Make names temporarily unique if some are duplicated
+   if (length(tcount(names(x), minCount=2)) > 0) {
+      names(x) <- makeNames(names(x));
+   }
+
+   ## For speed, we sort and/or convert to character class as a vector,
+   ## rather than a bunch of tiny vectors inside a list. Vector sorting
+   ## is fast; splitting vector into a list is fast.
+   if (doSort ||
+         !class(x[[1]]) %in% c("character") ||
+         na.rm) {
+      xu <- unlist(x);
+      if (!class(xu) %in% "character") {
+         xu <- as.character(xu);
+      }
+      ## rlengths() will determine the correct length of
+      ## nested lists as necessary
+
+      ## We define a vector of names as a factor, so the
+      ## order of the factor levels will maintain the
+      ## original order of input data during the
+      ## split() which occurs later.
+      ## Using a factor also preserves empty levels,
+      ## in the case that NA values are removed.
+      xn <- factor(rep(names(x), rlengths(x)),
+         levels=names(x));
+      if (doSort) {
+         xuOrder <- mixedOrder(xu);
+         xu <- xu[xuOrder];
+         xn <- xn[xuOrder];
+      }
+
+      ## Optionally remove NA values
+      if (na.rm && any(is.na(xu))) {
+         whichNotNA <- which(!is.na(xu));
+         xu <- xu[whichNotNA];
+         xn <- xn[whichNotNA];
+      }
+
+      ## split() using a factor keeps the data in original order
+      x1 <- split(unname(xu), xn);
+      x <- x1;
+   }
+   ## Optionally make vectors unique
+   if (makeUnique) {
+      x <- uniques(x,
+         useBioc=useBioc);
+   }
+
+   if (useBioc) {
+      xNew <- unstrsplit(x, sep=sep);
+   } else {
+      xNew <- mapply(paste,
+         x,
+         collapse=sep);
+   }
+
+   ## Revert names(x) to their original state
+   names(xNew) <- xNames;
+
+   return(xNew);
+}
+
+#' paste a list into a delimited vector using unique values
+#'
+#' Paste a list of vectors into a character vector of unique values,
+#' usually delimited by a comma.
+#'
+#' This function is convenient a wrapper for `cPaste(.., makeUnique=TRUE)`.
+#'
+#' @param x input list of vectors
+#' @param makeUnique boolean indicating whether to make each vector in
+#'    the input list unique before pasting its values together.
+#' @param na.rm boolean indicating whether to remove NA values from
+#'    each vector in the input list. When `na.rm` is `TRUE` and a
+#'    list element contains only `NA` values, the resulting string
+#'    will be `""`.
+#' @param .. additional arguments are passed to [cPaste()].
+#'
+#' @family jam string functions
+#'
+#' @export
+cPasteUnique <- function
+(x,
+ makeUnique=TRUE,
+ na.rm=FALSE,
+ ...)
+{
+   ## Quick wrapper around cPaste()
+   cPaste(x=x,
+      makeUnique=makeUnique,
+      na.rm=na.rm,
+      ...);
+}
+

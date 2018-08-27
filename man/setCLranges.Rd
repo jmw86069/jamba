@@ -10,7 +10,7 @@ setCLranges(lightMode = checkLightMode(), Crange = NULL, Lrange = NULL,
 \arguments{
 \item{lightMode}{boolean indicating whether the background color
 is light (TRUE is bright), or dark (FALSE is dark.) By default
-it calls `checkLightMode()` which queries `getOption("lightMode")`.}
+it calls \code{checkLightMode()} which queries \code{getOption("lightMode")}.}
 
 \item{Crange}{numeric range of chroma values, ranging
 between 0 and 100. When NULL, default values will be
@@ -22,9 +22,9 @@ assigned to Lrange. When supplied, range(Lrange) is used.}
 
 \item{adjustRgb}{numeric color adjustment factor, used during the
 conversion of RGB colors to the ANSI-compatible colors used
-by the `crayon` pacakge. The ANSI color range does not include
+by the \code{crayon} pacakge. The ANSI color range does not include
 a full RGB palette, and the conversion is somewhat lossy.
-By default, `getOptions("jam.adjustRgb")` is used to store a
+By default, \code{getOptions("jam.adjustRgb")} is used to store a
 globally re-usable value.}
 
 \item{verbose}{boolean indicating whether to print verbose output.}
@@ -33,22 +33,22 @@ globally re-usable value.}
 }
 \value{
 list with elements
-   \describe{
-      \item{Crange}{Numeric vector of length 2, defining the
-      chroma (C) range.}
-      \item{Lrange}{Numeric vector of length 2, defining the
-      luminance (L) range.}
-      \item{adjustRgb}{Numeric vector of length 1, defining the
-      adjustment to apply during RGB-to-ANSI color conversion.}
-   }
+\describe{
+\item{Crange}{Numeric vector of length 2, defining the
+chroma (C) range.}
+\item{Lrange}{Numeric vector of length 2, defining the
+luminance (L) range.}
+\item{adjustRgb}{Numeric vector of length 1, defining the
+adjustment to apply during RGB-to-ANSI color conversion.}
+}
 }
 \description{
 Return Crange, Lrange, and adjustRgb values for the given lightMode,
 which helps define sensible default ranges for contrasting colors.
 }
 \details{
-This function is intended mainly for internal use by `jamba`
-such as `printDebug()`, and `make_styles()`. It is split into its
+This function is intended mainly for internal use by \code{jamba}
+such as \code{printDebug()}, and \code{make_styles()}. It is split into its
 own function in order to help share the logic of determining some
 sensible default ranges.
 }

@@ -14,15 +14,15 @@ setPrompt(projectName = get("projectName", envir = .GlobalEnv),
 \item{projectName}{character string representing the active project.}
 
 \item{useColor}{logical whether to define a color prompt if the
-`crayon` package is installed.}
+\code{crayon} package is installed.}
 
 \item{projectColor, bracketColor, Rcolors, PIDcolor, promptColor}{colors
 used when useColor==TRUE and the \code{\link{crayon}} package
-is installed. `projectColor` colors the project name; `bracketColor`
-colors the curly brackets around the project; `Rcolors` can be
+is installed. \code{projectColor} colors the project name; \code{bracketColor}
+colors the curly brackets around the project; \code{Rcolors} can be
 a vector of 3 colors, colorizing "R", the "-" divider, and the
-R version; `PIDcolor` colors the PID when `usePid=TRUE`; and
-`promptColor` colors the `">"` at the end of the prompt.}
+R version; \code{PIDcolor} colors the PID when \code{usePid=TRUE}; and
+\code{promptColor} colors the \code{">"} at the end of the prompt.}
 
 \item{usePid}{logical whether to include the process ID in the prompt.}
 
@@ -31,8 +31,8 @@ back to the default R prompt, that is, no color and no projectName.}
 
 \item{verbose}{logical whether to print verbose output}
 
-\item{...}{additional parameters are passed to `make_styles()` which is
-only relevant with the argument `useColor=TRUE`.}
+\item{...}{additional parameters are passed to \code{make_styles()} which is
+only relevant with the argument \code{useColor=TRUE}.}
 }
 \value{
 invisible character string representing the prompt used.
@@ -51,7 +51,7 @@ the event an R process spins out of control, and it would be useful
 to know definitively which exact process ID is stuck, so that it can
 be killed without affecting other R sessions inadvertently.
 
-The prompt is defined in `options("prompt")`.
+The prompt is defined in \code{options("prompt")}.
 
 Note that in some cases, the color encoding of the prompt interferes
 with word wrapping, the symptom is that when typing text into the R console
@@ -59,22 +59,22 @@ a long line will begin to word wrap prematurely, before the text reaches
 the edge of the screen. There are two frequent causes of this issue:
 
 \describe{
-   \item{options("width")}{is sometimes defined too narrow for the
-      screen, which can happen when resizing the console, or when
-      accessing an R session via GNU screen, or tmux, and the environment
-      variable has not been propagated to the terminal window. Usually
-      this issue is resolved by defining `options("width")` manually,
-      or by simply resizing the terminal window, which may trigger the
-      appropriate environment variable updates.}
-   \item{The locale}{can sometimes be mismatched with the terminal window,
-      usually caused by some terminal emulation layer which is not
-      properly detecting the compatibility of the server. It may happen
-      for example, when using PuTTY on Windows, or when using GNU screen or
-      tmux on linux or Mac OSX. To troubleshoot, check
-      `Sys.env("LC_ALL")` which may be `"C"` or another locale such as
-      `"en_US.UTF-8"`. Note that switching locale may have the effect of
-      correcting the word wrap, but may adversely affect display of
-      non-standard unicode characters.}
+\item{options("width")}{is sometimes defined too narrow for the
+screen, which can happen when resizing the console, or when
+accessing an R session via GNU screen, or tmux, and the environment
+variable has not been propagated to the terminal window. Usually
+this issue is resolved by defining \code{options("width")} manually,
+or by simply resizing the terminal window, which may trigger the
+appropriate environment variable updates.}
+\item{The locale}{can sometimes be mismatched with the terminal window,
+usually caused by some terminal emulation layer which is not
+properly detecting the compatibility of the server. It may happen
+for example, when using PuTTY on Windows, or when using GNU screen or
+tmux on linux or Mac OSX. To troubleshoot, check
+\code{Sys.env("LC_ALL")} which may be \code{"C"} or another locale such as
+\code{"en_US.UTF-8"}. Note that switching locale may have the effect of
+correcting the word wrap, but may adversely affect display of
+non-standard unicode characters.}
 }
 
 In any event, R uses readline for unix-like systems by default, and
