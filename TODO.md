@@ -1,5 +1,11 @@
 ## TODO for jamba
 
+### Bug fixes / Enhancements to existing functions
+
+1. `ssdim()` should properly handle S4 objects by calling `sdim()` on
+each slotName.
+
+
 ### Update the jamba.r overview help documentation
 
 * Add new functions to the relevant section

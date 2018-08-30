@@ -4,8 +4,10 @@
 \alias{setCLranges}
 \title{Get chroma (C) and luminance (L) ranges for the given lightMode}
 \usage{
-setCLranges(lightMode = checkLightMode(), Crange = NULL, Lrange = NULL,
-  adjustRgb = getOption("jam.adjustRgb"), verbose = FALSE, ...)
+setCLranges(lightMode = checkLightMode(), Crange = getOption("jam.Crange"),
+  Lrange = getOption("jam.Lrange"), Cgrey = getOption("jam.Cgrey"),
+  adjustRgb = getOption("jam.adjustRgb"), setOptions = TRUE,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{lightMode}{boolean indicating whether the background color
@@ -13,12 +15,17 @@ is light (TRUE is bright), or dark (FALSE is dark.) By default
 it calls \code{checkLightMode()} which queries \code{getOption("lightMode")}.}
 
 \item{Crange}{numeric range of chroma values, ranging
-between 0 and 100. When NULL, default values will be
-assigned to Crange. When supplied, range(Crange) is used.}
+between 0 and 100. By default, \code{getOptions("Crange")} is used,
+otherwise defaults will be assigned based upon \code{lightMode}.}
 
 \item{Lrange}{numeric range of luminance values, ranging
-between 0 and 100. When NULL, default values will be
-assigned to Lrange. When supplied, range(Lrange) is used.}
+between 0 and 100. By default, \code{getOptions("Crange")} is used,
+otherwise defaults will be assigned based upon \code{lightMode}.}
+
+\item{Cgrey}{numeric chroma (C) value, which defines grey colors at or
+below this chroma. Any colors at or below the grey cutoff will have
+their C values unchanged. This mechanism prevents converting black
+to red, for example. To disable the effect, set \code{Cgrey=-1}.}
 
 \item{adjustRgb}{numeric color adjustment factor, used during the
 conversion of RGB colors to the ANSI-compatible colors used
@@ -26,6 +33,9 @@ by the \code{crayon} pacakge. The ANSI color range does not include
 a full RGB palette, and the conversion is somewhat lossy.
 By default, \code{getOptions("jam.adjustRgb")} is used to store a
 globally re-usable value.}
+
+\item{setOptions}{logical indicating whether to update \code{options()}
+with \code{jam.Crange}, \code{jam.Lrange}, and \code{jam.adjustRgb} values.}
 
 \item{verbose}{boolean indicating whether to print verbose output.}
 
@@ -40,6 +50,10 @@ chroma (C) range.}
 luminance (L) range.}
 \item{adjustRgb}{Numeric vector of length 1, defining the
 adjustment to apply during RGB-to-ANSI color conversion.}
+\item{Cgrey}{Numeric vector of length 1, defining the
+chroma value below which colors are considered greyscale,
+where chroma ranges from 0 to 100. Value of -1 (or FALSE)
+disables this logic.}
 }
 }
 \description{

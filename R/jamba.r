@@ -1925,17 +1925,23 @@ make_styles <- function
 #'    is light (TRUE is bright), or dark (FALSE is dark.) By default
 #'    it calls `checkLightMode()` which queries `getOption("lightMode")`.
 #' @param Crange numeric range of chroma values, ranging
-#'    between 0 and 100. When NULL, default values will be
-#'    assigned to Crange. When supplied, range(Crange) is used.
+#'    between 0 and 100. By default, `getOptions("Crange")` is used,
+#'    otherwise defaults will be assigned based upon `lightMode`.
 #' @param Lrange numeric range of luminance values, ranging
-#'    between 0 and 100. When NULL, default values will be
-#'    assigned to Lrange. When supplied, range(Lrange) is used.
+#'    between 0 and 100. By default, `getOptions("Crange")` is used,
+#'    otherwise defaults will be assigned based upon `lightMode`.
+#' @param Cgrey numeric chroma (C) value, which defines grey colors at or
+#'    below this chroma. Any colors at or below the grey cutoff will have
+#'    their C values unchanged. This mechanism prevents converting black
+#'    to red, for example. To disable the effect, set `Cgrey=-1`.
 #' @param adjustRgb numeric color adjustment factor, used during the
 #'    conversion of RGB colors to the ANSI-compatible colors used
 #'    by the `crayon` pacakge. The ANSI color range does not include
 #'    a full RGB palette, and the conversion is somewhat lossy.
 #'    By default, `getOptions("jam.adjustRgb")` is used to store a
 #'    globally re-usable value.
+#' @param setOptions logical indicating whether to update `options()`
+#'    with `jam.Crange`, `jam.Lrange`, and `jam.adjustRgb` values.
 #' @param verbose boolean indicating whether to print verbose output.
 #' @param ... additional parameters are ignored.
 #'
@@ -1947,6 +1953,10 @@ make_styles <- function
 #'       luminance (L) range.}
 #'       \item{adjustRgb}{Numeric vector of length 1, defining the
 #'       adjustment to apply during RGB-to-ANSI color conversion.}
+#'       \item{Cgrey}{Numeric vector of length 1, defining the
+#'       chroma value below which colors are considered greyscale,
+#'       where chroma ranges from 0 to 100. Value of -1 (or FALSE)
+#'       disables this logic.}
 #'    }
 #' @examples
 #' setCLranges(lightMode=FALSE)
@@ -1954,9 +1964,11 @@ make_styles <- function
 #' @export
 setCLranges <- function
 (lightMode=checkLightMode(),
- Crange=NULL,
- Lrange=NULL,
+ Crange=getOption("jam.Crange"),
+ Lrange=getOption("jam.Lrange"),
+ Cgrey=getOption("jam.Cgrey"),
  adjustRgb=getOption("jam.adjustRgb"),
+ setOptions=TRUE,
  verbose=FALSE,
  ...)
 {
@@ -1967,43 +1979,56 @@ setCLranges <- function
    if (length(lightMode) > 0 && lightMode) {
       ###########################################
       ## light background color
-      if (length(adjustRgb) == 0) {
+      if (length(rmNA(adjustRgb)) == 0) {
          adjustRgb <- 0;
       }
       ## Luminance range
-      if (length(Lrange) == 0) {
+      if (length(rmNA(Lrange)) == 0 || !is.numeric(Lrange)) {
          Lrange <- c(0, 80);
       } else {
-         Lrange <- range(Lrange, na.rm=TRUE);
+         Lrange <- range(Lrange,
+            na.rm=TRUE);
       }
       ## Chroma range
-      if (length(Crange) == 0) {
+      if (length(rmNA(Crange)) == 0 || !is.numeric(Crange)) {
          Crange <- c(10, 100);
       } else {
-         Crange <- range(Crange, na.rm=TRUE);
+         Crange <- range(Crange,
+            na.rm=TRUE);
       }
    } else {
       ###########################################
       ## dark background color
       lightMode <- FALSE;
-      if (length(adjustRgb) == 0) {
+      if (length(rmNA(adjustRgb)) == 0) {
          adjustRgb <- 0;
       }
       ## Luminance range
-      if (length(Lrange) == 0) {
-         Lrange <- c(75, 100);
+      if (length(rmNA(Lrange)) == 0 || !is.numeric(Lrange)) {
+         Lrange <- c(45, 100);
       } else {
          Lrange <- range(Lrange, na.rm=TRUE);
       }
       ## Chroma range
-      if (length(Crange) > 0) {
+      if (length(rmNA(Crange)) > 0 && is.numeric(Crange)) {
          Crange <- range(Crange, na.rm=TRUE);
       }
    }
+   if (length(rmNA(Cgrey)) == 0 || !is.numeric(Cgrey)) {
+      Cgrey <- 5;
+   }
+   if (setOptions) {
+      options("jam.adjustRgb"=adjustRgb);
+      options("jam.Crange"=Crange);
+      options("jam.Lrange"=Lrange);
+      options("jam.Cgrey"=Cgrey);
+   }
+
    CLranges <- list(
       Crange=Crange,
       Lrange=Lrange,
-      adjustRgb=adjustRgb);
+      adjustRgb=adjustRgb,
+      Cgrey=Cgrey);
    CLranges;
 }
 
@@ -2037,8 +2062,10 @@ setCLranges <- function
 #'    to red, for example. To disable the effect, set `Cgrey=-1`.
 #' @param fixYellow boolean indicating whether to "fix" the darkening of
 #'    yellow, which otherwise turns to green. Instead, since JAM can,
-#'    JAM will make the yellow slightly more golden before darkening. This
-#'    change only affects color hues between 80 and 90.
+#'    JAM will make the yellow slightly more golden before darkening,
+#'    which is achieved by calling `fixYellowHue()`.
+#' @param ... additional argyments are passed to `fixYellowHue()` when
+#'    `fixYellow` is `TRUE`.
 #'
 #' @examples
 #' applyCLrange(c("red","blue","yellow"), Lrange=c(0,60));
@@ -2089,10 +2116,7 @@ applyCLrange <- function
 
    ## Optionally "fix" yellows
    if (fixYellow) {
-      styleYellow <- (styleHcl["H",] >= 80 & styleHcl["H",] <= 90);
-      if (any(styleYellow)) {
-         styleHcl["H",styleYellow] <- styleHcl["H",styleYellow] - 15;
-      }
+      styleHcl <- fixYellowHue(styleHcl, ...);
    }
 
    ## Convert back to hex color
@@ -2101,6 +2125,134 @@ applyCLrange <- function
       x[styleNA] <- NA;
    }
    x;
+}
+
+#' Fix yellow color hue
+#'
+#' Fix yellow color hue to be less green than default "yellow"
+#'
+#' This function "fixes" the color yellow, which by default appears green
+#' especially when darkened. The effect of this function is to make yellows
+#' appear more red, which appears more visibly yellow even when the color
+#' is darkened.
+#'
+#' This function is intended to be tolerant to missing values. For example if
+#' any of the values `HCL`, `Hrange`, or `Hshift` are length 0, the original
+#' `HCL` is returned unchanged.
+#'
+#' @param HCL numeric matrix with HCL color values, as returned by `col2hcl()`,
+#'    but requiring only one rowname `"H"` representing the color hue on
+#'    a scale of 0 to 360. If input data does not contain numeric values
+#'    with rowname "H", `HCL` is return unchanged.
+#' @param Hrange numeric vector whose range defines the region of hues
+#'    to be adjusted. By default hues between 80 and 90 are adjusted. If
+#'    NULL, `HCL` is return unchanged.
+#' @param Hshift numeric value length one, used to adjust the hue of colors
+#'    within the range `Hrange`. If NULL, `HCL` is return unchanged.
+#' @param ... additional arguments are ignored.
+#'
+#' @value returns the input `HCL` data where rowname `"H"` has hue values
+#'    adjusted accordingly. In the event `HCL`, `Hrange`, or `Hshift` have
+#'    length 0, the original `HCL` is returned.
+#'
+#' @examples
+#' yellows <- vigrep("yellow", colors());
+#' yellowsHCL <- col2hcl(yellows);
+#' fixedYellowsHCL <- fixYellowHue(yellowsHCL);
+#' fixedYellows <- hcl2col(fixedYellowsHCL);
+#' showColors(list(yellows=yellows,
+#'    fixedYellows=fixedYellows));
+#'
+#' @export
+fixYellowHue <- function
+(HCL,
+ Hrange=c(80,90),
+ Hshift=-15,
+ ...)
+{
+   ## Purpose is to "fix" the color yellow, which when darkening the
+   ## default R yellow becomes green. This function alters the actual
+   ## hue to become more reddish, the visible effect is the color appears
+   ## to retain "yellow" color even when darkened.
+   if (length(HCL) == 0 ||
+         !"H" %in% rownames(HCL) ||
+         !is.numeric(HCL["H",])) {
+      #warning("fixYellowHue() requires rowname 'H' with numeric values between 0 and 360.");
+      return(HCL);
+   }
+   Hshift <- head(rmNA(Hshift), 1);
+   if (length(rmNA(Hrange)) == 0 || length(Hshift) == 0) {
+      #warning("fixYellowHue() requires Hrange and Hshift to have length > 0.")
+      return(HCL);
+   }
+   Hrange <- range(Hrange, na.rm=TRUE);
+   styleYellow <- (!is.na(HCL["H",]) &
+         HCL["H",] >= Hrange[1] &
+         HCL["H",] <= Hrange[2]);
+   if (any(styleYellow)) {
+      HCL["H",styleYellow] <- HCL["H",styleYellow] + Hshift;
+   }
+   return(HCL);
+}
+
+#' Fix yellow color
+#'
+#' Fix yellow color to be less green than default "yellow"
+#'
+#' This function "fixes" the color yellow, which by default appears green
+#' especially when darkened. The effect of this function is to make yellows
+#' appear more red, which appears more visibly yellow even when the color
+#' is darkened.
+#'
+#' This function is intended to be tolerant to missing values. For example if
+#' any of the values `col`, `Hrange`, or `Hshift` are length 0, the original
+#' `col` is returned unchanged.
+#'
+#' @param col R color, either in hex color format or using values from
+#'    `colors()`.
+#' @param Hrange numeric vector whose range defines the region of hues
+#'    to be adjusted. By default hues between 80 and 90 are adjusted. If
+#'    NULL, `HCL` is return unchanged.
+#' @param Hshift numeric value length one, used to adjust the hue of colors
+#'    within the range `Hrange`. If NULL, `HCL` is return unchanged.
+#' @param ... additional arguments are passed to `col2hcl()`, and
+#'    `hcl2col()`.
+#'
+#' @value returns a vector of R colors the same length as input `col`.
+#'    In the event `col`, `Hrange`, or `Hshift` have length 0, or if any
+#'    step in the conversion produces length 0, then the
+#'    original `col` is returned.
+#'
+#' @examples
+#' yellows <- vigrep("yellow", colors());
+#' fixedYellows <- fixYellow(yellows);
+#' showColors(list(yellows=yellows,
+#'    fixedYellows=fixedYellows));
+#'
+#' @export
+fixYellow <- function
+(col,
+ Hrange=c(80,90),
+ Hshift=-15,
+ ...)
+{
+   ## Purpose is to provide a wrapper to fixColorHue() for other R colors
+   if (length(rmNA(col)) == 0) {
+      return(col);
+   }
+   HCL <- col2hcl(col, ...);
+   if (length(HCL) == 0) {
+      return(col);
+   }
+   HCL2 <- fixYellowHue(HCL,
+      Hrange=Hrange,
+      Hshift=Hshift,
+      ...);
+   if (length(HCL2) == 0) {
+      return(col);
+   }
+   col2 <- hcl2col(HCL2, ...);
+   return(col2);
 }
 
 #' Show R function arguments jam-style
@@ -2993,9 +3145,11 @@ sdim <- function
 
    getDim <- function
    (i,
-      doFormat=FALSE,
-      includeClass=FALSE,
-      ...) {
+    doFormat=FALSE,
+    includeClass=FALSE,
+    big.mark=",",
+    ...)
+   {
       ## Simply a wrapper function
       iClass <- class(i);
 
@@ -3041,13 +3195,14 @@ sdim <- function
 
    ## Iterate each element and determine the dimensions
    if (!igrepHas("list|tbl|tibble|data.frame|matrix", class(x)) &&
-         length(slotNames(x)) > 0) {
+         isS4(x)) {
       sn1 <- slotNames(x);
       sdL <- lapply(nameVector(sn1), function(sni){
          i <- slot(x, sni);
          iDim <- getDim(i,
             doFormat=doFormat,
             includeClass=includeClass,
+            big.mark=big.mark,
             ...);
          iDim;
       });
@@ -3068,6 +3223,7 @@ sdim <- function
          iDim <- getDim(i,
             doFormat=doFormat,
             includeClass=includeClass,
+            big.mark=big.mark,
             ...);
          iDim;
       });
@@ -3147,6 +3303,16 @@ ssdim <- function
  ...)
 {
    ## Purpose is to run sdim() on a list of lists of data.frames
+   if (isS4(x)) {
+      # For S4 objects we iterate slotNames(x)
+      lapply(nameVector(slotNames(x)), function(iName){
+         sdim(slot(x, iName),
+            includeClass=includeClass,
+            doFormat=doFormat,
+            big.mark=big.mark,
+            verbose=verbose);
+      });
+   }
    if (!any("list" %in% unlist(sclass(x)))) {
       sdim(x);
    } else {
