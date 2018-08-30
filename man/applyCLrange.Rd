@@ -23,8 +23,11 @@ to red, for example. To disable the effect, set \code{Cgrey=-1}.}
 
 \item{fixYellow}{boolean indicating whether to "fix" the darkening of
 yellow, which otherwise turns to green. Instead, since JAM can,
-JAM will make the yellow slightly more golden before darkening. This
-change only affects color hues between 80 and 90.}
+JAM will make the yellow slightly more golden before darkening,
+which is achieved by calling \code{fixYellowHue()}.}
+
+\item{...}{additional argyments are passed to \code{fixYellowHue()} when
+\code{fixYellow} is \code{TRUE}.}
 }
 \value{
 vector of colors after applying the chroma (C) and luminance (L)

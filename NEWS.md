@@ -1,3 +1,27 @@
+# jamba version 0.0.13.900
+
+## enhancements
+
+* `setCLranges()` was adjusted to use global options where available,
+and by default will update global options when not defined. This mechanism
+allows one to set specific Crange and Lrange values, and have them be
+re-used by functions affected by those values.
+* `ssdim()` now handles S4 objects by iterating each slotName and calling
+`sdim()`.
+* `sdim()` now properly handles detection of S4 classes.
+
+## new functions
+
+* `fixYellowHue()` takes a matrix of HCL colors (as from `col2hcl()`) and
+adjusts colors between hue 80 and 90 so they appear less green. This change
+is a visual preference that the default yellow appears green when darkened,
+and simply makes the color appear less green.
+* `fixYellowColor()` takes a vector of colors as a wrapper to `fixYellowHue()`.
+
+# jamba version 0.0.12.900
+
+The main change in this version was to reduce required R version to 3.0.0.
+
 # jamba version 0.0.11.900
 
 ## new functions
