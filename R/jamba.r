@@ -3207,10 +3207,12 @@ sdim <- function
          iDim;
       });
    } else {
-      if (!igrepHas("list", class(x))) {
+      if (is.vector(x) && !igrepHas("list", class(x))) {
          if (verbose) {
             printDebug("sdim(): ",
-               "Coercing to list(x)");
+               "Coercing class(x) from '",
+               class(x),
+               "' to list(x)");
          }
          x <- list(x);
       }

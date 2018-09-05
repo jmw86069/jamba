@@ -1,3 +1,10 @@
+# jamba version 0.0.14.900
+
+## bug fixes
+
+* Fixed issue with `sdim()` so it would properly traverse a non-vector
+and non-list object which may contain elements with length or dimension.
+
 # jamba version 0.0.13.900
 
 ## enhancements
