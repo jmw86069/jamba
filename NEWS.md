@@ -1,3 +1,16 @@
+# jamba version 0.0.15.900
+
+## bug fixes
+
+* `smoothScatterJam()` and `imageDefault()` were updated to fix edge
+cases where the image being rendered was expected to have integer
+axis units, but where the raster ratio had duplicated columns or
+rows, making the units imprecise.
+* `setPrompt()` has default `projectName=NULL` instead of trying to
+pull from `projectName` from the `.GlobalEnv` environment, which
+would cause an error if not defined. Instead, if `NULL` then it
+checks if `projectName` exists, if so the value is used.
+
 # jamba version 0.0.14.900
 
 ## bug fixes

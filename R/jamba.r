@@ -364,7 +364,7 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #'
 #' @export
 setPrompt <- function
-(projectName=get("projectName", envir=.GlobalEnv),
+(projectName=NULL,
  useColor=TRUE,
  projectColor="yellow",
  bracketColor="white",
@@ -382,6 +382,15 @@ setPrompt <- function
    ## can be helpful when an R session hangs, but you have multiple active
    ## R sessions, and might otherwise not be able to tell which R session
    ## is problematic.
+   ##
+   ## if projectName is not supplied, try .GlobalEnv
+   if (length(projectName) == 0) {
+      if (exists("projectName", envir=.GlobalEnv)) {
+         projectName <- get("projectName", envir=.GlobalEnv);
+      } else {
+         projectName <- "unnamed";
+      }
+   }
    if (length(useColor) > 0 &&
          useColor &&
          suppressPackageStartupMessages(require(crayon))) {

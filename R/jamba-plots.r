@@ -258,23 +258,50 @@ plotSmoothScatter <- function
             xlim=xlim4, ylim=ylim4, add=add, ...);
          axis(1, las=2, xaxt=xaxt);
          axis(2, las=2, yaxt=yaxt);
-         smoothScatterJam(x=x, y=y, add=TRUE,
+         smoothScatterJam(x=x,
+            y=y,
+            add=TRUE,
             transformation=transformation,
-            bandwidth=bandwidthXY, nbin=nbin, nrpoints=nrpoints,
-            xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt="n", yaxt="n",
-            colramp=colramp, useRaster=useRaster, ...);
+            bandwidth=bandwidthXY,
+            nbin=nbin,
+            nrpoints=nrpoints,
+            xlim=xlim4,
+            ylim=ylim4,
+            xaxs="i",
+            yaxs="i",
+            xaxt="n",
+            yaxt="n",
+            colramp=colramp,
+            useRaster=useRaster,
+            ...);
       } else {
-         smoothScatterJam(x=x, y=y,
+         smoothScatterJam(x=x,
+            y=y,
             transformation=transformation,
-            bandwidth=bandwidthXY, nbin=nbin, nrpoints=nrpoints,
-            xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i", xaxt=xaxt, yaxt=yaxt,
-            colramp=colramp, useRaster=useRaster, ...);
+            bandwidth=bandwidthXY,
+            nbin=nbin,
+            nrpoints=nrpoints,
+            xlim=xlim4,
+            ylim=ylim4,
+            xaxs="i",
+            yaxs="i",
+            xaxt=xaxt,
+            yaxt=yaxt,
+            colramp=colramp,
+            useRaster=useRaster,
+            ...);
       }
-      invisible(list(x=x, y=y,
+      invisible(list(x=x,
+         y=y,
          transformation=transformation,
-         bandwidth=bandwidthXY, nbin=nbin,
-         xlim=xlim4, ylim=ylim4, xaxs="i", yaxs="i",
-         xaxt=xaxt, yaxt=yaxt,
+         bandwidth=bandwidthXY,
+         nbin=nbin,
+         xlim=xlim4,
+         ylim=ylim4,
+         xaxs="i",
+         yaxs="i",
+         xaxt=xaxt,
+         yaxt=yaxt,
          colramp=colramp));
    }
 }
@@ -891,8 +918,8 @@ imageDefault <- function
    }
    if (length(minRasterMultiple) == 0) {
       if (!is.null(rasterTarget)) {
-         minRasterMultiple <- c(ceiling(head(rasterTarget,1)/ncol(z)),
-            ceiling(tail(rasterTarget,1)/nrow(z)));
+         minRasterMultiple <- c(ceiling(rasterTarget[1]/ncol(z)),
+            ceiling(rasterTarget[2]/nrow(z)));
       } else {
          minRasterMultiple <- c(1,1);
       }
@@ -907,6 +934,10 @@ imageDefault <- function
    }
 
    if (missing(z)) {
+      if (verbose) {
+         printDebug("imageDefault(): ",
+            "missing(z)");
+      }
       if (!missing(x)) {
          if (is.list(x)) {
             z <- x$z
@@ -929,6 +960,10 @@ imageDefault <- function
          stop("no 'z' matrix specified");
       }
    } else if (is.list(x)) {
+      if (verbose) {
+         printDebug("imageDefault(): ",
+            c("!missing(z),","is.list(x)"));
+      }
       xn <- deparse(substitute(x))
       if (missing(xlab)) {
          xlab <- paste(xn, "x", sep="$");
@@ -939,18 +974,23 @@ imageDefault <- function
       y <- x$y;
       x <- x$x;
    } else {
+      if (verbose) {
+         printDebug("imageDefault(): ",
+            c("!missing(z),","!is.list(x)"));
+      }
       if (missing(xlab))
          if (missing(x)) {
             xlab <- "";
          } else {
             xlab <- deparse(substitute(x));
          }
-      if (missing(ylab))
+      if (missing(ylab)) {
          if (missing(y)) {
             ylab <- "";
          } else {
             ylab <- deparse(substitute(y));
          }
+      }
    }
    if (any(!is.finite(x)) || any(!is.finite(y))) {
       stop("'x' and 'y' values must be finite and non-missing");
@@ -963,13 +1003,31 @@ imageDefault <- function
    }
    if (length(x) > 1 && length(x) == nrow(z)) {
       dx <- 0.5 * diff(x);
-      x <- c(x[1L] - dx[1L], x[-length(x)] + dx, x[length(x)] +
-             dx[length(x) - 1]);
+      if (verbose) {
+         printDebug("imageDefault(): ",
+            "preparing to redefine x using diff(x)/2",
+            ", length(x):",
+            length(x));
+      }
+      x <- c(
+         x[1] - dx[1],
+         x[-length(x)] + dx,
+         x[length(x)] + dx[length(x) - 1]
+      );
+      if (verbose) {
+         printDebug("imageDefault(): ",
+            "redefined x using diff(x)/2",
+            ", length(x):",
+            length(x));
+      }
    }
    if (length(y) > 1 && length(y) == ncol(z)) {
       dy <- 0.5 * diff(y);
-      y <- c(y[1L] - dy[1L], y[-length(y)] + dy, y[length(y)] +
-             dy[length(y) - 1]);
+      y <- c(
+         y[1] - dy[1],
+         y[-length(y)] + dy,
+         y[length(y)] + dy[length(y) - 1]
+      );
    }
    if (missing(breaks)) {
       nc <- length(col);
@@ -977,13 +1035,13 @@ imageDefault <- function
          stop("invalid z limits");
       }
       if (diff(zlim) == 0) {
-         if (zlim[1L] == 0) {
+         if (zlim[1] == 0) {
             zlim <- c(-1, 1);
          } else {
-            zlim <- zlim[1L] + c(-0.4, 0.4) * abs(zlim[1L]);
+            zlim <- zlim[1] + c(-0.4, 0.4) * abs(zlim[1]);
          }
       }
-      z <- (z - zlim[1L])/diff(zlim);
+      z <- (z - zlim[1])/diff(zlim);
       if (oldstyle) {
          zi <- floor((nc - 1) * z + 0.5);
       } else {
@@ -1011,12 +1069,30 @@ imageDefault <- function
    if (igrepHas("x", flip)) {
       xlim <- rev(xlim);
    }
+   if (verbose) {
+      printDebug("imageDefault(): ",
+         "xlim:",
+         xlim);
+      printDebug("imageDefault(): ",
+         "ylim:",
+         ylim);
+   }
    if (!add) {
-      plot(NA, NA, xlim=xlim, ylim=ylim, type="n", xaxs=xaxs,
-         yaxs=yaxs, xaxt=xaxt, yaxt=yaxt, xlab=xlab, ylab=ylab, ...);
+      plot(NA,
+         NA,
+         xlim=xlim,
+         ylim=ylim,
+         type="n",
+         xaxs=xaxs,
+         yaxs=yaxs,
+         xaxt=xaxt,
+         yaxt=yaxt,
+         xlab=xlab,
+         ylab=ylab,
+         ...);
    }
    if (length(x) <= 1) {
-      x <- par("usr")[1L:2];
+      x <- par("usr")[1:2];
    }
    if (length(y) <= 1) {
       y <- par("usr")[3:4];
@@ -1027,8 +1103,13 @@ imageDefault <- function
    check_irregular <- function(x, y) {
       dx <- diff(x);
       dy <- diff(y);
-      (length(dx) && !isTRUE(all.equal(dx, rep(dx[1], length(dx))))) ||
-         (length(dy) && !isTRUE(all.equal(dy, rep(dy[1], length(dy)))));
+      (
+         length(dx) &&
+         !isTRUE(all.equal(dx, rep(dx[1], length(dx))))
+      ) || (
+         length(dy) &&
+         !isTRUE(all.equal(dy, rep(dy[1], length(dy))))
+      );
    }
    if (is.null(useRaster)) {
       useRaster <- getOption("preferRaster", FALSE);
@@ -1044,8 +1125,9 @@ imageDefault <- function
       }
    }
    if (verbose) {
-      printDebug("imageDefault() useRaster: ", useRaster,
-         fgText=c("orange", "lightgreen"));
+      printDebug("imageDefault(): ",
+         "useRaster: ",
+         useRaster);
    }
    if (useRaster && fixRasterRatio) {
       ## To try to deal with the raster function not handling the case of
@@ -1056,18 +1138,22 @@ imageDefault <- function
       ## else is close enough not to bother
       #if (class(x) %in% c("matrix")) {
       if (verbose) {
-         printDebug("dim(z): ", dim(z), fgText=c("orange", "lightgreen"));
-         printDebug("dim(zi): ", dim(zi), fgText=c("orange", "lightgreen"));
-         printDebug("length(x): ", length(x), fgText=c("orange", "lightgreen"));
-         printDebug("length(y): ", length(y), fgText=c("orange", "lightgreen"));
-         printDebug("head(x): ", head(round(digits=2,x),20),
-            fgText=c("orange", "lightgreen"));
-         printDebug("tail(x): ", tail(round(digits=2,x),20),
-            fgText=c("orange", "lightgreen"));
-         printDebug("head(y): ", head(round(digits=2,y),20),
-            fgText=c("orange", "lightgreen"));
-         printDebug("tail(y): ", tail(round(digits=2,y),20),
-            fgText=c("orange", "lightgreen"));
+         printDebug("imageDefault(): ",
+            "dim(z): ", dim(z));
+         printDebug("imageDefault(): ",
+            "dim(zi): ", dim(zi));
+         printDebug("imageDefault(): ",
+            "length(x): ", length(x));
+         printDebug("imageDefault(): ",
+            "length(y): ", length(y));
+         printDebug("imageDefault(): ",
+            "head(x): ", head(round(digits=2,x),20));
+         printDebug("imageDefault(): ",
+            "tail(x): ", tail(round(digits=2,x),20));
+         printDebug("imageDefault(): ",
+            "head(y): ", head(round(digits=2,y),20));
+         printDebug("imageDefault(): ",
+            "tail(y): ", tail(round(digits=2,y),20));
       }
       if (any(minRasterMultiple > 1) ||
           (length(y)-1) > 2*(length(x)-1) ||
