@@ -19,7 +19,7 @@
 #' the class might be slightly different than expected, e.g. data.frame,
 #' data_frame, DataFrame.
 #'
-#' @param pattern the grep pattern to use with \code{\link{grep}}
+#' @param pattern the grep pattern to use with \code{\link[base]{grep}}
 #' @param x vector to use in the grep
 #' @param ignore.case logical default TRUE, meaning the grep will be performed
 #'    in case-insensitive mode.
@@ -31,7 +31,8 @@
 #'    TRUE indicates the grep pattern was present in minCount or more
 #'    number of entries.
 #'
-#' @seealso \code{\link{grep}}'
+#' @seealso \code{\link[base]{grep}}
+#'
 #' @examples
 #' a <- c("data.frame","data_frame","tibble","tbl");
 #' igrepHas("Data.*Frame", a);
@@ -69,11 +70,11 @@ igrepHas <- function
 #'
 #' case-insensitive grep, returning values
 #'
-#' This function is a simple wrapper around \code{\link{grep}} which
+#' This function is a simple wrapper around \code{\link[base]{grep}} which
 #' runs in case-insensitive mode, and returns matching values. It is
 #' particularly helpful when grabbing values from a vector.
 #'
-#' @param ...,value,ignore.case parameters sent to \code{\link{grep}}
+#' @param ...,value,ignore.case parameters sent to \code{\link[base]{grep}}
 #'
 #' @return vector of matching values
 #'
@@ -95,12 +96,12 @@ vigrep <- function
 #'
 #' grep, returning values
 #'
-#' This function is a simple wrapper around \code{\link{grep}} which
+#' This function is a simple wrapper around \code{\link[base]{grep}} which
 #' returns matching values. It is
 #' particularly helpful when grabbing values from a vector, but where the
 #' case (uppercase or lowercase) is known.
 #'
-#' @param ...,value,ignore.case parameters sent to \code{\link{grep}}
+#' @param ...,value,ignore.case parameters sent to \code{\link[base]{grep}}
 #'
 #' @return vector of matching values
 #'
@@ -124,12 +125,12 @@ vgrep <- function
 #'
 #' case-insensitive grep
 #'
-#' This function is a simple wrapper around \code{\link{grep}} which
+#' This function is a simple wrapper around \code{\link[base]{grep}} which
 #' runs in case-insensitive mode. It is mainly used to save keystrokes,
 #' but is consistently named alongside \code{\link{vgrep}} and
 #' \code{\link{vigrep}}.
 #'
-#' @param ...,ignore.case parameters sent to \code{\link{grep}}
+#' @param ...,ignore.case parameters sent to \code{\link[base]{grep}}
 #'
 #' @return vector of matching indices
 #'
@@ -153,13 +154,13 @@ igrep <- function
 #'
 #' case-insensitive grep, returning unmatched indices
 #'
-#' This function is a simple wrapper around \code{\link{grep}} which
+#' This function is a simple wrapper around \code{\link[base]{grep}} which
 #' runs in case-insensitive mode, and returns unmatched entries.
 #' It is mainly used to save keystrokes,
 #' but is consistently named alongside \code{\link{vgrep}} and
 #' \code{\link{vigrep}}, and quite helpful for writing concise code.
 #'
-#' @param ...,ignore.case,invert parameters sent to \code{\link{grep}}
+#' @param ...,ignore.case,invert parameters sent to \code{\link[base]{grep}}
 #'
 #' @return vector of non-matching indices
 #'
@@ -182,7 +183,7 @@ unigrep <- function
 #'
 #' case-insensitive grep, returning unmatched values
 #'
-#' This function is a simple wrapper around \code{\link{grep}} which
+#' This function is a simple wrapper around \code{\link[base]{grep}} which
 #' runs in case-insensitive mode, and returns unmatched values.
 #' It is mainly used to save keystrokes,
 #' but is consistently named alongside \code{\link{vgrep}} and
@@ -191,7 +192,7 @@ unigrep <- function
 #' vector, for example removing accession numbers from a long
 #' vector of gene symbols in order to review gene annotations.
 #'
-#' @param ...,ignore.case,value,invert parameters sent to \code{\link{grep}}
+#' @param ...,ignore.case,value,invert parameters sent to \code{\link[base]{grep}}
 #'
 #' @return vector of non-matching indices
 #'
@@ -232,7 +233,7 @@ unvigrep <- function
 #' listed first.
 #'
 #' @param patterns vector of grep patterns
-#' @param x vector to be tested by \code{\link{grep}}
+#' @param x vector to be tested by \code{\link[base]{grep}}
 #' @param maxValues integer or NULL, the maximum matching entries to
 #'    return per grep pattern. This parameter is mainly useful when returning
 #'    a list of matches, where one would like each list to contain a maximum
@@ -248,7 +249,7 @@ unvigrep <- function
 #'    A list will be in order of the grep patterns, using empty elements to
 #'    indicate when no entries matched each pattern. This output is useful
 #'    when you would like to know which patterns matched specific entries.
-#' @param ignore.case logical parameter sent to \code{\link{grep}}, TRUE
+#' @param ignore.case logical parameter sent to \code{\link[base]{grep}}, TRUE
 #'    runs in case-insensitive mode, as by default.
 #'
 #' @examples
@@ -680,7 +681,7 @@ makeNames <- function
 #' \code{\link{makeNames}} to create unique names. It differs from
 #' \code{\link[stats]{setNames}} in that it ensures names are unique,
 #' and when no names are supplied, it uses the vector itself to define
-#' names. It is helpful to run this function inside an \code{\link{lapply}}
+#' names. It is helpful to run this function inside an \code{\link[base]{lapply}}
 #' function call, which by default maintains names, but does not assign
 #' names if the input data did not already have them.
 #'
@@ -770,12 +771,12 @@ nameVector <- function
 #'
 #' This function creates a vector from the names of the input vector,
 #' then assigns the same as names. The utility is mainly for
-#' \code{\link{lapply}} functions which maintain the name of a vector
-#' in its output. The reason to run \code{\link{lapply}} using names
+#' \code{\link[base]{lapply}} functions which maintain the name of a vector
+#' in its output. The reason to run \code{\link[base]{lapply}} using names
 #' is so the lapply function is operating only on the name and not the
 #' data it references, which can be convenient when the name of the element
 #' is useful to known inside the function body. The reason to name the names,
-#' is so the list object returned by \code{\link{lapply}} is also named
+#' is so the list object returned by \code{\link[base]{lapply}} is also named
 #' with these same consistent names.
 #'
 #' Consider a list of data.frames, each of which represents stats results
@@ -1013,7 +1014,7 @@ rmInfinite <- function
 #'
 #' sort alphanumeric values keeping numeric values in proper order
 #'
-#' This function is a refactor of the \code{\link[gtools]{mixedsort}}
+#' This function is a refactor of the \code{gtools::mixedsort}
 #' function from the \code{gtools} package. It was extended to make it faster,
 #' and to handle special cases slightly differently. It was driven by some
 #' need to sort gene symbols, and miRNA symbols in numeric order, for example:
@@ -1033,8 +1034,8 @@ rmInfinite <- function
 #'
 #' @return vector of values from x, ordered by alphanumeric logic.
 #'
-#' @seealso \code{\link{mixedSort}}, \code{\link[gtools]{mixedorder}},
-#'    \code{\link[gtools]{mixedsort}}
+#' @seealso \code{\link{mixedSort}}, \code{gtools::mixedorder},
+#'    \code{gtools::mixedsort}
 #'
 #' @param x input vector
 #' @param blanksFirst logical whether to order blank entries before entries
@@ -1116,7 +1117,7 @@ mixedSort <- function
 #'
 #' order alphanumeric values keeping numeric values in proper order
 #'
-#' This function is a refactor of the \code{\link[gtools]{mixedorder}}
+#' This function is a refactor of the \code{gtools::mixedorder}
 #' function from the \code{gtools} package. It was extended to make it faster,
 #' and to handle special cases slightly differently. It was driven by some
 #' need to sort gene symbols, and miRNA symbols in numeric order, for example:
@@ -1136,8 +1137,8 @@ mixedSort <- function
 #'
 #' @return integer vector of orders derived from x
 #'
-#' @seealso \code{\link{mixedSort}}, \code{\link[gtools]{mixedorder}},
-#'    \code{\link[gtools]{mixedsort}}
+#' @seealso \code{\link{mixedSort}}, \code{gtools::mixedorder},
+#'    \code{gtools::mixedsort}
 #'
 #' @param x input vector
 #' @param blanksFirst logical whether to order blank entries before entries
@@ -1410,7 +1411,7 @@ mixedOrder <- function
 #' order alphanumeric values from a list
 #'
 #' This function is a minor extension to \code{\link{mixedOrder}} in that
-#' it accepts list input, similar to how \code{\link{order}} operates.
+#' it accepts list input, similar to how \code{\link[base]{order}} operates.
 #' This function is mainly useful when sorting something like a data.frame,
 #' where ties in column 1 should be maintained then broken by non-equal
 #' values in column 2.
@@ -1426,7 +1427,7 @@ mixedOrder <- function
 #' @seealso \code{\link{mixedOrder}}, \code{\link{mixedSort}}
 #'
 #' @param ... parameters treated as a list of vectors to be ordered in
-#'    proper order, based upon the mechanism by \code{\link{order}}.
+#'    proper order, based upon the mechanism by \code{\link[base]{order}}.
 #' @param na.last,decreasing,verbose,ignore.case parameters sent to
 #'    \code{\link{mixedOrder}}.
 #' @param matrixAsDF logical if \code{...} supplies only one matrix object,
@@ -1497,7 +1498,7 @@ mmixedOrder <- function
 #'
 #' This function is a wrapper around \code{\link{mmixedOrder}} so it operates
 #' on data.frame columns in the proper order, using logic similar that used
-#' by \code{\link{order}} when operating on data.frames. The sort order logic
+#' by \code{\link[base]{order}} when operating on data.frames. The sort order logic
 #' is fully described in \code{\link{mixedSort}} and \code{\link{mixedOrder}}.
 #'
 #' @return data.frame whose rows are ordered using \code{\link{mmixedOrder}}

@@ -97,7 +97,8 @@ setTextContrastColor <- function
 #' color manipulation functions as well.
 #'
 #' @param x R compatible color, either a color name, or hex value, or
-#'    a mixture of the two. Any value compatible with \code{\link{col2rgb}}.
+#'    a mixture of the two. Any value compatible with
+#'    \code{\link[grDevices]{col2rgb}}.
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #'
@@ -297,7 +298,7 @@ hcl2col <- function
 #' Return the alpha transparency per R color
 #'
 #' @param x R compatible color, either a color name, or hex value, or
-#'    a mixture of the two. Any value compatible with \code{\link{col2rgb}}.
+#'    a mixture of the two. Any value compatible with \code{\link[grDevices]{col2rgb}}.
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #'
@@ -321,7 +322,7 @@ col2alpha <- function
 #' Define the alpha transparency per R color
 #'
 #' @param x R compatible color, either a color name, or hex value, or
-#'    a mixture of the two. Any value compatible with \code{\link{col2rgb}}.
+#'    a mixture of the two. Any value compatible with \code{\link[grDevices]{col2rgb}}.
 #' @param alpha numeric alpha transparency to use per x color. alpha is
 #'    recycled to length(x) as needed.
 #' @param maxValue numeric maximum value to return, useful when the downstream
@@ -350,11 +351,11 @@ alpha2col <- function
 #'
 #' Converts a HSV color matrix to R hex color
 #'
-#' This function augments the \code{\link{hsv}} function in that it handles
-#' output from \code{\link{rgb2hsv}} or \code{\link{col2hsv}}, sufficient to
+#' This function augments the \code{\link[grDevices]{hsv}} function in that it handles
+#' output from \code{\link[grDevices]{rgb2hsv}} or \code{\link{col2hsv}}, sufficient to
 #' run a series of conversion functions, e.g. \code{hsv2col(col2hsv("red"))}.
 #' This function also maintains alpha transparency, which is not maintained
-#' by the \code{\link{hsv}} function.
+#' by the \code{\link[grDevices]{hsv}} function.
 #'
 #' @param hsvValue HSV matrix, with rownames c("h","s","v") in any order,
 #'    and optionally "alpha" rowname for alpha transparency.
@@ -442,8 +443,8 @@ col2hsv <- function
 #'
 #' Convert RGB color matrix to R color
 #'
-#' This function intends to augment the \code{\link{rgb}} function, which
-#' does not handle output from \code{\link{col2rgb}}. The goal is to handle
+#' This function intends to augment the \code{\link[grDevices]{rgb}} function, which
+#' does not handle output from \code{\link[grDevices]{col2rgb}}. The goal is to handle
 #' multiple color conversions, e.g. \code{rgb2col(col2rgb("red"))}. This
 #' function also maintains alpha transparency when supplied.
 #'
@@ -824,7 +825,7 @@ makeColorDarker <- function
 #' vector of colors of the appropriate length, suitable as input
 #' to a number of plotting functions.
 #'
-#' For example, it recognizes \code{\link{RColorBrewer}} color ramp
+#' For example, it recognizes \code{\link[RColorBrewer]{RColorBrewer}} color ramp
 #' names, but can reverse those color ramps with a suffix "_r" at the
 #' end, e.g. "RdBu_r" will supply a color ramp from blue to red, suitable
 #' for heatmaps where red is typically associated with heat and high
@@ -1127,15 +1128,6 @@ isColor <- function
 #'    (TRUE) or dark-to-light gradient (FALSE).
 #' @param verbose logical whether to print verbose output.
 #' @param ... other parameters are ignored.
-#'
-#' @seealso jamba color manipulation functions: \code{\link{hsv2col}},
-#'    \code{\link{col2hsv}},\code{\link{col2hcl}},
-#'    \code{\link{rgb2col}},
-#'    \code{\link{alpha2col}},\code{\link{col2alpha}},
-#'    \code{\link{makeColorDarker}},
-#'    \code{\link{color2gradient}},
-#'    \code{\link{setTextContrastColor}},
-#'    \code{\link{showColors}}
 #'
 #' @examples
 #' # given a list, it returns a list

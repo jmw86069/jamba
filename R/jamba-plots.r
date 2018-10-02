@@ -61,7 +61,7 @@
 #' @param colramp one of several inputs recognized by
 #'    \code{\link{getColorRamp}}. It typically recognizes either the name of
 #'    a color ramp from RColorBrewer, the name of functions from the
-#'    \code{\link[viridis]{viridis}} package, or single R colors, or
+#'    \code{viridis} package, or single R colors, or
 #'    a vector of R colors.
 #' @param doTest logical, defines whether to create a visual set of test
 #'    plots to demonstrate the utility of this function.
@@ -489,7 +489,7 @@ smoothScatterJam <- function
 #' Create a blank plot with optional labels for margins
 #'
 #' This function creates an empty plot space, using the current
-#' \code{\link{par}} settings for margins, text size, etc. By default
+#' \code{\link[graphics]{par}} settings for margins, text size, etc. By default
 #' it displays a box around the plot window, and labels the margins and
 #' plot area for review. It can be useful as a visual display of various
 #' base graphics settings, or to create an empty plot window with pre-defined
@@ -756,8 +756,8 @@ nullPlot <- function
 #'    plot space.
 #' @param parUsr numeric vector length 4, indicating the R plot space,
 #'    consistent with \code{par("usr")}. It can thus be used to define a
-#'    different area, though using the \code{\link{rect}} function directly
-#'    seems more appropriate.
+#'    different area, though using the \code{\link[graphics]{rect}} function
+#'    directly seems more appropriate.
 #' @param debug logical whether to print the parUsr value being used.
 #' @examples
 #' # usrBox() requires that a plot device is already open
@@ -796,7 +796,7 @@ usrBox <- function
 #'
 #' The function also by default creates the image map using coordinates where
 #' each integer represents the center point of one column or row of data,
-#' known in the default \code{\link{image}} function as \code{oldstyle=TRUE}.
+#' known in the default \code{\link[graphics]{image}} function as \code{oldstyle=TRUE}.
 #' For consistency, \code{imageDefault} will only accept \code{oldstyle=TRUE}.
 #'
 #' @param x location of grid lines at which the intervals in z are measured.
@@ -1243,7 +1243,7 @@ imageDefault <- function
 #'
 #' Display color raster image using a matrix of colors
 #'
-#' This function is similar to \code{\link{image}} except that
+#' This function is similar to \code{\link[graphics]{image}} except that
 #' it takes a matrix which already has colors defined for each cell.
 #' This function calls \code{\link{imageDefault}} which enables updated
 #' use of the \code{useRaster} functionality.
@@ -1291,7 +1291,7 @@ imageDefault <- function
 #'    highly recommended when the matrix is large (>50 columns or rows).
 #' @param fixRasterRatio logical sent to \code{\link{imageDefault}}.
 #' @param maxRatioFix numeric sent to \code{\link{imageDefault}}.
-#' @param xaxt,yaxt character values compatible with \code{\link{par}()} to
+#' @param xaxt,yaxt character values compatible with \code{\link[graphics]{par}} to
 #'    determine whether x- and y-axes are plotted. Set both to "n" to
 #'    suppress display of axes.
 #' @param doPlot logical whether to create a plot, or simply return data which
@@ -1713,7 +1713,7 @@ imageByColors <- function
 #'
 #'
 #' @param x,y numeric coordinates, either as vectors x and y, or x as a
-#' two-color matrix recognized by \code{\link{xy.coords}}.
+#' two-color matrix recognized by \code{\link[grDevices]{xy.coords}}.
 #' @param labels vector of labels to display at the corresponding xy
 #'    coordinates.
 #' @param col,bg,shadowColor the label color, and background (outline) color,
@@ -1724,10 +1724,11 @@ imageByColors <- function
 #'    Also by default, the shadow is "black" true to its name, since it is
 #'    expected to darken the area around it.
 #' @param r the outline radius, expressed as a fraction of the width of the
-#'    character "A" as returned by \code{\link{strwidth}}.
+#'    character "A" as returned by \code{\link[graphics]{strwidth}}.
 #' @param offset the outline offset position in xy coordinates, expressed
 #'    as a fraction of the width of the character "A" as returned by
-#'    \code{\link{strwidth}}, and \code{\link{strheight}}, respectively.
+#'    \code{\link[graphics]{strwidth}}, and \code{\link[graphics]{strheight}},
+#'    respectively.
 #'    The offset is only applied when \code{shadow=TRUE} to enable the shadow
 #'    effect.
 #' @param n the number of steps around the label used to create the outline.
@@ -1741,10 +1742,10 @@ imageByColors <- function
 #' @param doTest logical whether to create a visual example of output. Note
 #'    that it calls \code{\link{usrBox}} to color the plot area, and the
 #'    background can be overridden with something like \code{fill="navy"}.
-#' @param ... other parameters are passed to \code{\link{text}}.
+#' @param ... other parameters are passed to \code{\link[graphics]{text}}.
 #'    Note that certain parameters are not vectorized in that function,
 #'    such as \code{srt} which requires only a fixed value. To rotate each
-#'    label independently, multiple calls to \code{\link{text}} or
+#'    label independently, multiple calls to \code{\link[graphics]{text}} or
 #'    \code{\link{shadowText}} must be made. Other parameters like \code{adj}
 #'    only accept up to two values, and those two values affect all label
 #'    positioning.
@@ -1905,7 +1906,7 @@ shadowText <- function
 #' will be used, and adjusts the relevant axis margin to accomodate the
 #' label size, up to a maximum fraction of the figure size as defined by
 #' \code{maxFig}. It currently assumes labels are placed perpendicular to
-#' the axis, e.g. \code{las=2} when using \code{\link{text}}.
+#' the axis, e.g. \code{las=2} when using \code{\link[graphics]{text}}.
 #'
 #' Note this function does not render labels in the figure.
 #'
@@ -1916,8 +1917,8 @@ shadowText <- function
 #' @param maxFig fraction less than 1, indicating the maximum size of margin
 #'    relative to the figure size. Setting margins too large results in an
 #'    error otherwise.
-#' @param cex numeric or NULL, sent to \code{\link{strwidth}} when calculating
-#'    the string width of labels in inches.
+#' @param cex numeric or NULL, sent to \code{\link[graphics]{strwidth}} when
+#'    calculating the string width of labels in inches.
 #' @param prefix character string used to add whitespace around the axis label.
 #' @param ... additional parameters are ignored.
 #'

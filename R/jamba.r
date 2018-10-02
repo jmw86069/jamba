@@ -78,12 +78,12 @@ NULL
 #'
 #' file information in data.frame format
 #'
-#' This function is a minor extension to \code{\link{file.info}} in that it
+#' This function is a minor extension to \code{file.info} in that it
 #' adds the filename as a proper colname, and "size" which contains a text
 #' file size.
 #'
 #' @return data.frame with file information, including "filename" and "size"
-#' as additional colnames as compared to \code{\link{file.info}} output.
+#' as additional colnames as compared to \code{file.info} output.
 #'
 #' @param fileList character vector with one or more file paths.
 #'
@@ -220,7 +220,7 @@ padString <- function
 #' @param nowDate character date recognized by \code{\link{asDate}},
 #'    representing the reference date, by default the current day.
 #' @param units character indicating the units, as used by
-#'    \code{\link{difftime}}.
+#'    \code{\link[base]{difftime}}.
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
@@ -241,7 +241,7 @@ dateToDaysOld <- function
 #' convert date DDmmmYYYY to Date
 #'
 #' This function converts a text date string to Date object, mainly to
-#' allow date-related math operations, for example \code{\link{difftime}}.
+#' allow date-related math operations, for example \code{\link[base]{difftime}}.
 #'
 #' @return Date object
 #' @param getDateValues character date, in format recognized by dateFormat
@@ -275,10 +275,10 @@ asDate <- function
 #'
 #' @return character vector with simplified date string
 #'
-#' @param t current time, by default the output of \code{\link{Sys.time}}.
-#' @param trim logical whether to trim the output of \code{\link{format}}
-#'    in the event that multiple values are sent for \code{t}.
-#' @param ... additional parameters sent to \code{\link{format}}
+#' @param t current time, by default the output of \code{\link[base]{Sys.time}}.
+#' @param trim logical whether to trim the output of \code{\link[base]{format}}
+#'    in the event that multiple values are sent for \code{\link[base]{t}}.
+#' @param ... additional parameters sent to \code{\link[base]{format}}
 #'
 #' @examples
 #' getDate();
@@ -343,7 +343,7 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #' @param useColor logical whether to define a color prompt if the
 #'    `crayon` package is installed.
 #' @param projectColor,bracketColor,Rcolors,PIDcolor,promptColor colors
-#'    used when useColor==TRUE and the \code{\link{crayon}} package
+#'    used when useColor==TRUE and the \code{crayon} package
 #'    is installed. `projectColor` colors the project name; `bracketColor`
 #'    colors the curly brackets around the project; `Rcolors` can be
 #'    a vector of 3 colors, colorizing "R", the "-" divider, and the
@@ -512,7 +512,7 @@ setPrompt <- function
 #' @param x numeric vector
 #' @param humanFriendly logical, currently only TRUE is accepted, whether to
 #'    include human-friendly units to the output.
-#' @param digits integer number of digits used by \code{\link{format}} when
+#' @param digits integer number of digits used by \code{\link[base]{format}} when
 #'    formatting the number to create a character string
 #' @param abbreviateUnits logical whether to print abbreviated units, for
 #'    example using k, M, G, T, P instead of kilo, mega, Giga, Tera, Peta,
@@ -525,7 +525,7 @@ setPrompt <- function
 #' @param kiloSize numeric number of base units when converting from one
 #'    base unit, to one "kilo" base unit. For file sizes, this value is 1024,
 #'    but for other purposes this value may be 1000.
-#' @param ... other parameters passed to \code{\link{format}}.
+#' @param ... other parameters passed to \code{\link[base]{format}}.
 #'
 #' @examples
 #' asSize(c(1, 10,2010,22000,52200))
@@ -886,9 +886,9 @@ breaksByVector <- function
 #' @param timeStamp logical whether to include a time stamp in output
 #' @param comment logical whether to prefix output with '##' as a comment
 #' @param formatNumbers logical whether to format numbers using
-#'    \link{\code{format}} which controls the number of digits displayed.
+#'    \code{\link[base]{format}} which controls the number of digits displayed.
 #' @param trim,digits,nsmall,justify,big.mark,small.mark,zero.print,width
-#'    parameters sent to the \link{\code{format}} function.
+#'    parameters sent to the \code{\link[base]{format}} function.
 #' @param doColor NULL or logical indicating whether to colorize output. If
 #'    NULL it detects whether the crayon package is available and console
 #'    color is enabled.
@@ -930,7 +930,7 @@ breaksByVector <- function
 #' @param verbose logical whether to print verbose output
 #' @param indent character optional characters used as a prefix to indent
 #'    output.
-#' @param file passed to \code{\link{cat}}, to allow sending output to
+#' @param file passed to \code{cat}, to allow sending output to
 #'    a specified file.
 #' @param append logical whether to append output, relevant only when
 #'    \code{file} specifies a filename.
@@ -1384,7 +1384,7 @@ checkLightMode <- function
 #' would be the maximum for three digits, "A" through "ZZZ".
 #'
 #' This function is useful when referencing Excel columns via another
-#' interface such as via openxlsx. It is also used by \code{\link{makeNames}}
+#' interface such as via openxlsx. It is also used by \code{makeNames}
 #' when the numberStyle="letters", in order to provide letter suffix values.
 #'
 #' One can somewhat manipulate the allowed column names via the useLetters
@@ -1619,7 +1619,7 @@ getPlotAspect <- function
 #'
 #' frequency of entries, ordered by frequency
 #'
-#' This function mimics output from \code{\link{table}} with two key
+#' This function mimics output from \code{table} with two key
 #' differences. It sorts the results by decreasing frequency, and optionally
 #' filters results for a minimum frequency. It is effective when checking
 #' for duplicate values, and ordering them by the number of occurrences.
@@ -1637,7 +1637,7 @@ getPlotAspect <- function
 #'    fewer counts observed will be omitted from results.
 #' @param maxCount optional integer maximum frequency for returned results.
 #' @param nameSortFunc function used to sort results after sorting by
-#'    frequency. For example, one might use \code{\link{mixedSort}}. If NULL
+#'    frequency. For example, one might use \code{mixedSort}. If NULL
 #'    then no name sort will be applied.
 #' @param ... additional parameters are ignored.
 #'
@@ -2269,7 +2269,7 @@ fixYellow <- function
 #' Show R function arguments jam-style
 #'
 #' This function displays R function arguments, organized with one argument
-#' per line, and colorized using the \code{\link{crayon}} package if
+#' per line, and colorized using the \code{crayon} package if
 #' installed.
 #'
 #' It has an optional subset ability, using \code{grepString} which filters
@@ -3052,7 +3052,7 @@ noiseFloor <- function
 #'    and pi*2.
 #' @param ... other parameters are ignored.
 #'
-#' @seealso \code{\link{rad2deg}},\code{\link{deg2rad}}
+#' @seealso \code{rad2deg},\code{deg2rad}
 #'
 #' @examples
 #' rad2deg(c(pi*2, pi/2))
@@ -3076,7 +3076,7 @@ rad2deg <- function
 #'    and 360.
 #' @param ... other parameters are ignored.
 #'
-#' @seealso \code{\link{rad2deg}},\code{\link{deg2rad}}
+#' @seealso \code{rad2deg},\code{deg2rad}
 #'
 #' @examples
 #' deg2rad(rad2deg(c(pi*2, pi/2)))/pi;
