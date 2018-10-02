@@ -764,12 +764,12 @@ pasteByRow <- function
 #' label between the two items.
 #'
 #' This function is useful for things like adding labels to
-#' \link{\code{imageDefault}} color image map of sample groupings, where
+#' \code{imageDefault} color image map of sample groupings, where
 #' it may be ideal to label only unique elements in a contiguous set.
 #'
 #' @return
-#' list
-#'    \describe{
+#' list with the following named elements
+#'    \itemize{
 #'       \item{"breakPoints"}{The mid-point coordinate between each break.
 #'          These midpoints would be good for drawing dividing lines for
 #'          example.}

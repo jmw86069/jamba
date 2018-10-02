@@ -18,8 +18,8 @@ for labels that should be positioned between two labels}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-list
-\describe{
+list with the following named elements
+\itemize{
 \item{"breakPoints"}{The mid-point coordinate between each break.
 These midpoints would be good for drawing dividing lines for
 example.}
@@ -48,7 +48,7 @@ two consecutive items, the fractional coordinate can be used to place the
 label between the two items.
 
 This function is useful for things like adding labels to
-\link{\code{imageDefault}} color image map of sample groupings, where
+\code{imageDefault} color image map of sample groupings, where
 it may be ideal to label only unique elements in a contiguous set.
 }
 \examples{
