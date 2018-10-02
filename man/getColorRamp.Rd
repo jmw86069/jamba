@@ -8,14 +8,14 @@ getColorRamp(col, n = 15, trimRamp = FALSE, verbose = FALSE,
   defaultBaseColor = "grey90", reverseRamp = FALSE, alpha = TRUE, ...)
 }
 \arguments{
-\item{col}{accepts:
-\describe{
+\item{col}{accepts
+\itemize{
 \item{"character vector"}{one or more colors used to define a color
 gradient. Where one color is supplied, a gradient is created from
 defaultBaseColor to the supplied color.}
-\item{"character vector"}{one name matching a known color ramp either
-from \code{\link[RColorBrewer]{brewer.pal.info}}, or from the
-\code{\link[viridis]{viridis}} package.}
+\item{"character vector length 1"}{one name matching a known color ramp either
+from \code{RColorBrewer::brewer.pal.info}, or from the
+\code{viridis::viridis} package.}
 }}
 
 \item{trimRamp}{logical whether to trim off the extreme values of the
@@ -33,7 +33,7 @@ col, and where "_r" or "_rev" is detected as a substring at the end
 of the character value.}
 
 \item{alpha}{logical indicating whether to honor alpha transparency
-whenever \code{\link{colorRampPalette}} is called. If colors contain
+whenever \code{colorRampPalette} is called. If colors contain
 no alpha transparency, this setting has no effect, otherwise the
 alpha value appears to be applied using a linear gradient between
 colors.}

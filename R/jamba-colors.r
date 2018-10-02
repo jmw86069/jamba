@@ -830,14 +830,14 @@ makeColorDarker <- function
 #' for heatmaps where red is typically associated with heat and high
 #' numeric values.
 #'
-#' @param col accepts:
-#'    \describe{
+#' @param col accepts
+#'    \itemize{
 #'       \item{"character vector"}{one or more colors used to define a color
 #'          gradient. Where one color is supplied, a gradient is created from
 #'          defaultBaseColor to the supplied color.}
-#'       \item{"character vector"}{one name matching a known color ramp either
-#'          from \code{\link[RColorBrewer]{brewer.pal.info}}, or from the
-#'          \code{\link[viridis]{viridis}} package.}
+#'       \item{"character vector length 1"}{one name matching a known color ramp either
+#'          from `RColorBrewer::brewer.pal.info`, or from the
+#'          `viridis::viridis` package.}
 #'    }
 #' @param trimRamp logical whether to trim off the extreme values of the
 #'    color ramp, for example to remove the very lightest and very darkest
@@ -850,7 +850,7 @@ makeColorDarker <- function
 #'    col, and where "_r" or "_rev" is detected as a substring at the end
 #'    of the character value.
 #' @param alpha logical indicating whether to honor alpha transparency
-#'    whenever \code{\link{colorRampPalette}} is called. If colors contain
+#'    whenever `colorRampPalette` is called. If colors contain
 #'    no alpha transparency, this setting has no effect, otherwise the
 #'    alpha value appears to be applied using a linear gradient between
 #'    colors.
@@ -1303,9 +1303,9 @@ color2gradient <- function
    return(newColorSets);
 }
 
-#' Extend kableExtra colorization of tables
+#' Extend kableExtra colorization of Rmarkdown tables
 #'
-#' Extend kableExtra colorization of tables in Rmarkdown files
+#' Extend kableExtra colorization of Rmarkdown tables
 #'
 #' This function extends the `kableExtra` package, and is only
 #' available for use if the `kableExtra` package is installed. It is
@@ -1317,8 +1317,8 @@ color2gradient <- function
 #' @param colorSub named vector of R colors, whose names match entries
 #'    in the `data.frame` which are given these assigned colors.
 #' @param background_as_tile boolean defining whether a cell background
-#'    color will appear as a rounded tile (if `TRUE`), or a rectangle
-#'    (if `FALSE`.)
+#'    color will appear as a rounded tile if `TRUE`, or a rectangle
+#'    if `FALSE`.
 #' @param color_cells boolean indicating whether to color individual cells
 #' @param row_color_by optional vector of `colnames` found in `df`
 #'    indicating how to colorize entire rows of a table. The typical
@@ -1331,7 +1331,7 @@ color2gradient <- function
 #' @param return_type character string indicating the type of data
 #'    to return. If `row_color_by` is supplied, then the only
 #'    `"kable"` is allowed, otherwise `"data.frame"` is returned.
-#'    Note that the `"kable"` option runs `%>% row_spec()` which
+#'    Note that the `"kable"` option runs \code{\%>\% row_spec()} which
 #'    returns an object only usable in downstream `kable` calls.
 #' @param verbose boolean indicating whether to print verbose output.
 #'

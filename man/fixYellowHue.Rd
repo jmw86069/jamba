@@ -21,6 +21,11 @@ within the range \code{Hrange}. If NULL, \code{HCL} is return unchanged.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+returns the input \code{HCL} data where rowname \code{"H"} has hue values
+adjusted accordingly. In the event \code{HCL}, \code{Hrange}, or \code{Hshift} have
+length 0, the original \code{HCL} is returned.
+}
 \description{
 Fix yellow color hue to be less green than default "yellow"
 }

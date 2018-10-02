@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba-colors.r
 \name{kable_coloring}
 \alias{kable_coloring}
-\title{Extend kableExtra colorization of tables}
+\title{Extend kableExtra colorization of Rmarkdown tables}
 \usage{
 kable_coloring(df, colorSub = NULL, background_as_tile = TRUE,
   color_cells = TRUE, row_color_by = NULL, sep = "_",
@@ -15,8 +15,8 @@ kable_coloring(df, colorSub = NULL, background_as_tile = TRUE,
 in the \code{data.frame} which are given these assigned colors.}
 
 \item{background_as_tile}{boolean defining whether a cell background
-color will appear as a rounded tile (if \code{TRUE}), or a rectangle
-(if \code{FALSE}.)}
+color will appear as a rounded tile if \code{TRUE}, or a rectangle
+if \code{FALSE}.}
 
 \item{color_cells}{boolean indicating whether to color individual cells}
 
@@ -33,7 +33,7 @@ columns when \code{row_color_by} is supplied and contains multiple
 \item{return_type}{character string indicating the type of data
 to return. If \code{row_color_by} is supplied, then the only
 \code{"kable"} is allowed, otherwise \code{"data.frame"} is returned.
-Note that the \code{"kable"} option runs \code{%>% row_spec()} which
+Note that the \code{"kable"} option runs \code{\%>\% row_spec()} which
 returns an object only usable in downstream \code{kable} calls.}
 
 \item{verbose}{boolean indicating whether to print verbose output.}
@@ -45,7 +45,7 @@ will have colors encoded into each cell, so it will likely
 be difficult to manipulate.
 }
 \description{
-Extend kableExtra colorization of tables in Rmarkdown files
+Extend kableExtra colorization of Rmarkdown tables
 }
 \details{
 This function extends the \code{kableExtra} package, and is only

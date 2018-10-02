@@ -1,3 +1,11 @@
+# jamba version 0.0.16.900
+
+## bug fixes
+
+* Fixed small issue with R docs that did not properly wrap the `%>%` inside
+`\code{\%>\%}` blocks, which allows the percent sign to be escaped and
+ignored.
+
 # jamba version 0.0.15.900
 
 ## bug fixes

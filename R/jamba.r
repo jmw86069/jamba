@@ -2160,7 +2160,7 @@ applyCLrange <- function
 #'    within the range `Hrange`. If NULL, `HCL` is return unchanged.
 #' @param ... additional arguments are ignored.
 #'
-#' @value returns the input `HCL` data where rowname `"H"` has hue values
+#' @return returns the input `HCL` data where rowname `"H"` has hue values
 #'    adjusted accordingly. In the event `HCL`, `Hrange`, or `Hshift` have
 #'    length 0, the original `HCL` is returned.
 #'
@@ -2227,7 +2227,7 @@ fixYellowHue <- function
 #' @param ... additional arguments are passed to `col2hcl()`, and
 #'    `hcl2col()`.
 #'
-#' @value returns a vector of R colors the same length as input `col`.
+#' @return returns a vector of R colors the same length as input `col`.
 #'    In the event `col`, `Hrange`, or `Hshift` have length 0, or if any
 #'    step in the conversion produces length 0, then the
 #'    original `col` is returned.

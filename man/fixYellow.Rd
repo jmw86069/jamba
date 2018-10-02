@@ -20,6 +20,12 @@ within the range \code{Hrange}. If NULL, \code{HCL} is return unchanged.}
 \item{...}{additional arguments are passed to \code{col2hcl()}, and
 \code{hcl2col()}.}
 }
+\value{
+returns a vector of R colors the same length as input \code{col}.
+In the event \code{col}, \code{Hrange}, or \code{Hshift} have length 0, or if any
+step in the conversion produces length 0, then the
+original \code{col} is returned.
+}
 \description{
 Fix yellow color to be less green than default "yellow"
 }
