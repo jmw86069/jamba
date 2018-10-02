@@ -12,7 +12,7 @@ shadowText(x, y = NULL, labels = NULL, col = "white",
 }
 \arguments{
 \item{x, y}{numeric coordinates, either as vectors x and y, or x as a
-two-color matrix recognized by \code{\link{xy.coords}}.}
+two-color matrix recognized by \code{\link[grDevices]{xy.coords}}.}
 
 \item{labels}{vector of labels to display at the corresponding xy
 coordinates.}
@@ -26,11 +26,12 @@ Also by default, the shadow is "black" true to its name, since it is
 expected to darken the area around it.}
 
 \item{r}{the outline radius, expressed as a fraction of the width of the
-character "A" as returned by \code{\link{strwidth}}.}
+character "A" as returned by \code{\link[graphics]{strwidth}}.}
 
 \item{offset}{the outline offset position in xy coordinates, expressed
 as a fraction of the width of the character "A" as returned by
-\code{\link{strwidth}}, and \code{\link{strheight}}, respectively.
+\code{\link[graphics]{strwidth}}, and \code{\link[graphics]{strheight}},
+respectively.
 The offset is only applied when \code{shadow=TRUE} to enable the shadow
 effect.}
 
@@ -50,10 +51,10 @@ and shadow colors, respectively.}
 that it calls \code{\link{usrBox}} to color the plot area, and the
 background can be overridden with something like \code{fill="navy"}.}
 
-\item{...}{other parameters are passed to \code{\link{text}}.
+\item{...}{other parameters are passed to \code{\link[graphics]{text}}.
 Note that certain parameters are not vectorized in that function,
 such as \code{srt} which requires only a fixed value. To rotate each
-label independently, multiple calls to \code{\link{text}} or
+label independently, multiple calls to \code{\link[graphics]{text}} or
 \code{\link{shadowText}} must be made. Other parameters like \code{adj}
 only accept up to two values, and those two values affect all label
 positioning.}

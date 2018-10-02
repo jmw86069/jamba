@@ -24,5 +24,5 @@ deg2rad(rad2deg(c(pi*2, pi/2)))/pi;
 
 }
 \seealso{
-\code{\link{rad2deg}},\code{\link{deg2rad}}
+\code{rad2deg},\code{deg2rad}
 }

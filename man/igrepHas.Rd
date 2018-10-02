@@ -8,7 +8,7 @@ igrepHas(pattern, x = NULL, ignore.case = TRUE, minCount = 1,
   naToBlank = FALSE, ...)
 }
 \arguments{
-\item{pattern}{the grep pattern to use with \code{\link{grep}}}
+\item{pattern}{the grep pattern to use with \code{\link[base]{grep}}}
 
 \item{x}{vector to use in the grep}
 
@@ -43,7 +43,7 @@ igrepHas("matrix", a);
 
 }
 \seealso{
-\code{\link{grep}}'
+\code{\link[base]{grep}}
 
 Other jam string functions: \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{igrep}},

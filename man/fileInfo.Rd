@@ -11,13 +11,13 @@ fileInfo(fileList, ...)
 }
 \value{
 data.frame with file information, including "filename" and "size"
-as additional colnames as compared to \code{\link{file.info}} output.
+as additional colnames as compared to \code{file.info} output.
 }
 \description{
 file information in data.frame format
 }
 \details{
-This function is a minor extension to \code{\link{file.info}} in that it
+This function is a minor extension to \code{file.info} in that it
 adds the filename as a proper colname, and "size" which contains a text
 file size.
 }

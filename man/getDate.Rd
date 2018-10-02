@@ -7,12 +7,12 @@
 getDate(t = Sys.time(), trim = TRUE, ...)
 }
 \arguments{
-\item{t}{current time, by default the output of \code{\link{Sys.time}}.}
+\item{t}{current time, by default the output of \code{\link[base]{Sys.time}}.}
 
-\item{trim}{logical whether to trim the output of \code{\link{format}}
-in the event that multiple values are sent for \code{t}.}
+\item{trim}{logical whether to trim the output of \code{\link[base]{format}}
+in the event that multiple values are sent for \code{\link[base]{t}}.}
 
-\item{...}{additional parameters sent to \code{\link{format}}}
+\item{...}{additional parameters sent to \code{\link[base]{format}}}
 }
 \value{
 character vector with simplified date string

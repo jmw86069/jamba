@@ -8,7 +8,7 @@ alpha2col(x, alpha = 1, maxValue = 1, ...)
 }
 \arguments{
 \item{x}{R compatible color, either a color name, or hex value, or
-a mixture of the two. Any value compatible with \code{\link{col2rgb}}.}
+a mixture of the two. Any value compatible with \code{\link[grDevices]{col2rgb}}.}
 
 \item{alpha}{numeric alpha transparency to use per x color. alpha is
 recycled to length(x) as needed.}

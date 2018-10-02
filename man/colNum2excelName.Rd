@@ -31,7 +31,7 @@ may not be compatible with each version of Excel.  18,278 columns
 would be the maximum for three digits, "A" through "ZZZ".
 
 This function is useful when referencing Excel columns via another
-interface such as via openxlsx. It is also used by \code{\link{makeNames}}
+interface such as via openxlsx. It is also used by \code{makeNames}
 when the numberStyle="letters", in order to provide letter suffix values.
 
 One can somewhat manipulate the allowed column names via the useLetters

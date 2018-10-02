@@ -22,7 +22,7 @@ convert date DDmmmYYYY to Date
 }
 \details{
 This function converts a text date string to Date object, mainly to
-allow date-related math operations, for example \code{\link{difftime}}.
+allow date-related math operations, for example \code{\link[base]{difftime}}.
 }
 \examples{
 asDate(getDate());

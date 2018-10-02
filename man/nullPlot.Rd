@@ -71,7 +71,7 @@ Create a blank plot with optional labels for margins
 }
 \details{
 This function creates an empty plot space, using the current
-\code{\link{par}} settings for margins, text size, etc. By default
+\code{\link[graphics]{par}} settings for margins, text size, etc. By default
 it displays a box around the plot window, and labels the margins and
 plot area for review. It can be useful as a visual display of various
 base graphics settings, or to create an empty plot window with pre-defined

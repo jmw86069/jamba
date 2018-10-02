@@ -15,8 +15,8 @@ plot space.}
 
 \item{parUsr}{numeric vector length 4, indicating the R plot space,
 consistent with \code{par("usr")}. It can thus be used to define a
-different area, though using the \code{\link{rect}} function directly
-seems more appropriate.}
+different area, though using the \code{\link[graphics]{rect}} function
+directly seems more appropriate.}
 
 \item{debug}{logical whether to print the parUsr value being used.}
 }

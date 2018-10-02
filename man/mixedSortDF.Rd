@@ -44,7 +44,7 @@ sort data.frame keeping numeric values in proper order
 \details{
 This function is a wrapper around \code{\link{mmixedOrder}} so it operates
 on data.frame columns in the proper order, using logic similar that used
-by \code{\link{order}} when operating on data.frames. The sort order logic
+by \code{\link[base]{order}} when operating on data.frames. The sort order logic
 is fully described in \code{\link{mixedSort}} and \code{\link{mixedOrder}}.
 }
 \examples{

@@ -9,7 +9,7 @@ mmixedOrder(..., na.last = TRUE, decreasing = FALSE, verbose = FALSE,
 }
 \arguments{
 \item{...}{parameters treated as a list of vectors to be ordered in
-proper order, based upon the mechanism by \code{\link{order}}.}
+proper order, based upon the mechanism by \code{\link[base]{order}}.}
 
 \item{na.last, decreasing, verbose, ignore.case}{parameters sent to
 \code{\link{mixedOrder}}.}
@@ -28,7 +28,7 @@ order alphanumeric values from a list
 }
 \details{
 This function is a minor extension to \code{\link{mixedOrder}} in that
-it accepts list input, similar to how \code{\link{order}} operates.
+it accepts list input, similar to how \code{\link[base]{order}} operates.
 This function is mainly useful when sorting something like a data.frame,
 where ties in column 1 should be maintained then broken by non-equal
 values in column 2.

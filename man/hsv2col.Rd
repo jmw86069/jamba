@@ -14,11 +14,11 @@ and optionally "alpha" rowname for alpha transparency.}
 Converts a HSV color matrix to R hex color
 }
 \details{
-This function augments the \code{\link{hsv}} function in that it handles
-output from \code{\link{rgb2hsv}} or \code{\link{col2hsv}}, sufficient to
+This function augments the \code{\link[grDevices]{hsv}} function in that it handles
+output from \code{\link[grDevices]{rgb2hsv}} or \code{\link{col2hsv}}, sufficient to
 run a series of conversion functions, e.g. \code{hsv2col(col2hsv("red"))}.
 This function also maintains alpha transparency, which is not maintained
-by the \code{\link{hsv}} function.
+by the \code{\link[grDevices]{hsv}} function.
 }
 \examples{
 # start with a color vector

@@ -10,7 +10,7 @@ provigrep(patterns, x, maxValues = NULL, sortFunc = c, rev = FALSE,
 \arguments{
 \item{patterns}{vector of grep patterns}
 
-\item{x}{vector to be tested by \code{\link{grep}}}
+\item{x}{vector to be tested by \code{\link[base]{grep}}}
 
 \item{maxValues}{integer or NULL, the maximum matching entries to
 return per grep pattern. This parameter is mainly useful when returning
@@ -31,7 +31,7 @@ A list will be in order of the grep patterns, using empty elements to
 indicate when no entries matched each pattern. This output is useful
 when you would like to know which patterns matched specific entries.}
 
-\item{ignore.case}{logical parameter sent to \code{\link{grep}}, TRUE
+\item{ignore.case}{logical parameter sent to \code{\link[base]{grep}}, TRUE
 runs in case-insensitive mode, as by default.}
 }
 \description{

@@ -8,7 +8,8 @@ col2hcl(x, maxColorValue = 255, ...)
 }
 \arguments{
 \item{x}{R compatible color, either a color name, or hex value, or
-a mixture of the two. Any value compatible with \code{\link{col2rgb}}.}
+a mixture of the two. Any value compatible with
+\code{\link[grDevices]{col2rgb}}.}
 
 \item{maxValue}{numeric maximum value to return, useful when the downstream
 alpha range should be 255. By default maxValue=1 is returned.}

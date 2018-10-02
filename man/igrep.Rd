@@ -7,7 +7,7 @@
 igrep(..., ignore.case = TRUE)
 }
 \arguments{
-\item{..., ignore.case}{parameters sent to \code{\link{grep}}}
+\item{..., ignore.case}{parameters sent to \code{\link[base]{grep}}}
 }
 \value{
 vector of matching indices
@@ -16,7 +16,7 @@ vector of matching indices
 case-insensitive grep
 }
 \details{
-This function is a simple wrapper around \code{\link{grep}} which
+This function is a simple wrapper around \code{\link[base]{grep}} which
 runs in case-insensitive mode. It is mainly used to save keystrokes,
 but is consistently named alongside \code{\link{vgrep}} and
 \code{\link{vigrep}}.

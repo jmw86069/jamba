@@ -5,6 +5,11 @@
 * Fixed small issue with R docs that did not properly wrap the `%>%` inside
 `\code{\%>\%}` blocks, which allows the percent sign to be escaped and
 ignored.
+* Fixed numerous incorrectly formatted `\code{\link{}}` sections which did
+not properly specify the package name. The issue apparently only causes
+errors during package install on systems using HTML as the preferred help
+format.
+
 
 # jamba version 0.0.15.900
 

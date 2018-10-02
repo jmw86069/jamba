@@ -14,7 +14,7 @@ representing the test date.}
 representing the reference date, by default the current day.}
 
 \item{units}{character indicating the units, as used by
-\code{\link{difftime}}.}
+\code{\link[base]{difftime}}.}
 
 \item{...}{additional parameters are ignored.}
 }

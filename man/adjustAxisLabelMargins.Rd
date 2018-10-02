@@ -18,8 +18,8 @@ using the order by \code{par("mar")}, 1=bottom, 2=left, 3=top,
 relative to the figure size. Setting margins too large results in an
 error otherwise.}
 
-\item{cex}{numeric or NULL, sent to \code{\link{strwidth}} when calculating
-the string width of labels in inches.}
+\item{cex}{numeric or NULL, sent to \code{\link[graphics]{strwidth}} when
+calculating the string width of labels in inches.}
 
 \item{prefix}{character string used to add whitespace around the axis label.}
 
@@ -33,7 +33,7 @@ This function takes a vector of axis labels, and the margin where they
 will be used, and adjusts the relevant axis margin to accomodate the
 label size, up to a maximum fraction of the figure size as defined by
 \code{maxFig}. It currently assumes labels are placed perpendicular to
-the axis, e.g. \code{las=2} when using \code{\link{text}}.
+the axis, e.g. \code{las=2} when using \code{\link[graphics]{text}}.
 
 Note this function does not render labels in the figure.
 }

@@ -45,7 +45,7 @@ vector of values from x, ordered by alphanumeric logic.
 sort alphanumeric values keeping numeric values in proper order
 }
 \details{
-This function is a refactor of the \code{\link[gtools]{mixedsort}}
+This function is a refactor of the \code{gtools::mixedsort}
 function from the \code{gtools} package. It was extended to make it faster,
 and to handle special cases slightly differently. It was driven by some
 need to sort gene symbols, and miRNA symbols in numeric order, for example:
@@ -70,8 +70,8 @@ mixedSort(x);
 
 }
 \seealso{
-\code{\link{mixedSort}}, \code{\link[gtools]{mixedorder}},
-\code{\link[gtools]{mixedsort}}
+\code{\link{mixedSort}}, \code{gtools::mixedorder},
+\code{gtools::mixedsort}
 
 Other jam string functions: \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{igrepHas}},

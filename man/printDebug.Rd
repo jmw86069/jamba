@@ -32,9 +32,9 @@ to define the background color.}
 \item{comment}{logical whether to prefix output with '##' as a comment}
 
 \item{formatNumbers}{logical whether to format numbers using
-\link{\code{format}} which controls the number of digits displayed.}
+\code{\link[base]{format}} which controls the number of digits displayed.}
 
-\item{trim, digits, nsmall, justify, big.mark, small.mark, zero.print, width}{parameters sent to the \link{\code{format}} function.}
+\item{trim, digits, nsmall, justify, big.mark, small.mark, zero.print, width}{parameters sent to the \code{\link[base]{format}} function.}
 
 \item{doColor}{NULL or logical indicating whether to colorize output. If
 NULL it detects whether the crayon package is available and console
@@ -93,7 +93,7 @@ using collapse to combine them onto one line.}
 \item{indent}{character optional characters used as a prefix to indent
 output.}
 
-\item{file}{passed to \code{\link{cat}}, to allow sending output to
+\item{file}{passed to \code{cat}, to allow sending output to
 a specified file.}
 
 \item{append}{logical whether to append output, relevant only when

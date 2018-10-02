@@ -51,7 +51,7 @@ typically already indicates these points.}
 \item{colramp}{one of several inputs recognized by
 \code{\link{getColorRamp}}. It typically recognizes either the name of
 a color ramp from RColorBrewer, the name of functions from the
-\code{\link[viridis]{viridis}} package, or single R colors, or
+\code{viridis} package, or single R colors, or
 a vector of R colors.}
 
 \item{doTest}{logical, defines whether to create a visual set of test

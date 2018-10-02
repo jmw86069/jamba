@@ -7,7 +7,7 @@
 unvigrep(..., ignore.case = TRUE, value = TRUE, invert = TRUE)
 }
 \arguments{
-\item{..., ignore.case, value, invert}{parameters sent to \code{\link{grep}}}
+\item{..., ignore.case, value, invert}{parameters sent to \code{\link[base]{grep}}}
 }
 \value{
 vector of non-matching indices
@@ -16,7 +16,7 @@ vector of non-matching indices
 case-insensitive grep, returning unmatched values
 }
 \details{
-This function is a simple wrapper around \code{\link{grep}} which
+This function is a simple wrapper around \code{\link[base]{grep}} which
 runs in case-insensitive mode, and returns unmatched values.
 It is mainly used to save keystrokes,
 but is consistently named alongside \code{\link{vgrep}} and

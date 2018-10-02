@@ -16,7 +16,7 @@ setPrompt(projectName = NULL, useColor = TRUE, projectColor = "yellow",
 \code{crayon} package is installed.}
 
 \item{projectColor, bracketColor, Rcolors, PIDcolor, promptColor}{colors
-used when useColor==TRUE and the \code{\link{crayon}} package
+used when useColor==TRUE and the \code{crayon} package
 is installed. \code{projectColor} colors the project name; \code{bracketColor}
 colors the curly brackets around the project; \code{Rcolors} can be
 a vector of 3 colors, colorizing "R", the "-" divider, and the

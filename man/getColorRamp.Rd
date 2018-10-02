@@ -47,7 +47,7 @@ a vector of colors, or a function names, and returns a simple
 vector of colors of the appropriate length, suitable as input
 to a number of plotting functions.
 
-For example, it recognizes \code{\link{RColorBrewer}} color ramp
+For example, it recognizes \code{\link[RColorBrewer]{RColorBrewer}} color ramp
 names, but can reverse those color ramps with a suffix "_r" at the
 end, e.g. "RdBu_r" will supply a color ramp from blue to red, suitable
 for heatmaps where red is typically associated with heat and high

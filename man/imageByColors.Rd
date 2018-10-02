@@ -22,7 +22,7 @@ highly recommended when the matrix is large (>50 columns or rows).}
 
 \item{maxRatioFix}{numeric sent to \code{\link{imageDefault}}.}
 
-\item{xaxt, yaxt}{character values compatible with \code{\link{par}()} to
+\item{xaxt, yaxt}{character values compatible with \code{\link[graphics]{par}} to
 determine whether x- and y-axes are plotted. Set both to "n" to
 suppress display of axes.}
 
@@ -81,7 +81,7 @@ background colors will not have a visible label.}
 Display color raster image using a matrix of colors
 }
 \details{
-This function is similar to \code{\link{image}} except that
+This function is similar to \code{\link[graphics]{image}} except that
 it takes a matrix which already has colors defined for each cell.
 This function calls \code{\link{imageDefault}} which enables updated
 use of the \code{useRaster} functionality.

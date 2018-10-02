@@ -7,7 +7,7 @@
 vigrep(..., value = TRUE, ignore.case = TRUE)
 }
 \arguments{
-\item{..., value, ignore.case}{parameters sent to \code{\link{grep}}}
+\item{..., value, ignore.case}{parameters sent to \code{\link[base]{grep}}}
 }
 \value{
 vector of matching values
@@ -16,7 +16,7 @@ vector of matching values
 case-insensitive grep, returning values
 }
 \details{
-This function is a simple wrapper around \code{\link{grep}} which
+This function is a simple wrapper around \code{\link[base]{grep}} which
 runs in case-insensitive mode, and returns matching values. It is
 particularly helpful when grabbing values from a vector.
 }

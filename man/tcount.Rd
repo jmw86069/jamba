@@ -18,7 +18,7 @@ fewer counts observed will be omitted from results.}
 \item{maxCount}{optional integer maximum frequency for returned results.}
 
 \item{nameSortFunc}{function used to sort results after sorting by
-frequency. For example, one might use \code{\link{mixedSort}}. If NULL
+frequency. For example, one might use \code{mixedSort}. If NULL
 then no name sort will be applied.}
 
 \item{...}{additional parameters are ignored.}
@@ -27,7 +27,7 @@ then no name sort will be applied.}
 frequency of entries, ordered by frequency
 }
 \details{
-This function mimics output from \code{\link{table}} with two key
+This function mimics output from \code{table} with two key
 differences. It sorts the results by decreasing frequency, and optionally
 filters results for a minimum frequency. It is effective when checking
 for duplicate values, and ordering them by the number of occurrences.

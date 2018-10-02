@@ -103,7 +103,7 @@ not square.
 
 The function also by default creates the image map using coordinates where
 each integer represents the center point of one column or row of data,
-known in the default \code{\link{image}} function as \code{oldstyle=TRUE}.
+known in the default \code{\link[graphics]{image}} function as \code{oldstyle=TRUE}.
 For consistency, \code{imageDefault} will only accept \code{oldstyle=TRUE}.
 }
 \examples{

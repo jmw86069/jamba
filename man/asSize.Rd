@@ -14,7 +14,7 @@ asSize(x, humanFriendly = TRUE, digits = 3, abbreviateUnits = TRUE,
 \item{humanFriendly}{logical, currently only TRUE is accepted, whether to
 include human-friendly units to the output.}
 
-\item{digits}{integer number of digits used by \code{\link{format}} when
+\item{digits}{integer number of digits used by \code{\link[base]{format}} when
 formatting the number to create a character string}
 
 \item{abbreviateUnits}{logical whether to print abbreviated units, for
@@ -32,7 +32,7 @@ by default it uses the first character from \code{unitType}.}
 base unit, to one "kilo" base unit. For file sizes, this value is 1024,
 but for other purposes this value may be 1000.}
 
-\item{...}{other parameters passed to \code{\link{format}}.}
+\item{...}{other parameters passed to \code{\link[base]{format}}.}
 }
 \value{
 character vector representing human-friendly sizes.

@@ -38,8 +38,8 @@ character string, this parameter is ignored.}
 Convert RGB color matrix to R color
 }
 \details{
-This function intends to augment the \code{\link{rgb}} function, which
-does not handle output from \code{\link{col2rgb}}. The goal is to handle
+This function intends to augment the \code{\link[grDevices]{rgb}} function, which
+does not handle output from \code{\link[grDevices]{col2rgb}}. The goal is to handle
 multiple color conversions, e.g. \code{rgb2col(col2rgb("red"))}. This
 function also maintains alpha transparency when supplied.
 

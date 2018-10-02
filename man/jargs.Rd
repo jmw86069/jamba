@@ -58,7 +58,7 @@ Show R function arguments jam-style
 }
 \details{
 This function displays R function arguments, organized with one argument
-per line, and colorized using the \code{\link{crayon}} package if
+per line, and colorized using the \code{crayon} package if
 installed.
 
 It has an optional subset ability, using \code{grepString} which filters
