@@ -4,7 +4,8 @@
 \alias{uniques}
 \title{apply unique to each element of a list}
 \usage{
-uniques(x, keepNames = TRUE, incomparables = FALSE, useBioc = TRUE, ...)
+uniques(x, keepNames = TRUE, incomparables = FALSE, useBioc = TRUE,
+  ...)
 }
 \arguments{
 \item{x}{input list of vectors}
@@ -60,3 +61,4 @@ Other jam string functions: \code{\link{cPasteUnique}},
   \code{\link{unigrep}}, \code{\link{unvigrep}},
   \code{\link{vgrep}}, \code{\link{vigrep}}
 }
+\concept{jam string functions}

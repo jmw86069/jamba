@@ -4,8 +4,9 @@
 \alias{makeColorDarker}
 \title{make R colors darker (or lighter)}
 \usage{
-makeColorDarker(hexColor, darkFactor = 2, sFactor = 1, fixAlpha = NULL,
-  verbose = FALSE, keepNA = FALSE, useMethod = 1, ...)
+makeColorDarker(hexColor, darkFactor = 2, sFactor = 1,
+  fixAlpha = NULL, verbose = FALSE, keepNA = FALSE, useMethod = 1,
+  ...)
 }
 \description{
 Makes R colors darker or lighter based upon darkFactor
@@ -57,3 +58,4 @@ Other jam color functions: \code{\link{alpha2col}},
   \code{\link{kable_coloring}}, \code{\link{rgb2col}},
   \code{\link{setTextContrastColor}}
 }
+\concept{jam color functions}

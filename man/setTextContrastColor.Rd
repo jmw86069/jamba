@@ -51,3 +51,4 @@ Other jam color functions: \code{\link{alpha2col}},
   \code{\link{kable_coloring}},
   \code{\link{makeColorDarker}}, \code{\link{rgb2col}}
 }
+\concept{jam color functions}

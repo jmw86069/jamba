@@ -4,8 +4,8 @@
 \alias{showColors}
 \title{Show colors from a vector or list}
 \usage{
-showColors(x, labelCells = NULL, transpose = FALSE, srtCellnote = NULL,
-  adjustMargins = TRUE, ...)
+showColors(x, labelCells = NULL, transpose = FALSE,
+  srtCellnote = NULL, adjustMargins = TRUE, ...)
 }
 \arguments{
 \item{x}{vector of colors, or list of color vectors.}

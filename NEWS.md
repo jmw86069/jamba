@@ -1,3 +1,11 @@
+# jamba version 0.0.17.900
+
+## new functions
+
+* `normScale()` scales a numeric vector into a fixed range, by default
+between 0 and 1. If one value is given, a parameter `singletMethod` defines
+whether to use the minimum, maximum, or mean of the range.
+
 # jamba version 0.0.16.900
 
 ## bug fixes

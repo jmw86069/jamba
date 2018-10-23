@@ -4,8 +4,9 @@
 \alias{getColorRamp}
 \title{get color ramp by name, color, or function}
 \usage{
-getColorRamp(col, n = 15, trimRamp = FALSE, verbose = FALSE,
-  defaultBaseColor = "grey90", reverseRamp = FALSE, alpha = TRUE, ...)
+getColorRamp(col, n = 15, trimRamp = 0, gradientN = 15,
+  defaultBaseColor = "grey95", reverseRamp = FALSE, alpha = TRUE,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{col}{accepts
@@ -18,11 +19,20 @@ from \code{RColorBrewer::brewer.pal.info}, or from the
 \code{viridis::viridis} package.}
 }}
 
-\item{trimRamp}{logical whether to trim off the extreme values of the
-color ramp, for example to remove the very lightest and very darkest
-colors. If trimRamp is an integer, then that many colors are removed.}
+\item{n}{integer number of output colors to return, or NULL if
+the output should be a color function in the form \code{function(n)}
+which returns \code{n} colors.}
 
-\item{verbose}{logical whether to print verbose output}
+\item{trimRamp}{integer vector, expanded to length=2 as needed,
+which defines the number of colors to trim from the beginning
+and end of the color vector, respectively. Note that if the
+two values are not identical, symmetric divergent color scales
+will no longer have a proper middle color. Therefore, this parameter
+is mostly useful with linear gradients, to trim off the brightest
+and/or darkest colors.}
+
+\item{gradientN}{integer number of colors to expand gradient colors
+prior to trimming colors.}
 
 \item{defaultBaseColor}{character vector indicating a color from which to
 begin a color gradient, only used when col is a single color.}
@@ -37,6 +47,8 @@ whenever \code{colorRampPalette} is called. If colors contain
 no alpha transparency, this setting has no effect, otherwise the
 alpha value appears to be applied using a linear gradient between
 colors.}
+
+\item{verbose}{logical whether to print verbose output}
 }
 \description{
 get color ramp by name, color, or function
@@ -52,6 +64,26 @@ names, but can reverse those color ramps with a suffix "_r" at the
 end, e.g. "RdBu_r" will supply a color ramp from blue to red, suitable
 for heatmaps where red is typically associated with heat and high
 numeric values.
+
+If \code{n} is zero, and a color gradient is recognized from \code{RColorBrewer} or
+\code{viridis} for example, the colors are expanded to \code{gradientN} colors,
+then wrapped by \code{grDevices::colorRampPalette}.
+
+Note that when \code{reverseRamp} is TRUE, colors are reversed
+before \code{trimRamp} is used to trim colors from the beginning and end.
+
+The parameter \code{trimRamp} is used to trim colors from the beginning
+and end, respectively. However, when specifying a color gradient, like
+any \code{viridis} package color ramps, or \code{RColorBrewer} package divergent
+or sequential color palettes, a color vector is created with length
+\code{gradientN}. The \code{trimRamp} colors are trimmed from this vector, then
+the remaining color vector is fed to \code{grDevices::colorRampPalette()}.
+This mechanism allows trimming the brightest and darkest colors from
+the color ramp, as needed.
+
+By default, alpha transparency will be maintained if supplied in the
+input color vector. Most color ramps have no transparency, in which
+case transparency can be added after the fact using \code{alpha2col()}.
 }
 \examples{
 # get a gradient using red4
@@ -89,3 +121,4 @@ Other jam color functions: \code{\link{alpha2col}},
   \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
   \code{\link{setTextContrastColor}}
 }
+\concept{jam color functions}

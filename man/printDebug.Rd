@@ -5,15 +5,16 @@
 \title{print colorized output to R console}
 \usage{
 printDebug(..., fgText = NULL, bgText = NULL, fgTime = "cyan",
-  timeStamp = TRUE, comment = TRUE, formatNumbers = TRUE, trim = TRUE,
-  digits = NULL, nsmall = 0L, justify = "left", big.mark = "",
-  small.mark = "", zero.print = NULL, width = NULL, doColor = NULL,
-  splitComments = FALSE, collapse = "", sep = ",", detectColors = TRUE,
-  darkFactor = c(1, 1.5), sFactor = c(1, 1.5),
+  timeStamp = TRUE, comment = TRUE, formatNumbers = TRUE,
+  trim = TRUE, digits = NULL, nsmall = 0L, justify = "left",
+  big.mark = "", small.mark = "", zero.print = NULL, width = NULL,
+  doColor = NULL, splitComments = FALSE, collapse = "", sep = ",",
+  detectColors = TRUE, darkFactor = c(1, 1.5), sFactor = c(1, 1.5),
   lightMode = checkLightMode(), Crange = NULL, Lrange = NULL,
   removeNA = FALSE, replaceNULL = NULL,
-  adjustRgb = getOption("jam.adjustRgb"), byLine = FALSE, verbose = FALSE,
-  indent = "", keepNA = TRUE, file = "", append = TRUE, x)
+  adjustRgb = getOption("jam.adjustRgb"), byLine = FALSE,
+  verbose = FALSE, indent = "", keepNA = TRUE, file = "",
+  append = TRUE, x)
 }
 \arguments{
 \item{...}{text to be printed to the R console.}

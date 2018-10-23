@@ -30,3 +30,4 @@ Other jam color functions: \code{\link{alpha2col}},
   \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
   \code{\link{setTextContrastColor}}
 }
+\concept{jam color functions}

@@ -1,6 +1,6 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.16.900
+Version: 0.0.17.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
 Description: Jam Base methods.
@@ -19,6 +19,7 @@ Suggests: knitr,
     RColorBrewer,
     viridis,
     crayon,
+    matrixStats,
     S4Vector
 License: GPL-2
 Encoding: UTF-8
@@ -27,4 +28,4 @@ URL: http://github.com/jmw86069/jamba
 BugReports: http://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

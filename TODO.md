@@ -1,5 +1,8 @@
 ## TODO for jamba
 
+* Add message during package install suggesting the "crayon" package be
+installed if not already installed.
+
 ### Bug fixes / Enhancements to existing functions
 
 1. `ssdim()` should properly handle S4 objects by calling `sdim()` on

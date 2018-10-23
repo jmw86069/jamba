@@ -3374,3 +3374,88 @@ sclass <- function
    }
    sd1;
 }
+
+#' Scale a numeric vector from 0 to 1
+#'
+#' Scale a numeric vector from 0 to 1
+#'
+#' This function is intended as a quick way to scale numeric values
+#' between 0 and 1, however other ranges can be defined as needed.
+#'
+#' NA values are ignored and will remain NA in the output. To handle
+#' NA values, use the `rmNA()` function, which can optionally replace
+#' NA with a fixed numeric value.
+#'
+#' @param x numeric vector.
+#' @param from the minimum numeric value to re-scale the input numeric vector.
+#' @param to the maximum numeric value to re-scale the input numeric vector.
+#' @param low numeric value defining the low end of the input numeric range,
+#'    intended when input values might not contain the entire numeric
+#'    range to be re-scaled.
+#' @param high numeric value defining the high end of the input numeric range,
+#'    intended when input values might not contain the entire numeric
+#'    range to be re-scaled.
+#' @param singletMethod character value describing how to handle singlet
+#'    input values, for example how to scale the number 5 by itself.
+#'    If "mean" then it uses the average of `from` and `to`, "min" uses
+#'    the `from` value, and "max" uses the `to` value.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' # Notice the first value 1 is re-scaled to 0
+#' normScale(1:11);
+#'
+#' # Here the low value is defined as 0, even though the lowest input is 1
+#' normScale(1:10, low=0);
+#'
+#' normScale(c(10,20,40,30), from=50, to=65);
+#'
+#' @export
+normScale <- function
+(x,
+ from=0,
+ to=1,
+ low=min(x, na.rm=TRUE),
+ high=max(x, na.rm=TRUE),
+ singletMethod=c("mean","min","max"),
+ ...)
+{
+   ## Purpose is to scale values between 0 and 1
+   ## or optionally into a given range.
+   ## naValue is used to change any NA values to this number.
+   ##
+   ## Note data can be scale to a custom range, using from and to.
+   ##
+   ## Note data can also be scaled to a range, using fixed reference points,
+   ## using low and high.  For example, you may want values at zero to stay zero,
+   ## even if there are negative values.
+   ##
+   ## If only one value is supplied, then singletMethod is used:
+   ## singletMethod="mean" the resulting value is the mean(c(from,to))
+   ## singletMethod="max" the resulting value is the max(c(from,to))
+   ## singletMethod="min" the resulting value is the min(c(from,to))
+   ##
+   ## You can therefore scale data using fixed points to a new fixed range,
+   ## For example you may want a value of 100 to be scaled to 5, and values
+   ## at zero to remain zero, with negative values also being scale accordingly.
+   ##    normScale(x, from=0, to=5, low=0, high=100);
+   ##
+   #x <- ((x - min(x, na.rm=na.rm)) / diff(range(x, na.rm=na.rm)) * diff(c(from,to))) +  from;
+   ##
+   if (length(rmNA(x)) == 1) {
+      singletMethod <- match.arg(singletMethod);
+      if (singletMethod %in% "mean") {
+         x[!is.na(x)] <- mean(c(from, to));
+      } else if (singletMethod %in% "max") {
+         x[!is.na(x)] <- max(c(from, to));
+      } else if (singletMethod %in% "max") {
+         x[!is.na(x)] <- min(c(from, to));
+      }
+   } else {
+      x <- ((x - low) / diff(range(c(low,high))) * diff(c(from,to))) +  from;
+      if (!is.na(naValue) && any(is.na(x))) {
+         x[is.na(x)] <- naValue;
+      }
+   }
+   return(x);
+}
