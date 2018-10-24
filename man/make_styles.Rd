@@ -4,9 +4,8 @@
 \alias{make_styles}
 \title{vectorized make_styles for crayon output}
 \usage{
-make_styles(style, text, bg = FALSE, grey = FALSE,
-  colors = num_colors(), Cgrey = 5, lightMode = checkLightMode(),
-  Crange = NULL, Lrange = NULL,
+make_styles(style, text, bg = FALSE, grey = FALSE, colors = num_colors(),
+  Cgrey = 5, lightMode = checkLightMode(), Crange = NULL, Lrange = NULL,
   adjustRgb = getOption("jam.adjustRgb"), adjustPower = 1.5,
   fixYellow = TRUE, colorTransparent = "grey45", alphaPower = 2,
   verbose = FALSE, ...)

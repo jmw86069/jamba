@@ -40,4 +40,3 @@ Other jam string functions: \code{\link{cPasteUnique}},
   \code{\link{unigrep}}, \code{\link{uniques}},
   \code{\link{vgrep}}, \code{\link{vigrep}}
 }
-\concept{jam string functions}

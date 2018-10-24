@@ -4,11 +4,10 @@
 \alias{setPrompt}
 \title{set R prompt with project name and R version}
 \usage{
-setPrompt(projectName = NULL, useColor = TRUE,
-  projectColor = "yellow", bracketColor = "white",
-  Rcolors = c("white", "white", "white"), PIDcolor = NA,
-  promptColor = "white", usePid = TRUE, resetPrompt = FALSE,
-  verbose = FALSE, ...)
+setPrompt(projectName = NULL, useColor = TRUE, projectColor = "yellow",
+  bracketColor = "white", Rcolors = c("white", "white", "white"),
+  PIDcolor = NA, promptColor = "white", usePid = TRUE,
+  resetPrompt = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{projectName}{character string representing the active project.}

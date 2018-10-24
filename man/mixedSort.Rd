@@ -81,4 +81,3 @@ Other jam string functions: \code{\link{cPasteUnique}},
   \code{\link{uniques}}, \code{\link{unvigrep}},
   \code{\link{vgrep}}, \code{\link{vigrep}}
 }
-\concept{jam string functions}

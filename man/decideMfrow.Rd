@@ -4,8 +4,7 @@
 \alias{decideMfrow}
 \title{Decide plot panel rows, columns for par(mfrow)}
 \usage{
-decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE,
-  ...)
+decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE, ...)
 }
 \arguments{
 \item{n}{integer number of plot panels}

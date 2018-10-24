@@ -2139,3 +2139,586 @@ showColors <- function
    }
    invisible(xM);
 }
+
+#' Plot distribution and histogram overlay
+#'
+#' Plot distribution and histogram overlay
+#'
+#' This function is a wrapper around `graphics::hist()` and
+#' `stats::density()`, with enough customization to cover
+#' most of the situations that need customization.
+#'
+#' For example `log="x"` will automatically log-scale the x-axis,
+#' keeping the histogram bars uniformly sized. Alternatively,
+#' `xScale="sqrt"` will square root transform the data, and
+#' transform the x-axis while keeping the numeric values constant.
+#'
+#' It also takes
+#' care of scaling the density height to be reasonably similar to
+#' the histogram bar height, using the 99th quantile of the y-axis
+#' value, which helps prevent outlier peaks from dominating the
+#' y-axis range, thus obscuring interesting smaller features.
+#'
+#' If supplied with a data matrix, this function will create a layout
+#' with ncol(x) panels, and plot the distribution of each column
+#' in its own panel, using categorical colors from
+#' `colorjam::rainbowJam()`.
+#'
+#' By default NA values are ignored, and the distributions are the
+#' non-NA values.
+#'
+#' Colors can be controlled using the parameter `col`, but can
+#' be specifically defined for bars with `barCol` and the polygon
+#' with `polyCol`.
+#'
+#' @param x numeric vector, or numeric matrix.
+#' @param doHistogram logical indicating whether to plot histogram bars.
+#' @param doPolygon logical indicating whether to plot the density polygon.
+#' @param col color or vector of colors to apply to plot panels.
+#' @param barCol,polyCol,polyBorder,histBorder colors used when `col` is
+#'    not supplied. They define colors for the histogram bars, polygon
+#'    fill, polygon border, and histogram bar border, respectively.
+#' @param breaks numeric breaks sent to `hist` to define the number of
+#'    histogram bars.
+#' @param u5.bias,pretty.n parameters sent to `base::pretty()` for axis
+#'    label positioning.
+#' @param bw text bandwidth name, used in the density calculation, sent
+#'    to `jamba::breakDensity()`. By default `stats::density()` calls a
+#'    very smooth density kernel, which obscures finer details. By default,
+#'    `jamba::breakDensity()` uses a more detailed kernel.
+#' @param densityBreaksFactor numeric factor controlling the level of
+#'    detail in the density, sent to `jamba::breakDensity()`.
+#' @param xScale character string defining the x-axis transformation:
+#'    "default" applies no transform; "log10" applies a log10 transform;
+#'    "sqrt" applies a sqrt transform.
+#' @param log character vector, optionally containing "x" and/or "y" to
+#'    apply the appropriate transformation. If "x" then it sets
+#'    `xScale="log10"`.
+#' @param usePanels logical indicating whether to separate
+#'    the density plots into panels when `x` contains multiple columns.
+#'    When `useOnePanel=FALSE` the panels will be defined so that all
+#'    columns will fit on one page.
+#' @param useOnePanel logical indicating whether to define multiple panels
+#'    on one page. Therefore `useOnePanel=TRUE` will create multiple
+#'    pages with one panel on each page, which may work well for
+#'    output in multi-page PDF files.
+#' @param ylimQuantile numeric value between 0 and 1, indicating the
+#'    quantile value of the density `y` values to use for the ylim. This
+#'    threshold is only applied when `ylim` is NULL.
+#' @param ylim,xlim numeric y-axis and x-axis ranges, respectively. When NULL,
+#'    the x-axis range is determined for each plot panel.
+#' @param removeNA logical indicating whether to remove NA values
+#'    prior to running histogram and density calculations. Presence
+#'    of NA values generally causes both functions to fail.
+#' @param ablineV,ablineH abline vertical and horizontal positions,
+#'    respectively. These values are mostly helpful in multi-panel plots,
+#'    since they draw consistent lines on each panel.
+#' @param verbose logical indicating whether to print verbose output.
+#'
+#'
+#' @export
+plotPolygonDensity <- function
+(x,
+ doHistogram=TRUE,
+ doPolygon=TRUE,
+ barCol="#00337799",
+ col=NULL,
+ histBorder=makeColorDarker(barCol, darkFactor=1.5),
+ colAlphas=c(0.8,0.6,0.9),
+ hueShift=-0.1,
+ darkFactors=c(-1.3, 1, 3),
+ polyCol="#00449977",
+ polyBorder=makeColorDarker(polyCol),
+ lwd=2,
+ las=2,
+ u5.bias=0,
+ pretty.n=10,
+ bw=NULL,
+ breaks=100,
+ width=NULL,
+ densityBreaksFactor=3,
+ axisFunc=axis,
+ bty="l",
+ cex.axis=1.5,
+ doPar=TRUE,
+ heightFactor=0.95,
+ weightFactor=NULL,#weightFactor=0.22*(100/breaks),
+ main="Histogram distribution",
+ xaxs="i",
+ yaxs="i",
+ log=NULL,
+ xScale=c("default","log10","sqrt"),
+ logFloorMethod=c("detect", "+1", "floor1", "none"),
+ usePanels=TRUE,
+ useOnePanel=FALSE,
+ ablineV=NULL,
+ ablineH=NULL,
+ ablineVcol="#44444499",
+ ablineHcol="#44444499",
+ ablineVlty="solid",
+ ablineHlty="solid",
+ removeNA=TRUE,
+ add=FALSE,
+ ylimQuantile=0.99,
+ ylim=NULL,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to wrapper a plot(density(x)) and polygon() method
+   ## for pretty filled density plots
+   ##
+   ## log="x" will impose log10 scale to the x-axis, and display log-axis tick marks
+   ##
+   ## xScale is an extension to log="x" which allows setting the scale
+   ## to other transforms, e.g. sqrt.
+   ##
+   ## TODO: fix the density-to-histogram visual scaling
+   ## "Rescale density to histogram1"
+   ##
+   ## ylimQuantile is used to scale the y-axis such that one giant bar
+   ## does not shrink the remaining visible y-axis scale so much that detail
+   ## is lost. To show the full y-axis range, use ylimQuantile=1.
+   ## This value is only applied when ylim=NULL.
+   ##
+   xScale <- match.arg(xScale);
+
+   ## ablineV will include abline(s) in each panel
+   if (!is.null(ablineV)) {
+      ablineVcol <- rep(ablineVcol, length.out=length(ablineV));
+      ablineVlty <- rep(ablineVlty, length.out=length(ablineV));
+   }
+   if (!is.null(ablineH)) {
+      ablineHcol <- rep(ablineHcol, length.out=length(ablineH));
+      ablineHlty <- rep(ablineHlty, length.out=length(ablineH));
+   }
+
+   ## Optionally, if the input data is a multi-color matrix, split into separate panels
+   if (igrepHas("matrix|data.*frame", class(x)) && ncol(x) > 1 && usePanels) {
+      ## ablineV will include abline(s) in each panel
+      if (!is.null(ablineV)) {
+         ablineV <- rep(ablineV, length.out=ncol(x));
+      }
+
+      newMfrow <- rev(decideMfrow(ncol(x)));
+      if (useOnePanel) {
+         newMfrow <- c(1,1);
+      }
+      if (doPar) {
+         origMfrow <- par("mfrow");
+         par("mfrow"=newMfrow);
+      }
+      if (length(barCol) == ncol(x)) {
+         panelColors <- barCol;
+      } else {
+         if (suppressPackageStartupMessages(require(colorjam))) {
+            panelColors <- rainbowJam(ncol(x));
+         } else {
+            panelColors <- sample(colors(), ncol(x));
+         }
+      }
+      if (is.null(colnames(x))) {
+         colnames(x) <- makeNames(rep("column", ncol(x)), suffix="_");
+      }
+      ## Get common set of breaks
+      #hx <- hist(x, breaks=breaks, plot=FALSE, ...);
+      #breaks <- hx$breaks;
+      ## Iterate each column
+      d1 <- lapply(nameVector(1:ncol(x), colnames(x)), function(i){
+         if (useOnePanel) {
+            add <- (i > 1);
+            mainTitle <- "";
+         } else {
+            mainTitle <- colnames(x)[i];
+         }
+         if (removeNA) {
+            xi <- rmNA(x[,i]);
+         } else {
+            xi <- x[,i];
+         }
+         d2 <- plotPolygonDensity(xi,
+            main=mainTitle,
+            barCol=alpha2col(panelColors[i], alpha=colAlphas[1]),
+            polyCol=alpha2col(panelColors[i], alpha=colAlphas[2]),
+            doPolygon=doPolygon,
+            polyBorder=alpha2col(panelColors[i], alpha=colAlphas[3]),
+            doHistogram=doHistogram,
+            add=add,
+            colAlphas=colAlphas,
+            doPar=FALSE,
+            col=col,
+            lwd=lwd,
+            las=las,
+            u5.bias=u5.bias,
+            pretty.n=pretty.n,
+            bw=bw,
+            breaks=breaks,
+            width=width,
+            axisFunc=axisFunc,
+            bty=bty,
+            cex.axis=cex.axis,
+            heightFactor=heightFactor,
+            weightFactor=weightFactor,
+            xaxs=xaxs,
+            yaxs=yaxs,
+            log=log,
+            xScale=xScale,
+            logFloorMethod=logFloorMethod,
+            verbose=verbose,
+            ablineV=ablineV,
+            ablineVcol=ablineVcol,
+            ablineVlty=ablineVlty,
+            ablineH=ablineH,
+            ablineHcol=ablineHcol,
+            ablineHlty=ablineHlty,
+            ylimQuantile=ylimQuantile,
+            ylim=ylim,
+            ...);
+         d2;
+      });
+      if (useOnePanel && ncol(x) > 1) {
+         legend("top",
+            inset=c(0,0.05),
+            legend=colnames(x),
+            fill=alpha2col(panelColors, alpha=colAlphas[2]),
+            border=alpha2col(panelColors, alpha=colAlphas[3]));
+      }
+      if (doPar) {
+         par("mfrow"=origMfrow);
+      }
+      invisible(d1);
+   } else {
+      ##
+      oPar <- par();
+      par("xaxs"=xaxs);
+      par("yaxs"=yaxs);
+      #if (is.null(bw) & is.null(width)) {
+      #   bw <- "ucv";
+      #}
+      if (verbose) {
+         printDebug("plotPolygonDensity(): ",
+            "barCol, polyCol:",
+            c(barCol, polyCol),
+            fgText=list("orange", "dodgerblue", c(barCol, polyCol)));
+      }
+      #if (barCol %in% "#00337799" && polyCol == "#00449977" && length(col) > 0) {
+      if (barCol %in% formals(plotPolygonDensity)$barCol &&
+            polyCol %in% formals(plotPolygonDensity)$polyCol &&
+            length(col) > 0) {
+         barCol <- makeColorDarker(changeHue(col, hueShift=hueShift),
+            fixAlpha=colAlphas[1],
+            darkFactor=darkFactors[1]);
+         polyCol <- makeColorDarker(col,
+            fixAlpha=colAlphas[2],
+            darkFactor=darkFactors[2]);
+         polyBorder <- makeColorDarker(col,
+            fixAlpha=colAlphas[3],
+            darkFactor=darkFactors[3]);
+      }
+
+      if (xScale %in% "default") {
+         if ("x" %in% log) {
+            xScale <- "log10";
+         }
+      }
+      ## Optional visual log-transformation
+      #if ("x" %in% log) {
+      if ("log10" %in% xScale) {
+         x <- sensibleLog(x, logFloorMethod=logFloorMethod, verbose=verbose, ...);
+         xLogAxisType <- attr(x, "xLogAxisType");
+      } else if ("sqrt" %in% xScale) {
+         x1 <- x;
+         ## use square root of absolute value, multiplied by the sign
+         x <- sqrt(abs(x1)) * sign(x1);
+      }
+
+      if (doHistogram) {
+         if (removeNA) {
+            x <- rmNA(x);
+         }
+         if (add) {
+            hx <- hist(x,
+               breaks=breaks,
+               col=barCol,
+               main=main,
+               border=histBorder,
+               xaxt="n",
+               yaxt="n",
+               las=las,
+               ylab="",
+               cex.axis=cex.axis*0.8,
+               add=add,
+               ...);
+         } else {
+            hx <- hist(x,
+               breaks=breaks,
+               col=barCol,
+               main=main,
+               border=histBorder,
+               xaxt="n",
+               las=las,
+               ylab="",
+               cex.axis=cex.axis*0.8,
+               add=add,
+               plot=FALSE,
+               ...);
+            ## Optionally define the y-axis scale
+            if (is.null(ylim) &&
+               !is.null(ylimQuantile) &&
+               ylimQuantile < 1 &&
+               ylimQuantile > 0 &&
+               max(hx$counts) > 0) {
+               ylim <- c(0,
+                  quantile(hx$counts, c(ylimQuantile)));
+            }
+            plot(hx,
+               col=barCol,
+               main=main,
+               border=histBorder,
+               xaxt="n",
+               las=las,
+               ylab="",
+               cex.axis=cex.axis*0.8,
+               add=add,
+               ylim=ylim,
+               ...);
+         }
+         if (verbose) {
+            printDebug("plotPolygonDensity(): ",
+               "hx$breaks:",
+               format(trim=TRUE, digits=2, ht(hx$breaks)));
+         }
+         if (!add) {
+            if ("log10" %in% xScale) {
+               if (verbose) {
+                  printDebug("plotPolygonDensity(): ",
+                     "log10 x-axis scale.");
+               }
+               minorLogTicksAxis(1,
+                  doMinorLabels=TRUE,
+                  logAxisType=xLogAxisType,
+                  ...);
+            } else if ("sqrt" %in% xScale) {
+               if (verbose) {
+                  printDebug("plotPolygonDensity(): ",
+                     "sqrt xScale");
+               }
+               atPretty <- sqrtAxis(1);
+               axisFunc(1,
+                  at=sqrt(abs(atPretty))*sign(atPretty),
+                  labels=names(atPretty),
+                  las=las,
+                  cex.axis=cex.axis,
+                  ...);
+            } else {
+               #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
+               ## Slight change to use the plot region instead of the histogram region
+               atPretty <- pretty(par("usr")[1:2],
+                  u5.bias=u5.bias,
+                  n=pretty.n,
+                  ...);
+               #axis(1, at=atPretty, labels=atPretty, las=las, ...);
+               axisFunc(1,
+                  at=atPretty,
+                  las=las,
+                  cex.axis=cex.axis,
+                  ...);
+               if (verbose) {
+                  printDebug("plotPolygonDensity(): ",
+                     "atPretty: ",
+                     atPretty);
+               }
+            }
+            box(bty=bty);
+         }
+      } else {
+         hx <- NULL;
+      }
+
+      ## Calculate density
+      dx <- breakDensity(x=x,
+         bw=bw,
+         width=width,
+         breaks=breaks,
+         densityBreaksFactor=densityBreaksFactor,
+         weightFactor=weightFactor,
+         addZeroEnds=TRUE,
+         ...);
+
+      if (doHistogram) {
+         maxHistY <- max(hx$counts, na.rm=TRUE);
+         maxHistY <- par("usr")[4];
+         if (verbose) {
+            printDebug("plotPolygonDensity(): ",
+               "Re-scaled y to histogram height maxHistY:",
+               maxHistY);
+         }
+         ## Scale the y-axis to match the histogram
+         dx$y <- normScale(dx$y,
+            from=0,
+            to=maxHistY*heightFactor);
+      }
+      if (verbose) {
+         printDebug("Completed density calculations.");
+      }
+      if (!doHistogram) {
+         plot(dx,
+            col="transparent",
+            main=main,
+            xaxt="n",
+            ...);
+         if ("x" %in% log) {
+            minorLogTicksAxis(1,
+               doMinorLabels=TRUE,
+               logAxisType=xLogAxisType,
+               ...);
+         } else {
+            #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
+            ## Slight change to use the plot region instead of the histogram region
+            atPretty <- pretty(par("usr")[1:2],
+               u5.bias=u5.bias,
+               n=pretty.n,
+               ...);
+            axisFunc(1,
+               at=atPretty,
+               las=las,
+               cex.axis=cex.axis,
+               ...);
+            if (verbose) {
+               printDebug("plotPolygonDensity(): ",
+                  "atPretty: ",
+                  atPretty);
+            }
+         }
+      }
+      if (doPolygon) {
+         polygon(dx, col=polyCol, border=polyBorder, lwd=lwd, ...);
+      }
+      if (!is.null(ablineV)) {
+         abline(v=ablineV, col=ablineVcol, lty=ablineVlty, ...);
+      }
+      if (!is.null(ablineH)) {
+         abline(h=ablineH, col=ablineHcol, lty=ablineHlty, ...);
+      }
+      #par(oPar);
+      invisible(list(d=dx,
+         hist=hx,
+         barCol=barCol,
+         polyCol=polyCol,
+         polyBorder=polyBorder,
+         histBorder=histBorder));
+   }
+}
+
+#' Calculate more detailed density of numeric values
+#'
+#' Calculate more detailed density of numeric values
+#'
+#' This function is a drop-in replacement for `stats::density()`,
+#' simply to provide a quick alternative that defaults to a higher
+#' level of detail. Detail can be adjusted using `densityBreaksFactor`,
+#' where higher values will use a wider step size, thus lowering
+#' the detail in the output.
+#'
+#' @param x numeric vector
+#' @param breaks numeric breaks as described for `stats::density()` except
+#'    that single integer value is multiplied by `densityBreaksFactor`.
+#' @param bw character name of a bandwidth function, or NULL.
+#' @param width NULL or numeric value indicating the width of breaks to
+#'    apply.
+#' @param densityBreaksFactor numeric factor to adjust the width of
+#'    density breaks, where higher values result in less detail.
+#' @param weightFactor optional vector of weights `length(x)` to apply
+#'    to the density calculation.
+#' @param addZeroEnds logical indicating whether the start and end value
+#'    should always be zero, which can be helpful for creating a polygon.
+#' @param baseline optional numeric value indicating the expected baseline,
+#'    which is typically zero, but can be set to a higher value to indicate
+#'    a "noise floor".
+#' @param floorBaseline logical indicating whether to apply a noise floor
+#'    to the output data.
+#' @param verbose logical indicating whether to print verbose output.
+#' @param ... additional parameters are sent to `stats::density()`.
+#'
+#' @export
+breakDensity <- function
+(x,
+ breaks=length(x)/3,
+ bw=NULL,
+ width=NULL,
+ densityBreaksFactor=3,
+ weightFactor=1,
+ addZeroEnds=TRUE,
+ baseline=0,
+ floorBaseline=FALSE,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to provide slightly more granular density() than
+   ## the default provides
+   ##
+   ## bw can be a custom density kernel, see density() for details
+   ##
+   ## width can be the width supplied to density() but if NULL
+   ## then this function calculates a reasonable width based upon
+   ## the data content
+   ##
+   ## densityBreaksFactor is used to tune the level of detail, roughly
+   ## defines a smoothing window of roughly this many fold above the
+   ## distance between breaks, using breaks either as an integer number
+   ## of breaks, or as a discrete set of breakpoints.
+   ## Set to 0.01 to see discrete values as sharp peaks, or
+   ## set to 10 to see a smooth gradient.
+   ##
+   ## addZeroEnds=TRUE will add a baseline y-value to the beginning and end
+   ## which helps when used to draw a polygon, using the baseline parameter.
+   ##
+   ## floorBaseline=TRUE will change any value below the baseline to the baseline
+   if (is.null(bw)) {
+      if (is.null(width)) {
+         if (length(breaks) == 1) {
+            width <- diff(range(x))/(breaks) * densityBreaksFactor;
+         } else {
+            width <- diff(range(x))/(median(diff(breaks))) * densityBreaksFactor;
+         }
+      }
+      if (verbose) {
+         printDebug("breakDensity(): ",
+            "width:",
+            formatC(width, format="g", digits=3));
+         printDebug("breakDensity(): ",
+            "breaks:",
+            formatC(breaks, format="g", digits=3));
+      }
+      dx <- density(x,
+         width=width,
+         weight=rep(weightFactor, length.out=length(x)),
+         ...);
+   } else {
+      dx <- density(x,
+         width=width,
+         weight=rep(weightFactor, length.out=length(x)),
+         bw=bw,
+         ...);
+   }
+
+   ## Optionally add a y-value of zero to the beginning and end
+   if (addZeroEnds) {
+      if (verbose) {
+         printDebug("breakDensity(): ",
+            "Adding baseline:", baseline, " to ends.");
+      }
+      dx$x <- c(head(dx$x, 1), dx$x, tail(dx$x, 1));
+      dx$y <- c(baseline, dx$y, baseline);
+   }
+   ## Optionally floor data at the baseline
+   if (floorBaseline && any(dx$y) < baseline) {
+      if (verbose) {
+         printDebug("breakDensity(): ",
+            "Enforcing a noise floor:", baseline);
+      }
+      dx$y[dx$y < baseline] <- baseline;
+   }
+
+   return(dx);
+}
+

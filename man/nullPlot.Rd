@@ -5,11 +5,11 @@
 \title{Create a blank plot with optional labels}
 \usage{
 nullPlot(xaxt = "n", yaxt = "n", xlab = "", ylab = "",
-  col = "transparent", xlim = c(1, 2), ylim = c(1, 2),
-  las = par("las"), doBoxes = TRUE, doUsrBox = doBoxes,
-  fill = "#FFFF9966", doAxes = FALSE, doMargins = TRUE,
-  plotAreaTitle = "Plot Area", plotSrt = 0, plotNumPrefix = "",
-  bty = "n", showMarginsOnly = FALSE, add = FALSE, ...)
+  col = "transparent", xlim = c(1, 2), ylim = c(1, 2), las = par("las"),
+  doBoxes = TRUE, doUsrBox = doBoxes, fill = "#FFFF9966",
+  doAxes = FALSE, doMargins = TRUE, plotAreaTitle = "Plot Area",
+  plotSrt = 0, plotNumPrefix = "", bty = "n", showMarginsOnly = FALSE,
+  add = FALSE, ...)
 }
 \arguments{
 \item{xaxt}{character value compatible with \code{options(xaxt)}}

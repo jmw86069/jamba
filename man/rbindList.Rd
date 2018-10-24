@@ -4,9 +4,9 @@
 \alias{rbindList}
 \title{rbind a list of vectors into matrix or data.frame}
 \usage{
-rbindList(x, emptyValue = "", keepListNames = TRUE,
-  newColnames = NULL, newRownames = NULL, fixBlanks = TRUE,
-  returnDF = FALSE, verbose = FALSE, ...)
+rbindList(x, emptyValue = "", keepListNames = TRUE, newColnames = NULL,
+  newRownames = NULL, fixBlanks = TRUE, returnDF = FALSE,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{x}{input list of vectors.}

@@ -5,6 +5,23 @@
 * `normScale()` scales a numeric vector into a fixed range, by default
 between 0 and 1. If one value is given, a parameter `singletMethod` defines
 whether to use the minimum, maximum, or mean of the range.
+* `rowGroupMeans()` and `rowRmMadOutliers()` are used to compute
+per-row mean values, with grouped columns. Optional outlier detection
+is performed using a MAD factor cutoff, for example 5xMAD threshold means
+points 5 times the MAD for the group are considered outliers.
+* `plotPolygonDensity()` which is a wrapper around `hist()` and
+`plot(density(x))`, but with some added features like scaling the x-axis
+by log10 or sqrt; and multi-panel output when the input is a multi-column
+matrix.
+* `warpAroundZero()` takes a numeric vector, and warps the values with
+a log curvature, symmetric around zero. The intent is to create non-linear
+breaks when used in heatmaps with divergent color ramps.
+
+## bug fixed
+
+* `ssdim()` was updated again to try to handle more non-list object
+types, for example the "bga" class returned from made4::bga().
+
 
 # jamba version 0.0.16.900
 

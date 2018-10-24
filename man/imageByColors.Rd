@@ -6,10 +6,10 @@
 \usage{
 imageByColors(x, useRaster = FALSE, fixRasterRatio = TRUE,
   maxRatioFix = 100, xaxt = "s", yaxt = "s", doPlot = TRUE,
-  cellnote = NULL, cexCellnote = 1, srtCellnote = 0,
-  fontCellnote = 1, groupCellnotes = TRUE, adjBy = c("column",
-  "row"), verbose = FALSE, xpd = NULL, flip = c("none", "y", "x",
-  "xy"), keepTextAlpha = FALSE, doTest = FALSE, add = FALSE, ...)
+  cellnote = NULL, cexCellnote = 1, srtCellnote = 0, fontCellnote = 1,
+  groupCellnotes = TRUE, adjBy = c("column", "row"), verbose = FALSE,
+  xpd = NULL, flip = c("none", "y", "x", "xy"), keepTextAlpha = FALSE,
+  doTest = FALSE, add = FALSE, ...)
 }
 \arguments{
 \item{x}{matrix or data.frame containing colors}

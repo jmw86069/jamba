@@ -4,8 +4,8 @@
 \alias{cPaste}
 \title{paste a list into a delimited vector}
 \usage{
-cPaste(x, sep = ",", doSort = TRUE, makeUnique = FALSE,
-  na.rm = FALSE, useBioc = TRUE, ...)
+cPaste(x, sep = ",", doSort = TRUE, makeUnique = FALSE, na.rm = FALSE,
+  useBioc = TRUE, ...)
 }
 \arguments{
 \item{x}{input list of vectors}
@@ -77,4 +77,3 @@ Other jam string functions: \code{\link{cPasteUnique}},
   \code{\link{uniques}}, \code{\link{unvigrep}},
   \code{\link{vgrep}}, \code{\link{vigrep}}
 }
-\concept{jam string functions}

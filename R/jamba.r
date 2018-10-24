@@ -3316,6 +3316,10 @@ ssdim <- function
    ## Purpose is to run sdim() on a list of lists of data.frames
    if (isS4(x)) {
       # For S4 objects we iterate slotNames(x)
+      if (verbose) {
+         printDebug("ssdim(): ",
+            "Handling S4 object type.");
+      }
       lapply(nameVector(slotNames(x)), function(iName){
          sdim(slot(x, iName),
             includeClass=includeClass,
@@ -3325,8 +3329,41 @@ ssdim <- function
       });
    }
    if (!any("list" %in% unlist(sclass(x)))) {
-      sdim(x);
+      ## No recognizable list structure
+      if (is.vector(x) || igrepHas("data.*frame|tibble|matrix|ranges$", class(x))) {
+         if (verbose) {
+            printDebug("ssdim(): ",
+               "Handling vector/data.frame/tibble/ranges.");
+         }
+         sdim(x);
+      } else if (length(names(x)) > 0) {
+         if (verbose) {
+            printDebug("ssdim(): ",
+               "Handling S3 object type using names(x).");
+         }
+         lapply(nameVector(names(x)), function(i){
+            sdim(x[[i]]);
+         });
+      } else if (length(x) > 1) {
+         if (verbose) {
+            printDebug("ssdim(): ",
+               "Handling S3 object type without names.");
+         }
+         lapply(seq_along(x), function(i){
+            sdim(x[[i]]);
+         });
+      } else {
+         if (verbose) {
+            printDebug("ssdim(): ",
+               "Falling back to sdim(x).");
+         }
+         sdim(x);
+      }
    } else {
+      if (verbose) {
+         printDebug("ssdim(): ",
+            "Handling list object type.");
+      }
       lapply(x, function(iDFL){
          sdim(iDFL,
             includeClass=includeClass,
@@ -3395,6 +3432,8 @@ sclass <- function
 #' @param high numeric value defining the high end of the input numeric range,
 #'    intended when input values might not contain the entire numeric
 #'    range to be re-scaled.
+#' @param naValue optional numeric value used to replace `NA`, usually by
+#'    replacing `NA` with zero.
 #' @param singletMethod character value describing how to handle singlet
 #'    input values, for example how to scale the number 5 by itself.
 #'    If "mean" then it uses the average of `from` and `to`, "min" uses
@@ -3417,6 +3456,7 @@ normScale <- function
  to=1,
  low=min(x, na.rm=TRUE),
  high=max(x, na.rm=TRUE),
+ naValue=NA,
  singletMethod=c("mean","min","max"),
  ...)
 {
@@ -3458,4 +3498,429 @@ normScale <- function
       }
    }
    return(x);
+}
+
+#' Calculate row group means, or other statistics
+#'
+#' Calculate row group means, or other statistics
+#'
+#' This function by default calculates group mean values
+#' per row in a numeric matrix. However, the stat function
+#' can be changed to calculate row medians, row MADs, etc.
+#'
+#' An added purpose of this function is optional outlier
+#' filtering, via calculation of MAD values and applying
+#' a MAD threshold cutoff. The intention is to identify
+#' technical outliers that otherwise adversely affect the
+#' calculated group mean or median values. To inspect the
+#' data after outlier removal, use the parameter `returnType="input"`
+#' which will return the input data matrix with `NA`
+#' substituted for outlier points. Outlier detection and
+#' removal is performed by `jamba::rowRmMadOutliers()`.
+#'
+#' @return
+#' When `returnType="output"` the output is a numeric matrix
+#' with the same number of columns as the number of unique
+#' `groups` labels. When `groups` is a factor and
+#' `keepNULLlevels=TRUE`, the number of columns will be the
+#' number of factor levels, otherwise it will be the number of
+#' factor levels used in `groups`.
+#'
+#' When `returnType="input"` the output is a numeric matrix
+#' with the same dimensions as the input data. This output is
+#' intended for use with `rmOutliers=TRUE` which will replace
+#' outlier points with `NA` values. Therefore, this matrix can
+#' be used to see the location of outliers.
+#'
+#' The function also returns attributes that describe the
+#' number of samples per group overall:
+#' \describe{
+#'    \item{attr(out, "n")}{The attribute `"n"` is used to describe
+#'       the number of replicates per group.}
+#'    \item{attr(out, "nLabel")}{The attribute `"nLabel"` is
+#'       a simple text label in the form `"n=3"`.}
+#' }
+#' Note that when `rmOutliers=TRUE` the number of replicates per
+#' group will vary depending upon the outliers removed. In that
+#' case, remember that the reported `"n"` is always the total
+#' possible columns available prior to outlier removal.
+#'
+#' @param x numeric data matrix
+#' @param groups vector of group labels, either as a character
+#'    vector, or a factor. See the parameter `groupOrder` for
+#'    ordering of group labels in the output data matrix.
+#' @param useMedian logical indicating whether the default
+#'    stat should be "mean" or "median".
+#' @param rmOutliers logical indicating whether to apply outlier
+#'    detection and removal.
+#' @param madFactor numeric value indicating the multiple of the
+#'    MAD value to define outliers. For example `madFactor=5`
+#'    will take the MAD value for a group multiplied by 5,
+#'    5*MAD, as a threshold for outliers. So any points more than
+#'    5*MAD distance from the median per group are outliers.
+#' @param returnType character value indicating the return data
+#'    type, `"output"` returns one summary stat value per group, per row;
+#'    `"input"` is useful when `rmOutliers=TRUE` in that it returns
+#'    a matrix with the same dimensions as the input, except with
+#'    outlier points replaced with NA.
+#' @param rowStatsFunc optional function which takes a numeric matrix
+#'    as input, and returns a numeric vector equal to the number of
+#'    rows of the input data matrix. Examples: `base::rowMeans()`,
+#'    `base::rowMedians()`, `matrixStats::rowMads`.
+#' @param groupOrder character value indicating how character group
+#'    labels are ordered in the final data matrix, when `returnType="output"`.
+#'    Note that when `groups` is a factor, the factor levels are kept
+#'    in that order. Otherwise, `"same"` keeps groups in the same
+#'    order they appear in the input matrix; `"sort"` applies
+#'    `jamba::mixedSort()` to the labels.
+#' @param keepNULLlevels logical indicating whether to keep factor
+#'    levels even when there are no corresponding columns in `x`.
+#'    When `TRUE` and `returnType="output"` the output matrix will
+#'    contain one colname for each factor level, with NA values used
+#'    to fill empty factor levels. This mechanism can be helpful to
+#'    ensure that output matrices have consistent colnames.
+#' @param verbose logical indicating whether to print verbose output.
+#' @param ... additional parameters are passed to `rowStatsFunc`,
+#'    and if `rmOutliers=TRUE` to `jamba::rowRmMadOutliers()`.
+#'
+#' @examples
+#' x <- matrix(ncol=9, rnorm(90));
+#' colnames(x) <- LETTERS[1:9];
+#' rowGroupMeans(x, groups=rep(letters[1:3], each=3))
+#'
+#' @export
+rowGroupMeans <- function
+(x,
+ groups,
+ na.rm=TRUE,
+ useMedian=TRUE,
+ rmOutliers=FALSE,
+ madFactor=5,
+ returnType=c("output","input"),
+ rowStatsFunc=NULL,
+ groupOrder=c("same","sort"),
+ keepNULLlevels=FALSE,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to provide rowMeans() but using groups of columns
+   ##
+   ## If rmOutliers==TRUE and madFactor is not NULL, then replicates within each group will
+   ## be tested for outliers using rowRmMadOutliers().  madFactor represents the fold threshold
+   ## from the mad() of each group, for each row, and a default of 5 is fairly lenient in that it
+   ## only filters outliers when one point is 5 times the MAD away from median.
+   ## rmOutliers=FALSE, madFactor=5,
+   ##
+   ## if rowStatsFunc is not NULL, it is expected to be a function which takes a matrix of data
+   ## and produces row-based numeric summary statistics. If na.rm=TRUE is required, it must be
+   ## encoded into the function definition, for example
+   ##    rowStatsFunc=function(x){rowMeans(x, na.rm=TRUE)}
+   ##
+   ## groupOrder="same" will order groups in the order they're defined in groups,
+   ## groupOrder="sort" will use mixedSort
+   ##
+   ## keepNULLlevels=TRUE, if groups is a factor, then all factor levels
+   ## will be maintained even if no values exist with that factor level.
+   ## keepNULLlevels=FALSE, if groups is a factor, then only factor levels
+   ## containing values will be returned.
+   groupOrder <- match.arg(groupOrder);
+
+   returnType <- match.arg(returnType);
+   #if (useMedian || rmOutliers) {
+      #if (!suppressPackageStartupMessages(require(matrixStats))) {
+      #   stop("The matrixStats package is required for rowMADs().");
+      #}
+   #}
+   if (verbose && rmOutliers && length(madFactor) > 0) {
+      printDebug("rowGroupMeans(): ",
+         "running with rmOutliers=",
+         "TRUE",
+         " and madFactor=",
+         madFactor);
+   }
+   if (verbose && length(rowStatsFunc) > 0) {
+      printDebug("rowGroupMeans(): ",
+         "running custom rowStatsFunc");
+   }
+   if (!igrepHas("factor|order", class(groups))) {
+      if (groupOrder %in% "same") {
+         if (verbose) {
+            printDebug("rowGroupMeans(): ",
+               "Using groups in observed order:",
+               unique(groups));
+         }
+         groups <- factor(groups,
+            levels=unique(groups));
+      } else {
+         if (verbose) {
+            printDebug("rowGroupMeans(): ",
+               "Using groups in mixedSort order:",
+               mixedSort(unique(groups)));
+         }
+         groups <- factor(groups,
+            levels=mixedSort(unique(groups)));
+      }
+   }
+   #x2 <- do.call(cbind, tapply(colnames(x), groups, function(i){
+   x2L <- tapply(X=colnames(x),
+      INDEX=groups,
+      simplify=FALSE,
+      FUN=function(i){
+         iM <- x[,i,drop=FALSE];
+         if (rmOutliers && length(madFactor) > 0) {
+            ## Optionally filter for outliers before aggregation
+            iM <- rowRmMadOutliers(iM,
+               madFactor=madFactor,
+               ...);
+         }
+         if (returnType %in% "input") {
+            return(iM);
+         }
+         if (length(rowStatsFunc) > 0) {
+            ## If given a custom function, use it and not anything else
+            iV <- rowStatsFunc(iM, ...);
+         } else if (useMedian) {
+            iV <- rowMedians(iM, na.rm=na.rm);
+         } else {
+            iV <- rowMeans(iM, na.rm=na.rm);
+         }
+         if (length(rownames(iM)) > 0) {
+            names(iV) <- rownames(iM);
+         }
+         if (verbose) {
+            printDebug("rowGroupMeans(): ",
+               "columns:",
+               i,
+               ", head(iV, 10):");
+            print(head(iV, 10));
+         }
+         iV;
+   });
+   if (keepNULLlevels && any(lengths(x2L) == 0)) {
+      if (verbose) {
+         printDebug("rowGroupMeans(): ",
+            "keeping NULL factor levels, converting to NA.");
+      }
+      x2 <- do.call(cbind,
+         jamba::rmNULL(x2L,
+            nullValue=NA));
+   } else {
+      x2 <- do.call(cbind, x2L);
+   }
+
+   ## Return the replicate count as an attribute
+   try({
+      nReps <- nameVector(rmNA(naValue=0,
+         tcount(groups)[colnames(x2)]),
+         colnames(x2));
+      nRepsLabel <- nameVector(paste0("n=", nReps), colnames(x2));
+      attr(x2, "n") <- nReps;
+      attr(x2, "nLabel") <- nRepsLabel;
+   });
+
+   return(x2);
+}
+
+#' Remove outlier points per row by MAD factor threshold
+#'
+#' Remove outlier points per row by MAD factor threshold
+#'
+#' This function applies outlier detection and removal per
+#' row of the input numeric matrix. It first calculates MAD
+#' per row, then defines a cutoff threshold by multiplying the
+#' MAD by the supplied `madFactor`, and by ensuring the
+#' threshold is at least as large as `minDiff`.
+#'
+#' The `minDiff` parameter affects cases such as 3 replicates,
+#' where all replicates are well within a known threshold
+#' indicating low variance, but where two replicates might
+#' be nearly identical. Consider `c(2.0, 2.0, 2.001)`. The
+#' MAD is zero, therefore any difference from median might
+#' otherwise be considered an outlier. One alternative is
+#' to define `minDiff <- median(rowMads(x))` which sets the
+#' minimum threshold to the median MAD across all rows.
+#' Such a threshold will only be reasonable if the variance
+#' across all rows is expected to be similar.
+#'
+#' Note that this function is substantially faster when the
+#' `matrixStats` package is installed, but will use the
+#' `apply(x, 1, mad)` format as a last option.
+#'
+#' This function assumes the input data is appropriate for
+#' the use of MAD as a summary statistic, specifically that
+#' the numeric values per row are expected to be roughly
+#' normally distributed, with the occassional presence
+#' of outlier points. The outlier points are assumed to be
+#' technical outliers, which are often caused by some
+#' instrument measurement failure or other upstream
+#' protocol failure. A threshold of 5xMAD is fairly lenient
+#' and yet is usually sufficient to identify the most
+#' egregious outliers. Among technical replicates, often
+#' 2xMAD is more appropriate.
+#'
+#' @return
+#' A numeric matrix is returned, with the same dimensions
+#' as the input `x` matrix. Outliers are replaced with `NA`.
+#'
+#' If `includeAttributes=TRUE` then four attributes will be
+#' included as well:
+#' \describe{
+#'    \item{attr(x, "rowThresholds")}{The row difference from
+#'       median threshold used for filtering.}
+#'    \item{attr(out, "rowThresholds")}{When the difference from
+#'       median is above `minDiff` it returns "madFactor",
+#'       otherwise it returns "minDiff".}
+#'    \item{attr(x, "madFactor")}{The `madFactor` value used.}
+#'    \item{attr(x, "minDiff")}{The `minDiff` value used.}
+#' }
+#'
+#' @param x numeric matrix
+#' @param madFactor numeric value to multiply by each row MAD
+#'    to define the threshold for outlier.
+#' @param na.rm logical indicating whether to ignore NA values
+#'    when calculating the MAD value. It should probably always be
+#'    `TRUE`, however setting to `FALSE` will prevent any
+#'    calculations in rows that contain `NA` values, which could
+#'    be useful.
+#' @param minDiff numeric value indicating the minimum difference
+#'    from median to qualify as an outlier. This value protects
+#'    against removing outliers which are already extremely
+#'    close together.
+#' @param includeAttributes logical indicating whether to return
+#'    attributes that describe the threshold and type of threshold
+#'    used per row, in addition to the madFactor and minDiff values
+#'    defined.
+#' @param verbose logical indicating whether to print verbose output.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' set.seed(123);
+#' x <- matrix(ncol=5, rnorm(25))*5 + 10;
+#' ## Define some outlier points
+#' x[1:2,3] <- x[1:2,3]*5 + 50;
+#' x[2:3,2] <- x[2:3,2]*5 - 100;
+#' rowRmMadOutliers(x, madFactor=5);
+#'
+#' @export
+rowRmMadOutliers <- function
+(x,
+ madFactor=5,
+ na.rm=TRUE,
+ minDiff=0,
+ includeAttributes=FALSE,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to perform rmMadOutlier() function of removing outliers
+   ## outside madFactor times the MAD for each row.
+   ## It take a matrix input, and returns a matrix output with outliers
+   ## converted to NA values.
+   ##
+   ## minDiff defines a minimum difference required in order to be an outlier,
+   ## for example if three values are c(10.110, 10.112, 10.141) the third value
+   ## is a MAD outlier, but differs from median by only 0.009 even though it
+   ## is 10x MAD units away from median.
+   ## Typically, minDiff in log2 space would be something like log2(1.2)
+   ##
+   if (length(minDiff) == 0) {
+      minDiff <- 0;
+   }
+
+   if (suppressPackageStartupMessages(require(matrixStats))) {
+      xMads <- rowMads(x, na.rm=na.rm);
+   } else {
+      xMads <- apply(x, 1, mad, na.rm=na.rm);
+   }
+   xMedians <- rowMedians(x, na.rm=TRUE);
+
+   ## madMaxs is the threshold for each row
+   rowThresholds <- noiseFloor(xMads * madFactor,
+      minimum=minDiff);
+   x[abs(x - xMedians) > rowThresholds] <- NA;
+   if (includeAttributes) {
+      rowTypes <- ifelse((xMads * madFactor) < minDiff,
+         "minDiff",
+         "madFactor");
+      attr(x, "rowThresholds") <- rowThresholds;
+      attr(x, "rowTypes") <- rowTypes;
+      attr(x, "minDiff") <- minDiff;
+      attr(x, "madFactor") <- madFactor;
+   }
+   x;
+}
+
+#' Warp a vector of numeric values relative to zero
+#'
+#' Warp a vector of numeric values relative to zero
+#'
+#' This function warps numeric values using a log curve
+#' transformation, such that values are either more compressed
+#' near zero, or more compressed near the maximum values.
+#' For example, a vector of integers from -10 to 10 would be warped
+#' so the intervals near zero were smaller than 1, and intervals
+#' farthest from zero are greater than 1.
+#'
+#' The main driver for this function was the desire to compress
+#' divergent color scales used in heatmaps, in order to enhance
+#' smaller magnitude numeric values. Existing color ramps map the
+#' color gradient in a linear manner relative to the numeric range,
+#' which can cause extreme values to dominate the color scale.
+#' Further, a linear application of colors is not always appropriate.
+#'
+#' @param x numeric vector
+#' @param lens numeric value which defines the lens factor,
+#'    where `lens > 0` will compress values near zero, and
+#'    `lens < 0` will expand values near zero and compress
+#'    values near the maximum value. If `lens == 0` the
+#'    numeric values are not changed.
+#' @param baseline numeric value describing the baseline, for example
+#'    when the central value is non-zero. Note this baseline is applied
+#'    to the absolute value of `x` which means the baseline is also
+#'    symmetric around zero.
+#' @param xCeiling numeric maximum value allowed for `abs(x)`, above which
+#'    values are set to `xCeiling` maintaining the positive or negative
+#'    sign. The intention is to prevent outlier points
+#'    from adversely affecting the numeric range used for the warping.
+#'
+#' @examples
+#' x <- c(-10:10);
+#' xPlus10 <- warpAroundZero(x, lens=10);
+#' xMinus10 <- warpAroundZero(x, lens=-10);
+#'
+#' plot(x=x, y=xPlus10, type="b", pch=20, col="dodgerblue");
+#' points(x=x, y=xMinus10, type="b", pch=20, col="orangered");
+#'
+#' @export
+warpAroundZero <- function
+(x,
+ lens=5,
+ baseline=0,
+ xCeiling=NULL,
+   ...)
+{
+   ## Purpose is to take a vector representing points on
+   ## a line with slope=0, and warp the line using log2
+   ## transformation, symmetric around zero.
+   if (lens == 0) {
+      return(x);
+   }
+   nColors <- 50;
+   if (length(xCeiling) == 0) {
+      xCeiling <- max(abs(x), na.rm=TRUE) - baseline;
+   }
+   if (any(abs(x) > abs(xCeiling))) {
+      xOob <- (abs(x) > abs(xCeiling));
+      x[xOob] <- abs(x[xOob]) * sign(x[xOob]);
+   }
+   x1 <- seq(from=-1, to=1, length.out=nColors);
+   y1 <- normScale(
+      log2(1+abs(x1)*abs(lens))*sign(x1),
+      from=-1,
+      to=1);
+   if (lens > 0) {
+      y1 <- approx(x=y1, y=x1, xout=x1)$y;
+   }
+   xrange <- (x1 + baseline) * xCeiling;
+   y2 <- (y1 + baseline) * xCeiling;
+   approx(x=xrange, y=y2, xout=x)$y
 }

@@ -7,10 +7,9 @@
 handleArgsText(argTextA, name = "", col1 = "mediumpurple2",
   col2 = "mediumaquamarine", colT = "dodgerblue3", colF = "red1",
   colNULL = "grey60", lightMode = checkLightMode(),
-  adjustRgb = getOption("jam.adjustRgb"), Crange = NULL,
-  Lrange = NULL, indent = "", useCollapseList = ",\\n      ",
-  useCollapseBase = ", ", level = 1, debug = 0, useColor = TRUE,
-  verbose = FALSE, ...)
+  adjustRgb = getOption("jam.adjustRgb"), Crange = NULL, Lrange = NULL,
+  indent = "", useCollapseList = ",\\n      ", useCollapseBase = ", ",
+  level = 1, debug = 0, useColor = TRUE, verbose = FALSE, ...)
 }
 \description{
 Handles a list or list of lists, converting to human-readable text format

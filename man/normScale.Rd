@@ -4,9 +4,8 @@
 \alias{normScale}
 \title{Scale a numeric vector from 0 to 1}
 \usage{
-normScale(x, from = 0, to = 1, low = min(x, na.rm = TRUE),
-  high = max(x, na.rm = TRUE), singletMethod = c("mean", "min", "max"),
-  ...)
+normScale(x, from = 0, to = 1, low = min(x, na.rm = TRUE), high = max(x,
+  na.rm = TRUE), naValue = NA, singletMethod = c("mean", "min", "max"), ...)
 }
 \arguments{
 \item{x}{numeric vector.}
@@ -22,6 +21,9 @@ range to be re-scaled.}
 \item{high}{numeric value defining the high end of the input numeric range,
 intended when input values might not contain the entire numeric
 range to be re-scaled.}
+
+\item{naValue}{optional numeric value used to replace \code{NA}, usually by
+replacing \code{NA} with zero.}
 
 \item{singletMethod}{character value describing how to handle singlet
 input values, for example how to scale the number 5 by itself.
