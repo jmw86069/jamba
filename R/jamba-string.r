@@ -1959,3 +1959,83 @@ cPasteUnique <- function
       ...);
 }
 
+#' Rename columns in a data.frame or matrix
+#'
+#' Rename columns in a data.frame or matrix
+#'
+#' This function is intended to rename one or more columns in a
+#' data.frame or matrix. It will gracefully ignore columns
+#' which do not match, in order to make it possible to call the
+#' function multiple times without problem. It makes it possible
+#' to verify that columns are properly named by re-running the
+#' function as needed.
+#'
+#' This function will also recognize input objects `GRanges`,
+#' `ucscData`, and `IRanges`, which store annotation in `DataFrame`
+#' accessible via `values(x)`.
+#'
+#' @param x data.frame or matrix
+#' @param from character vector of colnames expected to be in `x`.
+#'    Any values that do not match `colnames(x)` are ignored.
+#' @param to character vector with `length(to) == length(from)`
+#'    corresponding to the target name for any colnames that
+#'    match `from`.
+#'
+#' @examples
+#' df <- data.frame(A=1:5, B=6:10, C=11:15);
+#' df;
+#' df2 <- renameColumn(df,
+#'    from=c("A","C"),
+#'    to=c("a_new", "c_new"));
+#' df2;
+#' df3 <- renameColumn(df2,
+#'    from=c("A","C","B"),
+#'    to=c("a_new", "c_new","b_new"));
+#' df3;
+#'
+#' @export
+renameColumn <- function
+(x,
+   from,
+   to,
+   verbose=FALSE,
+   ...)
+{
+   ## Purpose is simply to rename one or more colnames in a data.frame or matrix.
+   ## This method makes sure to rename only colnames which exist in 'from'
+   ## and renames them in the appropriate order to 'to'.
+   ## Therefore you can re-run this method and it will not make changes
+   ## that are not warranted.  Note that it will also only make changes, thus
+   ## if you perform some operation on 'from' to generate 'to' and some entries
+   ## do not change, this method will not rename those columns.
+   if (igrepHas("ucscdata|granges|iranges", class(x))) {
+      if (verbose) {
+         printDebug("renameColumn(): ",
+            "Recognized GRanges input.");
+      }
+      renameSet <- which(from %in% colnames(values(x)) & from != to);
+      renameWhich <- match(from[renameSet], colnames(values(x)));
+      if (verbose) {
+         printDebug("renameColumn(): ",
+            "Renaming ",
+            format(length(renameWhich), big.mark=","),
+            " columns.");
+      }
+      if (length(renameWhich) > 0) {
+         colnames(values(x))[renameWhich] <- to[renameSet];
+      }
+   } else {
+      renameSet <- which(from %in% colnames(x) & from != to);
+      renameWhich <- match(from[renameSet], colnames(x));
+      if (verbose) {
+         printDebug("renameColumn(): ",
+            "Renaming ",
+            format(length(renameWhich), big.mark=","),
+            " columns.");
+      }
+      if (length(renameWhich) > 0) {
+         colnames(x)[renameWhich] <- to[renameSet];
+      }
+   }
+   return(x);
+}

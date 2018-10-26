@@ -2,6 +2,12 @@
 
 ## new functions
 
+* `minorLogTicksAxis()` and `minorLogTicks()` provide log-transformed
+axis labels, with the added benefit of handling `log(1+x)`
+transformations properly; or log2FoldChange data with symmetry around
+zero.
+* `renameColumn()` a basic function but which allows re-running
+the function without error.
 * `normScale()` scales a numeric vector into a fixed range, by default
 between 0 and 1. If one value is given, a parameter `singletMethod` defines
 whether to use the minimum, maximum, or mean of the range.
