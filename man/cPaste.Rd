@@ -76,4 +76,6 @@ Other jam string functions: \code{\link{cPasteUnique}},
   \code{\link{provigrep}}, \code{\link{unigrep}},
   \code{\link{uniques}}, \code{\link{unvigrep}},
   \code{\link{vgrep}}, \code{\link{vigrep}}
+
+Other jam list functions: \code{\link{rlengths}}
 }

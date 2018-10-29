@@ -1906,6 +1906,12 @@ make_styles <- function
             print(paste0("make_styles(): ",
                "iStyle:"));
             print(iStyle);
+            print(paste0("make_styles(): ",
+               "bg:", bg));
+            print(paste0("make_styles(): ",
+               "colors:", colors));
+            print(paste0("make_styles(): ",
+               "iGrey:", iGrey));
          }
          make_style(rgb2col(iStyle),
             bg=bg,
@@ -2997,17 +3003,32 @@ handleArgsText <- function
    return(deTextA);
 }
 
-#' Apply noise floor to a numeric values
+#' Apply noise floor and ceiling to numeric vector
 #'
-#' Apply noise floor, setting numeric values below the floor to a minimum
-#' value.
+#' Apply noise floor and ceiling to numeric vector
 #'
-#' Noise floors are useful when detected numeric values are sometimes below
+#' A noise floor is useful when detected numeric values are sometimes below
 #' a clear noise threshold, and where some downstream ratio may be calculated
 #' using these values. Applying a noise floor ensures the ratios and not
-#' artificially higher, ironically in cases where the values involved are
-#' least reliable. They can be said to help produce more conservative
-#' ratios, when using noise floored values.
+#' artificially higher, especially in cases where the values involved are
+#' least reliable. This procedure is expected to produce more conservative
+#' and appropriate ratios in that scenario.
+#'
+#' A ceiling is similar, values above the ceiling are set to the ceiling,
+#' which is practical when values above a certain threshold are conceptually
+#' similar to those at the threshold. One clear example is plotting
+#' `-log10(Pvalue)` when the range of P-values might approach 1e-1000.
+#' In this case, setting a ceiling of 50 conceptually equates P-values
+#' below 1e-50, while also restricting the axis range of a plot.
+#'
+#' The ability to set values at the floor to a different value, using
+#' `newValue` different from `minimum`, is intended to allow separation
+#' of numeric values from the floor for illustrative purposes.
+#'
+#' @return
+#' A numeric vector or matrix, matching the input type `x` where numeric
+#' values are fixed to the `minimum` and `ceiling` values as defined
+#' by `newValue` and `newCeiling`, respectively.
 #'
 #' @param x numeric vector or matrix
 #' @param minimum numeric floor value
@@ -3021,21 +3042,51 @@ handleArgsText <- function
 #'    ceiling are set to this numeric value.
 #' @param ... additional parameters are ignored.
 #'
+#' @examples
+#' # start with some random data
+#' n <- 2000;
+#' x1 <- rnorm(n);
+#' y1 <- rnorm(n);
+#'
+#' # apply noise floor and ceiling
+#' x2 <- noiseFloor(x1, minimum=-2, ceiling=2);
+#' y2 <- noiseFloor(y1, minimum=-2, ceiling=2);
+#'
+#' # apply noise floor and ceiling with custom replacement values
+#' xm <- cbind(x=x1, y=y1);
+#' xm3 <- noiseFloor(xm,
+#'    minimum=-2, newValue=-3,
+#'    ceiling=2, newCeiling=3);
+#'
+#' parMfrow <- par("mfrow");
+#' par("mfrow"=c(2,2));
+#' plotSmoothScatter(x1, y1);
+#' plotSmoothScatter(x2, y2);
+#' plotSmoothScatter(xm3);
+#' par("mfrow"=parMfrow);
+#'
 #' @export
 noiseFloor <- function
-(x, minimum=0, newValue=minimum,
- adjustNA=FALSE, ceiling=NULL, newCeiling=ceiling,
+(x,
+ minimum=0,
+ newValue=minimum,
+ adjustNA=FALSE,
+ ceiling=NULL,
+ newCeiling=ceiling,
  ...)
 {
    ## Purpose is to apply a noise floor, that is, to set all values
    ## to be at least 'minimum' amount.
    ## This function performs no scaling or normalization.
+   if (length(x) == 0) {
+      return(x);
+   }
    if (adjustNA) {
       x[is.na(x) | (!is.na(x) & x < minimum)] <- newValue;
    } else {
       x[!is.na(x) & x < minimum] <- newValue;
    }
-   if (!is.null(ceiling)) {
+   if (length(ceiling) > 0) {
       x[!is.na(x) & x > ceiling] <- newCeiling;
    }
    return(x);
@@ -3924,3 +3975,82 @@ warpAroundZero <- function
    y2 <- (y1 + baseline) * xCeiling;
    approx(x=xrange, y=y2, xout=x)$y
 }
+
+#' lengths for recursive lists
+#'
+#' lengths for recursive lists
+#'
+#' This function takes a list as input, and returns the length
+#' of each list element after running `base::unlist()`.
+#'
+#' @return
+#' By default, when `doSum is NULL`, it returns an integer vector
+#' with length `length(x)` and names `names(x)`,
+#' whose values are the total number of elements in each item in
+#' `x` after running `base::unlist()`. When `doSum=="TRUE"`, it
+#' returns the single total length of all elements in `x`. When
+#' `doSum=="FALSE"`, it returns the full structure of `x` with the
+#' length of each element.
+#'
+#' The parameter `doSum` is intended for internal use, during
+#' recursive calls of `rlengths()` to itself. When `doSum is NULL` or
+#' `TRUE`, recursive calls to `rlengths()` set `doSum=TRUE`.
+#'
+#' @family jam list functions
+#'
+#' @param x list or vector
+#' @param doSum logical indicating whether to return the overall sum
+#'    of lengths. When `NULL` it will return the aggregate length of
+#'    each list element in `x`. When `FALSE` it will return the same
+#'    list structure of x, with the length of each. When `TRUE` it will
+#'    return the total length of all elements in `x` as one value.
+#' @param ... additional parameters are ignored
+#'
+#' @examples
+#' x <- list(
+#'    A=list(
+#'       A1=nameVector(1:3, letters[1:3]),
+#'       A2=list(
+#'          A1a=nameVector(4:7, letters[4:7]),
+#'          A1b=nameVector(11:14, letters[11:14]))),
+#'    B=list(B1=nameVector(1:9, letters[1:9]),
+#'       B2=nameVector(20:25, letters[20:25])));
+#' # default lengths(x) shows length=2 for A and B
+#' lengths(x)
+#' # rlengths(x) shows the total length of A and B
+#' rlengths(x)
+#'
+#' @export
+rlengths <- function
+(x,
+ doSum=NULL,
+ ...)
+{
+   ## Purpose is to provide recursive lengths() for nested lists
+   ##
+   # x <- list(A=list(A1=nameVector(1:3, letters[1:3]), A2=nameVector(4:7, letters[4:7])),
+   #    B=list(B1=nameVector(1:9, letters[1:9]), B2=nameVector(20:25, letters[20:25])))
+   rl <- lapply(x, function(i){
+      if (length(doSum) == 0) {
+         doSum <- TRUE;
+      }
+      ## Note: the algorithm behaves unexpectedly with different exotic
+      ## classes embedded inside a list
+      if (!igrepHas("function", class(i)) &&
+            (igrepHas("list", class(i)) ||
+                  any(lengths(i) > 1))) {
+         rlengths(i, doSum=doSum, ...);
+      } else {
+         length(i)
+      }
+   });
+   if (length(doSum) > 0) {
+      if (doSum) {
+         rl <- do.call(sum, rl);
+      }
+   } else {
+      rl <- unlist(rl);
+   }
+   return(rl);
+}
+

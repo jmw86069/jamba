@@ -1,3 +1,28 @@
+# jamba version 0.0.18.900
+
+## bug fixes
+
+* `imageDefault()`, `plotSmoothScatter()`, `smoothScatterJam()` were
+updated to allow values lower than 200 for `nbin` which previously caused
+problems when `fixRasterRatio=TRUE` and `oldstyle=TRUE`.
+* `rmNA()` by default returns `NULL` when given `NULL` input, unless
+`nullValue` is defined. This change fixed several warnings, and
+resolved inconsistencies with `setCLranges()` not handling NULL
+parameters properly, consequently affecting `make_styles()` ability
+to restrict the color chroma (C) and luminance (L) ranges, seen
+when `printDebug()` did not use scaled colors.
+* Fixed bug in `hcl2col()` during detection of RGB values above 255,
+which sometimes happens during the `colorspace::polarLUV()`
+conversion from HCL to RGB.
+
+## new functions
+
+* `rlengths()` returns the recursive lengths of list elements, intended
+when a list may have multiple nested lists. It returns the
+top level of counts per list element by default, but with `doSum=FALSE`
+it returns the full structure with the length of each non-list element.
+
+
 # jamba version 0.0.17.900
 
 ## new functions

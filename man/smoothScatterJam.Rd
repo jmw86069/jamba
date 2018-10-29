@@ -4,12 +4,14 @@
 \alias{smoothScatterJam}
 \title{Smooth scatter plot, Jam style}
 \usage{
-smoothScatterJam(x, y = NULL, nbin = 128, bandwidth,
-  colramp = colorRampPalette(c("white", blues9)), nrpoints = 100,
-  pch = ".", cex = 1, col = "black", transformation = function(x)
-  x^0.25, postPlotHook = box, xlab = NULL, ylab = NULL, xlim, ylim,
-  add = FALSE, xaxs = par("xaxs"), yaxs = par("yaxs"),
-  xaxt = par("xaxt"), yaxt = par("yaxt"), useRaster = NULL, ...)
+smoothScatterJam(x, y = NULL, nbin = 256, bandwidth,
+  colramp = colorRampPalette(c("#FFFFFF", "#6BAED6", "#9ECAE1", "#2171B5",
+  "#4292C6", "#08306B", "#08519C", "#C6DBEF", "#DEEBF7", "#F7FBFF")),
+  nrpoints = 100, pch = ".", cex = 1, col = "black",
+  transformation = function(x) x^0.25, postPlotHook = box, xlab = NULL,
+  ylab = NULL, xlim, ylim, add = FALSE, xaxs = par("xaxs"),
+  yaxs = par("yaxs"), xaxt = par("xaxt"), yaxt = par("yaxt"),
+  useRaster = NULL, ...)
 }
 \arguments{
 \item{x}{numeric vector, or data matrix with two or  more columns.}

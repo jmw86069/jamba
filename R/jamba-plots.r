@@ -134,6 +134,7 @@ plotSmoothScatter <- function
  add=FALSE,
  applyRangeCeiling=TRUE,
  useRaster=TRUE,
+ verbose=FALSE,
  ...)
 {
    ## Purpose is to wrapper the smoothScatter() function in order to increase
@@ -387,9 +388,10 @@ plotSmoothScatter <- function
 smoothScatterJam <- function
 (x,
  y=NULL,
- nbin=128,
+ nbin=256,
  bandwidth,
- colramp=colorRampPalette(c("white", blues9)),
+ colramp=colorRampPalette(c("#FFFFFF","#6BAED6","#9ECAE1",
+    "#2171B5","#4292C6","#08306B","#08519C","#C6DBEF","#DEEBF7","#F7FBFF")),
  nrpoints=100,
  pch=".",
  cex=1,
@@ -1158,6 +1160,10 @@ imageDefault <- function
       if (any(minRasterMultiple > 1) ||
           (length(y)-1) > 2*(length(x)-1) ||
           (length(x) > 2*length(y)) ) {
+         if (verbose) {
+            printDebug("imageDefault(): ",
+               c("Fixing the raster ratio."));
+         }
          dimRange <- range(c(length(x), length(y)));
          if (length(x) > 2*length(y)) {
             dupRowX <- floor((length(x)-1)/(length(y)-1));
@@ -1169,8 +1175,12 @@ imageDefault <- function
             dupRowX <- 1;
          }
          if (verbose) {
-            printDebug("dupColX: ", dupColX, c("orange", "lightgreen"));
-            printDebug("dupRowX: ", dupRowX, c("orange", "lightgreen"));
+            printDebug("imageDefault(): ",
+               "dupColX: ",
+               dupColX);
+            printDebug("imageDefault(): ",
+               "dupRowX: ",
+               dupRowX);
          }
 
          ## Ensure that minRasterMultiple is applied
@@ -1180,20 +1190,37 @@ imageDefault <- function
             max(c(dupRowX, minRasterMultiple[1]))));
 
          if (verbose) {
-            printDebug("maxRatioFix:", maxRatioFix, c("orange", "lightgreen"));
-            printDebug("dupColX: ", dupColX, c("orange", "lightgreen"));
-            printDebug("dupRowX: ", dupRowX, c("orange", "lightgreen"));
+            printDebug("imageDefault(): ",
+               "maxRatioFix:",
+               maxRatioFix);
+            printDebug("imageDefault(): ",
+               "dupColX: ",
+               dupColX);
+            printDebug("imageDefault(): ",
+               "dupRowX: ",
+               dupRowX);
          }
          newCols <- rep(1:(length(x)-1), each=dupColX);
          newRows <- rep(1:(length(y)-1), each=dupRowX);
+
          ## Column processing
-         xNcolSeq <- seq(from=0.5, to=(length(x)-1)+0.5,
+         xNcolSeq <- seq(from=0.5,
+            to=(length(x)-1)+0.5,
             length.out=length(newCols)+1);
+         ## 29oct2018 modify so the x range is same as before
+         xNcolSeq <- normScale(xNcolSeq,
+            from=min(x),
+            to=max(x));
          newColBreaks <- breaksByVector(newCols);
          newColLabels <- newColBreaks$newLabels;
+
          ## Row processing
          yNrowSeq <- seq(from=0.5, to=(length(y)-1)+0.5,
             length.out=length(newRows)+1);
+         ## 29oct2018 modify so the x range is same as before
+         yNrowSeq <- normScale(yNrowSeq,
+            from=min(y),
+            to=max(y));
          newRowBreaks <- breaksByVector(newRows);
          newRowLabels <- newRowBreaks$newLabels;
          dim(zi) <- dim(z);
@@ -1232,7 +1259,8 @@ imageDefault <- function
       zc <- t(zc)[ncol(zc):1L, , drop=FALSE];
       rasterImage(as.raster(zc), min(x), min(y), max(x), max(y),
          interpolate=interpolate);
-      invisible(zc);
+      #invisible(zc);
+      invisible(list(zc=zc, x=x, y=y, zi=zi, col=col));
    } else {
       .External.graphics(graphics:::C_image, x, y, zi, col);
       invisible(list(x=x, y=y, zi=zi, col=col));
@@ -2299,7 +2327,7 @@ plotPolygonDensity <- function
          ablineV <- rep(ablineV, length.out=ncol(x));
       }
 
-      newMfrow <- rev(decideMfrow(ncol(x)));
+      newMfrow <- decideMfrow(ncol(x));
       if (useOnePanel) {
          newMfrow <- c(1,1);
       }

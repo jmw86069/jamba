@@ -897,7 +897,7 @@ rmNULL <- function
 #' @param x vector input
 #' @param naValue NULL or single replacement value for NA entries. If NULL,
 #'    then NA entries are removed from the result.
-#' @param rmNULL logical whether to replace NULL entries with naValue
+#' @param rmNULL logical whether to replace NULL entries with `nullValue`
 #' @param nullValue NULL or single replacement value for NULL entries. If NULL,
 #'    then NULL entries are removed from the result.
 #' @param rmInfinite logical whether to replace Infinite values with
@@ -932,12 +932,16 @@ rmNA <- function
    ## (e.g. to apply a max value and not remove those datapoints)
    ##
    ## rmNAnames=TRUE will remove NA names only when names exist
-   if (rmNULL && is.null(x)) {
-      x <- nullValue;
+   if (length(x) == 0) {
+      if (rmNULL) {
+         x <- nullValue;
+      }
       return(x);
    }
+
    if (!class(x) %in% "list" && rmInfinite && any(is.infinite(x))) {
-      x <- rmInfinite(x, infiniteValue=infiniteValue);
+      x <- rmInfinite(x,
+         infiniteValue=infiniteValue);
    }
    if (igrepHas("factor", class(x))) {
       if (any(is.na(as.character(x)))) {
@@ -1838,6 +1842,7 @@ uniques <- function
 #' # "A; B; C; D; F; G" "c; g; h; i; j; k"
 #'
 #' @family jam string functions
+#' @family jam list functions
 #'
 #' @export
 cPaste <- function

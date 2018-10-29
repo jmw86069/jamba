@@ -14,7 +14,7 @@ rmNA(x, naValue = NULL, rmNULL = FALSE, nullValue = naValue,
 \item{naValue}{NULL or single replacement value for NA entries. If NULL,
 then NA entries are removed from the result.}
 
-\item{rmNULL}{logical whether to replace NULL entries with naValue}
+\item{rmNULL}{logical whether to replace NULL entries with \code{nullValue}}
 
 \item{nullValue}{NULL or single replacement value for NULL entries. If NULL,
 then NULL entries are removed from the result.}

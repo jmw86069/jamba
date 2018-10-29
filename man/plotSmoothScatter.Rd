@@ -9,7 +9,8 @@ plotSmoothScatter(x, y = NULL, bandwidthN = 300,
   nbin = 256, nrpoints = 0, colramp = c("white", "lightblue", "blue",
   "orange", "orangered2"), doTest = FALSE, fillBackground = TRUE,
   naAction = c("remove", "floor0", "floor1"), xaxt = "s", yaxt = "s",
-  add = FALSE, applyRangeCeiling = TRUE, useRaster = TRUE, ...)
+  add = FALSE, applyRangeCeiling = TRUE, useRaster = TRUE,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{x}{numeric vector, or data matrix with two or  more columns.}

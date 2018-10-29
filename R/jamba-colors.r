@@ -196,18 +196,24 @@ hcl2col <- function
  maxColorValue=255,
  alpha=NULL,
  fixup=NULL,
+ verbose=FALSE,
  ...)
 {
    ## Purpose is to convert HCL back to an R hex color string
    ## Note that this function uses the colorspace HCL, which differs from the
    ## used by the built-in R method hcl()
    if (!suppressPackageStartupMessages(require(colorspace))) {
-      stop("The colorspace package is required.");
+      stop("hcl2col() requires the colorspace package.");
    }
    if (!suppressPackageStartupMessages(require(matrixStats))) {
       useMatrixStats <- TRUE;
    } else {
       useMatrixStats <- FALSE;
+   }
+   if (verbose) {
+      printDebug("hcl2col(): ",
+         "useMatrixStats:",
+         useMatrixStats);
    }
    if (igrepHas("polarLUV", class(x))) {
       x <- t(colorspace::coords(x));
@@ -276,16 +282,22 @@ hcl2col <- function
             adjustNA=TRUE),
          digits=3);
       if (useMatrixStats) {
-         x3colMax <- colMaxs(x3);
+         x3colMax <- colMaxs(x3, na.rm=TRUE);
       } else {
-         x3colMax <- apply(x3, 2, max);
+         x3colMax <- apply(x3, 2, max, na.rm=TRUE);
       }
-      if (any(x3colMax) > 255) {
+      if (any(x3colMax > 255)) {
+         ## This method scales values in each column so the maximum
+         ## value is 255, and therefore shrinks other values in those
+         ## columns proportionally. This method is intended to maintain
+         ## the relative ratios of color components to maintain the same
+         ## combined color hue.
          x3[,x3colMax > 255] <- t(t(x3[,x3colMax > 255, drop=FALSE]) *
                (255 / x3colMax[x3colMax > 255]));
       }
       x3 <- rbind(x3, "alpha"=a1);
-      xCol <- rgb2col(x3, maxColorValue=255);
+      xCol <- rgb2col(x3,
+         maxColorValue=255);
       names(xCol) <- xnames;
    }
 
@@ -306,11 +318,16 @@ hcl2col <- function
 #'
 #' @export
 col2alpha <- function
-(x, maxValue=1, ...)
+(x,
+ maxValue=1,
+ ...)
 {
    ## Purpose is to extract the alpha value for a set of colors defined in hex space,
    ## for those R tools that use the inconsistent method of defining alpha separate from
    ## the RGB color, although most tools should really be using RGBA format instead...
+   if (length(x) == 0) {
+      return(x);
+   }
    xNA <- is.na(x);
    alphaValues <- col2rgb(x, alpha=TRUE)["alpha",]/255*maxValue;
    alphaValues[xNA] <- 0;
@@ -332,10 +349,16 @@ col2alpha <- function
 #'
 #' @export
 alpha2col <- function
-(x, alpha=1, maxValue=1, ...)
+(x,
+ alpha=1,
+ maxValue=1,
+ ...)
 {
    ## Purpose is change the alpha of a vector of colors to the one given.
    ## Note that NA values are left as NA values
+   if (length(x) == 0) {
+      return(x);
+   }
    xNA <- is.na(x);
    alpha <- rep(alpha, length.out=length(x));
    rgbx <- rgb2col(rbind(col2rgb(x, alpha=FALSE), alpha=alpha*(255/maxValue)),
