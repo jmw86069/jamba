@@ -906,6 +906,9 @@ makeColorDarker <- function
 #'    no alpha transparency, this setting has no effect, otherwise the
 #'    alpha value appears to be applied using a linear gradient between
 #'    colors.
+#' @param gradientWtFactor numeric value used to expand single color
+#'    input to a gradient, using `color2gradient()`, prior to making
+#'    a full gradient to the `defaultBaseColor`.
 #' @param verbose logical whether to print verbose output
 #'
 #' @examples
@@ -945,6 +948,7 @@ getColorRamp <- function
  defaultBaseColor="grey95",
  reverseRamp=FALSE,
  alpha=TRUE,
+ gradientWtFactor=2/3,
  verbose=FALSE,
  ...)
 {
@@ -962,7 +966,14 @@ getColorRamp <- function
    if (length(trimRamp) == 0) {
       trimRamp <- 0;
    }
-   trimRamp <- rep(trimRamp, length.out=2);
+   applyTrimRamp <- function(cols, trimRamp) {
+      trimRamp[trimRamp == 0] <- -length(cols);
+      cols <- tail(
+         head(cols, -1*(trimRamp[2])),
+         -1*(trimRamp[1]));
+      cols;
+   }
+   trimRamp <- abs(rep(trimRamp, length.out=2));
    if (igrepHas("character", class(col)) && length(col) == 1) {
       if (col %in% c("viridis","inferno","plasma","magma","cividis")) {
          ## Viridis package color handling
@@ -986,15 +997,13 @@ getColorRamp <- function
          if (reverseRamp) {
             cols <- rev(cols);
          }
-         if (trimRamp) {
+         if (any(trimRamp > 0)) {
             if (verbose) {
                printDebug("getColorRamp(): ",
                   "Applying trimRamp:",
                   trimRamp);
             }
-            cols <- tail(
-               head(cols, -1*abs(trimRamp[2])),
-               -1*abs(trimRamp[1]));
+            cols <- applyTrimRamp(cols, trimRamp);
          }
          if (length(n) == 0) {
             cols <- colorRampPalette(cols,
@@ -1033,15 +1042,13 @@ getColorRamp <- function
             }
          }
          ## Optionally trim the first and last value
-         if (trimRamp) {
+         if (any(trimRamp > 0)) {
             if (verbose) {
                printDebug("getColorRamp(): ",
                   "Applying trimRamp:",
                   trimRamp);
             }
-            cols <- tail(
-               head(cols, -1*abs(trimRamp[2])),
-               -1*abs(trimRamp[1]));
+            cols <- applyTrimRamp(cols, trimRamp);
          }
          if (length(n) == 0) {
             cols <- colorRampPalette(cols, alpha=alpha);
@@ -1058,7 +1065,11 @@ getColorRamp <- function
          if (length(colset) > 0) {
             if (length(colset) == 1) {
                ## If given one color, make a color ramp from white to this color
-               colset <- c(defaultBaseColor, colset);
+               #colset <- c(defaultBaseColor, colset);
+               colset <- c(defaultBaseColor,
+                  color2gradient(colset,
+                     n=3,
+                     gradientWtFactor=gradientWtFactor));
                if (verbose) {
                   printDebug("getColorRamp(): ",
                      "Using defaultBaseColor, color to make a gradient.");
@@ -1067,20 +1078,22 @@ getColorRamp <- function
             if (reverseRamp) {
                colset <- rev(colset);
             }
-            if (length(n) == 0) {
-               if (trimRamp) {
-                  cols <- colorRampPalette(
-                     tail(head(
-                        colorRampPalette(colset, alpha=alpha)(15), -1), -1),
-                     alpha=alpha);
-               } else {
-                  cols <- colorRampPalette(colset, alpha=alpha);
-               }
+            if (any(trimRamp > 0) || length(n) == 0) {
+               cols <- colorRampPalette(colset, alpha=alpha)(gradientN);
             } else {
-               cols <- colorRampPalette(colset, alpha=alpha)(n+trimRamp*2);
-               if (trimRamp) {
-                  cols <- tail(head(cols, -1), -1);
+               cols <- colorRampPalette(colset, alpha=alpha)(n);
+            }
+            if (any(trimRamp > 0)) {
+               if (verbose) {
+                  printDebug("getColorRamp(): ",
+                     "Applying trimRamp:",
+                     trimRamp);
                }
+               cols <- applyTrimRamp(cols, trimRamp);
+            }
+            if (length(n) == 0) {
+               cols <- colorRampPalette(cols,
+                  alpha=alpha);
             }
          } else {
             ## Check if we are supplied a function name
@@ -1099,49 +1112,52 @@ getColorRamp <- function
                stop(paste0("The supplied color could not be used to create",
                   " a color ramp, col:", cPaste(col)));
             }
-            if (!is.null(n)) {
-               cols <- colorFunc(n + trimRamp*2);
-               if (reverseRamp) {
-                  cols <- rev(cols);
-               }
-               if (trimRamp) {
-                  cols <- tail(head(cols, -1), -1);
-               }
-            } else {
-               colorFactory <- function(n, tr1, rr1, cf1) {
-                  function(n=15, ...) {
-                     cols <- cf1(n + tr1*2);
-                     if (rr1) {
-                        cols <- rev(cols);
-                     }
-                     if (tr1) {
-                        cols <- tail(head(cols, -1), -1);
-                     }
-                     return(cols);
+            colorFactory <- function(n, gn1=n, tr1, rr1, cf1) {
+               function(n=15, ...) {
+                  cols <- applyTrimRamp(cf1(gn1), tr1);
+                  if (rr1) {
+                     cols <- rev(cols);
                   }
+                  if (length(n) == 0 || n == 0) {
+                     cols <- colorRampPalette(cols);
+                  } else {
+                     cols <- colorRampPalette(cols)(n);
+                  }
+                  return(cols);
                }
-               cols <- colorFactory(tr1=trimRamp, rr1=reverseRamp,
-                  cf1=colorFunc);
+            }
+            cols <- colorFactory(tr1=trimRamp,
+               gn1=gradientN,
+               rr1=reverseRamp,
+               cf1=colorFunc);
+            if (length(n) > 0 && n > 0) {
+               cols <- cols(n);
             }
          }
       }
-   } else if (igrepHas("function", class(col))) {
+   } else if (is.function(col)) {
       if (verbose) {
-         printDebug("getColorRamp(): ", "color function input.");
+         printDebug("getColorRamp(): ",
+            "color function input.");
       }
-      colorFactory <- function(n, tr1, rr1, cf1) {
+      colorFactory <- function(n, gn1=n, tr1, rr1, cf1) {
          function(n=15, ...) {
-            cols <- cf1(n + tr1*2);
+            cols <- applyTrimRamp(cf1(gn1), tr1);
             if (rr1) {
                cols <- rev(cols);
             }
-            if (tr1) {
-               cols <- tail(head(cols, -1), -1);
+            if (length(n) == 0 || n == 0) {
+               cols <- colorRampPalette(cols);
+            } else {
+               cols <- colorRampPalette(cols)(n);
             }
             return(cols);
          }
       }
-      cols <- colorFactory(tr1=trimRamp, rr1=reverseRamp, cf1=col);
+      cols <- colorFactory(tr1=trimRamp,
+         gn1=gradientN,
+         rr1=reverseRamp,
+         cf1=col);
       if (!is.null(n)) {
          cols <- cols(n);
       }

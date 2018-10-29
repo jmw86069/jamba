@@ -6,7 +6,7 @@
 \usage{
 getColorRamp(col, n = 15, trimRamp = 0, gradientN = 15,
   defaultBaseColor = "grey95", reverseRamp = FALSE, alpha = TRUE,
-  verbose = FALSE, ...)
+  gradientWtFactor = 2/3, verbose = FALSE, ...)
 }
 \arguments{
 \item{col}{accepts
@@ -47,6 +47,10 @@ whenever \code{colorRampPalette} is called. If colors contain
 no alpha transparency, this setting has no effect, otherwise the
 alpha value appears to be applied using a linear gradient between
 colors.}
+
+\item{gradientWtFactor}{numeric value used to expand single color
+input to a gradient, using \code{color2gradient()}, prior to making
+a full gradient to the \code{defaultBaseColor}.}
 
 \item{verbose}{logical whether to print verbose output}
 }
