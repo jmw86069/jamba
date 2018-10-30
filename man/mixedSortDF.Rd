@@ -74,10 +74,11 @@ x <- data.frame(l1=letters[1:10], l2=rep(letters[1:2+10], 5), L1=LETTERS[1:10], 
 \code{\link{mixedOrder}}, \code{\link{mixedSort}}
 
 Other jam string functions: \code{\link{cPasteUnique}},
-  \code{\link{cPaste}}, \code{\link{igrepHas}},
-  \code{\link{igrep}}, \code{\link{mixedOrder}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{provigrep}}, \code{\link{unigrep}},
-  \code{\link{uniques}}, \code{\link{unvigrep}},
-  \code{\link{vgrep}}, \code{\link{vigrep}}
+  \code{\link{cPaste}}, \code{\link{grepls}},
+  \code{\link{igrepHas}}, \code{\link{igrep}},
+  \code{\link{mixedOrder}}, \code{\link{mixedSort}},
+  \code{\link{mmixedOrder}}, \code{\link{provigrep}},
+  \code{\link{unigrep}}, \code{\link{uniques}},
+  \code{\link{unvigrep}}, \code{\link{vgrep}},
+  \code{\link{vigrep}}
 }

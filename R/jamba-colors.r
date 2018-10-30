@@ -1583,6 +1583,8 @@ kable_coloring <- function
 #' @param verbose logical indicating whether to print verbose output.
 #' @param ... additional parameters are passed to `showColors()`.
 #'
+#' @family jam color functions
+#'
 #' @examples
 #' BuRd <- rev(brewer.pal(11, "RdBu"));
 #' BuRdPlus5 <- warpRamp(BuRd, lens=2, plot=TRUE);

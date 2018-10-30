@@ -49,5 +49,6 @@ Other jam color functions: \code{\link{alpha2col}},
   \code{\link{getColorRamp}}, \code{\link{hcl2col}},
   \code{\link{hsv2col}}, \code{\link{isColor}},
   \code{\link{kable_coloring}},
-  \code{\link{makeColorDarker}}, \code{\link{rgb2col}}
+  \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
+  \code{\link{warpRamp}}
 }

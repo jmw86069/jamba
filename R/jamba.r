@@ -4054,3 +4054,116 @@ rlengths <- function
    return(rl);
 }
 
+#' Search for objects in the environment
+#'
+#' Search for objects in the environment
+#'
+#' This function searches the active R environment for an object name
+#' using `vigrep()` (value, case-insensitive grep).
+#' It is helpful when trying to find an object using a
+#' substring, for example `grepls("statshits")`.
+#'
+#' @param x grep pattern
+#' @param where character string compatible with `base::ls()` or if
+#'    installed, `AnnotationDbi::ls()`. A special value `"all"` will
+#'    search all environments on the search path `base::search()`
+#'    in order.
+#' @param ignore.case logical indicating whether the pattern match
+#'    is case-insensitive.
+#' @param searchNames logical indicating whether names should also
+#'    be searched, which is only relevant for `AnnDb` objects,
+#'    for example `org.Mm.egSYMBOL2EG` from the `org.Mm.eg.db`
+#'    Bioconductor package.
+#' @param verbose logical indicating whether to print verbose output.
+#' @param ... additional parameters are ignored.
+#'
+#' @return
+#' `vector` of matching object names, or if `where="all"` a named list,
+#'    whose names indicate the search environment name, and whose
+#'    entries are matching object names within each environment.
+#'
+#' @family jam string functions
+#'
+#' @examples
+#' # Find all objects named "grep", which should find
+#' # base grep() and jamba::vigrep() among other results.
+#' grepls("grep");
+#'
+#' # Find objects in the local environment
+#' allStatsHits <- c(1:12);
+#' someStatsHits <- c(1:3);
+#' grepls("statshits");
+#' # shortcut way to search only the .GlobalEnv, the active local environment
+#' grepls("statshits", 1);
+#'
+#' # return objects with "raw" in the name
+#' grepls("raw");
+#'
+#' # Require "Raw" to be case-sensitive
+#' grepls("Raw", ignore.case=FALSE)
+#'
+#' @export
+grepls <- function
+(x,
+ where="all",
+ ignore.case=TRUE,
+ searchNames=TRUE,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to search for an object name in a variety of places
+   ##
+   ## where can be a package, in format "package:jamba"
+   ## where can be "all" which uses everything in the search path `search()`
+   ##
+   ## where can be an AnnDb environment, for example
+   ## grepls("Actb", org.Mm.egSYMBOL2EG)
+   ##
+   ## searchNames=TRUE only affects AnnDB objects, which are converted
+   ## to list first, then searched by value and by name.
+   ## grepls("Actb", org.Mm.egSYMBOL2EG, searchNames=FALSE)
+   ##
+   if (igrepHas("character", class(where)) &&
+         "all" %in% where) {
+      if (verbose) {
+         printDebug("grepls(): ",
+            "Searching ",
+            '"all"');
+      }
+      searchL <- lapply(nameVector(search()), function(i){
+         ls(i);
+      });
+      searchLuse <- searchL[igrep(x,
+         searchL,
+         ignore.case=ignore.case)];
+      lapply(searchLuse, function(i){
+         vigrep(x,
+            i,
+            ignore.case=ignore.case);
+      });
+   } else {
+      if (verbose) {
+         printDebug("grepls(): ",
+            "class(where):",
+            class(where));
+      }
+      if (searchNames && igrepHas("anndb", class(where))) {
+         ## AnnDb objects are converted to lists, which lets us
+         ## search the values and names together
+         if (verbose) {
+            printDebug("grepls(): ",
+               "Converted AnnDb to list.")
+         }
+         lsVal <- as.list(where);
+      } else {
+         lsVal <- ls(where);
+         #vigrep(x, lsVal);
+      }
+      c(lsVal[igrep(x,
+         lsVal,
+         ignore.case=ignore.case)],
+         lsVal[igrep(x,
+            names(lsVal),
+            ignore.case=ignore.case)]);
+   }
+}

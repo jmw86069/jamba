@@ -1,3 +1,17 @@
+# jamba version 0.0.19.900
+
+## new functions
+
+* `grepls()` a useful utility for search the active environment by
+object name. For example `grepls("statshits")` will find everything
+named "statshits", or `grepls("farris")` will find everything with 
+"farris" in the name", even within packages, or other attached
+environments in the search space.
+* `warpRamp()` takes a vector of colors as from a color gradient,
+and warps the gradient. For divergent colors, the adjustmet is
+symmetric around the middle color; otherwise the adjustment is relative
+to the first color. Helpful for adjusting colors scales in heatmaps.
+
 # jamba version 0.0.18.900
 
 ## bug fixes
@@ -47,10 +61,6 @@ matrix.
 * `warpAroundZero()` takes a numeric vector, and warps the values with
 a log curvature, symmetric around zero. The intent is to create non-linear
 breaks when used in heatmaps with divergent color ramps.
-* `warpRamp()` takes a vector of colors as from a color gradient,
-and warps the gradient. For divergent colors, the adjustmet is
-symmetric around the middle color; otherwise the adjustment is relative
-to the first color. Helpful for adjusting colors scales in heatmaps.
 
 ## bug fixed
 
