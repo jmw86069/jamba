@@ -1548,3 +1548,99 @@ kable_coloring <- function
    df;
 }
 
+#' Warp colors in a color ramp
+#'
+#' Warp colors in a color ramp
+#'
+#' This function takes a vector of colors in a color ramp (color gradient)
+#' and warps the gradient using a lens factor. The effect causes the
+#' color gradient to change faster or slower, dependent upon the lens
+#' factor.
+#'
+#' The main intent is for heatmap color ramps, where the color gradient
+#' changes are not consistent with meaningful numeric differences
+#' being shown in the heatmap. In short, this function enhances
+#' colors.
+#'
+#' @return
+#' Character vector of R colors, with the same length as the
+#' input vector `ramp`.
+#'
+#' @param ramp character vector of R colors
+#' @param lens numeric lens factor, centered at zero, where positive
+#'    values cause colors to change more rapidly near zero, and
+#'    negative values cause colors to change less rapidly near zero
+#'    and more rapidly near the extreme.
+#' @param divergent logical indicating whether the `ramp` represents
+#'    divergent colors, which are assumed to be symmetric above and
+#'    below zero. Otherwise, colors are assumed to begin at zero.
+#' @param expandFactor numeric factor used to expand the color ramp
+#'    prior to selecting the nearest warped numeric value as the
+#'    result of `warpAroundZero()`. This value should not
+#'    need to be changed unless the lens is extremely high (>100).
+#' @param plot logical indicating whether to plot the input and
+#'    output color ramps using `showColors()`.
+#' @param verbose logical indicating whether to print verbose output.
+#' @param ... additional parameters are passed to `showColors()`.
+#'
+#' @examples
+#' BuRd <- rev(brewer.pal(11, "RdBu"));
+#' BuRdPlus5 <- warpRamp(BuRd, lens=2, plot=TRUE);
+#' BuRdMinus5 <- warpRamp(BuRd, lens=-2, plot=TRUE);
+#'
+#' Reds <- brewer.pal(9, "Reds");
+#' RedsL <- lapply(nameVector(c(-10,-5,-2,0,2,5,10)), function(lens){
+#'    warpRamp(Reds, lens=lens, divergent=FALSE)
+#' });
+#' showColors(RedsL);
+#'
+#' @export
+warpRamp <- function
+(ramp,
+ lens=5,
+ divergent=TRUE,
+ expandFactor=10,
+ plot=FALSE,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to take a color ramp and warp the color spacing.
+   ## When divergent=TRUE the colors are assumed to be symmetric
+   ## around zero, and are warped symmetrically.
+
+   ## Expand the color ramp by expandFactor
+   newN <- round(length(ramp) * expandFactor - (expandFactor-1));
+   rampExp <- colorRampPalette(ramp)(newN);
+
+   ## Define a numeric sequence to warp
+   rampN <- seq_along(ramp);
+   if (divergent) {
+      if (verbose) {
+         printDebug("warpRamp(): ",
+            "divergent color ramp lens:",
+            lens);
+      }
+      centerN <- (length(ramp)-1)/2 + 1;
+      seqN <- rampN - centerN;
+      warpN <- warpAroundZero(seqN, lens=-lens) + centerN;
+      warpExpN <- round(warpN * expandFactor - (expandFactor-1));
+      newRamp <- rampExp[warpExpN];
+   } else {
+      if (verbose) {
+         printDebug("warpRamp(): ",
+            "sequential color ramp lens:",
+            lens);
+      }
+      rampN <- seq_along(ramp);
+      seqN <- rampN - 1;
+      warpN <- warpAroundZero(seqN, lens=-lens);
+      warpExpN <- round(warpN * expandFactor) + 1;
+      newRamp <- rampExp[warpExpN];
+   }
+   if (plot) {
+      showColors(list(ramp=ramp,
+         newRamp=nameVector(newRamp, seqN)),
+         ...);
+   }
+   invisible(newRamp);
+}

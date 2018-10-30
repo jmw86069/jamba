@@ -47,6 +47,10 @@ matrix.
 * `warpAroundZero()` takes a numeric vector, and warps the values with
 a log curvature, symmetric around zero. The intent is to create non-linear
 breaks when used in heatmaps with divergent color ramps.
+* `warpRamp()` takes a vector of colors as from a color gradient,
+and warps the gradient. For divergent colors, the adjustmet is
+symmetric around the middle color; otherwise the adjustment is relative
+to the first color. Helpful for adjusting colors scales in heatmaps.
 
 ## bug fixed
 
