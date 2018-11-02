@@ -7,6 +7,7 @@ installed if not already installed.
 
 1. `ssdim()` should properly handle S4 objects by calling `sdim()` on
 each slotName.
+
 2. `plotSmoothScatterG()` is a new function which would create a
 smooth scatter plot like `plotSmoothScatter()` except that it will
 also allow coloring points by group. The previous closest estimate
@@ -20,6 +21,9 @@ gradient colors has been problematic, since for example three half-tone
 colors blend together to one half-tone grey color, which loses the fact
 that there might be a large number of points in the cell, and should
 therefore be darkly colored.
+
+3. `printDebug()` option for HTML output, intended for colorizing
+text output in the context of Rmarkdown for example.
 
 ### Update the jamba.r overview help documentation
 
