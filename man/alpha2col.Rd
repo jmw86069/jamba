@@ -29,3 +29,4 @@ Other jam color functions: \code{\link{col2alpha}},
   \code{\link{setTextContrastColor}},
   \code{\link{warpRamp}}
 }
+\concept{jam color functions}

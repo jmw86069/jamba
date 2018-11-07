@@ -38,3 +38,4 @@ Other jam color functions: \code{\link{alpha2col}},
   \code{\link{setTextContrastColor}},
   \code{\link{warpRamp}}
 }
+\concept{jam color functions}

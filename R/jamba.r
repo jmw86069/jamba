@@ -4167,3 +4167,49 @@ grepls <- function
             ignore.case=ignore.case)]);
    }
 }
+
+#' Return the newest file from a vector of files
+#'
+#' Return the newest file from a vector of files
+#'
+#' This function returns the newest file, defined by the most
+#' recently modified time obtained from `base::file.info()`.
+#'
+#' @param x character vector of files, specifying file path where
+#'    required.
+#' @param timecol character value from the output of `base::file.info()`
+#'    indicating the time column used to order files. By default `"mtime"`
+#'    refers to the time the file was last modified.
+#' @param n integer number of files to return, in order of the most
+#'    recent to the least recent. By default `n=1` returns only the one
+#'    newest file.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' newestFile(list.files());
+#'
+#' @return
+#' Character vector `length=1` of the most recently modified file
+#' from the input vector `x`. Note that any files not found are removed,
+#' using `base::file.exists()`.
+#'
+#' @export
+newestFile <- function
+(x,
+ timecol="mtime",
+ n=1,
+ ...)
+{
+   ## This function takes a vector of one or more files and returns
+   ## the one file most recently modified.
+   ##
+   ## Files not found are removed from the input.
+   x <- x[file.exists(x)];
+   if (length(x) <= 1) {
+      return(x);
+   }
+   iFO <- file.info(x);
+   iFOorder <- rev(order(iFO[[timecol]]));
+   return(head(x[iFOorder], n));
+}
+

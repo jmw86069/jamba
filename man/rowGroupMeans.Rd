@@ -5,8 +5,8 @@
 \title{Calculate row group means, or other statistics}
 \usage{
 rowGroupMeans(x, groups, na.rm = TRUE, useMedian = TRUE,
-  rmOutliers = FALSE, madFactor = 5, returnType = c("output", "input"),
-  rowStatsFunc = NULL, groupOrder = c("same", "sort"),
+  rmOutliers = FALSE, madFactor = 5, returnType = c("output",
+  "input"), rowStatsFunc = NULL, groupOrder = c("same", "sort"),
   keepNULLlevels = FALSE, verbose = FALSE, ...)
 }
 \arguments{

@@ -4,12 +4,13 @@
 \alias{imageDefault}
 \title{Display a color raster image}
 \usage{
-imageDefault(x = seq_len(nrow(z) + 1) - 0.5, y = seq_len(ncol(z) + 1) - 0.5,
-  z, zlim = range(z[is.finite(z)]), xlim = range(x), ylim = range(y),
-  col = heat.colors(12), add = FALSE, xaxs = "i", yaxs = "i",
-  xaxt = "n", yaxt = "n", xlab, ylab, breaks, flip = c("none", "x", "y",
-  "xy"), oldstyle = TRUE, useRaster = NULL, fixRasterRatio = TRUE,
-  maxRatioFix = 100, minRasterMultiple = NULL, rasterTarget = 200,
+imageDefault(x = seq_len(nrow(z) + 1) - 0.5, y = seq_len(ncol(z) + 1) -
+  0.5, z, zlim = range(z[is.finite(z)]), xlim = range(x),
+  ylim = range(y), col = heat.colors(12), add = FALSE, xaxs = "i",
+  yaxs = "i", xaxt = "n", yaxt = "n", xlab, ylab, breaks,
+  flip = c("none", "x", "y", "xy"), oldstyle = TRUE,
+  useRaster = NULL, fixRasterRatio = TRUE, maxRatioFix = 100,
+  minRasterMultiple = NULL, rasterTarget = 200,
   interpolate = getOption("interpolate", TRUE), verbose = FALSE, ...)
 }
 \arguments{

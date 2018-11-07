@@ -52,3 +52,4 @@ Other jam color functions: \code{\link{alpha2col}},
   \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
   \code{\link{warpRamp}}
 }
+\concept{jam color functions}

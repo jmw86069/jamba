@@ -1,3 +1,14 @@
+# jamba version 0.0.20.900
+
+## new functions
+
+* `fillBlanks()` is used to fill a vector that has missing values,
+and fills missing values with the most recent non-blank value. It is
+useful when importing Excel data where headings might be present in
+the first cell of a block of cells, followed by blanks.
+* `newestFile()` takes a vector of files, and returns the most
+recently modified, using `file.info()`.
+
 # jamba version 0.0.19.900
 
 ## new functions

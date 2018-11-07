@@ -5,8 +5,9 @@
 \title{make unique vector names}
 \usage{
 makeNames(x, unique = TRUE, suffix = "_v", renameOnes = FALSE,
-  doPadInteger = FALSE, startN = 1, numberStyle = c("number", "letters",
-  "LETTERS"), useNchar = NULL, renameFirst = TRUE, keepNA = TRUE, ...)
+  doPadInteger = FALSE, startN = 1, numberStyle = c("number",
+  "letters", "LETTERS"), useNchar = NULL, renameFirst = TRUE,
+  keepNA = TRUE, ...)
 }
 \arguments{
 \item{x}{character vector to be used when defining names. All other

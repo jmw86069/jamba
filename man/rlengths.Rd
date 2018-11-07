@@ -55,3 +55,4 @@ rlengths(x)
 \seealso{
 Other jam list functions: \code{\link{cPaste}}
 }
+\concept{jam list functions}

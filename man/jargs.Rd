@@ -6,8 +6,8 @@
 \usage{
 jargs(x, grepString = NULL, sortVars = TRUE, asList = TRUE,
   useColor = TRUE, lightMode = checkLightMode(), Crange = NULL,
-  Lrange = NULL, adjustRgb = 0, useCollapseBase = ", ", verbose = FALSE,
-  debug = 0, ...)
+  Lrange = NULL, adjustRgb = 0, useCollapseBase = ", ",
+  verbose = FALSE, debug = 0, ...)
 }
 \arguments{
 \item{x}{function or character name of a function.}

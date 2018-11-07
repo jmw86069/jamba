@@ -4,8 +4,8 @@
 \alias{getPlotAspect}
 \title{Get aspect ratio for coordinates, plot, or device}
 \usage{
-getPlotAspect(type = c("coords", "plot", "device"), parUsr = par("usr"),
-  parPin = par("pin"), parDin = par("din"), ...)
+getPlotAspect(type = c("coords", "plot", "device"),
+  parUsr = par("usr"), parPin = par("pin"), parDin = par("din"), ...)
 }
 \arguments{
 \item{type}{character type of aspect ratio to calculate.

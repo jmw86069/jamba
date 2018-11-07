@@ -5,12 +5,12 @@
 \title{Calculate major and minor tick marks for log-scale axis}
 \usage{
 minorLogTicks(ax = NULL, lims = NULL, logBase = 10,
-  displayBase = logBase, majorN = 5, minorN = logBase, minorWhich = c(1,
-  2, 5), whichTicks = seq_len(displayBase), minTick = NULL,
-  maxTick = NULL, asValues = TRUE, labelValueOffset = 0,
-  symmetricZero = (labelValueOffset > 0), col = "black", col.ticks = col,
-  combine = FALSE, logAxisType = c("normal", "flipped", "pvalue"),
-  verbose = FALSE, ...)
+  displayBase = logBase, majorN = 5, minorN = logBase,
+  minorWhich = c(1, 2, 5), whichTicks = seq_len(displayBase),
+  minTick = NULL, maxTick = NULL, asValues = TRUE,
+  labelValueOffset = 0, symmetricZero = (labelValueOffset > 0),
+  col = "black", col.ticks = col, combine = FALSE,
+  logAxisType = c("normal", "flipped", "pvalue"), verbose = FALSE, ...)
 }
 \value{
 List of axis tick positions, and corresponding labels, for major

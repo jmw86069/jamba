@@ -2044,3 +2044,70 @@ renameColumn <- function
    }
    return(x);
 }
+
+#' Fill blank entries in a vector
+#'
+#' Fill blank entries in a vector
+#'
+#' This function takes a character vector and fills any blank (missing)
+#' entries with the last non-blank entry in the vector. It is intended
+#' for situations like imported Excel data, where there may be one
+#' header value representing a series of cells.
+#'
+#' The method used does not loop through the data, and should scale
+#' fairly well with good efficiency even for extremely large vectors.
+#'
+#' @return
+#' Character vector where blank entries are filled with the
+#' most recent non-blank value.
+#'
+#' @param x character vector
+#' @param blankGrep vector of grep patterns, or `NA`, indicating
+#'    the type of entry to be considered blank.
+#'    Each `blankGrep` pattern is searched using `jamba::proigrep()`, which
+#'    by default uses case-insensitive regular expression pattern
+#'    matching.
+#' @param first options character string intended when the first
+#'    entry of `x` is blank. By default `""` is used.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' x <- c("A", "", "", "", "B", "C", "", "", NA,
+#'    "D", "", "", "E", "F", "G", "", "");
+#' data.frame(x, fillBlanks(x));
+#'
+#' @export
+fillBlanks <- function
+(x,
+ blankGrep=c("[ \t]*", NA),
+ first="",
+ ...)
+{
+   ## Purpose is to take a character vector, and fill blank values
+   ## with the most recent non-blank value.
+   ## Intended for data imported from something like Excel, where
+   ## people sometimes use one heading for a section of multiple
+   ## columns or rows
+
+   ## Ensure all non-NA patterns have a leading "^"
+   addToGrep1 <- which(!is.na(blankGrep) & !grepl("^\\^|^[(]*\\^", blankGrep));
+   blankGrep[addToGrep1] <- paste0("^", blankGrep[addToGrep1]);
+   ## Ensure all non-NA patterns have a leading "^"
+   addToGrep2 <- which(!is.na(blankGrep) & !grepl("\\$$|\\$[)]*$", blankGrep));
+   blankGrep[addToGrep2] <- paste0(blankGrep[addToGrep2], "$");
+
+   xBlank <- sort(proigrep(blankGrep, x));
+   if (1 %in% xBlank) {
+      xBlank <- setdiff(xBlank, 1);
+      x[1] <- first;
+   }
+   xIsBlank <- rep(FALSE, length.out=length(x));
+   xIsBlank[xBlank] <- TRUE;
+
+   whichNotBlank <- which(!xIsBlank);
+   xWhichNotBlankU <- unique(c(1, whichNotBlank));
+   xNonBlankVals <- x[!xIsBlank];
+   xNonBlankWhich <- as.numeric(cut(seq_along(x), c(xWhichNotBlankU-1, Inf)));
+   xFilled <- xNonBlankVals[xNonBlankWhich];
+   return(xFilled);
+}

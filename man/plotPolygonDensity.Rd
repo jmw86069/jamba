@@ -5,20 +5,22 @@
 \title{Plot distribution and histogram overlay}
 \usage{
 plotPolygonDensity(x, doHistogram = TRUE, doPolygon = TRUE,
-  barCol = "#00337799", col = NULL, histBorder = makeColorDarker(barCol,
-  darkFactor = 1.5), colAlphas = c(0.8, 0.6, 0.9), hueShift = -0.1,
+  barCol = "#00337799", col = NULL,
+  histBorder = makeColorDarker(barCol, darkFactor = 1.5),
+  colAlphas = c(0.8, 0.6, 0.9), hueShift = -0.1,
   darkFactors = c(-1.3, 1, 3), polyCol = "#00449977",
-  polyBorder = makeColorDarker(polyCol), lwd = 2, las = 2, u5.bias = 0,
-  pretty.n = 10, bw = NULL, breaks = 100, width = NULL,
-  densityBreaksFactor = 3, axisFunc = axis, bty = "l", cex.axis = 1.5,
-  doPar = TRUE, heightFactor = 0.95, weightFactor = NULL,
-  main = "Histogram distribution", xaxs = "i", yaxs = "i", log = NULL,
-  xScale = c("default", "log10", "sqrt"), logFloorMethod = c("detect", "+1",
-  "floor1", "none"), usePanels = TRUE, useOnePanel = FALSE,
-  ablineV = NULL, ablineH = NULL, ablineVcol = "#44444499",
-  ablineHcol = "#44444499", ablineVlty = "solid", ablineHlty = "solid",
-  removeNA = TRUE, add = FALSE, ylimQuantile = 0.99, ylim = NULL,
-  verbose = FALSE, ...)
+  polyBorder = makeColorDarker(polyCol), lwd = 2, las = 2,
+  u5.bias = 0, pretty.n = 10, bw = NULL, breaks = 100,
+  width = NULL, densityBreaksFactor = 3, axisFunc = axis,
+  bty = "l", cex.axis = 1.5, doPar = TRUE, heightFactor = 0.95,
+  weightFactor = NULL, main = "Histogram distribution", xaxs = "i",
+  yaxs = "i", log = NULL, xScale = c("default", "log10", "sqrt"),
+  logFloorMethod = c("detect", "+1", "floor1", "none"),
+  usePanels = TRUE, useOnePanel = FALSE, ablineV = NULL,
+  ablineH = NULL, ablineVcol = "#44444499", ablineHcol = "#44444499",
+  ablineVlty = "solid", ablineHlty = "solid", removeNA = TRUE,
+  add = FALSE, ylimQuantile = 0.99, ylim = NULL, verbose = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{numeric vector, or numeric matrix.}

@@ -4,8 +4,9 @@
 \alias{normScale}
 \title{Scale a numeric vector from 0 to 1}
 \usage{
-normScale(x, from = 0, to = 1, low = min(x, na.rm = TRUE), high = max(x,
-  na.rm = TRUE), naValue = NA, singletMethod = c("mean", "min", "max"), ...)
+normScale(x, from = 0, to = 1, low = min(x, na.rm = TRUE),
+  high = max(x, na.rm = TRUE), naValue = NA,
+  singletMethod = c("mean", "min", "max"), ...)
 }
 \arguments{
 \item{x}{numeric vector.}

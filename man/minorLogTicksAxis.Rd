@@ -6,12 +6,12 @@
 \usage{
 minorLogTicksAxis(ax = NULL, lims = NULL, logBase = 10,
   displayBase = logBase, labelValueOffset = 0,
-  symmetricZero = (labelValueOffset > 0), majorCex = 1, minorCex = 0.65,
-  majorN = 5, minorN = logBase, doMajor = TRUE, doLabels = TRUE,
-  doMinorLabels = TRUE, asValues = TRUE, padj = NULL, doFormat = TRUE,
-  big.mark = ",", scipen = 10, minorWhich = c(2, 5), cex = 1, las = 2,
-  col = "black", col.ticks = col, minorLogTicksData = NULL,
-  verbose = FALSE, ...)
+  symmetricZero = (labelValueOffset > 0), majorCex = 1,
+  minorCex = 0.65, majorN = 5, minorN = logBase, doMajor = TRUE,
+  doLabels = TRUE, doMinorLabels = TRUE, asValues = TRUE,
+  padj = NULL, doFormat = TRUE, big.mark = ",", scipen = 10,
+  minorWhich = c(2, 5), cex = 1, las = 2, col = "black",
+  col.ticks = col, minorLogTicksData = NULL, verbose = FALSE, ...)
 }
 \arguments{
 \item{ax}{integer indicating the axis side, 1=bottom, 2=left,
