@@ -28,4 +28,4 @@ URL: http://github.com/jmw86069/jamba
 BugReports: http://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

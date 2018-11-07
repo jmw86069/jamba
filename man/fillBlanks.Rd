@@ -4,7 +4,7 @@
 \alias{fillBlanks}
 \title{Fill blank entries in a vector}
 \usage{
-fillBlanks(x, blankGrep = c("[ \\t]*", NA), first = "", ...)
+fillBlanks(x, blankGrep = c("[ \\t]*"), first = "", ...)
 }
 \arguments{
 \item{x}{character vector}

@@ -2079,7 +2079,7 @@ renameColumn <- function
 #' @export
 fillBlanks <- function
 (x,
- blankGrep=c("[ \t]*", NA),
+ blankGrep=c("[ \t]*"),
  first="",
  ...)
 {
@@ -2090,6 +2090,10 @@ fillBlanks <- function
    ## columns or rows
 
    ## Ensure all non-NA patterns have a leading "^"
+   blankGrep <- rmNA(blankGrep);
+   if (length(blankGrep) == 0) {
+      blankGrep <- "^$";
+   }
    addToGrep1 <- which(!is.na(blankGrep) & !grepl("^\\^|^[(]*\\^", blankGrep));
    blankGrep[addToGrep1] <- paste0("^", blankGrep[addToGrep1]);
    ## Ensure all non-NA patterns have a leading "^"
@@ -2097,6 +2101,9 @@ fillBlanks <- function
    blankGrep[addToGrep2] <- paste0(blankGrep[addToGrep2], "$");
 
    xBlank <- sort(proigrep(blankGrep, x));
+   if (length(xBlank) == 0) {
+      return(x);
+   }
    if (1 %in% xBlank) {
       xBlank <- setdiff(xBlank, 1);
       x[1] <- first;
