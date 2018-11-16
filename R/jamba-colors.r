@@ -974,8 +974,9 @@ getColorRamp <- function
       cols;
    }
    trimRamp <- abs(rep(trimRamp, length.out=2));
-   if (igrepHas("character", class(col)) && length(col) == 1) {
-      if (col %in% c("viridis","inferno","plasma","magma","cividis")) {
+   if (igrepHas("character", class(col))) {
+      if (length(col) == 1 &&
+            col %in% c("viridis","inferno","plasma","magma","cividis")) {
          ## Viridis package color handling
          if (!suppressPackageStartupMessages(require(viridis))) {
             stop(paste0("The viridis package is required for color ramps:",
@@ -1009,8 +1010,9 @@ getColorRamp <- function
             cols <- colorRampPalette(cols,
                alpha=alpha);
          }
-      } else if (suppressPackageStartupMessages(require(RColorBrewer)) &&
-                 col %in% rownames(brewer.pal.info)) {
+      } else if (length(col) == 1 &&
+            suppressPackageStartupMessages(require(RColorBrewer)) &&
+            col %in% rownames(brewer.pal.info)) {
          ## Brewer Colors
          if (verbose) {
             printDebug("getColorRamp(): ", "RColorBrewer color function.");
