@@ -1919,7 +1919,14 @@ cPaste <- function
    }
 
    if (useBioc) {
-      xNew <- unstrsplit(x, sep=sep);
+      ## Note: The explicit conversion to class CharacterList is required
+      ## in order to avoid errors with single list elements of NA when
+      ## na.rm=FALSE. Specifically, unstrsplit() requires all elements in
+      ## the list to be "character" class, and a single NA is class "logical"
+      ## and causes an error.
+      xNew <- S4Vectors::unstrsplit(
+         IRanges::CharacterList(x),
+         sep=sep);
    } else {
       xNew <- mapply(paste,
          x,

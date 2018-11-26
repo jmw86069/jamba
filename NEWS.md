@@ -1,3 +1,17 @@
+# jamba version 0.0.21.900
+
+## bug fixes
+
+* Updated `cPaste()` to handle lists with a single NA value, which
+failed previously because a single NA is considered class "logical"
+and not "character" as required by `S4Vectors::unstrsplit()`.
+* Changed how `Crange` and `Lrange` values are used in `make_styles()`,
+the new default will not overwrite the global `Crange` and `Lrange`
+settings.
+* Changed how `Crange` and `Lrange` values are enforced by
+`applyCLranges()`. There is a new argument `CLmethod` which controls
+how C and L values are adjusted.
+
 # jamba version 0.0.20.900
 
 ## new functions

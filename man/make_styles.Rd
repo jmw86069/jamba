@@ -5,11 +5,12 @@
 \title{vectorized make_styles for crayon output}
 \usage{
 make_styles(style, text, bg = FALSE, grey = FALSE,
-  colors = num_colors(), Cgrey = 5, lightMode = checkLightMode(),
-  Crange = NULL, Lrange = NULL,
+  colors = num_colors(), Cgrey = getOption("jam.Cgrey"),
+  lightMode = checkLightMode(), Crange = getOption("jam.Crange"),
+  Lrange = getOption("jam.Crange"),
   adjustRgb = getOption("jam.adjustRgb"), adjustPower = 1.5,
   fixYellow = TRUE, colorTransparent = "grey45", alphaPower = 2,
-  verbose = FALSE, ...)
+  setOptions = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{style}{vector of one or more styles}
@@ -57,12 +58,24 @@ a valid R color, but not a valid color for the crayon package.}
 values less than 255, by raising the ratio to 1/alphaPower, which takes
 the ratio of square roots.  alphaPower=100 for minimal adjustment.}
 
+\item{setOptions}{logical whether to update \code{Crange} and \code{Lrange}
+options during the subsequent call to \code{setCLranges()}. By default,
+\code{FALSE} prevents modifying the global settings, in favor of using
+a direct call to \code{setCLranges()} itself, outside of \code{make_styles()}
+to make such updates.}
+
 \item{verbose}{logical whether to print verbose output}
 
 \item{...}{additional parameters are ignored}
 
 \item{satCutoff}{numeric cutoff for color saturation, below which a color
 is considered "grey" and the ANSI greyscale color set is used.}
+}
+\value{
+Vector with the same length as \code{text} input vector, where
+entries are surrounded by the relevant encoding consistent with
+the \code{style} defined at input. In short, a character vector as input,
+a colorized character vector as output.
 }
 \description{
 vectorized make_styles for crayon output

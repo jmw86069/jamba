@@ -5,7 +5,7 @@
 \title{Apply CL color range}
 \usage{
 applyCLrange(x, Crange = NULL, Lrange = NULL, Cgrey = 5,
-  fixYellow = TRUE, ...)
+  fixYellow = TRUE, CLmethod = c("scale", "floor", "expand"), ...)
 }
 \arguments{
 \item{x}{vector of R colors}
@@ -26,6 +26,15 @@ yellow, which otherwise turns to green. Instead, since JAM can,
 JAM will make the yellow slightly more golden before darkening,
 which is achieved by calling \code{fixYellowHue()}.}
 
+\item{CLmethod}{character string indicating how to alter values
+outside the respective \code{Crange} and \code{Lrange} ranges. "scale" will
+rescale values only if any are outside of range, and will rescale
+the full range of \code{c(Crange, Cvalues)} to \code{c(Crange)}. In this way,
+only values outside the range are rescaled. "floor" will apply a
+fixed cutoff, any values outside the range are set to equal the
+range boundary itself. "expand" will rescale all values so the
+range is equal to \code{Crange}.}
+
 \item{...}{additional argyments are passed to \code{fixYellowHue()} when
 \code{fixYellow} is \code{TRUE}.}
 }
@@ -45,9 +54,34 @@ The C and L values are defined by \code{colorspace::polarLUV()}, where C is
 typically restricted to \code{0..100} and L is typically \code{0..100}. For some
 colors, values above 100 are allowed.
 
-Values are restricted to the given numeric range using \code{jamba::noiseFloor}
-and \code{min()} and \code{max()} values for the \code{minimum} and \code{ceiling},
-respectively.
+Values are restricted to the given numeric range using one of three
+methods, set via the \code{CLmethod} argument.
+
+As an example, consider what should be done when \code{Crange <- c(10,70)}
+and the C values are \code{Cvalues <- c(50, 60, 70, 80)}.
+\enumerate{
+\item "floor" uses \code{jamba::noiseFloor()} to apply fixed cutoffs at the
+minimum and maximum range. This method has the effect of making all
+values outside the range into an equal final value.
+\item "scale" will apply \code{jamba::normScale()} to rescale only values outside
+the given range. For example, \code{c(Crange, Cvalues)} as the initial range,
+it constrains values to \code{c(Crange)}.  This method has the effect of
+maintaining the relative difference between values.
+\item "expand" will simply apply \code{jamba::normScale()} to fit the values
+to the minimum and maximum range values. This method has the effect of
+forcing colors to fit the full numeric range, even when the original
+differences between values were small.
+}
+
+In case (1) above, Cvalues will become \code{c(50, 60, 70, 70)}.
+In case (2) above, Cvalues will become \code{c(44, 53, 61, 70)}
+In case (3) above, Cvalues will become \code{c(10, 30, 50, 70)}
+
+Note that colors with C (chroma) values less than \code{Cgrey} will not have
+the C value changed, in order to maintain colors at a greyscale, without
+colorizing them. Particularly for pure \code{grey}, which has \code{C=0}, but
+is still required to have a hue H, it is important not to increase
+\code{C}.
 }
 \examples{
 applyCLrange(c("red","blue","yellow"), Lrange=c(0,60));

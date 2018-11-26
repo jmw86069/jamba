@@ -1029,7 +1029,10 @@ printDebug <- function
    }
 
    ## Check lightMode, whether the background color is light or not
-   CLranges <- setCLranges(lightMode);
+   CLranges <- setCLranges(lightMode=lightMode,
+      Crange=Crange,
+      Lrange=Lrange,
+      adjustRgb=adjustRgb);
    if (length(adjustRgb) == 0) {
       adjustRgb <- CLranges$adjustRgb;
    }
@@ -1691,6 +1694,12 @@ tcount <- function
 #' \code{\link[crayon]{make_style}} in order to style a vector of
 #' character strings with a vector of foreground and background styles.
 #'
+#' @return
+#' Vector with the same length as `text` input vector, where
+#' entries are surrounded by the relevant encoding consistent with
+#' the `style` defined at input. In short, a character vector as input,
+#' a colorized character vector as output.
+#'
 #' @param style vector of one or more styles
 #' @param text vector of one or more character values
 #' @param bg NULL or a vector of one or more background styles
@@ -1725,6 +1734,11 @@ tcount <- function
 #' @param alphaPower numeric value, used to adjust the RGB values for alpha
 #'    values less than 255, by raising the ratio to 1/alphaPower, which takes
 #'    the ratio of square roots.  alphaPower=100 for minimal adjustment.
+#' @param setOptions logical whether to update `Crange` and `Lrange`
+#'    options during the subsequent call to `setCLranges()`. By default,
+#'    `FALSE` prevents modifying the global settings, in favor of using
+#'    a direct call to `setCLranges()` itself, outside of `make_styles()`
+#'    to make such updates.
 #' @param verbose logical whether to print verbose output
 #' @param ... additional parameters are ignored
 #'
@@ -1737,15 +1751,16 @@ make_styles <- function
  bg=FALSE,
  grey=FALSE,
  colors=num_colors(),
- Cgrey=5,
+ Cgrey=getOption("jam.Cgrey"),
  lightMode=checkLightMode(),
- Crange=NULL,
- Lrange=NULL,
+ Crange=getOption("jam.Crange"),
+ Lrange=getOption("jam.Crange"),
  adjustRgb=getOption("jam.adjustRgb"),
  adjustPower=1.5,
  fixYellow=TRUE,
  colorTransparent="grey45",
  alphaPower=2,
+ setOptions=FALSE,
  verbose=FALSE,
  ...)
 {
@@ -1792,7 +1807,8 @@ make_styles <- function
    ## Determine Crange, Lrange, adjustRgb
    CLranges <- setCLranges(lightMode=lightMode,
       Crange=Crange,
-      Lrange=Lrange);
+      Lrange=Lrange,
+      setOptions=setOptions);
    if (length(adjustRgb) == 0) {
       adjustRgb <- CLranges$adjustRgb;
    }
@@ -1991,6 +2007,9 @@ setCLranges <- function
    ## luminance Lrange values, dependent upon
    ## lightMode=TRUE (light background) or lightMode=FALSE (dark background)
 
+   if (length(setOptions) == 0) {
+      setOptions <- FALSE;
+   }
    if (length(lightMode) > 0 && lightMode) {
       ###########################################
       ## light background color
@@ -2059,9 +2078,33 @@ setCLranges <- function
 #' typically restricted to `0..100` and L is typically `0..100`. For some
 #' colors, values above 100 are allowed.
 #'
-#' Values are restricted to the given numeric range using `jamba::noiseFloor`
-#' and `min()` and `max()` values for the `minimum` and `ceiling`,
-#' respectively.
+#' Values are restricted to the given numeric range using one of three
+#' methods, set via the `CLmethod` argument.
+#'
+#' As an example, consider what should be done when `Crange <- c(10,70)`
+#' and the C values are `Cvalues <- c(50, 60, 70, 80)`.
+#'
+#' 1. "floor" uses `jamba::noiseFloor()` to apply fixed cutoffs at the
+#' minimum and maximum range. This method has the effect of making all
+#' values outside the range into an equal final value.
+#' 2. "scale" will apply `jamba::normScale()` to rescale only values outside
+#' the given range. For example, `c(Crange, Cvalues)` as the initial range,
+#' it constrains values to `c(Crange)`.  This method has the effect of
+#' maintaining the relative difference between values.
+#' 3. "expand" will simply apply `jamba::normScale()` to fit the values
+#' to the minimum and maximum range values. This method has the effect of
+#' forcing colors to fit the full numeric range, even when the original
+#' differences between values were small.
+#'
+#' In case (1) above, Cvalues will become `c(50, 60, 70, 70)`.
+#' In case (2) above, Cvalues will become `c(44, 53, 61, 70)`
+#' In case (3) above, Cvalues will become `c(10, 30, 50, 70)`
+#'
+#' Note that colors with C (chroma) values less than `Cgrey` will not have
+#' the C value changed, in order to maintain colors at a greyscale, without
+#' colorizing them. Particularly for pure `grey`, which has `C=0`, but
+#' is still required to have a hue H, it is important not to increase
+#' `C`.
 #'
 #' @return vector of colors after applying the chroma (C) and luminance (L)
 #'    ranges.
@@ -2079,6 +2122,14 @@ setCLranges <- function
 #'    yellow, which otherwise turns to green. Instead, since JAM can,
 #'    JAM will make the yellow slightly more golden before darkening,
 #'    which is achieved by calling `fixYellowHue()`.
+#' @param CLmethod character string indicating how to alter values
+#'    outside the respective `Crange` and `Lrange` ranges. "scale" will
+#'    rescale values only if any are outside of range, and will rescale
+#'    the full range of `c(Crange, Cvalues)` to `c(Crange)`. In this way,
+#'    only values outside the range are rescaled. "floor" will apply a
+#'    fixed cutoff, any values outside the range are set to equal the
+#'    range boundary itself. "expand" will rescale all values so the
+#'    range is equal to `Crange`.
 #' @param ... additional argyments are passed to `fixYellowHue()` when
 #'    `fixYellow` is `TRUE`.
 #'
@@ -2092,10 +2143,12 @@ applyCLrange <- function
  Lrange=NULL,
  Cgrey=5,
  fixYellow=TRUE,
+ CLmethod=c("scale", "floor", "expand"),
  ...)
 {
    ## Purpose is to restrict the chroma (C) or luminance (L) ranges
    ## for a vector of R colors
+   CLmethod <- match.arg(CLmethod);
    if (length(x) == 0 || all(is.na(x)) ||
          (length(Crange) == 0 &&
                length(Lrange) == 0 &&
@@ -2110,9 +2163,21 @@ applyCLrange <- function
 
    ## Apply L range
    if (length(Lrange) > 0) {
-      styleHcl["L",] <- jamba::noiseFloor(styleHcl["L",],
-         minimum=min(Lrange),
-         ceiling=max(Lrange));
+      if (CLmethod %in% "floor") {
+         styleHcl["L",] <- jamba::noiseFloor(styleHcl["L",],
+            minimum=min(Lrange),
+            ceiling=max(Lrange));
+      } else if (CLmethod %in% "scale") {
+         styleHcl["L",] <- jamba::normScale(styleHcl["L",],
+            from=min(Lrange),
+            to=max(Lrange),
+            low=min(c(Lrange, styleHcl["L",]), na.rm=TRUE),
+            high=max(c(Lrange, styleHcl["L",]), na.rm=TRUE));
+      } else {
+         styleHcl["L",] <- jamba::normScale(styleHcl["L",],
+            from=min(Lrange),
+            to=max(Lrange));
+      }
    }
 
    ## Apply C range
@@ -2121,9 +2186,23 @@ applyCLrange <- function
       if (any(styleGrey)) {
          styleGreyV <- styleHcl["C",styleGrey];
       }
-      styleHcl["C",] <- jamba::noiseFloor(styleHcl["C",],
-         minimum=min(Crange),
-         ceiling=max(Crange));
+      if (!all(styleGrey)) {
+         if (CLmethod %in% "floor") {
+            styleHcl["C",!styleGrey] <- jamba::noiseFloor(styleHcl["C",!styleGrey],
+               minimum=min(Crange),
+               ceiling=max(Crange));
+         } else if (CLmethod %in% "scale") {
+            styleHcl["C",!styleGrey] <- jamba::normScale(styleHcl["C",!styleGrey],
+               from=min(Crange),
+               to=max(Crange),
+               low=min(c(Crange, styleHcl["C",!styleGrey]), na.rm=TRUE),
+               high=max(c(Crange, styleHcl["C",!styleGrey]), na.rm=TRUE));
+         } else {
+            styleHcl["C",!styleGrey] <- jamba::normScale(styleHcl["C",!styleGrey],
+               from=min(Crange),
+               to=max(Crange));
+         }
+      }
       if (any(styleGrey)) {
          styleHcl["C",styleGrey] <- styleGreyV;
       }
