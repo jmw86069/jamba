@@ -4,8 +4,9 @@
 \alias{getAxisLabel}
 \title{Get axis label for minorLogTicks}
 \usage{
-getAxisLabel(i, asValues, logAxisType, logBase, base_limit = 2,
-  labelValueOffset = 0, symmetricZero = (labelValueOffset > 0), ...)
+getAxisLabel(i, asValues, logAxisType = c("normal", "flip", "pvalue"),
+  logBase, base_limit = 2, offset = 0, symmetricZero = (offset > 0),
+  ...)
 }
 \description{
 Get axis label for minorLogTicks

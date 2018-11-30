@@ -2451,10 +2451,6 @@ plotPolygonDensity <- function
       ## Optional visual log-transformation
       #if ("x" %in% log) {
       if ("log10" %in% xScale) {
-         #x <- sensibleLog(x,
-         #   logFloorMethod=logFloorMethod,
-         #   verbose=verbose,
-         #   ...);
          x <- log10(abs(x) + 1) * sign(x);
          xLogAxisType <- attr(x, "xLogAxisType");
       } else if ("sqrt" %in% xScale) {
@@ -2527,7 +2523,9 @@ plotPolygonDensity <- function
                }
                minorLogTicksAxis(1,
                   doMinorLabels=TRUE,
-                  labelValueOffset=1,
+                  logBase=10,
+                  displayBase=10,
+                  offset=1,
                   logAxisType=xLogAxisType,
                   ...);
             } else if ("sqrt" %in% xScale) {
@@ -2535,7 +2533,8 @@ plotPolygonDensity <- function
                   printDebug("plotPolygonDensity(): ",
                      "sqrt xScale");
                }
-               atPretty <- sqrtAxis(1);
+               atPretty <- sqrtAxis(side=1,
+                  plot=FALSE);
                axisFunc(1,
                   at=sqrt(abs(atPretty))*sign(atPretty),
                   labels=names(atPretty),
@@ -2599,10 +2598,26 @@ plotPolygonDensity <- function
             main=main,
             xaxt="n",
             ...);
-         if ("x" %in% log) {
+         if ("log10" %in% xScale) {
             minorLogTicksAxis(1,
+               logBase=10,
+               displayBase=10,
+               offset=1,
                doMinorLabels=TRUE,
                logAxisType=xLogAxisType,
+               ...);
+         } else if ("sqrt" %in% xScale) {
+            if (verbose) {
+               printDebug("plotPolygonDensity(): ",
+                  "sqrt xScale");
+            }
+            atPretty <- sqrtAxis(side=1,
+               plot=FALSE);
+            axisFunc(1,
+               at=sqrt(abs(atPretty))*sign(atPretty),
+               labels=names(atPretty),
+               las=las,
+               cex.axis=cex.axis,
                ...);
          } else {
             #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
@@ -2640,6 +2655,121 @@ plotPolygonDensity <- function
          polyBorder=polyBorder,
          histBorder=histBorder));
    }
+}
+
+#' Determine square root axis tick mark positions
+#'
+#' Determine square root axis tick mark positions
+#'
+#' This function calculates positions for tick marks for data
+#' that has been transformed with `sqrt()`, specifically a directional
+#' transformation like `sqrt(abs(x)) * sign(x)`.
+#'
+#' The main goal of this function is to provide reasonably placed
+#' tick marks using integer values.
+#'
+#' @return
+#' Invisibly returns a numeric vector of axis tick positions,
+#' named by the display label.
+#' The axis values are in square root space while the labels represent
+#' the normal space values.
+#'
+#' @param side integer value indicating the axis position, as used
+#'    by `axis()`, 1=bottom, 2=left, 3=top, 4=right.
+#' @param x optional numeric vector representing the numeric range
+#'    to be labeled.
+#' @param pretty.n numeric value indicating the number of desired
+#'    tick marks, passed to `pretty()`.
+#' @param u5.bias numeric value passed to `pretty()` to influence the
+#'    frequency of intermediate tick marks.
+#' @param big.mark character value passed to `format()` which helps
+#'    visually distinguish numbers larger than 1000.
+#' @param plot logical indicating whether to plot the axis tick
+#'    marks and labels.
+#' @param las,cex.axis numeric values passed to `axis()` when drawing
+#'    the axis, by default `las=2` plots labels rotated
+#'    perpendicular to the axis.
+#' @param ... additional parameters are passed to `pretty()`.
+#'
+#' @export
+sqrtAxis <- function
+(side=1,
+ x=NULL,
+ pretty.n=10,
+ u5.bias=0,
+ big.mark=",",
+ plot=TRUE,
+ las=2,
+ cex.axis=0.6,
+ ...)
+{
+   ## Purpose is to generate a set of tick marks for sqrt
+   ## transformed data axes.  It assumes data is already sqrt-transformed,
+   ## and that negative values have been treated like:
+   ## sqrt(abs(x))*sign(x)
+   if (length(side) > 2) {
+      x <- side;
+      side <- 0;
+   }
+   if (length(side) == 0) {
+      side <- 0;
+   }
+   if (1 %in% side) {
+      xRange <- par("usr")[1:2];
+   } else if (2 %in% side) {
+      xRange <- par("usr")[3:4];
+   } else if (length(x) > 0) {
+      xRange <- range(x, na.rm=TRUE);
+   }
+
+   subdivideSqrt <- function(atPretty1, n=pretty.n, ...) {
+      ## Purpose is to take x in form of 0,x1,
+      ## and subdivide using pretty()
+      atPretty1a <- unique(sort(abs(atPretty1)));
+      atPretty1b <- tail(atPretty1a, -2);
+      atPretty2a <- pretty(head(atPretty1a,2), n=n, ...);
+      return(unique(sort(c(atPretty2a, atPretty1b))));
+   }
+
+   ## Determine tick positions
+   nSubFactor <- 2.44;
+
+   atPretty1 <- pretty(xRange^2*sign(xRange),
+      u5.bias=u5.bias,
+      n=(pretty.n)^(1/nSubFactor));
+
+   atPretty1old <- atPretty1;
+   while (length(atPretty1) <= pretty.n) {
+      atPretty1new <- subdivideSqrt(atPretty1,
+         n=noiseFloor(minimum=2, (pretty.n)^(1/nSubFactor)));
+      atPretty1 <- atPretty1new[atPretty1new <= max(abs(xRange^2))];
+      atPretty1old <- atPretty1;
+   }
+   atPretty3 <- unique(sort(
+      rep(atPretty1,
+         each=length(unique(sign(xRange)))) * sign(xRange)));
+   atPretty <- atPretty3[
+      (atPretty3 >= head(xRange,1)^2*sign(head(xRange,1)) &
+       atPretty3 <= tail(xRange, 1)^2*sign(tail(xRange, 1)))];
+
+   xLabel <- sapply(atPretty, function(i){
+      format(i,
+         trim=TRUE,
+         digits=2,
+         big.mark=big.mark);
+   });
+   ## Transform to square root space
+   atSqrt <- sqrt(abs(atPretty))*sign(atPretty);
+   if (plot) {
+      axis(side=side,
+         at=atSqrt,
+         labels=xLabel,
+         las=las,
+         cex.axis=cex.axis,
+         ...);
+   }
+
+   invisible(nameVector(atSqrt, xLabel));
 }
 
 #' Calculate more detailed density of numeric values
@@ -2765,27 +2895,41 @@ breakDensity <- function
 #' axis tick mark positions and labels are determined via
 #' `jamba::minorLogTicks()`.
 #'
+#' Note: This function assumes the axis values have already been
+#' log-transformed. Make sure to adjust the `offset` to reflect
+#' the method of log-transformation, for example:
+#'
+#' * `log2(1+x)` would require `logBase=2` and `offset=1` in order
+#' to represent values properly at or near zero.
+#' * `log(0.5+x)` would require `logBase=exp(1)` and `offset=0.5`.
+#' * `log10(x)` would require `logBase=10` and `offset=0`.
+#'
+#' The defaults `logBase=2` and `displayBase=10` assume data
+#' has been log2-transformed, and displays tick marks using the
+#' common base of 10. To display tick marks at two-fold intervals,
+#' use `displayBase=2`.
+#'
 #' This function was motivated in order to label log-transformed
 #' data properly in some special cases, like using `log2(1+x)`
 #' where the resulting values are shifted "off by one" using
 #' standard log-scaled axis tick marks and labels.
 #'
-#' Also, when using log fold change values, this function
-#' creates axis labels which indicate negative fold change
-#' values, for example `-2` in log2 fold change units would
-#' be labeled with fold change `-4`, and not `0.0625` which
-#' represents a fractional value.
+#' For log fold changes, set `symmetricZero=TRUE`, which will
+#' create negative log scaled fold change values as needed for
+#' negative values. For example, this option would label a
+#' `logBase=2` value of `-2` as `-4` and not as `0.25`.
 #'
-#' Use the argument `symmetricZero=TRUE` when using directional
-#' log fold change values.
-#'
+#' Note that by default, whenever `offset > 0` the argument
+#' `symmetricZero=TRUE` is also defined, since a negative value in
+#' that scenario has little meaning. This behavior can be turned
+#' off by setting `symmetricZero=FALSE`.
 #'
 #' @return
 #' A list with vectors of majorLabels, majorTicks, minorLabels,
 #' minorTicks, and allLabelsDF which is a `data.frame` containing
 #' all axis tick positions, with corresponding labels.
 #'
-#' @param ax integer indicating the axis side, 1=bottom, 2=left,
+#' @param side integer indicating the axis side, 1=bottom, 2=left,
 #'    3=top, 4=right.
 #' @param lims NULL or numeric range for which the axis tick marks
 #'    will be determined. If NULL then the corresponding `par("usr")`
@@ -2796,11 +2940,11 @@ breakDensity <- function
 #'    use when determining the numeric label position. For example,
 #'    data may be log2 scaled, and yet it is visually intuitive to
 #'    show log transformed axis units in base 10 units. See examples.
-#' @param labelValueOffset numeric offset used in transforming the
+#' @param offset numeric offset used in transforming the
 #'    numeric data displayed on this axis. For example, a common
 #'    technique is to transform data using `log2(1+x)` which adds
 #'    `1` to values prior to the log2 transformation. In this case,
-#'    `labelValueOffset=1`, which ensures the axis labels exactly
+#'    `offset=1`, which ensures the axis labels exactly
 #'    match the initial numeric value prior to the log2 transform.
 #' @param symmetricZero logical indicating whether numeric values
 #'    are symmetric around zero. For example, log fold changes should
@@ -2834,23 +2978,18 @@ breakDensity <- function
 #' @param cex,col,col.ticks,las parameters used for axis label size,
 #'    axis label colors,
 #'    axis tick mark colors, and label text orientation, respectively.
-#' @param majorN,minorN numeric values indicating the number of
-#'    axis labels, similar to how `n` is used by the function
-#'    `base::pretty()` to guide the number of labels to display.
 #' @param verbose logical indicating whether to print verbose output.
 #'
 #' @export
 minorLogTicksAxis <- function
-(ax=NULL,
+(side=NULL,
  lims=NULL,
- logBase=10,
- displayBase=logBase,
- labelValueOffset=0,
- symmetricZero=(labelValueOffset > 0),
+ logBase=2,
+ displayBase=10,
+ offset=0,
+ symmetricZero=(offset > 0),
  majorCex=1,
  minorCex=0.65,
- majorN=5,
- minorN=logBase,
  doMajor=TRUE,
  doLabels=TRUE,
  doMinorLabels=TRUE,
@@ -2860,6 +2999,7 @@ minorLogTicksAxis <- function
  big.mark=",",
  scipen=10,
  minorWhich=c(2,5),
+ logStep=1,
  cex=1,
  las=2,
  col="black",
@@ -2881,7 +3021,7 @@ minorLogTicksAxis <- function
    ## To define a set of minor tick positions, send a list object minorLogTicksData
    ## with (majorTicks, majorLabels, minorTicks, minorLabels)
    if (is.null(padj)) {
-      if (ax %in% c(1, 3)) {
+      if (side %in% c(1, 3)) {
          padj <- c(0.3,0.7);
       } else {
          padj <- c(0.7,0.3);
@@ -2893,14 +3033,14 @@ minorLogTicksAxis <- function
    if (!is.null(minorLogTicksData)) {
       mlt <- minorLogTicksData;
    } else {
-      mlt <- minorLogTicks(ax=ax,
+      mlt <- minorLogTicks(side=side,
          lims=lims,
          logBase=logBase,
-         majorN=majorN,
-         minorN=minorN,
-         labelValueOffset=labelValueOffset,
+         displayBase=displayBase,
+         offset=offset,
          symmetricZero=symmetricZero,
          minorWhich=minorWhich,
+         logStep=logStep,
          asValues=asValues,
          verbose=verbose,
          ...);
@@ -2944,7 +3084,7 @@ minorLogTicksAxis <- function
       if (!doLabels) {
          majorLabels <- FALSE;
       }
-      axis(ax,
+      axis(side,
          at=majorTicks,
          tcl=par("tcl")*majorCex*cex,
          labels=majorLabels,
@@ -2958,7 +3098,7 @@ minorLogTicksAxis <- function
    if (!doMinorLabels) {
       minorLabels <- FALSE;
    }
-   axis(ax,
+   axis(side,
       at=minorTicks,
       tcl=par("tcl")*minorCex*cex,
       labels=minorLabels,
@@ -2968,17 +3108,12 @@ minorLogTicksAxis <- function
       col.ticks=col.ticks,
       las=las,
       ...);
-   axis(ax,
+   axis(side,
       at=range(c(majorTicks, minorTicks)),
       labels=FALSE,
       col=col,
       col.ticks="transparent",
       ...);
-
-   ## Revert user coordinate space to the logBase units
-   if (viewAsBase10) {
-      par("usr"=parUsr1);
-   }
 
    invisible(mlt);
 }
@@ -3021,7 +3156,7 @@ minorLogTicksAxis <- function
 #' nullPlot(xlim=xlim, doMargins=FALSE);
 #' mlt <- minorLogTicks(1,
 #'    logBase=10,
-#'    labelValueOffset=1,
+#'    offset=1,
 #'    minTick=0);
 #' maj <- subset(mlt$allLabelsDF, type %in% "major");
 #' axis(1, las=2,
@@ -3039,34 +3174,69 @@ minorLogTicksAxis <- function
 #'
 #' nullPlot(xlim=c(-4,10), doMargins=FALSE);
 #' axis(3, las=2);
-#' minorLogTicksAxis(1, logBase=2, displayBase=10, labelValueOffset=1);
+#' minorLogTicksAxis(1, logBase=2, displayBase=10, offset=1);
 #' x2 <- rnorm(1000) * 40;
 #' d2 <- density(log2(1+abs(x2)) * ifelse(x2<0, -1, 1));
 #' lines(x=d2$x, y=normScale(d2$y)+1, col="green4");
 #'
 #' nullPlot(xlim=c(0,10), doMargins=FALSE);
 #' axis(3, las=2);
-#' minorLogTicksAxis(1, logBase=2, displayBase=10, labelValueOffset=1);
+#' minorLogTicksAxis(1, logBase=2, displayBase=10, offset=1);
 #' x1 <- c(0, 5, 15, 200);
 #' text(y=rep(1.0, 4), x=log2(1+x1), label=x1, srt=90, adj=c(0,0.5));
 #' points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
 #'
+#' @param side integer value indicating which axis to produce tick
+#'    marks, 1=bottom, 2=left, 3=top, 4=right.
+#' @param lims numeric vector length=2, indicating specific numeric
+#'    range to use for tick marks.
+#' @param logBase numeric value indicating the logarithmic base, assumed
+#'    to be applied to the numeric `lims` limits, or the axis range,
+#'    previously.
+#' @param displayBase numeric value indicating the base used to position
+#'    axis labels, typically `displayBase=10` is used to draw labels
+#'    at typical positions.
+#' @param logStep integer value indicating the number of log steps
+#'    between major axis label positions. Typically `logStep=1` will
+#'    draw a label every log position based upon `displayBase`, for
+#'    example `displayBase=10` and `logStep=1` will use `c(1,10,100,1000)`;
+#'    and `displayBase=10` and `logStep=2` would use `c(1,100,10000)`.
+#' @param minorWhich integer vector of values to label, where those
+#'    integer values are between 1 and `displayBase`, for example
+#'    `displayBase=10` may label only `c(2,5)`, which implies minor
+#'    tick labels at `c(2, 5, 20, 50, 200, 500)`. Any minor labels
+#'    which would otherwise equal a major tick position are removed.
+#'    By default, when `displayBase=2`, `minorWhich=c(1.5)` which has the
+#'    effect of drawing one minor label between each two-fold
+#'    major tick label.
+#' @param asValues logical indicating whether to create exponentiated
+#'    numeric labels. When `asValues=FALSE`, it creates `expression` objects
+#'    which include the exponential value. Use `asValues=FALSE` and
+#'    `logAxisType="pvalue"` to draw P-value labels.
+#' @param offset numeric value added during log transformation, typically
+#'    of the form `log(1 + x)` where `offset=1`. The offset is used to
+#'    determine the accurate numeric label such that values of `0` are
+#'    properly labeled by the original numeric value.
+#' @param symmetricZero logical indicating whether numeric values
+#'    are symmetric around zero. For example, log fold changes should
+#'    use `symmetricZero=TRUE` which ensures a log2 value of `-2` is
+#'    labeled `-4` to indicate a negative four fold change. If
+#'    `symmetricZero=FALSE` a log2 value of `-2` would be labeled
+#'    `0.0625`.
+#' @param verbose logical indicating whether to print verbose output.
+#' @param ... additional parameters are ignored.
 #'
 #' @export
 minorLogTicks <- function
-(ax=NULL,
+(side=NULL,
  lims=NULL,
- logBase=10,
- displayBase=logBase,
- majorN=5,
- minorN=logBase,
- minorWhich=c(1,2,5),
- whichTicks=seq_len(displayBase),
- minTick=NULL,
- maxTick=NULL,
+ logBase=2,
+ displayBase=10,
+ logStep=1,
+ minorWhich=c(2,5),
  asValues=TRUE,
- labelValueOffset=0,
- symmetricZero=(labelValueOffset>0),
+ offset=0,
+ symmetricZero=(offset>0),
  col="black",
  col.ticks=col,
  combine=FALSE,
@@ -3085,17 +3255,21 @@ minorLogTicks <- function
    ## logAxisType="flipped" will flip negative values so they are like fold changes, e.g.
    ## "-1" will become "-10" instead of "0.1"
    ##
-   if (length(labelValueOffset) == 0) {
-      labelValueOffset <- 0;
+   if (length(offset) == 0) {
+      offset <- 0;
    }
-   labelValueOffset <- head(labelValueOffset, 1);
+   offset <- head(offset, 1);
+
+   if (logStep > 1) {
+      minorWhich <- c(1);
+   }
 
    if (length(lims) == 0) {
-      if (length(ax) == 0) {
+      if (length(side) == 0) {
          stop("minorLogTicks requires either axis (which axis), or lims (range of values) to be defined.");
       }
       lims <- par("usr");
-      if(ax %in% c(1,3)) {
+      if(side %in% c(1,3)) {
          lims <- lims[1:2];
       } else {
          lims <- lims[3:4];
@@ -3115,16 +3289,19 @@ minorLogTicks <- function
 
    ## Define integer sequence of steps
    ## Define the intended labels based upon integer sequence in log units
-   ## (prior to adjustments with labelValueOffset)
+   ## (prior to adjustments with offset)
    if (displayBase != logBase) {
       printDebug("adjusting logBase to displayBase.")
       displayLims1 <- c(logBase^abs(lims[1])*ifelse(lims[1] < 0, -1, 1),
          logBase^abs(lims[2])*ifelse(lims[2] < 0, -1, 1));
-      displayLims2 <- (log(labelValueOffset+abs(displayLims1),
-         base=displayBase) *
+      displayLims2 <- (
+         log(offset + abs(displayLims1),
+            base=displayBase) *
          ifelse(displayLims1 < 0, -1, 1));
       displayLims <- c(floor(displayLims2[1]), ceiling(displayLims2[2]));
-      majorTicks <- seq(from=displayLims[1], to=displayLims[2], by=1);
+      majorTicks <- seq(from=displayLims[1],
+         to=displayLims[2],
+         by=logStep);
       #logBase <- displayBase;
    } else {
       majorTicks <- seq(from=lims[1], to=lims[2], by=1);
@@ -3134,25 +3311,25 @@ minorLogTicks <- function
          asValues,
          logAxisType,
          logBase=displayBase,
-         labelValueOffset=labelValueOffset,
+         offset=offset,
          symmetricZero=symmetricZero);
       iX;
    });
    ## majorLabels represents the numeric value associated with each
    ## axis position desired
    ##
-   ## However, when labelValueOffset == 1, it means the actual axis
+   ## However, when offset == 1, it means the actual axis
    ## position for value=10 was calculated using log10(10+1),
    ## which slightly shifts the actual axis position to the right.
    ## Therefore, in that case we must re-calculate majorTicks using
    ## the new axis space.
-   if (labelValueOffset > 0 || symmetricZero) {
+   if (offset > 0 || symmetricZero) {
       if (verbose) {
          printDebug("minorLogTicks(): ",
             "adjusted axis position for log base ",
             logBase,
-            " labels using labelValueOffset:",
-            labelValueOffset);
+            " labels using offset:",
+            offset);
          printDebug("minorLogTicks(): ",
             "majorTicks:",
             format(digits=2, trim=TRUE, majorTicks));
@@ -3160,21 +3337,21 @@ minorLogTicks <- function
       if (any(majorLabels < 0) && any(majorLabels) > 0) {
          if (verbose) {
             printDebug("minorLogTicks(): ",
-               "Included zero with majorLabels since labelValueOffset is non-zero");
+               "Included zero with majorLabels since offset is non-zero");
          }
          majorLabels <- sort(unique(c(majorLabels, -1, 0)));
       }
       if (symmetricZero) {
-         iUse <- noiseFloor(abs(majorLabels) + labelValueOffset,
+         iUse <- noiseFloor(abs(majorLabels) + offset,
             minimum=1);
          majorTicks <- (log(iUse, base=logBase) *
                ifelse(majorLabels < 0, -1, 1));
       } else {
-         majorTicks <- log(abs(majorLabels) + labelValueOffset,
+         majorTicks <- log(abs(majorLabels) + offset,
             base=logBase) * ifelse(majorLabels < 0, -1, 1);
       }
    } else {
-      majorTicks <- log(majorLabels + labelValueOffset, base=logBase);
+      majorTicks <- log(majorLabels + offset, base=logBase);
    }
    printDebug("majorTicks:", majorTicks);
    printDebug("majorLabels:", majorLabels);
@@ -3241,11 +3418,11 @@ minorLogTicks <- function
                "Calculating minor ticks based upon majorTick:",
                i);
          }
-         if ((labelValueOffset > 0 && i < 0) ||
+         if ((offset > 0 && i < 0) ||
                symmetricZero ||
                igrepHas("flip", logAxisType)) {
-            iBase <- logBase^i - labelValueOffset;
-            iBaseAbs <- (logBase^abs(i) - labelValueOffset) * ifelse(i < 0, -1, 1);
+            iBase <- logBase^i - offset;
+            iBaseAbs <- (logBase^abs(i) - offset) * ifelse(i < 0, -1, 1);
             if (iBase == 0 ||
                   (symmetricZero && i == 0)) {
                iSeries <- unique(sort(c(-1 * minorSet * iBase,
@@ -3264,7 +3441,7 @@ minorLogTicks <- function
                if (iBase < 0) {
                   iSeries <- rev(iSeries);
                }
-               if (labelValueOffset == 0 &&
+               if (offset == 0 &&
                      symmetricZero &&
                      iBase == 1) {
                   if (verbose) {
@@ -3285,7 +3462,7 @@ minorLogTicks <- function
             }
             iSet <- unique(log(abs(iSeries), base=logBase)*ifelse(sign(iSeries)<0,-1,1));
          } else {
-            iBase <- logBase^i - labelValueOffset;
+            iBase <- logBase^i - offset;
             iSeries <- unique(sort(minorSet * iBase));
             iSeriesLab <- unique(sort(minorWhich * iBase));
             iSet <- log(iSeries, base=logBase);
@@ -3304,25 +3481,25 @@ minorLogTicks <- function
    #minorLabelsUse <- minorLabelsAll[minorLabelsAll[,"label"],"series"];
 
    ## Calculate minor ticks
-   if (labelValueOffset > 0 ||
+   if (offset > 0 ||
          symmetricZero ||
          igrepHas("flip", logAxisType)) {
-      #minorTicksAll <- (log(abs(minorLabels)+labelValueOffset, logBase) *
+      #minorTicksAll <- (log(abs(minorLabels)+offset, logBase) *
       #      ifelse(minorLabels < 0, -1, 1));
-      minorTicksAll <- (log(abs(minorLabelsDF$label)+labelValueOffset, logBase) *
+      minorTicksAll <- (log(abs(minorLabelsDF$label)+offset, logBase) *
             ifelse(minorLabelsDF$label < 0, -1, 1));
       minorLabelsDF$tick <- minorTicksAll;
    } else if (igrepHas("flip", logAxisType)) {
-      minorTicksAll <- (log(abs(minorLabelsDF$label)+labelValueOffset, logBase) *
+      minorTicksAll <- (log(abs(minorLabelsDF$label)+offset, logBase) *
             ifelse(minorLabelsDF$label < 0, -1, 1));
       minorLabelsDF$tick <- minorTicksAll;
    } else {
-      minorTicksAll <- log(minorLabelsDF$label+labelValueOffset, logBase);
+      minorTicksAll <- log(minorLabelsDF$label+offset, logBase);
       minorLabelsDF$tick <- minorTicksAll;
    }
    minorLabelsDF <- minorLabelsDF[!minorLabelsDF$tick %in% majorLabelsDF$tick,,drop=FALSE];
    minorLabelsDF <- cleanLTdf(minorLabelsDF);
-   #names(minorTicksAll) <- makeNames(names(minorTicksAll));
+
    minorTicks <- minorLabelsDF$tick;
    allLabelsDF <- rbind(majorLabelsDF,
       minorLabelsDF);
@@ -3334,19 +3511,13 @@ minorLogTicks <- function
    minorLabels <- subset(allLabelsDF, type %in% "minor")$text;
    minorTicks <- subset(allLabelsDF, type %in% "minor")$tick;
 
-   ## Check labelValueOffset, and apply to the tick positions, not the labels
-   #if (labelValueOffset != 0) {
-   #   majorTicks <- log10(10^(majorTicks) + labelValueOffset);
-   #   minorTicks <- log10(10^(minorTicks) + labelValueOffset);
-   #}
-
    if (combine) {
       majorTicks <- sort(unique(c(majorTicks, minorTicks)));
       minorTicks <- majorTicks;
    }
    minorLabels1 <- sapply(names(minorTicks), function(iName) {
-      if (labelValueOffset > 0 || symmetricZero) {
-         i <- (logBase^abs(minorTicks[iName]) - labelValueOffset) * ifelse(minorTicks[iName] < 0, -1, 1);
+      if (offset > 0 || symmetricZero) {
+         i <- (logBase^abs(minorTicks[iName]) - offset) * ifelse(minorTicks[iName] < 0, -1, 1);
       } else {
          i <- minorTicks[iName];
       }
@@ -3357,7 +3528,7 @@ minorLogTicks <- function
             asValues,
             logAxisType,
             logBase,
-            labelValueOffset=labelValueOffset);
+            offset=offset);
       }
       iX;
    });
@@ -3365,8 +3536,8 @@ minorLogTicks <- function
    minorTicks <- unname(minorTicks);
 
    ## if the axis is log transformed, we must exponentiate the values for plotting to work properly
-   if ((ax %in% c(1,3) && par("xlog")) ||
-         (ax %in% c(2,4) && par("ylog"))) {
+   if ((side %in% c(1,3) && par("xlog")) ||
+         (side %in% c(2,4) && par("ylog"))) {
       if (verbose) {
          printDebug("minorLogTicks(): ",
             "Exponentiating axis coordinates.");
@@ -3404,22 +3575,24 @@ minorLogTicks <- function
 getAxisLabel <- function
 (i,
  asValues,
- logAxisType,
+ logAxisType=c("normal", "flip", "pvalue"),
  logBase,
  base_limit=2,
- labelValueOffset=0,
- symmetricZero=(labelValueOffset > 0),
+ offset=0,
+ symmetricZero=(offset > 0),
  ...)
 {
    ## This function takes an axis coordinate and transforms into the
-   ## corresponding label. Note that it does NOT apply labelValueOffset,
+   ## corresponding label. Note that it does NOT apply offset,
    ## since this function serves a specific purpose within the
    ## minorLogTicks() parent function.
+   logAxisType <- match.arg(logAxisType);
+
    if (asValues) {
       if (igrepHas("flip", logAxisType)) {
-         #iX <- (logBase^abs(i) - labelValueOffset) * ifelse(sign(i)<0,-1,1);
+         #iX <- (logBase^abs(i) - offset) * ifelse(sign(i)<0,-1,1);
          iX <- (logBase^abs(i)) * ifelse(i < 0, -1, 1);
-      } else if (labelValueOffset > 0 || symmetricZero) {
+      } else if (offset > 0 || symmetricZero) {
          iX <- (logBase^abs(i)) * ifelse(i < 0, -1, 1);
       } else {
          iX <- logBase^i;

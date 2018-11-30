@@ -43,12 +43,32 @@ between 0 and 1, however other ranges can be defined as needed.
 NA values are ignored and will remain NA in the output. To handle
 NA values, use the \code{rmNA()} function, which can optionally replace
 NA with a fixed numeric value.
+
+The parameters \code{low} and \code{high} are used optionally to provide a
+fixed range of values expected for \code{x}, which is useful for
+consistent scaling of \code{x}. Specifically, if \code{x} may be a
+vector of numeric values ranging from 0 and 100, you would
+define \code{low=0} and \code{high=100} so that \code{x} will be consistently
+scaled regardless what actual range is represented by \code{x}.
+
+Note that when \code{x} contains only one value, and \code{low} and \code{high}
+are not defined, then \code{x} will be scaled based upon the
+argument \code{singletMethod}. For example, if you provide \code{x=2}
+and want to scale \code{x} values to between 0 and 10... \code{x} can
+either be the \code{mean} value \code{5}; the \code{min}imum value \code{0}; or
+the \code{max}imum value \code{10}.
+
+However, if \code{low} or \code{high} are defined, then x will be scaled
+relative to that range.
 }
 \examples{
 # Notice the first value 1 is re-scaled to 0
 normScale(1:11);
 
-# Here the low value is defined as 0, even though the lowest input is 1
+# Scale values from 0 to 10
+normScale(1:11, from=0, to=10);
+
+# Here the low value is defined as 0
 normScale(1:10, low=0);
 
 normScale(c(10,20,40,30), from=50, to=65);

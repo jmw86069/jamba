@@ -1,3 +1,30 @@
+# jamba version 0.0.22.900
+
+## changes to existing functions
+
+* `minorLogTicks()` and `minorLogTicksAxis()` had an argument renamed
+to `offset` instead of `labelValueOffset`. Better to change it now before
+it has wider use. Also, the defaults were changed to `logBase=2` and
+`displayBase=10` based upon the current most frequent usage. Best to
+set these values explicitly. Ideally, R graphical parameters
+should define the log base instead of TRUE/FALSE in `par("xlog")`
+and `par("ylog")`.
+* `normScale()` was modified so the `low` and `high` range values
+are properly honored even when supplying a single value for `x`.
+Now the behavior checks if `low` is equal `high` to determine
+whether to use the `low` and `high` values. This adjustment helps
+`applyCLranges()` restrict colors to allowed ranges without
+over-correcting single colors to the midpoint of the range.
+
+## new functions
+
+* Added function `sqrtAxis()` which computes axis tick mark
+positions for data that has been square root transformed, using
+transformation `sqrt(abs(x))*sign(x)` in order to maintain positive
+and negative values. This function is called by
+`plotPolygonDensity()` when using `xScale="sqrt"`.
+
+
 # jamba version 0.0.21.900
 
 ## bug fixes

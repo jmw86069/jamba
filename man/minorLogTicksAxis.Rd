@@ -4,17 +4,16 @@
 \alias{minorLogTicksAxis}
 \title{Display major and minor tick marks for log-scale axis}
 \usage{
-minorLogTicksAxis(ax = NULL, lims = NULL, logBase = 10,
-  displayBase = logBase, labelValueOffset = 0,
-  symmetricZero = (labelValueOffset > 0), majorCex = 1,
-  minorCex = 0.65, majorN = 5, minorN = logBase, doMajor = TRUE,
-  doLabels = TRUE, doMinorLabels = TRUE, asValues = TRUE,
-  padj = NULL, doFormat = TRUE, big.mark = ",", scipen = 10,
-  minorWhich = c(2, 5), cex = 1, las = 2, col = "black",
+minorLogTicksAxis(side = NULL, lims = NULL, logBase = 2,
+  displayBase = 10, offset = 0, symmetricZero = (offset > 0),
+  majorCex = 1, minorCex = 0.65, doMajor = TRUE, doLabels = TRUE,
+  doMinorLabels = TRUE, asValues = TRUE, padj = NULL,
+  doFormat = TRUE, big.mark = ",", scipen = 10, minorWhich = c(2,
+  5), logStep = 1, cex = 1, las = 2, col = "black",
   col.ticks = col, minorLogTicksData = NULL, verbose = FALSE, ...)
 }
 \arguments{
-\item{ax}{integer indicating the axis side, 1=bottom, 2=left,
+\item{side}{integer indicating the axis side, 1=bottom, 2=left,
 3=top, 4=right.}
 
 \item{lims}{NULL or numeric range for which the axis tick marks
@@ -29,11 +28,11 @@ use when determining the numeric label position. For example,
 data may be log2 scaled, and yet it is visually intuitive to
 show log transformed axis units in base 10 units. See examples.}
 
-\item{labelValueOffset}{numeric offset used in transforming the
+\item{offset}{numeric offset used in transforming the
 numeric data displayed on this axis. For example, a common
 technique is to transform data using \code{log2(1+x)} which adds
 \code{1} to values prior to the log2 transformation. In this case,
-\code{labelValueOffset=1}, which ensures the axis labels exactly
+\code{offset=1}, which ensures the axis labels exactly
 match the initial numeric value prior to the log2 transform.}
 
 \item{symmetricZero}{logical indicating whether numeric values
@@ -47,10 +46,6 @@ labeled \code{-4} to indicate a negative four fold change. If
 to cex=1 for default text size. These factors are applied in
 addition to existing \code{par("cex")} values, preserving any
 global text size defined there.}
-
-\item{majorN, minorN}{numeric values indicating the number of
-axis labels, similar to how \code{n} is used by the function
-\code{base::pretty()} to guide the number of labels to display.}
 
 \item{padj}{numeric vector length 2, which is used to position
 axis labels for the minor and major labels, respectively. For
@@ -97,17 +92,33 @@ calculates appropriate tick and label positions. The
 axis tick mark positions and labels are determined via
 \code{jamba::minorLogTicks()}.
 
+Note: This function assumes the axis values have already been
+log-transformed. Make sure to adjust the \code{offset} to reflect
+the method of log-transformation, for example:
+\itemize{
+\item \code{log2(1+x)} would require \code{logBase=2} and \code{offset=1} in order
+to represent values properly at or near zero.
+\item \code{log(0.5+x)} would require \code{logBase=exp(1)} and \code{offset=0.5}.
+\item \code{log10(x)} would require \code{logBase=10} and \code{offset=0}.
+}
+
+The defaults \code{logBase=2} and \code{displayBase=10} assume data
+has been log2-transformed, and displays tick marks using the
+common base of 10. To display tick marks at two-fold intervals,
+use \code{displayBase=2}.
+
 This function was motivated in order to label log-transformed
 data properly in some special cases, like using \code{log2(1+x)}
 where the resulting values are shifted "off by one" using
 standard log-scaled axis tick marks and labels.
 
-Also, when using log fold change values, this function
-creates axis labels which indicate negative fold change
-values, for example \code{-2} in log2 fold change units would
-be labeled with fold change \code{-4}, and not \code{0.0625} which
-represents a fractional value.
+For log fold changes, set \code{symmetricZero=TRUE}, which will
+create negative log scaled fold change values as needed for
+negative values. For example, this option would label a
+\code{logBase=2} value of \code{-2} as \code{-4} and not as \code{0.25}.
 
-Use the argument \code{symmetricZero=TRUE} when using directional
-log fold change values.
+Note that by default, whenever \code{offset > 0} the argument
+\code{symmetricZero=TRUE} is also defined, since a negative value in
+that scenario has little meaning. This behavior can be turned
+off by setting \code{symmetricZero=FALSE}.
 }

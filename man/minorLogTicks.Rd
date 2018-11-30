@@ -4,13 +4,62 @@
 \alias{minorLogTicks}
 \title{Calculate major and minor tick marks for log-scale axis}
 \usage{
-minorLogTicks(ax = NULL, lims = NULL, logBase = 10,
-  displayBase = logBase, majorN = 5, minorN = logBase,
-  minorWhich = c(1, 2, 5), whichTicks = seq_len(displayBase),
-  minTick = NULL, maxTick = NULL, asValues = TRUE,
-  labelValueOffset = 0, symmetricZero = (labelValueOffset > 0),
+minorLogTicks(side = NULL, lims = NULL, logBase = 2,
+  displayBase = 10, logStep = 1, minorWhich = c(2, 5),
+  asValues = TRUE, offset = 0, symmetricZero = (offset > 0),
   col = "black", col.ticks = col, combine = FALSE,
   logAxisType = c("normal", "flipped", "pvalue"), verbose = FALSE, ...)
+}
+\arguments{
+\item{side}{integer value indicating which axis to produce tick
+marks, 1=bottom, 2=left, 3=top, 4=right.}
+
+\item{lims}{numeric vector length=2, indicating specific numeric
+range to use for tick marks.}
+
+\item{logBase}{numeric value indicating the logarithmic base, assumed
+to be applied to the numeric \code{lims} limits, or the axis range,
+previously.}
+
+\item{displayBase}{numeric value indicating the base used to position
+axis labels, typically \code{displayBase=10} is used to draw labels
+at typical positions.}
+
+\item{logStep}{integer value indicating the number of log steps
+between major axis label positions. Typically \code{logStep=1} will
+draw a label every log position based upon \code{displayBase}, for
+example \code{displayBase=10} and \code{logStep=1} will use \code{c(1,10,100,1000)};
+and \code{displayBase=10} and \code{logStep=2} would use \code{c(1,100,10000)}.}
+
+\item{minorWhich}{integer vector of values to label, where those
+integer values are between 1 and \code{displayBase}, for example
+\code{displayBase=10} may label only \code{c(2,5)}, which implies minor
+tick labels at \code{c(2, 5, 20, 50, 200, 500)}. Any minor labels
+which would otherwise equal a major tick position are removed.
+By default, when \code{displayBase=2}, \code{minorWhich=c(1.5)} which has the
+effect of drawing one minor label between each two-fold
+major tick label.}
+
+\item{asValues}{logical indicating whether to create exponentiated
+numeric labels. When \code{asValues=FALSE}, it creates \code{expression} objects
+which include the exponential value. Use \code{asValues=FALSE} and
+\code{logAxisType="pvalue"} to draw P-value labels.}
+
+\item{offset}{numeric value added during log transformation, typically
+of the form \code{log(1 + x)} where \code{offset=1}. The offset is used to
+determine the accurate numeric label such that values of \code{0} are
+properly labeled by the original numeric value.}
+
+\item{symmetricZero}{logical indicating whether numeric values
+are symmetric around zero. For example, log fold changes should
+use \code{symmetricZero=TRUE} which ensures a log2 value of \code{-2} is
+labeled \code{-4} to indicate a negative four fold change. If
+\code{symmetricZero=FALSE} a log2 value of \code{-2} would be labeled
+\code{0.0625}.}
+
+\item{verbose}{logical indicating whether to print verbose output.}
+
+\item{...}{additional parameters are ignored.}
 }
 \value{
 List of axis tick positions, and corresponding labels, for major
@@ -50,7 +99,7 @@ xlim <- c(0,4);
 nullPlot(xlim=xlim, doMargins=FALSE);
 mlt <- minorLogTicks(1,
    logBase=10,
-   labelValueOffset=1,
+   offset=1,
    minTick=0);
 maj <- subset(mlt$allLabelsDF, type \%in\% "major");
 axis(1, las=2,
@@ -68,17 +117,16 @@ minorLogTicksAxis(1, logBase=2, displayBase=10, symmetricZero=TRUE);
 
 nullPlot(xlim=c(-4,10), doMargins=FALSE);
 axis(3, las=2);
-minorLogTicksAxis(1, logBase=2, displayBase=10, labelValueOffset=1);
+minorLogTicksAxis(1, logBase=2, displayBase=10, offset=1);
 x2 <- rnorm(1000) * 40;
 d2 <- density(log2(1+abs(x2)) * ifelse(x2<0, -1, 1));
 lines(x=d2$x, y=normScale(d2$y)+1, col="green4");
 
 nullPlot(xlim=c(0,10), doMargins=FALSE);
 axis(3, las=2);
-minorLogTicksAxis(1, logBase=2, displayBase=10, labelValueOffset=1);
+minorLogTicksAxis(1, logBase=2, displayBase=10, offset=1);
 x1 <- c(0, 5, 15, 200);
 text(y=rep(1.0, 4), x=log2(1+x1), label=x1, srt=90, adj=c(0,0.5));
 points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
-
 
 }

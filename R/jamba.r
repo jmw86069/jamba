@@ -3553,6 +3553,23 @@ sclass <- function
 #' NA values, use the `rmNA()` function, which can optionally replace
 #' NA with a fixed numeric value.
 #'
+#' The parameters `low` and `high` are used optionally to provide a
+#' fixed range of values expected for `x`, which is useful for
+#' consistent scaling of `x`. Specifically, if `x` may be a
+#' vector of numeric values ranging from 0 and 100, you would
+#' define `low=0` and `high=100` so that `x` will be consistently
+#' scaled regardless what actual range is represented by `x`.
+#'
+#' Note that when `x` contains only one value, and `low` and `high`
+#' are not defined, then `x` will be scaled based upon the
+#' argument `singletMethod`. For example, if you provide `x=2`
+#' and want to scale `x` values to between 0 and 10... `x` can
+#' either be the `mean` value `5`; the `min`imum value `0`; or
+#' the `max`imum value `10`.
+#'
+#' However, if `low` or `high` are defined, then x will be scaled
+#' relative to that range.
+#'
 #' @param x numeric vector.
 #' @param from the minimum numeric value to re-scale the input numeric vector.
 #' @param to the maximum numeric value to re-scale the input numeric vector.
@@ -3574,7 +3591,10 @@ sclass <- function
 #' # Notice the first value 1 is re-scaled to 0
 #' normScale(1:11);
 #'
-#' # Here the low value is defined as 0, even though the lowest input is 1
+#' # Scale values from 0 to 10
+#' normScale(1:11, from=0, to=10);
+#'
+#' # Here the low value is defined as 0
 #' normScale(1:10, low=0);
 #'
 #' normScale(c(10,20,40,30), from=50, to=65);
@@ -3612,7 +3632,12 @@ normScale <- function
    ##
    #x <- ((x - min(x, na.rm=na.rm)) / diff(range(x, na.rm=na.rm)) * diff(c(from,to))) +  from;
    ##
-   if (length(rmNA(x)) == 1) {
+   ## If given low and high, and they are different (meaning there is
+   ## more than one input value), then we honor that range. This way
+   ## we can receive a single value, along with a defined low and high,
+   ## and process it consistently
+   if (length(low) > 0 && length(high) > 0 && low == high) {
+   #if (length(rmNA(x)) == 1) {
       singletMethod <- match.arg(singletMethod);
       if (singletMethod %in% "mean") {
          x[!is.na(x)] <- mean(c(from, to));
