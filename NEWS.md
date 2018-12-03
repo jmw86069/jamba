@@ -24,6 +24,14 @@ transformation `sqrt(abs(x))*sign(x)` in order to maintain positive
 and negative values. This function is called by
 `plotPolygonDensity()` when using `xScale="sqrt"`.
 
+## bug fixed
+
+* Cleaned up an issue with `getColorRamp()` with RColorBrewer colors,
+where it previously would retrieve colors using a number higher then
+the actual number supplied by `RColorBrewer::brewer.pal()`, and
+which only issues a warning (which I had hidden.) The code now checks
+for the proper maximum number, and expands to the larger number using
+`colorRampPalette()` as needed.
 
 # jamba version 0.0.21.900
 

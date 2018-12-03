@@ -1021,20 +1021,13 @@ getColorRamp <- function
             stop(paste0("The RColorBrewer package is required for",
                "getColorRamp, when only one col is specified."));
          }
-         if (length(n) == 0) {
-            cols <- brewer.pal(15, col);
-         } else {
-            cols <- brewer.pal(n, col);
-         }
-         if (reverseRamp) {
-            cols <- rev(cols);
-         }
+         brewerN <- brewer.pal.info[col,"maxcolors"];
          ## Check for qualitative palette, and if n is given
          ## then limit to the max number of colors
          if (length(n) > 0 && brewer.pal.info[col,"category"] %in% "qual") {
             n1 <- brewer.pal.info[col,"maxcolors"];
-            if (n > n1) {
-               n <- n1;
+            if (n > brewerN) {
+               n <- brewerN;
                if (verbose) {
                   printDebug("getColorRamp(): ",
                      "Fixing n=",
@@ -1042,6 +1035,19 @@ getColorRamp <- function
                      " using Brewer qualitative color length.");
                }
             }
+         }
+         ## Get color ramp
+         if (length(n) == 0) {
+            cols <- brewer.pal(brewerN, col);
+         } else {
+            if (n > brewerN) {
+               cols <- colorRampPalette(brewer.pal(brewerN, col))(n);
+            } else {
+               cols <- brewer.pal(brewerN, col);
+            }
+         }
+         if (reverseRamp) {
+            cols <- rev(cols);
          }
          ## Optionally trim the first and last value
          if (any(trimRamp > 0)) {
