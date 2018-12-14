@@ -5,7 +5,7 @@
 \title{Convert RGB color matrix to R color}
 \usage{
 rgb2col(red, green = NULL, blue = NULL, alpha = NULL, names = NULL,
-  maxColorValue = NULL, keepNA = TRUE, ...)
+  maxColorValue = NULL, keepNA = TRUE, verbose = FALSE, ...)
 }
 \arguments{
 \item{red}{numeric vector of red values; or RGB numeric matrix with
@@ -21,7 +21,14 @@ character string, this parameter is ignored.}
 character string, this parameter is ignored.}
 
 \item{alpha}{numeric vector, or when red is a matrix or comma-delimited
-character string, this parameter is ignored.}
+character string, this parameter is ignored. Alpha values are always
+expected in range \code{[0,1]}, even when \code{maxColorValue} is higher
+than \code{1}. When \code{alpha} is \code{FALSE}, the alpha transparency is removed.
+When \code{alpha} is \code{TRUE} the original alpha transparency is retained
+without change. If supplying \code{alpha} as a numeric vector, use \code{Inf}
+to represent \code{TRUE} for alpha values to be kept without change, and
+use \code{-1} or any negative number to indicate alpha values to remove
+from the output.}
 
 \item{maxColorValue}{numeric maximum value for colors. If NULL then it
 defaults to 1 unless there are values above 1, in which case it defaults
@@ -31,8 +38,7 @@ to 255.}
 input where red, green, and/or blue are NA. If keepNA==FALSE then it
 substitutes 0 for any NA values.}
 
-\item{alpha}{numeric vector, or when red is a matrix or comma-delimited
-character string, this parameter is ignored.}
+\item{verbose}{logical indicating whether to print verbose output}
 }
 \description{
 Convert RGB color matrix to R color
@@ -45,6 +51,29 @@ function also maintains alpha transparency when supplied.
 
 The output is named either by names(red), rownames(red), or if supplied,
 the value of the parameter \code{names}.
+
+Note that \code{alpha} is used to define alpha transparency, but has
+additional control over the output.
+\itemize{
+\item When \code{alpha} is \code{FALSE} then
+output colors will not have the alpha transparency, in hex form that
+means colors are in format \code{"#RRGGBB"} and not \code{"#RRGGBBAA"}.
+\item When \code{alpha} is \code{TRUE} the previous alpha transparency values are
+used without change.
+\item When \code{alpha} is a numeric vector, numeric values are always
+expected to be in range \code{[0,1]}, where \code{0} is completely transparent,
+and \code{1} is completely not transparent. Supplied \code{alpha} values will
+override those present in \code{red} when \code{red} is a matrix like that
+produced from \code{grDevices::col2rgb(..., alpha=TRUE)}.
+\item When \code{alpha} is a numeric vector, use \code{-1} or any negative number
+to indicate the alpha value should be removed.
+\item When \code{alpha} is a numeric vector, use \code{Inf} to indicate the alpha
+transparency should be retained without change.
+}
+
+Therefore, \code{alpha = c(-1, 0, 1, Inf)} will apply the following,
+in order: remove alpha; set alpha to 0; set alpha to 1; set alpha
+to the same as the input color.
 }
 \examples{
 # start with a color vector

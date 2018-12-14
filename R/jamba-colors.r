@@ -474,6 +474,28 @@ col2hsv <- function
 #' The output is named either by names(red), rownames(red), or if supplied,
 #' the value of the parameter \code{names}.
 #'
+#' Note that `alpha` is used to define alpha transparency, but has
+#' additional control over the output.
+#'
+#' * When `alpha` is `FALSE` then
+#' output colors will not have the alpha transparency, in hex form that
+#' means colors are in format `"#RRGGBB"` and not `"#RRGGBBAA"`.
+#' * When `alpha` is `TRUE` the previous alpha transparency values are
+#' used without change.
+#' * When `alpha` is a numeric vector, numeric values are always
+#' expected to be in range `[0,1]`, where `0` is completely transparent,
+#' and `1` is completely not transparent. Supplied `alpha` values will
+#' override those present in `red` when `red` is a matrix like that
+#' produced from `grDevices::col2rgb(..., alpha=TRUE)`.
+#' * When `alpha` is a numeric vector, use `-1` or any negative number
+#' to indicate the alpha value should be removed.
+#' * When `alpha` is a numeric vector, use `Inf` to indicate the alpha
+#' transparency should be retained without change.
+#'
+#' Therefore, `alpha = c(-1, 0, 1, Inf)` will apply the following,
+#' in order: remove alpha; set alpha to 0; set alpha to 1; set alpha
+#' to the same as the input color.
+#'
 #' @param red numeric vector of red values; or RGB numeric matrix with
 #'    rownames c("red","green","blue") in any order, with optional rowname
 #'    "alpha"; or character strings with comma-separated rgb values, in
@@ -484,15 +506,21 @@ col2hsv <- function
 #' @param blue numeric vector, or when red is a matrix or comma-delimited
 #'    character string, this parameter is ignored.
 #' @param alpha numeric vector, or when red is a matrix or comma-delimited
-#'    character string, this parameter is ignored.
-#' @param alpha numeric vector, or when red is a matrix or comma-delimited
-#'    character string, this parameter is ignored.
+#'    character string, this parameter is ignored. Alpha values are always
+#'    expected in range `[0,1]`, even when `maxColorValue` is higher
+#'    than `1`. When `alpha` is `FALSE`, the alpha transparency is removed.
+#'    When `alpha` is `TRUE` the original alpha transparency is retained
+#'    without change. If supplying `alpha` as a numeric vector, use `Inf`
+#'    to represent `TRUE` for alpha values to be kept without change, and
+#'    use `-1` or any negative number to indicate alpha values to remove
+#'    from the output.
 #' @param maxColorValue numeric maximum value for colors. If NULL then it
 #'    defaults to 1 unless there are values above 1, in which case it defaults
 #'    to 255.
 #' @param keepNA logical whether to keep NA values, returning NA for any
 #'    input where red, green, and/or blue are NA. If keepNA==FALSE then it
 #'    substitutes 0 for any NA values.
+#' @param verbose logical indicating whether to print verbose output
 #'
 #' @examples
 #' # start with a color vector
@@ -517,6 +545,7 @@ rgb2col <- function
  names=NULL,
  maxColorValue=NULL,
  keepNA=TRUE,
+ verbose=FALSE,
  ...)
 {
    ## Purpose is to augment the function rgb() which does not handle output
@@ -557,31 +586,78 @@ rgb2col <- function
          if (ncol(red) < 3) {
             stop("at least 3 columns needed");
          }
-         rCol <- vigrep("^R$|red", colnames(red));
-         gCol <- vigrep("^G$|green", colnames(red));
-         bCol <- vigrep("^B$|blue", colnames(red));
+         rCol <- head(vigrep("^R$|red", colnames(red)), 1);
+         gCol <- head(vigrep("^G$|green", colnames(red)), 1);
+         bCol <- head(vigrep("^B$|blue", colnames(red)), 1);
          if (length(rCol) == 0) { rCol <- 1; }
          if (length(gCol) == 0) { gCol <- 2; }
          if (length(bCol) == 0) { bCol <- 3; }
          green <- red[,gCol];
          blue <- red[,bCol];
+         if (length(maxColorValue) == 0) {
+            if (max(c(red, green, blue), na.rm=TRUE) > 1) {
+               maxColorValue <- 255;
+            } else {
+               maxColorValue <- 1;
+            }
+         }
          if (ncol(red) >= 4) {
-            alpha <- red[, 4];
+            alphaCol <- head(vigrep("alpha", colnames(red)), 1);
+            if (length(alphaCol) == 0) { alphaCol <- 4; }
+            if (length(alpha) > 0) {
+               ## Check if function argument defines alpha
+               alpha <- rep(alpha, length.out=length(green));
+               ## Entries to omit alpha have either FALSE, NA, or -1
+               alphaBlank <- (isFALSEV(alpha) |
+                  is.na(alpha) |
+                  alpha < 0);
+               ## Entries to keep the previous alpha have TRUE or Inf
+               alphaAsis <- (isTRUEV(alpha) |
+                  (is.infinite(alpha) & alpha > 0));
+               if (any(alphaAsis)) {
+                  alpha[alphaAsis] <- red[alphaAsis, alphaCol] / maxColorValue;
+               }
+               if (any(alphaBlank)) {
+                  alpha[alphaBlank] <- rep(-1, sum(alphaBlank));
+               }
+               if (verbose) {
+                  printDebug("rgb2col(): ",
+                     "applying supplied alpha:",
+                     alpha);
+               }
+            } else {
+               ## If alpha is NULL from function arguments,
+               ## use alpha as-is, without change from the input colors
+               alpha <- red[, alphaCol] / maxColorValue;
+            }
          }
          red <- red[,rCol];
       }
    }
-   if (is.null(maxColorValue)) {
-      if (max(c(red, green, blue)) > 1) {
+   if (length(maxColorValue) == 0) {
+      if (max(c(red, green, blue), na.rm=TRUE) > 1) {
          maxColorValue <- 255;
       } else {
          maxColorValue <- 1;
       }
    }
 
-   if (is.null(alpha)) {
-      alpha <- maxColorValue;
+   if (length(alpha) == 0) {
+      alpha <- rep(maxColorValue, length.out=length(green));
+   } else if (any(isFALSEV(alpha) | alpha < 0 | is.na(alpha))) {
+      alpha <- rep(alpha, length.out=length(green));
+      alphaBlank <- (isFALSEV(alpha) | alpha < 0 | is.na(alpha));
+      if (any(alphaBlank)) {
+         alpha[alphaBlank] <- -1;
+         alpha[!alphaBlank] <- alpha[!alphaBlank] * maxColorValue;
+      } else {
+         alpha <- alpha * maxColorValue;
+      }
+   } else {
+      alpha <- rep(alpha, length.out=length(red)) * maxColorValue;
    }
+   ## Make sure all alpha values are not higher than maxColorValue
+   alpha <- noiseFloor(alpha, minimum=-1, ceiling=maxColorValue);
 
    ## Gracefully handle NA by substituting with zero
    anyNA <- (is.na(red) | is.na(green) | is.na(green));
@@ -590,8 +666,35 @@ rgb2col <- function
       green <- rmNA(green, naValue=0);
       blue <- rmNA(blue, naValue=0);
    }
-   result <- grDevices::rgb(red=red, green=green, blue=blue,
-      alpha=alpha, maxColorValue=maxColorValue, names=names);
+   if (!any(alpha < 0)) {
+      result <- grDevices::rgb(red=red,
+         green=green,
+         blue=blue,
+         alpha=alpha,
+         maxColorValue=maxColorValue,
+         names=names);
+   } else {
+      whichNoalpha <- (alpha < 0);
+      if (verbose) {
+         printDebug("rgb2col(): ",
+            "applying supplied alpha whichNoalpha:",
+            whichNoalpha);
+      }
+      result1 <- grDevices::rgb(red=red[whichNoalpha],
+         green=green[whichNoalpha],
+         blue=blue[whichNoalpha],
+         maxColorValue=maxColorValue,
+         names=names[whichNoalpha]);
+      result2 <- grDevices::rgb(red=red[!whichNoalpha],
+         green=green[!whichNoalpha],
+         blue=blue[!whichNoalpha],
+         alpha=alpha[!whichNoalpha],
+         maxColorValue=maxColorValue,
+         names=names[!whichNoalpha]);
+      result <- rep("", length.out=length(red));
+      result[whichNoalpha] <- result1;
+      result[!whichNoalpha] <- result2;
+   }
 
    ## Optionally revert back to NA instead of using the zeros
    if (keepNA && any(anyNA)) {
@@ -1653,4 +1756,31 @@ warpRamp <- function
          ...);
    }
    invisible(newRamp);
+}
+
+#' Remove alpha transparency from colors
+#'
+#' Remove alpha transparency from colors
+#'
+#' This function simply removes the alpha transparency from
+#' R colors, returned in hex format, for example `"#FF0000FF"`
+#' becomes `"#FF0000"`, or `"blue"` becomes `"#0000FF"`.
+#'
+#' It also silently converts R color names to hex format,
+#' where applicable.
+#'
+#' @return character vector of R colors in hex format.
+#'
+#' @export
+unalpha <- function
+(x,
+ ...)
+{
+   ## Purpose is to remove alpha transparency from R colors.
+   ## It also silently converts R color names to hex format.
+   iV <- rgb2col(col2rgb(x), alpha=FALSE);
+   if (length(names(x)) > 0) {
+      names(iV) <- names(x);
+   }
+   iV;
 }

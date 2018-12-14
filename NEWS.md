@@ -1,3 +1,22 @@
+# jamba version 0.0.23.900
+
+## new functions
+
+* `unalpha()` simply removes the alpha transparency from an
+R hex color, which is required for some plotly functions
+for example.
+* `isTRUEV()` and `isFALSEV()` are vectorized forms of `isTRUE()`
+and `isFALSE()`. As they take vector input, the entire vector must
+be `logical` in order for any entry to be considered.
+
+## changes to existing functions
+
+* `rgb2col()` was enhanced so the `alpha` argument conveys whether
+to return alpha transparency in the output string. It seemed to
+be a convenient place to control alpha since the conversion of
+color names to hex requires converting to RGB as an intermediate,
+then back to hex color.
+
 # jamba version 0.0.22.900
 
 ## changes to existing functions

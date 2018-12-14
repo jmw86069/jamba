@@ -4317,3 +4317,48 @@ newestFile <- function
    return(head(x[iFOorder], n));
 }
 
+#' Vectorized isFALSE
+#'
+#' Vectorized isFALSE
+#'
+#' This function applies three criteria to an input vector, to
+#' determine if each entry in the vector is FALSE:
+#'
+#' 1. It must be class `logical`.
+#' 2. It must not be `NA`.
+#' 3. It must evaluate as `FALSE`.
+#'
+#' @param x vector
+#' @param ... additional arguments are ignored
+#'
+#' @export
+isFALSEV <- function
+(x,
+   ...)
+{
+   ## Purpose is to supply vectorized version of base::isFALSE()
+   (is.logical(x) & !is.na(x) & !x)
+}
+
+#' Vectorized isTRUE
+#'
+#' Vectorized isTRUE
+#'
+#' This function applies three criteria to an input vector, to
+#' determine if each entry in the vector is TRUE:
+#'
+#' 1. It must be class `logical`.
+#' 2. It must not be `NA`.
+#' 3. It must evaluate as `TRUE`.
+#'
+#' @param x vector
+#' @param ... additional arguments are ignored
+#'
+#' @export
+isTRUEV <- function
+(x,
+   ...)
+{
+   ## Purpose is to supply vectorized version of base::isFALSE()
+   (is.logical(x) & !is.na(x) & x)
+}
