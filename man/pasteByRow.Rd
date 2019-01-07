@@ -29,6 +29,8 @@ by default any field containing no text, or only spaces, is considered
 a blank entry.}
 
 \item{verbose}{logical whether to print verbose output.}
+
+\item{...}{additional arguments are ignored.}
 }
 \value{
 character vector of length \code{nrow(x)}.

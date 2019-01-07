@@ -623,6 +623,7 @@ asSize <- function
 #'    by default any field containing no text, or only spaces, is considered
 #'    a blank entry.
 #' @param verbose logical whether to print verbose output.
+#' @param ... additional arguments are ignored.
 #'
 #' @examples
 #' # create an example data.frame
@@ -649,8 +650,12 @@ asSize <- function
 #'
 #' @export
 pasteByRow <- function
-(x, sep="_", na.rm=TRUE, condenseBlanks=TRUE,
- includeNames=FALSE, sepName=":",
+(x,
+ sep="_",
+ na.rm=TRUE,
+ condenseBlanks=TRUE,
+ includeNames=FALSE,
+ sepName=":",
  blankGrep="^[ ]*$",
  verbose=FALSE,
  ...)
@@ -4362,3 +4367,61 @@ isTRUEV <- function
    ## Purpose is to supply vectorized version of base::isFALSE()
    (is.logical(x) & !is.na(x) & x)
 }
+
+#' Paste data.frame rows into an ordered factor
+#'
+#' Paste data.frame rows into an ordered factor
+#'
+#' This function is an extension to `jamba::pasteByRow()` which
+#' pastes rows from a `data.frame` into a character vector. This
+#' function orders the resulting character vector after ordering
+#' the `data.frame` with `jamba::mixedSortDF()`, which maintains
+#' the proper factor level ordering of each column.
+#'
+#' Note that the order of columns in the data.frame is the sort
+#' order of factors. In future, the column sort order may become
+#' an optional parameter.
+#'
+#' Note also that `jamba::mixedSortDF()` uses `jamba::mixedSort()`
+#' which itself performs alphanumeric sort in order to keep
+#' values in proper numeric order where possible.
+#'
+#' @param x data.frame
+#' @param sep character separator to use between columns
+#' @param na.rm logical whether to remove NA values, or include them as "NA"
+#' @param condenseBlanks logical whether to condense blank or empty values
+#'    without including an extra delimiter between columns.
+#' @param includeNames logical whether to include the colname delimited
+#'    prior to the value, using sepName as the delimiter.
+#' @param verbose logical whether to print verbose output.
+#' @param ... additional arguments are passed to `jamba::pasteByRow()`.
+#'
+#' @export
+pasteByRowOrdered <- function
+(x,
+ sep="_",
+ na.rm=TRUE,
+ condenseBlanks=TRUE,
+ includeNames=FALSE,
+ ...)
+{
+   ## Purpose is to enhance pasteByRow() except maintain ordering of factors
+   ## where applicable, or define the output as a factor with ordered levels,
+   ## using mixedSortDF() which does alphanumeric ordering while maintaining
+   ## pre-existing factor ordering.
+   xstr <- jamba::pasteByRow(x,
+      sep=sep,
+      na.rm=na.rm,
+      condenseBlanks=condenseBlanks,
+      includeNames=includeNames,
+      ...);
+   xlevels <- jamba::pasteByRow(unique(mixedSortDF(x)),
+      sep=sep,
+      na.rm=na.rm,
+      condenseBlanks=condenseBlanks,
+      includeNames=includeNames,
+      ...);
+   factor(xstr,
+      levels=xlevels);
+}
+

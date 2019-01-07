@@ -1,3 +1,11 @@
+# jamba version 0.0.24.900
+
+## new functions
+
+* `pasteByRowOrdered()` is an extension to `pasteByRow()` which creates
+an ordered factor, where the individual column order is maintained, either
+using existing factor level ordering, or via `mixedSort()` per column.
+
 # jamba version 0.0.23.900
 
 ## new functions
