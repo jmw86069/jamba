@@ -2513,7 +2513,7 @@ plotPolygonDensity <- function
          if (verbose) {
             printDebug("plotPolygonDensity(): ",
                "hx$breaks:",
-               format(trim=TRUE, digits=2, ht(hx$breaks)));
+               format(trim=TRUE, digits=2, c(head(hx$breaks), NA, tail(hx$breaks))));
          }
          if (!add) {
             if ("log10" %in% xScale) {
@@ -2574,6 +2574,7 @@ plotPolygonDensity <- function
          densityBreaksFactor=densityBreaksFactor,
          weightFactor=weightFactor,
          addZeroEnds=TRUE,
+         verbose=verbose,
          ...);
 
       if (doHistogram) {
