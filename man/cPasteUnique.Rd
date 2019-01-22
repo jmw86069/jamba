@@ -27,13 +27,21 @@ usually delimited by a comma.
 This function is convenient a wrapper for \code{cPaste(.., makeUnique=TRUE)}.
 }
 \seealso{
-Other jam string functions: \code{\link{cPaste}},
-  \code{\link{grepls}}, \code{\link{igrepHas}},
-  \code{\link{igrep}}, \code{\link{mixedOrder}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}, \code{\link{provigrep}},
-  \code{\link{unigrep}}, \code{\link{uniques}},
-  \code{\link{unvigrep}}, \code{\link{vgrep}},
-  \code{\link{vigrep}}
+Other jam string functions: \code{\link{asSize}},
+  \code{\link{breaksByVector}}, \code{\link{cPaste}},
+  \code{\link{fillBlanks}}, \code{\link{makeNames}},
+  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
+  \code{\link{nameVectorN}}, \code{\link{nameVector}},
+  \code{\link{padInteger}}, \code{\link{padString}},
+  \code{\link{pasteByRowOrdered}},
+  \code{\link{pasteByRow}}, \code{\link{tcount}},
+  \code{\link{uniques}}
+
+Other jam list functions: \code{\link{cPaste}},
+  \code{\link{rbindList}}, \code{\link{rlengths}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{ssdim}}, \code{\link{uniques}}
 }
+\concept{jam list functions}
 \concept{jam string functions}

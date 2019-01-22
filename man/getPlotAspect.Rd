@@ -33,12 +33,12 @@ which may not be desired on a headless R server.}
 
 \item{...}{additional parameters are ignored.}
 }
+\value{
+the plot aspect ratio for a plot device, of the requested
+type, see the \code{type} parameter.
+}
 \description{
 Get aspect ratio for coordinates, plot, or device
-}
-\details{
-Returns the plot aspect ratio for a plot device, of the requested
-type, see the \code{type} parameter.
 }
 \examples{
 par("mfrow"=c(2,4));
@@ -53,3 +53,15 @@ getPlotAspect("plot");
 getPlotAspect("device");
 
 }
+\seealso{
+Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
+  \code{\link{decideMfrow}}, \code{\link{imageByColors}},
+  \code{\link{imageDefault}},
+  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
+  \code{\link{plotPolygonDensity}},
+  \code{\link{plotSmoothScatter}},
+  \code{\link{shadowText}}, \code{\link{showColors}},
+  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
+  \code{\link{usrBox}}
+}
+\concept{jam plot functions}

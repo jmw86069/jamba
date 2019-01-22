@@ -30,6 +30,8 @@
 #' custom (and hopefully beneficial) mechanism of creating a properly-scaled
 #' raster image.
 #'
+#' @family jam plot functions
+#'
 #' @param x numeric vector, or data matrix with two or  more columns.
 #' @param y numeric vector, or if data is supplied via x as a matrix, y
 #'    is NULL.
@@ -322,6 +324,8 @@ plotSmoothScatter <- function
 #' \code{\link[graphics]{smoothScatter}} for consistency with the parent
 #' function, with due credit and respect to its authors.
 #'
+#' @family jam plot functions
+#'
 #' @param x numeric vector, or data matrix with two or  more columns.
 #' @param y numeric vector, or if data is supplied via x as a matrix, y
 #'    is NULL.
@@ -380,9 +384,7 @@ plotSmoothScatter <- function
 #'    other things, whether the user prefers raster images, and if the
 #'    dev.capabilities supports raster.
 #'
-#' @seealso \code{\link{plotSmoothScatter}},
-#'    \code{\link{imageDefault}},
-#'    \code{\link[graphics]{smoothScatter}}
+#' @seealso \code{\link[graphics]{smoothScatter}}
 #'
 #' @export
 smoothScatterJam <- function
@@ -504,6 +506,8 @@ smoothScatterJam <- function
 #' \link{http://research.stowers.org/mcm/efg/R/Graphics/Basics/mar-oma/index.htm}
 #' with much respect for his effective visual.
 #'
+#' @family jam plot functions
+#'
 #' @param xaxt character value compatible with \code{options(xaxt)}
 #' @param yaxt character value compatible with \code{options(xaxt)}
 #' @param xlab character x-axis label
@@ -541,6 +545,8 @@ smoothScatterJam <- function
 #'    a new plot window.
 #' @examples
 #' nullPlot()
+#'
+#' nullPlot(doBoxes=FALSE)
 #'
 #' @export
 nullPlot <- function
@@ -761,6 +767,9 @@ nullPlot <- function
 #'    different area, though using the \code{\link[graphics]{rect}} function
 #'    directly seems more appropriate.
 #' @param debug logical whether to print the parUsr value being used.
+#'
+#' @family jam plot functions
+#'
 #' @examples
 #' # usrBox() requires that a plot device is already open
 #' nullPlot(doBoxes=FALSE);
@@ -858,7 +867,10 @@ usrBox <- function
 #' @param verbose logical whether to enable verbose output, useful for
 #'    debugging.
 #'
-#' @seealso \code{\link[graphics]{image}}, \code{\link{plotSmoothScatter}}
+#' @family jam plot functions
+#'
+#' @seealso \code{\link[graphics]{image}}
+#'
 #' @examples
 #' plotSmoothScatter(doTest=TRUE)
 #'
@@ -1282,7 +1294,7 @@ imageDefault <- function
 #' whenever two or more labels appear in consecutive cells. This behavior
 #' can be disabled with groupCellnotes=FALSE.
 #'
-#' The \code{groupCellnotes} behavior uses \code{\link{breaksByVector}} to
+#' The `groupCellnotes` behavior uses `breaksByVector()` to
 #' determine where to place consecutive labels, and it applies this logic
 #' starting with rows, then columns. Note that labels are only grouped when
 #' both the cell color and the cell label are identical for consecutive
@@ -1312,6 +1324,8 @@ imageDefault <- function
 #'       especially when color and label are present on multiple rows and
 #'       columns, but not always the same columns per row.}
 #' }
+#'
+#' @family jam plot functions
 #'
 #' @param x matrix or data.frame containing colors
 #' @param useRaster logical sent to \code{\link{imageDefault}} to enable
@@ -1739,6 +1753,7 @@ imageByColors <- function
 #' The parameter \code{doTest=TRUE} will display a visual example. The
 #' background color can be modified with \code{fill="navy"} for example.
 #'
+#' @family jam plot functions
 #'
 #' @param x,y numeric coordinates, either as vectors x and y, or x as a
 #' two-color matrix recognized by \code{\link[grDevices]{xy.coords}}.
@@ -1785,12 +1800,21 @@ imageByColors <- function
 #'
 #' @export
 shadowText <- function
-(x, y=NULL, labels=NULL,
- col="white", bg=setTextContrastColor(col),
- r=0.1, offset=c(0.15, -0.15), n=8,
- outline=TRUE, alphaOutline=0.9,
- shadow=FALSE, shadowColor="black", alphaShadow=0.2,
- cex=par("cex"), font=par("font"),
+(x,
+ y=NULL,
+ labels=NULL,
+ col="white",
+ bg=setTextContrastColor(col),
+ r=0.1,
+ offset=c(0.15, -0.15),
+ n=8,
+ outline=TRUE,
+ alphaOutline=0.9,
+ shadow=FALSE,
+ shadowColor="black",
+ alphaShadow=0.2,
+ cex=par("cex"),
+ font=par("font"),
  doTest=FALSE,
  ...)
 {
@@ -1938,6 +1962,8 @@ shadowText <- function
 #'
 #' Note this function does not render labels in the figure.
 #'
+#' @family jam plot functions
+#'
 #' @param x vector of axis labels
 #' @param margin single integer value indicating which margin to adjust,
 #'    using the order by \code{par("mar")}, 1=bottom, 2=left, 3=top,
@@ -2014,6 +2040,9 @@ adjustAxisLabelMargins <- function
 #' This function simply displays colors for review, using
 #' \code{\link{imageByColors}} to display colors and labels across the
 #' plot space.
+#'
+#' @family jam plot functions
+#' @family jam color functions
 #'
 #' @param x vector of colors, or list of color vectors.
 #' @param labelCells logical whether to label colors atop the color itself.
@@ -2199,6 +2228,8 @@ showColors <- function
 #' be specifically defined for bars with `barCol` and the polygon
 #' with `polyCol`.
 #'
+#' @family jam plot functions
+#'
 #' @param x numeric vector, or numeric matrix.
 #' @param doHistogram logical indicating whether to plot histogram bars.
 #' @param doPolygon logical indicating whether to plot the density polygon.
@@ -2243,6 +2274,18 @@ showColors <- function
 #'    since they draw consistent lines on each panel.
 #' @param verbose logical indicating whether to print verbose output.
 #'
+#' @examples
+#' # basic density plot
+#' plotPolygonDensity(rnorm(2000), main="basic polygon density plot");
+#'
+#' # fewer breaks
+#' plotPolygonDensity(rnorm(2000), breaks=20,
+#'    main="breaks=20");
+#'
+#' # log-scaled x-axis
+#' plotPolygonDensity(10^(3+rnorm(2000)), log="x",
+#'    breaks=50,
+#'    main="log-scaled x-axis");
 #'
 #' @export
 plotPolygonDensity <- function
@@ -2675,6 +2718,8 @@ plotPolygonDensity <- function
 #' The axis values are in square root space while the labels represent
 #' the normal space values.
 #'
+#' @family jam plot functions
+#'
 #' @param side integer value indicating the axis position, as used
 #'    by `axis()`, 1=bottom, 2=left, 3=top, 4=right.
 #' @param x optional numeric vector representing the numeric range
@@ -2783,6 +2828,8 @@ sqrtAxis <- function
 #' where higher values will use a wider step size, thus lowering
 #' the detail in the output.
 #'
+#' @family jam practical functions
+#'
 #' @param x numeric vector
 #' @param breaks numeric breaks as described for `stats::density()` except
 #'    that single integer value is multiplied by `densityBreaksFactor`.
@@ -2888,13 +2935,12 @@ breakDensity <- function
 
 #' Display major and minor tick marks for log-scale axis
 #'
-#' Display major and minor tick marks for log-scale axis
+#' Display major and minor tick marks for log-scale axis,
+#' with optional offset for proper labeling of `log2(1+x)`.
 #'
 #' This function displays log units on the axis of an
-#' existing base R plot. It calls `minorLogTicks()` which
-#' calculates appropriate tick and label positions. The
-#' axis tick mark positions and labels are determined via
-#' `jamba::minorLogTicks()`.
+#' existing base R plot. It calls `jamba::minorLogTicks()` which
+#' calculates appropriate tick and label positions.
 #'
 #' Note: This function assumes the axis values have already been
 #' log-transformed. Make sure to adjust the `offset` to reflect
@@ -2929,6 +2975,8 @@ breakDensity <- function
 #' A list with vectors of majorLabels, majorTicks, minorLabels,
 #' minorTicks, and allLabelsDF which is a `data.frame` containing
 #' all axis tick positions, with corresponding labels.
+#'
+#' @family jam plot functions
 #'
 #' @param side integer indicating the axis side, 1=bottom, 2=left,
 #'    3=top, 4=right.
@@ -2980,6 +3028,32 @@ breakDensity <- function
 #'    axis label colors,
 #'    axis tick mark colors, and label text orientation, respectively.
 #' @param verbose logical indicating whether to print verbose output.
+#'
+#' @examples
+#' plotPolygonDensity(0:100, breaks=100);
+#'
+#' plotPolygonDensity(0:100, breaks=100, log="x",
+#'    main="plotPolygonDensity() uses minorLogTicksAxis()",
+#'    xlab="x (log-scaled)");
+#'
+#' plotPolygonDensity(log2(1+0:100), breaks=100,
+#'    main="manually called minorLogTicksAxis(logBase=2)",
+#'    xaxt="n",
+#'    xlab="x (log-scaled)");
+#' minorLogTicksAxis(1, offset=1, logBase=2);
+#'
+#' plotPolygonDensity(log10(1+0:100), breaks=100,
+#'    main="manually called minorLogTicksAxis(logBase=10)",
+#'    xaxt="n",
+#'    xlab="x (log-scaled)");
+#' minorLogTicksAxis(1, offset=1, logBase=10);
+#'
+#' plotPolygonDensity(log10(1+0:100), breaks=100,
+#'    main="using 'minorWhich=2:9'",
+#'    xaxt="n",
+#'    xlab="x (log-scaled)");
+#' minorLogTicksAxis(1, offset=1, logBase=10,
+#'    minorWhich=2:9);
 #'
 #' @export
 minorLogTicksAxis <- function
@@ -3149,6 +3223,8 @@ minorLogTicksAxis <- function
 #' List of axis tick positions, and corresponding labels, for major
 #' and minor ticks. Major ticks are defined as one tick per log10
 #' unit, exponentiated. For example, 1, 10, 100, 1000.
+#'
+#' @family jam practical functions
 #'
 #' @examples
 #' ## This example shows how to draw axis labels manually,
@@ -3572,6 +3648,8 @@ minorLogTicks <- function
 #'
 #' This function is intended to be called internally by
 #' `jamba::minorLogTicks()`.
+#'
+#' @family jam practical functions
 #'
 getAxisLabel <- function
 (i,

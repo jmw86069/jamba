@@ -16,6 +16,11 @@ Any values that do not match \code{colnames(x)} are ignored.}
 corresponding to the target name for any colnames that
 match \code{from}.}
 }
+\value{
+data.frame (or tibble or DataFrame) with columns \code{from}
+renamed to \code{to} as matched. When \code{colnames(x)} do not match
+values in \code{from} the corresponding values in \code{from} are ignored.
+}
 \description{
 Rename columns in a data.frame or matrix
 }
@@ -44,3 +49,20 @@ df3 <- renameColumn(df2,
 df3;
 
 }
+\seealso{
+Other jam practical functions: \code{\link{applyCLrange}},
+  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
+  \code{\link{colNum2excelName}}, \code{\link{fileInfo}},
+  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
+  \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
+  \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
+  \code{\link{jamba}}, \code{\link{jargs}},
+  \code{\link{kable_coloring}}, \code{\link{make_styles}},
+  \code{\link{minorLogTicks}}, \code{\link{newestFile}},
+  \code{\link{printDebug}}, \code{\link{rmInfinite}},
+  \code{\link{rmNA}}, \code{\link{rmNULL}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{setCLranges}}, \code{\link{setPrompt}},
+  \code{\link{ssdim}}
+}
+\concept{jam practical functions}

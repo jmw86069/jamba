@@ -28,3 +28,8 @@ allow date-related math operations, for example \code{\link[base]{difftime}}.
 asDate(getDate());
 
 }
+\seealso{
+Other jam date functions: \code{\link{dateToDaysOld}},
+  \code{\link{getDate}}
+}
+\concept{jam date functions}

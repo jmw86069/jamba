@@ -38,7 +38,7 @@
 #' igrepHas("Data.*Frame", a);
 #' igrepHas("matrix", a);
 #'
-#' @family jam string functions
+#' @family jam grep functions
 #'
 #' @export
 igrepHas <- function
@@ -62,7 +62,10 @@ igrepHas <- function
       if (naToBlank && any(is.na(x))) {
          x[is.na(x)] <- "";
       }
-      length(grep(pattern=pattern, x=x, ignore.case=ignore.case, ...)) >= as.integer(minCount);
+      length(grep(pattern=pattern,
+         x=x,
+         ignore.case=ignore.case,
+         ...)) >= as.integer(minCount);
    }
 }
 
@@ -82,7 +85,7 @@ igrepHas <- function
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
 #' vigrep("d", V);
 #'
-#' @family jam string functions
+#' @family jam grep functions
 #'
 #' @export
 vigrep <- function
@@ -111,7 +114,7 @@ vigrep <- function
 #' vgrep("d", V);
 #' vigrep("d", V);
 #'
-#' @family jam string functions
+#' @family jam grep functions
 #'
 #' @export
 vgrep <- function
@@ -140,7 +143,7 @@ vgrep <- function
 #' igrep("d", V);
 #' vigrep("d", V);
 #'
-#' @family jam string functions
+#' @family jam grep functions
 #'
 #' @export
 igrep <- function
@@ -169,7 +172,7 @@ igrep <- function
 #' unigrep("D", V);
 #' igrep("D", V);
 #'
-#' @family jam string functions
+#' @family jam grep functions
 #'
 #' @export
 unigrep <- function
@@ -201,7 +204,7 @@ unigrep <- function
 #' unigrep("D", V);
 #' igrep("D", V);
 #'
-#' @family jam string functions
+#' @family jam grep functions
 #'
 #' @export
 unvigrep <- function
@@ -261,7 +264,7 @@ unvigrep <- function
 #' # now pull out entries matching substrings in order
 #' provigrep(c("pizza", "dog", "noob", "."), testWords);
 #'
-#' @family jam string functions
+#' @family jam grep functions
 #'
 #' @export
 provigrep <- function
@@ -353,6 +356,8 @@ provigrep <- function
 #' do.call(rbind, L);
 #' rbindList(L);
 #' rbindList(L, returnDF=TRUE);
+#'
+#' @family jam list functions
 #'
 #' @export
 rbindList <- function
@@ -470,6 +475,8 @@ rbindList <- function
 #' entry in a set.
 #'
 #' @return character vector of unique names
+#'
+#' @family jam string functions
 #'
 #' @param x character vector to be used when defining names. All other
 #'    vector types will be coerced to character prior to use.
@@ -691,6 +698,10 @@ makeNames <- function
 #'
 #' \code{nameVector(genedata[,c("Gene","log2FC")])}
 #'
+#' @return vector with names defined
+#'
+#' @family jam string functions
+#'
 #' @param x vector input, or data.frame, matrix, or tibble with two columns,
 #'    the second column is used to name values in the first column.
 #' @param y NULL or character vector of names. If NULL then x is used.
@@ -789,6 +800,8 @@ nameVector <- function
 #' @return vector of names, whose names are uniquely assigned using
 #'    \code{\link{makeNames}} using the values of the vector.
 #'
+#' @family jam string functions
+#'
 #' @param x vector or any object which has names available via \code{names(x)}
 #' @param makeNamesFunc function used to create unique names, in the event that
 #'    the names(x) are not unique.
@@ -832,7 +845,8 @@ nameVector <- function
 #'
 #' @export
 nameVectorN <- function
-(x, makeNamesFunc=makeNames,
+(x,
+ makeNamesFunc=makeNames,
  ...)
 {
    ## Purpose is to extend nameVector to create a named vector of
@@ -857,6 +871,8 @@ nameVectorN <- function
 #' NULL, resulting in a list that contains non-NULL entries. This function
 #' can also be useful when NULL values should be changed to something else,
 #' perhaps a character value "NULL" to be used as a label.
+#'
+#' @family jam practical functions
 #'
 #' @param x list or other object which may contain NULL.
 #'
@@ -893,6 +909,8 @@ rmNULL <- function
 #'
 #' @return vector with NA entries either removed, or replaced with naValue,
 #'    and NULL entries either removed or replaced by nullValue.
+#'
+#' @family jam practical functions
 #'
 #' @param x vector input
 #' @param naValue NULL or single replacement value for NA entries. If NULL,
@@ -989,13 +1007,22 @@ rmNA <- function
 #'
 #' remove Infinite values
 #'
+#' This function removes any positive or negative infinite numerical
+#' values, optionally replacing them with a given value or NA.
+#'
+#' @return numeric vector with infinite values either removed, or
+#'    replaced with the supplied value.
+#'
+#' @family jam practical functions
+#'
 #' @param x vector input
 #' @param infiniteValue NULL to remove Infinite values, or a replacement value
 #' @param ... additional parameters are ignored
 #'
 #' @export
 rmInfinite <- function
-(x, infiniteValue=NULL,
+(x,
+ infiniteValue=NULL,
  ...)
 {
    ## Purpose is to remove infinite values from a vector.
@@ -1038,8 +1065,8 @@ rmInfinite <- function
 #'
 #' @return vector of values from x, ordered by alphanumeric logic.
 #'
-#' @seealso \code{\link{mixedSort}}, \code{gtools::mixedorder},
-#'    \code{gtools::mixedsort}
+#' @family jam sort functions
+#' @family jam string functions
 #'
 #' @param x input vector
 #' @param blanksFirst logical whether to order blank entries before entries
@@ -1065,8 +1092,6 @@ rmInfinite <- function
 #' x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
 #' sort(x);
 #' mixedSort(x);
-#'
-#' @family jam string functions
 #'
 #' @export
 mixedSort <- function
@@ -1141,7 +1166,10 @@ mixedSort <- function
 #'
 #' @return integer vector of orders derived from x
 #'
-#' @seealso \code{\link{mixedSort}}, \code{gtools::mixedorder},
+#' @family jam sort functions
+#' @family jam string functions
+#'
+#' @seealso \code{gtools::mixedorder},
 #'    \code{gtools::mixedsort}
 #'
 #' @param x input vector
@@ -1172,8 +1200,6 @@ mixedSort <- function
 #' order(x);
 #' x[order(x)];
 #' sort(x);
-#'
-#' @family jam string functions
 #'
 #' @export
 mixedOrder <- function
@@ -1428,7 +1454,8 @@ mixedOrder <- function
 #'
 #' @return integer vector of row orders
 #'
-#' @seealso \code{\link{mixedOrder}}, \code{\link{mixedSort}}
+#' @family jam sort functions
+#' @family jam string functions
 #'
 #' @param ... parameters treated as a list of vectors to be ordered in
 #'    proper order, based upon the mechanism by \code{\link[base]{order}}.
@@ -1507,7 +1534,8 @@ mmixedOrder <- function
 #'
 #' @return data.frame whose rows are ordered using \code{\link{mmixedOrder}}
 #'
-#' @seealso \code{\link{mixedOrder}}, \code{\link{mixedSort}}
+#' @family jam sort functions
+#' @family jam string functions
 #'
 #' @param df data.frame input
 #' @param byCols integer vector referring to the order of columns to be
@@ -1550,9 +1578,10 @@ mmixedOrder <- function
 #' # which also sorting the miRNA names in their proper order.
 #' mixedSortDF(df2);
 #'
-#' x <- data.frame(l1=letters[1:10], l2=rep(letters[1:2+10], 5), L1=LETTERS[1:10], L2=rep(LETTERS[1:2+20], each=5))
-#'
-#' @family jam string functions
+#' x <- data.frame(l1=letters[1:10],
+#'    l2=rep(letters[1:2+10], 5),
+#'    L1=LETTERS[1:10],
+#'    L2=rep(LETTERS[1:2+20], each=5));
 #'
 #' @export
 mixedSortDF <- function
@@ -1741,6 +1770,7 @@ mixedSortDF <- function
 #'    efficient bulk operation.
 #'
 #' @family jam string functions
+#' @family jam list functions
 #'
 #' @export
 uniques <- function
@@ -1956,6 +1986,7 @@ cPaste <- function
 #' @param .. additional arguments are passed to [cPaste()].
 #'
 #' @family jam string functions
+#' @family jam list functions
 #'
 #' @export
 cPasteUnique <- function
@@ -1986,6 +2017,12 @@ cPasteUnique <- function
 #' `ucscData`, and `IRanges`, which store annotation in `DataFrame`
 #' accessible via `values(x)`.
 #'
+#' @return data.frame (or tibble or DataFrame) with columns `from`
+#'    renamed to `to` as matched. When `colnames(x)` do not match
+#'    values in `from` the corresponding values in `from` are ignored.
+#'
+#' @family jam practical functions
+#'
 #' @param x data.frame or matrix
 #' @param from character vector of colnames expected to be in `x`.
 #'    Any values that do not match `colnames(x)` are ignored.
@@ -2008,10 +2045,10 @@ cPasteUnique <- function
 #' @export
 renameColumn <- function
 (x,
-   from,
-   to,
-   verbose=FALSE,
-   ...)
+ from,
+ to,
+ verbose=FALSE,
+ ...)
 {
    ## Purpose is simply to rename one or more colnames in a data.frame or matrix.
    ## This method makes sure to rename only colnames which exist in 'from'
@@ -2082,6 +2119,8 @@ renameColumn <- function
 #' x <- c("A", "", "", "", "B", "C", "", "", NA,
 #'    "D", "", "", "E", "F", "G", "", "");
 #' data.frame(x, fillBlanks(x));
+#'
+#' @family jam string functions
 #'
 #' @export
 fillBlanks <- function

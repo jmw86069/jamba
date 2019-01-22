@@ -28,3 +28,8 @@ Gets the current date in a simplified text string. Use
 getDate();
 
 }
+\seealso{
+Other jam date functions: \code{\link{asDate}},
+  \code{\link{dateToDaysOld}}
+}
+\concept{jam date functions}

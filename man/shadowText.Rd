@@ -84,3 +84,14 @@ shadowText(doTest=TRUE, fill="navy");
 shadowText(doTest=TRUE, fill="red4");
 
 }
+\seealso{
+Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
+  \code{\link{decideMfrow}}, \code{\link{getPlotAspect}},
+  \code{\link{imageByColors}}, \code{\link{imageDefault}},
+  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
+  \code{\link{plotPolygonDensity}},
+  \code{\link{plotSmoothScatter}},
+  \code{\link{showColors}}, \code{\link{smoothScatterJam}},
+  \code{\link{sqrtAxis}}, \code{\link{usrBox}}
+}
+\concept{jam plot functions}

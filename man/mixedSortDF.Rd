@@ -67,19 +67,26 @@ df2 <- data.frame(groupfactor=gf, miRNA=x, stringsAsFactors=FALSE);
 # which also sorting the miRNA names in their proper order.
 mixedSortDF(df2);
 
-x <- data.frame(l1=letters[1:10], l2=rep(letters[1:2+10], 5), L1=LETTERS[1:10], L2=rep(LETTERS[1:2+20], each=5))
+x <- data.frame(l1=letters[1:10],
+   l2=rep(letters[1:2+10], 5),
+   L1=LETTERS[1:10],
+   L2=rep(LETTERS[1:2+20], each=5));
 
 }
 \seealso{
-\code{\link{mixedOrder}}, \code{\link{mixedSort}}
+Other jam sort functions: \code{\link{mixedOrder}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}}
 
-Other jam string functions: \code{\link{cPasteUnique}},
-  \code{\link{cPaste}}, \code{\link{grepls}},
-  \code{\link{igrepHas}}, \code{\link{igrep}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}, \code{\link{provigrep}},
-  \code{\link{unigrep}}, \code{\link{uniques}},
-  \code{\link{unvigrep}}, \code{\link{vgrep}},
-  \code{\link{vigrep}}
+Other jam string functions: \code{\link{asSize}},
+  \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{fillBlanks}},
+  \code{\link{makeNames}}, \code{\link{mixedOrder}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
+  \code{\link{nameVectorN}}, \code{\link{nameVector}},
+  \code{\link{padInteger}}, \code{\link{padString}},
+  \code{\link{pasteByRowOrdered}},
+  \code{\link{pasteByRow}}, \code{\link{tcount}},
+  \code{\link{uniques}}
 }
+\concept{jam sort functions}
 \concept{jam string functions}

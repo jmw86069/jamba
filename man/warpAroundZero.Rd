@@ -16,14 +16,15 @@ values near the maximum value. If \code{lens == 0} the
 numeric values are not changed.}
 
 \item{baseline}{numeric value describing the baseline, for example
-when the central value is non-zero. Note this baseline is applied
-to the absolute value of \code{x} which means the baseline is also
-symmetric around zero.}
+when the central value is non-zero. The baseline is subtracted
+from \code{x}, the warp is applied, then the baseline is added to
+the result.}
 
-\item{xCeiling}{numeric maximum value allowed for \code{abs(x)}, above which
-values are set to \code{xCeiling} maintaining the positive or negative
-sign. The intention is to prevent outlier points
-from adversely affecting the numeric range used for the warping.}
+\item{xCeiling}{numeric maximum value used for the color warp range,
+useful for consistency. When \code{xCeiling} is not supplied, the
+maximum difference from \code{baseline} is used. When \code{xCeiling} is
+defined, and \code{baseline} is non-zero, the effective value used
+is \code{(xCeiling - baseline)}.}
 }
 \description{
 Warp a vector of numeric values relative to zero
@@ -48,7 +49,38 @@ x <- c(-10:10);
 xPlus10 <- warpAroundZero(x, lens=10);
 xMinus10 <- warpAroundZero(x, lens=-10);
 
-plot(x=x, y=xPlus10, type="b", pch=20, col="dodgerblue");
-points(x=x, y=xMinus10, type="b", pch=20, col="orangered");
+plot(x=x, y=xPlus10, type="b", pch=20, col="dodgerblue",
+   main="Comparison of lens=+10 to lens=-10");
+points(x=x, y=xMinus10, type="b", pch=18, col="orangered");
+abline(h=0, v=0, col="grey", lty="dashed", a=0, b=1);
+legend("topleft",
+   legend=c("lens=+10", "lens=-10"),
+   col=c("dodgerblue","orangered"),
+   pch=c(20,18),
+   lty="solid",
+   bg="white");
+
+# example showing the effect of a baseline=5
+xPlus10b5 <- warpAroundZero(x, lens=10, baseline=5);
+xMinus10b5 <- warpAroundZero(x, lens=-10, baseline=5);
+plot(x=x, y=xPlus10b5, type="b", pch=20, col="dodgerblue",
+   main="Comparison of lens=+10 to lens=-10",
+   ylim=c(-10,15),
+   sub="baseline=+5");
+points(x=x, y=xMinus10b5, type="b", pch=18, col="orangered");
+abline(h=5, v=5, col="grey", lty="dashed", a=0, b=1);
+legend("topleft",
+   legend=c("lens=+10", "lens=-10"),
+   col=c("dodgerblue","orangered"),
+   pch=c(20,18),
+   lty="solid",
+   bg="white");
 
 }
+\seealso{
+Other jam numeric functions: \code{\link{deg2rad}},
+  \code{\link{noiseFloor}}, \code{\link{normScale}},
+  \code{\link{rad2deg}}, \code{\link{rowGroupMeans}},
+  \code{\link{rowRmMadOutliers}}
+}
+\concept{jam numeric functions}

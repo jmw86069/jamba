@@ -1,54 +1,42 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
-jamba
-=====
+# jamba
 
-The goal of jamba is to provide useful custom functions for R data analysis and visualization.
+The goal of jamba is to provide useful custom functions for R data
+analysis and visualization.
 
-### Notes about functions that create plots
+## Package Reference
 
-Many of the plotting functions were originally developed with R base graphics, some but not all of which are transitioning to enable ggplot output as an option. The initial excitement of producing an interactive ggplotly plot wears off when rendering more data points than the plotly system can comfortably handle. Similar ceilings exist with ggplot, for example the display of gradient and categorical colors on the same plot.
+A full online function reference is available via the pkgdown
+documentation:
 
-That said, much of the "work" of the plot functions are intended simply to make visual settings easier to apply.
+[Full jamba command reference](https://jmw86069.github.io/jamba)
 
-A short overview of available methods:
+Functions are categorized, some examples are listed below:
 
--   **plotSmoothScatter**: proper smooth scatter plot with fine detail.
--   **imageDefault**: rasterized image plots.
--   **imageByColors**: data.frame to image plot, rapidly view a table of colors. It displays repeated labels only once in the middle position, which makes it useful when displaying statistical groupings.
--   **mixedSort**: efficient alphanumeric sort maintaining proper numeric order.
--   **rbindList**: list to data.frame without padding empty cells.
--   Also vectorized text styles, stackable color manipulations, vector names with versioning.
+* plot - `plotSmoothScatter()`, `imageByColors()`, `minorLogTicksAxis()`
+* color - `color2gradient()`, `makeColorDarker()`
+* string - `pasteByRow()`, `pasteByRowOrdered()`
+* numeric - `rowGroupMeans()`, `rowRmMadOutliers()`
+* list - `cPaste()`, `uniques()`, `sdim()`, `rbindList()`
+* sort - `mixedSort()`, `mixedSortDF()` - suite of efficient alphanumeric sorts
+* date - `dateToDaysOld()`, `getDate()`
+* grep - `vgrep()`, `vigrep()`, `provigrep()`, `grepls()`
+* practical - `jargs()`, `printDebug()`, `setPrompt()`, `newestFile()`, `renameColumn()`
 
-plotSmoothScatter example
--------------------------
+## Other related Jam packages
 
-The plotSmoothScatter() function provides an alternative to the base smoothScatter() function. It enhances the default bandwidth, which increases visible detail in the image. It also enables the parameter useRaster=TRUE which creates a rasterized image instead of using individual polygons to display each pixel in the plot. The useRaster=TRUE parameter can vastly decrease file space, memory requirements when opening the file, and speed of creating and rendering figures.
+* `colorjam` -- package focused on use of color, with some cross-over with
+functions in `jamba`. The `colorjam` package defines a set of categorical
+colors or arbitrary length, which are applied in a variety of ways to
+experimental designs. The color functions in `jamba` may soon be
+transitioned to the `colorjam` package, mainly for consistency.
+* `jamma` -- package focused on creating MA-plots, which relies heavily
+upon the `plotSmoothScatter()` function in `jamba`.
 
-The panels below compare the default smoothScatter() (left column) to plotSmoothScatter() using two levels of bandwidth detail.
 
-``` {.r}
-plotSmoothScatter(doTest=TRUE);
-```
-
-![](README-example1-1.png)
-
-mixedSort example
------------------
-
-The mixedSort() function is an optimization and extension of a similar function in the gtools package, called `gtools::mixedsort()`. Due credit to Gregory R. Barnes for initial implementation, which inspired this function.
-
-The mixedSort() function was driven also by the desire to sort tens of thousands of gene symbols and micro-RNAs (miRNAs) efficiently, and based upon a known order. Also, because miRNA nomenclature includes a dash '-' character, numbers with a preceding "-" are no longer negative values during this sorting algorithm, unless overridden. For example "miR-2" should sort before "miR-11", and after "miR-1".
-
-|sort|mixedSort|
-|:---|:--------|
-|miR-1|miR-1|
-|miR-12|miR-1a|
-|miR-122|miR-1b|
-|miR-1a|miR-2|
-|miR-1b|miR-12|
-|miR-2|miR-122|
-
-Note: it took roughly 12 seconds to sort 43,000 gene symbols using gtools::mixedsort, and roughly 0.5 seconds using mixedSort.

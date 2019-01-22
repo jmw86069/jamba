@@ -32,6 +32,7 @@ labels, which by default places unique labels centered within a block of
 repeated values.
 \item Quick color display \code{\link[=showColors]{showColors()}} for vector or list of color vectors.
 \item Quick blank plot \code{\link[=nullPlot]{nullPlot()}} with optional labeling of margins.
+\item Log-scaled axis labels \code{minorLogTicksAxis()}.
 \item Text labels using a border outline \code{\link[=shadowText]{shadowText()}} for visible contrast.
 \item Base plot wrappers \code{\link[=getPlotAspect]{getPlotAspect()}}, \code{\link[=decideMfrow]{decideMfrow()}}.
 }
@@ -96,3 +97,20 @@ colors used by the \code{crayon} functions to produce ANSI color text.
 }
 }
 
+\seealso{
+Other jam practical functions: \code{\link{applyCLrange}},
+  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
+  \code{\link{colNum2excelName}}, \code{\link{fileInfo}},
+  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
+  \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
+  \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
+  \code{\link{jargs}}, \code{\link{kable_coloring}},
+  \code{\link{make_styles}}, \code{\link{minorLogTicks}},
+  \code{\link{newestFile}}, \code{\link{printDebug}},
+  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
+  \code{\link{rmNA}}, \code{\link{rmNULL}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{setCLranges}}, \code{\link{setPrompt}},
+  \code{\link{ssdim}}
+}
+\concept{jam practical functions}

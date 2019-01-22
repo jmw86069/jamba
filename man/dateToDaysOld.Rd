@@ -18,6 +18,10 @@ representing the reference date, by default the current day.}
 
 \item{...}{additional parameters are ignored.}
 }
+\value{
+integer value with the number of calendar days before the
+current date, or the \code{nowDate} if supplied.
+}
 \description{
 convert date to age in days
 }
@@ -25,3 +29,8 @@ convert date to age in days
 dateToDaysOld("23aug2007")
 
 }
+\seealso{
+Other jam date functions: \code{\link{asDate}},
+  \code{\link{getDate}}
+}
+\concept{jam date functions}

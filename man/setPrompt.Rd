@@ -90,3 +90,20 @@ setPrompt("jamba", usePid=FALSE);
 }
 
 }
+\seealso{
+Other jam practical functions: \code{\link{applyCLrange}},
+  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
+  \code{\link{colNum2excelName}}, \code{\link{fileInfo}},
+  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
+  \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
+  \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
+  \code{\link{jamba}}, \code{\link{jargs}},
+  \code{\link{kable_coloring}}, \code{\link{make_styles}},
+  \code{\link{minorLogTicks}}, \code{\link{newestFile}},
+  \code{\link{printDebug}}, \code{\link{renameColumn}},
+  \code{\link{rmInfinite}}, \code{\link{rmNA}},
+  \code{\link{rmNULL}}, \code{\link{sclass}},
+  \code{\link{sdim}}, \code{\link{setCLranges}},
+  \code{\link{ssdim}}
+}
+\concept{jam practical functions}

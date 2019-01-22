@@ -56,3 +56,16 @@ asSize(c(1, 10,2010,22000,52200))
 #> "1 byte"   "10 bytes" "2 kb"     "21 kb"    "51 kb"
 
 }
+\seealso{
+Other jam string functions: \code{\link{breaksByVector}},
+  \code{\link{cPasteUnique}}, \code{\link{cPaste}},
+  \code{\link{fillBlanks}}, \code{\link{makeNames}},
+  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
+  \code{\link{nameVectorN}}, \code{\link{nameVector}},
+  \code{\link{padInteger}}, \code{\link{padString}},
+  \code{\link{pasteByRowOrdered}},
+  \code{\link{pasteByRow}}, \code{\link{tcount}},
+  \code{\link{uniques}}
+}
+\concept{jam string functions}

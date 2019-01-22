@@ -109,3 +109,10 @@ colnames(x) <- LETTERS[1:9];
 rowGroupMeans(x, groups=rep(letters[1:3], each=3))
 
 }
+\seealso{
+Other jam numeric functions: \code{\link{deg2rad}},
+  \code{\link{noiseFloor}}, \code{\link{normScale}},
+  \code{\link{rad2deg}}, \code{\link{rowRmMadOutliers}},
+  \code{\link{warpAroundZero}}
+}
+\concept{jam numeric functions}

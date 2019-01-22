@@ -24,6 +24,7 @@
 #'    repeated values.
 #'    * Quick color display [showColors()] for vector or list of color vectors.
 #'    * Quick blank plot [nullPlot()] with optional labeling of margins.
+#'    * Log-scaled axis labels `minorLogTicksAxis()`.
 #'    * Text labels using a border outline [shadowText()] for visible contrast.
 #'    * Base plot wrappers [getPlotAspect()], [decideMfrow()].
 #'
@@ -70,6 +71,8 @@
 #'    * `jam.adjustRgb` - numerical setting used as a small adjustment of
 #'       colors used by the `crayon` functions to produce ANSI color text.
 #'
+#' @family jam practical functions
+#'
 #' @docType package
 #' @name jamba
 NULL
@@ -86,6 +89,8 @@ NULL
 #' as additional colnames as compared to \code{file.info} output.
 #'
 #' @param fileList character vector with one or more file paths.
+#'
+#' @family jam practical functions
 #'
 #' @export
 fileInfo <- function
@@ -125,6 +130,8 @@ fileInfo <- function
 #'
 #' @return character vector of length(x).
 #'
+#' @family jam string functions
+#'
 #' @param x input integer, numeric, or character vector. In reality, only
 #'    nchar(x) is used to determine padding.
 #' @param padCharacter character with nchar(padCharacter)==1, used to pad
@@ -160,6 +167,8 @@ padInteger <- function
 #' pad a character string to a fixed length
 #'
 #' @return character vector of length(x)
+#'
+#' @family jam string functions
 #'
 #' @param x character vector
 #' @param stringLength integer length for the resulting character strings
@@ -215,6 +224,11 @@ padString <- function
 #'
 #' convert date to age in days
 #'
+#' @family jam date functions
+#'
+#' @return integer value with the number of calendar days before the
+#'    current date, or the `nowDate` if supplied.
+#'
 #' @param testDate character date recognized by \code{\link{asDate}},
 #'    representing the test date.
 #' @param nowDate character date recognized by \code{\link{asDate}},
@@ -228,7 +242,9 @@ padString <- function
 #'
 #' @export
 dateToDaysOld <- function
-(testDate, nowDate=Sys.Date(), units="days",
+(testDate,
+ nowDate=Sys.Date(),
+ units="days",
  ...)
 {
    ## Purpose is to report the number of days old something is,
@@ -243,7 +259,10 @@ dateToDaysOld <- function
 #' This function converts a text date string to Date object, mainly to
 #' allow date-related math operations, for example \code{\link[base]{difftime}}.
 #'
+#' @family jam date functions
+#'
 #' @return Date object
+#'
 #' @param getDateValues character date, in format recognized by dateFormat
 #' @param dateFormat character string representing the recognized date format,
 #'    by default DDmmmYYYY, for example 23aug2007.
@@ -254,7 +273,8 @@ dateToDaysOld <- function
 #'
 #' @export
 asDate <- function
-(getDateValues, dateFormat="%d%b%Y",
+(getDateValues,
+ dateFormat="%d%b%Y",
  ...)
 {
    ## Purpose is to convert getDate() formatted values "21jan2012"
@@ -274,6 +294,8 @@ asDate <- function
 #' \code{\link{asDate}} to convert back to Date object.
 #'
 #' @return character vector with simplified date string
+#'
+#' @family jam date functions
 #'
 #' @param t current time, by default the output of \code{\link[base]{Sys.time}}.
 #' @param trim logical whether to trim the output of \code{\link[base]{format}}
@@ -338,6 +360,8 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #' number of characters being displayed by the prompt.
 #'
 #' @return invisible character string representing the prompt used.
+#'
+#' @family jam practical functions
 #'
 #' @param projectName character string representing the active project.
 #' @param useColor logical whether to define a color prompt if the
@@ -509,6 +533,8 @@ setPrompt <- function
 #'
 #' @return character vector representing human-friendly sizes.
 #'
+#' @family jam string functions
+#'
 #' @param x numeric vector
 #' @param humanFriendly logical, currently only TRUE is accepted, whether to
 #'    include human-friendly units to the output.
@@ -609,6 +635,8 @@ asSize <- function
 #' usefulness of this function is to create row labels.
 #'
 #' @return character vector of length \code{nrow(x)}.
+#'
+#' @family jam string functions
 #'
 #' @param x data.frame, matrix, or tibble
 #' @param sep character separator to use between columns
@@ -787,6 +815,8 @@ pasteByRow <- function
 #'          corresponding to the coordinates supplied by labelPoints.}
 #'    }
 #'
+#' @family jam string functions
+#'
 #' @param x vector of labels
 #' @param labels character vector of custom labels to represent the items
 #'    in x
@@ -816,7 +846,9 @@ pasteByRow <- function
 #'
 #' @export
 breaksByVector <- function
-(x, labels=NULL, returnFractions=FALSE,
+(x,
+ labels=NULL,
+ returnFractions=FALSE,
  ...)
 {
    ## Purpose is to take a vector of values, and determine the "chunks" of
@@ -942,6 +974,8 @@ breaksByVector <- function
 #'
 #' @return This function is called for the by-product of printing
 #'    debug output, it returns `invisible(NULL)`, no output.
+#'
+#' @family jam practical functions
 #'
 #' @examples
 #' printDebug("Testing ", "default ", "printDebug().");
@@ -1353,6 +1387,8 @@ printDebug <- function
 #'
 #' @return logical or length=1, indicating whether lightMode is defined
 #'
+#' @family jam practical functions
+#'
 #' @param lightMode logical or NULL, indicating whether the lightMode
 #'    parameter has been defined in the function call.
 #'
@@ -1399,6 +1435,8 @@ checkLightMode <- function
 #' parameter, which by default uses the entire 26-letter Western alphabet.
 #'
 #' @return character vector with length(x)
+#'
+#' @family jam practical functions
 #'
 #' @param x integer vector
 #' @param useLetters character vector of single-digit characters to use as
@@ -1482,6 +1520,8 @@ colNum2excelName <- function
 #'    rows and columns, respectively. It is intended to be used directly
 #'    in this form: \code{par("mfrow"=decideMfrow(n=5))}
 #'
+#' @family jam plot functions
+#'
 #' @param n integer number of plot panels
 #' @param method character string indicating the type of layout to favor.
 #'    \describe{
@@ -1543,8 +1583,10 @@ decideMfrow <- function
 #'
 #' Get aspect ratio for coordinates, plot, or device
 #'
-#' Returns the plot aspect ratio for a plot device, of the requested
+#' @return the plot aspect ratio for a plot device, of the requested
 #' type, see the \code{type} parameter.
+#'
+#' @family jam plot functions
 #'
 #' @param type character type of aspect ratio to calculate.
 #'    \describe{
@@ -1632,12 +1674,17 @@ getPlotAspect <- function
 #' filters results for a minimum frequency. It is effective when checking
 #' for duplicate values, and ordering them by the number of occurrences.
 #'
-#' This function has been useful when working with large vectors of gene
+#' This function is useful when working with large vectors of gene
 #' identifiers, where it is not always obvious whether genes are replicated
 #' in a particular technological assay. Transcript microarrays for example,
 #' can contain many replicated genes, but often only a handful of genes are
 #' highly replicated, while the rest are present only once or twice on the
 #' array.
+#'
+#' @return integer vector of counts, named by the unique input
+#'    values in `x`.
+#'
+#' @family jam string functions
 #'
 #' @param x vector input to use when calculating frequencies.
 #' @param doSort logical whether to sort results decreasing by frequency.
@@ -1705,6 +1752,9 @@ tcount <- function
 #' the `style` defined at input. In short, a character vector as input,
 #' a colorized character vector as output.
 #'
+#' @family jam practical functions
+#' @family jam color functions
+#'
 #' @param style vector of one or more styles
 #' @param text vector of one or more character values
 #' @param bg NULL or a vector of one or more background styles
@@ -1747,7 +1797,6 @@ tcount <- function
 #' @param verbose logical whether to print verbose output
 #' @param ... additional parameters are ignored
 #'
-#' @seealso `applyCLrange`, `checkLightMode`, `setCLranges`
 #'
 #' @export
 make_styles <- function
@@ -1957,6 +2006,9 @@ make_styles <- function
 #' own function in order to help share the logic of determining some
 #' sensible default ranges.
 #'
+#' @family jam practical functions
+#' @family jam color functions
+#'
 #' @param lightMode boolean indicating whether the background color
 #'    is light (TRUE is bright), or dark (FALSE is dark.) By default
 #'    it calls `checkLightMode()` which queries `getOption("lightMode")`.
@@ -2114,6 +2166,9 @@ setCLranges <- function
 #' @return vector of colors after applying the chroma (C) and luminance (L)
 #'    ranges.
 #'
+#' @family jam practical functions
+#' @family jam color functions
+#'
 #' @param x vector of R colors
 #' @param Crange NULL or numeric vector with minimum and maximum allowed
 #'    values for the chroma (C) component.
@@ -2239,6 +2294,9 @@ applyCLrange <- function
 #' any of the values `HCL`, `Hrange`, or `Hshift` are length 0, the original
 #' `HCL` is returned unchanged.
 #'
+#' @family jam practical functions
+#' @family jam color functions
+#'
 #' @param HCL numeric matrix with HCL color values, as returned by `col2hcl()`,
 #'    but requiring only one rowname `"H"` representing the color hue on
 #'    a scale of 0 to 360. If input data does not contain numeric values
@@ -2322,6 +2380,9 @@ fixYellowHue <- function
 #'    step in the conversion produces length 0, then the
 #'    original `col` is returned.
 #'
+#' @family jam practical functions
+#' @family jam color functions
+#'
 #' @examples
 #' yellows <- vigrep("yellow", colors());
 #' fixedYellows <- fixYellow(yellows);
@@ -2373,6 +2434,8 @@ fixYellow <- function
 #'
 #' It also by default sorts parameters by name, to make it easier to find
 #' from among many parameters.
+#'
+#' @family jam practical functions
 #'
 #' @param x function or character name of a function.
 #' @param grepString NULL, logical, or character grep string used to filter
@@ -2549,6 +2612,8 @@ jargs <- function
 #' This function is a rare non-exported function intended to be called by
 #' \code{jargs()}, but separated in order to help isolate the logical
 #' steps required.
+#'
+#' @family jam practical functions
 #'
 handleArgsText <- function
 (argTextA,
@@ -3114,6 +3179,8 @@ handleArgsText <- function
 #' values are fixed to the `minimum` and `ceiling` values as defined
 #' by `newValue` and `newCeiling`, respectively.
 #'
+#' @family jam numeric functions
+#'
 #' @param x numeric vector or matrix
 #' @param minimum numeric floor value
 #' @param newValue numeric, by default the same as the floor value. Sometimes
@@ -3187,7 +3254,7 @@ noiseFloor <- function
 #'    and pi*2.
 #' @param ... other parameters are ignored.
 #'
-#' @seealso \code{rad2deg},\code{deg2rad}
+#' @family jam numeric functions
 #'
 #' @examples
 #' rad2deg(c(pi*2, pi/2))
@@ -3211,7 +3278,7 @@ rad2deg <- function
 #'    and 360.
 #' @param ... other parameters are ignored.
 #'
-#' @seealso \code{rad2deg},\code{deg2rad}
+#' @family jam numeric functions
 #'
 #' @examples
 #' deg2rad(rad2deg(c(pi*2, pi/2)))/pi;
@@ -3258,6 +3325,9 @@ deg2rad <- function
 #'    Any list element with fewer than that many dimensions will only have
 #'    values populated to the relevant dimensions, for example a character
 #'    vector will only populate the length.
+#'
+#' @family jam practical functions
+#' @family jam list functions
 #'
 #' @examples
 #' L <- list(LETTERS=LETTERS,
@@ -3429,6 +3499,9 @@ sdim <- function
 #'    values populated to the relevant dimensions, for example a character
 #'    vector will only populate the length.
 #'
+#' @family jam practical functions
+#' @family jam list functions
+#'
 #' @examples
 #' L <- list(LETTERS=LETTERS,
 #'    letters=letters,
@@ -3522,6 +3595,9 @@ ssdim <- function
 #' @param x an S3 object inheriting from class "list", or an S4 object.
 #' @param ... additional parameters are ignored.
 #'
+#' @family jam practical functions
+#' @family jam list functions
+#'
 #' @examples
 #' sclass(list(LETTERS=LETTERS, letters=letters));
 #'
@@ -3591,6 +3667,8 @@ sclass <- function
 #'    If "mean" then it uses the average of `from` and `to`, "min" uses
 #'    the `from` value, and "max" uses the `to` value.
 #' @param ... additional parameters are ignored.
+#'
+#' @family jam numeric functions
 #'
 #' @examples
 #' # Notice the first value 1 is re-scaled to 0
@@ -3677,6 +3755,8 @@ normScale <- function
 #' which will return the input data matrix with `NA`
 #' substituted for outlier points. Outlier detection and
 #' removal is performed by `jamba::rowRmMadOutliers()`.
+#'
+#' @family jam numeric functions
 #'
 #' @return
 #' When `returnType="output"` the output is a numeric matrix
@@ -3934,6 +4014,8 @@ rowGroupMeans <- function
 #'    \item{attr(x, "minDiff")}{The `minDiff` value used.}
 #' }
 #'
+#' @family jam numeric functions
+#'
 #' @param x numeric matrix
 #' @param madFactor numeric value to multiply by each row MAD
 #'    to define the threshold for outlier.
@@ -4034,21 +4116,48 @@ rowRmMadOutliers <- function
 #'    values near the maximum value. If `lens == 0` the
 #'    numeric values are not changed.
 #' @param baseline numeric value describing the baseline, for example
-#'    when the central value is non-zero. Note this baseline is applied
-#'    to the absolute value of `x` which means the baseline is also
-#'    symmetric around zero.
-#' @param xCeiling numeric maximum value allowed for `abs(x)`, above which
-#'    values are set to `xCeiling` maintaining the positive or negative
-#'    sign. The intention is to prevent outlier points
-#'    from adversely affecting the numeric range used for the warping.
+#'    when the central value is non-zero. The baseline is subtracted
+#'    from `x`, the warp is applied, then the baseline is added to
+#'    the result.
+#' @param xCeiling numeric maximum value used for the color warp range,
+#'    useful for consistency. When `xCeiling` is not supplied, the
+#'    maximum difference from `baseline` is used. When `xCeiling` is
+#'    defined, and `baseline` is non-zero, the effective value used
+#'    is `(xCeiling - baseline)`.
+#'
+#' @family jam numeric functions
 #'
 #' @examples
 #' x <- c(-10:10);
 #' xPlus10 <- warpAroundZero(x, lens=10);
 #' xMinus10 <- warpAroundZero(x, lens=-10);
 #'
-#' plot(x=x, y=xPlus10, type="b", pch=20, col="dodgerblue");
-#' points(x=x, y=xMinus10, type="b", pch=20, col="orangered");
+#' plot(x=x, y=xPlus10, type="b", pch=20, col="dodgerblue",
+#'    main="Comparison of lens=+10 to lens=-10");
+#' points(x=x, y=xMinus10, type="b", pch=18, col="orangered");
+#' abline(h=0, v=0, col="grey", lty="dashed", a=0, b=1);
+#' legend("topleft",
+#'    legend=c("lens=+10", "lens=-10"),
+#'    col=c("dodgerblue","orangered"),
+#'    pch=c(20,18),
+#'    lty="solid",
+#'    bg="white");
+#'
+#' # example showing the effect of a baseline=5
+#' xPlus10b5 <- warpAroundZero(x, lens=10, baseline=5);
+#' xMinus10b5 <- warpAroundZero(x, lens=-10, baseline=5);
+#' plot(x=x, y=xPlus10b5, type="b", pch=20, col="dodgerblue",
+#'    main="Comparison of lens=+10 to lens=-10",
+#'    ylim=c(-10,15),
+#'    sub="baseline=+5");
+#' points(x=x, y=xMinus10b5, type="b", pch=18, col="orangered");
+#' abline(h=5, v=5, col="grey", lty="dashed", a=0, b=1);
+#' legend("topleft",
+#'    legend=c("lens=+10", "lens=-10"),
+#'    col=c("dodgerblue","orangered"),
+#'    pch=c(20,18),
+#'    lty="solid",
+#'    bg="white");
 #'
 #' @export
 warpAroundZero <- function
@@ -4064,9 +4173,16 @@ warpAroundZero <- function
    if (lens == 0) {
       return(x);
    }
+   if (length(baseline) == 1 && is.numeric(baseline)) {
+      x <- x - baseline;
+   } else {
+      baseline <- 0;
+   }
    nColors <- 50;
    if (length(xCeiling) == 0) {
-      xCeiling <- max(abs(x), na.rm=TRUE) - baseline;
+      xCeiling <- max(abs(x), na.rm=TRUE);
+   } else {
+      xCeiling <- max(abs(xCeiling) - baseline);
    }
    if (any(abs(x) > abs(xCeiling))) {
       xOob <- (abs(x) > abs(xCeiling));
@@ -4080,9 +4196,10 @@ warpAroundZero <- function
    if (lens > 0) {
       y1 <- approx(x=y1, y=x1, xout=x1)$y;
    }
-   xrange <- (x1 + baseline) * xCeiling;
-   y2 <- (y1 + baseline) * xCeiling;
-   approx(x=xrange, y=y2, xout=x)$y
+
+   approx(x=x1 * (xCeiling),
+      y=y1 * (xCeiling),
+      xout=x)$y + baseline;
 }
 
 #' lengths for recursive lists
@@ -4191,7 +4308,7 @@ rlengths <- function
 #'    whose names indicate the search environment name, and whose
 #'    entries are matching object names within each environment.
 #'
-#' @family jam string functions
+#' @family jam grep functions
 #'
 #' @examples
 #' # Find all objects named "grep", which should find
@@ -4294,6 +4411,8 @@ grepls <- function
 #'    newest file.
 #' @param ... additional parameters are ignored.
 #'
+#' @family jam practical functions
+#'
 #' @examples
 #' newestFile(list.files());
 #'
@@ -4336,10 +4455,12 @@ newestFile <- function
 #' @param x vector
 #' @param ... additional arguments are ignored
 #'
+#' @family jam practical functions
+#'
 #' @export
 isFALSEV <- function
 (x,
-   ...)
+ ...)
 {
    ## Purpose is to supply vectorized version of base::isFALSE()
    (is.logical(x) & !is.na(x) & !x)
@@ -4358,6 +4479,8 @@ isFALSEV <- function
 #'
 #' @param x vector
 #' @param ... additional arguments are ignored
+#'
+#' @family jam practical functions
 #'
 #' @export
 isTRUEV <- function
@@ -4395,6 +4518,8 @@ isTRUEV <- function
 #'    prior to the value, using sepName as the delimiter.
 #' @param verbose logical whether to print verbose output.
 #' @param ... additional arguments are passed to `jamba::pasteByRow()`.
+#'
+#' @family jam string functions
 #'
 #' @export
 pasteByRowOrdered <- function

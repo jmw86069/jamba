@@ -23,6 +23,10 @@ then no name sort will be applied.}
 
 \item{...}{additional parameters are ignored.}
 }
+\value{
+integer vector of counts, named by the unique input
+values in \code{x}.
+}
 \description{
 frequency of entries, ordered by frequency
 }
@@ -32,7 +36,7 @@ differences. It sorts the results by decreasing frequency, and optionally
 filters results for a minimum frequency. It is effective when checking
 for duplicate values, and ordering them by the number of occurrences.
 
-This function has been useful when working with large vectors of gene
+This function is useful when working with large vectors of gene
 identifiers, where it is not always obvious whether genes are replicated
 in a particular technological assay. Transcript microarrays for example,
 can contain many replicated genes, but often only a handful of genes are
@@ -45,3 +49,15 @@ tcount(testVector);
 tcount(testVector, minCount=2);
 
 }
+\seealso{
+Other jam string functions: \code{\link{asSize}},
+  \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{fillBlanks}},
+  \code{\link{makeNames}}, \code{\link{mixedOrder}},
+  \code{\link{mixedSortDF}}, \code{\link{mixedSort}},
+  \code{\link{mmixedOrder}}, \code{\link{nameVectorN}},
+  \code{\link{nameVector}}, \code{\link{padInteger}},
+  \code{\link{padString}}, \code{\link{pasteByRowOrdered}},
+  \code{\link{pasteByRow}}, \code{\link{uniques}}
+}
+\concept{jam string functions}

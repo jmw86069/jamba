@@ -44,8 +44,12 @@
 #'
 #' @export
 setTextContrastColor <- function
-(color, hclCutoff=73, rgbCutoff=127, colorModel=c("hcl", "rgb"),
- useGrey=0, keepAlpha=FALSE,
+(color,
+ hclCutoff=73,
+ rgbCutoff=127,
+ colorModel=c("hcl", "rgb"),
+ useGrey=0,
+ keepAlpha=FALSE,
  ...)
 {
    ## Purpose is to provide a good contrasting text color, given a background color
@@ -346,6 +350,15 @@ col2alpha <- function
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #'
 #' @family jam color functions
+#'
+#' @examples
+#' par("mfrow"=c(2,2));
+#' for (alpha in c(1, 0.8, 0.5, 0.2)) {
+#'    nullPlot(plotAreaTitle=paste0("alpha=", alpha),
+#'       doMargins=FALSE);
+#'    usrBox(fill=alpha2col("yellow",
+#'       alpha=alpha));
+#' }
 #'
 #' @export
 alpha2col <- function
@@ -1297,7 +1310,9 @@ getColorRamp <- function
 #'
 #' @export
 isColor <- function
-(x, makeNamesFunc=c, ...)
+(x,
+ makeNamesFunc=c,
+ ...)
 {
    ## Purpose is to check if a given text string is a valid R color
    allColors <- colors();
@@ -1369,7 +1384,10 @@ isColor <- function
 #'
 #' @export
 color2gradient <- function
-(col, n=NULL, gradientWtFactor=2/3, reverseGradient=TRUE,
+(col,
+ n=NULL,
+ gradientWtFactor=2/3,
+ reverseGradient=TRUE,
  verbose=FALSE,
  ...)
 {
@@ -1554,6 +1572,7 @@ color2gradient <- function
 #' #   row_color_by="B")
 #'
 #' @family jam color functions
+#' @family jam practical functions
 #'
 #' @export
 kable_coloring <- function
@@ -1770,6 +1789,8 @@ warpRamp <- function
 #' where applicable.
 #'
 #' @return character vector of R colors in hex format.
+#'
+#' @family jam color functions
 #'
 #' @export
 unalpha <- function

@@ -75,16 +75,22 @@ sort(x);
 
 }
 \seealso{
-\code{\link{mixedSort}}, \code{gtools::mixedorder},
+\code{gtools::mixedorder},
 \code{gtools::mixedsort}
 
-Other jam string functions: \code{\link{cPasteUnique}},
-  \code{\link{cPaste}}, \code{\link{grepls}},
-  \code{\link{igrepHas}}, \code{\link{igrep}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}, \code{\link{provigrep}},
-  \code{\link{unigrep}}, \code{\link{uniques}},
-  \code{\link{unvigrep}}, \code{\link{vgrep}},
-  \code{\link{vigrep}}
+Other jam sort functions: \code{\link{mixedSortDF}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}}
+
+Other jam string functions: \code{\link{asSize}},
+  \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{fillBlanks}},
+  \code{\link{makeNames}}, \code{\link{mixedSortDF}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
+  \code{\link{nameVectorN}}, \code{\link{nameVector}},
+  \code{\link{padInteger}}, \code{\link{padString}},
+  \code{\link{pasteByRowOrdered}},
+  \code{\link{pasteByRow}}, \code{\link{tcount}},
+  \code{\link{uniques}}
 }
+\concept{jam sort functions}
 \concept{jam string functions}

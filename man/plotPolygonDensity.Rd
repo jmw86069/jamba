@@ -115,3 +115,28 @@ Colors can be controlled using the parameter \code{col}, but can
 be specifically defined for bars with \code{barCol} and the polygon
 with \code{polyCol}.
 }
+\examples{
+# basic density plot
+plotPolygonDensity(rnorm(2000), main="basic polygon density plot");
+
+# fewer breaks
+plotPolygonDensity(rnorm(2000), breaks=20,
+   main="breaks=20");
+
+# log-scaled x-axis
+plotPolygonDensity(10^(3+rnorm(2000)), log="x",
+   breaks=50,
+   main="log-scaled x-axis");
+
+}
+\seealso{
+Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
+  \code{\link{decideMfrow}}, \code{\link{getPlotAspect}},
+  \code{\link{imageByColors}}, \code{\link{imageDefault}},
+  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
+  \code{\link{plotSmoothScatter}},
+  \code{\link{shadowText}}, \code{\link{showColors}},
+  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
+  \code{\link{usrBox}}
+}
+\concept{jam plot functions}

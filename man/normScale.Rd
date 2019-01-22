@@ -74,3 +74,11 @@ normScale(1:10, low=0);
 normScale(c(10,20,40,30), from=50, to=65);
 
 }
+\seealso{
+Other jam numeric functions: \code{\link{deg2rad}},
+  \code{\link{noiseFloor}}, \code{\link{rad2deg}},
+  \code{\link{rowGroupMeans}},
+  \code{\link{rowRmMadOutliers}},
+  \code{\link{warpAroundZero}}
+}
+\concept{jam numeric functions}

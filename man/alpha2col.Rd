@@ -19,14 +19,28 @@ alpha range should be 255. By default maxValue=1 is returned.}
 \description{
 Define the alpha transparency per R color
 }
+\examples{
+par("mfrow"=c(2,2));
+for (alpha in c(1, 0.8, 0.5, 0.2)) {
+   nullPlot(plotAreaTitle=paste0("alpha=", alpha),
+      doMargins=FALSE);
+   usrBox(fill=alpha2col("yellow",
+      alpha=alpha));
+}
+
+}
 \seealso{
-Other jam color functions: \code{\link{col2alpha}},
-  \code{\link{col2hcl}}, \code{\link{col2hsv}},
-  \code{\link{color2gradient}}, \code{\link{getColorRamp}},
-  \code{\link{hcl2col}}, \code{\link{hsv2col}},
-  \code{\link{isColor}}, \code{\link{kable_coloring}},
-  \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
+Other jam color functions: \code{\link{applyCLrange}},
+  \code{\link{col2alpha}}, \code{\link{col2hcl}},
+  \code{\link{col2hsv}}, \code{\link{color2gradient}},
+  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
+  \code{\link{getColorRamp}}, \code{\link{hcl2col}},
+  \code{\link{hsv2col}}, \code{\link{isColor}},
+  \code{\link{kable_coloring}},
+  \code{\link{makeColorDarker}}, \code{\link{make_styles}},
+  \code{\link{rgb2col}}, \code{\link{setCLranges}},
   \code{\link{setTextContrastColor}},
+  \code{\link{showColors}}, \code{\link{unalpha}},
   \code{\link{warpRamp}}
 }
 \concept{jam color functions}

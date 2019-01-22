@@ -112,5 +112,16 @@ plotSmoothScatter(doTest=TRUE)
 
 }
 \seealso{
-\code{\link[graphics]{image}}, \code{\link{plotSmoothScatter}}
+\code{\link[graphics]{image}}
+
+Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
+  \code{\link{decideMfrow}}, \code{\link{getPlotAspect}},
+  \code{\link{imageByColors}},
+  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
+  \code{\link{plotPolygonDensity}},
+  \code{\link{plotSmoothScatter}},
+  \code{\link{shadowText}}, \code{\link{showColors}},
+  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
+  \code{\link{usrBox}}
 }
+\concept{jam plot functions}

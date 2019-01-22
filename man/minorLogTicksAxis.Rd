@@ -83,14 +83,13 @@ minorTicks, and allLabelsDF which is a \code{data.frame} containing
 all axis tick positions, with corresponding labels.
 }
 \description{
-Display major and minor tick marks for log-scale axis
+Display major and minor tick marks for log-scale axis,
+with optional offset for proper labeling of \code{log2(1+x)}.
 }
 \details{
 This function displays log units on the axis of an
-existing base R plot. It calls \code{minorLogTicks()} which
-calculates appropriate tick and label positions. The
-axis tick mark positions and labels are determined via
-\code{jamba::minorLogTicks()}.
+existing base R plot. It calls \code{jamba::minorLogTicks()} which
+calculates appropriate tick and label positions.
 
 Note: This function assumes the axis values have already been
 log-transformed. Make sure to adjust the \code{offset} to reflect
@@ -122,3 +121,41 @@ Note that by default, whenever \code{offset > 0} the argument
 that scenario has little meaning. This behavior can be turned
 off by setting \code{symmetricZero=FALSE}.
 }
+\examples{
+plotPolygonDensity(0:100, breaks=100);
+
+plotPolygonDensity(0:100, breaks=100, log="x",
+   main="plotPolygonDensity() uses minorLogTicksAxis()",
+   xlab="x (log-scaled)");
+
+plotPolygonDensity(log2(1+0:100), breaks=100,
+   main="manually called minorLogTicksAxis(logBase=2)",
+   xaxt="n",
+   xlab="x (log-scaled)");
+minorLogTicksAxis(1, offset=1, logBase=2);
+
+plotPolygonDensity(log10(1+0:100), breaks=100,
+   main="manually called minorLogTicksAxis(logBase=10)",
+   xaxt="n",
+   xlab="x (log-scaled)");
+minorLogTicksAxis(1, offset=1, logBase=10);
+
+plotPolygonDensity(log10(1+0:100), breaks=100,
+   main="using 'minorWhich=2:9'",
+   xaxt="n",
+   xlab="x (log-scaled)");
+minorLogTicksAxis(1, offset=1, logBase=10,
+   minorWhich=2:9);
+
+}
+\seealso{
+Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
+  \code{\link{decideMfrow}}, \code{\link{getPlotAspect}},
+  \code{\link{imageByColors}}, \code{\link{imageDefault}},
+  \code{\link{nullPlot}}, \code{\link{plotPolygonDensity}},
+  \code{\link{plotSmoothScatter}},
+  \code{\link{shadowText}}, \code{\link{showColors}},
+  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
+  \code{\link{usrBox}}
+}
+\concept{jam plot functions}

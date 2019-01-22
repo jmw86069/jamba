@@ -26,6 +26,9 @@ is not a two column matrix, data.frame, or tibble.}
 tibble. Thus, \code{sep} can be defined here as a delimiter between
 column values.}
 }
+\value{
+vector with names defined
+}
 \description{
 assign unique names for a vector
 }
@@ -63,3 +66,16 @@ nameVector(df);
 nameVector(V, df);
 
 }
+\seealso{
+Other jam string functions: \code{\link{asSize}},
+  \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{fillBlanks}},
+  \code{\link{makeNames}}, \code{\link{mixedOrder}},
+  \code{\link{mixedSortDF}}, \code{\link{mixedSort}},
+  \code{\link{mmixedOrder}}, \code{\link{nameVectorN}},
+  \code{\link{padInteger}}, \code{\link{padString}},
+  \code{\link{pasteByRowOrdered}},
+  \code{\link{pasteByRow}}, \code{\link{tcount}},
+  \code{\link{uniques}}
+}
+\concept{jam string functions}

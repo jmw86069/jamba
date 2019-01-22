@@ -92,7 +92,7 @@ By default, labels are grouped, so that only one label is displayed
 whenever two or more labels appear in consecutive cells. This behavior
 can be disabled with groupCellnotes=FALSE.
 
-The \code{groupCellnotes} behavior uses \code{\link{breaksByVector}} to
+The \code{groupCellnotes} behavior uses \code{breaksByVector()} to
 determine where to place consecutive labels, and it applies this logic
 starting with rows, then columns. Note that labels are only grouped when
 both the cell color and the cell label are identical for consecutive
@@ -141,3 +141,15 @@ imageByColors(df1, cellnote=df1, useRaster=TRUE, adjBy="column",
    cexCellnote=list(c(1.5,1.5,1), c(1,1.5), c(1.6,1.2), c(1.6,1.5)),
    srtCellnote=list(c(90,0,0), c(0,45), c(0,0,0), c(0,90,0)));
 }
+\seealso{
+Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
+  \code{\link{decideMfrow}}, \code{\link{getPlotAspect}},
+  \code{\link{imageDefault}},
+  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
+  \code{\link{plotPolygonDensity}},
+  \code{\link{plotSmoothScatter}},
+  \code{\link{shadowText}}, \code{\link{showColors}},
+  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
+  \code{\link{usrBox}}
+}
+\concept{jam plot functions}

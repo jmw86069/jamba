@@ -1,6 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^README\.Rmd$
+^READMEOLD\.Rmd$
 ^README-.*\.png$
 ^docs$
 ^_pkgdown\.yml$

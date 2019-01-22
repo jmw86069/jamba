@@ -95,3 +95,10 @@ x[2:3,2] <- x[2:3,2]*5 - 100;
 rowRmMadOutliers(x, madFactor=5);
 
 }
+\seealso{
+Other jam numeric functions: \code{\link{deg2rad}},
+  \code{\link{noiseFloor}}, \code{\link{normScale}},
+  \code{\link{rad2deg}}, \code{\link{rowGroupMeans}},
+  \code{\link{warpAroundZero}}
+}
+\concept{jam numeric functions}

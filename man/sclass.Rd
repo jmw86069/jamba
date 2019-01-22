@@ -25,3 +25,26 @@ the class is returned for each S4 slot.
 sclass(list(LETTERS=LETTERS, letters=letters));
 
 }
+\seealso{
+Other jam practical functions: \code{\link{applyCLrange}},
+  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
+  \code{\link{colNum2excelName}}, \code{\link{fileInfo}},
+  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
+  \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
+  \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
+  \code{\link{jamba}}, \code{\link{jargs}},
+  \code{\link{kable_coloring}}, \code{\link{make_styles}},
+  \code{\link{minorLogTicks}}, \code{\link{newestFile}},
+  \code{\link{printDebug}}, \code{\link{renameColumn}},
+  \code{\link{rmInfinite}}, \code{\link{rmNA}},
+  \code{\link{rmNULL}}, \code{\link{sdim}},
+  \code{\link{setCLranges}}, \code{\link{setPrompt}},
+  \code{\link{ssdim}}
+
+Other jam list functions: \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{rbindList}},
+  \code{\link{rlengths}}, \code{\link{sdim}},
+  \code{\link{ssdim}}, \code{\link{uniques}}
+}
+\concept{jam list functions}
+\concept{jam practical functions}

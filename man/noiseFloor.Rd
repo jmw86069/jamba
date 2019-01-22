@@ -77,3 +77,11 @@ plotSmoothScatter(xm3);
 par("mfrow"=parMfrow);
 
 }
+\seealso{
+Other jam numeric functions: \code{\link{deg2rad}},
+  \code{\link{normScale}}, \code{\link{rad2deg}},
+  \code{\link{rowGroupMeans}},
+  \code{\link{rowRmMadOutliers}},
+  \code{\link{warpAroundZero}}
+}
+\concept{jam numeric functions}

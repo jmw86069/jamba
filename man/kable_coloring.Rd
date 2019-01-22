@@ -65,12 +65,32 @@ apply those colors.
 }
 \seealso{
 Other jam color functions: \code{\link{alpha2col}},
-  \code{\link{col2alpha}}, \code{\link{col2hcl}},
-  \code{\link{col2hsv}}, \code{\link{color2gradient}},
-  \code{\link{getColorRamp}}, \code{\link{hcl2col}},
-  \code{\link{hsv2col}}, \code{\link{isColor}},
-  \code{\link{makeColorDarker}}, \code{\link{rgb2col}},
+  \code{\link{applyCLrange}}, \code{\link{col2alpha}},
+  \code{\link{col2hcl}}, \code{\link{col2hsv}},
+  \code{\link{color2gradient}}, \code{\link{fixYellowHue}},
+  \code{\link{fixYellow}}, \code{\link{getColorRamp}},
+  \code{\link{hcl2col}}, \code{\link{hsv2col}},
+  \code{\link{isColor}}, \code{\link{makeColorDarker}},
+  \code{\link{make_styles}}, \code{\link{rgb2col}},
+  \code{\link{setCLranges}},
   \code{\link{setTextContrastColor}},
+  \code{\link{showColors}}, \code{\link{unalpha}},
   \code{\link{warpRamp}}
+
+Other jam practical functions: \code{\link{applyCLrange}},
+  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
+  \code{\link{colNum2excelName}}, \code{\link{fileInfo}},
+  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
+  \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
+  \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
+  \code{\link{jamba}}, \code{\link{jargs}},
+  \code{\link{make_styles}}, \code{\link{minorLogTicks}},
+  \code{\link{newestFile}}, \code{\link{printDebug}},
+  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
+  \code{\link{rmNA}}, \code{\link{rmNULL}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{setCLranges}}, \code{\link{setPrompt}},
+  \code{\link{ssdim}}
 }
 \concept{jam color functions}
+\concept{jam practical functions}

@@ -1,3 +1,20 @@
+# jamba version 0.0.25.900
+
+## bug fixes
+
+* `warpAroundZero() was not properly handling `baseline`, the method
+now uses a more straightforward approach.
+
+## enhancements
+
+* The site pkgdown documentation was updated to include each function
+in one (or sometimes multiple) categories, to help in finding
+potentially useful functions.
+* The README.Rmd file has been stripped of the examples, which were
+a bit out of date compared to the function docs, and were not intended
+to be their own vignette. As I write this, I realize "removed visual examples"
+is rarely a positive step.
+
 # jamba version 0.0.24.900
 
 ## new functions
