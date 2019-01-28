@@ -1,3 +1,12 @@
+# jamba version 0.0.26.900
+
+## new functions
+
+* `formatInt()` is a quick wrapper function to format numeric values
+as integers, by default rounding decimal values and using big.mark=",",
+which can be overridden as needed.
+* `list2df()` to convert a list of vectors into a tall data.frame.
+
 # jamba version 0.0.25.900
 
 ## bug fixes

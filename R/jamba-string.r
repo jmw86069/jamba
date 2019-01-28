@@ -2164,3 +2164,113 @@ fillBlanks <- function
    xFilled <- xNonBlankVals[xNonBlankWhich];
    return(xFilled);
 }
+
+#' Format an integer as a string
+#'
+#' Format an integer as a string
+#'
+#' This function is a quick wrapper function around `base::format()`
+#' to display integer values as text strings. It will also return a
+#' matrix if the input is a matrix.
+#'
+#' @return character vector if `x` is a vector, or if `x` is a matrix
+#' a matrix will be returned.
+#'
+#' @famiy jam string functions
+#'
+#' @param x numeric vector or matrix
+#' @param big.mark,trim,scientific options sent to `base::format()` but
+#'    configured with defaults intended for integer values.
+#' @param forceInteger logical indicating whether numeric values should
+#'    be rounded to the nearest integer value prior to `base::format()`.
+#'    This option is intended to hide decimal values where they are not
+#'    informative.
+#'
+#' @examples
+#' x <- c(1234, 1234.56, 1234567.89);
+#' ## By default, commas are used for big.mark, and decimal values are hidden
+#' formatInt(x);
+#'
+#' ## By default, commas are used for big.mark
+#' formatInt(x, forceInteger=FALSE);
+#'
+#' @export
+formatInt <- function
+(x,
+ big.mark=",",
+ trim=TRUE,
+ forceInteger=TRUE,
+ scientific=FALSE,
+ ...)
+{
+   ## Purpose is to format a pretty integer, with commas separating thousandths digits
+   if (forceInteger) {
+      y <- format(x=round(x),
+         big.mark=big.mark,
+         trim=trim,
+         scientific=scientific,
+         ...);
+   } else {
+      y <- format(x=x,
+         big.mark=big.mark,
+         trim=trim,
+         scientific=scientific,
+         ...);
+   }
+   if (class(x) %in% c("matrix")) {
+      y <- matrix(data=y,
+         nrow=nrow(x),
+         ncol=ncol(x),
+         dimnames=list(rownames(x), colnames(x)));
+   } else if (igrepHas("character|num|integer|float", class(x))) {
+      if (!is.null(names(x))) {
+         names(y) <- names(x);
+      }
+   }
+   y;
+}
+
+#' Convert list of vectors to data.frame with item, value, name
+#'
+#' Convert list of vectors to data.frame with item, value, name
+#'
+#' This function converts a list of vectors to a tall data.frame
+#' with colnames `item` to indicate the list name, `value` to indicate
+#' the vector value, and `name` to indicate the vector name if
+#' `useVectorNames=TRUE` and if names exist.
+#'
+#' @param x list of vectors
+#' @param makeUnique logical indicating whether the data.frame should
+#'    contain unique rows.
+#' @param useVectorNames logical indicating whether vector names should
+#'    be included in the data.frame, if they exist.
+#' @param ... additional arguments are ignored.
+#'
+#' @export
+list2df <- function
+(x,
+ makeUnique=TRUE,
+ useVectorNames=TRUE,
+ ...)
+{
+   ## Purpose is to take a list of vectors, and turn it
+   ## into a data.frame, where the list names are in column 1
+   ## and the values are in column 2.
+   ##
+   ## This function is good for converting something like
+   ## conflicts(,TRUE) into a usable data.frame, e.g.:
+   ## cf1 <- conflicts(,TRUE);
+   ## xdf <- list2df(cf1);
+   ## irMethods <- xdf[igrep("IRanges", xdf[,1]),2];
+   ## irConflicts <- xdf[xdf[,2] %in% irMethods & !xdf[,1] %in% "package:IRanges",];
+
+   xdf <- data.frame(item=rep(names(x), lengths(x)),
+      value=unname(unlist(x)));
+   if (length(useVectorNames) > 0 && useVectorNames) {
+      xdf$name <- unname(unlist(lapply(x, names)));
+   }
+   if (makeUnique) {
+      xdf <- unique(xdf);
+   }
+   return(xdf);
+}
