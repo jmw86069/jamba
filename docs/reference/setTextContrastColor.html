@@ -64,7 +64,7 @@ typically using either white or black." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.25.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.27.900</span>
       </span>
     </div>
 
@@ -128,7 +128,8 @@ typically using either white or black.</p>
     </div>
 
     <pre class="usage"><span class='fu'>setTextContrastColor</span>(<span class='no'>color</span>, <span class='kw'>hclCutoff</span> <span class='kw'>=</span> <span class='fl'>73</span>, <span class='kw'>rgbCutoff</span> <span class='kw'>=</span> <span class='fl'>127</span>,
-  <span class='kw'>colorModel</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"hcl"</span>, <span class='st'>"rgb"</span>), <span class='kw'>useGrey</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>keepAlpha</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>colorModel</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"hcl"</span>, <span class='st'>"rgb"</span>), <span class='kw'>useGrey</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>keepAlpha</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='st'>"bg"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,6 +172,19 @@ transparency should be maintained in the text color. By default, text
 alpha is not maintained, and instead is set to alpha=1, fully
 opaque.</p></td>
     </tr>
+    <tr>
+      <th>bg</th>
+      <td><p>vector of R colors, used as a background when determining the
+brightness of a semi-transparent color. The corresponding brightness
+value from the <code>bg</code> is applied via weighted mean to the input
+<code>color</code> brightness, the result is compared the the relevant cutoff.
+By default <code><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>graphics::par("bg")</a></code> is used to determine the default
+plot background color.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments are ignored.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -189,9 +203,20 @@ opaque.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>setTextContrastColor</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"red"</span>,<span class='st'>"yellow"</span>,<span class='st'>"lightblue"</span>,<span class='st'>"blue4"</span>))</div><div class='output co'>#&gt;         red      yellow   lightblue       blue4 
+    <pre class="examples"><div class='input'><span class='no'>color</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"red"</span>,<span class='st'>"yellow"</span>,<span class='st'>"lightblue"</span>,<span class='st'>"blue4"</span>);
+<span class='fu'>setTextContrastColor</span>(<span class='no'>color</span>);</div><div class='output co'>#&gt;         red      yellow   lightblue       blue4 
 #&gt; "#FFFFFFFF" "#000000FF" "#000000FF" "#FFFFFFFF" </div><div class='input'>
-</div></pre>
+<span class='co'># by default, showColors() uses setTextContrastColors() on labels</span>
+<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>color</span>)</div><div class='img'><img src='setTextContrastColor-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># demonstrate the effect of alpha transparency</span>
+<span class='no'>colorL</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0.7</span>, <span class='fl'>0.6</span>, <span class='fl'>0.4</span>)), <span class='kw'>function</span>(<span class='no'>i</span>){
+   <span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='fu'><a href='alpha2col.html'>alpha2col</a></span>(<span class='no'>color</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='no'>i</span>), <span class='no'>color</span>);
+})
+<span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/jamba/topics/showColors'>showColors</a></span>(<span class='no'>colorL</span>, <span class='kw'>groupCellnotes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='img'><img src='setTextContrastColor-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># change background to dark blue</span>
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='st'>"bg"</span>);
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='st'>"bg"</span><span class='kw'>=</span><span class='st'>"navy"</span>);
+<span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/jamba/topics/showColors'>showColors</a></span>(<span class='no'>colorL</span>, <span class='kw'>groupCellnotes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='img'><img src='setTextContrastColor-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='st'>"bg"</span><span class='kw'>=</span><span class='no'>bg</span>);</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

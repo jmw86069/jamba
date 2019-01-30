@@ -1,3 +1,11 @@
+# jamba version 0.0.27.900
+
+## enhancements
+
+* `setTextContrastColor()` has been updated to handle alpha
+transparency, semi-transparent colors are blended with the
+background color, then compared to the threshold.
+
 # jamba version 0.0.26.900
 
 ## new functions

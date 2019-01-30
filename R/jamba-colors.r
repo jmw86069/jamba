@@ -36,9 +36,32 @@
 #'    transparency should be maintained in the text color. By default, text
 #'    alpha is not maintained, and instead is set to alpha=1, fully
 #'    opaque.
+#' @param bg vector of R colors, used as a background when determining the
+#'    brightness of a semi-transparent color. The corresponding brightness
+#'    value from the `bg` is applied via weighted mean to the input
+#'    `color` brightness, the result is compared the the relevant cutoff.
+#'    By default `graphics::par("bg")` is used to determine the default
+#'    plot background color.
+#' @param ... additional arguments are ignored.
 #'
 #' @examples
-#' setTextContrastColor(c("red","yellow","lightblue","blue4"))
+#' color <- c("red","yellow","lightblue","blue4");
+#' setTextContrastColor(color);
+#'
+#' # by default, showColors() uses setTextContrastColors() on labels
+#' showColors(color)
+#'
+#' # demonstrate the effect of alpha transparency
+#' colorL <- lapply(nameVector(c(1,0.7, 0.6, 0.4)), function(i){
+#'    nameVector(alpha2col(color, alpha=i), color);
+#' })
+#' jamba::showColors(colorL, groupCellnotes=FALSE)
+#'
+#' # change background to dark blue
+#' bg <- par("bg");
+#' par("bg"="navy");
+#' jamba::showColors(colorL, groupCellnotes=FALSE)
+#' par("bg"=bg);
 #'
 #' @family jam color functions
 #'
@@ -50,6 +73,7 @@ setTextContrastColor <- function
  colorModel=c("hcl", "rgb"),
  useGrey=0,
  keepAlpha=FALSE,
+ bg=par("bg"),
  ...)
 {
    ## Purpose is to provide a good contrasting text color, given a background color
@@ -76,11 +100,26 @@ setTextContrastColor <- function
    bwColors <- rgb2col(col2rgb(paste0("grey", greyVals)))
 
    if (colorModel %in% "rgb") {
-      iColor <- ifelse(colMeans(col2rgb(color)) > rgbCutoff,
+      colRgbMean <- colMeans(col2rgb(color));
+      if (any(col2alpha(unique(color)) < 1)) {
+         ## If any color is transparent, use weighted mean with the
+         ## background color
+         colWeight <- col2alpha(color);
+         colRgbBg <- colMeans(col2rgb(bg));
+         colRgbMean <- (colRgbMean * colWeight + colRgbBg * (1 - colWeight));
+      }
+      iColor <- ifelse(colRgbMean > rgbCutoff,
          bwColors[1],
          bwColors[2]);
    } else {
-      iColor <- ifelse(col2hcl(color)["L",] > hclCutoff,
+      colL <- col2hcl(color)["L",];
+      if (any(col2alpha(unique(color)) < 1)) {
+         bgL <- col2hcl(bg)["L",];
+         colWeight <- col2alpha(color);
+         warpWeight <- warpAroundZero(1-colWeight, xCeiling=1, lens=-17);
+         colL <- ((colL) * (1-warpWeight) + (bgL) * warpWeight);
+      }
+      iColor <- ifelse(colL > hclCutoff,
          bwColors[1],
          bwColors[2]);
    }

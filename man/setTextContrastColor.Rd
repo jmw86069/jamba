@@ -5,7 +5,8 @@
 \title{Define visible text color}
 \usage{
 setTextContrastColor(color, hclCutoff = 73, rgbCutoff = 127,
-  colorModel = c("hcl", "rgb"), useGrey = 0, keepAlpha = FALSE, ...)
+  colorModel = c("hcl", "rgb"), useGrey = 0, keepAlpha = FALSE,
+  bg = par("bg"), ...)
 }
 \arguments{
 \item{color}{character vector with one or more R-compatible colors.}
@@ -33,13 +34,38 @@ since the text will never be fully white or black.}
 transparency should be maintained in the text color. By default, text
 alpha is not maintained, and instead is set to alpha=1, fully
 opaque.}
+
+\item{bg}{vector of R colors, used as a background when determining the
+brightness of a semi-transparent color. The corresponding brightness
+value from the \code{bg} is applied via weighted mean to the input
+\code{color} brightness, the result is compared the the relevant cutoff.
+By default \code{graphics::par("bg")} is used to determine the default
+plot background color.}
+
+\item{...}{additional arguments are ignored.}
 }
 \description{
 Given a vector or colors, define a contrasting color for text,
 typically using either white or black.
 }
 \examples{
-setTextContrastColor(c("red","yellow","lightblue","blue4"))
+color <- c("red","yellow","lightblue","blue4");
+setTextContrastColor(color);
+
+# by default, showColors() uses setTextContrastColors() on labels
+showColors(color)
+
+# demonstrate the effect of alpha transparency
+colorL <- lapply(nameVector(c(1,0.7, 0.6, 0.4)), function(i){
+   nameVector(alpha2col(color, alpha=i), color);
+})
+jamba::showColors(colorL, groupCellnotes=FALSE)
+
+# change background to dark blue
+bg <- par("bg");
+par("bg"="navy");
+jamba::showColors(colorL, groupCellnotes=FALSE)
+par("bg"=bg);
 
 }
 \seealso{

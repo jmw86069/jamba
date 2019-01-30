@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>pad a character string to a fixed length — padString • jamba</title>
+<title>Convert list of vectors to data.frame with item, value, name — list2df • jamba</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="pad a character string to a fixed length — padString" />
+<meta property="og:title" content="Convert list of vectors to data.frame with item, value, name — list2df" />
 
-<meta property="og:description" content="pad a character string to a fixed length" />
+<meta property="og:description" content="Convert list of vectors to data.frame with item, value, name" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,85 +114,58 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>pad a character string to a fixed length</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba.r'><code>R/jamba.r</code></a></small>
-    <div class="hidden name"><code>padString.Rd</code></div>
+    <h1>Convert list of vectors to data.frame with item, value, name</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-string.r'><code>R/jamba-string.r</code></a></small>
+    <div class="hidden name"><code>list2df.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>pad a character string to a fixed length</p>
+    <p>Convert list of vectors to data.frame with item, value, name</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>padString</span>(<span class='no'>x</span>, <span class='kw'>stringLength</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nchar'>nchar</a></span>(<span class='no'>x</span>)), <span class='kw'>padCharacter</span> <span class='kw'>=</span> <span class='st'>" "</span>,
-  <span class='kw'>justify</span> <span class='kw'>=</span> <span class='st'>"left"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>list2df</span>(<span class='no'>x</span>, <span class='kw'>makeUnique</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>useVectorNames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>character vector</p></td>
+      <td><p>list of vectors</p></td>
     </tr>
     <tr>
-      <th>stringLength</th>
-      <td><p>integer length for the resulting character strings
-in <code>x</code>. By default, all strings are padded to the length of the
-longest entry, however stringLength can be defined to impose strict
-number of characters for all entries.</p></td>
+      <th>makeUnique</th>
+      <td><p>logical indicating whether the data.frame should
+contain unique rows.</p></td>
     </tr>
     <tr>
-      <th>padCharacter</th>
-      <td><p>single character used for padding.</p></td>
-    </tr>
-    <tr>
-      <th>justify</th>
-      <td><p>character value with "left", "right", "center" to indicate
-alignment of the resulting text string.</p></td>
+      <th>useVectorNames</th>
+      <td><p>logical indicating whether vector names should
+be included in the data.frame, if they exist.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional parameters are ignored.</p></td>
+      <td><p>additional arguments are ignored.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>character vector of length(x)</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other jam string functions: <code><a href='asSize.html'>asSize</a></code>,
-  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='fillBlanks.html'>fillBlanks</a></code>,
-  <code><a href='formatInt.html'>formatInt</a></code>, <code><a href='makeNames.html'>makeNames</a></code>,
-  <code><a href='mixedOrder.html'>mixedOrder</a></code>, <code><a href='mixedSortDF.html'>mixedSortDF</a></code>,
-  <code><a href='mixedSort.html'>mixedSort</a></code>, <code><a href='mmixedOrder.html'>mmixedOrder</a></code>,
-  <code><a href='nameVectorN.html'>nameVectorN</a></code>, <code><a href='nameVector.html'>nameVector</a></code>,
-  <code><a href='padInteger.html'>padInteger</a></code>,
-  <code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a></code>,
-  <code><a href='pasteByRow.html'>pasteByRow</a></code>, <code><a href='tcount.html'>tcount</a></code>,
-  <code><a href='uniques.html'>uniques</a></code></p></div>
+    <p>This function converts a list of vectors to a tall data.frame
+with colnames <code>item</code> to indicate the list name, <code>value</code> to indicate
+the vector value, and <code>name</code> to indicate the vector name if
+<code>useVectorNames=TRUE</code> and if names exist.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>padString</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"one"</span>,<span class='st'>"two"</span>,<span class='st'>"three"</span>));</div><div class='output co'>#&gt;     one     two   three 
-#&gt; "one  " "two  " "three" </div><div class='input'><span class='fu'>padString</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"one"</span>,<span class='st'>"two"</span>,<span class='st'>"three"</span>,<span class='st'>"four"</span>), <span class='kw'>padCharacter</span><span class='kw'>=</span><span class='st'>"_"</span>, <span class='kw'>justify</span><span class='kw'>=</span><span class='st'>"center"</span>);</div><div class='output co'>#&gt;     one     two   three    four 
-#&gt; "_one_" "_two_" "three" "_four" </div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

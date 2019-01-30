@@ -71,12 +71,12 @@ cPaste(L1, sep="; ", makeUnique=TRUE)
 \seealso{
 Other jam string functions: \code{\link{asSize}},
   \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
-  \code{\link{fillBlanks}}, \code{\link{makeNames}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
+  \code{\link{fillBlanks}}, \code{\link{formatInt}},
+  \code{\link{makeNames}}, \code{\link{mixedOrder}},
+  \code{\link{mixedSortDF}}, \code{\link{mixedSort}},
+  \code{\link{mmixedOrder}}, \code{\link{nameVectorN}},
+  \code{\link{nameVector}}, \code{\link{padInteger}},
+  \code{\link{padString}}, \code{\link{pasteByRowOrdered}},
   \code{\link{pasteByRow}}, \code{\link{tcount}},
   \code{\link{uniques}}
 

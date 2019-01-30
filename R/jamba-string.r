@@ -2176,7 +2176,7 @@ fillBlanks <- function
 #' @return character vector if `x` is a vector, or if `x` is a matrix
 #' a matrix will be returned.
 #'
-#' @famiy jam string functions
+#' @family jam string functions
 #'
 #' @param x numeric vector or matrix
 #' @param big.mark,trim,scientific options sent to `base::format()` but
