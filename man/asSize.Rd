@@ -6,7 +6,7 @@
 \usage{
 asSize(x, humanFriendly = TRUE, digits = 3, abbreviateUnits = TRUE,
   unitType = "bytes", unitAbbrev = gsub("^(.).*$", "\\\\1", unitType),
-  kiloSize = 1024, ...)
+  kiloSize = 1024, sep = " ", ...)
 }
 \arguments{
 \item{x}{numeric vector}
@@ -32,6 +32,8 @@ by default it uses the first character from \code{unitType}.}
 base unit, to one "kilo" base unit. For file sizes, this value is 1024,
 but for other purposes this value may be 1000.}
 
+\item{sep}{delimiter used between the numeric value and the unit.}
+
 \item{...}{other parameters passed to \code{\link[base]{format}}.}
 }
 \value{
@@ -50,10 +52,16 @@ This function by default assumes 1,024 bytes per kilobyte, but can be
 made to use 1000, for example in order to represent genome base size,
 which is represented in kilobases (kb), megabases (Mb), gigabases (Gb),
 etc. Simply define unitType="bases" in this scenario.
+
+TODO: Allow units to be specified as a function argument, for
+example "million" and "billion" instead of "Giga" and "Tera".
 }
 \examples{
 asSize(c(1, 10,2010,22000,52200))
 #> "1 byte"   "10 bytes" "2 kb"     "21 kb"    "51 kb"
+
+# demonstration of straight numeric units
+asSize(c(1, 100, 1000, 10000), unitType="", kiloSize=100)
 
 }
 \seealso{

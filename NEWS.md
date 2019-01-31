@@ -1,3 +1,12 @@
+# jamba version 0.0.28.900
+
+## bug fixes
+
+* `asSize()` was updated to handle empty units, useful for numeric
+values especially when kiloSize=1000. Numbers are also trimmed
+through `format()` independently so the number of digits is
+not propagated through all values.
+
 # jamba version 0.0.27.900
 
 ## enhancements

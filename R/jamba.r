@@ -531,6 +531,9 @@ setPrompt <- function
 #' which is represented in kilobases (kb), megabases (Mb), gigabases (Gb),
 #' etc. Simply define unitType="bases" in this scenario.
 #'
+#' TODO: Allow units to be specified as a function argument, for
+#' example "million" and "billion" instead of "Giga" and "Tera".
+#'
 #' @return character vector representing human-friendly sizes.
 #'
 #' @family jam string functions
@@ -551,18 +554,26 @@ setPrompt <- function
 #' @param kiloSize numeric number of base units when converting from one
 #'    base unit, to one "kilo" base unit. For file sizes, this value is 1024,
 #'    but for other purposes this value may be 1000.
+#' @param sep delimiter used between the numeric value and the unit.
 #' @param ... other parameters passed to \code{\link[base]{format}}.
 #'
 #' @examples
 #' asSize(c(1, 10,2010,22000,52200))
 #' #> "1 byte"   "10 bytes" "2 kb"     "21 kb"    "51 kb"
 #'
+#' # demonstration of straight numeric units
+#' asSize(c(1, 100, 1000, 10000), unitType="", kiloSize=100)
+#'
 #' @export
 asSize <- function
-(x, humanFriendly=TRUE, digits=3,
+(x,
+ humanFriendly=TRUE,
+ digits=3,
  abbreviateUnits=TRUE,
- unitType="bytes", unitAbbrev=gsub("^(.).*$", "\\1", unitType),
+ unitType="bytes",
+ unitAbbrev=gsub("^(.).*$", "\\1", unitType),
  kiloSize=1024,
+ sep=" ",
  ...)
 {
    ## Prints a numerical value as if it were a computer object size
@@ -580,7 +591,8 @@ asSize <- function
    if (abbreviateUnits) {
       sizeUnits <- c(unitType, paste0(c("k", "M", "G", "T", "P"),
          unitAbbrev));
-      sizeUnitsX <- nameVector(c(0, 1, 2, 3, 4, 5), sizeUnits);
+      sizeUnitsX <- nameVector(c(0, 1, 2, 3, 4, 5),
+         sizeUnits);
    } else {
       sizeUnits <- paste0(c("", "kilo", "Mega", "Giga", "Tera", "Peta"),
          unitType);
@@ -593,11 +605,12 @@ asSize <- function
    ## Iterate through large to small values, progressively dividing out
    ## orders of magnitude until the result fits within the range available
    for (i in names(rev(sizeUnitsX))) {
+      sizeUnitsXi <- sizeUnitsX[names(sizeUnitsX) %in% i];
       whichX <- (!is.na(x) &
-                 xUnits %in% "" &
-                 x >= kiloSize^sizeUnitsX[i]);
+            xUnits %in% "" &
+            x >= kiloSize^sizeUnitsXi);
       xUnits[whichX] <- i;
-      xValues[whichX] <- x[whichX] / kiloSize^sizeUnitsX[i];
+      xValues[whichX] <- x[whichX] / kiloSize^sizeUnitsXi;
    }
    ## If we have zeros, and we have a unit defined for zero, we use that
    ## to describe the zeros, e.g. "0 bytes"
@@ -610,7 +623,18 @@ asSize <- function
       xUnits[xOnes] <- gsub("([^s])s$", "\\1", xUnits[xOnes]);
    }
 
-   newX <- paste(format(trim=TRUE, digits=2, xValues, ...), xUnits);
+   ## Style 2: decimals are independent per value
+   xValuesV <- sapply(xValues, function(i){
+      format(trim=TRUE,
+         digits=2,
+         i);
+   });
+
+   ## Create one label
+   newX <- gsub("[ ]+$", "",
+      paste(xValuesV,
+         xUnits,
+         sep=sep));
    newX[is.na(x)] <- NA;
 
    return(newX);
