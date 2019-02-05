@@ -1,6 +1,6 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.28.900
+Version: 0.0.29.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
 Description: Jam Base methods.
@@ -20,7 +20,8 @@ Suggests: knitr,
     viridis,
     crayon,
     matrixStats,
-    S4Vector
+    S4Vector,
+    openxlsx
 License: GPL-2
 Encoding: UTF-8
 LazyData: true

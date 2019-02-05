@@ -1,3 +1,20 @@
+# jamba version 0.0.29.900
+
+## new functions
+
+* `writeOpenxlsx()` is a wrapper for the `openxlsx` package,
+intended to encapsulate a large number of default options for
+certain "known" column data types, like P-values, log2 fold changes,
+and integer values.
+* `applyXlsxCategoricalFormat()` and `applyXlsxConditionalFormat()` to
+apply colors to an existing Excel xlsx file worksheet. These functions
+are called by `writeOpenxlsx()` but can also be called manually to
+customize an existing Excel file.
+
+## changes
+
+* Added "openxlsx" to Suggests.
+
 # jamba version 0.0.28.900
 
 ## bug fixes

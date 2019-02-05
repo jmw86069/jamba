@@ -34,6 +34,10 @@ reference:
   desc: Convenient grep functions for speed of re-use
   contents:
   - has_concept("jam grep functions")
+- title: Export functions
+  desc: Practical functions for exporting data, e.g. to Excel xlsx
+  contents:
+  - has_concept("jam export functions")
 - title: Practical functions
   desc: Practical functions to enhance routine R work, essentially miscellaneous
   contents:
