@@ -80,9 +80,10 @@ Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{setPrompt}}
 
 Other jam list functions: \code{\link{cPasteUnique}},
-  \code{\link{cPaste}}, \code{\link{rbindList}},
-  \code{\link{rlengths}}, \code{\link{sclass}},
-  \code{\link{sdim}}, \code{\link{uniques}}
+  \code{\link{cPaste}}, \code{\link{list2df}},
+  \code{\link{rbindList}}, \code{\link{rlengths}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{uniques}}
 }
 \concept{jam list functions}
 \concept{jam practical functions}

@@ -2246,6 +2246,8 @@ formatInt <- function
 #'    be included in the data.frame, if they exist.
 #' @param ... additional arguments are ignored.
 #'
+#' @family jam list functions
+#'
 #' @export
 list2df <- function
 (x,

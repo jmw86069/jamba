@@ -26,7 +26,7 @@ writeOpenxlsx(x, file, sheetName = "Sheet1", append = FALSE,
   freezePaneColumn = 1, freezePaneRow = 2, doFilter = TRUE,
   fontName = "Arial", fontSize = 12, minWidth = 8, maxWidth = 40,
   autoWidth = TRUE, wrapHeaders = TRUE, headerRowMultiplier = 5,
-  keepRownames = FALSE, rownameHeader = "rowName", verbose = TRUE,
+  keepRownames = FALSE, rownameHeader = "rowName", verbose = FALSE,
   ...)
 }
 \arguments{
@@ -104,7 +104,8 @@ is helpful when \code{wrapHeaders=TRUE} and \code{autoWidth=TRUE}.}
 
 \item{verbose}{logical indicating whether to print verbose output.}
 
-\item{...}{additional arguments are ignored.}
+\item{...}{additional arguments are passed to \code{applyXlsxConditionalFormat()}
+and \code{applyXlsxCategoricalFormat()}.}
 }
 \description{
 Export a data.frame to Excel xlsx format
@@ -130,7 +131,7 @@ This function pre-configures formatting options for the following
 column data types, each of which has conditional
 color-formatting, defined numeric ranges, and color scales.
 
-\describe(
+\describe{
 \item{int}{integer values, where numeric values are formatted
 without visible decimal places, and the \code{big.mark=","} standard
 is used to help visually distinguish large integers. The color
@@ -153,13 +154,49 @@ configured to show one decimal place, to simplify the Excel visual
 summary.}
 \item{highlight}{character and undefined columns to be highlighted
 with a brighter background color, and bold text.}
-)
+}
 
 For each column data type, a color scale and default numeric range
 is defined, which allows conditional formatting of cells based upon
 expected ranges of values.
+
+A screenshot of the file produced by the example is shown below.
+
+\if{html}{\figure{writeopenxlsx.png}{xlsx screenshot}}
+
+\if{latex}{\figure{writeopenxlsx.png}{options: width=0.5in}}
+}
+\examples{
+# set up a test data.frame
+set.seed(123);
+df1 <- data.frame(
+   Gene=paste0("Gene", LETTERS[2:11]),
+   log2fc=rnorm(10)*5,
+   `P-value`=1/sample(((10:50)/10)^3, 10));
+df1$hit <- sign(df1[,2]) * (abs(df1[,2]) >= 1 & df1[,3] < 0.03);
+# apply sort
+df1 <- mixedSortDF(df1, byCols=c(4,2,3));
+# set of categorical colors for genes
+colorSubGene <- nameVector(
+   rep(c("purple4","orange","red4"),
+      c(2,6,2)),
+   df1$Gene);
+df1;
+writeOpenxlsx(file="/Users/wardjm/test.xlsx",
+   sheetName="sheet1",
+   append=FALSE,
+   x=df1,
+   colorSub=colorSubGene,
+   highlightColumns=1,
+   pvalueColumns=3,
+   lfcColumns=2,
+   hitColumns=4,
+   freezePaneRow=2,
+   freezePaneColumn=2);
+
 }
 \seealso{
-Other jam export functions: \code{\link{applyXlsxConditionalFormat}}
+Other jam export functions: \code{\link{applyXlsxCategoricalFormat}},
+  \code{\link{applyXlsxConditionalFormat}}
 }
 \concept{jam export functions}

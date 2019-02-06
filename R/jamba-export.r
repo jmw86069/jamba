@@ -22,7 +22,7 @@
 #' column data types, each of which has conditional
 #' color-formatting, defined numeric ranges, and color scales.
 #'
-#' \describe(
+#' \describe{
 #'    \item{int}{integer values, where numeric values are formatted
 #'    without visible decimal places, and the `big.mark=","` standard
 #'    is used to help visually distinguish large integers. The color
@@ -45,11 +45,17 @@
 #'    summary.}
 #'    \item{highlight}{character and undefined columns to be highlighted
 #'    with a brighter background color, and bold text.}
-#' )
+#' }
 #'
 #' For each column data type, a color scale and default numeric range
 #' is defined, which allows conditional formatting of cells based upon
 #' expected ranges of values.
+#'
+#' A screenshot of the file produced by the example is shown below.
+#'
+#' \if{html}{\figure{writeopenxlsx.png}{xlsx screenshot}}
+#'
+#' \if{latex}{\figure{writeopenxlsx.png}{options: width=0.5in}}
 #'
 #' @family jam export functions
 #'
@@ -110,7 +116,36 @@
 #' @param rownameHeader character value used as the column header when
 #'    `keepRownames=TRUE`.
 #' @param verbose logical indicating whether to print verbose output.
-#' @param ... additional arguments are ignored.
+#' @param ... additional arguments are passed to `applyXlsxConditionalFormat()`
+#'    and `applyXlsxCategoricalFormat()`.
+#'
+#' @examples
+#' # set up a test data.frame
+#' set.seed(123);
+#' df1 <- data.frame(
+#'    Gene=paste0("Gene", LETTERS[2:11]),
+#'    log2fc=rnorm(10)*5,
+#'    `P-value`=1/sample(((10:50)/10)^3, 10));
+#' df1$hit <- sign(df1[,2]) * (abs(df1[,2]) >= 1 & df1[,3] < 0.03);
+#' # apply sort
+#' df1 <- mixedSortDF(df1, byCols=c(4,2,3));
+#' # set of categorical colors for genes
+#' colorSubGene <- nameVector(
+#'    rep(c("purple4","orange","red4"),
+#'       c(2,6,2)),
+#'    df1$Gene);
+#' df1;
+#' writeOpenxlsx(file="/Users/wardjm/test.xlsx",
+#'    sheetName="sheet1",
+#'    append=FALSE,
+#'    x=df1,
+#'    colorSub=colorSubGene,
+#'    highlightColumns=1,
+#'    pvalueColumns=3,
+#'    lfcColumns=2,
+#'    hitColumns=4,
+#'    freezePaneRow=2,
+#'    freezePaneColumn=2);
 #'
 #' @export
 writeOpenxlsx <- function
@@ -174,7 +209,7 @@ headerRowMultiplier=5,
 keepRownames=FALSE,
 rownameHeader="rowName",
 
-verbose=TRUE,
+verbose=FALSE,
 ...)
 {
    ## Purpose is to use openxlsx::writeDataTable() to write .xlsx files
@@ -342,6 +377,8 @@ verbose=TRUE,
 
    ## Style highlightColumns A and B
    if (length(highlightColumns) > 0) {
+      if (verbose) printDebug("writeOpenxlsx():",
+         "Applying highlightStyles");
       highAHStyle <- openxlsx::createStyle(#bgFill=head(highlightHeaderColors, 1),
          fgFill=head(highlightHeaderColors, 1),
          textDecoration="bold", fontColour="navy");
@@ -356,8 +393,6 @@ verbose=TRUE,
          textDecoration="bold", fontColour="navy");
       highlightColumnsA <- highlightColumns[highlightColumns %% 2 == 1];
       highlightColumnsB <- highlightColumns[highlightColumns %% 2 == 0];
-      if (verbose) printDebug("writeOpenxlsx():",
-         "highlightStyles");
       if (length(highlightColumnsA) > 0) {
          openxlsx::addStyle(wb,
             sheet=sheetName,
@@ -395,7 +430,7 @@ verbose=TRUE,
    ## Style integer fields
    if (length(intColumns) > 0) {
       if (verbose) printDebug("writeOpenxlsx():",
-         "intStyles");
+         "Applying intStyles");
       intStyle1 <- openxlsx::createStyle(numFmt=intFormat, halign="right");
       openxlsx::addStyle(wb, sheet=sheetName, style=intStyle1,
          cols=intColumns,
@@ -406,7 +441,7 @@ verbose=TRUE,
    ## Style numeric fields
    if (length(numColumns) > 0) {
       if (verbose) printDebug("writeOpenxlsx():",
-         "numStyles");
+         "Applying numStyles");
       numStyle1 <- openxlsx::createStyle(numFmt=numFormat, halign="right");
       openxlsx::addStyle(wb, sheet=sheetName, style=numStyle1,
          cols=numColumns,
@@ -417,7 +452,7 @@ verbose=TRUE,
    ## Style FC fields
    if (length(fcColumns) > 0) {
       if (verbose) printDebug("writeOpenxlsx():",
-         "fcStyles");
+         "Applying fcStyles");
       fcStyle1 <- openxlsx::createStyle(numFmt=fcFormat, halign="right");
       openxlsx::addStyle(wb, sheet=sheetName, style=fcStyle1,
          cols=fcColumns,
@@ -428,7 +463,7 @@ verbose=TRUE,
    ## Style LFC fields
    if (length(lfcColumns) > 0) {
       if (verbose) printDebug("writeOpenxlsx():",
-         "lfcStyles");
+         "Applying lfcStyles");
       lfcStyle1 <- openxlsx::createStyle(numFmt=lfcFormat, halign="right");
       openxlsx::addStyle(wb, sheet=sheetName, style=lfcStyle1,
          cols=lfcColumns,
@@ -439,7 +474,7 @@ verbose=TRUE,
    ## Style hit fields
    if (length(hitColumns) > 0) {
       if (verbose) printDebug("writeOpenxlsx():",
-         "hitStyles");
+         "Applying hitStyles");
       hitStyle1 <- openxlsx::createStyle(numFmt=hitFormat, halign="right");
       openxlsx::addStyle(wb, sheet=sheetName, style=hitStyle1,
          cols=hitColumns,
@@ -450,7 +485,8 @@ verbose=TRUE,
    ## Style P-value fields
    if (length(pvalueColumns) > 0) {
       if (verbose) printDebug("writeOpenxlsx():",
-         "pvalueStyles");
+         "Applying pvalueStyles with pvalueFormat:",
+         pvalueFormat);
       pvalueStyle1 <- openxlsx::createStyle(numFmt=pvalueFormat, halign="right");
       openxlsx::addStyle(wb, sheet=sheetName, style=pvalueStyle1,
          cols=pvalueColumns,
@@ -460,8 +496,11 @@ verbose=TRUE,
 
    ## Apply freeze panes
    if (freezePaneRow > 1 || freezePaneColumn > 1) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "freezePane");
+      if (verbose) {
+         printDebug("writeOpenxlsx():",
+            "Applying freezePaneRow:", freezePaneRow,
+            ", freezePaneColumn:", freezePaneColumn);
+      }
       openxlsx::freezePane(wb, sheetName,
          firstActiveRow=freezePaneRow,
          firstActiveCol=freezePaneColumn);
@@ -470,7 +509,7 @@ verbose=TRUE,
    ## Add header filter
    if (doFilter && 1 == 2) {
       if (verbose) printDebug("writeOpenxlsx():",
-         "addFilter");
+         "Applying addFilter");
       openxlsx::addFilter(wb, sheetName,
          rows=1,
          cols=seq_len(ncol(x)));
@@ -479,7 +518,7 @@ verbose=TRUE,
    ## Adjust header row height
    if (headerRowMultiplier > 1) {
       if (verbose) printDebug("writeOpenxlsx():",
-         "headerRowMultiplier");
+         "Applying headerRowMultiplier");
       openxlsx::setRowHeights(wb, sheetName,
          rows=1, heights=15*headerRowMultiplier);
    }
@@ -499,7 +538,7 @@ verbose=TRUE,
             intColumns, hitColumns)) > 0) {
       #
       if (verbose) printDebug("writeOpenxlsx():",
-         "applyXlsxConditionalFormat");
+         "calling applyXlsxConditionalFormat");
       applyXlsxConditionalFormat(xlsxFile=file,
          sheet=sheetName,
          fcColumns=fcColumns,
@@ -507,11 +546,15 @@ verbose=TRUE,
          numColumns=numColumns,
          intColumns=intColumns,
          hitColumns=hitColumns,
+         pvalueColumns=pvalueColumns,
          fcStyle=fcStyle, fcRule=fcRule,
          lfcStyle=lfcStyle, lfcRule=lfcRule,
          hitStyle=hitStyle, hitRule=hitRule,
          intStyle=intStyle, intRule=intRule,
-         numStyle=numStyle, numRule=numRule);
+         numStyle=numStyle, numRule=numRule,
+         pvalueStyle=pvalueStyle, pvalueRule=pvalueRule,
+         verbose=verbose,
+         ...);
    }
 
    if (doCategorical && !is.null(colorSub)) {
@@ -897,6 +940,15 @@ overwrite=TRUE,
 #' Add categorical colors to Excel xlsx worksheets
 #'
 #' Add categorical colors to Excel xlsx worksheets
+#'
+#' This function is a convenient wrapper for applying categorical
+#' color formatting to cell background colors, and applies a contrasting
+#' color to the text in cells using `jamba::setTextContrastColor()`.
+#' It uses a named character vector of colors supplied as `colorSub`
+#' to define cell background colors, and optionally `colorSubText`
+#' to define a specific color for the cell text.
+#'
+#' @family jam export functions
 #'
 #' @param xlsxFile filename pointing to an existing Excel xlsx file.
 #' @param sheet integer index of the worksheet or worksheets.

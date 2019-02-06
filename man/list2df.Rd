@@ -26,3 +26,11 @@ with colnames \code{item} to indicate the list name, \code{value} to indicate
 the vector value, and \code{name} to indicate the vector name if
 \code{useVectorNames=TRUE} and if names exist.
 }
+\seealso{
+Other jam list functions: \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{rbindList}},
+  \code{\link{rlengths}}, \code{\link{sclass}},
+  \code{\link{sdim}}, \code{\link{ssdim}},
+  \code{\link{uniques}}
+}
+\concept{jam list functions}

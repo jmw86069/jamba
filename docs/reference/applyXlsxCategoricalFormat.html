@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>remove NA values — rmNA • jamba</title>
+<title>Add categorical colors to Excel xlsx worksheets — applyXlsxCategoricalFormat • jamba</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="remove NA values — rmNA" />
+<meta property="og:title" content="Add categorical colors to Excel xlsx worksheets — applyXlsxCategoricalFormat" />
 
-<meta property="og:description" content="remove NA values" />
+<meta property="og:description" content="Add categorical colors to Excel xlsx worksheets" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,89 +114,91 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>remove NA values</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-string.r'><code>R/jamba-string.r</code></a></small>
-    <div class="hidden name"><code>rmNA.Rd</code></div>
+    <h1>Add categorical colors to Excel xlsx worksheets</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-export.r'><code>R/jamba-export.r</code></a></small>
+    <div class="hidden name"><code>applyXlsxCategoricalFormat.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>remove NA values</p>
+    <p>Add categorical colors to Excel xlsx worksheets</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>rmNA</span>(<span class='no'>x</span>, <span class='kw'>naValue</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rmNULL</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nullValue</span> <span class='kw'>=</span> <span class='no'>naValue</span>,
-  <span class='kw'>rmInfinite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>infiniteValue</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rmNAnames</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>applyXlsxCategoricalFormat</span>(<span class='no'>xlsxFile</span>, <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>rowRange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colRange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>colorSub</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colorSubText</span> <span class='kw'>=</span> <span class='fu'><a href='setTextContrastColor.html'>setTextContrastColor</a></span>(<span class='no'>colorSub</span>), <span class='kw'>trimCatNames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>vector input</p></td>
+      <th>xlsxFile</th>
+      <td><p>filename pointing to an existing Excel xlsx file.</p></td>
     </tr>
     <tr>
-      <th>naValue</th>
-      <td><p>NULL or single replacement value for NA entries. If NULL,
-then NA entries are removed from the result.</p></td>
+      <th>sheet</th>
+      <td><p>integer index of the worksheet or worksheets.</p></td>
     </tr>
     <tr>
-      <th>rmNULL</th>
-      <td><p>logical whether to replace NULL entries with <code>nullValue</code></p></td>
+      <th>rowRange, colRange</th>
+      <td><p>integer vectors of rows and columns
+to apply categorical colors in the Excel xlsx worksheet.</p></td>
     </tr>
     <tr>
-      <th>nullValue</th>
-      <td><p>NULL or single replacement value for NULL entries. If NULL,
-then NULL entries are removed from the result.</p></td>
+      <th>colorSub</th>
+      <td><p>named character vector of valid R colors, whose
+names correspond to values in the worksheet cells.</p></td>
     </tr>
     <tr>
-      <th>rmInfinite</th>
-      <td><p>logical whether to replace Infinite values with
-infiniteValue</p></td>
+      <th>colorSubText</th>
+      <td><p>optional character vector of colors, whose
+names correspond to values in the worksheet cells. In
+absence of a specific text color, <code><a href='setTextContrastColor.html'>jamba::setTextContrastColor()</a></code>
+is used to define a contrasting text color to be visible on
+the colored background.</p></td>
     </tr>
     <tr>
-      <th>infiniteValue</th>
-      <td><p>value to use when rmInfinite==TRUE to replace
-entries which are Inf or -Inf.</p></td>
+      <th>trimCatNames</th>
+      <td><p>logical whether to trim whitespace and punctuation
+from <code>colorSub</code> and from Excel cell fields before matching colors
+to Excel values.</p></td>
     </tr>
     <tr>
-      <th>rmNAnames</th>
-      <td><p>logical whether to remove entries which have NA as the
-name, regardless whether the entry itself is NA.</p></td>
+      <th>overwrite</th>
+      <td><p>logical indicating whether new cell color styles
+should be forced overwrite of previous cell styles.</p></td>
+    </tr>
+    <tr>
+      <th>stack</th>
+      <td><p>logical indicating whether new color rules should be
+applied above existing styles, many of whose styles may not affect
+the specific cell color, for example the font size and font name.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>logical whether to print verbose output</p></td>
+      <td><p>logical indicating whether to print verbose output.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments are ignored.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>vector with NA entries either removed, or replaced with naValue,
-and NULL entries either removed or replaced by nullValue.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function removes NA values, by default shortening a vector as a result,
-but optionally replacing NA and Infinite values with fixed values.</p>
+    <p>This function is a convenient wrapper for applying categorical
+color formatting to cell background colors, and applies a contrasting
+color to the text in cells using <code><a href='setTextContrastColor.html'>jamba::setTextContrastColor()</a></code>.
+It uses a named character vector of colors supplied as <code>colorSub</code>
+to define cell background colors, and optionally <code>colorSubText</code>
+to define a specific color for the cell text.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam practical functions: <code><a href='applyCLrange.html'>applyCLrange</a></code>,
-  <code><a href='breakDensity.html'>breakDensity</a></code>, <code><a href='checkLightMode.html'>checkLightMode</a></code>,
-  <code><a href='colNum2excelName.html'>colNum2excelName</a></code>, <code><a href='fileInfo.html'>fileInfo</a></code>,
-  <code><a href='fixYellowHue.html'>fixYellowHue</a></code>, <code><a href='fixYellow.html'>fixYellow</a></code>,
-  <code><a href='getAxisLabel.html'>getAxisLabel</a></code>, <code><a href='handleArgsText.html'>handleArgsText</a></code>,
-  <code><a href='isFALSEV.html'>isFALSEV</a></code>, <code><a href='isTRUEV.html'>isTRUEV</a></code>,
-  <code><a href='jamba.html'>jamba</a></code>, <code><a href='jargs.html'>jargs</a></code>,
-  <code><a href='kable_coloring.html'>kable_coloring</a></code>, <code><a href='make_styles.html'>make_styles</a></code>,
-  <code><a href='minorLogTicks.html'>minorLogTicks</a></code>, <code><a href='newestFile.html'>newestFile</a></code>,
-  <code><a href='printDebug.html'>printDebug</a></code>, <code><a href='renameColumn.html'>renameColumn</a></code>,
-  <code><a href='rmInfinite.html'>rmInfinite</a></code>, <code><a href='rmNULL.html'>rmNULL</a></code>,
-  <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='setCLranges.html'>setCLranges</a></code>, <code><a href='setPrompt.html'>setPrompt</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code></p></div>
+    <div class='dont-index'><p>Other jam export functions: <code><a href='applyXlsxConditionalFormat.html'>applyXlsxConditionalFormat</a></code>,
+  <code><a href='writeOpenxlsx.html'>writeOpenxlsx</a></code></p></div>
     
 
   </div>
@@ -205,8 +207,6 @@ but optionally replacing NA and Infinite values with fixed values.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>

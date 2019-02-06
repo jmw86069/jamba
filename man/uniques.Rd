@@ -65,9 +65,10 @@ Other jam string functions: \code{\link{asSize}},
   \code{\link{pasteByRow}}, \code{\link{tcount}}
 
 Other jam list functions: \code{\link{cPasteUnique}},
-  \code{\link{cPaste}}, \code{\link{rbindList}},
-  \code{\link{rlengths}}, \code{\link{sclass}},
-  \code{\link{sdim}}, \code{\link{ssdim}}
+  \code{\link{cPaste}}, \code{\link{list2df}},
+  \code{\link{rbindList}}, \code{\link{rlengths}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{ssdim}}
 }
 \concept{jam list functions}
 \concept{jam string functions}

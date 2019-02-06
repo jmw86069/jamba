@@ -126,6 +126,7 @@ cell, they will be visible in order inside the Microsoft Excel
 application.
 }
 \seealso{
-Other jam export functions: \code{\link{writeOpenxlsx}}
+Other jam export functions: \code{\link{applyXlsxCategoricalFormat}},
+  \code{\link{writeOpenxlsx}}
 }
 \concept{jam export functions}

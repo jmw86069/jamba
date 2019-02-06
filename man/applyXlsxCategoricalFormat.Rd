@@ -44,3 +44,16 @@ the specific cell color, for example the font size and font name.}
 \description{
 Add categorical colors to Excel xlsx worksheets
 }
+\details{
+This function is a convenient wrapper for applying categorical
+color formatting to cell background colors, and applies a contrasting
+color to the text in cells using \code{jamba::setTextContrastColor()}.
+It uses a named character vector of colors supplied as \code{colorSub}
+to define cell background colors, and optionally \code{colorSubText}
+to define a specific color for the cell text.
+}
+\seealso{
+Other jam export functions: \code{\link{applyXlsxConditionalFormat}},
+  \code{\link{writeOpenxlsx}}
+}
+\concept{jam export functions}
