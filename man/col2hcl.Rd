@@ -4,12 +4,18 @@
 \alias{col2hcl}
 \title{convert R color to HCL color matrix}
 \usage{
-col2hcl(x, maxColorValue = 255, ...)
+col2hcl(x, maxColorValue = 255, model = c("polarLUV", "polarLAB"), ...)
 }
 \arguments{
 \item{x}{R compatible color, either a color name, or hex value, or
 a mixture of the two. Any value compatible with
 \code{\link[grDevices]{col2rgb}}.}
+
+\item{model}{the color model to use, from \code{"polarLUV"} for the
+standard R conventional HCL, and \code{"polarLAB"} which uses the
+LAB-based HCL values.}
+
+\item{...}{additional arguments are ignored.}
 
 \item{maxValue}{numeric maximum value to return, useful when the downstream
 alpha range should be 255. By default maxValue=1 is returned.}

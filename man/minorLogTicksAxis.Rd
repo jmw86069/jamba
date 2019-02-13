@@ -150,7 +150,8 @@ minorLogTicksAxis(1, offset=1, logBase=10,
 }
 \seealso{
 Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{decideMfrow}}, \code{\link{getPlotAspect}},
+  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
+  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
   \code{\link{imageByColors}}, \code{\link{imageDefault}},
   \code{\link{nullPlot}}, \code{\link{plotPolygonDensity}},
   \code{\link{plotSmoothScatter}},

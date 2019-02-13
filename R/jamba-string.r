@@ -1741,21 +1741,6 @@ mixedSortDF <- function
 #' long lists, but which may still be less efficient than the
 #' C implementation provided by `S4Vectors`.
 #'
-#' This function will attempt to use [S4Vectors::unique()] which is
-#' substantially faster than the alternative `apply` family function,
-#' especially for very long lists.
-#'
-#' This function also by default applies a sort to each
-#' list element, using [mixedOrder()] for alphanumeric sorting. This
-#' sort is applied to the entire `unlist`ed vector, so it is also
-#' substantially faster than applying `sort` to each list element
-#' individually.
-#'
-#' When `makeUnique` is `TRUE`, it will make each list element unique,
-#' either using the [S4Vectors::unique()] function which is highly
-#' optimized, or the fallback is to use a substantially slower `apply`
-#' family function.
-#'
 #' @return `list` with unique values in each list element.
 #'
 #' @param x input list of vectors
@@ -2276,3 +2261,140 @@ list2df <- function
    }
    return(xdf);
 }
+
+#' sort alphanumeric values within a list format
+#'
+#' sort alphanumeric values within a list format
+#'
+#' This function is an extension to `mixedSort()` to sort each vector
+#' in a list. It applies the sort to the whole unlisted vector then
+#' splits back into list form.
+#'
+#' In the event the input is a nested list of lists, only the first
+#' level of list structure is maintained in the output data. For
+#' more information, see `rlengths()` which calculates the recursive
+#' nested list sizes.
+#'
+#' @inheritParams mixedSort
+#'
+#' @examples
+#' # set up an example list of mixed alpha-numeric strings
+#' set.seed(12);
+#' x <- paste0(sample(letters, replace=TRUE, 52), rep(1:30, length.out=52));
+#' x;
+#' # split into a list as an example
+#' xL <- split(x, rep(letters[1:5], c(6,7,5,4,4)));
+#' xL;
+#'
+#' # now run mixedSorts(xL)
+#' # Notice "e5" is sorted before "e28"
+#' mixedSorts(xL)
+#'
+#' # for fun, compare to lapply(xL, sort)
+#' # Notice "e5" is sorted after "e28"
+#' lapply(xL, sort)
+#'
+#' @export
+mixedSorts <- function
+(x,
+ blanksFirst=TRUE,
+ NAlast=TRUE,
+ keepNegative=FALSE,
+ keepInfinite=TRUE,
+ keepDecimal=FALSE,
+ ignore.case=TRUE,
+ sortByName=FALSE,
+ na.rm=FALSE,
+ verbose=FALSE,
+ ...)
+{
+   ## Purpose is to take a list of vectors and run mixedSort() efficiently
+   ##
+   xu <- unlist(x);
+   if (!class(xu) %in% "character") {
+      xu <- as.character(xu);
+   }
+   ## rlengths() will determine the correct length of
+   ## nested lists as necessary
+
+   ## We define a vector of names as a factor, so the
+   ## order of the factor levels will maintain the
+   ## original order of input data during the
+   ## split() which occurs later.
+   ## Using a factor also preserves empty levels,
+   ## in the case that NA values are removed.
+   xn <- factor(rep(names(x), rlengths(x)),
+      levels=names(x));
+   xuOrder <- mixedOrder(xu);
+   xu <- xu[xuOrder];
+   xn <- xn[xuOrder];
+
+   ## Optionally remove NA values
+   if (na.rm && any(is.na(xu))) {
+      whichNotNA <- which(!is.na(xu));
+      xu <- xu[whichNotNA];
+      xn <- xn[whichNotNA];
+   }
+
+   ## split() using a factor keeps the data in original order
+   split(unname(xu), xn);
+}
+
+#' Uppercase the first letter in each word
+#'
+#' Uppercase the first letter in each word
+#'
+#' This function is a simple mimic of the Perl function `ucfirst` which
+#' converts the first letter in each word to uppercase. When
+#' `lowercaseAll=TRUE` it also forces all other letters to lowercase,
+#' otherwise mixedCase words will retain capital letters in the middle
+#' of words.
+#'
+#' @param x character vector.
+#' @param lowercaseAll logical indicating whether to force all letters
+#'    to lowercase before applying uppercase to the first letter.
+#' @param firstWordOnly logical indicating whether to apply the
+#'    uppercase only to the first word in each string. Note that it
+#'    still applies the logic to every entry in the input vector `x`.
+#' @param ... additional arguments are ignored.
+#'
+#' @examples
+#' ucfirst("TESTING_ALL_UPPERCASE_INPUT")
+#' ucfirst("TESTING_ALL_UPPERCASE_INPUT", TRUE)
+#' ucfirst("TESTING_ALL_UPPERCASE_INPUT", TRUE, TRUE)
+#'
+#' ucfirst("testing mixedCase upperAndLower case input")
+#' ucfirst("testing mixedCase upperAndLower case input", TRUE)
+#' ucfirst("testing mixedCase upperAndLower case input", TRUE, TRUE)
+#'
+#' @export
+ucfirst <- function
+(x,
+ lowercaseAll=FALSE,
+ firstWordOnly=FALSE,
+ ...)
+{
+   ## Purpose is to mimic the Perl function,
+   ## and upper-case the first letter of a word
+   ##
+   ## lowercaseAll=TRUE will make everything after
+   ## the first character into lowercase.
+   ##
+   if (lowercaseAll) {
+      x <- tolower(x);
+   }
+   if (firstWordOnly) {
+      newX <- sub("(^|\\b|[^[a-zA-Z0-9])([a-zA-Z])",
+         "\\1\\U\\2",
+         x,
+         perl=TRUE);
+   } else {
+      newX <- gsub("(^|\\b|[^[a-zA-Z0-9])([a-zA-Z])",
+         "\\1\\U\\2",
+         x,
+         perl=TRUE);
+   }
+
+   return(newX);
+}
+

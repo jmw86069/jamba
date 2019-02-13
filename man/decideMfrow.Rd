@@ -57,6 +57,7 @@ for(i in seq_len(n)){
 }
 \seealso{
 Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
+  \code{\link{coordPresets}}, \code{\link{drawLabels}},
   \code{\link{getPlotAspect}}, \code{\link{imageByColors}},
   \code{\link{imageDefault}},
   \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},

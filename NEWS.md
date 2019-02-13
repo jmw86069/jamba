@@ -1,3 +1,35 @@
+# jamba version 0.0.30.900
+
+## changes
+
+* revised help text for `uniques()`
+* `col2hcl()` uses `colorspace::sRGB()` instead of `colorspace::RGB()` to
+match the convention that `colorspace::hex2RGB()` actually uses *sRGB*
+and not *RGB* as the function name (and all common sense in the realm
+of how to name a function) implies.
+* `col2hcl()` and `hcl2col()` allow selecting from `polarLUV` or
+`polarLAB` color models, both of which use HCL values to generate
+colors.
+* `col2hcl()` no longer forces the output vector to have names, however
+it retains names if provided in the input.
+* `hcl2col()` will use `polarLUV` or `polarLAB` as input without
+converting to an intermediate color space, which makes output slightly
+less lossy than converting to and from sRGB.
+
+## new functions
+
+* `ucfirst()` is a simple function to uppercase the first letter in
+a word or phrase.
+* `mixedSorts()` will sort a list of vectors using `mixedSort()` alphanumeric
+sort, and fairly efficiently too! It sorts the unlisted data then splits
+it back to a list.
+* `drawLabels()` and `coordPresets()` were moved from the `jamma` package.
+The `drawLabels()` can be used to add text labels to a plot, with
+convenient coordinate presets handled by `coordPresets()` which include
+things like "topleft", "center", or "right". It automatically adjusts the
+text position to stay inside the plot border in those cases.
+
+
 # jamba version 0.0.29.900
 
 ## new functions

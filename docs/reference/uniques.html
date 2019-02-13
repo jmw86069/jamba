@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.29.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.30.900</span>
       </span>
     </div>
 
@@ -168,18 +168,6 @@ it applies uniqueness to the <code>unlist</code>ed vector of values, which is
 also substantially faster than the <code>apply</code> family functions for
 long lists, but which may still be less efficient than the
 C implementation provided by <code>S4Vectors</code>.</p>
-<p>This function will attempt to use <code>S4Vectors::unique()</code> which is
-substantially faster than the alternative <code>apply</code> family function,
-especially for very long lists.</p>
-<p>This function also by default applies a sort to each
-list element, using <code><a href='mixedOrder.html'>mixedOrder()</a></code> for alphanumeric sorting. This
-sort is applied to the entire <code>unlist</code>ed vector, so it is also
-substantially faster than applying <code>sort</code> to each list element
-individually.</p>
-<p>When <code>makeUnique</code> is <code>TRUE</code>, it will make each list element unique,
-either using the <code>S4Vectors::unique()</code> function which is highly
-optimized, or the fallback is to use a substantially slower <code>apply</code>
-family function.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

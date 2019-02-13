@@ -36,21 +36,6 @@ it applies uniqueness to the \code{unlist}ed vector of values, which is
 also substantially faster than the \code{apply} family functions for
 long lists, but which may still be less efficient than the
 C implementation provided by \code{S4Vectors}.
-
-This function will attempt to use \code{\link[S4Vectors:unique]{S4Vectors::unique()}} which is
-substantially faster than the alternative \code{apply} family function,
-especially for very long lists.
-
-This function also by default applies a sort to each
-list element, using \code{\link[=mixedOrder]{mixedOrder()}} for alphanumeric sorting. This
-sort is applied to the entire \code{unlist}ed vector, so it is also
-substantially faster than applying \code{sort} to each list element
-individually.
-
-When \code{makeUnique} is \code{TRUE}, it will make each list element unique,
-either using the \code{\link[S4Vectors:unique]{S4Vectors::unique()}} function which is highly
-optimized, or the fallback is to use a substantially slower \code{apply}
-family function.
 }
 \seealso{
 Other jam string functions: \code{\link{asSize}},

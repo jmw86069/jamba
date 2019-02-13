@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.29.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.30.900</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>col2hcl</span>(<span class='no'>x</span>, <span class='kw'>maxColorValue</span> <span class='kw'>=</span> <span class='fl'>255</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>col2hcl</span>(<span class='no'>x</span>, <span class='kw'>maxColorValue</span> <span class='kw'>=</span> <span class='fl'>255</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"polarLUV"</span>, <span class='st'>"polarLAB"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,6 +135,16 @@
       <td><p>R compatible color, either a color name, or hex value, or
 a mixture of the two. Any value compatible with
 <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/col2rgb'>col2rgb</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>the color model to use, from <code>"polarLUV"</code> for the
+standard R conventional HCL, and <code>"polarLAB"</code> which uses the
+LAB-based HCL values.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments are ignored.</p></td>
     </tr>
     <tr>
       <th>maxValue</th>
@@ -168,7 +178,7 @@ color manipulation functions as well.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>col2hcl</span>(<span class='st'>"#FF000044"</span>)</div><div class='output co'>#&gt;         #FF000044
+    <pre class="examples"><div class='input'><span class='fu'>col2hcl</span>(<span class='st'>"#FF000044"</span>)</div><div class='output co'>#&gt;             alpha
 #&gt; L      53.2405879
 #&gt; C     179.0407624
 #&gt; H      12.1739464

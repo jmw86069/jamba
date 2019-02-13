@@ -5,8 +5,8 @@
 \title{convert HCL to R color}
 \usage{
 hcl2col(x = NULL, H = NULL, C = NULL, L = NULL, ceiling = 255,
-  maxColorValue = 255, alpha = NULL, fixup = NULL, verbose = FALSE,
-  ...)
+  maxColorValue = 255, alpha = NULL, fixup = NULL,
+  model = c("polarLUV", "polarLAB"), verbose = FALSE, ...)
 }
 \arguments{
 \item{x}{matrix of colors, with rownames \code{"H"}, \code{"C"}, \code{"L"}, or if not

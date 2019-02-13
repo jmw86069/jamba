@@ -144,6 +144,10 @@ setTextContrastColor <- function
 #'    \code{\link[grDevices]{col2rgb}}.
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
+#' @param model the color model to use, from `"polarLUV"` for the
+#'    standard R conventional HCL, and `"polarLAB"` which uses the
+#'    LAB-based HCL values.
+#' @param ... additional arguments are ignored.
 #'
 #' @examples
 #' col2hcl("#FF000044")
@@ -154,6 +158,7 @@ setTextContrastColor <- function
 col2hcl <- function
 (x,
  maxColorValue=255,
+ model=c("polarLUV", "polarLAB"),
  ...)
 {
    ## Purpose is to convert R color to HCL
@@ -161,12 +166,11 @@ col2hcl <- function
    if (!suppressPackageStartupMessages(require(colorspace))) {
       stop("The colorspace package is required.");
    }
-   if (length(names(x)) == 0) {
-      names(x) <- makeNames(x);
-   }
+   model <- match.arg(model);
+
    x1 <- col2rgb(x);
    a1 <- col2alpha(x);
-   x2 <- RGB(t(x1)[,1:3,drop=FALSE]/maxColorValue);
+   x2 <- colorspace::sRGB(t(x1)[,1:3,drop=FALSE]/maxColorValue);
    ## Note: spatstat overrides coords() with a generic function but
    ## the colorspace function is not properly dispatched for class RGB.
    ## Currently a weakness in R, that generic functions can be overwritten
@@ -174,8 +178,10 @@ col2hcl <- function
    ## which of course requires only that exact package to provide the
    ## function. Over time, these workarounds will break, as functions
    ## may be migrated to new packages.
-   x3 <- rbind(t(colorspace::coords(as(x2, "polarLUV"))), "alpha"=a1);
-   colnames(x3) <- names(x);
+   x3 <- rbind(t(colorspace::coords(as(x2, model))), "alpha"=a1);
+   if (length(names(x)) > 0) {
+      colnames(x3) <- names(x);
+   }
    x3[is.na(x3)] <- 0;
    x3;
 }
@@ -239,6 +245,7 @@ hcl2col <- function
  maxColorValue=255,
  alpha=NULL,
  fixup=NULL,
+ model=c("polarLUV","polarLAB"),
  verbose=FALSE,
  ...)
 {
@@ -253,28 +260,46 @@ hcl2col <- function
    } else {
       useMatrixStats <- FALSE;
    }
+   model <- match.arg(model);
    if (verbose) {
       printDebug("hcl2col(): ",
          "useMatrixStats:",
          useMatrixStats);
    }
-   if (igrepHas("polarLUV", class(x))) {
-      x <- t(colorspace::coords(x));
+   if (igrepHas("polarLUV|polarLAB", class(x))) {
       xnames <- colnames(x);
-   } else if (igrepHas("matrix", class(x))) {
-      H <- x["H",];
-      C <- x["C",];
-      L <- x["L",];
-      alpha <- x["alpha",];
-      xnames <- colnames(x);
-   } else if (length(x) == 0) {
-      if (length(H) == 0 ||
-            length(C) == 0 ||
-            length(L) == 0) {
-         stop("hcl2col() requires matrix x with rownames H, C, L; or vectors H, C, and L.");
+      x2 <- x;
+      #x <- t(colorspace::coords(x));
+   } else {
+      if (igrepHas("matrix", class(x))) {
+         H <- x["H",];
+         C <- x["C",];
+         L <- x["L",];
+         alpha <- x["alpha",];
+         xnames <- colnames(x);
+      } else if (length(x) == 0) {
+         if (length(H) == 0 ||
+               length(C) == 0 ||
+               length(L) == 0) {
+            stop("hcl2col() requires matrix x with rownames H, C, L; or vectors H, C, and L.");
+         }
+         x <- rbind(H=H, C=C, L=L);
+         xnames <- names(H);
       }
-      x <- rbind(H=H, C=C, L=L);
-      xnames <- names(H);
+      ## Convert to HCL using colorspace::polarLUV or colorspace::polarLAB
+      if (igrepHas("polarLUV", model)) {
+         x2 <- colorspace::polarLUV(
+            H=x["H",],
+            C=x["C",],
+            L=x["L",]
+         );
+      } else if (igrepHas("polarLAB", model)) {
+         x2 <- colorspace::polarLAB(
+            H=x["H",],
+            C=x["C",],
+            L=x["L",]
+         );
+      }
    }
 
    if (length(alpha) > 0) {
@@ -300,11 +325,6 @@ hcl2col <- function
       exit;
       a1;
    });
-
-   ## Convert to HCL using colorspace::polarLUV()
-   x2 <- polarLUV(H=t(x)[,c("H")],
-      C=t(x)[,c("C")],
-      L=t(x)[,c("L")]);
 
    ## fixup is an optional boolean, which uses colorspace hex() to
    ## repair any colors outside of normal RGB ranges (the color gamut),

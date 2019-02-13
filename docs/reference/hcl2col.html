@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.29.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.30.900</span>
       </span>
     </div>
 
@@ -126,8 +126,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>hcl2col</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>H</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>C</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>L</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ceiling</span> <span class='kw'>=</span> <span class='fl'>255</span>,
-  <span class='kw'>maxColorValue</span> <span class='kw'>=</span> <span class='fl'>255</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fixup</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)</pre>
+  <span class='kw'>maxColorValue</span> <span class='kw'>=</span> <span class='fl'>255</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fixup</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"polarLUV"</span>, <span class='st'>"polarLAB"</span>), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,15 +207,15 @@ values are returned in the same order.</p>
    <span class='kw'>blue</span><span class='kw'>=</span><span class='st'>"blue"</span>,
    <span class='kw'>yellow</span><span class='kw'>=</span><span class='st'>"yellow"</span>,
    <span class='kw'>orange</span><span class='kw'>=</span><span class='st'>"#FFAA0066"</span>));
-<span class='no'>hclM</span>;</div><div class='output co'>#&gt;             red      blue    yellow   orange
-#&gt; L      53.24059  32.29567  97.13951 86.47653
-#&gt; C     179.04076 130.67593 107.06462 98.56318
-#&gt; H      12.17395 265.87278  85.87351 68.04993
-#&gt; alpha   1.00000   1.00000   1.00000  0.40000</div><div class='input'>
+<span class='no'>hclM</span>;</div><div class='output co'>#&gt;             red      blue    yellow    orange
+#&gt; L      53.24059  32.29567  97.13951  76.07843
+#&gt; C     179.04076 130.67593 107.06462 103.63861
+#&gt; H      12.17395 265.87278  85.87351  46.97691
+#&gt; alpha   1.00000   1.00000   1.00000   0.40000</div><div class='input'>
 <span class='co'># Now convert back to R hex colors</span>
 <span class='no'>colorV</span> <span class='kw'>&lt;-</span> <span class='fu'>hcl2col</span>(<span class='no'>hclM</span>);
 <span class='no'>colorV</span>;</div><div class='output co'>#&gt;         red        blue      yellow      orange 
-#&gt; "#FF0000FF" "#0000FFFF" "#FFFF00FF" "#FFAA0066" </div><div class='input'>
+#&gt; "#FF0000FF" "#0000FFFF" "#FFFF00FF" "#FF660066" </div><div class='input'>
 <span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>colorV</span>);</div><div class='img'><img src='hcl2col-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
