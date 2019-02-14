@@ -2275,6 +2275,10 @@ list2df <- function
 #' more information, see `rlengths()` which calculates the recursive
 #' nested list sizes.
 #'
+#' @family jam sort functions
+#' @family jam string functions
+#' @family jam list functions
+#'
 #' @inheritParams mixedSort
 #'
 #' @examples
@@ -2357,6 +2361,8 @@ mixedSorts <- function
 #'    uppercase only to the first word in each string. Note that it
 #'    still applies the logic to every entry in the input vector `x`.
 #' @param ... additional arguments are ignored.
+#'
+#' @family jam string functions
 #'
 #' @examples
 #' ucfirst("TESTING_ALL_UPPERCASE_INPUT")

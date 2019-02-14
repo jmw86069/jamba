@@ -43,9 +43,9 @@ Other jam practical functions: \code{\link{applyCLrange}},
 
 Other jam list functions: \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{list2df}},
-  \code{\link{rbindList}}, \code{\link{rlengths}},
-  \code{\link{sdim}}, \code{\link{ssdim}},
-  \code{\link{uniques}}
+  \code{\link{mixedSorts}}, \code{\link{rbindList}},
+  \code{\link{rlengths}}, \code{\link{sdim}},
+  \code{\link{ssdim}}, \code{\link{uniques}}
 }
 \concept{jam list functions}
 \concept{jam practical functions}

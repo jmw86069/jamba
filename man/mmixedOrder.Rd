@@ -41,29 +41,32 @@ description of how the sort order logic operates.
 }
 \seealso{
 Other jam sort functions: \code{\link{mixedOrder}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSort}}
+  \code{\link{mixedSortDF}}, \code{\link{mixedSorts}},
+  \code{\link{mixedSort}}
 
 Other jam string functions: \code{\link{asSize}},
   \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{fillBlanks}},
   \code{\link{formatInt}}, \code{\link{makeNames}},
   \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSort}}, \code{\link{nameVectorN}},
-  \code{\link{nameVector}}, \code{\link{padInteger}},
-  \code{\link{padString}}, \code{\link{pasteByRowOrdered}},
+  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
+  \code{\link{nameVectorN}}, \code{\link{nameVector}},
+  \code{\link{padInteger}}, \code{\link{padString}},
+  \code{\link{pasteByRowOrdered}},
   \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{uniques}}
+  \code{\link{ucfirst}}, \code{\link{uniques}}
 
 Other jam string functions: \code{\link{asSize}},
   \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{fillBlanks}},
   \code{\link{formatInt}}, \code{\link{makeNames}},
   \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSort}}, \code{\link{nameVectorN}},
-  \code{\link{nameVector}}, \code{\link{padInteger}},
-  \code{\link{padString}}, \code{\link{pasteByRowOrdered}},
+  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
+  \code{\link{nameVectorN}}, \code{\link{nameVector}},
+  \code{\link{padInteger}}, \code{\link{padString}},
+  \code{\link{pasteByRowOrdered}},
   \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{uniques}}
+  \code{\link{ucfirst}}, \code{\link{uniques}}
 }
 \concept{jam sort functions}
 \concept{jam string functions}

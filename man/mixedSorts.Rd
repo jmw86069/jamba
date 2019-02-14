@@ -70,3 +70,29 @@ mixedSorts(xL)
 lapply(xL, sort)
 
 }
+\seealso{
+Other jam sort functions: \code{\link{mixedOrder}},
+  \code{\link{mixedSortDF}}, \code{\link{mixedSort}},
+  \code{\link{mmixedOrder}}
+
+Other jam string functions: \code{\link{asSize}},
+  \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{fillBlanks}},
+  \code{\link{formatInt}}, \code{\link{makeNames}},
+  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
+  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
+  \code{\link{nameVectorN}}, \code{\link{nameVector}},
+  \code{\link{padInteger}}, \code{\link{padString}},
+  \code{\link{pasteByRowOrdered}},
+  \code{\link{pasteByRow}}, \code{\link{tcount}},
+  \code{\link{ucfirst}}, \code{\link{uniques}}
+
+Other jam list functions: \code{\link{cPasteUnique}},
+  \code{\link{cPaste}}, \code{\link{list2df}},
+  \code{\link{rbindList}}, \code{\link{rlengths}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{ssdim}}, \code{\link{uniques}}
+}
+\concept{jam list functions}
+\concept{jam sort functions}
+\concept{jam string functions}

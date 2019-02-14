@@ -61,8 +61,8 @@ rbindList(L, returnDF=TRUE);
 \seealso{
 Other jam list functions: \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{list2df}},
-  \code{\link{rlengths}}, \code{\link{sclass}},
-  \code{\link{sdim}}, \code{\link{ssdim}},
-  \code{\link{uniques}}
+  \code{\link{mixedSorts}}, \code{\link{rlengths}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{ssdim}}, \code{\link{uniques}}
 }
 \concept{jam list functions}

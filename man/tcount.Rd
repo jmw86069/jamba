@@ -55,10 +55,11 @@ Other jam string functions: \code{\link{asSize}},
   \code{\link{cPaste}}, \code{\link{fillBlanks}},
   \code{\link{formatInt}}, \code{\link{makeNames}},
   \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{uniques}}
+  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
+  \code{\link{mmixedOrder}}, \code{\link{nameVectorN}},
+  \code{\link{nameVector}}, \code{\link{padInteger}},
+  \code{\link{padString}}, \code{\link{pasteByRowOrdered}},
+  \code{\link{pasteByRow}}, \code{\link{ucfirst}},
+  \code{\link{uniques}}
 }
 \concept{jam string functions}
