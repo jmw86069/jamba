@@ -957,15 +957,25 @@ makeColorDarker <- function
          g=hexMatrix["green",],
          b=hexMatrix["blue",]),
          hexMatrix["alpha",,drop=FALSE]/255);
-      newVL <- adjustFactorTwoStep(j["v",], adjFactor=-darkFactor,
-         val2=j["s",])
+      newVL <- adjustFactorTwoStep(j["v",],
+         adjFactor=-darkFactors,
+         val2=j["s",]);
+      if (verbose) {
+         printDebug("makeColorDarker(): ",
+            "newVL:");
+         print(head(newVL, 20));
+         printDebug("makeColorDarker(): ",
+            "j:");
+         print(head(j, 20));
+      }
       newV <- newVL$val;
       newS1 <- newVL$val2;
       j["v",] <- newV;
       j["s",] <- newS1;
       newS <- noiseFloor(minimum=0,
          ceiling=1,
-         adjustFactor(j["s",], adjFactor=sFactor));
+         adjustFactor(j["s",],
+            adjFactor=sFactors));
       j["s",] <- newS;
       darkerColors <- hsv2col(j);
    } else {

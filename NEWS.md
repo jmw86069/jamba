@@ -1,3 +1,12 @@
+# jamba version 0.0.31.900
+
+## bug fixes
+
+* `makeColorDarker()` fixed issue with repeated colors and darkFactors,
+processed using unique combination of color,darkFactor,sFactor to improve
+efficiency with large vectors, but was not properly handling the unique
+vectors.
+
 # jamba version 0.0.30.900
 
 ## changes

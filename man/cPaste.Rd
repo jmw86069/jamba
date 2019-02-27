@@ -28,7 +28,8 @@ to use \code{\link[S4Vectors:unstrsplit]{S4Vectors::unstrsplit()}} when the Bioc
 \code{S4Vectors} is installed, otherwise it will use a much less
 efficient \code{\link[=mapply]{mapply()}} operation.}
 
-\item{...}{additional arguments are ignored.}
+\item{...}{additional arguments are passed to \code{mixedOrder()} when
+\code{doSort=TRUE}.}
 }
 \value{
 character vector with the same names and in the same order

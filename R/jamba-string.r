@@ -1835,7 +1835,8 @@ uniques <- function
 #'    to use [S4Vectors::unstrsplit()] when the Bioconductor package
 #'    `S4Vectors` is installed, otherwise it will use a much less
 #'    efficient [mapply()] operation.
-#' @param ... additional arguments are ignored.
+#' @param ... additional arguments are passed to `mixedOrder()` when
+#'    `doSort=TRUE`.
 #'
 #' @examples
 #' L1 <- list(CA=LETTERS[c(1:4,2,7,4,6)], B=letters[c(7:11,9,3)]);
@@ -1911,7 +1912,7 @@ cPaste <- function
       xn <- factor(rep(names(x), rlengths(x)),
          levels=names(x));
       if (doSort) {
-         xuOrder <- mixedOrder(xu);
+         xuOrder <- mixedOrder(xu, ...);
          xu <- xu[xuOrder];
          xn <- xn[xuOrder];
       }
