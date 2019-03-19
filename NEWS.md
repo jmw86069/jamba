@@ -1,3 +1,16 @@
+# jamba version 0.0.32.900
+
+## changes to existing functions
+
+* `jargs()` changed the default `sortVars=FALSE` which prints function
+arguments in the order they are defined.
+
+## new functions
+
+* `mergeAllXY()` merges multiple data.frames, keeping all rows and
+columns.
+* `unnestList()` flattens a nested list-of-lists into a simple, flat list.
+
 # jamba version 0.0.31.900
 
 ## bug fixes

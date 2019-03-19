@@ -83,10 +83,11 @@ Other jam string functions: \code{\link{asSize}},
   \code{\link{ucfirst}}, \code{\link{uniques}}
 
 Other jam list functions: \code{\link{cPasteUnique}},
-  \code{\link{list2df}}, \code{\link{mixedSorts}},
-  \code{\link{rbindList}}, \code{\link{rlengths}},
-  \code{\link{sclass}}, \code{\link{sdim}},
-  \code{\link{ssdim}}, \code{\link{uniques}}
+  \code{\link{list2df}}, \code{\link{mergeAllXY}},
+  \code{\link{mixedSorts}}, \code{\link{rbindList}},
+  \code{\link{rlengths}}, \code{\link{sclass}},
+  \code{\link{sdim}}, \code{\link{ssdim}},
+  \code{\link{uniques}}, \code{\link{unnestList}}
 }
 \concept{jam list functions}
 \concept{jam string functions}

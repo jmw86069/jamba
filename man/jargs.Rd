@@ -4,7 +4,7 @@
 \alias{jargs}
 \title{Show R function arguments jam-style}
 \usage{
-jargs(x, grepString = NULL, sortVars = TRUE, asList = TRUE,
+jargs(x, grepString = NULL, sortVars = FALSE, asList = TRUE,
   useColor = TRUE, lightMode = checkLightMode(), Crange = NULL,
   Lrange = NULL, adjustRgb = 0, useCollapseBase = ", ",
   verbose = FALSE, debug = 0, ...)
@@ -89,12 +89,12 @@ Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
   \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
   \code{\link{jamba}}, \code{\link{kable_coloring}},
-  \code{\link{make_styles}}, \code{\link{minorLogTicks}},
-  \code{\link{newestFile}}, \code{\link{printDebug}},
-  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
-  \code{\link{rmNA}}, \code{\link{rmNULL}},
-  \code{\link{sclass}}, \code{\link{sdim}},
-  \code{\link{setCLranges}}, \code{\link{setPrompt}},
-  \code{\link{ssdim}}
+  \code{\link{make_styles}}, \code{\link{mergeAllXY}},
+  \code{\link{minorLogTicks}}, \code{\link{newestFile}},
+  \code{\link{printDebug}}, \code{\link{renameColumn}},
+  \code{\link{rmInfinite}}, \code{\link{rmNA}},
+  \code{\link{rmNULL}}, \code{\link{sclass}},
+  \code{\link{sdim}}, \code{\link{setCLranges}},
+  \code{\link{setPrompt}}, \code{\link{ssdim}}
 }
 \concept{jam practical functions}

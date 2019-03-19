@@ -72,18 +72,19 @@ Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
   \code{\link{jamba}}, \code{\link{jargs}},
   \code{\link{kable_coloring}}, \code{\link{make_styles}},
-  \code{\link{minorLogTicks}}, \code{\link{newestFile}},
-  \code{\link{printDebug}}, \code{\link{renameColumn}},
-  \code{\link{rmInfinite}}, \code{\link{rmNA}},
-  \code{\link{rmNULL}}, \code{\link{sclass}},
-  \code{\link{sdim}}, \code{\link{setCLranges}},
-  \code{\link{setPrompt}}
+  \code{\link{mergeAllXY}}, \code{\link{minorLogTicks}},
+  \code{\link{newestFile}}, \code{\link{printDebug}},
+  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
+  \code{\link{rmNA}}, \code{\link{rmNULL}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{setCLranges}}, \code{\link{setPrompt}}
 
 Other jam list functions: \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{list2df}},
-  \code{\link{mixedSorts}}, \code{\link{rbindList}},
-  \code{\link{rlengths}}, \code{\link{sclass}},
-  \code{\link{sdim}}, \code{\link{uniques}}
+  \code{\link{mergeAllXY}}, \code{\link{mixedSorts}},
+  \code{\link{rbindList}}, \code{\link{rlengths}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{uniques}}, \code{\link{unnestList}}
 }
 \concept{jam list functions}
 \concept{jam practical functions}

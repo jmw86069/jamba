@@ -2504,7 +2504,7 @@ fixYellow <- function
 jargs <- function
 (x,
  grepString=NULL,
- sortVars=TRUE,
+ sortVars=FALSE,
  asList=TRUE,
  useColor=TRUE,
  lightMode=checkLightMode(),
@@ -4572,5 +4572,186 @@ pasteByRowOrdered <- function
       ...);
    factor(xstr,
       levels=xlevels);
+}
+
+#' Merge list of data.frames retaining all rows
+#'
+#' Merge list of data.frames retaining all rows
+#'
+#' This function is a wrapper around `base::merge.data.frame()`
+#' except that it allows more than two data.frame objects,
+#' and applies default arguments `all.x=TRUE` and `all.y=TRUE`
+#' for each merge operation to ensure that all rows are kept.
+#'
+#' @family jam practical functions
+#' @family jam list functions
+#'
+#' @export
+mergeAllXY <- function
+(...)
+{
+   ## Purpose is a simple wrapper to merge(..., all.x=TRUE, all.y=TRUE);
+   ##
+   ## But detect whether 'x' and 'y' are defined, and if not, then define them
+   inList <- list(...);
+
+   ## name inList for any un-named entries
+   if (is.null(names(inList))) {
+      names(inList) <- makeNames(rep("x", length(inList)));
+   } else {
+      names(inList) <- makeNames(names(inList));
+   }
+
+   ## Filter out parameters for the merge.data.frame() function
+   mergeArgs <- unvigrep("^(x|y|[.]{3})$", names(formals(base:::merge.data.frame)));
+   inListArgs <- inList[names(inList) %in% mergeArgs];
+   inList <- inList[!names(inList) %in% mergeArgs];
+
+   ## Now un-nest the list of entries remaining, so they're all non-list entities
+   inList <- unnestList(inList);
+
+   ## Filter for only data.frame or matrix like objects
+   inListClass <- sapply(inList, function(i){
+      class(i);
+   });
+   inList <- inList[igrep("data.*frame|matrix", inListClass)];
+   inListClass <- sapply(inList, function(i){
+      class(i);
+   });
+   ## Convert anything not a data.frame into such an object (ha!)
+   if (any(!inListClass %in% c("data.frame"))) {
+      whichNonDF <- which(!inListClass %in% c("data.frame"));
+      inList[whichNonDF] <- lapply(inList[whichNonDF], function(i){
+         newDF <- as.data.frame(i);
+         rownames(newDF) <- rownames(i);
+         colnames(newDF) <- colnames(i);
+         newDF;
+      })
+   }
+
+   ## Accept list of data.frames and run iterative merge on them
+   ## Usually seen as one '...' element which is a list of data.frames
+   if (length(inList) == 1) {
+      return(inList[[1]]);
+   } else if (length(inList) == 200) {
+      ## If two list elements, we just call merge() once using x and y like normal
+      x <- inList[[1]];
+      y <- inList[[2]];
+
+      if (length(inListArgs) > 0) {
+         x <- do.call(merge,
+            c(alist(x=x,
+               y=y,
+               all.x=TRUE,
+               all.y=TRUE),
+               inListArgs));
+      } else {
+         x <- merge(x,
+            y,
+            all.x=TRUE,
+            all.y=TRUE);
+      }
+      return(x);
+   } else if (length(inList) >= 2) {
+      ## Run iterative merge() methods
+      x <- inList[[1]];
+      for (i in 2:length(inList)) {
+         y <- inList[[i]];
+         ## If we have merge.data.frame() arguments to pass,
+         ## use do.call() so we can separately pass those function arguments
+         if (length(inListArgs) > 0) {
+            x <- do.call(merge, c(alist(x=x, y=y, all.x=TRUE, all.y=TRUE), inListArgs));
+         } else {
+            x <- merge(x, y, all.x=TRUE, all.y=TRUE);
+         }
+      }
+      return(x);
+   } else {
+      stop("Could not match input to expected types, e.g. list of data.frames or matrices.");
+   }
+}
+
+#' Un-nest a nested list into a simple list
+#'
+#' Un-nest a nested list into a simple list
+#'
+#' This function inspects a list, and unlists each entry
+#' resulting in a simple list of non-list entries as a result.
+#' Sometimes when concatenating lists together, one list gets
+#' added as a list-of-lists. This function resolves that problem
+#' by providing one flat list.
+#'
+#' @family jam list functions
+#'
+#' @param x list potentially containing lists
+#' @param unnamedBase character value used as a base for naming any
+#'    un-named lists, using the format `makeNamesFunc(rep(unnamedBase, n))`.
+#' @param sep character delimiter used between nested list names.
+#' @param makeNamesFunc function that takes a character vector and returns
+#'    non-duplicated character vector of equal length. By default it
+#'    uses `jamba::makeNames()`.
+#' @param stopClasses vector of classes that should not be un-nested,
+#'    useful in case some classes inherit list properties.
+#' @param ... additional arguments are ignored.
+#'
+#' @examples
+#' L <- list(A=letters[1:10], B=list(C=LETTERS[3:9], D=letters[4:11]));
+#' L;
+#' unnestList(L);
+#'
+#' # inspect the data using str()
+#' str(L);
+#' str(unnestList(L))
+#'
+#' @export
+unnestList <- function
+(x,
+ unnamedBase="x",
+ parentName=NULL,
+ sep=".",
+ makeNameFunc=makeNames,
+ stopClasses=c("dendrogram", "data.frame", "matrix"),
+ ...)
+{
+   ## Purpose is to take a list of lists, and un-nest them
+   ## into a list with depth=1, but all the non-list elements
+   ## contained within it
+   newList <- list();
+
+   ## Create default names if they don't exist already
+   if (is.null(names(x))) {
+      names(x) <- rep(unnamedBase, length(x));
+   }
+   emptyNamesX <- which(names(x) %in% c("", NA));
+   if (any(emptyNamesX)) {
+      names(x)[emptyNamesX] <- rep(unnamedBase, length(emptyNamesX));
+   }
+
+   ## add prefix if it were specified
+   if (!is.null(parentName)) {
+      names(x) <- paste(parentName, names(x), sep=sep);
+   }
+
+   ## Make sure names are unique
+   names(x) <- makeNameFunc(names(x), ...);
+
+   ## Iterate each list until we hit a non-list entry
+   if (inherits(x, "list") || is.list(x)) {
+      for (j in names(x)) {
+         i <- x[[j]];
+         ## If we reached a list, and if the class isn't something
+         ## we want to allow (e.g. dendrogram) then unnest one layer deeper
+         if (inherits(i, "list") || is.list(i) && !class(i) %in% stopClasses) {
+            i <- unnestList(x=i, parentName=j, ...);
+         } else {
+            i <- list(i);
+            names(i) <- j;
+         }
+         newList <- c(newList, i);
+      };
+   } else {
+      newList <- x;
+   }
+   newList;
 }
 

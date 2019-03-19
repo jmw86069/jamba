@@ -99,11 +99,11 @@ Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
   \code{\link{jamba}}, \code{\link{jargs}},
   \code{\link{kable_coloring}}, \code{\link{make_styles}},
-  \code{\link{minorLogTicks}}, \code{\link{newestFile}},
-  \code{\link{printDebug}}, \code{\link{renameColumn}},
-  \code{\link{rmInfinite}}, \code{\link{rmNA}},
-  \code{\link{rmNULL}}, \code{\link{sclass}},
-  \code{\link{sdim}}, \code{\link{setCLranges}},
-  \code{\link{ssdim}}
+  \code{\link{mergeAllXY}}, \code{\link{minorLogTicks}},
+  \code{\link{newestFile}}, \code{\link{printDebug}},
+  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
+  \code{\link{rmNA}}, \code{\link{rmNULL}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{setCLranges}}, \code{\link{ssdim}}
 }
 \concept{jam practical functions}
