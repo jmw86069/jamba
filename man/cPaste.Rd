@@ -5,7 +5,8 @@
 \title{paste a list into a delimited vector}
 \usage{
 cPaste(x, sep = ",", doSort = TRUE, makeUnique = FALSE,
-  na.rm = FALSE, useBioc = TRUE, ...)
+  na.rm = FALSE, keepFactors = FALSE, checkClass = TRUE,
+  useBioc = TRUE, ...)
 }
 \arguments{
 \item{x}{input list of vectors}
@@ -22,6 +23,13 @@ the input list unique before pasting its values together.}
 each vector in the input list. When \code{na.rm} is \code{TRUE} and a
 list element contains only \code{NA} values, the resulting string
 will be \code{""}.}
+
+\item{keepFactors}{logical indicating whether to preserve factors,
+keeping factor level order when \code{doSort=TRUE}. When
+\code{keepFactors=TRUE}, if any list element is a factor, all elements
+are converted to factors. Note that this step combines overall
+factor levels, and non-factors will be ordered using
+\code{base::order()} instead of \code{jamba::mixedOrder()} (for now.)}
 
 \item{useBioc}{boolean indicating whether this function should try
 to use \code{\link[S4Vectors:unstrsplit]{S4Vectors::unstrsplit()}} when the Bioconductor package
@@ -67,6 +75,14 @@ cPaste(L1, makeUnique=TRUE);
 cPaste(L1, sep="; ", makeUnique=TRUE)
 #                 CA                  B
 # "A; B; C; D; F; G" "c; g; h; i; j; k"
+
+# test mix of factor and non-factor
+L2 <- c(
+   list(D=factor(letters[1:12],
+      levels=letters[12:1])),
+   L1);
+L2;
+cPaste(L2, keepFactors=TRUE);
 
 }
 \seealso{

@@ -1831,6 +1831,12 @@ uniques <- function
 #'    each vector in the input list. When `na.rm` is `TRUE` and a
 #'    list element contains only `NA` values, the resulting string
 #'    will be `""`.
+#' @param keepFactors logical indicating whether to preserve factors,
+#'    keeping factor level order when `doSort=TRUE`. When
+#'    `keepFactors=TRUE`, if any list element is a factor, all elements
+#'    are converted to factors. Note that this step combines overall
+#'    factor levels, and non-factors will be ordered using
+#'    `base::order()` instead of `jamba::mixedOrder()` (for now.)
 #' @param useBioc boolean indicating whether this function should try
 #'    to use [S4Vectors::unstrsplit()] when the Bioconductor package
 #'    `S4Vectors` is installed, otherwise it will use a much less
@@ -1857,6 +1863,14 @@ uniques <- function
 #' #                 CA                  B
 #' # "A; B; C; D; F; G" "c; g; h; i; j; k"
 #'
+#' # test mix of factor and non-factor
+#' L2 <- c(
+#'    list(D=factor(letters[1:12],
+#'       levels=letters[12:1])),
+#'    L1);
+#' L2;
+#' cPaste(L2, keepFactors=TRUE);
+#'
 #' @family jam string functions
 #' @family jam list functions
 #'
@@ -1867,6 +1881,8 @@ cPaste <- function
  doSort=TRUE,
  makeUnique=FALSE,
  na.rm=FALSE,
+ keepFactors=FALSE,
+ checkClass=TRUE,
  useBioc=TRUE,
  ...)
 {
@@ -1893,13 +1909,53 @@ cPaste <- function
    ## For speed, we sort and/or convert to character class as a vector,
    ## rather than a bunch of tiny vectors inside a list. Vector sorting
    ## is fast; splitting vector into a list is fast.
+   if (checkClass) {
+      xclass <- cPaste(
+         lapply(x, class),
+         checkClass=FALSE,
+         keepFactors=FALSE,
+         doSort=FALSE,
+         na.rm=FALSE
+      );
+   } else {
+      xclass <- "character";
+   }
+
    if (doSort ||
-         !class(x[[1]]) %in% c("character") ||
+         any(!grepl("character", xclass)) ||
          na.rm) {
-      xu <- unlist(x);
-      if (!class(xu) %in% "character") {
-         xu <- as.character(xu);
+      if (keepFactors) {
+         if (any(grepl("factor", xclass))) {
+            if (any(!grepl("factor", xclass))) {
+               # change mix of factor, non-factor to be all factor
+               x <- lapply(x, factor);
+            } else {
+               # if everything is factor, no action is required
+            }
+         } else {
+            # if nothing is factor, no action is required
+         }
+         xu <- unlist(x);
+      } else {
+         if (any(grepl("factor", xclass))) {
+            if (any(!grepl("factor", xclass))) {
+               # if mix of factor, non-factor, change all to character first
+               x <- lapply(x, as.character);
+               xu <- unlist(x);
+            } else {
+               # if all are factor, unlist first, then convert to character
+               xu <- as.character(unlist(x));
+            }
+            # change all factor to non-factor
+         } else {
+            # if nothing is factor, no action is required
+            xu <- unlist(x);
+         }
       }
+      #xu <- unlist(x);
+      #if (!class(xu) %in% "character") {
+      #   xu <- as.character(xu);
+      #}
       ## rlengths() will determine the correct length of
       ## nested lists as necessary
 
@@ -1912,7 +1968,11 @@ cPaste <- function
       xn <- factor(rep(names(x), rlengths(x)),
          levels=names(x));
       if (doSort) {
-         xuOrder <- mixedOrder(xu, ...);
+         if (igrepHas("factor", class(xu))) {
+            xuOrder <- order(xu, ...);
+         } else {
+            xuOrder <- mixedOrder(xu, ...);
+         }
          xu <- xu[xuOrder];
          xn <- xn[xuOrder];
       }
@@ -2405,3 +2465,117 @@ ucfirst <- function
    return(newX);
 }
 
+#' Global substitution into ordered factor
+#'
+#' Global substitution into ordered factor
+#'
+#' This function is an extension of `base::gsub()` that
+#' returns an ordered factor output. When input is also a
+#' factor, the output factor levels are retained in the
+#' same order, after applying the string substitution.
+#'
+#' This function is very useful when making changes via `base::gsub()`
+#' to a factor with ordered levels, because it retains the
+#' the order of levels after modification.
+#'
+#' Tips:
+#'
+#' * To convert a character vector to a factor, whose levels are
+#' sorted, use `sortFunc=sort`.
+#' * To convert a character vector to a factor, whose levels are
+#' the order they appear in the input `x`, use `sortFunc=c`.
+#' * To convert a character vector to a factor, whose levels are
+#' sorted alphanumerically, use `sortFunc=mixedSort`.
+#'
+#' @return factor whose levels are based upon the order of
+#'    input levels when the input `x` is a factor; or if the
+#'    input `x` is not a factor, it is converted to a factor
+#'    using the provided sort function `sortFunc`.
+#'
+#' @param pattern,replacement,x,ignore.case,perl,fixed,useBytes
+#'    arguments sent to `base::gsub()`
+#' @param sortFunc function used to sort factor levels, which
+#'    is not performed if the input `x` is a `factor`.
+#' @param ... additional arguments are passed to `sortFunc`
+#'
+#' @examples
+#' x <- c(paste0(
+#'    rep(c("first", "second", "third"), 2),
+#'    rep(c("Section", "Choice"), each=3)),
+#'    "Choice");
+#' f <- factor(x, levels=x);
+#' f;
+#'
+#' # default gsub() will return a character vector
+#' gsub("(first|second|third)", "", f)
+#' # converting to factor resets the factor level order
+#' factor(gsub("(first|second|third)", "", f))
+#'
+#' ## gsubOrdered() maintains the factor level order
+#' gsubOrdered("(first|third)", "", f)
+#' gsubOrdered("(first)", "", f)
+#'
+#' # to convert character vector to factor, levels in order they appear
+#' gsubOrdered("", "", x, sortFunc=c)
+#'
+#' # to convert character vector to factor, levels alphanumeric sorted
+#' gsubOrdered("", "", x, sortFunc=mixedSort)
+#'
+#' @export
+gsubOrdered <- function
+(pattern,
+ replacement,
+ x,
+ ignore.case=FALSE,
+ perl=FALSE,
+ fixed=FALSE,
+ useBytes=FALSE,
+ sortFunc=mixedSort,
+ ...)
+{
+   ## Purpose is to perform gsub() but maintain order of factor levels consistent with the
+   ## input data.
+   ##
+   ## If input data is not a factor, it is converted to a factor,
+   ## using sortFunc() to order the levels.
+   ##
+   ## To have levels ordered based upon their original order,
+   ## use sortFunc=c
+   ##
+   ## To have levels ordered based upon sample sorting,
+   ## use sortFunc=sortSamples
+   ##
+   ## To have levels ordered based upon alphenumeric sorting,
+   ## use sortFunc=mixedSort
+   ##
+   ## The special case where is.na(pattern) it will change NA values
+   ## to the replacement, and relevel the factor accordingly
+   xNames <- names(x);
+   if (!igrepHas("factor", class(x))) {
+      if (is.na(pattern) && any(is.na(x))) {
+         x <- addNA(factor(x, levels=unique(sortFunc(x))));
+      } else {
+         x <- factor(x, levels=unique(sortFunc(x)));
+      }
+   }
+   if (is.na(pattern)) {
+      if (!any(is.na(x))) {
+         return(x);
+      }
+      xNA <- which(is.na(x));
+      y <- as.character(x);
+      y[xNA] <- replacement;
+      yLevels <- levels(x);
+      yLevels[is.na(yLevels)] <- replacement;
+      yLevels <- unique(yLevels);
+   } else {
+      y <- gsub(pattern=pattern, replacement=replacement, x=x, ignore.case=ignore.case,
+         perl=perl, fixed=fixed, useBytes=useBytes, ...);
+      yLevels <- unique(gsub(pattern=pattern, replacement=replacement, x=levels(x), ignore.case=ignore.case,
+         perl=perl, fixed=fixed, useBytes=useBytes, ...));
+   }
+   if (!is.null(xNames)) {
+      names(y) <- xNames;
+   }
+   return(factor(y, levels=yLevels));
+}

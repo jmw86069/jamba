@@ -1,3 +1,21 @@
+# jamba version 0.0.34.900
+
+## changes to existing functions
+
+* `cPaste()` now properly handles a list with factor and non-factor
+types, previously `base::unlist()` coerced the mixed list to character
+which changed factor values to integers when non-factor elements were
+present. Now `keepFactors=TRUE` will preserve factor levels when
+sorting with `doSort=TRUE`.
+
+# jamba version 0.0.33.900
+
+## new functions
+
+* `gsubOrdered()` applies `base::gsub()` to character or factor input,
+and returns a factor output, retaining the order of levels based upon
+the input.
+
 # jamba version 0.0.32.900
 
 ## changes to existing functions
