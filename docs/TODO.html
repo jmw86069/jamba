@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.31.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.35.900</span>
       </span>
     </div>
 
@@ -124,18 +124,19 @@
 <h3 class="hasAnchor">
 <a href="#bug-fixes-enhancements-to-existing-functions" class="anchor"></a>Bug fixes / Enhancements to existing functions</h3>
 <ol>
-<li><p><code><a href="reference/ssdim.html">ssdim()</a></code> should properly handle S4 objects by calling <code><a href="reference/sdim.html">sdim()</a></code> on each slotName.</p></li>
 <li><p><code>plotSmoothScatterG()</code> is a new function which would create a smooth scatter plot like <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> except that it will also allow coloring points by group. The previous closest estimate was the ability to overlay contours of different colors, however the transparency of each layer was not effective, mostly letting the last color drawn become the dominant color. This function must calculate two things: the blended color defined by the composition of points in each cell, and the intensity of that blended color based upon the total number of points per cell. All attempts at blending gradient colors has been problematic, since for example three half-tone colors blend together to one half-tone grey color, which loses the fact that there might be a large number of points in the cell, and should therefore be darkly colored.</p></li>
-<li><p><code><a href="reference/printDebug.html">printDebug()</a></code> option for HTML output, intended for colorizing text output in the context of Rmarkdown for example.</p></li>
-</ol>
-</div>
-<div id="update-the-jamba-r-overview-help-documentation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#update-the-jamba-r-overview-help-documentation" class="anchor"></a>Update the jamba.r overview help documentation</h3>
+<li><p><code><a href="reference/printDebug.html">printDebug()</a></code> option for HTML or Rmarkdown-friendly output.</p></li>
+<li>
+<p><code><a href="reference/jargs.html">jargs()</a></code> is choking on certain argument formats:</p>
 <ul>
-<li>Add new functions to the relevant section</li>
-<li>Look into how to add functions to relevant sections by using keywords, so the section dynamically populate</li>
+<li>
+<code><a href="reference/jargs.html">jargs(writeOpenxlsx, "lfcRule")</a></code> displays the escaped ANSI color-codes instead of applying the color-codes for negative values.</li>
+<li>When an argument is a prefixed function, the <code>::</code> should not have spaces before and after. <code>f &lt;- function(x=jamba::colorjam){10};jargs(f);</code> It doesn’t happen when the function has parentheses: <code>f &lt;- function(x=jamba::colorjam(a)){10};jargs(f);</code>
+</li>
+<li>There was another case of an empty argument being displayed where an actual argument existed for the function. I can’t remember the exact conditions, but this is a placeholder for now.</li>
 </ul>
+</li>
+</ol>
 </div>
 <div id="testthat" class="section level3">
 <h3 class="hasAnchor">
@@ -145,15 +146,19 @@
 <li>
 <code><a href="reference/jargs.html">jargs()</a></code> can be tested with several example custom functions to make sure it produces output as desired.</li>
 <li>
-<code><a href="reference/mixedSort.html">mixedSort()</a></code>, <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code>, <code><a href="reference/mixedOrder.html">mixedOrder()</a></code> should have several basic tests to confirm it produces properly and consistently sorted outputs.</li>
+<code><a href="reference/mixedSort.html">mixedSort()</a></code>, <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code>, <code><a href="reference/mixedOrder.html">mixedOrder()</a></code>, <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> needs several tests to confirm consistent outputs for the various custom conditions.</li>
+</ul>
+</div>
+<div id="printdebug-color-range-updates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#printdebug-color-range-updates" class="anchor"></a>printDebug color range updates</h3>
+<ul>
+<li>Something in the transition from RGB to sRGB in the colorspace package caused the color ranges (lightMode on and off) to be slightly off. Also <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> needs a slight tweak to use dark text more often.</li>
 </ul>
 </div>
 <div id="functions-to-add" class="section level3">
 <h3 class="hasAnchor">
 <a href="#functions-to-add" class="anchor"></a>Functions to add</h3>
-<ul>
-<li>cPaste(), cPasteUnique() – requires S4Vectors from Bioconductor, which should be a “Suggests” entry with conditional fallback to cover unstrsplit(). When adding Bioconductor to DESCRIPTION, the line “biocViews:” needs to appear with nothing in that section. cPaste() takes a list of vectors, and returns a delimited character vector, usually separated by commas. It optionally sorts entries using mixedSort(), optimized for the whole vector instead of sorting each list element individually. cPasteUnique() is the same, except it applies unique() to each list element before calling cPaste(), and is also optimized across the whole list.</li>
-</ul>
 </div>
 <div id="jam-global-re-usable-options" class="section level3">
 <h3 class="hasAnchor">
@@ -189,7 +194,6 @@
 <a href="#imagebycolors" class="anchor"></a>imageByColors</h3>
 <ul>
 <li>optional boolean parameter to transpose the image, i.e. t(x) and if applicable t(cellnote).</li>
-<li>optional boolean parameter to flip the y-axis, which otherwise appears upside-down compared to how one envisions a table layout.</li>
 <li>optionally draw boxes around grouped labels, a visual indicator of groups of cells sharing one label. Care should be taken not to enable this functionality with a large table containing no grouped labels, or even with any scenario resulting in “too many boxes”.</li>
 </ul>
 </div>
@@ -197,17 +201,8 @@
 <h3 class="hasAnchor">
 <a href="#color-brightness-and-saturation-handling" class="anchor"></a>color brightness and saturation handling</h3>
 <ul>
-<li>consider replacing applyLceiling() with applyCLrange(), with options to force colors within either L (lumina, lightness) range, and/or within C (chroma, coloration) range.</li>
 <li>consider adding helper functions like darken(), lighten(), saturate(), desaturate(). Note colorspace::desaturate() completely removes all color saturation (chroma), and conflicts with this function naming scheme. We could use jamdesaturate(), jamdarken(), jambrighten(), jamsaturate().</li>
 <li>add new function subsetColors() which internally creates a data.frame with hex, RGB, HSV, and HCL values, which can then be used to subset an input set of colors. Bonus points for accepting different color classes at input, and returning the same color class at output.</li>
-</ul>
-</div>
-<div id="jargs" class="section level3">
-<h3 class="hasAnchor">
-<a href="#jargs" class="anchor"></a>jargs</h3>
-<ul>
-<li>issue where function parameters are named lists, the names of each list are not displayed, for example jargs(doNorm).</li>
-<li>FIXED: issue where the grep pattern matches no parameter names, and results in an error instead of simply returning a notice that no parameter names match the grep pattern.</li>
 </ul>
 </div>
 </div>

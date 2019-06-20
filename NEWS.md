@@ -1,3 +1,87 @@
+# jamba version 0.0.35.900
+
+## changes to existing functions
+
+* `setTextContrastColor()` default hclCutoff was changed
+from 73 to 60, in order to use dark text more often for
+the "in between" colors.
+* `makeNames()` now uses `duplicated()` to detect duplicates
+prior to assigning names, which is substantially faster for
+long vectors where not all entries are duplicated, when
+compared to applying `table(x)` to the entire vector.
+For large vectors with mostly duplicated values, the
+speed is the same as before. Note this change also affects
+`nameVector()`.
+* `sdim()` now handles a special case of S4 object where data
+is stored in one slot with slotName `".Data"`, for example
+`"limma::MArrayLM-class"` uses this format. When the length
+of `names(x)` matches the length of `slot(x, ".Data")` then
+those names are applied.
+* `sclass()` now properly detects S4 objects, and specifically
+recognizes `data.frame` as a list even though it secretly has
+`slotNames` like an S4 object, while not being an S4 object.
+(Is it?) Matrix-like objects return the class of each column
+for consistency, even though all columns have identical class.
+This function also handles the same special case S4 scenario
+when it has only one slotName `".Data"`, as described above
+for `sdim()`.
+
+## bug fixes and changes to mixedOrder() family of functions
+
+* `mixedOrder()` did not sort properly when any entry contained
+only `"-"` dashes, this problem has been fixed. Previously "-"
+was potentially used to indicate negative numbers and therefore not
+treated as a blank value, inadvertently becoming `NA` and disrupting
+the ordering. Now strings `"-"` and `"---"` are considered blanks.
+* `mixedOrder()` now uses the input string as a final tiebreaker,
+so blank strings like `"--"` and `"-"` will also be sorted
+`c("-", "--")` in the output instead of returning in the same
+order as the input.
+* `mixedOrder()`, several regular expressions were updated to cover
+edge cases, and will soon be wrapped into a series of `"testthat"`
+unit tests, long overdue. Also, verbose output was slightly updated.
+Specifically:
+
+    * blanks are properly ordered at the front when
+    `blanksFirst=TRUE`, and at the end when `blanksFirst=FALSE`.
+    * NA values are also properly ordered at the front and end
+    with `NAlast=FALSE` and `NAlast=TRUE` respectively. The NA order
+    has priority over blanks, so NA will always be completely first
+    or completely last.
+    * Infinite values, when `keepInfinite=TRUE` will be ordered at the
+    end, but before blanks, then before NA values, if those values
+    are also positioned at the end. Also, when `keepNegative=TRUE`
+    then `"-Inf"` will be position at the beginning, but after NA
+    then after blanks, if those values are also positioned at the
+    beginning.
+    * `keepNegative=TRUE` also enables recognition of scientific
+    notation, but that regular expression wrongly allowed decimal
+    exponentials, which is not valid (e.g. "1.23e1.2" is not valid.)
+    now the exponential only includes non-decimal numeric values,
+    e.g. `"-1.23e2.2"` is effectively considered `"-1.23e2"` and `"2"`.
+   
+* `mixedSort()`, `mixedSorts()` and `mixedSortDF()` are all affected
+by the changes to `mixedOrder()`.
+* `mixedSorts()` was updated to enable correct behavior when
+`sortByName=TRUE`, which only works when all vectors in the input list
+are named.
+* `mixedSorts()` will accept nested lists, and would have used
+the ultra-cool `utils::relist()` function, except that function does
+not allow re-ordering the vector names within the nested list. So
+a new function `relist_named()` was added to jamba.
+It also works with `sortByName=TRUE` to sort each
+vector by its names, by only if all vectors are named.
+
+## new functions
+
+* `relist_named()` is a small modification of the `utils::relist()`
+generic function (actually mostly just the `utils:::relist.default()`).
+This function splits a vector into a list matching the structure of
+a skeleton list, except that the names of each vector in the
+output list will match the input vector `x` and not the names from
+the vectors in the skeleton list.
+
+
 # jamba version 0.0.34.900
 
 ## changes to existing functions

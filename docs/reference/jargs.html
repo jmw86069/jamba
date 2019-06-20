@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.31.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.35.900</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>jargs</span>(<span class='no'>x</span>, <span class='kw'>grepString</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sortVars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>asList</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>jargs</span>(<span class='no'>x</span>, <span class='kw'>grepString</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sortVars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>asList</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>useColor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='fu'><a href='checkLightMode.html'>checkLightMode</a></span>(), <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>adjustRgb</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>useCollapseBase</span> <span class='kw'>=</span> <span class='st'>", "</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
@@ -227,39 +227,39 @@ from among many parameters.</p>
   <code><a href='getAxisLabel.html'>getAxisLabel</a></code>, <code><a href='handleArgsText.html'>handleArgsText</a></code>,
   <code><a href='isFALSEV.html'>isFALSEV</a></code>, <code><a href='isTRUEV.html'>isTRUEV</a></code>,
   <code><a href='jamba.html'>jamba</a></code>, <code><a href='kable_coloring.html'>kable_coloring</a></code>,
-  <code><a href='make_styles.html'>make_styles</a></code>, <code><a href='minorLogTicks.html'>minorLogTicks</a></code>,
-  <code><a href='newestFile.html'>newestFile</a></code>, <code><a href='printDebug.html'>printDebug</a></code>,
-  <code><a href='renameColumn.html'>renameColumn</a></code>, <code><a href='rmInfinite.html'>rmInfinite</a></code>,
-  <code><a href='rmNA.html'>rmNA</a></code>, <code><a href='rmNULL.html'>rmNULL</a></code>,
-  <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='setCLranges.html'>setCLranges</a></code>, <code><a href='setPrompt.html'>setPrompt</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code></p></div>
+  <code><a href='make_styles.html'>make_styles</a></code>, <code><a href='mergeAllXY.html'>mergeAllXY</a></code>,
+  <code><a href='minorLogTicks.html'>minorLogTicks</a></code>, <code><a href='newestFile.html'>newestFile</a></code>,
+  <code><a href='printDebug.html'>printDebug</a></code>, <code><a href='renameColumn.html'>renameColumn</a></code>,
+  <code><a href='rmInfinite.html'>rmInfinite</a></code>, <code><a href='rmNA.html'>rmNA</a></code>,
+  <code><a href='rmNULL.html'>rmNULL</a></code>, <code><a href='sclass.html'>sclass</a></code>,
+  <code><a href='sdim.html'>sdim</a></code>, <code><a href='setCLranges.html'>setCLranges</a></code>,
+  <code><a href='setPrompt.html'>setPrompt</a></code>, <code><a href='ssdim.html'>ssdim</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/args'>args</a></span>(<span class='no'>jargs</span>)</div><div class='output co'>#&gt; function (x, grepString = NULL, sortVars = TRUE, asList = TRUE, 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/args'>args</a></span>(<span class='no'>jargs</span>)</div><div class='output co'>#&gt; function (x, grepString = NULL, sortVars = FALSE, asList = TRUE, 
 #&gt;     useColor = TRUE, lightMode = checkLightMode(), Crange = NULL, 
 #&gt;     Lrange = NULL, adjustRgb = 0, useCollapseBase = ", ", verbose = FALSE, 
 #&gt;     debug = 0, ...) 
-#&gt; NULL</div><div class='input'><span class='fu'>jargs</span>(<span class='no'>jargs</span>)</div><div class='output co'>#&gt;             ... = ,
-#&gt;       adjustRgb = <span style='color: #0000BB;'>0</span><span>,
+#&gt; NULL</div><div class='input'><span class='fu'>jargs</span>(<span class='no'>jargs</span>)</div><div class='output co'>#&gt;               x = ,
+#&gt;      grepString = <span style='color: #000000;'>NULL</span><span>,
+#&gt;        sortVars = </span><span style='color: #BB0000;'>FALSE</span><span>,
 #&gt;          asList = </span><span style='color: #0000BB;'>TRUE</span><span>,
-#&gt;          Crange = </span><span style='color: #000000;'>NULL</span><span>,
-#&gt;           debug = </span><span style='color: #0000BB;'>0</span><span>,
-#&gt;      grepString = </span><span style='color: #000000;'>NULL</span><span>,
-#&gt;       lightMode = </span><span style='color: #0000BB;'>checkLightMode</span><span>(),
-#&gt;          Lrange = </span><span style='color: #000000;'>NULL</span><span>,
-#&gt;        sortVars = </span><span style='color: #0000BB;'>TRUE</span><span>,
-#&gt; useCollapseBase = </span><span style='color: #0000BB;'>", "</span><span>,
 #&gt;        useColor = </span><span style='color: #0000BB;'>TRUE</span><span>,
+#&gt;       lightMode = </span><span style='color: #0000BB;'>checkLightMode</span><span>(),
+#&gt;          Crange = </span><span style='color: #000000;'>NULL</span><span>,
+#&gt;          Lrange = </span><span style='color: #000000;'>NULL</span><span>,
+#&gt;       adjustRgb = </span><span style='color: #0000BB;'>0</span><span>,
+#&gt; useCollapseBase = </span><span style='color: #0000BB;'>", "</span><span>,
 #&gt;         verbose = </span><span style='color: #BB0000;'>FALSE</span><span>,
-#&gt;               x = </div><div class='input'>
+#&gt;           debug = </span><span style='color: #0000BB;'>0</span><span>,
+#&gt;             ... = </div><div class='input'>
 <span class='co'># retrieve parameters involving notes from imageByColors</span>
 <span class='fu'>jargs</span>(<span class='no'>imageByColors</span>, <span class='st'>"note"</span>)</div><div class='output co'>#&gt;       cellnote = </span><span style='color: #000000;'>NULL</span><span>,
 #&gt;    cexCellnote = </span><span style='color: #0000BB;'>1</span><span>,
+#&gt;    srtCellnote = </span><span style='color: #0000BB;'>0</span><span>,
 #&gt;   fontCellnote = </span><span style='color: #0000BB;'>1</span><span>,
-#&gt; groupCellnotes = </span><span style='color: #0000BB;'>TRUE</span><span>,
-#&gt;    srtCellnote = </span><span style='color: #0000BB;'>0</span><span></div><div class='input'>
+#&gt; groupCellnotes = </span><span style='color: #0000BB;'>TRUE</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

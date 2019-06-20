@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>prefix integers with leading zeros — padInteger • jamba</title>
+<title>relist a vector which allows re-ordered names — relist_named • jamba</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="prefix integers with leading zeros — padInteger" />
+<meta property="og:title" content="relist a vector which allows re-ordered names — relist_named" />
 
-<meta property="og:description" content="prefix integers with leading zeros" />
+<meta property="og:description" content="relist a vector which allows re-ordered names" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,68 +114,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>prefix integers with leading zeros</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba.r'><code>R/jamba.r</code></a></small>
-    <div class="hidden name"><code>padInteger.Rd</code></div>
+    <h1>relist a vector which allows re-ordered names</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-string.r'><code>R/jamba-string.r</code></a></small>
+    <div class="hidden name"><code>relist_named.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>prefix integers with leading zeros</p>
+    <p>relist a vector which allows re-ordered names</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>padInteger</span>(<span class='no'>x</span>, <span class='kw'>padCharacter</span> <span class='kw'>=</span> <span class='st'>"0"</span>, <span class='kw'>useNchar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>relist_named</span>(<span class='no'>x</span>, <span class='no'>skeleton</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>input integer, numeric, or character vector. In reality, only
-nchar(x) is used to determine padding.</p></td>
+      <td><p>vector to be applied to the <code>skeleton</code> list
+structure in order.</p></td>
     </tr>
     <tr>
-      <th>padCharacter</th>
-      <td><p>character with nchar(padCharacter)==1, used to pad
-each digit as a prefix.</p></td>
-    </tr>
-    <tr>
-      <th>useNchar</th>
-      <td><p>NULL or integer number of digits used, or if the maximum
-nchar(x) is higher, that number of digits is used. Note useNchar is
-mostly useful when all numbers are less than 10, but the desired output
-is to have a fixed number of digits 2 or higher.</p></td>
+      <th>skeleton</th>
+      <td><p><code>list</code> object representing the desired
+final list structure, or <code>vector</code> when the input
+data <code>x</code> should be returned as-is, without change.
+Specifically, when <code>skeleton</code> is a <code>vector</code>, the
+<code><a href='https://www.rdocumentation.org/packages/base/topics/names'>names(x)</a></code> are maintained without change.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional parameters are ignored.</p></td>
+      <td><p>additional arguments are ignored.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>character vector of length(x).</p>
+    <p><code>list</code> object with the same structure as the <code>skeleton</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The purpose of this function is to pad integer numbers so they contain
-a consistent number of digits, which is helpful when sorting values
-as character strings.</p>
+    <p>This function is a simple update to <code><a href='https://www.rdocumentation.org/packages/utils/topics/relist'>utils::relist()</a></code>
+that allows updating the names of each list element.
+More specifically, this function does not replace the
+updated names with the corresponding names from
+the list <code>skeleton</code>, as is the case in
+<code>utils:::relist.default()</code>.</p>
+<p>It is somewhat surprising that <code><a href='https://www.rdocumentation.org/packages/utils/topics/relist'>utils::relist()</a></code> is
+simply a nested for loop, instead of <code><a href='https://www.rdocumentation.org/packages/base/topics/rapply'>rapply()</a></code> or some
+fancy vectorized alternative. That said, the function works,
+and there is much to be commended for functions that work.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam string functions: <code><a href='asSize.html'>asSize</a></code>,
-  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='fillBlanks.html'>fillBlanks</a></code>,
-  <code><a href='formatInt.html'>formatInt</a></code>, <code><a href='makeNames.html'>makeNames</a></code>,
-  <code><a href='mixedOrder.html'>mixedOrder</a></code>, <code><a href='mixedSortDF.html'>mixedSortDF</a></code>,
-  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='mixedSort.html'>mixedSort</a></code>,
-  <code><a href='mmixedOrder.html'>mmixedOrder</a></code>, <code><a href='nameVectorN.html'>nameVectorN</a></code>,
-  <code><a href='nameVector.html'>nameVector</a></code>, <code><a href='padString.html'>padString</a></code>,
-  <code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a></code>,
-  <code><a href='pasteByRow.html'>pasteByRow</a></code>, <code><a href='tcount.html'>tcount</a></code>,
-  <code><a href='ucfirst.html'>ucfirst</a></code>, <code><a href='uniques.html'>uniques</a></code></p></div>
+    <div class='dont-index'><p>Other jam list functions: <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
+  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='list2df.html'>list2df</a></code>,
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
+  <code><a href='rbindList.html'>rbindList</a></code>, <code><a href='rlengths.html'>rlengths</a></code>,
+  <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
+  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code>,
+  <code><a href='unnestList.html'>unnestList</a></code></p></div>
     
 
   </div>

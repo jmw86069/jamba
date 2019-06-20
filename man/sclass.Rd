@@ -11,18 +11,37 @@ sclass(x, ...)
 
 \item{...}{additional parameters are ignored.}
 }
+\value{
+character vector with the class of each list element, or
+column name, depending upon the input \code{class(x)}.
+}
 \description{
 return the classes of a list of objects
 }
 \details{
-This function takes a list and returns the classes for each
+This function takes a \code{list} and returns the classes for each
 object in the list. In the event an object class has multiple values,
 the returned object is a list, otherwise is a vector.
 If \code{x} is an S4 object, then \code{slotNames(x)} is used, and
 the class is returned for each S4 slot.
+
+When \code{x} is a \code{data.frame}, \code{data.table}, \code{tibble}, or similar
+\code{DataFrame} table-like object, the class of each column is returned.
+
+For the special case where \code{x} is an S4 object with one slotName
+\code{".Data"}, the values in \code{x@.Data} are coerced to a \code{list}. One
+example of this case is with \code{limma::MArrayLM-class}.
+
+When \code{x} is a matrix, the class of each column is returned for
+consistency, even though the class of each column should be identical.
+
+For more more information about a list-like object, including
+the lengths/dimensions of the elements, see \code{sdim()} or \code{ssdim()}.
 }
 \examples{
 sclass(list(LETTERS=LETTERS, letters=letters));
+
+sclass(data.frame(B=letters[1:10], C=2:11))
 
 }
 \seealso{
@@ -44,9 +63,10 @@ Other jam practical functions: \code{\link{applyCLrange}},
 Other jam list functions: \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{list2df}},
   \code{\link{mergeAllXY}}, \code{\link{mixedSorts}},
-  \code{\link{rbindList}}, \code{\link{rlengths}},
-  \code{\link{sdim}}, \code{\link{ssdim}},
-  \code{\link{uniques}}, \code{\link{unnestList}}
+  \code{\link{rbindList}}, \code{\link{relist_named}},
+  \code{\link{rlengths}}, \code{\link{sdim}},
+  \code{\link{ssdim}}, \code{\link{uniques}},
+  \code{\link{unnestList}}
 }
 \concept{jam list functions}
 \concept{jam practical functions}

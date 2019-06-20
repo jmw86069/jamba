@@ -7,7 +7,7 @@
 mixedSorts(x, blanksFirst = TRUE, NAlast = TRUE,
   keepNegative = FALSE, keepInfinite = TRUE, keepDecimal = FALSE,
   ignore.case = TRUE, sortByName = FALSE, na.rm = FALSE,
-  verbose = FALSE, ...)
+  verbose = FALSE, debug = FALSE, ...)
 }
 \arguments{
 \item{x}{input vector}
@@ -69,6 +69,20 @@ mixedSorts(xL)
 # Notice "e5" is sorted after "e28"
 lapply(xL, sort)
 
+# Make a nested list
+set.seed(1);
+l1 <- list(
+   A=sample(nameVector(11:13, rev(letters[11:13]))),
+   B=list(
+      C=sample(nameVector(4:8, rev(LETTERS[4:8]))),
+      D=sample(nameVector(LETTERS[2:5], rev(LETTERS[2:5])))
+   )
+)
+l1;
+# The output is a nested list with the same structure
+mixedSorts(l1);
+mixedSorts(l1, sortByName=TRUE);
+
 }
 \seealso{
 Other jam sort functions: \code{\link{mixedOrder}},
@@ -90,9 +104,10 @@ Other jam string functions: \code{\link{asSize}},
 Other jam list functions: \code{\link{cPasteUnique}},
   \code{\link{cPaste}}, \code{\link{list2df}},
   \code{\link{mergeAllXY}}, \code{\link{rbindList}},
-  \code{\link{rlengths}}, \code{\link{sclass}},
-  \code{\link{sdim}}, \code{\link{ssdim}},
-  \code{\link{uniques}}, \code{\link{unnestList}}
+  \code{\link{relist_named}}, \code{\link{rlengths}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{ssdim}}, \code{\link{uniques}},
+  \code{\link{unnestList}}
 }
 \concept{jam list functions}
 \concept{jam sort functions}

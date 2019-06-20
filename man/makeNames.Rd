@@ -13,8 +13,9 @@ makeNames(x, unique = TRUE, suffix = "_v", renameOnes = FALSE,
 \item{x}{character vector to be used when defining names. All other
 vector types will be coerced to character prior to use.}
 
-\item{unique}{for compatibility with \code{\link[base]{make.names}} but
-this parameter is ignored. All results are unique.}
+\item{unique}{argument which is ignored, included only for
+compatibility with \code{base::make.names}. All results from
+\code{makeNames()} are unique.}
 
 \item{suffix}{character separator between the original entry and the
 version, if necessary.}

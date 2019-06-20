@@ -17,19 +17,33 @@ mixedOrder(x, ..., blanksFirst = TRUE, NAlast = TRUE,
 \item{blanksFirst}{logical whether to order blank entries before entries
 containing a value.}
 
-\item{NAlast}{logical whether to move NA entries to the end of the sort.}
+\item{NAlast}{logical whether to move NA entries to the end of the sort.
+When \code{NAlast=TRUE} then \code{NA} values will always be last, even following
+blanks and infinite values. When \code{NAlast=FALSE} then \code{NA} values
+will always be first, even before blanks and negative infinite values.}
 
 \item{keepNegative}{logical whether to keep '-' associated with adjacent
-numeric values, in order to sort them as negative values.}
+numeric values, in order to sort them as negative values. Note that
+\code{keepNegative=TRUE} also forces \code{keepDecimal=TRUE}, and enables
+matching of scientific notation such as \code{-1.23e-10} as a numeric
+value. When \code{keepNegative=FALSE} the dash \code{"-"} is treated as
+a common delimiter.}
 
-\item{keepInfinite}{logical whether to allow "Inf" to be considered
-a numeric infinite value.}
+\item{keepInfinite}{logical whether to allow "Inf" in the input \code{x}
+to be considered a numeric infinite value. Note that \code{"-Inf"} is
+only treated as a negative infinite value when \code{keepNegative=TRUE}.
+Also note that \code{"Inf"} is only recognized as infinite when it
+appears between non-character delimiters, and not part of a
+larger character string like \code{"Information"}. Be careful
+with \code{keepInfinite=TRUE} when sorting gene symbols, there are
+gene symbols like \code{"Inf3"} which should not be sorted as infinite.
+Lastly, infinite values are sorted at the end, notably after
+all character values which differs from some mixed sorting
+algorithms.}
 
 \item{keepDecimal}{logical whether to keep the decimal in numbers,
 sorting as a true number and not as a version number. By default
-keepDecimal=FALSE, which means "v1.200" should be ordered before
-"v1.30". When keepDecimal=TRUE, the numeric sort considers only
-"1.2" and "1.3" and sorts in that order.}
+\code{keepDecimal=FALSE``, which means "v1.200" will be ordered after "v1.30", since it considers }"1.200"\code{effectively as}1\code{and}200\code{, and }"1.30"\code{effectively as}1\code{and}30\code{. When }keepDecimal=TRUE\code{, the numeric sort orders }"v1.200"\code{before}"v1.30"`.}
 
 \item{verbose}{logical whether to print verbose output.}
 
@@ -40,29 +54,50 @@ characters when defining the sort order.}
 of sorting by x itself.}
 }
 \value{
-integer vector of orders derived from x
+integer vector of orders derived from x, or when \code{returnType="rank"}
+an integer vector of ranks, allowing ties. The rank is therefore
+valid for use in chains, such as multiple columns of a data.frame.
 }
 \description{
 order alphanumeric values keeping numeric values in proper order
 }
 \details{
-This function is a refactor of the \code{gtools::mixedorder}
-function from the \code{gtools} package. It was extended to make it faster,
+This function is a refactor of \code{gtools::mixedorder()} which was
+the source of inspiration for this function.
+This function was designed to improve the efficiency for large vectors,
 and to handle special cases slightly differently. It was driven by some
 need to sort gene symbols, and miRNA symbols in numeric order, for example:
+
 \describe{
 \item{test set:}{miR-12,miR-1,miR-122,miR-1b,miR-1a,miR-2}
 \item{\code{sort}:}{miR-1,miR-12,miR-122,miR-1a,miR-1b,miR-2}
 \item{\code{gtools::mixedsort}:}{miR-122,miR-12,miR-2,miR-1,miR-1a,miR-1b}
 \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-2,miR-12,miR-122}
 }
-The function does not by default recognize negative numbers as negative,
+
+This function does not by default consider negative numbers as negative,
 instead it treats '-' as a delimiter, unless keepNegative=TRUE.
 
-This function also attempts to maintain '.' as part of a decimal number,
-which can be problematic when sorting IP addresses, for example.
+When \code{keepNegative=TRUE} this function also recognizes scientific
+notation, for example \code{"1.23e-2"} will be treated as numeric \code{0.0123}.
+Note that \code{keepNegative=TRUE} also forces \code{keepDecimal=TRUE}.
 
-This function is also available as a sort function \code{\link{mixedSort}}.
+When \code{keepDecimal=TRUE} this function maintains numeric values that
+include one \code{"."}.
+
+This function is the core of a family of mixedSort functions:
+
+\describe{
+\item{\code{mixedSort()}}{Applies \code{mixedOrder()} to an input vector.}
+\item{\code{mixedSorts()}}{Applies \code{mixedOrder()} to a list of vectors,
+returning the list where each vector is independently sorted.}
+\item{\code{mixedSortDF()}}{Applies \code{mixedOrder()} to each column of a
+\code{data.frame} or comparable object, optionally specifying the order
+of columns used during the sort.}
+}
+
+Extra thanks to Gregory R. Warnes for the \code{gtools::mixedorder()}
+that proved to be so useful it ultimately inspired this function.
 }
 \examples{
 x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
@@ -73,10 +108,36 @@ order(x);
 x[order(x)];
 sort(x);
 
+## Complex example including NA, blanks, and infinite "Inf"
+x <- c("Inf",
+   "+Inf12",
+   NA,
+   "-Inf14",
+   "-",
+   "---",
+   "Jnf12",
+   "Hnf12",
+   "--",
+   "Information");
+## By default, strings are sorted as-is, "Hnf" before "Inf" before "Jnf"
+## blanks are first, NA values are last
+x[mixedOrder(x)];
+
+## blanks are last, but before NA values which are also last
+x[mixedOrder(x, blanksFirst=FALSE)];
+
+## Recognize infinite, but not the negative sign
+## Now infinite values are at the end, ordered by the number that follows.
+x[mixedOrder(x, blanksFirst=FALSE, keepInfinite=TRUE)]
+
+## Now also recognize negative infinite values,
+## which puts "-Inf14" at the very beginning.
+x[mixedOrder(x, blanksFirst=FALSE, keepInfinite=TRUE, keepNegative=TRUE)]
+
+
 }
 \seealso{
-\code{gtools::mixedorder},
-\code{gtools::mixedsort}
+\code{gtools::mixedorder()}, \code{gtools::mixedsort()}
 
 Other jam sort functions: \code{\link{mixedSortDF}},
   \code{\link{mixedSorts}}, \code{\link{mixedSort}},

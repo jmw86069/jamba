@@ -480,8 +480,9 @@ rbindList <- function
 #'
 #' @param x character vector to be used when defining names. All other
 #'    vector types will be coerced to character prior to use.
-#' @param unique for compatibility with \code{\link[base]{make.names}} but
-#'    this parameter is ignored. All results are unique.
+#' @param unique argument which is ignored, included only for
+#'    compatibility with `base::make.names`. All results from
+#'    `makeNames()` are unique.
 #' @param suffix character separator between the original entry and the
 #'    version, if necessary.
 #' @param renameOnes logical whether to rename single, unduplicated, entries.
@@ -593,7 +594,6 @@ makeNames <- function
       useNchar <- as.integer(useNchar);
       doPadInteger=TRUE;
    }
-   doLetters <- FALSE;
    if (any(c("factor", "ordered") %in% class(x))) {
       x <- as.character(x);
    }
@@ -602,15 +602,29 @@ makeNames <- function
          naValue="NA");
    }
 
+   ## First check for duplicates using anyDuplicated()
+   ## version 0.0.35.900, this change speeds assignment
+   ## in large vectors when most entries are not duplicated.
+   dupes <- duplicated(x);
+
    ## Convert entries to a named count of occurences of each entry
-   xSub <- table(as.character(x));
+   if (any(dupes)) {
+      xSubDupes <- table(x[dupes]) + 1;
+      maxCt <- max(c(1,xSubDupes));
+      xSubOnes <- setNames(rep(1, sum(!dupes)), x[!dupes]);
+      xSub <- c(xSubOnes, xSubDupes);
+   } else {
+      xSub <- setNames(rep(1, sum(!dupes)), x[!dupes]);
+      maxCt <- 1;
+   }
+   ## version 0.0.34.900 and previous used the method below
+   #xSub <- table(as.character(x));
 
    ## Vector of counts to be used
-   versionsV <- as.integer(renameFirst):max(c(xSub,1)) + startN - 1;
+   versionsV <- as.integer(renameFirst):maxCt + startN - 1;
 
    ## If using letters, define the set of letter upfront to save processing
    if (igrepHas("letters", numberStyle)) {
-      doLetters <- TRUE;
       if (numberStyle %in% "letters") {
          useLetters <- letters[1:26];
          zeroVal <- "A";
@@ -618,12 +632,16 @@ makeNames <- function
          useLetters <- LETTERS[1:26];
          zeroVal <- "a";
       }
-      num2letters <- colNum2excelName(versionsV, useLetters=useLetters,
-         zeroVal=zeroVal, ...);
+      num2letters <- colNum2excelName(versionsV,
+         useLetters=useLetters,
+         zeroVal=zeroVal,
+         ...);
       versionsV <- num2letters;
    }
    if (doPadInteger) {
-      versionsV <- padInteger(versionsV, useNchar=useNchar, ...);
+      versionsV <- padInteger(versionsV,
+         useNchar=useNchar,
+         ...);
    }
 
    ## If no duplicated entries
@@ -1123,21 +1141,43 @@ mixedSort <- function
    }
    if (sortByName) {
       if (ignore.case) {
-         x[mixedOrder(toupper(names(x)), blanksFirst=blanksFirst,
-            NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
+         x[mixedOrder(toupper(names(x)),
+            blanksFirst=blanksFirst,
+            NAlast=NAlast,
+            keepNegative=keepNegative,
+            keepInfinite=keepInfinite,
+            keepDecimal=keepDecimal,
+            verbose=verbose,
+            ...)];
       } else {
-         x[mixedOrder(names(x), blanksFirst=blanksFirst,
-            NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
+         x[mixedOrder(names(x),
+            blanksFirst=blanksFirst,
+            NAlast=NAlast,
+            keepNegative=keepNegative,
+            keepInfinite=keepInfinite,
+            keepDecimal=keepDecimal,
+            verbose=verbose,
+            ...)];
       }
    } else {
       if (ignore.case) {
-         x[mixedOrder(toupper(x), blanksFirst=blanksFirst,
-            NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
-         #x[mixedOrder(x, blanksFirst=blanksFirst, ignore.case=ignore.case,
-         #   NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
+         x[mixedOrder(toupper(x),
+            blanksFirst=blanksFirst,
+            NAlast=NAlast,
+            keepNegative=keepNegative,
+            keepInfinite=keepInfinite,
+            keepDecimal=keepDecimal,
+            verbose=verbose,
+            ...)];
       } else {
-         x[mixedOrder(x, blanksFirst=blanksFirst,
-            NAlast=NAlast, keepNegative=keepNegative, verbose=verbose, ...)];
+         x[mixedOrder(x,
+            blanksFirst=blanksFirst,
+            NAlast=NAlast,
+            keepNegative=keepNegative,
+            keepInfinite=keepInfinite,
+            keepDecimal=keepDecimal,
+            verbose=verbose,
+            ...)];
       }
    }
 }
@@ -1146,45 +1186,83 @@ mixedSort <- function
 #'
 #' order alphanumeric values keeping numeric values in proper order
 #'
-#' This function is a refactor of the \code{gtools::mixedorder}
-#' function from the \code{gtools} package. It was extended to make it faster,
+#' This function is a refactor of `gtools::mixedorder()` which was
+#' the source of inspiration for this function.
+#' This function was designed to improve the efficiency for large vectors,
 #' and to handle special cases slightly differently. It was driven by some
 #' need to sort gene symbols, and miRNA symbols in numeric order, for example:
+#'
 #' \describe{
 #'    \item{test set:}{miR-12,miR-1,miR-122,miR-1b,miR-1a,miR-2}
 #'    \item{\code{sort}:}{miR-1,miR-12,miR-122,miR-1a,miR-1b,miR-2}
 #'    \item{\code{gtools::mixedsort}:}{miR-122,miR-12,miR-2,miR-1,miR-1a,miR-1b}
 #'    \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-2,miR-12,miR-122}
 #' }
-#' The function does not by default recognize negative numbers as negative,
+#'
+#' This function does not by default consider negative numbers as negative,
 #' instead it treats '-' as a delimiter, unless keepNegative=TRUE.
 #'
-#' This function also attempts to maintain '.' as part of a decimal number,
-#' which can be problematic when sorting IP addresses, for example.
+#' When `keepNegative=TRUE` this function also recognizes scientific
+#' notation, for example `"1.23e-2"` will be treated as numeric `0.0123`.
+#' Note that `keepNegative=TRUE` also forces `keepDecimal=TRUE`.
 #'
-#' This function is also available as a sort function \code{\link{mixedSort}}.
+#' When `keepDecimal=TRUE` this function maintains numeric values that
+#' include one `"."`.
 #'
-#' @return integer vector of orders derived from x
+#' This function is the core of a family of mixedSort functions:
+#'
+#' \describe{
+#'    \item{`mixedSort()`}{Applies `mixedOrder()` to an input vector.}
+#'    \item{`mixedSorts()`}{Applies `mixedOrder()` to a list of vectors,
+#'       returning the list where each vector is independently sorted.}
+#'    \item{`mixedSortDF()`}{Applies `mixedOrder()` to each column of a
+#'    `data.frame` or comparable object, optionally specifying the order
+#'    of columns used during the sort.}
+#' }
+#'
+#' Extra thanks to Gregory R. Warnes for the `gtools::mixedorder()`
+#' that proved to be so useful it ultimately inspired this function.
+#'
+#' @return integer vector of orders derived from x, or when `returnType="rank"`
+#' an integer vector of ranks, allowing ties. The rank is therefore
+#' valid for use in chains, such as multiple columns of a data.frame.
 #'
 #' @family jam sort functions
 #' @family jam string functions
 #'
-#' @seealso \code{gtools::mixedorder},
-#'    \code{gtools::mixedsort}
+#' @seealso `gtools::mixedorder()`, `gtools::mixedsort()`
 #'
 #' @param x input vector
 #' @param blanksFirst logical whether to order blank entries before entries
 #'    containing a value.
 #' @param NAlast logical whether to move NA entries to the end of the sort.
+#'    When `NAlast=TRUE` then `NA` values will always be last, even following
+#'    blanks and infinite values. When `NAlast=FALSE` then `NA` values
+#'    will always be first, even before blanks and negative infinite values.
 #' @param keepNegative logical whether to keep '-' associated with adjacent
-#'    numeric values, in order to sort them as negative values.
-#' @param keepInfinite logical whether to allow "Inf" to be considered
-#'    a numeric infinite value.
+#'    numeric values, in order to sort them as negative values. Note that
+#'    `keepNegative=TRUE` also forces `keepDecimal=TRUE`, and enables
+#'    matching of scientific notation such as `-1.23e-10` as a numeric
+#'    value. When `keepNegative=FALSE` the dash `"-"` is treated as
+#'    a common delimiter.
+#' @param keepInfinite logical whether to allow "Inf" in the input `x`
+#'    to be considered a numeric infinite value. Note that `"-Inf"` is
+#'    only treated as a negative infinite value when `keepNegative=TRUE`.
+#'    Also note that `"Inf"` is only recognized as infinite when it
+#'    appears between non-character delimiters, and not part of a
+#'    larger character string like `"Information"`. Be careful
+#'    with `keepInfinite=TRUE` when sorting gene symbols, there are
+#'    gene symbols like `"Inf3"` which should not be sorted as infinite.
+#'    Lastly, infinite values are sorted at the end, notably after
+#'    all character values which differs from some mixed sorting
+#'    algorithms.
 #' @param keepDecimal logical whether to keep the decimal in numbers,
 #'    sorting as a true number and not as a version number. By default
-#'    keepDecimal=FALSE, which means "v1.200" should be ordered before
-#'    "v1.30". When keepDecimal=TRUE, the numeric sort considers only
-#'    "1.2" and "1.3" and sorts in that order.
+#'    `keepDecimal=FALSE``, which means "v1.200" will be ordered after
+#'    "v1.30", since it considers `"1.200"` effectively as `1` and `200`,
+#'    and `"1.30"` effectively as `1` and `30`.
+#'    When `keepDecimal=TRUE`, the numeric sort orders `"v1.200"` before
+#'    `"v1.30"`.
 #' @param ignore.case logical whether to ignore uppercase and lowercase
 #'    characters when defining the sort order.
 #' @param sortByName logical whether to sort the vector x by names(x) instead
@@ -1201,9 +1279,38 @@ mixedSort <- function
 #' x[order(x)];
 #' sort(x);
 #'
+#' ## Complex example including NA, blanks, and infinite "Inf"
+#' x <- c("Inf",
+#'    "+Inf12",
+#'    NA,
+#'    "-Inf14",
+#'    "-",
+#'    "---",
+#'    "Jnf12",
+#'    "Hnf12",
+#'    "--",
+#'    "Information");
+#' ## By default, strings are sorted as-is, "Hnf" before "Inf" before "Jnf"
+#' ## blanks are first, NA values are last
+#' x[mixedOrder(x)];
+#'
+#' ## blanks are last, but before NA values which are also last
+#' x[mixedOrder(x, blanksFirst=FALSE)];
+#'
+#' ## Recognize infinite, but not the negative sign
+#' ## Now infinite values are at the end, ordered by the number that follows.
+#' x[mixedOrder(x, blanksFirst=FALSE, keepInfinite=TRUE)]
+#'
+#' ## Now also recognize negative infinite values,
+#' ## which puts "-Inf14" at the very beginning.
+#' x[mixedOrder(x, blanksFirst=FALSE, keepInfinite=TRUE, keepNegative=TRUE)]
+#'
+#'
 #' @export
 mixedOrder <- function
-(x, ..., blanksFirst=TRUE, NAlast=TRUE,
+(x, ...,
+ blanksFirst=TRUE,
+ NAlast=TRUE,
  keepNegative=FALSE,
  keepInfinite=FALSE,
  keepDecimal=FALSE,
@@ -1243,67 +1350,107 @@ mixedOrder <- function
          return(match(x, factor(x)));
       }
    }
+   ## Artificial delimiter inserted between defined break positions
    delim <- "\\$\\@\\$";
 
    if (!igrepHas("character", class(x))) {
       x <- as.character(x);
    }
-   which.nas <- which(is.na(x));
-   which.blanks <- grep("^[ \t]*$", x);
-   if (blanksFirst) {
-      x[which.blanks] <- Inf;
-   } else {
-      x[which.blanks] <- -Inf;
-   }
-   if (NAlast) {
-      x[which.nas] <- Inf;
-   } else {
-      x[which.nas] <- -Inf;
+   which_nas <- which(is.na(x));
+   which_blanks <- grep("^[-+ \t]*$", x);
+   if (1 == 2) {
+      if (blanksFirst) {
+         x[which_blanks] <- -Inf;
+      } else {
+         x[which_blanks] <- Inf;
+      }
+      if (NAlast) {
+         x[which_nas] <- Inf;
+      } else {
+         x[which_nas] <- -Inf;
+      }
    }
 
    if (keepNegative) {
       if (verbose) {
-         printDebug("Using keepNegative=", "TRUE", c("orange","dodgerblue"));
+         printDebug("mixedOrder(): ",
+            "Using keepNegative:", "TRUE",
+            fgText=c("darkorange1","dodgerblue","cyan"));
+         printDebug("mixedOrder(): ",
+            "Therefore using keepDecimal:", "TRUE",
+            fgText=c("darkorange1","dodgerblue","cyan"));
       }
       ## delimString represents a decimal number with optional exponential
-      delimString <- paste0("([+-]{0,1}[0-9]+[.]{0,1}[0-9]*",
-         "([eE][\\+\\-]{0,1}[0-9]+\\.{0,1}[0-9]*|))");
-      delimited <- gsub(paste0("^", delim, "|", delim, "$"), "",
-         gsub(paste0(delim, "(", delim, "){1,}"),
+      delimString <- paste0(
+         "([+-]{0,1}([0-9]+[.]{0,1}[0-9]*|[0-9]*[.]{0,1}[0-9]+)",
+         "([eE][-+]{0,1}[0-9]+|))");
+      delimited <- gsub(
+            paste0("^", delim, "|", delim, "$"),
+            "",
+         gsub(
+            paste0(delim, "(", delim, "){1,}"),
             delim,
-         gsub(delimString,
+         gsub(
+            delimString,
             paste0(delim, "\\1", delim),
-         gsub("([0-9])-([0-9])",
-            paste0("\\1", delim, "\\2"), x))));
+         gsub(
+            "([0-9])[-+]*([-+][0-9])",
+            paste0("\\1", delim, "\\2"),
+            x))));
    } else {
       if (verbose) {
-         printDebug("Using keepNegative=", "FALSE", c("orange","orangered"));
+         printDebug("mixedOrder(): ",
+            "Using keepNegative:", "FALSE",
+            fgText=c("darkorange1","dodgerblue","orangered"));
       }
       if (keepDecimal) {
          if (verbose) {
-            printDebug("Using keepDecimal=", "TRUE", c("orange","dodgerblue"));
+            printDebug("mixedOrder(): ",
+               "Using keepDecimal:", "TRUE",
+               fgText=c("darkorange1","dodgerblue","cyan"));
          }
-         delimited <- gsub(paste0("^", delim, "|", delim, "$"), "",
-            gsub(paste0(delim, "(", delim, "){1,}"),
+         delimited <- gsub(
+               paste0("^", delim, "|", delim, "$"),
+               "",
+            gsub(
+               paste0(delim, "(", delim, "){1,}"),
                delim,
-            gsub("([-+]{0,1}[0-9]+[.]{0,1}[0-9]*)",
+            gsub(
+               "([0-9]+[.]{0,1}[0-9]*|[0-9]*[.]{0,1}[0-9]+)",
                paste0(delim, "\\1", delim),
-            gsub("([0-9])-([0-9])",
-               paste0("\\1", delim, "\\2"),
-            gsub("-", delim, x)))));
+            #gsub(
+            #   "([0-9])-([0-9])",
+            #   paste0("\\1", delim, "\\2"),
+            gsub(
+               "[-+]",
+               delim,
+               x))));
       } else {
          if (verbose) {
-            printDebug("Using keepDecimal=", "FALSE", c("orange","orangered"));
+            printDebug("mixedOrder(): ",
+               "Using keepDecimal:", "FALSE",
+               fgText=c("darkorange1","dodgerblue","orangered"));
          }
-         delimited <- gsub(paste0("^", delim, "|", delim, "$"), "",
-            gsub(paste0(delim, "(", delim, "){1,}"),
+         delimited <- gsub(
+               paste0("^", delim, "|", delim, "$"),
+            "",
+            gsub(
+               paste0(delim, "(", delim, "){1,}"),
                delim,
-            gsub("([-+]{0,1}[0-9]+)",
+            gsub(
+               "([0-9]+)",
                paste0(delim, "\\1", delim),
-            gsub("([0-9])-([0-9])",
-               paste0("\\1", delim, "\\2"),
-            gsub("-", delim, x)))));
+            #gsub(
+            #   "([0-9])-([0-9])",
+            #   paste0("\\1", delim, "\\2"),
+            gsub(
+               "[-+]",
+               delim,
+               x))));
       }
+   }
+   if (any(which_blanks)) {
+      delimited[which_blanks] <- x[which_blanks];
    }
 
    ## Split delimited strings into columns, one row per entry
@@ -1313,16 +1460,38 @@ mixedOrder <- function
    step1mNumeric <- matrix(ncol=ncol(step1m),
       data=suppressWarnings(as.numeric(step1m)));
 
-   ## Optionally convert things like "Inf" from infinite, back to
-   ## a character value
+   ## Optionally convert "Inf" from infinite back to character value
    if (!keepInfinite && any(is.infinite(step1mNumeric))) {
       if (verbose) {
-         printDebug("Using keepInfinite=", "FALSE", c("orange","orangered"));
+         printDebug("mixedOrder(): ",
+            "Using keepInfinite:", "FALSE",
+            fgText=c("darkorange1","dodgerblue","orangered"));
       }
       step1mNumeric[is.infinite(step1mNumeric)] <- NA;
+      which_inf_pos <- FALSE;
+      which_inf_neg <- FALSE;
    } else {
+      which_inf_pos <- is.infinite(step1mNumeric) & (step1mNumeric > 0);
+      which_inf_neg <- is.infinite(step1mNumeric) & (step1mNumeric < 0);
       if (verbose) {
-         printDebug("Using keepInfinite=", "TRUE", c("orange","dodgerblue"));
+         printDebug("mixedOrder(): ",
+            "Using keepInfinite:", "TRUE",
+            fgText=c("darkorange1","dodgerblue","cyan"));
+      }
+   }
+   ## Exception to converting Inf is with keepBlanks, NAlast
+   if (any(which_blanks)) {
+      if (blanksFirst) {
+         step1mNumeric[which_blanks,1] <- -Inf;
+      } else {
+         step1mNumeric[which_blanks, ncol(step1mNumeric)] <- Inf;
+      }
+   }
+   if (any(which_nas)) {
+      if (NAlast) {
+         step1mNumeric[which_nas, ncol(step1mNumeric)] <- Inf;
+      } else {
+         step1mNumeric[which_nas,1] <- -Inf;
       }
    }
 
@@ -1394,6 +1563,37 @@ mixedOrder <- function
    rankOverall <- rankCharacter + 1 + max(rankNumeric, na.rm=TRUE);
    ## Fill NA cells with the numeric rank
    rankOverall[is.na(rankOverall)] <- rankNumeric[is.na(rankOverall)];
+   ## If keeping infinite values, make their rank the highest
+   if (any(which_inf_pos)) {
+      ## Add the highest current rank, keeping the original order
+      max_rank <- max(rankOverall, na.rm=TRUE);
+      rankOverall[which_inf_pos] <- rmNA(rankOverall[which_inf_pos], naValue=0) + max_rank + 1;
+   }
+   if (any(which_inf_neg)) {
+      ## Simply flip the sign of the rank, keeping the original order
+      ## but allowing these ranks to follow the NA and blanks if needed
+      rankOverall[which_inf_neg] <- -1 * rankOverall[which_inf_neg];
+   }
+
+   ## Backfill blanks or NA
+   if (any(which_blanks) && !blanksFirst) {
+      rankOverall[which_blanks, 1] <- Inf;
+   }
+   if (any(which_blanks) && blanksFirst) {
+      rankOverall[which_blanks, 1] <- -Inf;
+   }
+   if (any(which_nas) && NAlast) {
+      rankOverall[which_nas, 1] <- Inf;
+   }
+   if (any(which_nas) && !NAlast) {
+      rankOverall[which_nas, 1] <- -Inf;
+   }
+
+   ## Rank initial string as a tiebreaker
+   rankX <- rank(x,
+      na.last=NAlast);
+   rankOverall <- cbind(rankOverall, rankX);
+
    if (verbose) {
       printDebug("rankOverall:");
       print(head(rankOverall, 40));
@@ -2359,6 +2559,20 @@ list2df <- function
 #' # Notice "e5" is sorted after "e28"
 #' lapply(xL, sort)
 #'
+#' # Make a nested list
+#' set.seed(1);
+#' l1 <- list(
+#'    A=sample(nameVector(11:13, rev(letters[11:13]))),
+#'    B=list(
+#'       C=sample(nameVector(4:8, rev(LETTERS[4:8]))),
+#'       D=sample(nameVector(LETTERS[2:5], rev(LETTERS[2:5])))
+#'    )
+#' )
+#' l1;
+#' # The output is a nested list with the same structure
+#' mixedSorts(l1);
+#' mixedSorts(l1, sortByName=TRUE);
+#'
 #' @export
 mixedSorts <- function
 (x,
@@ -2371,11 +2585,20 @@ mixedSorts <- function
  sortByName=FALSE,
  na.rm=FALSE,
  verbose=FALSE,
+ debug=FALSE,
  ...)
 {
    ## Purpose is to take a list of vectors and run mixedSort() efficiently
    ##
    xu <- unlist(x);
+   ## vector names
+   xun <- unname(rapply(x, names));
+   if (length(xun) < length(xu)) {
+      if (sortByName) {
+         stop("Cannot sort by name because not all vectors have names.");
+      }
+      xun <- NULL;
+   }
    if (!class(xu) %in% "character") {
       xu <- as.character(xu);
    }
@@ -2388,21 +2611,108 @@ mixedSorts <- function
    ## split() which occurs later.
    ## Using a factor also preserves empty levels,
    ## in the case that NA values are removed.
-   xn <- factor(rep(names(x), rlengths(x)),
-      levels=names(x));
-   xuOrder <- mixedOrder(xu);
+   xrn <- rapply(x, length);
+   xn <- factor(
+      rep(names(xrn),
+         xrn),
+      levels=names(xrn));
+   #xn <- factor(rep(names(x), rlengths(x)),
+   #   levels=names(x));
+
+   if (sortByName) {
+      xu_use <- xun;
+   } else {
+      xu_use <- xu;
+   }
+   xuOrder <- mixedOrder(xu_use,
+      blanksFirst=blanksFirst,
+      NAlast=NAlast,
+      keepNegative=keepNegative,
+      keepInfinite=keepInfinite,
+      keepDecimal=keepDecimal,
+      ignore.case=ignore.case);
    xu <- xu[xuOrder];
    xn <- xn[xuOrder];
-
-   ## Optionally remove NA values
-   if (na.rm && any(is.na(xu))) {
-      whichNotNA <- which(!is.na(xu));
-      xu <- xu[whichNotNA];
-      xn <- xn[whichNotNA];
+   if (length(xun) > 0) {
+      xun <- xun[xuOrder];
    }
 
+   ## Optionally remove NA values
+   if (na.rm && any(is.na(xu_use))) {
+      whichNotNA <- which(!is.na(xu_use));
+      xu <- xu[whichNotNA];
+      xn <- xn[whichNotNA];
+      xun <- xun[whichNotNA];
+   }
+   names(xu) <- xun;
+
    ## split() using a factor keeps the data in original order
-   split(unname(xu), xn);
+   if (debug) {
+      return(list(
+         xu=xu,
+         xn=xn,
+         xun=xun,
+         x=x)
+      );
+   }
+   if (any("list" %in% sapply(x, class))) {
+      xu_ordered <- unlist(unname(split(xu, xn)))
+      relist_named(xu_ordered, x);
+   } else {
+      split(xu, xn);
+   }
+}
+
+#' relist a vector which allows re-ordered names
+#'
+#' relist a vector which allows re-ordered names
+#'
+#' This function is a simple update to `utils::relist()`
+#' that allows updating the names of each list element.
+#' More specifically, this function does not replace the
+#' updated names with the corresponding names from
+#' the list `skeleton`, as is the case in
+#' `utils:::relist.default()`.
+#'
+#' It is somewhat surprising that `utils::relist()` is
+#' simply a nested for loop, instead of `rapply()` or some
+#' fancy vectorized alternative. That said, the function works,
+#' and there is much to be commended for functions that work.
+#'
+#' @return `list` object with the same structure as the `skeleton`.
+#'
+#' @family jam list functions
+#'
+#' @param x vector to be applied to the `skeleton` list
+#'    structure in order.
+#' @param skeleton `list` object representing the desired
+#'    final list structure, or `vector` when the input
+#'    data `x` should be returned as-is, without change.
+#'    Specifically, when `skeleton` is a `vector`, the
+#'    `names(x)` are maintained without change.
+#' @param ... additional arguments are ignored.
+#'
+#' @export
+relist_named <- function
+(x,
+ skeleton,
+ ...)
+{
+   ##
+   ind <- 1L;
+   result <- skeleton;
+   if ("list" %in% class(skeleton)) {
+      for (i in seq_along(skeleton)) {
+         size <- length(unlist(result[[i]]));
+         result[[i]] <- relist_named(
+            x[seq.int(ind, length.out=size)],
+            result[[i]]);
+         ind <- ind + size;
+      }
+   } else {
+      result <- x;
+   }
+   result;
 }
 
 #' Uppercase the first letter in each word

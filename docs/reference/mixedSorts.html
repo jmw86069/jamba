@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.31.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.35.900</span>
       </span>
     </div>
 
@@ -128,7 +128,7 @@
     <pre class="usage"><span class='fu'>mixedSorts</span>(<span class='no'>x</span>, <span class='kw'>blanksFirst</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>NAlast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>keepNegative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keepInfinite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>keepDecimal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sortByName</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -212,9 +212,11 @@ nested list sizes.</p>
   <code><a href='ucfirst.html'>ucfirst</a></code>, <code><a href='uniques.html'>uniques</a></code></p>
 <p>Other jam list functions: <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
   <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='list2df.html'>list2df</a></code>,
-  <code><a href='rbindList.html'>rbindList</a></code>, <code><a href='rlengths.html'>rlengths</a></code>,
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='rbindList.html'>rbindList</a></code>,
+  <code><a href='relist_named.html'>relist_named</a></code>, <code><a href='rlengths.html'>rlengths</a></code>,
   <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code></p></div>
+  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code>,
+  <code><a href='unnestList.html'>unnestList</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -278,6 +280,56 @@ nested list sizes.</p>
 #&gt; 
 #&gt; $e
 #&gt; [1] "c23" "d19" "f25" "g26" "j22" "k21" "s24" "u20"
+#&gt; </div><div class='input'>
+<span class='co'># Make a nested list</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>);
+<span class='no'>l1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
+   <span class='kw'>A</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='fl'>11</span>:<span class='fl'>13</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rev'>rev</a></span>(<span class='no'>letters</span>[<span class='fl'>11</span>:<span class='fl'>13</span>]))),
+   <span class='kw'>B</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
+      <span class='kw'>C</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='fl'>4</span>:<span class='fl'>8</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rev'>rev</a></span>(<span class='no'>LETTERS</span>[<span class='fl'>4</span>:<span class='fl'>8</span>]))),
+      <span class='kw'>D</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='no'>LETTERS</span>[<span class='fl'>2</span>:<span class='fl'>5</span>], <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rev'>rev</a></span>(<span class='no'>LETTERS</span>[<span class='fl'>2</span>:<span class='fl'>5</span>])))
+   )
+)
+<span class='no'>l1</span>;</div><div class='output co'>#&gt; $A
+#&gt;  m  k  l 
+#&gt; 11 13 12 
+#&gt; 
+#&gt; $B
+#&gt; $B$C
+#&gt; D H F G E 
+#&gt; 8 4 6 5 7 
+#&gt; 
+#&gt; $B$D
+#&gt;   C   E   B   D 
+#&gt; "D" "B" "E" "C" 
+#&gt; 
+#&gt; </div><div class='input'><span class='co'># The output is a nested list with the same structure</span>
+<span class='fu'>mixedSorts</span>(<span class='no'>l1</span>);</div><div class='output co'>#&gt; $A
+#&gt;    m    l    k 
+#&gt; "11" "12" "13" 
+#&gt; 
+#&gt; $B
+#&gt; $B$C
+#&gt;   H   G   F   E   D 
+#&gt; "4" "5" "6" "7" "8" 
+#&gt; 
+#&gt; $B$D
+#&gt;   E   D   C   B 
+#&gt; "B" "C" "D" "E" 
+#&gt; 
+#&gt; </div><div class='input'><span class='fu'>mixedSorts</span>(<span class='no'>l1</span>, <span class='kw'>sortByName</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt; $A
+#&gt;    k    l    m 
+#&gt; "13" "12" "11" 
+#&gt; 
+#&gt; $B
+#&gt; $B$C
+#&gt;   D   E   F   G   H 
+#&gt; "8" "7" "6" "5" "4" 
+#&gt; 
+#&gt; $B$D
+#&gt;   B   C   D   E 
+#&gt; "E" "D" "C" "B" 
+#&gt; 
 #&gt; </div><div class='input'>
 </div></pre>
   </div>

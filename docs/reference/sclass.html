@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.31.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.35.900</span>
       </span>
     </div>
 
@@ -140,13 +140,27 @@
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>character vector with the class of each list element, or
+column name, depending upon the input <code><a href='https://www.rdocumentation.org/packages/base/topics/class'>class(x)</a></code>.</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function takes a list and returns the classes for each
+    <p>This function takes a <code>list</code> and returns the classes for each
 object in the list. In the event an object class has multiple values,
 the returned object is a list, otherwise is a vector.
 If <code>x</code> is an S4 object, then <code>slotNames(x)</code> is used, and
 the class is returned for each S4 slot.</p>
+<p>When <code>x</code> is a <code>data.frame</code>, <code>data.table</code>, <code>tibble</code>, or similar
+<code>DataFrame</code> table-like object, the class of each column is returned.</p>
+<p>For the special case where <code>x</code> is an S4 object with one slotName
+<code>".Data"</code>, the values in <code>x@.Data</code> are coerced to a <code>list</code>. One
+example of this case is with <code>limma::MArrayLM-class</code>.</p>
+<p>When <code>x</code> is a matrix, the class of each column is returned for
+consistency, even though the class of each column should be identical.</p>
+<p>For more more information about a list-like object, including
+the lengths/dimensions of the elements, see <code><a href='sdim.html'>sdim()</a></code> or <code><a href='ssdim.html'>ssdim()</a></code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -158,22 +172,26 @@ the class is returned for each S4 slot.</p>
   <code><a href='isFALSEV.html'>isFALSEV</a></code>, <code><a href='isTRUEV.html'>isTRUEV</a></code>,
   <code><a href='jamba.html'>jamba</a></code>, <code><a href='jargs.html'>jargs</a></code>,
   <code><a href='kable_coloring.html'>kable_coloring</a></code>, <code><a href='make_styles.html'>make_styles</a></code>,
-  <code><a href='minorLogTicks.html'>minorLogTicks</a></code>, <code><a href='newestFile.html'>newestFile</a></code>,
-  <code><a href='printDebug.html'>printDebug</a></code>, <code><a href='renameColumn.html'>renameColumn</a></code>,
-  <code><a href='rmInfinite.html'>rmInfinite</a></code>, <code><a href='rmNA.html'>rmNA</a></code>,
-  <code><a href='rmNULL.html'>rmNULL</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='setCLranges.html'>setCLranges</a></code>, <code><a href='setPrompt.html'>setPrompt</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code></p>
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='minorLogTicks.html'>minorLogTicks</a></code>,
+  <code><a href='newestFile.html'>newestFile</a></code>, <code><a href='printDebug.html'>printDebug</a></code>,
+  <code><a href='renameColumn.html'>renameColumn</a></code>, <code><a href='rmInfinite.html'>rmInfinite</a></code>,
+  <code><a href='rmNA.html'>rmNA</a></code>, <code><a href='rmNULL.html'>rmNULL</a></code>,
+  <code><a href='sdim.html'>sdim</a></code>, <code><a href='setCLranges.html'>setCLranges</a></code>,
+  <code><a href='setPrompt.html'>setPrompt</a></code>, <code><a href='ssdim.html'>ssdim</a></code></p>
 <p>Other jam list functions: <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
   <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='list2df.html'>list2df</a></code>,
-  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='rbindList.html'>rbindList</a></code>,
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
+  <code><a href='rbindList.html'>rbindList</a></code>, <code><a href='relist_named.html'>relist_named</a></code>,
   <code><a href='rlengths.html'>rlengths</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code></p></div>
+  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code>,
+  <code><a href='unnestList.html'>unnestList</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>sclass</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>LETTERS</span><span class='kw'>=</span><span class='no'>LETTERS</span>, <span class='kw'>letters</span><span class='kw'>=</span><span class='no'>letters</span>));</div><div class='output co'>#&gt;     LETTERS     letters 
 #&gt; "character" "character" </div><div class='input'>
+<span class='fu'>sclass</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>B</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>10</span>], <span class='kw'>C</span><span class='kw'>=</span><span class='fl'>2</span>:<span class='fl'>11</span>))</div><div class='output co'>#&gt;         B         C 
+#&gt;  "factor" "integer" </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -181,6 +199,8 @@ the class is returned for each S4 slot.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>

@@ -5,10 +5,7 @@ installed if not already installed.
 
 ### Bug fixes / Enhancements to existing functions
 
-1. `ssdim()` should properly handle S4 objects by calling `sdim()` on
-each slotName.
-
-2. `plotSmoothScatterG()` is a new function which would create a
+1. `plotSmoothScatterG()` is a new function which would create a
 smooth scatter plot like `plotSmoothScatter()` except that it will
 also allow coloring points by group. The previous closest estimate
 was the ability to overlay contours of different colors, however
@@ -22,14 +19,19 @@ colors blend together to one half-tone grey color, which loses the fact
 that there might be a large number of points in the cell, and should
 therefore be darkly colored.
 
-3. `printDebug()` option for HTML output, intended for colorizing
-text output in the context of Rmarkdown for example.
+2. `printDebug()` option for HTML or Rmarkdown-friendly output.
 
-### Update the jamba.r overview help documentation
+3. `jargs()` is choking on certain argument formats:
 
-* Add new functions to the relevant section
-* Look into how to add functions to relevant sections
-by using keywords, so the section dynamically populate
+    * `jargs(writeOpenxlsx, "lfcRule")` displays the escaped ANSI
+    color-codes instead of applying the color-codes for negative values.
+    * When an argument is a prefixed function, the `::` should not have
+    spaces before and after. `f <- function(x=jamba::colorjam){10};jargs(f);`
+    It doesn't happen when the function has parentheses:
+    `f <- function(x=jamba::colorjam(a)){10};jargs(f);`
+    * There was another case of an empty argument being displayed where
+    an actual argument existed for the function. I can't remember the
+    exact conditions, but this is a placeholder for now.
 
 ### testthat
 
@@ -39,21 +41,21 @@ for future package and R builds.
 
 * `jargs()` can be tested with several example custom functions to make
 sure it produces output as desired.
-* `mixedSort()`, `mixedSortDF()`, `mixedOrder()` should have several
-basic tests to confirm it produces properly and consistently sorted
-outputs.
+* `mixedSort()`, `mixedSortDF()`, `mixedOrder()`, `mixedSorts()`
+needs several tests to confirm consistent outputs for the various
+custom conditions.
+
+
+### printDebug color range updates
+
+* Something in the transition from RGB to sRGB in the colorspace
+package caused the color ranges (lightMode on and off) to be
+slightly off. Also `setTextContrastColor()` needs a slight tweak
+to use dark text more often.
+
 
 ### Functions to add
 
-* cPaste(), cPasteUnique() -- requires S4Vectors from Bioconductor, which
-should be a "Suggests" entry with conditional fallback to cover unstrsplit().
-When adding Bioconductor to DESCRIPTION, the line "biocViews:" needs to appear
-with nothing in that section. cPaste() takes a list of vectors, and returns
-a delimited character vector, usually separated by commas. It optionally
-sorts entries using mixedSort(), optimized for the whole vector instead
-of sorting each list element individually. cPasteUnique() is the same,
-except it applies unique() to each list element before calling cPaste(),
-and is also optimized across the whole list.
 
 ### jam global re-usable options
 
@@ -106,8 +108,6 @@ and progressive build up one resulting data.frame or matrix.
 
 * optional boolean parameter to transpose the image, i.e. t(x) and
    if applicable t(cellnote).
-* optional boolean parameter to flip the y-axis, which otherwise appears
-   upside-down compared to how one envisions a table layout.
 * optionally draw boxes around grouped labels, a visual indicator of
    groups of cells sharing one label. Care should be taken not to enable
    this functionality with a large table containing no grouped labels, or
@@ -115,9 +115,6 @@ and progressive build up one resulting data.frame or matrix.
 
 ### color brightness and saturation handling
 
-* consider replacing applyLceiling() with applyCLrange(), with options
-   to force colors within either L (lumina, lightness) range, and/or within
-   C (chroma, coloration) range.
 * consider adding helper functions like darken(), lighten(), saturate(),
    desaturate(). Note colorspace::desaturate() completely removes all color
    saturation (chroma), and conflicts with this function naming scheme.
@@ -127,10 +124,3 @@ and progressive build up one resulting data.frame or matrix.
    set of colors. Bonus points for accepting different color classes at
    input, and returning the same color class at output.
 
-### jargs
-
-* issue where function parameters are named lists, the names of each list
-are not displayed, for example jargs(doNorm).
-* FIXED: issue where the grep pattern matches no parameter names, and results
-in an error instead of simply returning a notice that no parameter
-names match the grep pattern.

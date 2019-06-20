@@ -68,7 +68,7 @@
 #' @export
 setTextContrastColor <- function
 (color,
- hclCutoff=73,
+ hclCutoff=60,
  rgbCutoff=127,
  colorModel=c("hcl", "rgb"),
  useGrey=0,

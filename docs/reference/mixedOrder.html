@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.31.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.35.900</span>
       </span>
     </div>
 
@@ -148,25 +148,39 @@ containing a value.</p></td>
     </tr>
     <tr>
       <th>NAlast</th>
-      <td><p>logical whether to move NA entries to the end of the sort.</p></td>
+      <td><p>logical whether to move NA entries to the end of the sort.
+When <code>NAlast=TRUE</code> then <code>NA</code> values will always be last, even following
+blanks and infinite values. When <code>NAlast=FALSE</code> then <code>NA</code> values
+will always be first, even before blanks and negative infinite values.</p></td>
     </tr>
     <tr>
       <th>keepNegative</th>
       <td><p>logical whether to keep '-' associated with adjacent
-numeric values, in order to sort them as negative values.</p></td>
+numeric values, in order to sort them as negative values. Note that
+<code>keepNegative=TRUE</code> also forces <code>keepDecimal=TRUE</code>, and enables
+matching of scientific notation such as <code>-1.23e-10</code> as a numeric
+value. When <code>keepNegative=FALSE</code> the dash <code>"-"</code> is treated as
+a common delimiter.</p></td>
     </tr>
     <tr>
       <th>keepInfinite</th>
-      <td><p>logical whether to allow "Inf" to be considered
-a numeric infinite value.</p></td>
+      <td><p>logical whether to allow "Inf" in the input <code>x</code>
+to be considered a numeric infinite value. Note that <code>"-Inf"</code> is
+only treated as a negative infinite value when <code>keepNegative=TRUE</code>.
+Also note that <code>"Inf"</code> is only recognized as infinite when it
+appears between non-character delimiters, and not part of a
+larger character string like <code>"Information"</code>. Be careful
+with <code>keepInfinite=TRUE</code> when sorting gene symbols, there are
+gene symbols like <code>"Inf3"</code> which should not be sorted as infinite.
+Lastly, infinite values are sorted at the end, notably after
+all character values which differs from some mixed sorting
+algorithms.</p></td>
     </tr>
     <tr>
       <th>keepDecimal</th>
       <td><p>logical whether to keep the decimal in numbers,
 sorting as a true number and not as a version number. By default
-keepDecimal=FALSE, which means "v1.200" should be ordered before
-"v1.30". When keepDecimal=TRUE, the numeric sort considers only
-"1.2" and "1.3" and sorts in that order.</p></td>
+<code>keepDecimal=FALSE``, which means "v1.200" will be ordered after "v1.30", since it considers </code>"1.200"<code>effectively as</code>1<code>and</code>200<code>, and </code>"1.30"<code>effectively as</code>1<code>and</code>30<code>. When </code>keepDecimal=TRUE<code>, the numeric sort orders </code>"v1.200"<code>before</code>"v1.30"`.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -186,28 +200,45 @@ of sorting by x itself.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>integer vector of orders derived from x</p>
+    <p>integer vector of orders derived from x, or when <code>returnType="rank"</code>
+an integer vector of ranks, allowing ties. The rank is therefore
+valid for use in chains, such as multiple columns of a data.frame.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is a refactor of the <code><a href='https://www.rdocumentation.org/packages/gtools/topics/mixedsort'>gtools::mixedorder</a></code>
-function from the <code>gtools</code> package. It was extended to make it faster,
+    <p>This function is a refactor of <code><a href='https://www.rdocumentation.org/packages/gtools/topics/mixedsort'>gtools::mixedorder()</a></code> which was
+the source of inspiration for this function.
+This function was designed to improve the efficiency for large vectors,
 and to handle special cases slightly differently. It was driven by some
-need to sort gene symbols, and miRNA symbols in numeric order, for example:</p><dl class='dl-horizontal'>
+need to sort gene symbols, and miRNA symbols in numeric order, for example:</p>
+<dl class='dl-horizontal'>
 <dt>test set:</dt><dd><p>miR-12,miR-1,miR-122,miR-1b,miR-1a,miR-2</p></dd>
 <dt><code>sort</code>:</dt><dd><p>miR-1,miR-12,miR-122,miR-1a,miR-1b,miR-2</p></dd>
 <dt><code><a href='https://www.rdocumentation.org/packages/gtools/topics/mixedsort'>gtools::mixedsort</a></code>:</dt><dd><p>miR-122,miR-12,miR-2,miR-1,miR-1a,miR-1b</p></dd>
 <dt><code>mixedSort</code>:</dt><dd><p>miR-1,miR-1a,miR-1b,miR-2,miR-12,miR-122</p></dd>
-</dl><p>The function does not by default recognize negative numbers as negative,
+</dl>
+    <p>This function does not by default consider negative numbers as negative,
 instead it treats '-' as a delimiter, unless keepNegative=TRUE.</p>
-<p>This function also attempts to maintain '.' as part of a decimal number,
-which can be problematic when sorting IP addresses, for example.</p>
-<p>This function is also available as a sort function <code><a href='mixedSort.html'>mixedSort</a></code>.</p>
+<p>When <code>keepNegative=TRUE</code> this function also recognizes scientific
+notation, for example <code>"1.23e-2"</code> will be treated as numeric <code>0.0123</code>.
+Note that <code>keepNegative=TRUE</code> also forces <code>keepDecimal=TRUE</code>.</p>
+<p>When <code>keepDecimal=TRUE</code> this function maintains numeric values that
+include one <code>"."</code>.</p>
+<p>This function is the core of a family of mixedSort functions:</p>
+<dl class='dl-horizontal'>
+<dt><code><a href='mixedSort.html'>mixedSort()</a></code></dt><dd><p>Applies <code>mixedOrder()</code> to an input vector.</p></dd>
+<dt><code><a href='mixedSorts.html'>mixedSorts()</a></code></dt><dd><p>Applies <code>mixedOrder()</code> to a list of vectors,
+returning the list where each vector is independently sorted.</p></dd>
+<dt><code><a href='mixedSortDF.html'>mixedSortDF()</a></code></dt><dd><p>Applies <code>mixedOrder()</code> to each column of a
+<code>data.frame</code> or comparable object, optionally specifying the order
+of columns used during the sort.</p></dd>
+</dl>
+    <p>Extra thanks to Gregory R. Warnes for the <code><a href='https://www.rdocumentation.org/packages/gtools/topics/mixedsort'>gtools::mixedorder()</a></code>
+that proved to be so useful it ultimately inspired this function.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/gtools/topics/mixedsort'>gtools::mixedorder</a></code>,
-<code><a href='https://www.rdocumentation.org/packages/gtools/topics/mixedsort'>gtools::mixedsort</a></code></p>
+    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/gtools/topics/mixedsort'>gtools::mixedorder()</a></code>, <code><a href='https://www.rdocumentation.org/packages/gtools/topics/mixedsort'>gtools::mixedsort()</a></code></p>
 <p>Other jam sort functions: <code><a href='mixedSortDF.html'>mixedSortDF</a></code>,
   <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='mixedSort.html'>mixedSort</a></code>,
   <code><a href='mmixedOrder.html'>mmixedOrder</a></code></p>
@@ -227,6 +258,33 @@ which can be problematic when sorting IP addresses, for example.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"miR-12"</span>,<span class='st'>"miR-1"</span>,<span class='st'>"miR-122"</span>,<span class='st'>"miR-1b"</span>, <span class='st'>"miR-1a"</span>,<span class='st'>"miR-2"</span>);
 <span class='fu'>mixedOrder</span>(<span class='no'>x</span>);</div><div class='output co'>#&gt; [1] 2 5 4 6 1 3</div><div class='input'><span class='no'>x</span>[<span class='fu'>mixedOrder</span>(<span class='no'>x</span>)];</div><div class='output co'>#&gt; [1] "miR-1"   "miR-1a"  "miR-1b"  "miR-2"   "miR-12"  "miR-122"</div><div class='input'><span class='fu'><a href='mixedSort.html'>mixedSort</a></span>(<span class='no'>x</span>);</div><div class='output co'>#&gt; [1] "miR-1"   "miR-1a"  "miR-1b"  "miR-2"   "miR-12"  "miR-122"</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/order'>order</a></span>(<span class='no'>x</span>);</div><div class='output co'>#&gt; [1] 2 1 3 5 4 6</div><div class='input'><span class='no'>x</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/order'>order</a></span>(<span class='no'>x</span>)];</div><div class='output co'>#&gt; [1] "miR-1"   "miR-12"  "miR-122" "miR-1a"  "miR-1b"  "miR-2"  </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sort'>sort</a></span>(<span class='no'>x</span>);</div><div class='output co'>#&gt; [1] "miR-1"   "miR-12"  "miR-122" "miR-1a"  "miR-1b"  "miR-2"  </div><div class='input'>
+<span class='co'>## Complex example including NA, blanks, and infinite "Inf"</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Inf"</span>,
+   <span class='st'>"+Inf12"</span>,
+   <span class='fl'>NA</span>,
+   <span class='st'>"-Inf14"</span>,
+   <span class='st'>"-"</span>,
+   <span class='st'>"---"</span>,
+   <span class='st'>"Jnf12"</span>,
+   <span class='st'>"Hnf12"</span>,
+   <span class='st'>"--"</span>,
+   <span class='st'>"Information"</span>);
+<span class='co'>## By default, strings are sorted as-is, "Hnf" before "Inf" before "Jnf"</span>
+<span class='co'>## blanks are first, NA values are last</span>
+<span class='no'>x</span>[<span class='fu'>mixedOrder</span>(<span class='no'>x</span>)];</div><div class='output co'>#&gt;  [1] "-"           "--"          "---"         "Hnf12"       "+Inf12"     
+#&gt;  [6] "-Inf14"      "Inf"         "Information" "Jnf12"       NA           </div><div class='input'>
+<span class='co'>## blanks are last, but before NA values which are also last</span>
+<span class='no'>x</span>[<span class='fu'>mixedOrder</span>(<span class='no'>x</span>, <span class='kw'>blanksFirst</span><span class='kw'>=</span><span class='fl'>FALSE</span>)];</div><div class='output co'>#&gt;  [1] "Hnf12"       "+Inf12"      "-Inf14"      "Inf"         "Information"
+#&gt;  [6] "Jnf12"       "-"           "--"          "---"         NA           </div><div class='input'>
+<span class='co'>## Recognize infinite, but not the negative sign</span>
+<span class='co'>## Now infinite values are at the end, ordered by the number that follows.</span>
+<span class='no'>x</span>[<span class='fu'>mixedOrder</span>(<span class='no'>x</span>, <span class='kw'>blanksFirst</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>keepInfinite</span><span class='kw'>=</span><span class='fl'>TRUE</span>)]</div><div class='output co'>#&gt;  [1] "Hnf12"       "Information" "Jnf12"       "+Inf12"      "-Inf14"     
+#&gt;  [6] "Inf"         "-"           "--"          "---"         NA           </div><div class='input'>
+<span class='co'>## Now also recognize negative infinite values,</span>
+<span class='co'>## which puts "-Inf14" at the very beginning.</span>
+<span class='no'>x</span>[<span class='fu'>mixedOrder</span>(<span class='no'>x</span>, <span class='kw'>blanksFirst</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>keepInfinite</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>keepNegative</span><span class='kw'>=</span><span class='fl'>TRUE</span>)]</div><div class='output co'>#&gt;  [1] "-Inf14"      "Hnf12"       "Information" "Jnf12"       "+Inf12"     
+#&gt;  [6] "Inf"         "-"           "--"          "---"         NA           </div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

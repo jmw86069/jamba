@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>prefix integers with leading zeros — padInteger • jamba</title>
+<title>Merge list of data.frames retaining all rows — mergeAllXY • jamba</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="prefix integers with leading zeros — padInteger" />
+<meta property="og:title" content="Merge list of data.frames retaining all rows — mergeAllXY" />
 
-<meta property="og:description" content="prefix integers with leading zeros" />
+<meta property="og:description" content="Merge list of data.frames retaining all rows" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,78 +114,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>prefix integers with leading zeros</h1>
+    <h1>Merge list of data.frames retaining all rows</h1>
     <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba.r'><code>R/jamba.r</code></a></small>
-    <div class="hidden name"><code>padInteger.Rd</code></div>
+    <div class="hidden name"><code>mergeAllXY.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>prefix integers with leading zeros</p>
+    <p>Merge list of data.frames retaining all rows</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>padInteger</span>(<span class='no'>x</span>, <span class='kw'>padCharacter</span> <span class='kw'>=</span> <span class='st'>"0"</span>, <span class='kw'>useNchar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>input integer, numeric, or character vector. In reality, only
-nchar(x) is used to determine padding.</p></td>
-    </tr>
-    <tr>
-      <th>padCharacter</th>
-      <td><p>character with nchar(padCharacter)==1, used to pad
-each digit as a prefix.</p></td>
-    </tr>
-    <tr>
-      <th>useNchar</th>
-      <td><p>NULL or integer number of digits used, or if the maximum
-nchar(x) is higher, that number of digits is used. Note useNchar is
-mostly useful when all numbers are less than 10, but the desired output
-is to have a fixed number of digits 2 or higher.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>additional parameters are ignored.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>character vector of length(x).</p>
-    
+    <pre class="usage"><span class='fu'>mergeAllXY</span>(<span class='no'>...</span>)</pre>
+        
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The purpose of this function is to pad integer numbers so they contain
-a consistent number of digits, which is helpful when sorting values
-as character strings.</p>
+    <p>This function is a wrapper around <code><a href='https://www.rdocumentation.org/packages/base/topics/merge'>base::merge.data.frame()</a></code>
+except that it allows more than two data.frame objects,
+and applies default arguments <code>all.x=TRUE</code> and <code>all.y=TRUE</code>
+for each merge operation to ensure that all rows are kept.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam string functions: <code><a href='asSize.html'>asSize</a></code>,
-  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='fillBlanks.html'>fillBlanks</a></code>,
-  <code><a href='formatInt.html'>formatInt</a></code>, <code><a href='makeNames.html'>makeNames</a></code>,
-  <code><a href='mixedOrder.html'>mixedOrder</a></code>, <code><a href='mixedSortDF.html'>mixedSortDF</a></code>,
-  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='mixedSort.html'>mixedSort</a></code>,
-  <code><a href='mmixedOrder.html'>mmixedOrder</a></code>, <code><a href='nameVectorN.html'>nameVectorN</a></code>,
-  <code><a href='nameVector.html'>nameVector</a></code>, <code><a href='padString.html'>padString</a></code>,
-  <code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a></code>,
-  <code><a href='pasteByRow.html'>pasteByRow</a></code>, <code><a href='tcount.html'>tcount</a></code>,
-  <code><a href='ucfirst.html'>ucfirst</a></code>, <code><a href='uniques.html'>uniques</a></code></p></div>
+    <div class='dont-index'><p>Other jam practical functions: <code><a href='applyCLrange.html'>applyCLrange</a></code>,
+  <code><a href='breakDensity.html'>breakDensity</a></code>, <code><a href='checkLightMode.html'>checkLightMode</a></code>,
+  <code><a href='colNum2excelName.html'>colNum2excelName</a></code>, <code><a href='fileInfo.html'>fileInfo</a></code>,
+  <code><a href='fixYellowHue.html'>fixYellowHue</a></code>, <code><a href='fixYellow.html'>fixYellow</a></code>,
+  <code><a href='getAxisLabel.html'>getAxisLabel</a></code>, <code><a href='handleArgsText.html'>handleArgsText</a></code>,
+  <code><a href='isFALSEV.html'>isFALSEV</a></code>, <code><a href='isTRUEV.html'>isTRUEV</a></code>,
+  <code><a href='jamba.html'>jamba</a></code>, <code><a href='jargs.html'>jargs</a></code>,
+  <code><a href='kable_coloring.html'>kable_coloring</a></code>, <code><a href='make_styles.html'>make_styles</a></code>,
+  <code><a href='minorLogTicks.html'>minorLogTicks</a></code>, <code><a href='newestFile.html'>newestFile</a></code>,
+  <code><a href='printDebug.html'>printDebug</a></code>, <code><a href='renameColumn.html'>renameColumn</a></code>,
+  <code><a href='rmInfinite.html'>rmInfinite</a></code>, <code><a href='rmNA.html'>rmNA</a></code>,
+  <code><a href='rmNULL.html'>rmNULL</a></code>, <code><a href='sclass.html'>sclass</a></code>,
+  <code><a href='sdim.html'>sdim</a></code>, <code><a href='setCLranges.html'>setCLranges</a></code>,
+  <code><a href='setPrompt.html'>setPrompt</a></code>, <code><a href='ssdim.html'>ssdim</a></code></p>
+<p>Other jam list functions: <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
+  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='list2df.html'>list2df</a></code>,
+  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='rbindList.html'>rbindList</a></code>,
+  <code><a href='relist_named.html'>relist_named</a></code>, <code><a href='rlengths.html'>rlengths</a></code>,
+  <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
+  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code>,
+  <code><a href='unnestList.html'>unnestList</a></code></p></div>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.31.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.35.900</span>
       </span>
     </div>
 
@@ -306,20 +306,20 @@ Colors in fgText are recycled to the length of '...'</p>
   <code><a href='isFALSEV.html'>isFALSEV</a></code>, <code><a href='isTRUEV.html'>isTRUEV</a></code>,
   <code><a href='jamba.html'>jamba</a></code>, <code><a href='jargs.html'>jargs</a></code>,
   <code><a href='kable_coloring.html'>kable_coloring</a></code>, <code><a href='make_styles.html'>make_styles</a></code>,
-  <code><a href='minorLogTicks.html'>minorLogTicks</a></code>, <code><a href='newestFile.html'>newestFile</a></code>,
-  <code><a href='renameColumn.html'>renameColumn</a></code>, <code><a href='rmInfinite.html'>rmInfinite</a></code>,
-  <code><a href='rmNA.html'>rmNA</a></code>, <code><a href='rmNULL.html'>rmNULL</a></code>,
-  <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='setCLranges.html'>setCLranges</a></code>, <code><a href='setPrompt.html'>setPrompt</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code></p></div>
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='minorLogTicks.html'>minorLogTicks</a></code>,
+  <code><a href='newestFile.html'>newestFile</a></code>, <code><a href='renameColumn.html'>renameColumn</a></code>,
+  <code><a href='rmInfinite.html'>rmInfinite</a></code>, <code><a href='rmNA.html'>rmNA</a></code>,
+  <code><a href='rmNULL.html'>rmNULL</a></code>, <code><a href='sclass.html'>sclass</a></code>,
+  <code><a href='sdim.html'>sdim</a></code>, <code><a href='setCLranges.html'>setCLranges</a></code>,
+  <code><a href='setPrompt.html'>setPrompt</a></code>, <code><a href='ssdim.html'>ssdim</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"Testing "</span>, <span class='st'>"default "</span>, <span class='st'>"printDebug()."</span>);</div><div class='output co'>#&gt; ##  (<span style='color: #00BBBB;font-weight: bold;'>16:17:10</span><span>) 27Feb2019:  </span><span style='color: #BB0000;'>Testing </span><span style='color: #0000BB;'>default </span><span style='color: #BB0000;'>printDebug().</span><span> </div><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>));</div><div class='output co'>#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>16:17:10</span><span>) 27Feb2019:  </span><span style='color: #BB0000;'>List of vectors:</span><span style='color: #0000BB;'>one,two,three</span><span> </div><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>),
-   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"four"</span>, <span class='st'>"five"</span>, <span class='st'>"six"</span>), <span class='kw'>collapse</span><span class='kw'>=</span><span class='st'>" "</span>);</div><div class='output co'>#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>16:17:10</span><span>) 27Feb2019:  </span><span style='color: #BB0000;'>List of vectors:</span><span> </span><span style='color: #0000BB;'>one,</span><span> </span><span style='color: #0000BB;'>two,</span><span> </span><span style='color: #0000BB;'>three</span><span> </span><span style='color: #BB0000;'>four,</span><span> </span><span style='color: #BB0000;'>five,</span><span> </span><span style='color: #BB0000;'>six</span><span> </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"Testing "</span>, <span class='st'>"default "</span>, <span class='st'>"printDebug()."</span>);</div><div class='output co'>#&gt; ##  (<span style='color: #00BBBB;font-weight: bold;'>16:53:03</span><span>) 20Jun2019:  </span><span style='color: #BB0000;'>Testing </span><span style='color: #0000BB;'>default </span><span style='color: #BB0000;'>printDebug().</span><span> </div><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>));</div><div class='output co'>#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>16:53:03</span><span>) 20Jun2019:  </span><span style='color: #BB0000;'>List of vectors:</span><span style='color: #0000BB;'>one,two,three</span><span> </div><div class='input'><span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>),
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"four"</span>, <span class='st'>"five"</span>, <span class='st'>"six"</span>), <span class='kw'>collapse</span><span class='kw'>=</span><span class='st'>" "</span>);</div><div class='output co'>#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>16:53:03</span><span>) 20Jun2019:  </span><span style='color: #BB0000;'>List of vectors:</span><span> </span><span style='color: #0000BB;'>one,</span><span> </span><span style='color: #0000BB;'>two,</span><span> </span><span style='color: #0000BB;'>three</span><span> </span><span style='color: #BB0000;'>four,</span><span> </span><span style='color: #BB0000;'>five,</span><span> </span><span style='color: #BB0000;'>six</span><span> </div><div class='input'>
 <span class='co'># slightly different style, one entry per line, indented:</span>
 <span class='fu'>printDebug</span>(<span class='st'>"List of vectors:"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"one"</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>),
-   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"four"</span>, <span class='st'>"five"</span>, <span class='st'>"six"</span>), <span class='kw'>collapse</span><span class='kw'>=</span><span class='st'>"\n   "</span>);</div><div class='output co'>#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>16:17:10</span><span>) 27Feb2019:  </span><span style='color: #BB0000;'>List of vectors:</span><span>
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"four"</span>, <span class='st'>"five"</span>, <span class='st'>"six"</span>), <span class='kw'>collapse</span><span class='kw'>=</span><span class='st'>"\n   "</span>);</div><div class='output co'>#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>16:53:03</span><span>) 20Jun2019:  </span><span style='color: #BB0000;'>List of vectors:</span><span>
 #&gt;    </span><span style='color: #0000BB;'>one,</span><span>
 #&gt;    </span><span style='color: #0000BB;'>two,</span><span>
 #&gt;    </span><span style='color: #0000BB;'>three</span><span>
@@ -328,7 +328,7 @@ Colors in fgText are recycled to the length of '...'</p>
 #&gt;    </span><span style='color: #BB0000;'>six</span><span> </div><div class='input'>
 <span class='co'># in an R console, or when writing to a log file, the</span>
 <span class='co'># following output text is colored</span>
-<span class='fu'>printDebug</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"red"</span>, <span class='st'>"blue"</span>, <span class='st'>"yellow"</span>));</div><div class='output co'>#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>16:17:10</span><span>) 27Feb2019:  </span><span style='color: #BB0000;'>red,</span><span style='color: #0000BB;'>blue,</span><span style='color: #BBBB00;'>yellow</span><span> </div><div class='input'>
+<span class='fu'>printDebug</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"red"</span>, <span class='st'>"blue"</span>, <span class='st'>"yellow"</span>));</div><div class='output co'>#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>16:53:03</span><span>) 20Jun2019:  </span><span style='color: #BB0000;'>red,</span><span style='color: #0000BB;'>blue,</span><span style='color: #BBBB00;'>yellow</span><span> </div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

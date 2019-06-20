@@ -4,7 +4,7 @@
 \alias{setTextContrastColor}
 \title{Define visible text color}
 \usage{
-setTextContrastColor(color, hclCutoff = 73, rgbCutoff = 127,
+setTextContrastColor(color, hclCutoff = 60, rgbCutoff = 127,
   colorModel = c("hcl", "rgb"), useGrey = 0, keepAlpha = FALSE,
   bg = par("bg"), ...)
 }

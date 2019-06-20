@@ -64,7 +64,7 @@ by a comma." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.31.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.35.900</span>
       </span>
     </div>
 
@@ -128,7 +128,8 @@ by a comma.</p>
     </div>
 
     <pre class="usage"><span class='fu'>cPaste</span>(<span class='no'>x</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>, <span class='kw'>doSort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>makeUnique</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>useBioc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keepFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>checkClass</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>useBioc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,6 +158,15 @@ the input list unique before pasting its values together.</p></td>
 each vector in the input list. When <code>na.rm</code> is <code>TRUE</code> and a
 list element contains only <code>NA</code> values, the resulting string
 will be <code>""</code>.</p></td>
+    </tr>
+    <tr>
+      <th>keepFactors</th>
+      <td><p>logical indicating whether to preserve factors,
+keeping factor level order when <code>doSort=TRUE</code>. When
+<code>keepFactors=TRUE</code>, if any list element is a factor, all elements
+are converted to factors. Note that this step combines overall
+factor levels, and non-factors will be ordered using
+<code><a href='https://www.rdocumentation.org/packages/base/topics/order'>base::order()</a></code> instead of <code><a href='mixedOrder.html'>jamba::mixedOrder()</a></code> (for now.)</p></td>
     </tr>
     <tr>
       <th>useBioc</th>
@@ -201,10 +211,12 @@ will use <code>S4Vectors::unique()</code> if available.</p>
   <code><a href='pasteByRow.html'>pasteByRow</a></code>, <code><a href='tcount.html'>tcount</a></code>,
   <code><a href='ucfirst.html'>ucfirst</a></code>, <code><a href='uniques.html'>uniques</a></code></p>
 <p>Other jam list functions: <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='list2df.html'>list2df</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
-  <code><a href='rbindList.html'>rbindList</a></code>, <code><a href='rlengths.html'>rlengths</a></code>,
+  <code><a href='list2df.html'>list2df</a></code>, <code><a href='mergeAllXY.html'>mergeAllXY</a></code>,
+  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='rbindList.html'>rbindList</a></code>,
+  <code><a href='relist_named.html'>relist_named</a></code>, <code><a href='rlengths.html'>rlengths</a></code>,
   <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code></p></div>
+  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code>,
+  <code><a href='unnestList.html'>unnestList</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -223,9 +235,25 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 <span class='co'># "A,B,C,D,F,G" "c,g,h,i,j,k"</span>
 
 <span class='fu'>cPaste</span>(<span class='no'>L1</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>"; "</span>, <span class='kw'>makeUnique</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                 CA                  B 
-#&gt; "A; B; C; D; F; G" "c; g; h; i; j; k" </div><div class='input'>#                 CA                  B
-# "A; B; C; D; F; G" "c; g; h; i; j; k"
+#&gt; "A; B; C; D; F; G" "c; g; h; i; j; k" </div><div class='input'><span class='co'>#                 CA                  B</span>
+<span class='co'># "A; B; C; D; F; G" "c; g; h; i; j; k"</span>
 
+<span class='co'># test mix of factor and non-factor</span>
+<span class='no'>L2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>D</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>12</span>],
+      <span class='kw'>levels</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>12</span>:<span class='fl'>1</span>])),
+   <span class='no'>L1</span>);
+<span class='no'>L2</span>;</div><div class='output co'>#&gt; $D
+#&gt;  [1] a b c d e f g h i j k l
+#&gt; Levels: l k j i h g f e d c b a
+#&gt; 
+#&gt; $CA
+#&gt; [1] "A" "B" "C" "D" "B" "G" "D" "F"
+#&gt; 
+#&gt; $B
+#&gt; [1] "g" "h" "i" "j" "k" "i" "c"
+#&gt; </div><div class='input'><span class='fu'>cPaste</span>(<span class='no'>L2</span>, <span class='kw'>keepFactors</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                         D                        CA                         B 
+#&gt; "l,k,j,i,h,g,f,e,d,c,b,a"         "A,B,B,C,D,D,F,G"           "k,j,i,i,h,g,c" </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

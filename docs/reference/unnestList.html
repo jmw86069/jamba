@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>prefix integers with leading zeros — padInteger • jamba</title>
+<title>Un-nest a nested list into a simple list — unnestList • jamba</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="prefix integers with leading zeros — padInteger" />
+<meta property="og:title" content="Un-nest a nested list into a simple list — unnestList" />
 
-<meta property="og:description" content="prefix integers with leading zeros" />
+<meta property="og:description" content="Un-nest a nested list into a simple list" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,82 +114,116 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>prefix integers with leading zeros</h1>
+    <h1>Un-nest a nested list into a simple list</h1>
     <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba.r'><code>R/jamba.r</code></a></small>
-    <div class="hidden name"><code>padInteger.Rd</code></div>
+    <div class="hidden name"><code>unnestList.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>prefix integers with leading zeros</p>
+    <p>Un-nest a nested list into a simple list</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>padInteger</span>(<span class='no'>x</span>, <span class='kw'>padCharacter</span> <span class='kw'>=</span> <span class='st'>"0"</span>, <span class='kw'>useNchar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>unnestList</span>(<span class='no'>x</span>, <span class='kw'>unnamedBase</span> <span class='kw'>=</span> <span class='st'>"x"</span>, <span class='kw'>parentName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"."</span>,
+  <span class='kw'>makeNameFunc</span> <span class='kw'>=</span> <span class='no'>makeNames</span>, <span class='kw'>stopClasses</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"dendrogram"</span>, <span class='st'>"data.frame"</span>,
+  <span class='st'>"matrix"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>input integer, numeric, or character vector. In reality, only
-nchar(x) is used to determine padding.</p></td>
+      <td><p>list potentially containing lists</p></td>
     </tr>
     <tr>
-      <th>padCharacter</th>
-      <td><p>character with nchar(padCharacter)==1, used to pad
-each digit as a prefix.</p></td>
+      <th>unnamedBase</th>
+      <td><p>character value used as a base for naming any
+un-named lists, using the format <code>makeNamesFunc(rep(unnamedBase, n))</code>.</p></td>
     </tr>
     <tr>
-      <th>useNchar</th>
-      <td><p>NULL or integer number of digits used, or if the maximum
-nchar(x) is higher, that number of digits is used. Note useNchar is
-mostly useful when all numbers are less than 10, but the desired output
-is to have a fixed number of digits 2 or higher.</p></td>
+      <th>sep</th>
+      <td><p>character delimiter used between nested list names.</p></td>
+    </tr>
+    <tr>
+      <th>stopClasses</th>
+      <td><p>vector of classes that should not be un-nested,
+useful in case some classes inherit list properties.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional parameters are ignored.</p></td>
+      <td><p>additional arguments are ignored.</p></td>
+    </tr>
+    <tr>
+      <th>makeNamesFunc</th>
+      <td><p>function that takes a character vector and returns
+non-duplicated character vector of equal length. By default it
+uses <code><a href='makeNames.html'>jamba::makeNames()</a></code>.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>character vector of length(x).</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The purpose of this function is to pad integer numbers so they contain
-a consistent number of digits, which is helpful when sorting values
-as character strings.</p>
+    <p>This function inspects a list, and unlists each entry
+resulting in a simple list of non-list entries as a result.
+Sometimes when concatenating lists together, one list gets
+added as a list-of-lists. This function resolves that problem
+by providing one flat list.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam string functions: <code><a href='asSize.html'>asSize</a></code>,
-  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='fillBlanks.html'>fillBlanks</a></code>,
-  <code><a href='formatInt.html'>formatInt</a></code>, <code><a href='makeNames.html'>makeNames</a></code>,
-  <code><a href='mixedOrder.html'>mixedOrder</a></code>, <code><a href='mixedSortDF.html'>mixedSortDF</a></code>,
-  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='mixedSort.html'>mixedSort</a></code>,
-  <code><a href='mmixedOrder.html'>mmixedOrder</a></code>, <code><a href='nameVectorN.html'>nameVectorN</a></code>,
-  <code><a href='nameVector.html'>nameVector</a></code>, <code><a href='padString.html'>padString</a></code>,
-  <code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a></code>,
-  <code><a href='pasteByRow.html'>pasteByRow</a></code>, <code><a href='tcount.html'>tcount</a></code>,
-  <code><a href='ucfirst.html'>ucfirst</a></code>, <code><a href='uniques.html'>uniques</a></code></p></div>
+    <div class='dont-index'><p>Other jam list functions: <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
+  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='list2df.html'>list2df</a></code>,
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
+  <code><a href='rbindList.html'>rbindList</a></code>, <code><a href='relist_named.html'>relist_named</a></code>,
+  <code><a href='rlengths.html'>rlengths</a></code>, <code><a href='sclass.html'>sclass</a></code>,
+  <code><a href='sdim.html'>sdim</a></code>, <code><a href='ssdim.html'>ssdim</a></code>,
+  <code><a href='uniques.html'>uniques</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>10</span>], <span class='kw'>B</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>C</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fl'>3</span>:<span class='fl'>9</span>], <span class='kw'>D</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>4</span>:<span class='fl'>11</span>]));
+<span class='no'>L</span>;</div><div class='output co'>#&gt; $A
+#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j"
+#&gt; 
+#&gt; $B
+#&gt; $B$C
+#&gt; [1] "C" "D" "E" "F" "G" "H" "I"
+#&gt; 
+#&gt; $B$D
+#&gt; [1] "d" "e" "f" "g" "h" "i" "j" "k"
+#&gt; 
+#&gt; </div><div class='input'><span class='fu'>unnestList</span>(<span class='no'>L</span>);</div><div class='output co'>#&gt; $A
+#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j"
+#&gt; 
+#&gt; $B.C
+#&gt; [1] "C" "D" "E" "F" "G" "H" "I"
+#&gt; 
+#&gt; $B.D
+#&gt; [1] "d" "e" "f" "g" "h" "i" "j" "k"
+#&gt; </div><div class='input'>
+<span class='co'># inspect the data using str()</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>L</span>);</div><div class='output co'>#&gt; List of 2
+#&gt;  $ A: chr [1:10] "a" "b" "c" "d" ...
+#&gt;  $ B:List of 2
+#&gt;   ..$ C: chr [1:7] "C" "D" "E" "F" ...
+#&gt;   ..$ D: chr [1:8] "d" "e" "f" "g" ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='fu'>unnestList</span>(<span class='no'>L</span>))</div><div class='output co'>#&gt; List of 3
+#&gt;  $ A  : chr [1:10] "a" "b" "c" "d" ...
+#&gt;  $ B.C: chr [1:7] "C" "D" "E" "F" ...
+#&gt;  $ B.D: chr [1:8] "d" "e" "f" "g" ...</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -3431,9 +3431,37 @@ sdim <- function
       data.frame(iDim);
    }
 
+   ## Special case for S4 objects with only one slotName ".Data"
+   if (isS4(x)) {
+      sn1 <- slotNames(x);
+      xn1 <- names(x);
+      if (".Data" %in% sn1 && length(sn1) == 1) {
+         if (verbose) {
+            printDebug("sdim(): ",
+               "Coercing S4 class using ",
+               "list(x@.Data)");
+         }
+         xl <- slot(x, ".Data");
+         ## If there are no names, and the names(x) are the
+         ## proper length, assign names(x) to the list we create.
+         if (length(names(xl)) == 0 && length(xl) == length(xn1)) {
+            names(xl) <- xn1;
+         }
+         x <- xl;
+      }
+   }
+
    ## Iterate each element and determine the dimensions
-   if (!igrepHas("list|tbl|tibble|data.frame|matrix", class(x)) &&
-         isS4(x)) {
+   #if (!igrepHas("list|tbl|tibble|data.frame|matrix", class(x)) &&
+   #      isS4(x)) {
+   x_is_table <- igrepHas("tbl|tibble|data.frame|matrix|data.table|dataframe",
+      class(x));
+   if (isS4(x) && !x_is_table) {
+      if (verbose) {
+         printDebug("sdim(): ",
+            "Coercing S4 class using ",
+            "slotNames(x)");
+      }
       sn1 <- slotNames(x);
       sdL <- lapply(nameVector(sn1), function(sni){
          i <- slot(x, sni);
@@ -3445,12 +3473,18 @@ sdim <- function
          iDim;
       });
    } else {
-      if (is.vector(x) && !igrepHas("list", class(x))) {
+      ## If it is a vector and not an inherited form of list
+      if ((is.atomic(x) && !is.recursive(x)) ||
+            x_is_table) {
          if (verbose) {
             printDebug("sdim(): ",
-               "Coercing class(x) from '",
+               "Coercing class(x) from ",
                class(x),
-               "' to list(x)");
+               " to list(x)");
+            printDebug("x_is_table:", x_is_table);
+            printDebug("is.vector(x):", is.vector(x));
+            printDebug("igrepHas('list', class(x)):", igrepHas("list", class(x)));
+            printDebug("is.list(x):", is.list(x));
          }
          x <- list(x);
       }
@@ -3546,6 +3580,28 @@ ssdim <- function
  ...)
 {
    ## Purpose is to run sdim() on a list of lists of data.frames
+
+   ## Special case for S4 objects with only one slotName ".Data"
+   if (isS4(x)) {
+      sn1 <- slotNames(x);
+      xn1 <- names(x);
+      if (".Data" %in% sn1 && length(sn1) == 1) {
+         if (verbose) {
+            printDebug("ssdim(): ",
+               "Coercing S4 class using ",
+               "list(x@.Data)");
+         }
+         xl <- slot(x, ".Data");
+         ## If there are no names, and the names(x) are the
+         ## proper length, assign names(x) to the list we create.
+         if (length(names(xl)) == 0 && length(xl) == length(xn1)) {
+            names(xl) <- xn1;
+         }
+         x <- xl;
+      }
+   }
+
+   ## S4 objects are handled as a list using slotNames(x)
    if (isS4(x)) {
       # For S4 objects we iterate slotNames(x)
       if (verbose) {
@@ -3610,11 +3666,27 @@ ssdim <- function
 #'
 #' return the classes of a list of objects
 #'
-#' This function takes a list and returns the classes for each
+#' This function takes a `list` and returns the classes for each
 #' object in the list. In the event an object class has multiple values,
 #' the returned object is a list, otherwise is a vector.
-#' If \code{x} is an S4 object, then \code{slotNames(x)} is used, and
+#' If `x` is an S4 object, then `slotNames(x)` is used, and
 #' the class is returned for each S4 slot.
+#'
+#' When `x` is a `data.frame`, `data.table`, `tibble`, or similar
+#' `DataFrame` table-like object, the class of each column is returned.
+#'
+#' For the special case where `x` is an S4 object with one slotName
+#' `".Data"`, the values in `x@.Data` are coerced to a `list`. One
+#' example of this case is with `limma::MArrayLM-class`.
+#'
+#' When `x` is a matrix, the class of each column is returned for
+#' consistency, even though the class of each column should be identical.
+#'
+#' For more more information about a list-like object, including
+#' the lengths/dimensions of the elements, see `sdim()` or `ssdim()`.
+#'
+#' @return character vector with the class of each list element, or
+#' column name, depending upon the input `class(x)`.
 #'
 #' @param x an S3 object inheriting from class "list", or an S4 object.
 #' @param ... additional parameters are ignored.
@@ -3625,6 +3697,8 @@ ssdim <- function
 #' @examples
 #' sclass(list(LETTERS=LETTERS, letters=letters));
 #'
+#' sclass(data.frame(B=letters[1:10], C=2:11))
+#'
 #' @export
 sclass <- function
 (x,
@@ -3634,12 +3708,27 @@ sclass <- function
    ##
    ## If the object is not "list" class, and has slotNames(x), then
    ## they will be used instead
-   if (!igrepHas("list", class(x)) && length(slotNames(x)) > 0) {
+   if (isS4(x)) {
       sn1 <- slotNames(x);
-      sd1 <- sapply(sn1, function(sni){
-         class(slot(x, sni));
+      xn1 <- names(x);
+      if (".Data" %in% sn1 && length(sn1) == 1) {
+         ## Special case of x@.Data containing a list
+         xl <- slot(x, ".Data");
+         if (length(xl) == length(xn1)) {
+            names(xl) <- xn1;
+         }
+         x <- xl;
+      } else {
+         sd1 <- sapply(sn1, function(sni){
+            class(slot(x, sni));
+         });
+      }
+   }
+   if (igrepHas("matrix", class(x))) {
+      sd1 <- sapply(nameVector(colnames(x)), function(i){
+         class(x[,i])
       });
-   } else {
+   } else if (!isS4(x)) {
       sd1 <- sapply(x, function(i){
          class(i);
       });
