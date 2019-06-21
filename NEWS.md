@@ -1,3 +1,10 @@
+# jamba version 0.0.36.900
+
+## bug fix
+
+* Fixed embarrassing type in R package dependencies,
+"S4Vector" instead of "S4Vectors".
+
 # jamba version 0.0.35.900
 
 ## changes to existing functions
