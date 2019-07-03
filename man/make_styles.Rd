@@ -7,7 +7,7 @@
 make_styles(style, text, bg = FALSE, grey = FALSE,
   colors = num_colors(), Cgrey = getOption("jam.Cgrey"),
   lightMode = checkLightMode(), Crange = getOption("jam.Crange"),
-  Lrange = getOption("jam.Crange"),
+  Lrange = getOption("jam.Lrange"),
   adjustRgb = getOption("jam.adjustRgb"), adjustPower = 1.5,
   fixYellow = TRUE, colorTransparent = "grey45", alphaPower = 2,
   setOptions = FALSE, verbose = FALSE, ...)

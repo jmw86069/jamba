@@ -3368,7 +3368,10 @@ minorLogTicks <- function
    ## Define the intended labels based upon integer sequence in log units
    ## (prior to adjustments with offset)
    if (displayBase != logBase) {
-      printDebug("adjusting logBase to displayBase.")
+      if (verbose) {
+         printDebug("minorLogTicks(): ",
+            "adjusting logBase to displayBase.");
+      }
       displayLims1 <- c(logBase^abs(lims[1])*ifelse(lims[1] < 0, -1, 1),
          logBase^abs(lims[2])*ifelse(lims[2] < 0, -1, 1));
       displayLims2 <- (
@@ -3430,23 +3433,17 @@ minorLogTicks <- function
    } else {
       majorTicks <- log(majorLabels + offset, base=logBase);
    }
-   printDebug("majorTicks:", majorTicks);
-   printDebug("majorLabels:", majorLabels);
    majorLabelsDF <- data.frame(label=majorLabels,
       type="major",
       use=TRUE,
       tick=majorTicks);
    ## Confirm that the labels are unique
    cleanLTdf <- function(df) {
-      #printDebug("df before:");
-      #print(df);
       df <- df[rev(seq_len(nrow(df))),,drop=FALSE];
       df <- subset(df, !(is.infinite(tick) | is.na(tick)));
       df <- df[match(unique(df$label), df$label),,drop=FALSE];
       df <- df[match(unique(df$tick), df$tick),,drop=FALSE];
       df <- df[rev(seq_len(nrow(df))),,drop=FALSE];
-      #printDebug("df after:");
-      #print(df);
       df;
    }
    majorLabelsDF <- cleanLTdf(majorLabelsDF);

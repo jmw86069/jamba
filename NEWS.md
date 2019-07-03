@@ -1,3 +1,30 @@
+# jamba version 0.0.37.900
+
+## bug fixes
+
+* Fixed a typo in `make_styles()` where the default
+Lrange was `getOption("jam.Crange")` instead of
+`getOption("jam.Lrange")`. The affect is limited to
+debugging output when printed on a dark background.
+* `asSize()` was updated to handle `object_size` above
+2.1e9 (2 Gigabytes), it previously converted to integer
+which does not handle values that large, but now converts to
+numeric.
+
+## new functions
+
+* `log2signed()` performs log2 transformation of the
+magnitude of the numeric values, while preserving the
+directionality. It effectively performs `log1p(abs(x))*sign(x)`
+except that by default it uses log base 2.
+* `exp2signed()` is the reciprocal to `log2signed()`, it
+exponentiates the magnitude of the numeric values, while
+preserving the directionality.
+
+## changes
+
+* Cleaned up unnecessary verbose output from `minorLogTicks()`.
+
 # jamba version 0.0.36.900
 
 ## bug fix

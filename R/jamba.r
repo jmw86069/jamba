@@ -598,7 +598,7 @@ asSize <- function
          unitType);
    }
    if (class(x) %in% c("object_size")) {
-      x <- as.integer(x);
+      x <- as.numeric(x);
    }
    xUnits <- rep("", length(x));
    xValues <- x;
@@ -1832,7 +1832,7 @@ make_styles <- function
  Cgrey=getOption("jam.Cgrey"),
  lightMode=checkLightMode(),
  Crange=getOption("jam.Crange"),
- Lrange=getOption("jam.Crange"),
+ Lrange=getOption("jam.Lrange"),
  adjustRgb=getOption("jam.adjustRgb"),
  adjustPower=1.5,
  fixYellow=TRUE,
@@ -4844,3 +4844,132 @@ unnestList <- function
    newList;
 }
 
+#' log2 transformation with directionality
+#'
+#' log2 transformation with directionality
+#'
+#' This function applies a log2 transformation but maintains
+#' the sign of the input data, allowing for log2 transformation
+#' of negative values.
+#'
+#' The method applies an offset to the absolute value `abs(x)`,
+#' in order to handle values between zero and 1, then applies
+#' log2 transformation, then multiplies by the original sign
+#' from `sign(x)`.
+#'
+#' The argument `offset` is used to adjust values, for example
+#' `offset=1` will apply log2 transformation `log2(1 + x)`,
+#' except using the absolute value of `x`. This method allows
+#' for positive and negative input data to contain values
+#' between 0 and 1, and between -1 and 0.
+#'
+#' This function could be described as applying
+#' a log2 transformation of the "magnitude" of values in `x`,
+#' while maintaining the positive or negative directionality.
+#'
+#' If any `abs(x)` are less than `offset` this function will
+#' raise an error.
+#'
+#' @return numeric vector of log-transformed magnitudes.
+#'
+#' @param x numeric vector
+#' @param offset numeric value added to the absolute values
+#'    of `x` prior to applying the log transformation.
+#' @param base numeric value indicating the logarithmic base,
+#'    by default `2` in order to apply `base::log2()`.
+#' @param ... additional arguments are ignored.
+#'
+#' @examples
+#' x <- c(-100:100)/10;
+#' log2signed(x);
+#' plot(x=x, y=log2signed(x), xlab="x", ylab="log2signed(x)")
+#'
+#' @export
+log2signed <- function
+(x,
+ offset=1,
+ base=2,
+ ...)
+{
+   ## Purpose is to transform numeric data using log2 transformation
+   ## but where negative values are kept negative by log2-transforming
+   ## the absolute value, then multiplying by the original sign.
+   if (length(x) == 0) {
+      return(x);
+   }
+   if (offset < 1 && any(abs(x) < 1)) {
+      stop(
+         paste0(
+            "Values in abs(x) less than offset ",
+            offset,
+            " cannot be transformed without losing direction.")
+      );
+   }
+
+   ## Determine the sign(x)
+   x_sign <- sign(x);
+   ## For now, do not convert sign 0 to sign 1.
+   #x_sign <- ifelse(x_sign == 0, 1, x_sign);
+
+   if (length(base) == 0 || all(unique(base) == 2)) {
+      return(log2(abs(x) + offset) * x_sign);
+   }
+   # Note: the conversion to different log base
+   #log2(abs(x) + offset) * x_sign  / log2(base);
+   log(abs(x) + offset, base=base) * x_sign;
+}
+
+#' exponentiate log2 values with directionality
+#'
+#' exponentiate log2 values with directionality
+#'
+#' This function is the reciprocal to `log2signed()`.
+#'
+#' It #' exponentiates the absolute values of `x`,
+#' then subtracts the `offset`, then multiplies results
+#' by the `sign(x)`.
+#'
+#' The `offset` is typically used to maintain
+#' directionality of values during log transformation by
+#' requiring all absolute values to be `1` or larger, thus
+#' by default `offset=1`.
+#'
+#' @return numeric vector of exponentiated values.
+#'
+#' @param x numeric vector
+#' @param numeric offset, subtracted from exponentiated values
+#'    prior to multiplying by the `sign(x)`.
+#' @param base numeric value indicating the logarithmic base used.
+#'    For example `base=2` indicates values were transformed using
+#'    `log2()`.
+#' @param ... additional arguments are ignored.
+#'
+#' @examples
+#' x <- c(-100:100)/10;
+#' z <- log2signed(x);
+#' #plot(x=x, y=z, xlab="x", ylab="log2signed(x)")
+#' plot(x=x, y=exp2signed(z), xlab="x", ylab="exp2signed(log2signed(x))")
+#' plot(x=z, y=exp2signed(z), xlab="log2signed(x)", ylab="exp2signed(log2signed(x))")
+#'
+#' @export
+exp2signed <- function
+(x,
+ offset=1,
+ base=2,
+ ...)
+{
+   ## Purpose is to apply the appropriate reciprocal to log2signed()
+   ## Determine the sign(x)
+   x_sign <- sign(x);
+
+   ## Exponentiate
+   if (length(base) == 0 || all(unique(base) == 2)) {
+      (2^abs(x) - offset) * x_sign;
+   } else {
+      # Note: the equivalent of the reciprocal of converting log base
+      # (2^(abs(x) * log2(base)) - offset) * x_sign;
+      # or in terms of e:
+      # (exp(abs(x) + log(base)) - offset) * x_sign;
+      (base^abs(x) - offset) * x_sign;
+   }
+}
