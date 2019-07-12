@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Vectorized isTRUE — isTRUEV • jamba</title>
+<title>exponentiate log2 values with directionality — exp2signed • jamba</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Vectorized isTRUE — isTRUEV" />
+<meta property="og:title" content="exponentiate log2 values with directionality — exp2signed" />
 
-<meta property="og:description" content="Vectorized isTRUE" />
+<meta property="og:description" content="exponentiate log2 values with directionality" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,69 +114,77 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Vectorized isTRUE</h1>
+    <h1>exponentiate log2 values with directionality</h1>
     <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba.r'><code>R/jamba.r</code></a></small>
-    <div class="hidden name"><code>isTRUEV.Rd</code></div>
+    <div class="hidden name"><code>exp2signed.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Vectorized isTRUE</p>
+    <p>exponentiate log2 values with directionality</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>isTRUEV</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>exp2signed</span>(<span class='no'>x</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>vector</p></td>
+      <td><p>numeric vector</p></td>
+    </tr>
+    <tr>
+      <th>base</th>
+      <td><p>numeric value indicating the logarithmic base used.
+For example <code>base=2</code> indicates values were transformed using
+<code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional arguments are ignored</p></td>
+      <td><p>additional arguments are ignored.</p></td>
+    </tr>
+    <tr>
+      <th>numeric</th>
+      <td><p>offset, subtracted from exponentiated values
+prior to multiplying by the <code><a href='https://www.rdocumentation.org/packages/base/topics/sign'>sign(x)</a></code>.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>numeric vector of exponentiated values.</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function applies three criteria to an input vector, to
-determine if each entry in the vector is TRUE:</p><ol>
-<li><p>It must be class <code>logical</code>.</p></li>
-<li><p>It must not be <code>NA</code>.</p></li>
-<li><p>It must evaluate as <code>TRUE</code>.</p></li>
-</ol>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other jam practical functions: <code><a href='applyCLrange.html'>applyCLrange</a></code>,
-  <code><a href='breakDensity.html'>breakDensity</a></code>, <code><a href='checkLightMode.html'>checkLightMode</a></code>,
-  <code><a href='colNum2excelName.html'>colNum2excelName</a></code>, <code><a href='fileInfo.html'>fileInfo</a></code>,
-  <code><a href='fixYellowHue.html'>fixYellowHue</a></code>, <code><a href='fixYellow.html'>fixYellow</a></code>,
-  <code><a href='getAxisLabel.html'>getAxisLabel</a></code>, <code><a href='handleArgsText.html'>handleArgsText</a></code>,
-  <code><a href='isFALSEV.html'>isFALSEV</a></code>, <code><a href='jamba.html'>jamba</a></code>,
-  <code><a href='jargs.html'>jargs</a></code>, <code><a href='kable_coloring.html'>kable_coloring</a></code>,
-  <code><a href='make_styles.html'>make_styles</a></code>, <code><a href='mergeAllXY.html'>mergeAllXY</a></code>,
-  <code><a href='minorLogTicks.html'>minorLogTicks</a></code>, <code><a href='newestFile.html'>newestFile</a></code>,
-  <code><a href='printDebug.html'>printDebug</a></code>, <code><a href='renameColumn.html'>renameColumn</a></code>,
-  <code><a href='rmInfinite.html'>rmInfinite</a></code>, <code><a href='rmNA.html'>rmNA</a></code>,
-  <code><a href='rmNULL.html'>rmNULL</a></code>, <code><a href='sclass.html'>sclass</a></code>,
-  <code><a href='sdim.html'>sdim</a></code>, <code><a href='setCLranges.html'>setCLranges</a></code>,
-  <code><a href='setPrompt.html'>setPrompt</a></code>, <code><a href='ssdim.html'>ssdim</a></code></p></div>
+    <p>This function is the reciprocal to <code><a href='log2signed.html'>log2signed()</a></code>.</p>
+<p>It #' exponentiates the absolute values of <code>x</code>,
+then subtracts the <code>offset</code>, then multiplies results
+by the <code><a href='https://www.rdocumentation.org/packages/base/topics/sign'>sign(x)</a></code>.</p>
+<p>The <code>offset</code> is typically used to maintain
+directionality of values during log transformation by
+requiring all absolute values to be <code>1</code> or larger, thus
+by default <code>offset=1</code>.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>100</span>:<span class='fl'>100</span>)/<span class='fl'>10</span>;
+<span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='log2signed.html'>log2signed</a></span>(<span class='no'>x</span>);
+<span class='co'>#plot(x=x, y=z, xlab="x", ylab="log2signed(x)")</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>x</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='fu'>exp2signed</span>(<span class='no'>z</span>), <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"x"</span>, <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>"exp2signed(log2signed(x))"</span>)</div><div class='img'><img src='exp2signed-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>z</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='fu'>exp2signed</span>(<span class='no'>z</span>), <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"log2signed(x)"</span>, <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>"exp2signed(log2signed(x))"</span>)</div><div class='img'><img src='exp2signed-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
+      <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

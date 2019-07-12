@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.36.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
       </span>
     </div>
 
@@ -255,17 +255,17 @@ removal is performed by <code><a href='rowRmMadOutliers.html'>jamba::rowRmMadOut
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>9</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>90</span>));
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>x</span>) <span class='kw'>&lt;-</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>9</span>];
-<span class='fu'>rowGroupMeans</span>(<span class='no'>x</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>3</span>))</div><div class='output co'>#&gt;                 a          b           c
-#&gt;  [1,] -0.54369240 -1.3137123 -0.52453256
-#&gt;  [2,] -0.44916206 -0.1397397  0.08256867
-#&gt;  [3,] -1.14143554 -0.3733744  0.47583262
-#&gt;  [4,]  0.02278591  0.6691889  0.16123098
-#&gt;  [5,] -0.08072610  0.4000397 -1.53016052
-#&gt;  [6,] -0.27774120  1.2755649  0.25416015
-#&gt;  [7,]  0.68026798 -0.8495292  0.11350122
-#&gt;  [8,]  0.31337268  0.4144184 -0.15431868
-#&gt;  [9,] -0.20565965  0.4930518 -0.02002528
-#&gt; [10,]  0.27645811  0.4738318 -0.45505816
+<span class='fu'>rowGroupMeans</span>(<span class='no'>x</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>3</span>))</div><div class='output co'>#&gt;                  a           b           c
+#&gt;  [1,] -0.005767173  0.83204713  0.24841265
+#&gt;  [2,]  0.046726172 -0.27934628  0.06528818
+#&gt;  [3,] -0.224267885  0.35872890  0.01915639
+#&gt;  [4,] -0.542888255 -0.01104548  0.25733838
+#&gt;  [5,] -0.433310317 -0.45278397  0.00837096
+#&gt;  [6,] -0.289461574 -0.79533912 -0.21951563
+#&gt;  [7,] -0.057106774 -0.81496871  0.59625902
+#&gt;  [8,]  0.503607972  0.24226348  0.11971764
+#&gt;  [9,]  0.992160365 -1.42509839  0.14377148
+#&gt; [10,] -0.690953840  0.36594112 -0.11775360
 #&gt; attr(,"n")
 #&gt; a b c 
 #&gt; 3 3 3 

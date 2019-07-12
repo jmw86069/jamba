@@ -5,7 +5,8 @@
 \title{provigrep: progressive case-insensitive value-grep}
 \usage{
 provigrep(patterns, x, maxValues = NULL, sortFunc = c, rev = FALSE,
-  returnType = c("vector", "list"), ignore.case = TRUE, ...)
+  returnType = c("vector", "list"), ignore.case = TRUE, value = TRUE,
+  ...)
 }
 \arguments{
 \item{patterns}{vector of grep patterns}
@@ -33,6 +34,11 @@ when you would like to know which patterns matched specific entries.}
 
 \item{ignore.case}{logical parameter sent to \code{\link[base]{grep}}, TRUE
 runs in case-insensitive mode, as by default.}
+
+\item{value}{logical indicating whether to return the matched value,
+or when \code{value=FALSE} the index position is returned.}
+
+\item{...}{additional arguments are passed to \code{vigrep()}.}
 }
 \description{
 case-insensitive value-grep for a vector of patterns
@@ -58,11 +64,34 @@ listed first.
 \examples{
 # a rather comical example
 # set up a test set with labels containing several substrings
+set.seed(1);
 testTerms <- c("robot","tree","dog","mailbox","pizza","noob");
 testWords <- pasteByRow(t(combn(testTerms,3)));
 
 # now pull out entries matching substrings in order
 provigrep(c("pizza", "dog", "noob", "."), testWords);
+# more detail about the sort order is shown with returnType="list"
+provigrep(c("pizza", "dog", "noob", "."), testWords, returnType="list");
+# rev=TRUE will reverse the order of the list
+provigrep(c("pizza", "dog", "noob", "."), testWords, returnType="list", rev=TRUE);
+provigrep(c("pizza", "dog", "noob", "."), testWords, rev=TRUE);
+
+# another example showing ordering of duplicated entries
+set.seed(1);
+x <- paste0(
+   sample(letters[c(1,2,2,3,3,3,4,4,4,4)]),
+   sample(1:5));
+x;
+# sort by letter
+provigrep(letters[1:4], x)
+
+# show more detail about how the sort is performed
+provigrep(letters[1:4], x, returnType="list")
+
+# rev=TRUE will reverse the order of pattern matching
+# which is most useful when "." is the last pattern:
+provigrep(c(letters[1:3], "."), x, returnType="list")
+provigrep(c(letters[1:3], "."), x, returnType="list", rev=TRUE)
 
 }
 \seealso{

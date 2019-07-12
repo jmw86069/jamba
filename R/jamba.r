@@ -995,6 +995,8 @@ breaksByVector <- function
 #'    a specified file.
 #' @param append logical whether to append output, relevant only when
 #'    \code{file} specifies a filename.
+#' @param invert logical indicating whether foreground and background
+#'    colors should be switched.
 #'
 #' @return This function is called for the by-product of printing
 #'    debug output, it returns `invisible(NULL)`, no output.
@@ -1051,6 +1053,7 @@ printDebug <- function
  keepNA=TRUE,
  file="",
  append=TRUE,
+ invert=FALSE,
  x)
 {
    ## Purpose is to wrapper a print() function with optional time-date stamp
@@ -1117,7 +1120,7 @@ printDebug <- function
    xList <- list(...);
 
    ## Determine if the color values have been defined
-   if (is.null(fgText)) {
+   if (length(fgText) == 0) {
       fgTextBase <- tail(rmNULL(xList), 1);
       if (igrepHas("list", class(fgTextBase[[1]]))) {
          fgTextBase <- unlist(fgTextBase, recursive=FALSE);
@@ -1130,7 +1133,11 @@ printDebug <- function
          fgText <- unlist(fgText, recursive=FALSE);
          xList <- head(rmNULL(xList), -1);
       } else {
-         fgText <- c("darkorange1", "dodgerblue");
+         if (length(bgText) == 0) {
+            fgText <- c("darkorange1", "dodgerblue");
+         } else {
+            fgText <- c(NA);
+         }
       }
    }
 
@@ -1176,7 +1183,8 @@ printDebug <- function
          removeNA=removeNA,
          replaceNULL=replaceNULL,
          adjustRgb=adjustRgb,
-         byLine=byLine);
+         byLine=byLine,
+         invert=invert);
       invisible(NULL);
    } else {
 
@@ -1210,7 +1218,11 @@ printDebug <- function
          xListMulti <- which(xListSlength > 1);
          fgText <- lapply(seq_along(fgText), function(i){
             iColor <- fgText[[i]];
-            if (length(iColor) == 1) {
+            iColor_na <- is.na(iColor);
+            if (all(iColor_na)) {
+               iColor <- rep(iColor,
+                  length.out=xListSlength[i]);
+            } else if (length(iColor) == 1) {
                ## If the color is dark, make the off-color lighter,
                ## if the color is bright, make the off-color darker
                if (col2hcl(iColor)["L",] < 70) {
@@ -1224,17 +1236,16 @@ printDebug <- function
                      iColor,
                      keepNA=keepNA),
                   length.out=xListSlength[i]);
+               if (any(iColor_na)) {
+                  iColor[iColor_na] <- NA;
+               }
             } else {
-               iColor <- rep(
-                  makeColorDarker(darkFactor=head(darkFactor,1),
-                     sFactor=head(sFactor,1),
-                     iColor,
-                     keepNA=keepNA),
+               iColor <- rep(iColor,
                   length.out=xListSlength[i]);
             }
             iColor;
          });
-         if (length(bgText) >- 0) {
+         if (length(bgText) > 0) {
             bgText <- lapply(seq_along(bgText), function(i){
                iColor <- bgText[[i]];
                if (length(iColor) == 1) {
@@ -1245,11 +1256,7 @@ printDebug <- function
                         keepNA=keepNA),
                      length.out=xListSlength[i]);
                } else {
-                  iColor <- rep(
-                     makeColorDarker(darkFactor=head(darkFactor,1),
-                        sFactor=head(sFactor,1),
-                        iColor,
-                        keepNA=keepNA),
+                  iColor <- rep(iColor,
                      length.out=xListSlength[i]);
                }
                iColor;
@@ -1258,6 +1265,11 @@ printDebug <- function
       }
       fgText <- unlist(fgText);
       bgText <- unlist(bgText);
+      if (invert) {
+         fgText1 <- fgText;
+         fgText <- bgText;
+         bgText <- fgText1;
+      }
 
       x <- unlist(lapply(xList, function(i){
          if (formatNumbers &&
@@ -1307,50 +1319,65 @@ printDebug <- function
          if (timeStamp) {
             timeStampValue <- paste(c("(", make_style("bold")(
                   make_styles(style=fgTime,
+                     bg_style=NA,
+                     bg=FALSE,
                      adjustRgb=adjustRgb,
                      Lrange=Lrange,
                      Crange=Crange,
+                     verbose=verbose,
                      text=format(Sys.time(), "%H:%M:%S"))
                ), ") ", format(Sys.time(), "%d%b%Y"), ": "), collapse="");
          } else {
             timeStampValue <- "";
          }
 
-         if (!is.null(bgText)) {
+         if (1 == 1 || length(bgText) > 0) {
             printValue <- paste(sapply(seq_along(x), function(ix){
                xStr <- x[ix];
                if (igrepHas("factor", class(xStr))) {
                   xStr <- as.character(xStr);
                }
-               if (!is.na(fgText[ix])) {
-                  if (is.na(bgText[[ix]])) {
-                     make_styles(style=fgText[ix],
-                        text=xStr,
-                        Lrange=Lrange,
-                        Crange=Crange,
-                        adjustRgb=adjustRgb);
-                  } else {
-                     make_styles(style=bgText[[ix]],
-                        bg=TRUE,
-                        adjustRgb=adjustRgb,
-                        Lrange=Lrange,
-                        Crange=Crange,
-                        text=make_styles(style=fgText[ix],
+               new_string <- make_styles(
+                  style=fgText[ix],
+                  bg_style=bgText[ix],
+                  bg=FALSE,
+                  text=xStr,
+                  verbose=verbose,
+                  Lrange=Lrange,
+                  Crange=Crange,
+                  adjustRgb=adjustRgb)
+               if (1 == 2) {
+                  if (!is.na(fgText[ix])) {
+                     if (is.na(bgText[[ix]])) {
+                        make_styles(style=fgText[ix],
+                           text=xStr,
+                           Lrange=Lrange,
+                           Crange=Crange,
+                           adjustRgb=adjustRgb);
+                     } else {
+                        make_styles(style=bgText[[ix]],
+                           bg=TRUE,
                            adjustRgb=adjustRgb,
                            Lrange=Lrange,
                            Crange=Crange,
-                           text=xStr));
+                           text=make_styles(style=fgText[ix],
+                              adjustRgb=adjustRgb,
+                              Lrange=Lrange,
+                              Crange=Crange,
+                              text=xStr));
+                     }
+                  } else if (!is.na(bgText[[ix]])) {
+                      make_styles(style=bgText[[ix]],
+                         bg=TRUE,
+                         text=xStr,
+                         Lrange=Lrange,
+                         Crange=Crange,
+                         adjustRgb=adjustRgb);
+                  } else {
+                     xStr;
                   }
-               } else if (!is.na(bgText[[ix]])) {
-                   make_styles(style=bgText[[ix]],
-                      bg=TRUE,
-                      text=xStr,
-                      Lrange=Lrange,
-                      Crange=Crange,
-                      adjustRgb=adjustRgb);
-               } else {
-                  xStr;
                }
+               new_string;
             }), collapse=collapse);
          } else {
             printValue <- paste(sapply(seq_along(x), function(ix){
@@ -1427,10 +1454,21 @@ checkLightMode <- function
 {
    ## Check lightMode, whether the background color is light or not
    if (length(lightMode) == 0) {
-      if (length(getOption("jam.lightMode")) > 0) {
-         lightMode <- getOption("jam.lightMode") %in% c(1, "TRUE");
+      jam_lightMode <- getOption("jam.lightMode");
+      if (length(jam_lightMode) > 0) {
+         lightMode <- (jam_lightMode %in% c(1, "TRUE"));
       } else if (Sys.getenv("RSTUDIO") == 1) {
-         lightMode <- TRUE;
+         ## Use rstudioapi if available
+         if (suppressPackageStartupMessages(require(rstudioapi))) {
+            if (rstudioapi::isAvailable() && rstudioapi::hasFun("getThemeInfo")) {
+               theme <- rstudioapi::getThemeInfo();
+               lightMode <- !(theme$dark);
+            } else {
+               lightMode <- TRUE;
+            }
+         } else {
+            lightMode <- TRUE;
+         }
       } else {
          lightMode <- FALSE;
       }
@@ -1779,9 +1817,19 @@ tcount <- function
 #' @family jam practical functions
 #' @family jam color functions
 #'
-#' @param style vector of one or more styles
+#' @param style vector of one or more styles. When NULL or NA,
+#'    no style is applied, except when `bg_style` is supplied
+#'    and is neither NA nor NULL, in which case entries with
+#'    a `bg_style` and no `style` will use `setTextContrastColor()`
+#'    to define a contrasting `style`.
 #' @param text vector of one or more character values
-#' @param bg NULL or a vector of one or more background styles
+#' @param bg logical indicating whether the `style` should be
+#'    applied to the background instead of foreground. This argument
+#'    is ignored when `bg_style` is supplied.
+#' @param bg_style NULL or a vector of one or more background styles.
+#'    When this argument is not NULL, it applies both the foreground
+#'    `style` and background `bg_style` together, and therefore ignores
+#'    `Crange` and `Lrange` settings.
 #' @param colors integer number of colors allowed for console output
 #' @param satCutoff numeric cutoff for color saturation, below which a color
 #'    is considered "grey" and the ANSI greyscale color set is used.
@@ -1824,9 +1872,10 @@ tcount <- function
 #'
 #' @export
 make_styles <- function
-(style,
+(style=NULL,
  text,
  bg=FALSE,
+ bg_style=NULL,
  grey=FALSE,
  colors=num_colors(),
  Cgrey=getOption("jam.Cgrey"),
@@ -1870,6 +1919,9 @@ make_styles <- function
    ## less than 255, by raising the ratio to 1/alphaPower, which takes the
    ## ratio of square roots.  alphaPower=100 for minimal adjustment.
    ##
+   if (length(text) == 0) {
+      return(text);
+   }
    if (!suppressPackageStartupMessages(require(crayon))) {
       ## If crayon is not available, return text without style. So sad.
       return(text);
@@ -1904,50 +1956,125 @@ make_styles <- function
          fixYellow));
    }
 
-   if (igrepHas("matrix", style)) {
-      style <- style[,rep(1:ncol(style), length.out=length(text)),drop=FALSE];
+   ## Process style
+   if (length(style) > 0 && igrepHas("matrix", class(style))) {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "Handling argument style as matrix."))
+      }
+      if (!all(c("red", "green", "blue") %in% rownames(style))) {
+         stop("When style is a matrix it must contain rownames 'red', 'green', and 'blue'.");
+      }
       styleNA <- (is.na(style["red",]) |
             is.na(style["green",]) |
             is.na(style["blue",]));
       ## Convert to color vector to apply CL range, then back to rgb
       styleV <- rgb2col(style);
+      styleV <- rep(styleV, length.out=length(text));
+      styleNA <- rep(styleNA, length.out=length(text));
    } else {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "Handling argument style as vector."))
+      }
+      if (length(style) == 0 || length(unlist(style)) == 0) {
+         style <- NA;
+      }
       style <- rep(style, length.out=length(text));
       styleNA <- is.na(style);
       styleV <- style;
    }
-   if (verbose) {
-      print(paste0("styleV (before):", paste(styleV, collapse=",")));
+
+   ## Process bg_style
+   if (length(bg_style) > 0 && igrepHas("matrix", class(bg_style))) {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "Handling argument bg_style as matrix."))
+      }
+      if (!all(c("red", "green", "blue") %in% rownames(bg_style))) {
+         stop("When bg_style is a matrix it must contain rownames 'red', 'green', and 'blue'.");
+      }
+      styleNA <- (is.na(bg_style["red",]) |
+            is.na(bg_style["green",]) |
+            is.na(bg_style["blue",]));
+      ## Convert to color vector to apply CL range, then back to rgb
+      bg_styleV <- rgb2col(bg_style);
+      bg_styleV <- rep(bg_styleV, length.out=length(text));
+      bg_styleNA <- rep(bg_styleNA, length.out=length(text));
+   } else {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "Handling argument bg_style as vector."))
+      }
+      if (length(bg_style) == 0 || length(unlist(bg_style)) == 0) {
+         bg_style <- NA;
+      }
+      bg_style <- rep(bg_style, length.out=length(text));
+      bg_styleNA <- is.na(bg_style);
+      bg_styleV <- bg_style;
    }
-   ## Apply Crange, Lrange
-   styleV <- applyCLrange(styleV,
-      Lrange=Lrange,
-      Crange=Crange,
-      Cgrey=Cgrey,
-      fixYellow=fixYellow,
-      verbose=verbose,
-      ...);
+   if (length(bg) == 0) {
+      bg <- FALSE;
+   }
+   bg <- rmNA(naValue=FALSE,
+      rep(bg, length.out=length(text)));
+
    if (verbose) {
-      print(paste0("styleV (after):", paste(styleV, collapse=",")));
+      print(paste0("styleV (before):", cPaste(styleV)));
+      print(styleV);
+      print(paste0("bg_styleV (before):", cPaste(bg_styleV)));
+   }
+   ## Apply Crange, Lrange only when bg_style is NA
+   if (any(bg_styleNA & !styleNA)) {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "applyCLrange()"));
+      }
+      styleV[bg_styleNA & !styleNA] <- applyCLrange(styleV[bg_styleNA & !styleNA],
+         Lrange=Lrange,
+         Crange=Crange,
+         Cgrey=Cgrey,
+         fixYellow=fixYellow,
+         verbose=verbose,
+         ...);
+   }
+   ## Check for any colors too close to white, they
+   ## cause a bug where any foreground color is always
+   ## white if one color is ANSI white \033[38;5;255
+   ## The workaround is to make them 98% white
+   style_white <- grepl("^#F[89ABCDEF]F[89ABCDEF]F[89ABCDEF]|^white$", styleV);
+   if (any(style_white)) {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "fixing style_white"));
+      }
+      styleV[style_white] <- "#F7F7F7";
+   }
+
+   if (verbose) {
+      print(paste0("styleV (after):",
+         paste(styleV, collapse=",")));
+      print(paste0("bg_styleV (after):",
+         paste(bg_styleV, collapse=",")));
    }
    style <- col2rgb(styleV, alpha=TRUE);
    if (any(styleNA)) {
       style[,styleNA] <- NA;
+   }
+   bg_style <- col2rgb(bg_styleV, alpha=TRUE);
+   if (any(bg_styleNA)) {
+      bg_style[,bg_styleNA] <- NA;
    }
    if (verbose) {
       print(paste0("make_styles(): ",
          "style:"));
       print(style);
       print(paste0("make_styles(): ",
-         "styleV:",
-         paste(styleV,
-            collapse=",")));
-      print(paste0("rownames(style):",
-         paste(rownames(style),
-            collapse=",")));
+         "bg_style:"));
+      print(bg_style);
    }
 
-   ## Apply alpha
+   ## Apply alpha and check for transparent colors
    if ("alpha" %in% rownames(style) &&
        any(rmNA(style["alpha",], naValue=255) < 255)) {
       if (verbose) {
@@ -1957,13 +2084,19 @@ make_styles <- function
       alphaFactor <- (style["alpha",])^(1/alphaPower)/(255)^(1/alphaPower);
       style[c("red","green","blue"),] <- style[c("red","green","blue"),] *
          rep(alphaFactor, each=3);
+      isTransparent <- (style["alpha",] == 0);
+   } else {
+      isTransparent <- rep(FALSE, length.out=length(text));
    }
-   ## Check for transparent colors
-   isTransparent <- (style["alpha",] == 0);
+   ## Remove transparency
    style <- style[c("red","green","blue"),,drop=FALSE];
 
    ## Adjust RGB
-   if (adjustRgb != 0) {
+   if (adjustRgb != 0 && any(!styleNA)) {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "applying adjustRgb"));
+      }
       if (!is.na(adjustPower) && !is.null(adjustPower)) {
          ## This method uses square root transform
          style1 <- round((style^adjustPower)/(255^adjustPower)*6 + adjustRgb);
@@ -1982,17 +2115,71 @@ make_styles <- function
    }
 
    ## Check color saturation for greyscale colors
-   Cvals <- rep(100, length(styleV));
-   Cvals[!styleNA] <- col2hcl(styleV[!styleNA])["C",];
-   isCgrey <- (Cvals <= Cgrey);
+   if (any(!styleNA)) {
+      if (verbose) {
+         print(paste0("make_styles(): ",
+            "determining grey colors"));
+      }
+      Cvals <- rep(100, length(styleV));
+      Cvals[!styleNA] <- col2hcl(styleV[!styleNA])["C",];
+      isCgrey <- (Cvals <= Cgrey);
+   } else {
+      isCgrey <- rep(FALSE, length.out=length(text));
+   }
 
+   ## Apply each style to each text entry
    iVals <- sapply(seq_along(text), function(i){
       iText <- text[i];
       iStyle <- style[,i,drop=FALSE];
+      ibgStyle <- bg_style[,i,drop=FALSE];
       iGrey <- isCgrey[i];
-      if (styleNA[i]) {
+      if (styleNA[i] && bg_styleNA[i]) {
+         if (verbose) {
+            print(paste0("make_styles(): ",
+               "No style applied to text:",
+               iText));
+         }
          iText;
+      } else if (styleNA[i] && !bg_styleNA[i]) {
+         ## Combine bg with contrasting fg color
+         bg_contrast <- setTextContrastColor(rgb2col(ibgStyle),
+            useGrey=5);
+         if (verbose) {
+            print(paste0("make_styles(): ",
+               "bg style and contrasting fg style applied to text:",
+               iText));
+            print(paste0("iText:", iText,
+               ", colors:", colors,
+               ", bg_contrast:", bg_contrast,
+               ", rgb2col(ibgStyle):", rgb2col(ibgStyle)));
+         }
+         make_style(rgb2col(ibgStyle),
+            bg=TRUE,
+            colors=colors)(
+               make_style(bg_contrast,
+                  bg=FALSE,
+                  colors=colors)(iText)
+            );
+      } else if (!styleNA[i] && !bg_styleNA[i]) {
+         ## Combine bg with fg color
+         if (verbose) {
+            print(paste0("make_styles(): ",
+               "bg style and fg style applied to text:",
+               iText));
+         }
+         make_style(rgb2col(ibgStyle),
+            bg=TRUE,
+            colors=colors)(
+               make_style(rgb2col(iStyle),
+                  bg=FALSE,
+                  colors=colors)(iText)
+            );
       } else {
+         if (verbose) {
+            print(paste0("make_styles(): ",
+               "fg style applied to text:",
+               iText));
+         }
          if (isTransparent[i]) {
             iStyle <- col2rgb(colorTransparent, alpha=TRUE);
          }
@@ -2008,15 +2195,16 @@ make_styles <- function
                "iGrey:", iGrey));
          }
          make_style(rgb2col(iStyle),
-            bg=bg,
+            bg=bg[i],
             colors=colors,
             grey=iGrey)(iText);
       }
    });
-   if (!is.null(names(text))) {
+   if (length(names(text)) > 0) {
       names(iVals) <- names(text);
    }
    attr(iVals, "color") <- rgb2col(style);
+   attr(iVals, "bg_color") <- rgb2col(bg_style);
    iVals;
 }
 
@@ -2418,6 +2606,7 @@ fixYellow <- function
 (col,
  Hrange=c(80,90),
  Hshift=-15,
+ fixup=FALSE,
  ...)
 {
    ## Purpose is to provide a wrapper to fixColorHue() for other R colors
@@ -2435,7 +2624,9 @@ fixYellow <- function
    if (length(HCL2) == 0) {
       return(col);
    }
-   col2 <- hcl2col(HCL2, ...);
+   col2 <- hcl2col(HCL2,
+      fixup=fixup,
+      ...);
    return(col2);
 }
 

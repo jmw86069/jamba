@@ -1,3 +1,40 @@
+# jamba version 0.0.38.900
+
+## bug fixes
+
+* `provigrep()` was enhanced to handle duplicated input entries,
+which previously returned only the unique entries, but now correctly
+returns all entries including duplicates, in the proper order.
+The optional list output also makes each list element unique.
+New argument `value` allows returning index positions, which
+is equivalent to `proigrep()`. Lastly, the `ignore.case` argument
+is now properly honored, in order to allow case-sensitive matching.
+* `checkLightMode()` will not try to use `rstudio::getThemeInfo()`
+if that package is installed, and if the function API exists,
+in order to determine whether Rstudio is currently using a dark
+theme.
+* `make_styles()` has a new optional argument `bg_style` which
+allows defining the foreground `style` and background `bg_style`
+in one step. When `bg_style` is supplied, the Crange and Lrange
+arguments are ignored. Fixed a bug when rendering in Rstudio,
+where an ANSI foreground color of white does not get properly
+reset, causing all subsequent foreground colors to be white despite
+clear ANSI codes for different colors. The workaround is to render
+white as slightly off-white (greyscale 254 instead of 255) which
+restores correct output.
+* `printDebug()` was enhanced to use the `bg_style` argument
+of `make_styles()`. New argument `invert` which will switch
+foreground and background colors. Fixed some follow-up issues
+with handling empty strings.
+* `cPaste()` fixed issue with `cPaste(NULL)` and
+`cPaste(list(NULL))` which previously caused an error, now
+returns `""` consistent with output from `cPaste(list(NULL, letters[1:2]))`
+where NULL entries produce `""`.
+* `fixYellow()` new argument `fixup` passed to `hcl2col()` which
+fixes out of gamut colors to scale within viewable range.
+* `writeOpenxlsx()` was not properly saving rownames with argument
+`keepRownames=TRUE`, this issue was resolved.
+
 # jamba version 0.0.37.900
 
 ## bug fixes

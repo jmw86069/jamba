@@ -254,22 +254,54 @@ unvigrep <- function
 #'    when you would like to know which patterns matched specific entries.
 #' @param ignore.case logical parameter sent to \code{\link[base]{grep}}, TRUE
 #'    runs in case-insensitive mode, as by default.
+#' @param value logical indicating whether to return the matched value,
+#'    or when `value=FALSE` the index position is returned.
+#' @param ... additional arguments are passed to `vigrep()`.
 #'
 #' @examples
 #' # a rather comical example
 #' # set up a test set with labels containing several substrings
+#' set.seed(1);
 #' testTerms <- c("robot","tree","dog","mailbox","pizza","noob");
 #' testWords <- pasteByRow(t(combn(testTerms,3)));
 #'
 #' # now pull out entries matching substrings in order
 #' provigrep(c("pizza", "dog", "noob", "."), testWords);
+#' # more detail about the sort order is shown with returnType="list"
+#' provigrep(c("pizza", "dog", "noob", "."), testWords, returnType="list");
+#' # rev=TRUE will reverse the order of the list
+#' provigrep(c("pizza", "dog", "noob", "."), testWords, returnType="list", rev=TRUE);
+#' provigrep(c("pizza", "dog", "noob", "."), testWords, rev=TRUE);
+#'
+#' # another example showing ordering of duplicated entries
+#' set.seed(1);
+#' x <- paste0(
+#'    sample(letters[c(1,2,2,3,3,3,4,4,4,4)]),
+#'    sample(1:5));
+#' x;
+#' # sort by letter
+#' provigrep(letters[1:4], x)
+#'
+#' # show more detail about how the sort is performed
+#' provigrep(letters[1:4], x, returnType="list")
+#'
+#' # rev=TRUE will reverse the order of pattern matching
+#' # which is most useful when "." is the last pattern:
+#' provigrep(c(letters[1:3], "."), x, returnType="list")
+#' provigrep(c(letters[1:3], "."), x, returnType="list", rev=TRUE)
 #'
 #' @family jam grep functions
 #'
 #' @export
 provigrep <- function
-(patterns, x, maxValues=NULL, sortFunc=c,
- rev=FALSE, returnType=c("vector", "list"), ignore.case=TRUE,
+(patterns,
+ x,
+ maxValues=NULL,
+ sortFunc=c,
+ rev=FALSE,
+ returnType=c("vector", "list"),
+ ignore.case=TRUE,
+ value=TRUE,
  ...)
 {
    ## Purpose is to provide "progressive vigrep()" (which is value-returning,
@@ -290,25 +322,56 @@ provigrep <- function
    ## the grep patterns as list names
    ##
    returnType <- match.arg(returnType);
+   x_unique <- make.unique(x, sep="_v");
+
+   ## Iterate each grep pattern
    valueSetL <- lapply(patterns, function(i){
-      x <- vigrep(pattern=i, x=x, ...);
-      if (!is.null(sortFunc)) {
-         x <- sortFunc(x);
+      z <- vigrep(pattern=i,
+         x=x,
+         value=TRUE,
+         ignore.case=ignore.case,
+         ...);
+      if (length(sortFunc) > 0 && !identical(c, sortFunc)) {
+         ## If sortFunc is not c(), then run it
+         z <- sortFunc(z);
       }
-      x;
+      ## Here the values are converted to index positions
+      match(make.unique(z, sep="_v"),
+         x_unique);
    });
+
+   ## Make each item only represented once across the list
+   if (length(names(patterns)) == 0) {
+      names(valueSetL) <- makeNames(patterns);
+   } else {
+      names(valueSetL) <- names(patterns);
+   }
+   f1 <- factor(names(valueSetL), levels=names(valueSetL));
+   m1 <- match(make.unique(sep="_v", as.character(unlist(valueSetL))),
+      as.character(seq_along(x)));
+   r1 <- rep(f1, lengths(valueSetL));
+   if (value && "list" %in% returnType) {
+      valueSetL <- split(x[m1[!is.na(m1)]], r1[!is.na(m1)]);
+   } else {
+      valueSetL <- split(m1[!is.na(m1)], r1[!is.na(m1)]);
+   }
+
+   ## Optionally reverse the list
    if (rev) {
       valueSetL <- rev(valueSetL);
    }
-   if (returnType %in% "list") {
-      if (is.null(names(patterns))) {
-         names(valueSetL) <- makeNames(patterns);
-      } else {
-         names(valueSetL) <- names(patterns);
-      }
+
+   ## Optionally return the list format
+   if ("list" %in% returnType) {
       return(valueSetL);
    }
-   valueSet <- unique(unlist(valueSetL));
+
+   if (value) {
+      valueSet <- x[unique(unlist(valueSetL))];
+   } else {
+      valueSet <- unique(unlist(valueSetL));
+   }
+
    if (!is.null(maxValues) && maxValues > 0 && length(valueSet) > 0) {
       #valueSet <- valueSet[1:maxValues];
       valueSet <- head(valueSet, maxValues);
@@ -2087,6 +2150,9 @@ cPaste <- function
  ...)
 {
    ## Purpose is to utilize the vectorized function unstrsplit() from the S4Vectors package
+   if (length(x) == 0) {
+      return("");
+   }
    if (!suppressPackageStartupMessages(require(IRanges))) {
       warn("cPaste() is substantially faster when Bioconductor package S4Vectors is installed.");
       #stop("The IRanges package is required by cPaste() for the CharacterList class.");
@@ -2167,7 +2233,7 @@ cPaste <- function
       ## in the case that NA values are removed.
       xn <- factor(rep(names(x), rlengths(x)),
          levels=names(x));
-      if (doSort) {
+      if (doSort && length(xu) > 0) {
          if (igrepHas("factor", class(xu))) {
             xuOrder <- order(xu, ...);
          } else {
@@ -2178,14 +2244,14 @@ cPaste <- function
       }
 
       ## Optionally remove NA values
-      if (na.rm && any(is.na(xu))) {
+      if (na.rm && length(xu) > 0 && any(is.na(xu))) {
          whichNotNA <- which(!is.na(xu));
          xu <- xu[whichNotNA];
          xn <- xn[whichNotNA];
       }
 
       ## split() using a factor keeps the data in original order
-      x1 <- split(unname(xu), xn);
+      x1 <- split(as.character(unname(xu)), xn);
       x <- x1;
    }
    ## Optionally make vectors unique

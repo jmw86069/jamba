@@ -4,7 +4,7 @@
 \alias{fixYellow}
 \title{Fix yellow color}
 \usage{
-fixYellow(col, Hrange = c(80, 90), Hshift = -15, ...)
+fixYellow(col, Hrange = c(80, 90), Hshift = -15, fixup = FALSE, ...)
 }
 \arguments{
 \item{col}{R color, either in hex color format or using values from

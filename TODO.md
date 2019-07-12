@@ -1,7 +1,21 @@
 ## TODO for jamba
 
+### General enhancements
+
 * Add message during package install suggesting the "crayon" package be
 installed if not already installed.
+* Update `checkLightMode()` to use `rstudioapi::getThemeInfo()` if
+the `rstudioapi` package is installed.
+* Update `make_styles()` to handle style and bg_style in one step,
+allowing background colors to be defined, and by default the
+foreground will be defined with `setTextContrastColor()` if NA
+or NULL. Also, when bg_style is defined, the foreground color
+no longer uses `Crange` and `Lrange` to restrict the brightness
+to those that contrast with the console background color, since
+the text will already be printed on the background color.
+Lastly, ensure that background color is not restricted by
+`Crange` and `Lrange` by default; not sure if this setting
+needs a method to override it.
 
 ### Bug fixes / Enhancements to existing functions
 

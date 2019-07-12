@@ -14,7 +14,7 @@ printDebug(..., fgText = NULL, bgText = NULL, fgTime = "cyan",
   removeNA = FALSE, replaceNULL = NULL,
   adjustRgb = getOption("jam.adjustRgb"), byLine = FALSE,
   verbose = FALSE, indent = "", keepNA = TRUE, file = "",
-  append = TRUE, x)
+  append = TRUE, invert = FALSE, x)
 }
 \arguments{
 \item{...}{text to be printed to the R console.}
@@ -99,6 +99,9 @@ a specified file.}
 
 \item{append}{logical whether to append output, relevant only when
 \code{file} specifies a filename.}
+
+\item{invert}{logical indicating whether foreground and background
+colors should be switched.}
 }
 \value{
 This function is called for the by-product of printing

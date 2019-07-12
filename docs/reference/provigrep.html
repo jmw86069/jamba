@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.36.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
       </span>
     </div>
 
@@ -126,7 +126,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>provigrep</span>(<span class='no'>patterns</span>, <span class='no'>x</span>, <span class='kw'>maxValues</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sortFunc</span> <span class='kw'>=</span> <span class='no'>c</span>, <span class='kw'>rev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>returnType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"vector"</span>, <span class='st'>"list"</span>), <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>returnType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"vector"</span>, <span class='st'>"list"</span>), <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,6 +172,15 @@ when you would like to know which patterns matched specific entries.</p></td>
       <td><p>logical parameter sent to <code><a href='https://www.rdocumentation.org/packages/base/topics/grep'>grep</a></code>, TRUE
 runs in case-insensitive mode, as by default.</p></td>
     </tr>
+    <tr>
+      <th>value</th>
+      <td><p>logical indicating whether to return the matched value,
+or when <code>value=FALSE</code> the index position is returned.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments are passed to <code><a href='vigrep.html'>vigrep()</a></code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -201,17 +211,131 @@ listed first.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># a rather comical example</span>
 <span class='co'># set up a test set with labels containing several substrings</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>);
 <span class='no'>testTerms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"robot"</span>,<span class='st'>"tree"</span>,<span class='st'>"dog"</span>,<span class='st'>"mailbox"</span>,<span class='st'>"pizza"</span>,<span class='st'>"noob"</span>);
 <span class='no'>testWords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pasteByRow.html'>pasteByRow</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/combn'>combn</a></span>(<span class='no'>testTerms</span>,<span class='fl'>3</span>)));
 
 <span class='co'># now pull out entries matching substrings in order</span>
-<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>);</div><div class='output co'>#&gt;  [1] "robot_tree_pizza"    "robot_dog_pizza"     "robot_mailbox_pizza"
-#&gt;  [4] "robot_pizza_noob"    "tree_dog_pizza"      "tree_mailbox_pizza" 
-#&gt;  [7] "tree_pizza_noob"     "dog_mailbox_pizza"   "dog_pizza_noob"     
-#&gt; [10] "mailbox_pizza_noob"  "robot_tree_dog"      "robot_dog_mailbox"  
-#&gt; [13] "robot_dog_noob"      "tree_dog_mailbox"    "tree_dog_noob"      
-#&gt; [16] "dog_mailbox_noob"    "robot_tree_noob"     "robot_mailbox_noob" 
-#&gt; [19] "tree_mailbox_noob"   "robot_tree_mailbox" </div><div class='input'>
+<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>);</div><div class='output co'>#&gt;                     3                     6                     8 
+#&gt;    "robot_tree_pizza"     "robot_dog_pizza" "robot_mailbox_pizza" 
+#&gt;                    10                    12                    14 
+#&gt;    "robot_pizza_noob"      "tree_dog_pizza"  "tree_mailbox_pizza" 
+#&gt;                    16                    17                    19 
+#&gt;     "tree_pizza_noob"   "dog_mailbox_pizza"      "dog_pizza_noob" 
+#&gt;                    20                     1                     5 
+#&gt;  "mailbox_pizza_noob"      "robot_tree_dog"   "robot_dog_mailbox" 
+#&gt;                     7                    11                    13 
+#&gt;      "robot_dog_noob"    "tree_dog_mailbox"       "tree_dog_noob" 
+#&gt;                    18                     4                     9 
+#&gt;    "dog_mailbox_noob"     "robot_tree_noob"  "robot_mailbox_noob" 
+#&gt;                    15                     2 
+#&gt;   "tree_mailbox_noob"  "robot_tree_mailbox" </div><div class='input'><span class='co'># more detail about the sort order is shown with returnType="list"</span>
+<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>);</div><div class='output co'>#&gt; $pizza
+#&gt;                     3                     6                     8 
+#&gt;    "robot_tree_pizza"     "robot_dog_pizza" "robot_mailbox_pizza" 
+#&gt;                    10                    12                    14 
+#&gt;    "robot_pizza_noob"      "tree_dog_pizza"  "tree_mailbox_pizza" 
+#&gt;                    16                    17                    19 
+#&gt;     "tree_pizza_noob"   "dog_mailbox_pizza"      "dog_pizza_noob" 
+#&gt;                    20 
+#&gt;  "mailbox_pizza_noob" 
+#&gt; 
+#&gt; $dog
+#&gt;                   1                   5                   7                  11 
+#&gt;    "robot_tree_dog" "robot_dog_mailbox"    "robot_dog_noob"  "tree_dog_mailbox" 
+#&gt;                  13                  18 
+#&gt;     "tree_dog_noob"  "dog_mailbox_noob" 
+#&gt; 
+#&gt; $noob
+#&gt;                    4                    9                   15 
+#&gt;    "robot_tree_noob" "robot_mailbox_noob"  "tree_mailbox_noob" 
+#&gt; 
+#&gt; $.
+#&gt;                    2 
+#&gt; "robot_tree_mailbox" 
+#&gt; </div><div class='input'><span class='co'># rev=TRUE will reverse the order of the list</span>
+<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt; $.
+#&gt;                    2 
+#&gt; "robot_tree_mailbox" 
+#&gt; 
+#&gt; $noob
+#&gt;                    4                    9                   15 
+#&gt;    "robot_tree_noob" "robot_mailbox_noob"  "tree_mailbox_noob" 
+#&gt; 
+#&gt; $dog
+#&gt;                   1                   5                   7                  11 
+#&gt;    "robot_tree_dog" "robot_dog_mailbox"    "robot_dog_noob"  "tree_dog_mailbox" 
+#&gt;                  13                  18 
+#&gt;     "tree_dog_noob"  "dog_mailbox_noob" 
+#&gt; 
+#&gt; $pizza
+#&gt;                     3                     6                     8 
+#&gt;    "robot_tree_pizza"     "robot_dog_pizza" "robot_mailbox_pizza" 
+#&gt;                    10                    12                    14 
+#&gt;    "robot_pizza_noob"      "tree_dog_pizza"  "tree_mailbox_pizza" 
+#&gt;                    16                    17                    19 
+#&gt;     "tree_pizza_noob"   "dog_mailbox_pizza"      "dog_pizza_noob" 
+#&gt;                    20 
+#&gt;  "mailbox_pizza_noob" 
+#&gt; </div><div class='input'><span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                     2                     4                     9 
+#&gt;  "robot_tree_mailbox"     "robot_tree_noob"  "robot_mailbox_noob" 
+#&gt;                    15                     1                     5 
+#&gt;   "tree_mailbox_noob"      "robot_tree_dog"   "robot_dog_mailbox" 
+#&gt;                     7                    11                    13 
+#&gt;      "robot_dog_noob"    "tree_dog_mailbox"       "tree_dog_noob" 
+#&gt;                    18                     3                     6 
+#&gt;    "dog_mailbox_noob"    "robot_tree_pizza"     "robot_dog_pizza" 
+#&gt;                     8                    10                    12 
+#&gt; "robot_mailbox_pizza"    "robot_pizza_noob"      "tree_dog_pizza" 
+#&gt;                    14                    16                    17 
+#&gt;  "tree_mailbox_pizza"     "tree_pizza_noob"   "dog_mailbox_pizza" 
+#&gt;                    19                    20 
+#&gt;      "dog_pizza_noob"  "mailbox_pizza_noob" </div><div class='input'>
+<span class='co'># another example showing ordering of duplicated entries</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>);
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='no'>letters</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>)]),
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>));
+<span class='no'>x</span>;</div><div class='output co'>#&gt;  [1] "b2" "c1" "c3" "d4" "b5" "d2" "d1" "c3" "d4" "a5"</div><div class='input'><span class='co'># sort by letter</span>
+<span class='fu'>provigrep</span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>4</span>], <span class='no'>x</span>)</div><div class='output co'>#&gt;  [1] "a5" "b2" "b5" "c1" "c3" "c3" "d4" "d2" "d1" "d4"</div><div class='input'>
+<span class='co'># show more detail about how the sort is performed</span>
+<span class='fu'>provigrep</span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>4</span>], <span class='no'>x</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>)</div><div class='output co'>#&gt; $a
+#&gt; [1] "a5"
+#&gt; 
+#&gt; $b
+#&gt; [1] "b2" "b5"
+#&gt; 
+#&gt; $c
+#&gt; [1] "c1" "c3" "c3"
+#&gt; 
+#&gt; $d
+#&gt; [1] "d4" "d2" "d1" "d4"
+#&gt; </div><div class='input'>
+<span class='co'># rev=TRUE will reverse the order of pattern matching</span>
+<span class='co'># which is most useful when "." is the last pattern:</span>
+<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='st'>"."</span>), <span class='no'>x</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>)</div><div class='output co'>#&gt; $a
+#&gt; [1] "a5"
+#&gt; 
+#&gt; $b
+#&gt; [1] "b2" "b5"
+#&gt; 
+#&gt; $c
+#&gt; [1] "c1" "c3" "c3"
+#&gt; 
+#&gt; $.
+#&gt; [1] "d4" "d2" "d1" "d4"
+#&gt; </div><div class='input'><span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='st'>"."</span>), <span class='no'>x</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $.
+#&gt; [1] "d4" "d2" "d1" "d4"
+#&gt; 
+#&gt; $c
+#&gt; [1] "c1" "c3" "c3"
+#&gt; 
+#&gt; $b
+#&gt; [1] "b2" "b5"
+#&gt; 
+#&gt; $a
+#&gt; [1] "a5"
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

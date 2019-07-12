@@ -4,20 +4,31 @@
 \alias{make_styles}
 \title{vectorized make_styles for crayon output}
 \usage{
-make_styles(style, text, bg = FALSE, grey = FALSE,
-  colors = num_colors(), Cgrey = getOption("jam.Cgrey"),
-  lightMode = checkLightMode(), Crange = getOption("jam.Crange"),
-  Lrange = getOption("jam.Lrange"),
+make_styles(style = NULL, text, bg = FALSE, bg_style = NULL,
+  grey = FALSE, colors = num_colors(),
+  Cgrey = getOption("jam.Cgrey"), lightMode = checkLightMode(),
+  Crange = getOption("jam.Crange"), Lrange = getOption("jam.Lrange"),
   adjustRgb = getOption("jam.adjustRgb"), adjustPower = 1.5,
   fixYellow = TRUE, colorTransparent = "grey45", alphaPower = 2,
   setOptions = FALSE, verbose = FALSE, ...)
 }
 \arguments{
-\item{style}{vector of one or more styles}
+\item{style}{vector of one or more styles. When NULL or NA,
+no style is applied, except when \code{bg_style} is supplied
+and is neither NA nor NULL, in which case entries with
+a \code{bg_style} and no \code{style} will use \code{setTextContrastColor()}
+to define a contrasting \code{style}.}
 
 \item{text}{vector of one or more character values}
 
-\item{bg}{NULL or a vector of one or more background styles}
+\item{bg}{logical indicating whether the \code{style} should be
+applied to the background instead of foreground. This argument
+is ignored when \code{bg_style} is supplied.}
+
+\item{bg_style}{NULL or a vector of one or more background styles.
+When this argument is not NULL, it applies both the foreground
+\code{style} and background \code{bg_style} together, and therefore ignores
+\code{Crange} and \code{Lrange} settings.}
 
 \item{colors}{integer number of colors allowed for console output}
 

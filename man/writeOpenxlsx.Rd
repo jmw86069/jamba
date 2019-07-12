@@ -26,8 +26,7 @@ writeOpenxlsx(x, file, sheetName = "Sheet1", append = FALSE,
   freezePaneColumn = 1, freezePaneRow = 2, doFilter = TRUE,
   fontName = "Arial", fontSize = 12, minWidth = 8, maxWidth = 40,
   autoWidth = TRUE, wrapHeaders = TRUE, headerRowMultiplier = 5,
-  keepRownames = FALSE, rownameHeader = "rowName", verbose = FALSE,
-  ...)
+  keepRownames = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{x}{data.frame to be saved to an Excel xlsx file.}
@@ -98,9 +97,6 @@ is helpful when \code{wrapHeaders=TRUE} and \code{autoWidth=TRUE}.}
 
 \item{keepRownames}{logical indicating whether to include
 \code{rownames(x)} in its own column in Excel.}
-
-\item{rownameHeader}{character value used as the column header when
-\code{keepRownames=TRUE}.}
 
 \item{verbose}{logical indicating whether to print verbose output.}
 

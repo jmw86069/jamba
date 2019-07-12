@@ -113,8 +113,6 @@
 #'    is helpful when `wrapHeaders=TRUE` and `autoWidth=TRUE`.
 #' @param keepRownames logical indicating whether to include
 #'    `rownames(x)` in its own column in Excel.
-#' @param rownameHeader character value used as the column header when
-#'    `keepRownames=TRUE`.
 #' @param verbose logical indicating whether to print verbose output.
 #' @param ... additional arguments are passed to `applyXlsxConditionalFormat()`
 #'    and `applyXlsxCategoricalFormat()`.
@@ -207,7 +205,6 @@ autoWidth=TRUE,
 wrapHeaders=TRUE,
 headerRowMultiplier=5,
 keepRownames=FALSE,
-rownameHeader="rowName",
 
 verbose=FALSE,
 ...)
@@ -244,6 +241,7 @@ verbose=FALSE,
    openxlsx::writeDataTable(wb,
       x=x,
       sheet=sheetName,
+      rowNames=keepRownames,
       bandedRows=FALSE,
       bandedCols=TRUE);
 
@@ -263,7 +261,7 @@ verbose=FALSE,
    openxlsx::addStyle(wb,
       sheet=sheetName,
       style=borderStyle,
-      cols=seq_len(ncol(x)),
+      cols=seq_len(ncol(x) + keepRownames),
       rows=seq_len(nrow(x)+1),
       stack=TRUE,
       gridExpand=TRUE);
@@ -277,7 +275,7 @@ verbose=FALSE,
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=wrapTextStyle,
-         cols=seq_len(ncol(x)),
+         cols=seq_len(ncol(x) + keepRownames),
          rows=1,
          stack=TRUE,
          gridExpand=TRUE);
@@ -289,17 +287,19 @@ verbose=FALSE,
          printDebug("writeOpenxlsx():",
             "autoWidth=TRUE");
       }
-      openxlsx::setColWidths(wb, sheetName,
-         cols=seq_len(ncol(x)),
-         widths=rep(c("auto"), length.out=ncol(x)));
+      openxlsx::setColWidths(wb,
+         sheetName,
+         cols=seq_len(ncol(x) + keepRownames),
+         widths=rep(c("auto"), length.out=ncol(x) + keepRownames));
    } else {
       if (verbose) {
          printDebug("writeOpenxlsx():",
             "autoWidth=FALSE");
       }
-      openxlsx::setColWidths(wb, sheetName,
-         cols=seq_len(ncol(x)),
-         widths=rep(minWidth, length.out=ncol(x)));
+      openxlsx::setColWidths(wb,
+         sheetName,
+         cols=seq_len(ncol(x) + keepRownames),
+         widths=rep(minWidth, length.out=ncol(x) + keepRownames));
    }
 
    ## Make sure colors are in hex format
@@ -324,7 +324,8 @@ verbose=FALSE,
    }
 
    ## Style basic non-highlightColumns A and B
-   basicColumns <- setdiff(seq_len(ncol(x)), highlightColumns);
+   basicColumns <- setdiff(seq_len(ncol(x) + keepRownames),
+      highlightColumns + keepRownames);
    if (length(basicColumns) > 0) {
       basicAHStyle <- openxlsx::createStyle(#bgFill=head(headerColors, 1),
          fgFill=head(headerColors, 1),
@@ -397,14 +398,14 @@ verbose=FALSE,
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=highAHStyle,
-            cols=highlightColumnsA,
+            cols=highlightColumnsA + keepRownames,
             rows=1,
             stack=TRUE,
             gridExpand=TRUE);
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=highACStyle,
-            cols=highlightColumnsA,
+            cols=highlightColumnsA + keepRownames,
             rows=seq_len(nrow(x))+1,
             stack=TRUE,
             gridExpand=TRUE);
@@ -413,14 +414,14 @@ verbose=FALSE,
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=highBHStyle,
-            cols=highlightColumnsB,
+            cols=highlightColumnsB + keepRownames,
             rows=1,
             stack=TRUE,
             gridExpand=TRUE);
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=highBCStyle,
-            cols=highlightColumnsB,
+            cols=highlightColumnsB + keepRownames,
             rows=seq_len(nrow(x))+1,
             stack=TRUE,
             gridExpand=TRUE);
@@ -432,10 +433,13 @@ verbose=FALSE,
       if (verbose) printDebug("writeOpenxlsx():",
          "Applying intStyles");
       intStyle1 <- openxlsx::createStyle(numFmt=intFormat, halign="right");
-      openxlsx::addStyle(wb, sheet=sheetName, style=intStyle1,
+      openxlsx::addStyle(wb,
+         sheet=sheetName,
+         style=intStyle1,
          cols=intColumns,
          rows=seq_len(nrow(x))+1,
-         stack=TRUE, gridExpand=TRUE);
+         stack=TRUE,
+         gridExpand=TRUE);
    }
 
    ## Style numeric fields
@@ -443,10 +447,13 @@ verbose=FALSE,
       if (verbose) printDebug("writeOpenxlsx():",
          "Applying numStyles");
       numStyle1 <- openxlsx::createStyle(numFmt=numFormat, halign="right");
-      openxlsx::addStyle(wb, sheet=sheetName, style=numStyle1,
+      openxlsx::addStyle(wb,
+         sheet=sheetName,
+         style=numStyle1,
          cols=numColumns,
          rows=seq_len(nrow(x))+1,
-         stack=TRUE, gridExpand=TRUE);
+         stack=TRUE,
+         gridExpand=TRUE);
    }
 
    ## Style FC fields
@@ -454,10 +461,13 @@ verbose=FALSE,
       if (verbose) printDebug("writeOpenxlsx():",
          "Applying fcStyles");
       fcStyle1 <- openxlsx::createStyle(numFmt=fcFormat, halign="right");
-      openxlsx::addStyle(wb, sheet=sheetName, style=fcStyle1,
-         cols=fcColumns,
+      openxlsx::addStyle(wb,
+         sheet=sheetName,
+         style=fcStyle1,
+         cols=fcColumns + keepRownames,
          rows=seq_len(nrow(x))+1,
-         stack=TRUE, gridExpand=TRUE);
+         stack=TRUE,
+         gridExpand=TRUE);
    }
 
    ## Style LFC fields
@@ -465,10 +475,13 @@ verbose=FALSE,
       if (verbose) printDebug("writeOpenxlsx():",
          "Applying lfcStyles");
       lfcStyle1 <- openxlsx::createStyle(numFmt=lfcFormat, halign="right");
-      openxlsx::addStyle(wb, sheet=sheetName, style=lfcStyle1,
-         cols=lfcColumns,
+      openxlsx::addStyle(wb,
+         sheet=sheetName,
+         style=lfcStyle1,
+         cols=lfcColumns + keepRownames,
          rows=seq_len(nrow(x))+1,
-         stack=TRUE, gridExpand=TRUE);
+         stack=TRUE,
+         gridExpand=TRUE);
    }
 
    ## Style hit fields
@@ -476,10 +489,13 @@ verbose=FALSE,
       if (verbose) printDebug("writeOpenxlsx():",
          "Applying hitStyles");
       hitStyle1 <- openxlsx::createStyle(numFmt=hitFormat, halign="right");
-      openxlsx::addStyle(wb, sheet=sheetName, style=hitStyle1,
-         cols=hitColumns,
+      openxlsx::addStyle(wb,
+         sheet=sheetName,
+         style=hitStyle1,
+         cols=hitColumns + keepRownames,
          rows=seq_len(nrow(x))+1,
-         stack=TRUE, gridExpand=TRUE);
+         stack=TRUE,
+         gridExpand=TRUE);
    }
 
    ## Style P-value fields
@@ -488,10 +504,13 @@ verbose=FALSE,
          "Applying pvalueStyles with pvalueFormat:",
          pvalueFormat);
       pvalueStyle1 <- openxlsx::createStyle(numFmt=pvalueFormat, halign="right");
-      openxlsx::addStyle(wb, sheet=sheetName, style=pvalueStyle1,
-         cols=pvalueColumns,
+      openxlsx::addStyle(wb,
+         sheet=sheetName,
+         style=pvalueStyle1,
+         cols=pvalueColumns + keepRownames,
          rows=seq_len(nrow(x))+1,
-         stack=TRUE, gridExpand=TRUE);
+         stack=TRUE,
+         gridExpand=TRUE);
    }
 
    ## Apply freeze panes
@@ -501,26 +520,30 @@ verbose=FALSE,
             "Applying freezePaneRow:", freezePaneRow,
             ", freezePaneColumn:", freezePaneColumn);
       }
-      openxlsx::freezePane(wb, sheetName,
+      openxlsx::freezePane(wb,
+         sheetName,
          firstActiveRow=freezePaneRow,
-         firstActiveCol=freezePaneColumn);
+         firstActiveCol=freezePaneColumn + keepRownames);
    }
 
    ## Add header filter
    if (doFilter && 1 == 2) {
       if (verbose) printDebug("writeOpenxlsx():",
          "Applying addFilter");
-      openxlsx::addFilter(wb, sheetName,
+      openxlsx::addFilter(wb,
+         sheetName,
          rows=1,
-         cols=seq_len(ncol(x)));
+         cols=seq_len(ncol(x) + keepRownames));
    }
 
    ## Adjust header row height
    if (headerRowMultiplier > 1) {
       if (verbose) printDebug("writeOpenxlsx():",
          "Applying headerRowMultiplier");
-      openxlsx::setRowHeights(wb, sheetName,
-         rows=1, heights=15*headerRowMultiplier);
+      openxlsx::setRowHeights(wb,
+         sheetName,
+         rows=1,
+         heights=15*headerRowMultiplier);
    }
 
    ## Write the .xlsx file here
@@ -534,19 +557,22 @@ verbose=FALSE,
 
    ## Optionally apply conditional column formatting
    if (doConditional &&
-         length(c(numColumns, fcColumns, lfcColumns,
-            intColumns, hitColumns)) > 0) {
+         length(c(numColumns,
+            fcColumns,
+            lfcColumns,
+            intColumns,
+            hitColumns)) > 0) {
       #
       if (verbose) printDebug("writeOpenxlsx():",
          "calling applyXlsxConditionalFormat");
       applyXlsxConditionalFormat(xlsxFile=file,
          sheet=sheetName,
-         fcColumns=fcColumns,
-         lfcColumns=lfcColumns,
-         numColumns=numColumns,
-         intColumns=intColumns,
-         hitColumns=hitColumns,
-         pvalueColumns=pvalueColumns,
+         fcColumns=fcColumns + keepRownames,
+         lfcColumns=lfcColumns + keepRownames,
+         numColumns=numColumns + keepRownames,
+         intColumns=intColumns + keepRownames,
+         hitColumns=hitColumns + keepRownames,
+         pvalueColumns=pvalueColumns + keepRownames,
          fcStyle=fcStyle, fcRule=fcRule,
          lfcStyle=lfcStyle, lfcRule=lfcRule,
          hitStyle=hitStyle, hitRule=hitRule,
@@ -558,14 +584,21 @@ verbose=FALSE,
    }
 
    if (doCategorical && !is.null(colorSub)) {
-      textColumns <- setdiff(seq_len(ncol(x)),
-         c(numColumns, fcColumns, lfcColumns,
-            intColumns, hitColumns, pvalueColumns));
+      textColumns <- setdiff(seq_len(ncol(x) + keepRownames),
+         c(numColumns,
+            fcColumns,
+            lfcColumns,
+            intColumns,
+            hitColumns,
+            pvalueColumns) + keepRownames);
       ## Apply categorical colors to text columns
       if (length(textColumns) > 0) {
          #
-         if (verbose) printDebug("writeOpenxlsx():",
-            "applyXlsxCategoricalFormat: ", textColumns);
+         if (verbose) {
+            printDebug("writeOpenxlsx():",
+               "applyXlsxCategoricalFormat: ",
+               textColumns);
+         }
          applyXlsxCategoricalFormat(xlsxFile=file,
             sheet=sheetName,
             rowRange=seq_len(nrow(x))+0,
@@ -582,7 +615,7 @@ verbose=FALSE,
          applyXlsxCategoricalFormat(xlsxFile=file,
             sheet=sheetName,
             rowRange=c(0),
-            colRange=colRange,
+            colRange=colRange + keepRownames,
             colorSub=colorSub,
             verbose=verbose,
             ...);
