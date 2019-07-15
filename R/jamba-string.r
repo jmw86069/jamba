@@ -322,7 +322,8 @@ provigrep <- function
    ## the grep patterns as list names
    ##
    returnType <- match.arg(returnType);
-   x_unique <- make.unique(x, sep="_v");
+   x_unique <- make.unique(as.character(x),
+      sep="_v");
 
    ## Iterate each grep pattern
    valueSetL <- lapply(patterns, function(i){
@@ -336,7 +337,7 @@ provigrep <- function
          z <- sortFunc(z);
       }
       ## Here the values are converted to index positions
-      match(make.unique(z, sep="_v"),
+      match(make.unique(as.character(z), sep="_v"),
          x_unique);
    });
 
@@ -347,7 +348,9 @@ provigrep <- function
       names(valueSetL) <- names(patterns);
    }
    f1 <- factor(names(valueSetL), levels=names(valueSetL));
-   m1 <- match(make.unique(sep="_v", as.character(unlist(valueSetL))),
+   m1 <- match(
+      make.unique(sep="_v",
+         as.character(unlist(valueSetL))),
       as.character(seq_along(x)));
    r1 <- rep(f1, lengths(valueSetL));
    if (value && "list" %in% returnType) {
