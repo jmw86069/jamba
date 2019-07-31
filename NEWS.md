@@ -26,6 +26,11 @@ and could be mitigated.
 * `groupedAxis()` draws grouped axis labels, a small convenience
 function that extends `breaksByVectors()`.
 
+## bug fixes
+
+* Fixed regression in `provigrep()` when input is not character,
+the use of `make.unique()` requires explicit conversion to character
+type first.
 
 # jamba version 0.0.38.900
 
