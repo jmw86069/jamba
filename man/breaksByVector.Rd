@@ -55,27 +55,54 @@ it may be ideal to label only unique elements in a contiguous set.
 b <- rep(LETTERS[1:5], c(2,3,5,4,3));
 bb <- breaksByVector(b);
 # Example showing how labels can be minimized inside a data.frame
-data.frame(b, bb$newLabels);
+data.frame(b,
+   newLabels=bb$newLabels);
 
 # Example showing how to reposition text labels
 # so duplicated labels are displayed in the middle
 # of each group
 bb2 <- breaksByVector(b, returnFractions=TRUE);
 ylabs <- c("minimal labels", "all labels");
-adjustAxisLabelMargins(2, ylabs);
+adjustAxisLabelMargins(ylabs, 2);
+adjustAxisLabelMargins(bb2$useLabels, 1);
 nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
    doBoxes=FALSE, doUsrBox=TRUE);
 axis(2, las=2, at=c(1,2), ylabs);
 text(y=2, x=seq_along(b), b);
 text(y=1, x=bb2$labelPoints, bb2$useLabels);
 
+## Print axis labels in the center of each group
+axis(3,
+   las=2,
+   at=bb2$labelPoints,
+   labels=bb2$useLabels);
+
+## indicate each region
+for (i in seq_along(bb2$breakPoints)) {
+   axis(1,
+      at=c(c(0, bb2$breakPoints)[i]+0.8, bb2$breakPoints[i]+0.2),
+      labels=c("", ""));
+}
+## place the label centered in each region without adding tick marks
+axis(1,
+   las=2,
+   tick=FALSE,
+   at=bb2$labelPoints,
+   labels=bb2$useLabels);
+## abline to indicate the boundaries, if needed
+abline(v=c(0, bb2$breakPoints) + 0.5,
+   lty="dashed",
+   col="blue");
+
 # The same process is used by imageByColors()
 
 }
 \seealso{
 Other jam string functions: \code{\link{asSize}},
-  \code{\link{cPasteUnique}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
+  \code{\link{cPasteSU}}, \code{\link{cPasteS}},
+  \code{\link{cPasteUnique}}, \code{\link{cPasteU}},
+  \code{\link{cPaste}}, \code{\link{fillBlanks}},
+  \code{\link{formatInt}}, \code{\link{gsubOrdered}},
   \code{\link{makeNames}}, \code{\link{mixedOrder}},
   \code{\link{mixedSortDF}}, \code{\link{mixedSorts}},
   \code{\link{mixedSort}}, \code{\link{mmixedOrder}},

@@ -64,7 +64,7 @@ usually delimited by a comma." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
       </span>
     </div>
 
@@ -127,7 +127,9 @@ usually delimited by a comma.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>cPasteUnique</span>(<span class='no'>x</span>, <span class='kw'>makeUnique</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>cPasteUnique</span>(<span class='no'>x</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>, <span class='kw'>doSort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>makeUnique</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keepFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>checkClass</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>useBioc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,6 +137,15 @@ usually delimited by a comma.</p>
     <tr>
       <th>x</th>
       <td><p>input list of vectors</p></td>
+    </tr>
+    <tr>
+      <th>sep</th>
+      <td><p>character delimiter used to paste multiple values together</p></td>
+    </tr>
+    <tr>
+      <th>doSort</th>
+      <td><p>boolean indicating whether to sort each vector
+using <code><a href='mixedOrder.html'>mixedOrder()</a></code>.</p></td>
     </tr>
     <tr>
       <th>makeUnique</th>
@@ -149,8 +160,25 @@ list element contains only <code>NA</code> values, the resulting string
 will be <code>""</code>.</p></td>
     </tr>
     <tr>
-      <th>..</th>
-      <td><p>additional arguments are passed to <code><a href='cPaste.html'>cPaste()</a></code>.</p></td>
+      <th>keepFactors</th>
+      <td><p>logical indicating whether to preserve factors,
+keeping factor level order when <code>doSort=TRUE</code>. When
+<code>keepFactors=TRUE</code>, if any list element is a factor, all elements
+are converted to factors. Note that this step combines overall
+factor levels, and non-factors will be ordered using
+<code><a href='https://www.rdocumentation.org/packages/base/topics/order'>base::order()</a></code> instead of <code><a href='mixedOrder.html'>jamba::mixedOrder()</a></code> (for now.)</p></td>
+    </tr>
+    <tr>
+      <th>useBioc</th>
+      <td><p>boolean indicating whether this function should try
+to use <code><a href='https://www.rdocumentation.org/packages/S4Vectors/topics/character-utils'>S4Vectors::unstrsplit()</a></code> when the Bioconductor package
+<code>S4Vectors</code> is installed, otherwise it will use a much less
+efficient <code><a href='https://www.rdocumentation.org/packages/base/topics/mapply'>mapply()</a></code> operation.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments are passed to <code><a href='mixedOrder.html'>mixedOrder()</a></code> when
+<code>doSort=TRUE</code>.</p></td>
     </tr>
     </table>
     
@@ -161,8 +189,10 @@ will be <code>""</code>.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam string functions: <code><a href='asSize.html'>asSize</a></code>,
-  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPaste.html'>cPaste</a></code>,
-  <code><a href='fillBlanks.html'>fillBlanks</a></code>, <code><a href='formatInt.html'>formatInt</a></code>,
+  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPasteSU.html'>cPasteSU</a></code>,
+  <code><a href='cPasteS.html'>cPasteS</a></code>, <code><a href='cPasteU.html'>cPasteU</a></code>,
+  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='fillBlanks.html'>fillBlanks</a></code>,
+  <code><a href='formatInt.html'>formatInt</a></code>, <code><a href='gsubOrdered.html'>gsubOrdered</a></code>,
   <code><a href='makeNames.html'>makeNames</a></code>, <code><a href='mixedOrder.html'>mixedOrder</a></code>,
   <code><a href='mixedSortDF.html'>mixedSortDF</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
   <code><a href='mixedSort.html'>mixedSort</a></code>, <code><a href='mmixedOrder.html'>mmixedOrder</a></code>,
@@ -171,13 +201,14 @@ will be <code>""</code>.</p></td>
   <code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a></code>,
   <code><a href='pasteByRow.html'>pasteByRow</a></code>, <code><a href='tcount.html'>tcount</a></code>,
   <code><a href='ucfirst.html'>ucfirst</a></code>, <code><a href='uniques.html'>uniques</a></code></p>
-<p>Other jam list functions: <code><a href='cPaste.html'>cPaste</a></code>,
-  <code><a href='list2df.html'>list2df</a></code>, <code><a href='mergeAllXY.html'>mergeAllXY</a></code>,
-  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='rbindList.html'>rbindList</a></code>,
-  <code><a href='relist_named.html'>relist_named</a></code>, <code><a href='rlengths.html'>rlengths</a></code>,
-  <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code>,
-  <code><a href='unnestList.html'>unnestList</a></code></p></div>
+<p>Other jam list functions: <code><a href='cPasteSU.html'>cPasteSU</a></code>,
+  <code><a href='cPasteS.html'>cPasteS</a></code>, <code><a href='cPasteU.html'>cPasteU</a></code>,
+  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='list2df.html'>list2df</a></code>,
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
+  <code><a href='rbindList.html'>rbindList</a></code>, <code><a href='relist_named.html'>relist_named</a></code>,
+  <code><a href='rlengths.html'>rlengths</a></code>, <code><a href='sclass.html'>sclass</a></code>,
+  <code><a href='sdim.html'>sdim</a></code>, <code><a href='ssdim.html'>ssdim</a></code>,
+  <code><a href='uniques.html'>uniques</a></code>, <code><a href='unnestList.html'>unnestList</a></code></p></div>
     
 
   </div>

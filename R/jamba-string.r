@@ -2069,8 +2069,8 @@ uniques <- function
 
 #' paste a list into a delimited vector
 #'
-#' Paste a list of vectors into a character vector, usually delimited
-#' by a comma.
+#' Paste a list of vectors into a character vector, with values
+#' delimited by default with a comma.
 #'
 #' This function is essentially a wrapper for [S4Vectors::unstrsplit()]
 #' except that it also optionally applies uniqueness to each vector
@@ -2111,19 +2111,27 @@ uniques <- function
 #' L1 <- list(CA=LETTERS[c(1:4,2,7,4,6)], B=letters[c(7:11,9,3)]);
 #'
 #' cPaste(L1);
-#' #                CA                 B
-#' # "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"
-#'
-#' cPaste(L1, doSort=FALSE);
-#' #                CA                 B
+#' #               CA                 B
 #' # "A,B,C,D,B,G,D,F"   "g,h,i,j,k,i,c"
 #'
-#' cPaste(L1, makeUnique=TRUE);
-#' #            CA             B
-#' # "A,B,C,D,F,G" "c,g,h,i,j,k"
+#' cPaste(L1, doSort=TRUE);
+#' #               CA                 B
+#' # "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"
 #'
-#' cPaste(L1, sep="; ", makeUnique=TRUE)
-#' #                 CA                  B
+#' ## The sort can be done with convenience function cPasteS()
+#' cPasteS(L1);
+#' #               CA                 B
+#' # "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"
+#'
+#' ## Similarly, makeUnique=TRUE and cPasteU() are the same
+#' cPaste(L1, makeUnique=TRUE);
+#' cPasteU(L1);
+#' #           CA             B
+#' # "A,B,C,D,G,F" "g,h,i,j,k,c"
+#'
+#' ## Change the delimiter
+#' cPasteSU(L1, sep="; ")
+#' #                CA                  B
 #' # "A; B; C; D; F; G" "c; g; h; i; j; k"
 #'
 #' # test mix of factor and non-factor
@@ -2132,7 +2140,7 @@ uniques <- function
 #'       levels=letters[12:1])),
 #'    L1);
 #' L2;
-#' cPaste(L2, keepFactors=TRUE);
+#' cPasteSU(L2, keepFactors=TRUE);
 #'
 #' @family jam string functions
 #' @family jam list functions
@@ -2141,7 +2149,7 @@ uniques <- function
 cPaste <- function
 (x,
  sep=",",
- doSort=TRUE,
+ doSort=FALSE,
  makeUnique=FALSE,
  na.rm=FALSE,
  keepFactors=FALSE,
@@ -2181,7 +2189,8 @@ cPaste <- function
          checkClass=FALSE,
          keepFactors=FALSE,
          doSort=FALSE,
-         na.rm=FALSE
+         na.rm=FALSE,
+         makeUnique=FALSE,
       );
    } else {
       xclass <- "character";
@@ -2281,6 +2290,79 @@ cPaste <- function
    return(xNew);
 }
 
+#' paste a list into a delimited vector using sorted values
+#'
+#' Paste a list of vectors into a character vector, with values sorted
+#' then delimited by default with a comma.
+#'
+#' This function is convenient a wrapper for `cPaste(.., doSort=TRUE)`.
+#'
+#' @inheritParams cPaste
+#'
+#' @family jam string functions
+#' @family jam list functions
+#'
+#' @export
+cPasteS <- function
+(x,
+ sep=",",
+ doSort=TRUE,
+ makeUnique=FALSE,
+ na.rm=FALSE,
+ keepFactors=FALSE,
+ checkClass=TRUE,
+ useBioc=TRUE,
+ ...)
+{
+   ## Purpose is to call cPaste with doSort=TRUE
+   cPaste(x=x,
+      sep=sep,
+      doSort=doSort,
+      makeUnique=makeUnique,
+      na.rm=na.rm,
+      keepFactors=keepFactors,
+      checkClass=checkClass,
+      useBioc=useBioc,
+      ...);
+}
+
+
+#' paste a list into a delimited vector using sorted, unique values
+#'
+#' Paste a list of vectors into a character vector, with unique values
+#' sorted then delimited by default with a comma.
+#'
+#' This function is convenient a wrapper for `cPaste(.., doSort=TRUE, makeUnique=TRUE)`.
+#'
+#' @inheritParams cPaste
+#'
+#' @family jam string functions
+#' @family jam list functions
+#'
+#' @export
+cPasteSU <- function
+(x,
+ sep=",",
+ doSort=TRUE,
+ makeUnique=TRUE,
+ na.rm=FALSE,
+ keepFactors=FALSE,
+ checkClass=TRUE,
+ useBioc=TRUE,
+ ...)
+{
+   ## Purpose is to call cPaste with doSort=TRUE and makeUnique=TRUE
+   cPaste(x=x,
+      sep=sep,
+      doSort=doSort,
+      makeUnique=makeUnique,
+      na.rm=na.rm,
+      keepFactors=keepFactors,
+      checkClass=checkClass,
+      useBioc=useBioc,
+      ...);
+}
+
 #' paste a list into a delimited vector using unique values
 #'
 #' Paste a list of vectors into a character vector of unique values,
@@ -2288,14 +2370,7 @@ cPaste <- function
 #'
 #' This function is convenient a wrapper for `cPaste(.., makeUnique=TRUE)`.
 #'
-#' @param x input list of vectors
-#' @param makeUnique boolean indicating whether to make each vector in
-#'    the input list unique before pasting its values together.
-#' @param na.rm boolean indicating whether to remove NA values from
-#'    each vector in the input list. When `na.rm` is `TRUE` and a
-#'    list element contains only `NA` values, the resulting string
-#'    will be `""`.
-#' @param .. additional arguments are passed to [cPaste()].
+#' @inheritParams cPaste
 #'
 #' @family jam string functions
 #' @family jam list functions
@@ -2303,14 +2378,60 @@ cPaste <- function
 #' @export
 cPasteUnique <- function
 (x,
+ sep=",",
+ doSort=FALSE,
  makeUnique=TRUE,
  na.rm=FALSE,
+ keepFactors=FALSE,
+ checkClass=TRUE,
+ useBioc=TRUE,
  ...)
 {
-   ## Quick wrapper around cPaste()
+   ## Purpose is to call cPaste with makeUnique=TRUE
    cPaste(x=x,
+      sep=sep,
+      doSort=doSort,
       makeUnique=makeUnique,
       na.rm=na.rm,
+      keepFactors=keepFactors,
+      checkClass=checkClass,
+      useBioc=useBioc,
+      ...);
+}
+
+#' paste a list into a delimited vector using unique values
+#'
+#' Paste a list of vectors into a character vector of unique values,
+#' usually delimited by a comma.
+#'
+#' This function is convenient a wrapper for `cPaste(.., makeUnique=TRUE)`.
+#'
+#' @inheritParams cPaste
+#'
+#' @family jam string functions
+#' @family jam list functions
+#'
+#' @export
+cPasteU <- function
+(x,
+ sep=",",
+ doSort=FALSE,
+ makeUnique=TRUE,
+ na.rm=FALSE,
+ keepFactors=FALSE,
+ checkClass=TRUE,
+ useBioc=TRUE,
+ ...)
+{
+   ## Purpose is to call cPaste with makeUnique=TRUE
+   cPaste(x=x,
+      sep=sep,
+      doSort=doSort,
+      makeUnique=makeUnique,
+      na.rm=na.rm,
+      keepFactors=keepFactors,
+      checkClass=checkClass,
+      useBioc=useBioc,
       ...);
 }
 
@@ -2873,6 +2994,8 @@ ucfirst <- function
 #' @param sortFunc function used to sort factor levels, which
 #'    is not performed if the input `x` is a `factor`.
 #' @param ... additional arguments are passed to `sortFunc`
+#'
+#' @family jam string functions
 #'
 #' @examples
 #' x <- c(paste0(

@@ -96,8 +96,8 @@ drawLabels(x=cp2$x, y=cp2$y, adjX=cp2$adjX, adjY=cp2$adjY, txt=presetV2, boxCexA
 \seealso{
 Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
   \code{\link{decideMfrow}}, \code{\link{drawLabels}},
-  \code{\link{getPlotAspect}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
+  \code{\link{getPlotAspect}}, \code{\link{groupedAxis}},
+  \code{\link{imageByColors}}, \code{\link{imageDefault}},
   \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
   \code{\link{plotPolygonDensity}},
   \code{\link{plotSmoothScatter}},

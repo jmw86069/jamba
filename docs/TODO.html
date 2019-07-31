@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
       </span>
     </div>
 
@@ -122,6 +122,8 @@
 <a href="#general-enhancements" class="anchor"></a>General enhancements</h3>
 <ul>
 <li>Add message during package install suggesting the “crayon” package be installed if not already installed.</li>
+<li>Update <code><a href="reference/checkLightMode.html">checkLightMode()</a></code> to use <code><a href="https://www.rdocumentation.org/packages/rstudioapi/topics/getThemeInfo">rstudioapi::getThemeInfo()</a></code> if the <code>rstudioapi</code> package is installed.</li>
+<li>Update <code><a href="reference/make_styles.html">make_styles()</a></code> to handle style and bg_style in one step, allowing background colors to be defined, and by default the foreground will be defined with <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> if NA or NULL. Also, when bg_style is defined, the foreground color no longer uses <code>Crange</code> and <code>Lrange</code> to restrict the brightness to those that contrast with the console background color, since the text will already be printed on the background color. Lastly, ensure that background color is not restricted by <code>Crange</code> and <code>Lrange</code> by default; not sure if this setting needs a method to override it.</li>
 </ul>
 </div>
 <div id="bug-fixes-enhancements-to-existing-functions" class="section level3">

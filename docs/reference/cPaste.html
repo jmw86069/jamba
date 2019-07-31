@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="paste a list into a delimited vector — cPaste" />
 
-<meta property="og:description" content="Paste a list of vectors into a character vector, usually delimited
-by a comma." />
+<meta property="og:description" content="Paste a list of vectors into a character vector, with values
+delimited by default with a comma." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -64,7 +64,7 @@ by a comma." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
       </span>
     </div>
 
@@ -122,12 +122,12 @@ by a comma." />
 
     <div class="ref-description">
     
-    <p>Paste a list of vectors into a character vector, usually delimited
-by a comma.</p>
+    <p>Paste a list of vectors into a character vector, with values
+delimited by default with a comma.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>cPaste</span>(<span class='no'>x</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>, <span class='kw'>doSort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>makeUnique</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>cPaste</span>(<span class='no'>x</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>, <span class='kw'>doSort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>makeUnique</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>keepFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>checkClass</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>useBioc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
@@ -200,8 +200,10 @@ will use <code>S4Vectors::unique()</code> if available.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam string functions: <code><a href='asSize.html'>asSize</a></code>,
-  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='fillBlanks.html'>fillBlanks</a></code>, <code><a href='formatInt.html'>formatInt</a></code>,
+  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPasteSU.html'>cPasteSU</a></code>,
+  <code><a href='cPasteS.html'>cPasteS</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
+  <code><a href='cPasteU.html'>cPasteU</a></code>, <code><a href='fillBlanks.html'>fillBlanks</a></code>,
+  <code><a href='formatInt.html'>formatInt</a></code>, <code><a href='gsubOrdered.html'>gsubOrdered</a></code>,
   <code><a href='makeNames.html'>makeNames</a></code>, <code><a href='mixedOrder.html'>mixedOrder</a></code>,
   <code><a href='mixedSortDF.html'>mixedSortDF</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
   <code><a href='mixedSort.html'>mixedSort</a></code>, <code><a href='mmixedOrder.html'>mmixedOrder</a></code>,
@@ -210,32 +212,41 @@ will use <code>S4Vectors::unique()</code> if available.</p>
   <code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a></code>,
   <code><a href='pasteByRow.html'>pasteByRow</a></code>, <code><a href='tcount.html'>tcount</a></code>,
   <code><a href='ucfirst.html'>ucfirst</a></code>, <code><a href='uniques.html'>uniques</a></code></p>
-<p>Other jam list functions: <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='list2df.html'>list2df</a></code>, <code><a href='mergeAllXY.html'>mergeAllXY</a></code>,
-  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='rbindList.html'>rbindList</a></code>,
-  <code><a href='relist_named.html'>relist_named</a></code>, <code><a href='rlengths.html'>rlengths</a></code>,
-  <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
-  <code><a href='ssdim.html'>ssdim</a></code>, <code><a href='uniques.html'>uniques</a></code>,
-  <code><a href='unnestList.html'>unnestList</a></code></p></div>
+<p>Other jam list functions: <code><a href='cPasteSU.html'>cPasteSU</a></code>,
+  <code><a href='cPasteS.html'>cPasteS</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
+  <code><a href='cPasteU.html'>cPasteU</a></code>, <code><a href='list2df.html'>list2df</a></code>,
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
+  <code><a href='rbindList.html'>rbindList</a></code>, <code><a href='relist_named.html'>relist_named</a></code>,
+  <code><a href='rlengths.html'>rlengths</a></code>, <code><a href='sclass.html'>sclass</a></code>,
+  <code><a href='sdim.html'>sdim</a></code>, <code><a href='ssdim.html'>ssdim</a></code>,
+  <code><a href='uniques.html'>uniques</a></code>, <code><a href='unnestList.html'>unnestList</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>L1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>CA</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>7</span>,<span class='fl'>4</span>,<span class='fl'>6</span>)], <span class='kw'>B</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>7</span>:<span class='fl'>11</span>,<span class='fl'>9</span>,<span class='fl'>3</span>)]);
 
 <span class='fu'>cPaste</span>(<span class='no'>L1</span>);</div><div class='output co'>#&gt;                CA                 B 
-#&gt; "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k" </div><div class='input'><span class='co'>#                CA                 B</span>
-<span class='co'># "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"</span>
-
-<span class='fu'>cPaste</span>(<span class='no'>L1</span>, <span class='kw'>doSort</span><span class='kw'>=</span><span class='fl'>FALSE</span>);</div><div class='output co'>#&gt;                CA                 B 
-#&gt; "A,B,C,D,B,G,D,F"   "g,h,i,j,k,i,c" </div><div class='input'><span class='co'>#                CA                 B</span>
+#&gt; "A,B,C,D,B,G,D,F"   "g,h,i,j,k,i,c" </div><div class='input'><span class='co'>#               CA                 B</span>
 <span class='co'># "A,B,C,D,B,G,D,F"   "g,h,i,j,k,i,c"</span>
 
-<span class='fu'>cPaste</span>(<span class='no'>L1</span>, <span class='kw'>makeUnique</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;            CA             B 
-#&gt; "A,B,C,D,F,G" "c,g,h,i,j,k" </div><div class='input'><span class='co'>#            CA             B</span>
-<span class='co'># "A,B,C,D,F,G" "c,g,h,i,j,k"</span>
+<span class='fu'>cPaste</span>(<span class='no'>L1</span>, <span class='kw'>doSort</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                CA                 B 
+#&gt; "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k" </div><div class='input'><span class='co'>#               CA                 B</span>
+<span class='co'># "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"</span>
 
-<span class='fu'>cPaste</span>(<span class='no'>L1</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>"; "</span>, <span class='kw'>makeUnique</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                 CA                  B 
-#&gt; "A; B; C; D; F; G" "c; g; h; i; j; k" </div><div class='input'><span class='co'>#                 CA                  B</span>
+<span class='co'>## The sort can be done with convenience function cPasteS()</span>
+<span class='fu'><a href='cPasteS.html'>cPasteS</a></span>(<span class='no'>L1</span>);</div><div class='output co'>#&gt;                CA                 B 
+#&gt; "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k" </div><div class='input'><span class='co'>#               CA                 B</span>
+<span class='co'># "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"</span>
+
+<span class='co'>## Similarly, makeUnique=TRUE and cPasteU() are the same</span>
+<span class='fu'>cPaste</span>(<span class='no'>L1</span>, <span class='kw'>makeUnique</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;            CA             B 
+#&gt; "A,B,C,D,G,F" "g,h,i,j,k,c" </div><div class='input'><span class='fu'><a href='cPasteU.html'>cPasteU</a></span>(<span class='no'>L1</span>);</div><div class='output co'>#&gt;            CA             B 
+#&gt; "A,B,C,D,G,F" "g,h,i,j,k,c" </div><div class='input'><span class='co'>#           CA             B</span>
+<span class='co'># "A,B,C,D,G,F" "g,h,i,j,k,c"</span>
+
+<span class='co'>## Change the delimiter</span>
+<span class='fu'><a href='cPasteSU.html'>cPasteSU</a></span>(<span class='no'>L1</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>"; "</span>)</div><div class='output co'>#&gt;                 CA                  B 
+#&gt; "A; B; C; D; F; G" "c; g; h; i; j; k" </div><div class='input'><span class='co'>#                CA                  B</span>
 <span class='co'># "A; B; C; D; F; G" "c; g; h; i; j; k"</span>
 
 <span class='co'># test mix of factor and non-factor</span>
@@ -252,8 +263,8 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 #&gt; 
 #&gt; $B
 #&gt; [1] "g" "h" "i" "j" "k" "i" "c"
-#&gt; </div><div class='input'><span class='fu'>cPaste</span>(<span class='no'>L2</span>, <span class='kw'>keepFactors</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                         D                        CA                         B 
-#&gt; "l,k,j,i,h,g,f,e,d,c,b,a"         "A,B,B,C,D,D,F,G"           "k,j,i,i,h,g,c" </div><div class='input'>
+#&gt; </div><div class='input'><span class='fu'><a href='cPasteSU.html'>cPasteSU</a></span>(<span class='no'>L2</span>, <span class='kw'>keepFactors</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                         D                        CA                         B 
+#&gt; "l,k,j,i,h,g,f,e,d,c,b,a"             "A,B,C,D,F,G"             "k,j,i,h,g,c" </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

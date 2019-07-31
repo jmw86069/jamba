@@ -40,9 +40,11 @@ ucfirst("testing mixedCase upperAndLower case input", TRUE, TRUE)
 }
 \seealso{
 Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
-  \code{\link{cPaste}}, \code{\link{fillBlanks}},
-  \code{\link{formatInt}}, \code{\link{makeNames}},
+  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
+  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
+  \code{\link{cPasteU}}, \code{\link{cPaste}},
+  \code{\link{fillBlanks}}, \code{\link{formatInt}},
+  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
   \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
   \code{\link{mixedSorts}}, \code{\link{mixedSort}},
   \code{\link{mmixedOrder}}, \code{\link{nameVectorN}},

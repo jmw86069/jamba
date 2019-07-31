@@ -57,8 +57,8 @@ axis(4, at=1:20, labels=ylabs, las=2);
 \seealso{
 Other jam plot functions: \code{\link{coordPresets}},
   \code{\link{decideMfrow}}, \code{\link{drawLabels}},
-  \code{\link{getPlotAspect}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
+  \code{\link{getPlotAspect}}, \code{\link{groupedAxis}},
+  \code{\link{imageByColors}}, \code{\link{imageDefault}},
   \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
   \code{\link{plotPolygonDensity}},
   \code{\link{plotSmoothScatter}},

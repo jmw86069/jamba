@@ -4,7 +4,7 @@
 \alias{cPaste}
 \title{paste a list into a delimited vector}
 \usage{
-cPaste(x, sep = ",", doSort = TRUE, makeUnique = FALSE,
+cPaste(x, sep = ",", doSort = FALSE, makeUnique = FALSE,
   na.rm = FALSE, keepFactors = FALSE, checkClass = TRUE,
   useBioc = TRUE, ...)
 }
@@ -44,8 +44,8 @@ character vector with the same names and in the same order
 as the input list \code{x}.
 }
 \description{
-Paste a list of vectors into a character vector, usually delimited
-by a comma.
+Paste a list of vectors into a character vector, with values
+delimited by default with a comma.
 }
 \details{
 This function is essentially a wrapper for \code{\link[S4Vectors:unstrsplit]{S4Vectors::unstrsplit()}}
@@ -61,19 +61,27 @@ will use \code{\link[S4Vectors:unique]{S4Vectors::unique()}} if available.
 L1 <- list(CA=LETTERS[c(1:4,2,7,4,6)], B=letters[c(7:11,9,3)]);
 
 cPaste(L1);
-#                CA                 B
-# "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"
-
-cPaste(L1, doSort=FALSE);
-#                CA                 B
+#               CA                 B
 # "A,B,C,D,B,G,D,F"   "g,h,i,j,k,i,c"
 
-cPaste(L1, makeUnique=TRUE);
-#            CA             B
-# "A,B,C,D,F,G" "c,g,h,i,j,k"
+cPaste(L1, doSort=TRUE);
+#               CA                 B
+# "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"
 
-cPaste(L1, sep="; ", makeUnique=TRUE)
-#                 CA                  B
+## The sort can be done with convenience function cPasteS()
+cPasteS(L1);
+#               CA                 B
+# "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"
+
+## Similarly, makeUnique=TRUE and cPasteU() are the same
+cPaste(L1, makeUnique=TRUE);
+cPasteU(L1);
+#           CA             B
+# "A,B,C,D,G,F" "g,h,i,j,k,c"
+
+## Change the delimiter
+cPasteSU(L1, sep="; ")
+#                CA                  B
 # "A; B; C; D; F; G" "c; g; h; i; j; k"
 
 # test mix of factor and non-factor
@@ -82,13 +90,15 @@ L2 <- c(
       levels=letters[12:1])),
    L1);
 L2;
-cPaste(L2, keepFactors=TRUE);
+cPasteSU(L2, keepFactors=TRUE);
 
 }
 \seealso{
 Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteUnique}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
+  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
+  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
+  \code{\link{cPasteU}}, \code{\link{fillBlanks}},
+  \code{\link{formatInt}}, \code{\link{gsubOrdered}},
   \code{\link{makeNames}}, \code{\link{mixedOrder}},
   \code{\link{mixedSortDF}}, \code{\link{mixedSorts}},
   \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
@@ -98,13 +108,14 @@ Other jam string functions: \code{\link{asSize}},
   \code{\link{pasteByRow}}, \code{\link{tcount}},
   \code{\link{ucfirst}}, \code{\link{uniques}}
 
-Other jam list functions: \code{\link{cPasteUnique}},
-  \code{\link{list2df}}, \code{\link{mergeAllXY}},
-  \code{\link{mixedSorts}}, \code{\link{rbindList}},
-  \code{\link{relist_named}}, \code{\link{rlengths}},
-  \code{\link{sclass}}, \code{\link{sdim}},
-  \code{\link{ssdim}}, \code{\link{uniques}},
-  \code{\link{unnestList}}
+Other jam list functions: \code{\link{cPasteSU}},
+  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
+  \code{\link{cPasteU}}, \code{\link{list2df}},
+  \code{\link{mergeAllXY}}, \code{\link{mixedSorts}},
+  \code{\link{rbindList}}, \code{\link{relist_named}},
+  \code{\link{rlengths}}, \code{\link{sclass}},
+  \code{\link{sdim}}, \code{\link{ssdim}},
+  \code{\link{uniques}}, \code{\link{unnestList}}
 }
 \concept{jam list functions}
 \concept{jam string functions}

@@ -4,7 +4,7 @@
 \alias{drawLabels}
 \title{Draw text labels on a base R plot}
 \usage{
-drawLabels(newCoords = NULL, x = NULL, y = NULL, txt = NULL,
+drawLabels(txt = NULL, newCoords = NULL, x = NULL, y = NULL,
   lx = NULL, ly = NULL, segmentLwd = 1, segmentCol = "#00000088",
   drawSegments = TRUE, boxBorderColor = "#000000AA",
   boxColor = "#DDAA77", boxLwd = 1, drawBox = TRUE,
@@ -15,13 +15,13 @@ drawLabels(newCoords = NULL, x = NULL, y = NULL, txt = NULL,
   trimReturns = TRUE, verbose = FALSE, ...)
 }
 \arguments{
+\item{txt}{character vector of labels, length equal to \code{x} and \code{y}.}
+
 \item{newCoords}{optional \code{data.frame} typically as a result of
 a previous call to \code{drawLabels()}. In general, it should contain
 colnames equivalent to the function parameters of \code{drawLabels()}.}
 
 \item{x, y}{vector of x- and y- coordinates.}
-
-\item{txt}{character vector of labels, length equal to \code{x} and \code{y}.}
 
 \item{lx, ly}{optional vector of segment endpoint coordinates, used
 to draw a line from x,y coordinates to the segment lx,ly coordinate.}
@@ -136,8 +136,8 @@ points(x=c(par("usr")[1], par("usr")[2],
 \seealso{
 Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
   \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{getPlotAspect}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
+  \code{\link{getPlotAspect}}, \code{\link{groupedAxis}},
+  \code{\link{imageByColors}}, \code{\link{imageDefault}},
   \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
   \code{\link{plotPolygonDensity}},
   \code{\link{plotSmoothScatter}},

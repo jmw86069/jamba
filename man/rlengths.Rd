@@ -53,12 +53,13 @@ rlengths(x)
 
 }
 \seealso{
-Other jam list functions: \code{\link{cPasteUnique}},
-  \code{\link{cPaste}}, \code{\link{list2df}},
-  \code{\link{mergeAllXY}}, \code{\link{mixedSorts}},
-  \code{\link{rbindList}}, \code{\link{relist_named}},
-  \code{\link{sclass}}, \code{\link{sdim}},
-  \code{\link{ssdim}}, \code{\link{uniques}},
-  \code{\link{unnestList}}
+Other jam list functions: \code{\link{cPasteSU}},
+  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
+  \code{\link{cPasteU}}, \code{\link{cPaste}},
+  \code{\link{list2df}}, \code{\link{mergeAllXY}},
+  \code{\link{mixedSorts}}, \code{\link{rbindList}},
+  \code{\link{relist_named}}, \code{\link{sclass}},
+  \code{\link{sdim}}, \code{\link{ssdim}},
+  \code{\link{uniques}}, \code{\link{unnestList}}
 }
 \concept{jam list functions}

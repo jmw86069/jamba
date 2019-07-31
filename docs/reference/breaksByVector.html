@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
       </span>
     </div>
 
@@ -184,8 +184,10 @@ it may be ideal to label only unique elements in a contiguous set.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam string functions: <code><a href='asSize.html'>asSize</a></code>,
-  <code><a href='cPasteUnique.html'>cPasteUnique</a></code>, <code><a href='cPaste.html'>cPaste</a></code>,
-  <code><a href='fillBlanks.html'>fillBlanks</a></code>, <code><a href='formatInt.html'>formatInt</a></code>,
+  <code><a href='cPasteSU.html'>cPasteSU</a></code>, <code><a href='cPasteS.html'>cPasteS</a></code>,
+  <code><a href='cPasteUnique.html'>cPasteUnique</a></code>, <code><a href='cPasteU.html'>cPasteU</a></code>,
+  <code><a href='cPaste.html'>cPaste</a></code>, <code><a href='fillBlanks.html'>fillBlanks</a></code>,
+  <code><a href='formatInt.html'>formatInt</a></code>, <code><a href='gsubOrdered.html'>gsubOrdered</a></code>,
   <code><a href='makeNames.html'>makeNames</a></code>, <code><a href='mixedOrder.html'>mixedOrder</a></code>,
   <code><a href='mixedSortDF.html'>mixedSortDF</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
   <code><a href='mixedSort.html'>mixedSort</a></code>, <code><a href='mmixedOrder.html'>mmixedOrder</a></code>,
@@ -200,31 +202,53 @@ it may be ideal to label only unique elements in a contiguous set.</p>
     <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>5</span>,<span class='fl'>4</span>,<span class='fl'>3</span>));
 <span class='no'>bb</span> <span class='kw'>&lt;-</span> <span class='fu'>breaksByVector</span>(<span class='no'>b</span>);
 <span class='co'># Example showing how labels can be minimized inside a data.frame</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>b</span>, <span class='no'>bb</span>$<span class='no'>newLabels</span>);</div><div class='output co'>#&gt;    b bb.newLabels
-#&gt; 1  A            A
-#&gt; 2  A             
-#&gt; 3  B             
-#&gt; 4  B            B
-#&gt; 5  B             
-#&gt; 6  C             
-#&gt; 7  C             
-#&gt; 8  C            C
-#&gt; 9  C             
-#&gt; 10 C             
-#&gt; 11 D             
-#&gt; 12 D            D
-#&gt; 13 D             
-#&gt; 14 D             
-#&gt; 15 E             
-#&gt; 16 E            E
-#&gt; 17 E             </div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>b</span>,
+   <span class='kw'>newLabels</span><span class='kw'>=</span><span class='no'>bb</span>$<span class='no'>newLabels</span>);</div><div class='output co'>#&gt;    b newLabels
+#&gt; 1  A         A
+#&gt; 2  A          
+#&gt; 3  B          
+#&gt; 4  B         B
+#&gt; 5  B          
+#&gt; 6  C          
+#&gt; 7  C          
+#&gt; 8  C         C
+#&gt; 9  C          
+#&gt; 10 C          
+#&gt; 11 D          
+#&gt; 12 D         D
+#&gt; 13 D          
+#&gt; 14 D          
+#&gt; 15 E          
+#&gt; 16 E         E
+#&gt; 17 E          </div><div class='input'>
 <span class='co'># Example showing how to reposition text labels</span>
 <span class='co'># so duplicated labels are displayed in the middle</span>
 <span class='co'># of each group</span>
 <span class='no'>bb2</span> <span class='kw'>&lt;-</span> <span class='fu'>breaksByVector</span>(<span class='no'>b</span>, <span class='kw'>returnFractions</span><span class='kw'>=</span><span class='fl'>TRUE</span>);
 <span class='no'>ylabs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"minimal labels"</span>, <span class='st'>"all labels"</span>);
-<span class='fu'><a href='adjustAxisLabelMargins.html'>adjustAxisLabelMargins</a></span>(<span class='fl'>2</span>, <span class='no'>ylabs</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='error'>Error in adjustAxisLabelMargins(2, ylabs): adjustAxisLabelMargins() requires margin to be one of c(1,2,3,4).</span></div><div class='input'><span class='fu'><a href='nullPlot.html'>nullPlot</a></span>(<span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_along</a></span>(<span class='no'>b</span>)), <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>3</span>),
-   <span class='kw'>doBoxes</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>doUsrBox</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/axis'>axis</a></span>(<span class='fl'>2</span>, <span class='kw'>las</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>at</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>), <span class='no'>ylabs</span>);</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/text'>text</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_along</a></span>(<span class='no'>b</span>), <span class='no'>b</span>);</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/text'>text</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='no'>bb2</span>$<span class='no'>labelPoints</span>, <span class='no'>bb2</span>$<span class='no'>useLabels</span>);</div><div class='img'><img src='breaksByVector-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='adjustAxisLabelMargins.html'>adjustAxisLabelMargins</a></span>(<span class='no'>ylabs</span>, <span class='fl'>2</span>);
+<span class='fu'><a href='adjustAxisLabelMargins.html'>adjustAxisLabelMargins</a></span>(<span class='no'>bb2</span>$<span class='no'>useLabels</span>, <span class='fl'>1</span>);
+<span class='fu'><a href='nullPlot.html'>nullPlot</a></span>(<span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_along</a></span>(<span class='no'>b</span>)), <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>3</span>),
+   <span class='kw'>doBoxes</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>doUsrBox</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/axis'>axis</a></span>(<span class='fl'>2</span>, <span class='kw'>las</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>at</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>), <span class='no'>ylabs</span>);</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/text'>text</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_along</a></span>(<span class='no'>b</span>), <span class='no'>b</span>);</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/text'>text</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='no'>bb2</span>$<span class='no'>labelPoints</span>, <span class='no'>bb2</span>$<span class='no'>useLabels</span>);</div><div class='input'>
+<span class='co'>## Print axis labels in the center of each group</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/axis'>axis</a></span>(<span class='fl'>3</span>,
+   <span class='kw'>las</span><span class='kw'>=</span><span class='fl'>2</span>,
+   <span class='kw'>at</span><span class='kw'>=</span><span class='no'>bb2</span>$<span class='no'>labelPoints</span>,
+   <span class='kw'>labels</span><span class='kw'>=</span><span class='no'>bb2</span>$<span class='no'>useLabels</span>);</div><div class='input'>
+<span class='co'>## indicate each region</span>
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_along</a></span>(<span class='no'>bb2</span>$<span class='no'>breakPoints</span>)) {
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/axis'>axis</a></span>(<span class='fl'>1</span>,
+      <span class='kw'>at</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='no'>bb2</span>$<span class='no'>breakPoints</span>)[<span class='no'>i</span>]+<span class='fl'>0.8</span>, <span class='no'>bb2</span>$<span class='no'>breakPoints</span>[<span class='no'>i</span>]+<span class='fl'>0.2</span>),
+      <span class='kw'>labels</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>""</span>, <span class='st'>""</span>));
+}</div><div class='input'><span class='co'>## place the label centered in each region without adding tick marks</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/axis'>axis</a></span>(<span class='fl'>1</span>,
+   <span class='kw'>las</span><span class='kw'>=</span><span class='fl'>2</span>,
+   <span class='kw'>tick</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
+   <span class='kw'>at</span><span class='kw'>=</span><span class='no'>bb2</span>$<span class='no'>labelPoints</span>,
+   <span class='kw'>labels</span><span class='kw'>=</span><span class='no'>bb2</span>$<span class='no'>useLabels</span>);</div><div class='input'><span class='co'>## abline to indicate the boundaries, if needed</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/abline'>abline</a></span>(<span class='kw'>v</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='no'>bb2</span>$<span class='no'>breakPoints</span>) + <span class='fl'>0.5</span>,
+   <span class='kw'>lty</span><span class='kw'>=</span><span class='st'>"dashed"</span>,
+   <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>);</div><div class='img'><img src='breaksByVector-1.png' alt='' width='700' height='433' /></div><div class='input'>
 # The same process is used by imageByColors()
 
 </div></pre>

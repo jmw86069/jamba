@@ -2579,7 +2579,7 @@ plotPolygonDensity <- function
                atPretty <- sqrtAxis(side=1,
                   plot=FALSE);
                axisFunc(1,
-                  at=sqrt(abs(atPretty))*sign(atPretty),
+                  at=atPretty,
                   labels=names(atPretty),
                   las=las,
                   cex.axis=cex.axis,
@@ -3133,8 +3133,10 @@ minorLogTicksAxis <- function
          printDebug("minorLogTicksAxis(): ",
             "Formatting numerical labels.");
       }
-      scipenO <- options("scipen");
-      options("scipen"=scipen);
+      if (is.numeric(scipen)) {
+         scipenO <- getOption("scipen");
+         options("scipen"=scipen);
+      }
       majorLabels <- sapply(majorLabels,
          format,
          big.mark=big.mark,
@@ -3145,7 +3147,9 @@ minorLogTicksAxis <- function
          big.mark=big.mark,
          trim=TRUE,
          ...);
-      options("scipen"=scipenO);
+      if (is.numeric(scipen)) {
+         options("scipen"=scipenO);
+      }
    }
    if (any(NAmajor)) {
       majorLabels[NAmajor] <- "";
@@ -3823,33 +3827,34 @@ getAxisLabel <- function
 #'
 #' @export
 drawLabels <- function
-(newCoords=NULL,
-x=NULL,
-y=NULL,
-txt=NULL,
-lx=NULL,
-ly=NULL,
-segmentLwd=1,
-segmentCol="#00000088",
-drawSegments=TRUE,
-boxBorderColor="#000000AA",
-boxColor="#DDAA77",
-boxLwd=1,
-drawBox=TRUE,
-drawLabels=TRUE,
-font=1,
-labelCex=0.8,
-boxCexAdjust=1.9,
-labelCol=alpha2col(alpha=0.8, setTextContrastColor(boxColor)),
-doPlot=TRUE,
-xpd=NA,
-preset="default",
-adjPreset="default",
-adjX=0.5,
-adjY=0.5,
-trimReturns=TRUE,
-verbose=FALSE,
-...)
+(
+ txt=NULL,
+ newCoords=NULL,
+ x=NULL,
+ y=NULL,
+ lx=NULL,
+ ly=NULL,
+ segmentLwd=1,
+ segmentCol="#00000088",
+ drawSegments=TRUE,
+ boxBorderColor="#000000AA",
+ boxColor="#DDAA77",
+ boxLwd=1,
+ drawBox=TRUE,
+ drawLabels=TRUE,
+ font=1,
+ labelCex=0.8,
+ boxCexAdjust=1.9,
+ labelCol=alpha2col(alpha=0.8, setTextContrastColor(boxColor)),
+ doPlot=TRUE,
+ xpd=NA,
+ preset="default",
+ adjPreset="default",
+ adjX=0.5,
+ adjY=0.5,
+ trimReturns=TRUE,
+ verbose=FALSE,
+ ...)
 {
    ## Purpose is to wrapper only the last portion of addNonOverlappingLabels()
    ## which draws the labels, boxes, and segments after positions are determined

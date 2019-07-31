@@ -117,7 +117,7 @@ plotSmoothScatter(doTest=TRUE)
 Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
   \code{\link{coordPresets}}, \code{\link{decideMfrow}},
   \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{imageByColors}},
+  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
   \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
   \code{\link{plotPolygonDensity}},
   \code{\link{plotSmoothScatter}},

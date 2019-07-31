@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>drawLabels</span>(<span class='kw'>newCoords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>txt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>drawLabels</span>(<span class='kw'>txt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>newCoords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>lx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ly</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>segmentLwd</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>segmentCol</span> <span class='kw'>=</span> <span class='st'>"#00000088"</span>,
   <span class='kw'>drawSegments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>boxBorderColor</span> <span class='kw'>=</span> <span class='st'>"#000000AA"</span>,
   <span class='kw'>boxColor</span> <span class='kw'>=</span> <span class='st'>"#DDAA77"</span>, <span class='kw'>boxLwd</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>drawBox</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -139,6 +139,10 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>txt</th>
+      <td><p>character vector of labels, length equal to <code>x</code> and <code>y</code>.</p></td>
+    </tr>
+    <tr>
       <th>newCoords</th>
       <td><p>optional <code>data.frame</code> typically as a result of
 a previous call to <code>drawLabels()</code>. In general, it should contain
@@ -147,10 +151,6 @@ colnames equivalent to the function parameters of <code>drawLabels()</code>.</p>
     <tr>
       <th>x, y</th>
       <td><p>vector of x- and y- coordinates.</p></td>
-    </tr>
-    <tr>
-      <th>txt</th>
-      <td><p>character vector of labels, length equal to <code>x</code> and <code>y</code>.</p></td>
     </tr>
     <tr>
       <th>lx, ly</th>
@@ -275,8 +275,8 @@ example axis labels.</p>
 
     <div class='dont-index'><p>Other jam plot functions: <code><a href='adjustAxisLabelMargins.html'>adjustAxisLabelMargins</a></code>,
   <code><a href='coordPresets.html'>coordPresets</a></code>, <code><a href='decideMfrow.html'>decideMfrow</a></code>,
-  <code><a href='getPlotAspect.html'>getPlotAspect</a></code>, <code><a href='imageByColors.html'>imageByColors</a></code>,
-  <code><a href='imageDefault.html'>imageDefault</a></code>,
+  <code><a href='getPlotAspect.html'>getPlotAspect</a></code>, <code><a href='groupedAxis.html'>groupedAxis</a></code>,
+  <code><a href='imageByColors.html'>imageByColors</a></code>, <code><a href='imageDefault.html'>imageDefault</a></code>,
   <code><a href='minorLogTicksAxis.html'>minorLogTicksAxis</a></code>, <code><a href='nullPlot.html'>nullPlot</a></code>,
   <code><a href='plotPolygonDensity.html'>plotPolygonDensity</a></code>,
   <code><a href='plotSmoothScatter.html'>plotSmoothScatter</a></code>,

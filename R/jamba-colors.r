@@ -1033,27 +1033,61 @@ makeColorDarker <- function
 #' vector of colors of the appropriate length, suitable as input
 #' to a number of plotting functions.
 #'
-#' For example, it recognizes \code{\link[RColorBrewer]{RColorBrewer}} color ramp
-#' names, but can reverse those color ramps with a suffix "_r" at the
-#' end, e.g. "RdBu_r" will supply a color ramp from blue to red, suitable
-#' for heatmaps where red is typically associated with heat and high
-#' numeric values.
+#' When `n` is `NULL`, this function returns a color function,
+#' wrapped by `grDevices::colorRampPalette()`. The colors used
+#' are defined by `gradientN`, so the `grDevices::colorRampPalette()`
+#' function actually uses a starting palette of `gradientN` number
+#' of colors.
 #'
-#' If `n` is zero, and a color gradient is recognized from `RColorBrewer` or
-#' `viridis` for example, the colors are expanded to `gradientN` colors,
-#' then wrapped by `grDevices::colorRampPalette`.
+#' When `n` is an integer greater than `0`, this function returns
+#' a vector of colors with length `n`.
 #'
-#' Note that when `reverseRamp` is TRUE, colors are reversed
-#' before `trimRamp` is used to trim colors from the beginning and end.
+#' When `col` is a single color value, a color gradient is created
+#' by appending `defaultColorBase` to the output of
+#' `color2gradient(..., n=3, gradientWtFactor=gradientWtFactor)`.
+#' These 4 colors are used as the internal palette before
+#' applying `grDevices::colorRampPalette()` as appropriate.
+#' In this case, `gradientWtFactor` is used to adjust the
+#' strength of the color gradient. The intended use is:
+#' `getColorRamp("red", n=5)`. To remove the leading white
+#' color, use `getColorRamp("red", n=5, trimRamp=c(1,0))`.
 #'
-#' The parameter `trimRamp` is used to trim colors from the beginning
-#' and end, respectively. However, when specifying a color gradient, like
-#' any `viridis` package color ramps, or `RColorBrewer` package divergent
-#' or sequential color palettes, a color vector is created with length
-#' `gradientN`. The `trimRamp` colors are trimmed from this vector, then
-#' the remaining color vector is fed to `grDevices::colorRampPalette()`.
-#' This mechanism allows trimming the brightest and darkest colors from
-#' the color ramp, as needed.
+#' When `col` contains multiple color values, they are used
+#' to define a color ramp directly.
+#'
+#' When `col` is not a color value, it is compared to known color
+#' palettes from `RColorBrewer::RColorBrewer` and `viridisLite`,
+#' and will use the corresponding color function or color palette.
+#'
+#' When `col` refers to a color palette, the suffix `"_r"` may
+#' be used to reverse the colors. For example,
+#' `getColorRamp(col="RdBu_r", n=9)` will recognize the
+#' `RColorBrewer` color palette `"RdBu"`, and will reverse the colors
+#' to return blue to red, more suitable for heatmaps where
+#' high values associated with heat are colored red,
+#' and low values associated with cold are colored blue.
+#'
+#' The argument `reverseRamp=TRUE` may be used to reverse the
+#' returned colors.
+#'
+#' Color functions from `viridisLite` are recognized:
+#' `"viridis"`, `"cividis"`, `"inferno"`, `"magma"`, `"plasma"`.
+#'
+#' The argument `trimRamp` is used to trim colors from the beginning
+#' and end of a color ramp, respectively. This mechanism is useful
+#' to remove the first or last color when those colors may be too
+#' extreme. Note that internally, colors are expanded to length
+#' `gradientN`, then trimmed, then the corresponding `n` colors
+#' are returned.
+#'
+#'  The `trimRamp` argument is also useful when returning a color
+#'  function, which occurs when `n=NULL`. In this case, colors are
+#'  expanded to length `gradientN`, then are trimmed using the
+#'  values from `trimRamp`, then the returned function can be used
+#'  to create a color ramp of arbitrary length.
+#'
+#' Note that when `reverseRamp=TRUE`, colors are reversed
+#' before `trimRamp` is applied.
 #'
 #' By default, alpha transparency will be maintained if supplied in the
 #' input color vector. Most color ramps have no transparency, in which
@@ -1073,11 +1107,10 @@ makeColorDarker <- function
 #'    which returns `n` colors.
 #' @param trimRamp integer vector, expanded to length=2 as needed,
 #'    which defines the number of colors to trim from the beginning
-#'    and end of the color vector, respectively. Note that if the
-#'    two values are not identical, symmetric divergent color scales
-#'    will no longer have a proper middle color. Therefore, this parameter
-#'    is mostly useful with linear gradients, to trim off the brightest
-#'    and/or darkest colors.
+#'    and end of the color vector, respectively. When `reverseRamp=TRUE`,
+#'    the colors are reversed before the trimming is applied.
+#'    If the two `trimRamp` values are not identical, symmetric divergent
+#'    color scales will no longer be symmetric.
 #' @param gradientN integer number of colors to expand gradient colors
 #'    prior to trimming colors.
 #' @param defaultBaseColor character vector indicating a color from which to
@@ -1089,11 +1122,18 @@ makeColorDarker <- function
 #' @param alpha logical indicating whether to honor alpha transparency
 #'    whenever `colorRampPalette` is called. If colors contain
 #'    no alpha transparency, this setting has no effect, otherwise the
-#'    alpha value appears to be applied using a linear gradient between
-#'    colors.
+#'    alpha value is applied by `grDevices::colorRampPalette()` using
+#'    a linear gradient between each color.
 #' @param gradientWtFactor numeric value used to expand single color
 #'    input to a gradient, using `color2gradient()`, prior to making
 #'    a full gradient to the `defaultBaseColor`.
+#' @param lens,divergent arguments sent to `warpRamp()` to
+#'    apply a warp effect to the color ramp, to compress or expand
+#'    the color gradient: `lens` scales the warp effect, with
+#'    positive values compressing colors toward baseline and
+#'    negative values expanding colors near baseline; `divergent`
+#'    is a logical indicating whether the middle color is considered
+#'    the baseline.
 #' @param verbose logical whether to print verbose output
 #'
 #' @examples
@@ -1128,12 +1168,14 @@ makeColorDarker <- function
 getColorRamp <- function
 (col,
  n=15,
- trimRamp=0,
+ trimRamp=c(0, 0),
  gradientN=15,
  defaultBaseColor="grey95",
  reverseRamp=FALSE,
  alpha=TRUE,
  gradientWtFactor=2/3,
+ lens=0,
+ divergent=NULL,
  verbose=FALSE,
  ...)
 {
@@ -1149,104 +1191,60 @@ getColorRamp <- function
       col <- gsub("_r$", "", col);
    }
    if (length(trimRamp) == 0) {
-      trimRamp <- 0;
+      trimRamp <- c(0, 0);
+   } else {
+      trimRamp <- abs(rep(trimRamp, length.out=2));
    }
    applyTrimRamp <- function(cols, trimRamp) {
-      trimRamp[trimRamp == 0] <- -length(cols);
-      cols <- tail(
-         head(cols, -1*(trimRamp[2])),
-         -1*(trimRamp[1]));
-      cols;
+      if (trimRamp[1] > 0) {
+         cols <- tail(cols, -abs(trimRamp[1]));
+      }
+      if (trimRamp[2] > 0) {
+         cols <- head(cols, -abs(trimRamp[2]));
+      }
+      return(cols);
    }
-   trimRamp <- abs(rep(trimRamp, length.out=2));
+
    if (igrepHas("character", class(col))) {
       if (length(col) == 1 &&
             col %in% c("viridis","inferno","plasma","magma","cividis")) {
+         #######################################
          ## Viridis package color handling
-         if (!suppressPackageStartupMessages(require(viridis))) {
-            stop(paste0("The viridis package is required for color ramps:",
+         if (!suppressPackageStartupMessages(require(viridisLite))) {
+            stop(paste0("The viridisLite package is required for color ramps:",
                " cividis,inferno,magma,plasma,viridis"));
          }
-         funcName <- gsub("_(rev|r).*$", "", col);
          if (verbose) {
             printDebug("getColorRamp(): ",
-               "viridis color function:'",
-               col,
-               "'");
+               "viridisLite color function:",
+               col);
          }
-         colorFunc <- get(col, mode="function");
-         if (any(trimRamp > 0) || length(n) == 0) {
-            cols <- colorFunc(gradientN);
-         } else {
-            cols <- colorFunc(n);
-         }
-         if (reverseRamp) {
-            cols <- rev(cols);
-         }
-         if (any(trimRamp > 0)) {
-            if (verbose) {
-               printDebug("getColorRamp(): ",
-                  "Applying trimRamp:",
-                  trimRamp);
-            }
-            cols <- applyTrimRamp(cols, trimRamp);
-         }
-         if (length(n) == 0) {
-            cols <- colorRampPalette(cols,
-               alpha=alpha);
-         }
+         colorFunc <- get(col,
+            mode="function");
       } else if (length(col) == 1 &&
             suppressPackageStartupMessages(require(RColorBrewer)) &&
             col %in% rownames(brewer.pal.info)) {
+         #######################################
          ## Brewer Colors
          if (verbose) {
-            printDebug("getColorRamp(): ", "RColorBrewer color function.");
+            printDebug("getColorRamp(): ",
+               "RColorBrewer color palette:",
+               col);
          }
-         if (!suppressPackageStartupMessages(require(RColorBrewer))) {
-            stop(paste0("The RColorBrewer package is required for",
-               "getColorRamp, when only one col is specified."));
-         }
-         brewerN <- brewer.pal.info[col,"maxcolors"];
-         ## Check for qualitative palette, and if n is given
-         ## then limit to the max number of colors
-         if (length(n) > 0 && brewer.pal.info[col,"category"] %in% "qual") {
-            n1 <- brewer.pal.info[col,"maxcolors"];
-            if (n > brewerN) {
-               n <- brewerN;
-               if (verbose) {
-                  printDebug("getColorRamp(): ",
-                     "Fixing n=",
-                     n,
-                     " using Brewer qualitative color length.");
-               }
-            }
-         }
-         ## Get color ramp
-         if (length(n) == 0) {
-            cols <- brewer.pal(brewerN, col);
-         } else {
-            if (n > brewerN) {
-               cols <- colorRampPalette(brewer.pal(brewerN, col))(n);
+         brewerN <- RColorBrewer::brewer.pal.info[col,"maxcolors"];
+         if (lens != 0 && length(divergent) == 0) {
+            if ("div" %in% RColorBrewer::brewer.pal.info[col,"category"]) {
+               divergent <- TRUE;
             } else {
-               cols <- brewer.pal(brewerN, col);
+               divergent <- FALSE;
             }
          }
-         if (reverseRamp) {
-            cols <- rev(cols);
-         }
-         ## Optionally trim the first and last value
-         if (any(trimRamp > 0)) {
-            if (verbose) {
-               printDebug("getColorRamp(): ",
-                  "Applying trimRamp:",
-                  trimRamp);
+         colorFunc <- function(n){
+            if (n <= brewerN) {
+               brewer.pal(n, col);
+            } else {
+               colorRampPalette(brewer.pal(brewerN, col))(n);
             }
-            cols <- applyTrimRamp(cols, trimRamp);
-         }
-         if (length(n) == 0) {
-            cols <- colorRampPalette(cols, alpha=alpha);
-         } else {
-            cols <- colorRampPalette(cols, alpha=alpha)(n);
          }
       } else {
          ## If given one or more colors, use them to create a color ramp
@@ -1268,26 +1266,7 @@ getColorRamp <- function
                      "Using defaultBaseColor, color to make a gradient.");
                }
             }
-            if (reverseRamp) {
-               colset <- rev(colset);
-            }
-            if (any(trimRamp > 0) || length(n) == 0) {
-               cols <- colorRampPalette(colset, alpha=alpha)(gradientN);
-            } else {
-               cols <- colorRampPalette(colset, alpha=alpha)(n);
-            }
-            if (any(trimRamp > 0)) {
-               if (verbose) {
-                  printDebug("getColorRamp(): ",
-                     "Applying trimRamp:",
-                     trimRamp);
-               }
-               cols <- applyTrimRamp(cols, trimRamp);
-            }
-            if (length(n) == 0) {
-               cols <- colorRampPalette(cols,
-                  alpha=alpha);
-            }
+            colorFunc <- colorRampPalette(colset, alpha=alpha);
          } else {
             ## Check if we are supplied a function name
             if (verbose) {
@@ -1297,34 +1276,13 @@ getColorRamp <- function
             colorFunc <- tryCatch({
                get(col, mode="function");
             }, error=function(e){
-               printError(e, callName="get function");
+               printDebug("Error:", e, fgText=c("red", "orange"));
                NULL;
             });
             ## If not a function, we stop here
-            if (is.null(colorFunc)) {
+            if (length(colorFunc) == 0) {
                stop(paste0("The supplied color could not be used to create",
                   " a color ramp, col:", cPaste(col)));
-            }
-            colorFactory <- function(n, gn1=n, tr1, rr1, cf1) {
-               function(n=15, ...) {
-                  cols <- applyTrimRamp(cf1(gn1), tr1);
-                  if (rr1) {
-                     cols <- rev(cols);
-                  }
-                  if (length(n) == 0 || n == 0) {
-                     cols <- colorRampPalette(cols);
-                  } else {
-                     cols <- colorRampPalette(cols)(n);
-                  }
-                  return(cols);
-               }
-            }
-            cols <- colorFactory(tr1=trimRamp,
-               gn1=gradientN,
-               rr1=reverseRamp,
-               cf1=colorFunc);
-            if (length(n) > 0 && n > 0) {
-               cols <- cols(n);
             }
          }
       }
@@ -1333,33 +1291,98 @@ getColorRamp <- function
          printDebug("getColorRamp(): ",
             "color function input.");
       }
-      colorFactory <- function(n, gn1=n, tr1, rr1, cf1) {
-         function(n=15, ...) {
-            cols <- applyTrimRamp(cf1(gn1), tr1);
-            if (rr1) {
-               cols <- rev(cols);
-            }
-            if (length(n) == 0 || n == 0) {
-               cols <- colorRampPalette(cols);
-            } else {
-               cols <- colorRampPalette(cols)(n);
-            }
-            return(cols);
-         }
-      }
-      cols <- colorFactory(tr1=trimRamp,
-         gn1=gradientN,
-         rr1=reverseRamp,
-         cf1=col);
-      if (!is.null(n)) {
-         cols <- cols(n);
-      }
+      colorFunc <- col;
    } else {
       if (verbose) {
-         printDebug("getColorRamp(): ", "unrecognized color input.");
+         printDebug("getColorRamp(): ",
+            "unrecognized color input, using colorRampPalette() anyway.");
       }
-      cols <- colorRampPalette(col, alpha=alpha)(n);
+      colorFunc <- colorRampPalette(col, alpha=alpha);
    }
+
+   ########################
+   ## Get color ramp
+   if (lens != 0 && length(divergent) == 0) {
+      divergent <- FALSE;
+   }
+   if (length(n) > 0) {
+      if (length(gradientN) == 0) {
+         gradientN <- n + sum(trimRamp);
+      }
+      cols <- colorFunc(gradientN);
+      ## Optionally warp the color ramp before reversing and trimming colors
+      if (lens != 0) {
+         cols <- warpRamp(ramp=cols,
+            lens=lens,
+            divergent=divergent);
+      }
+      if (reverseRamp) {
+         cols <- rev(cols);
+      }
+      if (sum(trimRamp) > 0) {
+         cols <- applyTrimRamp(cols, trimRamp);
+      }
+      if (length(cols) != n) {
+         cols <- colorRampPalette(cols, alpha=alpha)(n);
+      }
+   } else {
+      ## Get color function
+      if (sum(trimRamp) > 0) {
+         if (length(gradientN) == 0) {
+            cols <- function(n){
+               c1 <- colorFunc(n + sum(trimRamp));
+               ## Optionally warp the color ramp before reversing and trimming colors
+               if (lens != 0) {
+                  c1 <- warpRamp(ramp=c1,
+                     lens=lens,
+                     divergent=divergent);
+               }
+               if (reverseRamp) {
+                  c1 <- rev(c1);
+               }
+               if (trimRamp[1] > 0) {
+                  c1 <- tail(c1, -trimRamp[1]);
+               }
+               if (trimRamp[2] > 0) {
+                  c1 <- head(c1, -trimRamp[2]);
+               }
+               return(c1);
+            }
+         } else {
+            cols <- colorFunc(gradientN);
+            ## Optionally warp the color ramp before reversing and trimming colors
+            if (lens != 0) {
+               cols <- warpRamp(ramp=cols,
+                  lens=lens,
+                  divergent=divergent);
+            }
+            if (reverseRamp) {
+               cols <- rev(cols);
+            }
+            if (sum(trimRamp) > 0) {
+               cols <- applyTrimRamp(cols, trimRamp);
+            }
+            cols <- colorRampPalette(cols, alpha=alpha);
+         }
+      } else {
+         if (length(gradientN) > 0) {
+            cols <- colorFunc(gradientN);
+         } else {
+            cols <- colorFunc(101);
+         }
+         ## Optionally warp the color ramp before reversing and trimming colors
+         if (lens != 0) {
+            cols <- warpRamp(ramp=cols,
+               lens=lens,
+               divergent=divergent);
+         }
+         if (reverseRamp) {
+            cols <- rev(col);
+         }
+         cols <- colorRampPalette(cols, alpha=alpha);
+      }
+   }
+   ###########
    return(cols);
 }
 

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
       </span>
     </div>
 
@@ -125,10 +125,10 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>make_styles</span>(<span class='no'>style</span>, <span class='no'>text</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>grey</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>colors</span> <span class='kw'>=</span> <span class='fu'>num_colors</span>(), <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Cgrey"</span>),
-  <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='fu'><a href='checkLightMode.html'>checkLightMode</a></span>(), <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Crange"</span>),
-  <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Lrange"</span>),
+    <pre class="usage"><span class='fu'>make_styles</span>(<span class='kw'>style</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>text</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>bg_style</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>grey</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='fu'>num_colors</span>(),
+  <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Cgrey"</span>), <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='fu'><a href='checkLightMode.html'>checkLightMode</a></span>(),
+  <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Crange"</span>), <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Lrange"</span>),
   <span class='kw'>adjustRgb</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.adjustRgb"</span>), <span class='kw'>adjustPower</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
   <span class='kw'>fixYellow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>colorTransparent</span> <span class='kw'>=</span> <span class='st'>"grey45"</span>, <span class='kw'>alphaPower</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>setOptions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
@@ -138,7 +138,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>style</th>
-      <td><p>vector of one or more styles</p></td>
+      <td><p>vector of one or more styles. When NULL or NA,
+no style is applied, except when <code>bg_style</code> is supplied
+and is neither NA nor NULL, in which case entries with
+a <code>bg_style</code> and no <code>style</code> will use <code><a href='setTextContrastColor.html'>setTextContrastColor()</a></code>
+to define a contrasting <code>style</code>.</p></td>
     </tr>
     <tr>
       <th>text</th>
@@ -146,7 +150,16 @@
     </tr>
     <tr>
       <th>bg</th>
-      <td><p>NULL or a vector of one or more background styles</p></td>
+      <td><p>logical indicating whether the <code>style</code> should be
+applied to the background instead of foreground. This argument
+is ignored when <code>bg_style</code> is supplied.</p></td>
+    </tr>
+    <tr>
+      <th>bg_style</th>
+      <td><p>NULL or a vector of one or more background styles.
+When this argument is not NULL, it applies both the foreground
+<code>style</code> and background <code>bg_style</code> together, and therefore ignores
+<code>Crange</code> and <code>Lrange</code> settings.</p></td>
     </tr>
     <tr>
       <th>colors</th>
@@ -252,13 +265,14 @@ character strings with a vector of foreground and background styles.</p>
   <code><a href='getAxisLabel.html'>getAxisLabel</a></code>, <code><a href='handleArgsText.html'>handleArgsText</a></code>,
   <code><a href='isFALSEV.html'>isFALSEV</a></code>, <code><a href='isTRUEV.html'>isTRUEV</a></code>,
   <code><a href='jamba.html'>jamba</a></code>, <code><a href='jargs.html'>jargs</a></code>,
-  <code><a href='kable_coloring.html'>kable_coloring</a></code>, <code><a href='mergeAllXY.html'>mergeAllXY</a></code>,
-  <code><a href='minorLogTicks.html'>minorLogTicks</a></code>, <code><a href='newestFile.html'>newestFile</a></code>,
-  <code><a href='printDebug.html'>printDebug</a></code>, <code><a href='renameColumn.html'>renameColumn</a></code>,
-  <code><a href='rmInfinite.html'>rmInfinite</a></code>, <code><a href='rmNA.html'>rmNA</a></code>,
-  <code><a href='rmNULL.html'>rmNULL</a></code>, <code><a href='sclass.html'>sclass</a></code>,
-  <code><a href='sdim.html'>sdim</a></code>, <code><a href='setCLranges.html'>setCLranges</a></code>,
-  <code><a href='setPrompt.html'>setPrompt</a></code>, <code><a href='ssdim.html'>ssdim</a></code></p>
+  <code><a href='kable_coloring.html'>kable_coloring</a></code>, <code><a href='log2signed.html'>log2signed</a></code>,
+  <code><a href='mergeAllXY.html'>mergeAllXY</a></code>, <code><a href='minorLogTicks.html'>minorLogTicks</a></code>,
+  <code><a href='newestFile.html'>newestFile</a></code>, <code><a href='printDebug.html'>printDebug</a></code>,
+  <code><a href='renameColumn.html'>renameColumn</a></code>, <code><a href='rmInfinite.html'>rmInfinite</a></code>,
+  <code><a href='rmNA.html'>rmNA</a></code>, <code><a href='rmNULL.html'>rmNULL</a></code>,
+  <code><a href='sclass.html'>sclass</a></code>, <code><a href='sdim.html'>sdim</a></code>,
+  <code><a href='setCLranges.html'>setCLranges</a></code>, <code><a href='setPrompt.html'>setPrompt</a></code>,
+  <code><a href='ssdim.html'>ssdim</a></code></p>
 <p>Other jam color functions: <code><a href='alpha2col.html'>alpha2col</a></code>,
   <code><a href='applyCLrange.html'>applyCLrange</a></code>, <code><a href='col2alpha.html'>col2alpha</a></code>,
   <code><a href='col2hcl.html'>col2hcl</a></code>, <code><a href='col2hsv.html'>col2hsv</a></code>,

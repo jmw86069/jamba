@@ -852,19 +852,44 @@ pasteByRow <- function
 #' b <- rep(LETTERS[1:5], c(2,3,5,4,3));
 #' bb <- breaksByVector(b);
 #' # Example showing how labels can be minimized inside a data.frame
-#' data.frame(b, bb$newLabels);
+#' data.frame(b,
+#'    newLabels=bb$newLabels);
 #'
 #' # Example showing how to reposition text labels
 #' # so duplicated labels are displayed in the middle
 #' # of each group
 #' bb2 <- breaksByVector(b, returnFractions=TRUE);
 #' ylabs <- c("minimal labels", "all labels");
-#' adjustAxisLabelMargins(2, ylabs);
+#' adjustAxisLabelMargins(ylabs, 2);
+#' adjustAxisLabelMargins(bb2$useLabels, 1);
 #' nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
 #'    doBoxes=FALSE, doUsrBox=TRUE);
 #' axis(2, las=2, at=c(1,2), ylabs);
 #' text(y=2, x=seq_along(b), b);
 #' text(y=1, x=bb2$labelPoints, bb2$useLabels);
+#'
+#' ## Print axis labels in the center of each group
+#' axis(3,
+#'    las=2,
+#'    at=bb2$labelPoints,
+#'    labels=bb2$useLabels);
+#'
+#' ## indicate each region
+#' for (i in seq_along(bb2$breakPoints)) {
+#'    axis(1,
+#'       at=c(c(0, bb2$breakPoints)[i]+0.8, bb2$breakPoints[i]+0.2),
+#'       labels=c("", ""));
+#' }
+#' ## place the label centered in each region without adding tick marks
+#' axis(1,
+#'    las=2,
+#'    tick=FALSE,
+#'    at=bb2$labelPoints,
+#'    labels=bb2$useLabels);
+#' ## abline to indicate the boundaries, if needed
+#' abline(v=c(0, bb2$breakPoints) + 0.5,
+#'    lty="dashed",
+#'    col="blue");
 #'
 #' # The same process is used by imageByColors()
 #'
@@ -918,6 +943,112 @@ breaksByVector <- function
         labelPoints=labelPoints,
         newLabels=newLabels,
         useLabels=useLabels);
+}
+
+#' Draw groups axis labels
+#'
+#' Draw grouped axis labels given a character vector.
+#'
+#' This function extends `breaksByVector()` specifically for
+#' axis labels. It is intended where character labels are spaced
+#' at integer steps, and some labels are expected to be repeated.
+#'
+#' @family jam plot functions
+#'
+#' @examples
+#' par("mar"=c(4,4,6,6));
+#' b <- rep(LETTERS[1:5], c(2,3,5,4,3));
+#' b2 <- c(b[1:2], makeNames(b[3:5]), b[6:16]);
+#' nullPlot(doBoxes=FALSE,
+#'    doUsrBox=TRUE,
+#'    xlim=c(0,18),
+#'    ylim=c(0,18));
+#'
+#' groupedAxis(1, b);
+#' groupedAxis(2, b, group_style="grouped");
+#' groupedAxis(3, b2, do_abline=TRUE);
+#' groupedAxis(4, b2, group_style="grouped");
+#' mtext(side=1, "group_style='partial_grouped'", line=2, las=0);
+#' mtext(side=2, "group_style='grouped'", line=2, las=0);
+#' mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
+#' mtext(side=4, "group_style='grouped'", line=2, las=0);
+#'
+#'
+#' @export
+groupedAxis <- function
+(side=1,
+ x,
+ group_style=c("partial_grouped", "grouped", "centered"),
+ las=2,
+ returnFractions=TRUE,
+ nudge=0.2,
+ do_abline=FALSE,
+ abline_lty="solid",
+ abline_col="grey40",
+ ...)
+{
+   ## Purpose is to provide a convenient wrapper for breaksByVector()
+   ## used to draw grouped axis labels
+   sides <- intersect(c(1,2,3,4), side);
+   group_style <- match.arg(group_style);
+
+   ## Call breaksByVector()
+   bb2 <- breaksByVector(x=x,
+      returnFractions=returnFractions,
+      ...);
+
+   ## Print axis labels in the center of each group
+   for (side in sides) {
+      if ("centered" %in% group_style) {
+         axis(side=side,
+            las=las,
+            at=bb2$labelPoints,
+            labels=bb2$useLabels,
+            ...);
+      } else if (any(c("partial_grouped", "grouped") %in% group_style)) {
+         ## indicate each region
+         for (i in seq_along(bb2$breakPoints)) {
+            x1 <- c(0, bb2$breakPoints)[i] + 1;
+            x2 <- bb2$breakPoints[i];
+            if (x1 == x2 && "partial_grouped" %in% group_style) {
+               axis(side=side,
+                  at=x1,
+                  labels=c(""),
+                  ...);
+            } else {
+               axis(side=side,
+                  at=c(
+                     x1 - nudge,
+                     x2 + nudge),
+                  labels=c("", ""),
+                  ...);
+            }
+         }
+         ## place the label centered in each region without adding tick marks
+         axis(side=side,
+            las=las,
+            tick=FALSE,
+            at=bb2$labelPoints,
+            labels=bb2$useLabels,
+            ...);
+      }
+   }
+
+   ## abline to indicate the boundaries, if needed
+   if (do_abline) {
+      if (any(c(1,3) %in% sides)) {
+         abline(v=c(0, bb2$breakPoints) + 0.5,
+            lty=abline_lty,
+            col=abline_col,
+            ...);
+      }
+      if (any(c(2,4) %in% sides)) {
+         abline(h=c(0, bb2$breakPoints) + 0.5,
+            lty=abline_lty,
+            col=abline_col,
+            ...);
+      }
+   }
 }
 
 #' print colorized output to R console
@@ -5069,6 +5200,8 @@ unnestList <- function
 #' @param base numeric value indicating the logarithmic base,
 #'    by default `2` in order to apply `base::log2()`.
 #' @param ... additional arguments are ignored.
+#'
+#' @family jam practical functions
 #'
 #' @examples
 #' x <- c(-100:100)/10;

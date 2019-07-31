@@ -84,13 +84,14 @@ Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
   \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
   \code{\link{jamba}}, \code{\link{jargs}},
-  \code{\link{make_styles}}, \code{\link{mergeAllXY}},
-  \code{\link{minorLogTicks}}, \code{\link{newestFile}},
-  \code{\link{printDebug}}, \code{\link{renameColumn}},
-  \code{\link{rmInfinite}}, \code{\link{rmNA}},
-  \code{\link{rmNULL}}, \code{\link{sclass}},
-  \code{\link{sdim}}, \code{\link{setCLranges}},
-  \code{\link{setPrompt}}, \code{\link{ssdim}}
+  \code{\link{log2signed}}, \code{\link{make_styles}},
+  \code{\link{mergeAllXY}}, \code{\link{minorLogTicks}},
+  \code{\link{newestFile}}, \code{\link{printDebug}},
+  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
+  \code{\link{rmNA}}, \code{\link{rmNULL}},
+  \code{\link{sclass}}, \code{\link{sdim}},
+  \code{\link{setCLranges}}, \code{\link{setPrompt}},
+  \code{\link{ssdim}}
 }
 \concept{jam color functions}
 \concept{jam practical functions}

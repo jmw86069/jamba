@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@
       <h1>Jamba Overview</h1>
                         <h4 class="author">James M. Ward</h4>
             
-            <h4 class="date">2019-07-08</h4>
+            <h4 class="date">2019-07-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/master/vignettes/jamba-vignette.Rmd"><code>vignettes/jamba-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>jamba-vignette.Rmd</code></div>
@@ -101,21 +101,23 @@
 <a href="#plot-functions" class="anchor"></a>Plot functions</h2>
 <div id="plotsmoothscatter" class="section level3">
 <h3 class="hasAnchor">
-<a href="#plotsmoothscatter" class="anchor"></a>plotSmoothScatter</h3>
-<p>A common problem when visualizing extremely large datasets is how to display thousands of datapoints while indicating the amount of overlap of those points. The R <code><a href="https://www.rdocumentation.org/packages/graphics/topics/smoothScatter">graphics::smoothScatter()</a></code> function provides an adequate drop-in replacement for most uses of <code><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot()</a></code>, but several aspects are not easily customized and are targeted by the <code><a href="../reference/plotSmoothScatter.html">jamba::plotSmoothScatter()</a></code> function.</p>
-<p>First, the <code>useRaster=TRUE</code> feature from <code><a href="https://www.rdocumentation.org/packages/graphics/topics/image">graphics::image()</a></code> is intended to enable rasterized images instead of rendering multiple polygons. The rasterized image saves substantial image space, is more efficiently saved as vectorized output in PDF and SVG, and is more efficiently displayed on a remote plot device. However it is not consistently honored, and has some problem when the plot aspect ratio is not 1:1. The <code>plotSmoothScatter</code> function consistently enforces <code>useRaster=TRUE</code> by calling a custom <code><a href="../reference/imageDefault.html">jamba::imageDefault()</a></code> function, which has methods to handle non-square visualization.</p>
-<p>A quick way to see some enhancements of plotSmoothScatter is by running doTest=TRUE:</p>
+<a href="#plotsmoothscatter" class="anchor"></a><code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>
+</h3>
+<p>A common problem when visualizing extremely large datasets is how to display thousands of datapoints while indicating the amount of overlap of those points. The R <code><a href="https://www.rdocumentation.org/packages/graphics/topics/smoothScatter">graphics::smoothScatter()</a></code> function provides an adequate drop-in replacement for most uses of <code><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot()</a></code>, where several aspects are enhanced. Specifically, parameters related to the density function and related bandwidth arguments are enabled, which otherwise is possible but tedious.</p>
+<p>The arguments <code>bandwidthN</code> and <code>nbin</code> define the number of bandwidth steps, and the number of visual bins, respectively. The bandwidth steps defines the level of detail calculated for the 2-dimensional density map, higher values give more detail, seen as more “grainy” – ultimately whether you can see individual points. The number of visual bins determines the amount of detail used to render the density as an image – effectlvely how many density pixels. Higher values show more detail, but have much larger memory requirement, and can be slow to render for multi-panel plots.</p>
+<p>The argument <code>useRaster=TRUE</code> by default renders the plot as a rasterized image, making it substantially faster and smaller especially when rendered as a PDF, SVG, or any vector type output.</p>
+<p>An example showing <code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> with argument <code>doTest=TRUE</code>. The test data shows a set of points not well-resolved with default <code><a href="https://www.rdocumentation.org/packages/graphics/topics/smoothScatter">smoothScatter()</a></code>, but which is more clearly displayed with <code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plotSmoothScatter.html">plotSmoothScatter</a></span>(<span class="dt">doTest=</span><span class="ot">TRUE</span>);</code></pre></div>
 <p><img src="jambaVignette-plotSmoothScatter-1.png" width="768"></p>
-<p>The data represents a highly correlated x- and y-axis, with a secondary “band” of correlation added slightly offset. Each row contains an increasing amount of background noise.</p>
-<p>The left column shows graphics::smoothScatter, using the same color ramp used by plotSmoothScatter. The secondary “band” is somewhat obscured by the default density function. The second and third columns show the effect of using custom bandwidth in plotSmoothScatter.</p>
-<p>Also, while smoothScatter displays 50 points on the extremes by default, in order to show the range of data which may otherwise not be visible, the bandwidth function in plotSmoothScatter typically displays the full extent of the data without these additional points.</p>
+<p>The function <code><a href="../reference/imageDefault.html">imageDefault()</a></code> is a slight enhancement to <code><a href="https://www.rdocumentation.org/packages/graphics/topics/image">graphics::image()</a></code> specifically to enforce square pixels when <code>useRaster=TRUE</code>. The default <code><a href="https://www.rdocumentation.org/packages/graphics/topics/image">graphics::image()</a></code> assumes each pixel will be rendered in a 1:1 aspect ratio, therefore the 2-dimensional density map is distorted when the axis ranges are not symmetric 1:1. Note that <code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> calls <code><a href="../reference/imageDefault.html">imageDefault()</a></code>.</p>
 </div>
 <div id="imagebycolors" class="section level3">
 <h3 class="hasAnchor">
-<a href="#imagebycolors" class="anchor"></a>imageByColors</h3>
-<p>The <code><a href="../reference/imageByColors.html">imageByColors()</a></code> function is intended to take a matrix or data.frame and create the equivalent of <code><a href="https://www.rdocumentation.org/packages/graphics/topics/image">image()</a></code>. It also displays cell labels when supplied in an equivalent matrix or data.frame, by default combining adjacent labels so only one label is displayed in the middle of a contiguous range of cells.</p>
-<p>This function is particularly useful when displaying something like experiment design, where each factor level in the experiment has been assigned a color.</p>
+<a href="#imagebycolors" class="anchor"></a><code><a href="../reference/imageByColors.html">imageByColors()</a></code>
+</h3>
+<p>The <code><a href="../reference/imageByColors.html">imageByColors()</a></code> function is intended to take a matrix or data.frame that already contains colors in each cell. It optionally displays cell labels when supplied.</p>
+<p>Cell labels are grouped to display one unique label per repeated label, using the function <code><a href="../reference/breaksByVector.html">breaksByVector()</a></code> to group labels.</p>
+<p>This function is particularly useful to simplify labels in a large table of repeated values, for example in experiment design.</p>
 <p>Here, we define a simple data.frame composed of colors, then use the data.frame to label itself:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"red"</span>,<span class="st">"blue"</span>)[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>)];
 b1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"yellow"</span>,<span class="st">"orange"</span>)[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)];
@@ -124,125 +126,507 @@ d1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">a=</span>a1, <span class="dt">b=</span>b1, <span class="dt">c=</span>c1, <span class="dt">d=</span>d1);
 <span class="kw"><a href="../reference/imageByColors.html">imageByColors</a></span>(df1, <span class="dt">cellnote=</span>df1);</code></pre></div>
 <p><img src="jambaVignette-imageByColors1-1.png" width="768"></p>
-<p>The <code><a href="../reference/imageByColors.html">imageByColors()</a></code> function calls <code><a href="../reference/imageDefault.html">imageDefault()</a></code> which obeys the <code>useRaster=TRUE</code> directive. It attempts to correct for blurriness in the output, with the benefit of efficiency in rendering.</p>
-<p>Lastly, the labels can be rotated and resized, to allow flexibility in positioning labels as needed in the final plot. Below we render a rasterized image, showing text rotated and adjusted in various ways.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/imageByColors.html">imageByColors</a></span>(df1, <span class="dt">cellnote=</span>df1, <span class="dt">useRaster=</span><span class="ot">TRUE</span>, <span class="dt">adjBy=</span><span class="st">"column"</span>,
-   <span class="dt">cexCellnote=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="dv">1</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="fl">1.5</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">1.6</span>,<span class="fl">1.2</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">1.6</span>,<span class="fl">1.5</span>)),
-   <span class="dt">srtCellnote=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">90</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">45</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">90</span>,<span class="dv">0</span>)));</code></pre></div>
+<p>Labels can be independently rotated and resized, an arbitrary example is shown below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/imageByColors.html">imageByColors</a></span>(df1,
+   <span class="dt">cellnote=</span>df1, 
+   <span class="dt">useRaster=</span><span class="ot">TRUE</span>,
+   <span class="co">#adjBy="column",</span>
+   <span class="dt">cexCellnote=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="dv">1</span>),
+      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="fl">1.5</span>), 
+      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">1.6</span>,<span class="fl">1.2</span>), 
+      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">1.6</span>,<span class="fl">1.5</span>)),
+   <span class="dt">srtCellnote=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">90</span>,<span class="dv">0</span>,<span class="dv">0</span>), 
+      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">45</span>), 
+      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), 
+      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">90</span>,<span class="dv">0</span>)));</code></pre></div>
 <p><img src="jambaVignette-imageByColors2-1.png" width="768"></p>
+</div>
+<div id="axis-label-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#axis-label-functions" class="anchor"></a>Axis label functions</h3>
+<p>There are several useful axis labeling functions.</p>
+<p>For log-transformed data, <code><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> is a flexible function to help deal with different transforms, such as <code><a href="https://www.rdocumentation.org/packages/base/topics/Log">log2(1 + x)</a></code>, which is common when analyzing gene expression data, or any measurement data that may contain zeros and no negative values.</p>
+<p>Data transformed with <code><a href="https://www.rdocumentation.org/packages/base/topics/Log">log2(1 + x)</a></code> must be correctly inverse-transformed to generate the proper numeric labels.</p>
+<p>By default, the log labels are displayed in base 10, while the underlying data can be any numeric base. (The default assumes log2.)</p>
+<p>Also note that zero values are represented as zero.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">expr &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">^</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dt">from=</span><span class="dv">0</span>, <span class="dt">to=</span><span class="dv">17</span>, <span class="dt">length.out=</span><span class="dv">20</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>;
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="st">"mfrow"</span>=<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>,<span class="dv">2</span>));
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/layout">layout</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">data=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>)));
+bp1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/barplot">barplot</a></span>(expr,
+   <span class="dt">las=</span><span class="dv">2</span>,
+   <span class="dt">col=</span><span class="st">"dodgerblue"</span>,
+   <span class="dt">main=</span><span class="st">"measurement data in normal space"</span>);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/axis">axis</a></span>(<span class="dv">1</span>, <span class="dt">at=</span>bp1[,<span class="dv">1</span>], <span class="dt">labels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_along</a></span>(bp1[,<span class="dv">1</span>]), <span class="dt">las=</span><span class="dv">2</span>)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="st">"xpd"</span>=<span class="ot">FALSE</span>);
+bp1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/barplot">barplot</a></span>(expr[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(expr<span class="op">&lt;=</span><span class="dv">100</span>)<span class="op">+</span><span class="dv">1</span>)],
+   <span class="dt">ylim=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">100</span>),
+   <span class="dt">las=</span><span class="dv">2</span>,
+   <span class="dt">col=</span><span class="st">"dodgerblue"</span>,
+   <span class="dt">main=</span><span class="st">"zoomed-in y-axis"</span>);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/axis">axis</a></span>(<span class="dv">1</span>, <span class="dt">at=</span>bp1[,<span class="dv">1</span>], <span class="dt">labels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_along</a></span>(bp1[,<span class="dv">1</span>]), <span class="dt">las=</span><span class="dv">2</span>)
+
+log_expr &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log2</a></span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>expr);
+bp1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/barplot">barplot</a></span>(log_expr,
+   <span class="dt">las=</span><span class="dv">2</span>,
+   <span class="dt">col=</span><span class="st">"dodgerblue"</span>,
+   <span class="dt">ylab=</span><span class="st">"log2(1 + x) value"</span>,
+   <span class="dt">main=</span><span class="st">"measurement data after log2(1+x) transform"</span>);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/axis">axis</a></span>(<span class="dv">1</span>, <span class="dt">at=</span>bp1[,<span class="dv">1</span>], <span class="dt">labels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_along</a></span>(bp1[,<span class="dv">1</span>]), <span class="dt">las=</span><span class="dv">2</span>)
+<span class="kw"><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis</a></span>(<span class="dt">side=</span><span class="dv">4</span>,
+   <span class="dt">logBase=</span><span class="dv">2</span>,
+   <span class="dt">offset=</span><span class="dv">1</span>,
+   <span class="dt">displayBase=</span><span class="dv">10</span>);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/mtext">mtext</a></span>(<span class="dt">side=</span><span class="dv">4</span>,
+   <span class="dt">line=</span><span class="fl">2.95</span>,
+   <span class="dt">las=</span><span class="dv">0</span>,
+   <span class="st">"normal space measurement values"</span>)</code></pre></div>
+<p><img src="jambaVignette-log_ticks_1-1.png" width="768"></p>
+<p>Another common example is with log fold change (also called log ratio). The log fold change is preferred to represent fold changes because it allows the “up” and “down” values to be symmetric.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fr &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="dv">2</span><span class="op">^</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">14</span><span class="op">/</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="fl">3.5</span>), <span class="dt">digits=</span><span class="dv">2</span>);
+fc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(fr <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span><span class="op">/</span>fr, fr), <span class="dt">digits=</span><span class="dv">2</span>);
+fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(fr, <span class="dt">trim=</span><span class="ot">TRUE</span>),
+   <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(fr <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">" ("</span>,
+      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(fc, <span class="dt">trim=</span><span class="ot">TRUE</span>),
+      <span class="st">"-fold)"</span>),
+      <span class="st">""</span>));
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="st">"mfrow"</span>=<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>));
+bp1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/barplot">barplot</a></span>(fr<span class="op">-</span><span class="dv">1</span>,
+   <span class="dt">ylim=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">5</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(fr)<span class="op">+</span><span class="dv">2</span>),
+   <span class="dt">las=</span><span class="dv">2</span>,
+   <span class="dt">offset=</span><span class="dv">1</span>,
+   <span class="dt">col=</span><span class="st">"dodgerblue"</span>,
+   <span class="dt">main=</span><span class="st">"data expressed as a ratio"</span>);
+k &lt;-<span class="st"> </span>(fr <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/text">text</a></span>(<span class="dt">x=</span>bp1[k,<span class="dv">1</span>],
+   <span class="dt">y=</span>fr[k],
+   <span class="dt">srt=</span><span class="dv">90</span>,
+   <span class="dt">adj=</span><span class="fl">1.2</span>,
+   fl[k]);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/text">text</a></span>(<span class="dt">x=</span>bp1[<span class="op">!</span>k,<span class="dv">1</span>],
+   <span class="dt">y=</span>fc[<span class="op">!</span>k],
+   <span class="dt">srt=</span><span class="dv">90</span>,
+   <span class="dt">adj=</span><span class="op">-</span><span class="fl">0.2</span>,
+   fl[<span class="op">!</span>k]);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/box">box</a></span>();
+
+log_fc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log2</a></span>(fr);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/barplot">barplot</a></span>(log_fc,
+   <span class="dt">ylim=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>),
+   <span class="dt">yaxt=</span><span class="st">"n"</span>,
+   <span class="dt">col=</span><span class="st">"dodgerblue"</span>,
+   <span class="dt">main=</span><span class="st">"log ratios with log2 y-axis"</span>);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/box">box</a></span>();
+<span class="kw"><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis</a></span>(<span class="dt">side=</span><span class="dv">2</span>,
+   <span class="dt">logBase=</span><span class="dv">2</span>,
+   <span class="dt">offset=</span><span class="dv">0</span>,
+   <span class="dt">symmetricZero=</span><span class="ot">TRUE</span>,
+   <span class="dt">displayBase=</span><span class="dv">10</span>);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/mtext">mtext</a></span>(<span class="dt">side=</span><span class="dv">2</span>,
+   <span class="dt">line=</span><span class="dv">2</span>,
+   <span class="dt">las=</span><span class="dv">0</span>,
+   <span class="st">"fold changes with log10 breaks"</span>);
+<span class="kw"><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis</a></span>(<span class="dt">side=</span><span class="dv">4</span>,
+   <span class="dt">logBase=</span><span class="dv">2</span>,
+   <span class="dt">offset=</span><span class="dv">0</span>,
+   <span class="dt">symmetricZero=</span><span class="ot">TRUE</span>,
+   <span class="dt">displayBase=</span><span class="dv">2</span>);
+<span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/mtext">mtext</a></span>(<span class="dt">side=</span><span class="dv">4</span>,
+   <span class="dt">line=</span><span class="dv">2</span>,
+   <span class="dt">las=</span><span class="dv">0</span>,
+   <span class="st">"fold changes with log2 breaks"</span>);</code></pre></div>
+<p><img src="jambaVignette-log_fc_ticks-1.png" width="768"></p>
+</div>
+<div id="plotpolygondensity" class="section level3">
+<h3 class="hasAnchor">
+<a href="#plotpolygondensity" class="anchor"></a><code><a href="../reference/plotPolygonDensity.html">plotPolygonDensity()</a></code>
+</h3>
+<p>A convenience function <code><a href="../reference/plotPolygonDensity.html">plotPolygonDensity()</a></code> is a light wrapper around two functions: <code><a href="https://www.rdocumentation.org/packages/graphics/topics/hist">hist()</a></code> and <code><a href="https://www.rdocumentation.org/packages/stats/topics/density">density()</a></code>. However, it makes two other options convenient:</p>
+<ul>
+<li>transform the x-axis with either <code><a href="https://www.rdocumentation.org/packages/base/topics/Log">log10(1+x)</a></code> or <code><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt()</a></code>,</li>
+<li>display multiple panels for each column of a numeric matrix.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="st">"mar"</span>=<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">8</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>), <span class="st">"mfrow"</span>=<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>, <span class="dv">2</span>));
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="st">"scipen"</span>=<span class="dv">7</span>);
+<span class="kw"><a href="../reference/plotPolygonDensity.html">plotPolygonDensity</a></span>(<span class="dv">10</span><span class="op">^</span>(<span class="dv">3</span><span class="op">+</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">2000</span>)),
+   <span class="dt">breaks=</span><span class="dv">50</span>,
+   <span class="dt">cex.axis=</span><span class="dv">1</span>,
+   <span class="dt">main=</span><span class="st">"normal-scaled x-axis"</span>);
+<span class="kw"><a href="../reference/plotPolygonDensity.html">plotPolygonDensity</a></span>(<span class="dv">10</span><span class="op">^</span>(<span class="dv">3</span><span class="op">+</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">2000</span>)),
+   <span class="dt">log=</span><span class="st">"x"</span>,
+   <span class="dt">breaks=</span><span class="dv">50</span>,
+   <span class="dt">main=</span><span class="st">"log-scaled x-axis"</span>);
+<span class="kw"><a href="../reference/plotPolygonDensity.html">plotPolygonDensity</a></span>((<span class="dv">3</span><span class="op">+</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">2000</span>))<span class="op">^</span><span class="dv">2</span>,
+   <span class="dt">cex.axis=</span><span class="dv">1</span>,
+   <span class="dt">breaks=</span><span class="dv">50</span>,
+   <span class="dt">main=</span><span class="st">"normal-scaled x-axis"</span>);
+<span class="kw"><a href="../reference/plotPolygonDensity.html">plotPolygonDensity</a></span>((<span class="dv">3</span><span class="op">+</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">2000</span>))<span class="op">^</span><span class="dv">2</span>,
+   <span class="dt">cex.axis=</span><span class="dv">1</span>,
+   <span class="dt">xScale=</span><span class="st">"sqrt"</span>,
+   <span class="dt">breaks=</span><span class="dv">50</span>,
+   <span class="dt">main=</span><span class="st">"sqrt-scaled x-axis"</span>);
+<span class="kw"><a href="../reference/drawLabels.html">drawLabels</a></span>(<span class="dt">preset=</span><span class="st">"bottom"</span>,
+   <span class="dt">txt=</span><span class="st">"sqrt-scaled x-axis"</span>,
+   <span class="dt">labelCex=</span><span class="fl">1.5</span>)</code></pre></div>
+<p><img src="jambaVignette-plot_dens_log-1.png" width="768"></p>
+</div>
+<div id="drawlabels" class="section level3">
+<h3 class="hasAnchor">
+<a href="#drawlabels" class="anchor"></a><code><a href="../reference/drawLabels.html">drawLabels()</a></code>
+</h3>
+<p><code><a href="../reference/drawLabels.html">drawLabels()</a></code> is aimed at base R graphics, and provides a quick way to add a label to a plot. The argument <code>preset</code> is used to place the label relative to the sides and corners of the plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="st">"mfrow"</span>=<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>))
+<span class="kw"><a href="../reference/plotPolygonDensity.html">plotPolygonDensity</a></span>((<span class="dv">3</span><span class="op">+</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">2000</span>))<span class="op">^</span><span class="dv">2</span>,
+   <span class="dt">cex.axis=</span><span class="dv">1</span>,
+   <span class="dt">xScale=</span><span class="st">"sqrt"</span>,
+   <span class="dt">breaks=</span><span class="dv">50</span>,
+   <span class="dt">main=</span><span class="st">""</span>);
+<span class="kw"><a href="../reference/drawLabels.html">drawLabels</a></span>(<span class="dt">preset=</span><span class="st">"bottom"</span>,
+   <span class="dt">txt=</span><span class="st">"sqrt-scaled x-axis"</span>,
+   <span class="dt">labelCex=</span><span class="fl">1.5</span>)</code></pre></div>
+<p><img src="jambaVignette-draw_labels-1.png" width="768"></p>
+</div>
+</div>
+<div id="colors" class="section level2">
+<h2 class="hasAnchor">
+<a href="#colors" class="anchor"></a>Colors</h2>
+<p>For me, color plays a big role in my daily work, both in how I use R, and the figures and visualizations I produce during data analysis.</p>
+<p>Another Jam package <code>colorjam</code> focuses on defining categorical colors in an extensible manner.</p>
+<div id="getcolorramp" class="section level3">
+<h3 class="hasAnchor">
+<a href="#getcolorramp" class="anchor"></a><code><a href="../reference/getColorRamp.html">getColorRamp()</a></code>
+</h3>
+<p><code><a href="../reference/getColorRamp.html">getColorRamp()</a></code> is a workhorse of several other functions and workflows. It tries to make convenient the job of obtaining a color ramp (aka a color palette, or color gradient). It interfaces with <code>RColorBrewer</code> and <code>viridisLite</code> for color palette names, and allows some useful extensions.</p>
+<p>The suffix <code>"_r"</code> is convenient for reversing the order of colors, especially with <code>RColorBrewer</code> palette <code>"RdBu"</code> which provides red-white-blue colors. On heatmaps, for me anyway, “red” is associated with “heat” and therefore the high numeric value. Using <code>"RdBu_r"</code> will provide blue-white-red colors.</p>
+<p><code><a href="../reference/showColors.html">showColors()</a></code> is used to display a color ramp, by default including the labels using <code><a href="../reference/imageByColors.html">imageByColors()</a></code>.</p>
+<p><code><a href="../reference/warpRamp.html">warpRamp()</a></code> is used with color gradients to compress or expand the color gradient.</p>
+<p><code><a href="https://www.rdocumentation.org/packages/colorjam/topics/closestRcolor">colorjam::closestRcolor()</a></code> is used to assign an R color label to any R color in hex <code>"#RRGGBB"</code> format.</p>
+<p><code><a href="https://www.rdocumentation.org/packages/colorjam/topics/rainbowJam">colorjam::rainbowJam()</a></code> is used to define a categorical color palette with <code>n</code> colors, relatively evenly spaced around a modified red-yellow-blue color wheel. (This color wheel avoids the dominance of green and blue-green colors that result from most “rainbow” color palettes.) The function alternates the brightness value and color saturation, so adjacent colors are more visibly distinct.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/showColors.html">showColors</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
+   <span class="dt">Reds=</span><span class="kw"><a href="../reference/getColorRamp.html">getColorRamp</a></span>(<span class="st">"Reds"</span>),
+   <span class="dt">RdBu=</span><span class="kw"><a href="../reference/getColorRamp.html">getColorRamp</a></span>(<span class="st">"RdBu"</span>),
+   <span class="dt">RdBu_r=</span><span class="kw"><a href="../reference/getColorRamp.html">getColorRamp</a></span>(<span class="st">"RdBu_r"</span>),
+   <span class="st">`</span><span class="dt">RdBu_r_warped x5</span><span class="st">`</span>=<span class="kw"><a href="../reference/warpRamp.html">warpRamp</a></span>(<span class="kw"><a href="../reference/getColorRamp.html">getColorRamp</a></span>(<span class="st">"RdBu_r"</span>), <span class="dt">lens=</span><span class="dv">5</span>),
+   <span class="st">`</span><span class="dt">RdBu_r_warped x-5</span><span class="st">`</span>=<span class="kw"><a href="../reference/warpRamp.html">warpRamp</a></span>(<span class="kw"><a href="../reference/getColorRamp.html">getColorRamp</a></span>(<span class="st">"RdBu_r"</span>), <span class="dt">lens=</span><span class="op">-</span><span class="dv">5</span>)
+   ));
+
+<span class="kw"><a href="../reference/showColors.html">showColors</a></span>(<span class="kw"><a href="../reference/vigrep.html">vigrep</a></span>(<span class="st">"red"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/colors">colors</a></span>()))</code></pre></div>
+<p><img src="jambaVignette-get_color_ramp-1.png" width="768"><img src="jambaVignette-get_color_ramp-2.png" width="768"></p>
 </div>
 </div>
 <div id="helper-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#helper-functions" class="anchor"></a>Helper functions</h2>
-<div id="mixedsort-and-mixedorder" class="section level3">
+<div id="mixedsort-mixedsortdf-mixedorder" class="section level3">
 <h3 class="hasAnchor">
-<a href="#mixedsort-and-mixedorder" class="anchor"></a>mixedSort and mixedOrder</h3>
-<p>The <code>gtools</code> package implemented a function mixedsort() which aimed to mixedSort vectors similar GNU version sort, where numeric values within an alphanumeric string would be sorted in proper numerical order.</p>
-<p>The mixedSort() function is an optimization and extension, driven by the desire to sort tens of thousands of gene symbols (and micro-RNAs, miRNA) efficiently and based upon known order. Also, because miRNA nomenclature includes a dash ‘-’ character, numbers are no longer allowed to be negative during this sorting algorithm, unless overridden. For example “miR-2” should sort before “miR-11”, and after “miR-1”.</p>
-<table class="table">
-<thead><tr class="header">
-<th align="left">sort</th>
-<th align="left">gtools_mixedsort</th>
-<th align="left">mixedSort</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">miR-1</td>
-<td align="left">miR-122</td>
-<td align="left">miR-1</td>
-</tr>
-<tr class="even">
-<td align="left">miR-12</td>
-<td align="left">miR-12</td>
-<td align="left">miR-1a</td>
-</tr>
-<tr class="odd">
-<td align="left">miR-122</td>
-<td align="left">miR-2</td>
-<td align="left">miR-1b</td>
-</tr>
-<tr class="even">
-<td align="left">miR-1a</td>
-<td align="left">miR-1</td>
-<td align="left">miR-2</td>
-</tr>
-<tr class="odd">
-<td align="left">miR-1b</td>
-<td align="left">miR-1a</td>
-<td align="left">miR-12</td>
-</tr>
-<tr class="even">
-<td align="left">miR-2</td>
-<td align="left">miR-1b</td>
-<td align="left">miR-122</td>
-</tr>
-</tbody>
-</table>
-<p>Note: it took roughly 12 seconds to sort 43,000 gene symbols using gtools::mixedsort, and roughly 0.5 seconds using mixedSort.</p>
-<p>The mixedOrder() function is actually the core ordering algorithm, called by mixedSort(). The mixedOrder() function does not fully behave like order(), in that order() accepts a list of vectors as one type of input, and applies the order logic to each list iteratively, in order break ties. Instead the mmixedOrder() function was implemented to serve that purpose.</p>
+<a href="#mixedsort-mixedsortdf-mixedorder" class="anchor"></a><code><a href="../reference/mixedSort.html">mixedSort()</a></code>, <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code>, <code><a href="../reference/mixedOrder.html">mixedOrder()</a></code>
+</h3>
+<p>The <code>gtools</code> package implemented a function <code><a href="https://www.rdocumentation.org/packages/gtools/topics/mixedsort">gtools::mixedsort()</a></code> which aimed to sort character vectors similar to GNU version sort (<code>gsort -V</code>), where numeric values within an alphanumeric string would be sorted in proper numerical order.</p>
+<p>The <code><a href="../reference/mixedSort.html">mixedSort()</a></code> is an optimization and extension, driven by the desire to sort tens of thousands of gene symbols (and micro-RNAs, miRNA) efficiently and based upon known order. Also, because miRNA nomenclature includes a dash ‘-’ character, numbers are not assumed to be negative by default, but this behavior can be controlled.</p>
+<p>For example “miR-2” should sort before “miR-11”, and after “miR-1”.</p>
+<pre><code> sort gtools_mixedsort mixedSort</code></pre>
+<p>1 miR-1 miR-122 miR-1 2 miR-12 miR-12 miR-1a 3 miR-122 miR-2 miR-1b 4 miR-1a miR-1 miR-2 5 miR-1b miR-1a miR-12 6 miR-2 miR-1b miR-122</p>
+<p>Note: it took roughly 12 seconds to sort 43,000 gene symbols using <code><a href="https://www.rdocumentation.org/packages/gtools/topics/mixedsort">gtools::mixedsort()</a></code>, and roughly 0.5 seconds using <code><a href="../reference/mixedSort.html">mixedSort()</a></code>.</p>
+<p>The <code><a href="../reference/mixedOrder.html">mixedOrder()</a></code> function is actually the core ordering algorithm, called by <code><a href="../reference/mixedSort.html">mixedSort()</a></code>. The <code><a href="../reference/mixedOrder.html">mixedOrder()</a></code> function does not fully behave like <code><a href="https://www.rdocumentation.org/packages/base/topics/order">order()</a></code>, in that <code><a href="https://www.rdocumentation.org/packages/base/topics/order">order()</a></code> accepts a list of vectors as one type of input, and applies the order logic to each list iteratively, in order break ties. Instead the <code><a href="../reference/mmixedOrder.html">mmixedOrder()</a></code> function was implemented to serve that purpose.</p>
+<p>For the most part, <code><a href="../reference/mixedSort.html">mixedSort()</a></code> or <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> should fulfill most use cases.</p>
 </div>
 <div id="mixedsortdf" class="section level3">
 <h3 class="hasAnchor">
-<a href="#mixedsortdf" class="anchor"></a>mixedSortDF</h3>
-<p>The mixedSortDF() function is a convenient wrapper around mixedSort() applied to data.frames. It sorts columns in a specified order, maintaining ties in each column, and breaking ties as warranted in subsequent columns. It has the added benefit of maintaining factor order, so a data.frame that contains a column of factors with a specified order will maintain that order during the sort process. This behavior is especially useful when sorting a data.frame with experiment design, where each column may contain an ordered factor indicating the proper sample group ordering.</p>
+<a href="#mixedsortdf" class="anchor"></a><code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code>
+</h3>
+<p>The <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> function is a convenient wrapper around <code><a href="../reference/mmixedOrder.html">mmixedOrder()</a></code> applied to data.frames. It sorts columns in a specified order, maintaining ties in each column, and breaking ties as warranted in subsequent columns. It has the added benefit of maintaining factor order, so a <code>data.frame</code> that contains a column of factors with a specified order will maintain that order during the sort process. This behavior is especially useful when sorting a <code>data.frame</code> with experiment design, where each column may contain an ordered factor indicating the proper sample group ordering.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"miR-12"</span>,<span class="st">"miR-1"</span>,<span class="st">"miR-122"</span>,<span class="st">"miR-1b"</span>, <span class="st">"miR-1a"</span>,<span class="st">"miR-2"</span>);
 g &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Air"</span>, <span class="st">"Treatment"</span>, <span class="st">"Control"</span>), <span class="dv">2</span>);
 gf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(g, <span class="dt">levels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Control"</span>,<span class="st">"Air"</span>, <span class="st">"Treatment"</span>));
 df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">groupfactor=</span>gf, <span class="dt">miRNA=</span>x, <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>);
 df2sorted &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mixedSortDF.html">mixedSortDF</a></span>(df2);</code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th></th>
-<th align="left">groupfactor</th>
-<th align="left">miRNA</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>6</td>
-<td align="left">Control</td>
-<td align="left">miR-2</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td align="left">Control</td>
-<td align="left">miR-122</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td align="left">Air</td>
-<td align="left">miR-1b</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td align="left">Air</td>
-<td align="left">miR-12</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td align="left">Treatment</td>
-<td align="left">miR-1</td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td align="left">Treatment</td>
-<td align="left">miR-1a</td>
-</tr>
-</tbody>
-</table>
+<p>groupfactor miRNA 6 Control miR-2 3 Control miR-122 4 Air miR-1b 1 Air miR-12 2 Treatment miR-1 5 Treatment miR-1a</p>
 </div>
 <div id="setprompt" class="section level3">
 <h3 class="hasAnchor">
-<a href="#setprompt" class="anchor"></a>setPrompt</h3>
-<p>When working with multiple R sessions, sometimes on different computers, it can be helpful to add visual cues to help reinforce which R session is for which project. The <code><a href="../reference/setPrompt.html">setPrompt()</a></code> function is intended simply to update the R console prompt to include the project name. It also adds the R version, and optionally the process ID.</p>
-<p>The process ID is particularly helpful if one R session becomes inactive, and if there are other active R sessions open. The process ID can be a helpful way to kill the specific R session without fear of accidentally killing the wrong one.</p>
-<p><code><a href="../reference/setPrompt.html">setPrompt()</a></code> will also define the prompt using terminal colors, if the <code>crayon</code> package is installed, and if terminal colors are enabled.</p>
+<a href="#setprompt" class="anchor"></a><code><a href="../reference/setPrompt.html">setPrompt()</a></code>
+</h3>
+<p><code><a href="../reference/setPrompt.html">setPrompt()</a></code> is a simple function that creates an R prompt which includes the project name, R version, and current process ID. When possible, the prompt uses color text.</p>
+<p>It is especially helpful if you find yourself working on multiple active R projects at the same time. For me, the more visual reminders the better!</p>
+<p>The process ID is particularly helpful if one R session becomes inactive, and if there are other active R sessions open. The process ID is the best way to identify the specific task so it can be killed.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setPrompt.html">setPrompt</a></span>(<span class="st">"jambaVignette"</span>);
-<span class="co"># {jamba}-R-3.3.2_10789&gt;</span></code></pre></div>
+<span class="co"># {jambaVignette}-R-3.6.0_10789&gt;</span></code></pre></div>
 <div class="figure">
 <img src="README-setPrompt.png" alt="setPrompt example"><p class="caption">setPrompt example</p>
 </div>
-<p>When using the <code>jamsession</code> R package to manage R sessions, the prompt is a helpful way to reinforce the name of the active R session, using the same name to save the session.</p>
+</div>
+<div id="writeopenxlsx" class="section level3">
+<h3 class="hasAnchor">
+<a href="#writeopenxlsx" class="anchor"></a><code><a href="../reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>
+</h3>
+<p><code><a href="../reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> is intended to make several capabilities of the amazing <code>openxlsx</code> package convenient.</p>
+<p>If you ever found yourself saving data to Excel, then opening the file to apply numerous custom options – this function is aimed at you! For Excel files with multiple worksheets, it quickly becomes tedious to apply all options consistently to each worksheet.</p>
+<p>The capabilities are described below:</p>
+<ul>
+<li>Apply style to “known” numeric types: P-value, fold change, log fold change, integer, decimal. The style includes the number of decimal places, consistent left- and right-alignment, and the font size.</li>
+<li>Apply conditional color formatting to each of the above, using sensible defaults.</li>
+<li>Apply categorical colors to cell backgrounds, if supplied with a named vector of colors.</li>
+<li>Enable Excel filtering for the top row of headings</li>
+<li>Fix the top row with the “Freeze panes” Excel option. The left columns can also be frozen.</li>
+<li>Expand the top row height to 4x the height of subsequent rows.</li>
+<li>The function can also save multiple worksheets to the same <code>.xlsx</code> file.</li>
+<li>Optionally include rownames – if you ever saved an Excel file only to realize later that it did not include the rownames… well yeah, you’re welcome.</li>
+</ul>
+</div>
+<div id="vigrep-provigrep-igrep-igrephas" class="section level3">
+<h3 class="hasAnchor">
+<a href="#vigrep-provigrep-igrep-igrephas" class="anchor"></a><code><a href="../reference/vigrep.html">vigrep()</a></code>, <code><a href="../reference/provigrep.html">provigrep()</a></code>, <code><a href="../reference/igrep.html">igrep()</a></code>, <code><a href="../reference/igrepHas.html">igrepHas()</a></code>
+</h3>
+<p>I use these functions numerous times every day, in all aspects of my analysis workflow. They’re very simple and convenient wrappers around <code><a href="https://www.rdocumentation.org/packages/base/topics/grep">base::grep()</a></code>:</p>
+<ul>
+<li>
+<code><a href="../reference/vigrep.html">vigrep()</a></code> - extends grep to use <code>value=TRUE</code> and <code>ignore.case=TRUE</code>
+</li>
+<li>
+<code><a href="../reference/provigrep.html">provigrep()</a></code> - extends <code><a href="../reference/vigrep.html">vigrep()</a></code> to use a vector of patterns, and return values in the order they are matched. Great when you want “all the controls first, then all the treated, then everything else”.</li>
+<li>
+<code><a href="../reference/igrep.html">igrep()</a></code> - extends grep to use <code>ignore.case=TRUE</code>, case-insensitive matching.</li>
+<li>
+<code><a href="../reference/igrepHas.html">igrepHas()</a></code> - extends <code><a href="../reference/igrep.html">igrep()</a></code> to return <code>TRUE</code> or <code>FALSE</code> if any value in a vector matches the pattern.</li>
+</ul>
+</div>
+<div id="gsubordered" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gsubordered" class="anchor"></a><code><a href="../reference/gsubOrdered.html">gsubOrdered()</a></code>
+</h3>
+<p><code><a href="../reference/gsubOrdered.html">gsubOrdered()</a></code> is an extension to <code><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub()</a></code> that preserves factor order of the input data, by creating new ordered factor levels using the same <code><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub()</a></code> replacement. If you have experimental factors in a specific order, want to maintain that order while making changes to the labels themselves, this function is for you.</p>
+</div>
+<div id="pastebyrow-and-pastebyrowordered" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pastebyrow-and-pastebyrowordered" class="anchor"></a><code><a href="../reference/pasteByRow.html">pasteByRow()</a></code> and <code><a href="../reference/pasteByRowOrdered.html">pasteByRowOrdered()</a></code>
+</h3>
+<p><code><a href="../reference/pasteByRow.html">pasteByRow()</a></code> is a lightweight by efficient method for combining multiple columns into one character string. After numerous benchmark tests, it appears the fastest method for combining columns in a <code>data.frame</code> with 10,000 or more rows of data, was to run a series of <code><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste()</a></code> operations. Every row-based method is far worse, probably because the <code><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste()</a></code> method is vectorized and scales well.</p>
+<p>However, this function also provides some convenient defaults, like skipping empty columns, and trimming leading and trailing blank entries.</p>
+<p>I use this function frequently to make sample group labels, combining values from a <code>data.frame</code> with multiple columns containing experimental factors.</p>
+<p><code><a href="../reference/pasteByRowOrdered.html">pasteByRowOrdered()</a></code> is an extension of <code><a href="../reference/pasteByRow.html">pasteByRow()</a></code> that maintains factor level order of each column, and creates combined factor levels in that same consistent order. If your <code>data.frame</code> contains experimental factors with a defined order, this function will produce a factor where those orders are also maintained.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"mutant"</span>, <span class="st">"control"</span>)[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>)],
+   <span class="dt">levels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"control"</span>, <span class="st">"mutant"</span>));
+b1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"vehicle"</span>, <span class="st">"treated"</span>)[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>)],
+   <span class="dt">levels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"vehicle"</span>, <span class="st">"treated"</span>));
+d1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"purple"</span>,<span class="st">"green"</span>)[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)];
+df2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">a=</span>a1, <span class="dt">b=</span>b1, <span class="dt">d=</span>d1);
+df2;
+<span class="co">#&gt;         a       b      d</span>
+<span class="co">#&gt; 1  mutant treated purple</span>
+<span class="co">#&gt; 2  mutant vehicle  green</span>
+<span class="co">#&gt; 3 control vehicle  green</span>
+<span class="kw"><a href="../reference/pasteByRow.html">pasteByRow</a></span>(df2);
+<span class="co">#&gt;                       1                       2                       3 </span>
+<span class="co">#&gt; "mutant_treated_purple"  "mutant_vehicle_green" "control_vehicle_green"</span>
+<span class="kw"><a href="../reference/pasteByRowOrdered.html">pasteByRowOrdered</a></span>(df2);
+<span class="co">#&gt;                     1                     2                     3 </span>
+<span class="co">#&gt; mutant_treated_purple  mutant_vehicle_green control_vehicle_green </span>
+<span class="co">#&gt; 3 Levels: control_vehicle_green ... mutant_treated_purple</span>
+
+df3 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(df2,
+   <span class="dt">pasteByRowOrdered=</span><span class="kw"><a href="../reference/pasteByRowOrdered.html">pasteByRowOrdered</a></span>(df2));
+<span class="kw"><a href="../reference/mixedSortDF.html">mixedSortDF</a></span>(df3, <span class="dt">byCols=</span><span class="st">"pasteByRowOrdered"</span>)
+<span class="co">#&gt;         a       b      d     pasteByRowOrdered</span>
+<span class="co">#&gt; 3 control vehicle  green control_vehicle_green</span>
+<span class="co">#&gt; 2  mutant vehicle  green  mutant_vehicle_green</span>
+<span class="co">#&gt; 1  mutant treated purple mutant_treated_purple</span></code></pre></div>
+</div>
+<div id="makenames-namevector-namevectorn" class="section level3">
+<h3 class="hasAnchor">
+<a href="#makenames-namevector-namevectorn" class="anchor"></a><code><a href="../reference/makeNames.html">makeNames()</a></code>, <code><a href="../reference/nameVector.html">nameVector()</a></code>, <code><a href="../reference/nameVectorN.html">nameVectorN()</a></code>
+</h3>
+<p>Again, I use these functions daily, to create unique names from a character vector, using a controlled vocabulary.</p>
+<p><code><a href="../reference/makeNames.html">makeNames()</a></code> simply returns unique names, for duplicated values it uses the suffix style <code>_v1</code>, <code>_v2</code>, <code>_v3</code>. The suffix can be controlled, whether to add a suffix to singlet entries, what number to start with, etc.</p>
+<p><code><a href="../reference/nameVector.html">nameVector()</a></code> uses a vector to name itself, returning the same vector with names assigned by <code><a href="../reference/makeNames.html">makeNames()</a></code>. This function is helpful when used in an <code><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply()</a></code> because it enforces unique names which are returned in the output <code>list</code> from the <code><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply()</a></code>.</p>
+<p><code><a href="../reference/nameVectorN.html">nameVectorN()</a></code> creates a named vector of the vector names. I use it frequently in <code><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply()</a></code> functions to control the names of the output <code>list</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(letters, <span class="dv">4</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">5</span>));
+x;
+<span class="co">#&gt;  [1] "a" "a" "b" "b" "b" "b" "c" "d" "d" "d" "d" "d"</span>
+
+<span class="kw"><a href="../reference/makeNames.html">makeNames</a></span>(x);
+<span class="co">#&gt;  [1] "a_v1" "a_v2" "b_v1" "b_v2" "b_v3" "b_v4" "c"    "d_v1" "d_v2" "d_v3"</span>
+<span class="co">#&gt; [11] "d_v4" "d_v5"</span>
+
+<span class="kw"><a href="../reference/nameVector.html">nameVector</a></span>(x);
+<span class="co">#&gt; a_v1 a_v2 b_v1 b_v2 b_v3 b_v4    c d_v1 d_v2 d_v3 d_v4 d_v5 </span>
+<span class="co">#&gt;  "a"  "a"  "b"  "b"  "b"  "b"  "c"  "d"  "d"  "d"  "d"  "d"</span>
+
+y &lt;-<span class="st"> </span><span class="kw"><a href="../reference/nameVector.html">nameVector</a></span>(x);
+<span class="kw"><a href="../reference/nameVectorN.html">nameVectorN</a></span>(y);
+<span class="co">#&gt;   a_v1   a_v2   b_v1   b_v2   b_v3   b_v4      c   d_v1   d_v2   d_v3 </span>
+<span class="co">#&gt; "a_v1" "a_v2" "b_v1" "b_v2" "b_v3" "b_v4"    "c" "d_v1" "d_v2" "d_v3" </span>
+<span class="co">#&gt;   d_v4   d_v5 </span>
+<span class="co">#&gt; "d_v4" "d_v5"</span>
+
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="kw"><a href="../reference/nameVectorN.html">nameVectorN</a></span>(y), <span class="cf">function</span>(i){
+   i
+})
+<span class="co">#&gt; $a_v1</span>
+<span class="co">#&gt; [1] "a_v1"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $a_v2</span>
+<span class="co">#&gt; [1] "a_v2"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $b_v1</span>
+<span class="co">#&gt; [1] "b_v1"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $b_v2</span>
+<span class="co">#&gt; [1] "b_v2"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $b_v3</span>
+<span class="co">#&gt; [1] "b_v3"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $b_v4</span>
+<span class="co">#&gt; [1] "b_v4"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $c</span>
+<span class="co">#&gt; [1] "c"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $d_v1</span>
+<span class="co">#&gt; [1] "d_v1"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $d_v2</span>
+<span class="co">#&gt; [1] "d_v2"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $d_v3</span>
+<span class="co">#&gt; [1] "d_v3"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $d_v4</span>
+<span class="co">#&gt; [1] "d_v4"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $d_v5</span>
+<span class="co">#&gt; [1] "d_v5"</span></code></pre></div>
+</div>
+<div id="cpaste-cpastesu-cpasteu" class="section level3">
+<h3 class="hasAnchor">
+<a href="#cpaste-cpastesu-cpasteu" class="anchor"></a><code><a href="../reference/cPaste.html">cPaste()</a></code>, <code><a href="../reference/cPasteSU.html">cPasteSU()</a></code>, <code><a href="../reference/cPasteU.html">cPasteU()</a></code>
+</h3>
+<p><code><a href="../reference/cPaste.html">cPaste()</a></code> is an efficient implementation intended to concatenate values using a delimiter, similar to <code><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste(x, collapse=",")</a></code>, except in a <code>list</code> context. After numerous benchmark tests, there was no faster implementation than the one from the Bioconductor <code>S4Vectors</code> package, which provides <code><a href="https://www.rdocumentation.org/packages/S4Vectors/topics/character-utils">S4Vectors::unstrsplit()</a></code>.</p>
+<p><code><a href="../reference/cPasteU.html">cPasteU()</a></code> makes the values unique, inside each vector of the list.</p>
+<p><code><a href="../reference/cPasteSU.html">cPasteSU()</a></code> applies <code><a href="../reference/mixedSort.html">mixedSort()</a></code> after making the values in each vector unique.</p>
+<p>The <code><a href="../reference/mixedSort.html">mixedSort()</a></code> and <code><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique()</a></code> functions are applied in extended vector form, so each are applied only once even when operating on a long list of vectors, for example a list with &gt;10,000 character vectors should take less than 1 second.</p>
+<p>These functions are very useful when operating on a list of gene symbols. For example, a vector of 500,000 assay probe names may be converted to a list of gene symbols, with some assay probe names associated with multiple gene symbols. The function <code><a href="../reference/cPasteSU.html">cPasteSU()</a></code> combines gene symbols with delimiter <code>","</code>, after sorting and making values unique.</p>
+<p>It is also useful with gene-pathway data, where biological pathways are associated with a long list of gene symbols.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">123</span>);
+x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="dv">6</span>), <span class="cf">function</span>(i){
+   <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"Gene"</span>, 
+      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(LETTERS,
+         <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">9</span>), <span class="dv">1</span>),
+         <span class="dt">replace=</span><span class="ot">TRUE</span>));
+});
+<span class="kw"><a href="../reference/cPaste.html">cPaste</a></span>(x);
+<span class="co">#&gt; [1] "GeneU"                                                </span>
+<span class="co">#&gt; [2] "GeneW,GeneY"                                          </span>
+<span class="co">#&gt; [3] "GeneN"                                                </span>
+<span class="co">#&gt; [4] "GeneO,GeneL,GeneY,GeneL,GeneR,GeneO,GeneC,GeneX,GeneG"</span>
+<span class="co">#&gt; [5] "GeneI"                                                </span>
+<span class="co">#&gt; [6] "GeneX,GeneS,GeneQ,GeneZ,GeneR,GeneS,GeneO,GeneP,GeneH"</span>
+<span class="kw"><a href="../reference/cPasteU.html">cPasteU</a></span>(x);
+<span class="co">#&gt; [1] "GeneU"                                          </span>
+<span class="co">#&gt; [2] "GeneW,GeneY"                                    </span>
+<span class="co">#&gt; [3] "GeneN"                                          </span>
+<span class="co">#&gt; [4] "GeneO,GeneL,GeneY,GeneR,GeneC,GeneX,GeneG"      </span>
+<span class="co">#&gt; [5] "GeneI"                                          </span>
+<span class="co">#&gt; [6] "GeneX,GeneS,GeneQ,GeneZ,GeneR,GeneO,GeneP,GeneH"</span>
+<span class="kw"><a href="../reference/cPasteSU.html">cPasteSU</a></span>(x);
+<span class="co">#&gt; [1] "GeneU"                                          </span>
+<span class="co">#&gt; [2] "GeneW,GeneY"                                    </span>
+<span class="co">#&gt; [3] "GeneN"                                          </span>
+<span class="co">#&gt; [4] "GeneC,GeneG,GeneL,GeneO,GeneR,GeneX,GeneY"      </span>
+<span class="co">#&gt; [5] "GeneI"                                          </span>
+<span class="co">#&gt; [6] "GeneH,GeneO,GeneP,GeneQ,GeneR,GeneS,GeneX,GeneZ"</span>
+
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">cPaste=</span><span class="kw"><a href="../reference/cPaste.html">cPaste</a></span>(x),
+   <span class="dt">cPasteU=</span><span class="kw"><a href="../reference/cPasteU.html">cPasteU</a></span>(x),
+   <span class="dt">cPasteSU=</span><span class="kw"><a href="../reference/cPasteSU.html">cPasteSU</a></span>(x))
+<span class="co">#&gt;                                                  cPaste</span>
+<span class="co">#&gt; 1                                                 GeneU</span>
+<span class="co">#&gt; 2                                           GeneW,GeneY</span>
+<span class="co">#&gt; 3                                                 GeneN</span>
+<span class="co">#&gt; 4 GeneO,GeneL,GeneY,GeneL,GeneR,GeneO,GeneC,GeneX,GeneG</span>
+<span class="co">#&gt; 5                                                 GeneI</span>
+<span class="co">#&gt; 6 GeneX,GeneS,GeneQ,GeneZ,GeneR,GeneS,GeneO,GeneP,GeneH</span>
+<span class="co">#&gt;                                           cPasteU</span>
+<span class="co">#&gt; 1                                           GeneU</span>
+<span class="co">#&gt; 2                                     GeneW,GeneY</span>
+<span class="co">#&gt; 3                                           GeneN</span>
+<span class="co">#&gt; 4       GeneO,GeneL,GeneY,GeneR,GeneC,GeneX,GeneG</span>
+<span class="co">#&gt; 5                                           GeneI</span>
+<span class="co">#&gt; 6 GeneX,GeneS,GeneQ,GeneZ,GeneR,GeneO,GeneP,GeneH</span>
+<span class="co">#&gt;                                          cPasteSU</span>
+<span class="co">#&gt; 1                                           GeneU</span>
+<span class="co">#&gt; 2                                     GeneW,GeneY</span>
+<span class="co">#&gt; 3                                           GeneN</span>
+<span class="co">#&gt; 4       GeneC,GeneG,GeneL,GeneO,GeneR,GeneX,GeneY</span>
+<span class="co">#&gt; 5                                           GeneI</span>
+<span class="co">#&gt; 6 GeneH,GeneO,GeneP,GeneQ,GeneR,GeneS,GeneX,GeneZ</span></code></pre></div>
+</div>
+<div id="jargs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#jargs" class="anchor"></a><code><a href="../reference/jargs.html">jargs()</a></code>
+</h3>
+<p>Jam extension to <code><a href="https://www.rdocumentation.org/packages/base/topics/args">args()</a></code>.</p>
+<p>If you ever used <code><a href="https://www.rdocumentation.org/packages/base/topics/args">args()</a></code> and found it difficult to read the jumble of function argument names, this function is for you!</p>
+<p>Also, if you ever work with functions that have a lot of arguments, you can search arguments by pattern.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/jargs.html">jargs</a></span>(plotSmoothScatter)
+<span class="co">#&gt;                 x = ,</span>
+<span class="co">#&gt;                 y = NULL,</span>
+<span class="co">#&gt;        bandwidthN = 300,</span>
+<span class="co">#&gt;    transformation = function( x ) x^0.25,</span>
+<span class="co">#&gt;              xlim = NULL,</span>
+<span class="co">#&gt;              ylim = NULL,</span>
+<span class="co">#&gt;              nbin = 256,</span>
+<span class="co">#&gt;          nrpoints = 0,</span>
+<span class="co">#&gt;           colramp = c("white", "lightblue", "blue", "orange", "orangered2"),</span>
+<span class="co">#&gt;            doTest = FALSE,</span>
+<span class="co">#&gt;    fillBackground = TRUE,</span>
+<span class="co">#&gt;          naAction = c("remove", "floor0", "floor1"),</span>
+<span class="co">#&gt;              xaxt = "s",</span>
+<span class="co">#&gt;              yaxt = "s",</span>
+<span class="co">#&gt;               add = FALSE,</span>
+<span class="co">#&gt; applyRangeCeiling = TRUE,</span>
+<span class="co">#&gt;         useRaster = TRUE,</span>
+<span class="co">#&gt;           verbose = FALSE,</span>
+<span class="co">#&gt;               ... =</span>
+
+<span class="kw"><a href="../reference/jargs.html">jargs</a></span>(plotSmoothScatter, <span class="st">"^y"</span>)
+<span class="co">#&gt;    y = NULL,</span>
+<span class="co">#&gt; ylim = NULL,</span>
+<span class="co">#&gt; yaxt = "s"</span></code></pre></div>
+</div>
+<div id="sdim-and-ssdim" class="section level3">
+<h3 class="hasAnchor">
+<a href="#sdim-and-ssdim" class="anchor"></a><code><a href="../reference/sdim.html">sdim()</a></code> and <code><a href="../reference/ssdim.html">ssdim()</a></code>
+</h3>
+<p>These functions apply <code><a href="https://www.rdocumentation.org/packages/base/topics/dim">dim()</a></code> to a list, or list of lists. In fact, they work with more than just lists, they work with S4 object <code>slotNames</code>, multi-dimensional arrays, and other objects which are list-like, for example model fit objects are often stored as a list.</p>
+<p>For convenience, the output includes the class of each element in the list.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">LETTERS=</span>LETTERS,
+   <span class="dt">letters=</span>letters,
+   <span class="dt">lettersDF=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(LETTERS, letters));
+<span class="kw"><a href="../reference/sdim.html">sdim</a></span>(L);
+<span class="co">#&gt;           rows cols      class</span>
+<span class="co">#&gt; LETTERS     26       character</span>
+<span class="co">#&gt; letters     26       character</span>
+<span class="co">#&gt; lettersDF   26    2 data.frame</span>
+
+L2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">List1=</span>L,
+   <span class="dt">List2=</span>L);
+
+<span class="kw"><a href="../reference/sdim.html">sdim</a></span>(L2);
+<span class="co">#&gt;       rows class</span>
+<span class="co">#&gt; List1    3  list</span>
+<span class="co">#&gt; List2    3  list</span>
+<span class="kw"><a href="../reference/ssdim.html">ssdim</a></span>(L2);
+<span class="co">#&gt; $List1</span>
+<span class="co">#&gt;           rows cols      class</span>
+<span class="co">#&gt; LETTERS     26       character</span>
+<span class="co">#&gt; letters     26       character</span>
+<span class="co">#&gt; lettersDF   26    2 data.frame</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $List2</span>
+<span class="co">#&gt;           rows cols      class</span>
+<span class="co">#&gt; LETTERS     26       character</span>
+<span class="co">#&gt; letters     26       character</span>
+<span class="co">#&gt; lettersDF   26    2 data.frame</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -256,6 +640,7 @@ df2sorted &lt;-<span class="st"> </span><span class="kw"><a href="../reference/m
 <li>
 <a href="#jamba-overview">Jamba Overview</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#plot-functions">Plot functions</a></li>
+      <li><a href="#colors">Colors</a></li>
       <li><a href="#helper-functions">Helper functions</a></li>
       </ul>
 </li>

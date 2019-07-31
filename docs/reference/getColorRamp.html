@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.38.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
       </span>
     </div>
 
@@ -125,9 +125,10 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>getColorRamp</span>(<span class='no'>col</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>trimRamp</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>gradientN</span> <span class='kw'>=</span> <span class='fl'>15</span>,
+    <pre class="usage"><span class='fu'>getColorRamp</span>(<span class='no'>col</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>trimRamp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>), <span class='kw'>gradientN</span> <span class='kw'>=</span> <span class='fl'>15</span>,
   <span class='kw'>defaultBaseColor</span> <span class='kw'>=</span> <span class='st'>"grey95"</span>, <span class='kw'>reverseRamp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>gradientWtFactor</span> <span class='kw'>=</span> <span class='fl'>2</span>/<span class='fl'>3</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>gradientWtFactor</span> <span class='kw'>=</span> <span class='fl'>2</span>/<span class='fl'>3</span>, <span class='kw'>lens</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>divergent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,11 +154,10 @@ which returns <code>n</code> colors.</p></td>
       <th>trimRamp</th>
       <td><p>integer vector, expanded to length=2 as needed,
 which defines the number of colors to trim from the beginning
-and end of the color vector, respectively. Note that if the
-two values are not identical, symmetric divergent color scales
-will no longer have a proper middle color. Therefore, this parameter
-is mostly useful with linear gradients, to trim off the brightest
-and/or darkest colors.</p></td>
+and end of the color vector, respectively. When <code>reverseRamp=TRUE</code>,
+the colors are reversed before the trimming is applied.
+If the two <code>trimRamp</code> values are not identical, symmetric divergent
+color scales will no longer be symmetric.</p></td>
     </tr>
     <tr>
       <th>gradientN</th>
@@ -181,14 +181,24 @@ of the character value.</p></td>
       <td><p>logical indicating whether to honor alpha transparency
 whenever <code>colorRampPalette</code> is called. If colors contain
 no alpha transparency, this setting has no effect, otherwise the
-alpha value appears to be applied using a linear gradient between
-colors.</p></td>
+alpha value is applied by <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/colorRamp'>grDevices::colorRampPalette()</a></code> using
+a linear gradient between each color.</p></td>
     </tr>
     <tr>
       <th>gradientWtFactor</th>
       <td><p>numeric value used to expand single color
 input to a gradient, using <code><a href='color2gradient.html'>color2gradient()</a></code>, prior to making
 a full gradient to the <code>defaultBaseColor</code>.</p></td>
+    </tr>
+    <tr>
+      <th>lens, divergent</th>
+      <td><p>arguments sent to <code><a href='warpRamp.html'>warpRamp()</a></code> to
+apply a warp effect to the color ramp, to compress or expand
+the color gradient: <code>lens</code> scales the warp effect, with
+positive values compressing colors toward baseline and
+negative values expanding colors near baseline; <code>divergent</code>
+is a logical indicating whether the middle color is considered
+the baseline.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -202,24 +212,51 @@ a full gradient to the <code>defaultBaseColor</code>.</p></td>
 a vector of colors, or a function names, and returns a simple
 vector of colors of the appropriate length, suitable as input
 to a number of plotting functions.</p>
-<p>For example, it recognizes <code><a href='https://www.rdocumentation.org/packages/RColorBrewer/topics/ColorBrewer'>RColorBrewer</a></code> color ramp
-names, but can reverse those color ramps with a suffix "_r" at the
-end, e.g. "RdBu_r" will supply a color ramp from blue to red, suitable
-for heatmaps where red is typically associated with heat and high
-numeric values.</p>
-<p>If <code>n</code> is zero, and a color gradient is recognized from <code>RColorBrewer</code> or
-<code>viridis</code> for example, the colors are expanded to <code>gradientN</code> colors,
-then wrapped by <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/colorRamp'>grDevices::colorRampPalette</a></code>.</p>
-<p>Note that when <code>reverseRamp</code> is TRUE, colors are reversed
-before <code>trimRamp</code> is used to trim colors from the beginning and end.</p>
-<p>The parameter <code>trimRamp</code> is used to trim colors from the beginning
-and end, respectively. However, when specifying a color gradient, like
-any <code>viridis</code> package color ramps, or <code>RColorBrewer</code> package divergent
-or sequential color palettes, a color vector is created with length
-<code>gradientN</code>. The <code>trimRamp</code> colors are trimmed from this vector, then
-the remaining color vector is fed to <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/colorRamp'>grDevices::colorRampPalette()</a></code>.
-This mechanism allows trimming the brightest and darkest colors from
-the color ramp, as needed.</p>
+<p>When <code>n</code> is <code>NULL</code>, this function returns a color function,
+wrapped by <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/colorRamp'>grDevices::colorRampPalette()</a></code>. The colors used
+are defined by <code>gradientN</code>, so the <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/colorRamp'>grDevices::colorRampPalette()</a></code>
+function actually uses a starting palette of <code>gradientN</code> number
+of colors.</p>
+<p>When <code>n</code> is an integer greater than <code>0</code>, this function returns
+a vector of colors with length <code>n</code>.</p>
+<p>When <code>col</code> is a single color value, a color gradient is created
+by appending <code>defaultColorBase</code> to the output of
+<code><a href='color2gradient.html'>color2gradient(..., n=3, gradientWtFactor=gradientWtFactor)</a></code>.
+These 4 colors are used as the internal palette before
+applying <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/colorRamp'>grDevices::colorRampPalette()</a></code> as appropriate.
+In this case, <code>gradientWtFactor</code> is used to adjust the
+strength of the color gradient. The intended use is:
+<code>getColorRamp("red", n=5)</code>. To remove the leading white
+color, use <code>getColorRamp("red", n=5, trimRamp=c(1,0))</code>.</p>
+<p>When <code>col</code> contains multiple color values, they are used
+to define a color ramp directly.</p>
+<p>When <code>col</code> is not a color value, it is compared to known color
+palettes from <code><a href='https://www.rdocumentation.org/packages/RColorBrewer/topics/ColorBrewer'>RColorBrewer::RColorBrewer</a></code> and <code>viridisLite</code>,
+and will use the corresponding color function or color palette.</p>
+<p>When <code>col</code> refers to a color palette, the suffix <code>"_r"</code> may
+be used to reverse the colors. For example,
+<code>getColorRamp(col="RdBu_r", n=9)</code> will recognize the
+<code>RColorBrewer</code> color palette <code>"RdBu"</code>, and will reverse the colors
+to return blue to red, more suitable for heatmaps where
+high values associated with heat are colored red,
+and low values associated with cold are colored blue.</p>
+<p>The argument <code>reverseRamp=TRUE</code> may be used to reverse the
+returned colors.</p>
+<p>Color functions from <code>viridisLite</code> are recognized:
+<code>"viridis"</code>, <code>"cividis"</code>, <code>"inferno"</code>, <code>"magma"</code>, <code>"plasma"</code>.</p>
+<p>The argument <code>trimRamp</code> is used to trim colors from the beginning
+and end of a color ramp, respectively. This mechanism is useful
+to remove the first or last color when those colors may be too
+extreme. Note that internally, colors are expanded to length
+<code>gradientN</code>, then trimmed, then the corresponding <code>n</code> colors
+are returned.</p>
+<p>The <code>trimRamp</code> argument is also useful when returning a color
+function, which occurs when <code>n=NULL</code>. In this case, colors are
+expanded to length <code>gradientN</code>, then are trimmed using the
+values from <code>trimRamp</code>, then the returned function can be used
+to create a color ramp of arbitrary length.</p>
+<p>Note that when <code>reverseRamp=TRUE</code>, colors are reversed
+before <code>trimRamp</code> is applied.</p>
 <p>By default, alpha transparency will be maintained if supplied in the
 input color vector. Most color ramps have no transparency, in which
 case transparency can be added after the fact using <code><a href='alpha2col.html'>alpha2col()</a></code>.</p>

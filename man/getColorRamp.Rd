@@ -4,9 +4,10 @@
 \alias{getColorRamp}
 \title{get color ramp by name, color, or function}
 \usage{
-getColorRamp(col, n = 15, trimRamp = 0, gradientN = 15,
+getColorRamp(col, n = 15, trimRamp = c(0, 0), gradientN = 15,
   defaultBaseColor = "grey95", reverseRamp = FALSE, alpha = TRUE,
-  gradientWtFactor = 2/3, verbose = FALSE, ...)
+  gradientWtFactor = 2/3, lens = 0, divergent = NULL,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{col}{accepts
@@ -25,11 +26,10 @@ which returns \code{n} colors.}
 
 \item{trimRamp}{integer vector, expanded to length=2 as needed,
 which defines the number of colors to trim from the beginning
-and end of the color vector, respectively. Note that if the
-two values are not identical, symmetric divergent color scales
-will no longer have a proper middle color. Therefore, this parameter
-is mostly useful with linear gradients, to trim off the brightest
-and/or darkest colors.}
+and end of the color vector, respectively. When \code{reverseRamp=TRUE},
+the colors are reversed before the trimming is applied.
+If the two \code{trimRamp} values are not identical, symmetric divergent
+color scales will no longer be symmetric.}
 
 \item{gradientN}{integer number of colors to expand gradient colors
 prior to trimming colors.}
@@ -45,12 +45,20 @@ of the character value.}
 \item{alpha}{logical indicating whether to honor alpha transparency
 whenever \code{colorRampPalette} is called. If colors contain
 no alpha transparency, this setting has no effect, otherwise the
-alpha value appears to be applied using a linear gradient between
-colors.}
+alpha value is applied by \code{grDevices::colorRampPalette()} using
+a linear gradient between each color.}
 
 \item{gradientWtFactor}{numeric value used to expand single color
 input to a gradient, using \code{color2gradient()}, prior to making
 a full gradient to the \code{defaultBaseColor}.}
+
+\item{lens, divergent}{arguments sent to \code{warpRamp()} to
+apply a warp effect to the color ramp, to compress or expand
+the color gradient: \code{lens} scales the warp effect, with
+positive values compressing colors toward baseline and
+negative values expanding colors near baseline; \code{divergent}
+is a logical indicating whether the middle color is considered
+the baseline.}
 
 \item{verbose}{logical whether to print verbose output}
 }
@@ -63,27 +71,61 @@ a vector of colors, or a function names, and returns a simple
 vector of colors of the appropriate length, suitable as input
 to a number of plotting functions.
 
-For example, it recognizes \code{\link[RColorBrewer]{RColorBrewer}} color ramp
-names, but can reverse those color ramps with a suffix "_r" at the
-end, e.g. "RdBu_r" will supply a color ramp from blue to red, suitable
-for heatmaps where red is typically associated with heat and high
-numeric values.
+When \code{n} is \code{NULL}, this function returns a color function,
+wrapped by \code{grDevices::colorRampPalette()}. The colors used
+are defined by \code{gradientN}, so the \code{grDevices::colorRampPalette()}
+function actually uses a starting palette of \code{gradientN} number
+of colors.
 
-If \code{n} is zero, and a color gradient is recognized from \code{RColorBrewer} or
-\code{viridis} for example, the colors are expanded to \code{gradientN} colors,
-then wrapped by \code{grDevices::colorRampPalette}.
+When \code{n} is an integer greater than \code{0}, this function returns
+a vector of colors with length \code{n}.
 
-Note that when \code{reverseRamp} is TRUE, colors are reversed
-before \code{trimRamp} is used to trim colors from the beginning and end.
+When \code{col} is a single color value, a color gradient is created
+by appending \code{defaultColorBase} to the output of
+\code{color2gradient(..., n=3, gradientWtFactor=gradientWtFactor)}.
+These 4 colors are used as the internal palette before
+applying \code{grDevices::colorRampPalette()} as appropriate.
+In this case, \code{gradientWtFactor} is used to adjust the
+strength of the color gradient. The intended use is:
+\code{getColorRamp("red", n=5)}. To remove the leading white
+color, use \code{getColorRamp("red", n=5, trimRamp=c(1,0))}.
 
-The parameter \code{trimRamp} is used to trim colors from the beginning
-and end, respectively. However, when specifying a color gradient, like
-any \code{viridis} package color ramps, or \code{RColorBrewer} package divergent
-or sequential color palettes, a color vector is created with length
-\code{gradientN}. The \code{trimRamp} colors are trimmed from this vector, then
-the remaining color vector is fed to \code{grDevices::colorRampPalette()}.
-This mechanism allows trimming the brightest and darkest colors from
-the color ramp, as needed.
+When \code{col} contains multiple color values, they are used
+to define a color ramp directly.
+
+When \code{col} is not a color value, it is compared to known color
+palettes from \code{RColorBrewer::RColorBrewer} and \code{viridisLite},
+and will use the corresponding color function or color palette.
+
+When \code{col} refers to a color palette, the suffix \code{"_r"} may
+be used to reverse the colors. For example,
+\code{getColorRamp(col="RdBu_r", n=9)} will recognize the
+\code{RColorBrewer} color palette \code{"RdBu"}, and will reverse the colors
+to return blue to red, more suitable for heatmaps where
+high values associated with heat are colored red,
+and low values associated with cold are colored blue.
+
+The argument \code{reverseRamp=TRUE} may be used to reverse the
+returned colors.
+
+Color functions from \code{viridisLite} are recognized:
+\code{"viridis"}, \code{"cividis"}, \code{"inferno"}, \code{"magma"}, \code{"plasma"}.
+
+The argument \code{trimRamp} is used to trim colors from the beginning
+and end of a color ramp, respectively. This mechanism is useful
+to remove the first or last color when those colors may be too
+extreme. Note that internally, colors are expanded to length
+\code{gradientN}, then trimmed, then the corresponding \code{n} colors
+are returned.
+
+The \code{trimRamp} argument is also useful when returning a color
+function, which occurs when \code{n=NULL}. In this case, colors are
+expanded to length \code{gradientN}, then are trimmed using the
+values from \code{trimRamp}, then the returned function can be used
+to create a color ramp of arbitrary length.
+
+Note that when \code{reverseRamp=TRUE}, colors are reversed
+before \code{trimRamp} is applied.
 
 By default, alpha transparency will be maintained if supplied in the
 input color vector. Most color ramps have no transparency, in which

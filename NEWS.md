@@ -1,3 +1,32 @@
+# jamba version 0.0.39.900
+
+## changes
+
+* `drawLabels()` first argument is `txt` which is the label
+to be displayed, a small convenience change.
+* `breaksByVectors()` examples were updated to fix a typo
+when calling `adjustAxisLabelMargins()`.
+* Added substantial content to the vignette, including moving
+multiple images to `docs/articles` for pkgdown.
+
+## possible breaking changes
+
+* `cPaste()` default `doSort=TRUE` is changed to `doSort=FALSE`.
+New functions: `cPasteS()` is intended for sorted values;
+`cPasteU()` is an alias for `cPasteUnique()` and is intended
+for unique values; `cPasteSU()` is intended for sorted unique
+values. They all call `cPaste()` but with convenience defaults.
+It is recommended to use `cPasteS()` to replace sorted `cPaste()`
+in cases where output is expected to be sorted. The change was
+made now while impact is limited mostly to other Jam packages
+and could be mitigated.
+
+## new function
+
+* `groupedAxis()` draws grouped axis labels, a small convenience
+function that extends `breaksByVectors()`.
+
+
 # jamba version 0.0.38.900
 
 ## bug fixes
