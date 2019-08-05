@@ -133,18 +133,18 @@ points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
 \seealso{
 Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{breakDensity}}, \code{\link{checkLightMode}},
-  \code{\link{colNum2excelName}}, \code{\link{fileInfo}},
-  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
-  \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
-  \code{\link{isFALSEV}}, \code{\link{isTRUEV}},
-  \code{\link{jamba}}, \code{\link{jargs}},
-  \code{\link{kable_coloring}}, \code{\link{log2signed}},
-  \code{\link{make_styles}}, \code{\link{mergeAllXY}},
-  \code{\link{newestFile}}, \code{\link{printDebug}},
-  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
-  \code{\link{rmNA}}, \code{\link{rmNULL}},
-  \code{\link{sclass}}, \code{\link{sdim}},
-  \code{\link{setCLranges}}, \code{\link{setPrompt}},
-  \code{\link{ssdim}}
+  \code{\link{colNum2excelName}}, \code{\link{exp2signed}},
+  \code{\link{fileInfo}}, \code{\link{fixYellowHue}},
+  \code{\link{fixYellow}}, \code{\link{getAxisLabel}},
+  \code{\link{handleArgsText}}, \code{\link{isFALSEV}},
+  \code{\link{isTRUEV}}, \code{\link{jamba}},
+  \code{\link{jargs}}, \code{\link{kable_coloring}},
+  \code{\link{log2signed}}, \code{\link{make_styles}},
+  \code{\link{mergeAllXY}}, \code{\link{newestFile}},
+  \code{\link{printDebug}}, \code{\link{renameColumn}},
+  \code{\link{rmInfinite}}, \code{\link{rmNA}},
+  \code{\link{rmNULL}}, \code{\link{sclass}},
+  \code{\link{sdim}}, \code{\link{setCLranges}},
+  \code{\link{setPrompt}}, \code{\link{ssdim}}
 }
 \concept{jam practical functions}

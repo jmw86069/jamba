@@ -24,7 +24,7 @@ file size.
 \seealso{
 Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{breakDensity}}, \code{\link{checkLightMode}},
-  \code{\link{colNum2excelName}},
+  \code{\link{colNum2excelName}}, \code{\link{exp2signed}},
   \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
   \code{\link{getAxisLabel}}, \code{\link{handleArgsText}},
   \code{\link{isFALSEV}}, \code{\link{isTRUEV}},

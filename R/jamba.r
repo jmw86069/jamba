@@ -5268,6 +5268,8 @@ log2signed <- function
 #'    `log2()`.
 #' @param ... additional arguments are ignored.
 #'
+#' @family jam practical functions
+#'
 #' @examples
 #' x <- c(-100:100)/10;
 #' z <- log2signed(x);
