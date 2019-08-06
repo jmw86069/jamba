@@ -19,7 +19,8 @@ plotPolygonDensity(x, doHistogram = TRUE, doPolygon = TRUE,
   usePanels = TRUE, useOnePanel = FALSE, ablineV = NULL,
   ablineH = NULL, ablineVcol = "#44444499", ablineHcol = "#44444499",
   ablineVlty = "solid", ablineHlty = "solid", removeNA = TRUE,
-  add = FALSE, ylimQuantile = 0.99, ylim = NULL, verbose = FALSE,
+  add = FALSE, ylimQuantile = 0.99, ylim = NULL,
+  highlightPoints = NULL, highlightCol = "yellow", verbose = FALSE,
   ...)
 }
 \arguments{
@@ -82,6 +83,17 @@ threshold is only applied when \code{ylim} is NULL.}
 \item{ylim, xlim}{numeric y-axis and x-axis ranges, respectively. When NULL,
 the x-axis range is determined for each plot panel.}
 
+\item{highlightPoints}{optional vector with either integer
+values to indicate row numbers, or character values matching
+\code{rownames(x)} or \code{names(x)} if \code{x} is a numeric vector.
+When \code{x} is supplied as a \code{matrix}, \code{highlightPoints} can
+be a list of vectors, referring to each column in \code{x}.}
+
+\item{highlightCol}{character vector of highlight colors to
+use to fill the histogram when \code{highlightPoints} is supplied.
+Multiple values are recycled one per column in \code{x},
+as needed.}
+
 \item{verbose}{logical indicating whether to print verbose output.}
 }
 \description{
@@ -117,16 +129,24 @@ with \code{polyCol}.
 }
 \examples{
 # basic density plot
-plotPolygonDensity(rnorm(2000), main="basic polygon density plot");
+x <- rnorm(2000);
+plotPolygonDensity(x, main="basic polygon density plot");
 
 # fewer breaks
-plotPolygonDensity(rnorm(2000), breaks=20,
+plotPolygonDensity(x,
+   breaks=20,
    main="breaks=20");
 
 # log-scaled x-axis
 plotPolygonDensity(10^(3+rnorm(2000)), log="x",
    breaks=50,
    main="log-scaled x-axis");
+
+# highlighted points
+plotPolygonDensity(x,
+   highlightPoints=which(x > 1),
+   breaks=40,
+   main="breaks=20");
 
 }
 \seealso{

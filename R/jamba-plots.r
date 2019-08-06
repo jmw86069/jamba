@@ -2272,20 +2272,37 @@ showColors <- function
 #' @param ablineV,ablineH abline vertical and horizontal positions,
 #'    respectively. These values are mostly helpful in multi-panel plots,
 #'    since they draw consistent lines on each panel.
+#' @param highlightPoints optional vector with either integer
+#'    values to indicate row numbers, or character values matching
+#'    `rownames(x)` or `names(x)` if `x` is a numeric vector.
+#'    When `x` is supplied as a `matrix`, `highlightPoints` can
+#'    be a list of vectors, referring to each column in `x`.
+#' @param highlightCol character vector of highlight colors to
+#'    use to fill the histogram when `highlightPoints` is supplied.
+#'    Multiple values are recycled one per column in `x`,
+#'    as needed.
 #' @param verbose logical indicating whether to print verbose output.
 #'
 #' @examples
 #' # basic density plot
-#' plotPolygonDensity(rnorm(2000), main="basic polygon density plot");
+#' x <- rnorm(2000);
+#' plotPolygonDensity(x, main="basic polygon density plot");
 #'
 #' # fewer breaks
-#' plotPolygonDensity(rnorm(2000), breaks=20,
+#' plotPolygonDensity(x,
+#'    breaks=20,
 #'    main="breaks=20");
 #'
 #' # log-scaled x-axis
 #' plotPolygonDensity(10^(3+rnorm(2000)), log="x",
 #'    breaks=50,
 #'    main="log-scaled x-axis");
+#'
+#' # highlighted points
+#' plotPolygonDensity(x,
+#'    highlightPoints=which(x > 1),
+#'    breaks=40,
+#'    main="breaks=20");
 #'
 #' @export
 plotPolygonDensity <- function
@@ -2332,6 +2349,8 @@ plotPolygonDensity <- function
  add=FALSE,
  ylimQuantile=0.99,
  ylim=NULL,
+ highlightPoints=NULL,
+ highlightCol="yellow",
  verbose=FALSE,
  ...)
 {
@@ -2364,7 +2383,7 @@ plotPolygonDensity <- function
    }
 
    ## Optionally, if the input data is a multi-color matrix, split into separate panels
-   if (igrepHas("matrix|data.*frame", class(x)) && ncol(x) > 1 && usePanels) {
+   if (igrepHas("matrix|data.*frame|tibble|data.table", class(x)) && ncol(x) > 1 && usePanels) {
       ## ablineV will include abline(s) in each panel
       if (!is.null(ablineV)) {
          ablineV <- rep(ablineV, length.out=ncol(x));
@@ -2382,14 +2401,30 @@ plotPolygonDensity <- function
          panelColors <- barCol;
       } else {
          if (suppressPackageStartupMessages(require(colorjam))) {
-            panelColors <- rainbowJam(ncol(x));
+            panelColors <- colorjam::rainbowJam(ncol(x));
          } else {
-            panelColors <- sample(colors(), ncol(x));
+            panelColors <- sample(colors(),
+               size=ncol(x));
          }
       }
-      if (is.null(colnames(x))) {
+      if (length(colnames(x)) == 0) {
          colnames(x) <- makeNames(rep("column", ncol(x)), suffix="_");
       }
+
+      ## Handle highlightPoints
+      if (length(highlightPoints) > 0) {
+         if (!is.list(highlightPoints)) {
+            highlightPoints <- list(highlightPoints);
+         }
+         if (length(highlightPoints) < ncol(x)) {
+            highlightPoints <- rep(highlightPoints, length.out=ncol(x));
+         }
+         if (length(highlightCol) == 0) {
+            highlightCol <- "yellow";
+         }
+         highlightCol <- rep(highlightCol, length.out=ncol(x));
+      }
+
       ## Get common set of breaks
       #hx <- hist(x, breaks=breaks, plot=FALSE, ...);
       #breaks <- hx$breaks;
@@ -2401,10 +2436,12 @@ plotPolygonDensity <- function
          } else {
             mainTitle <- colnames(x)[i];
          }
+         xi <- x[,i];
+         if (length(rownames(x)) > 0) {
+            names(xi) <- rownames(x);
+         }
          if (removeNA) {
-            xi <- rmNA(x[,i]);
-         } else {
-            xi <- x[,i];
+            xi <- rmNA(xi);
          }
          d2 <- plotPolygonDensity(xi,
             main=mainTitle,
@@ -2443,6 +2480,8 @@ plotPolygonDensity <- function
             ablineHlty=ablineHlty,
             ylimQuantile=ylimQuantile,
             ylim=ylim,
+            highlightPoints=highlightPoints[[i]],
+            highlightCol=highlightCol[[i]],
             ...);
          d2;
       });
@@ -2553,6 +2592,7 @@ plotPolygonDensity <- function
                ylim=ylim,
                ...);
          }
+
          if (verbose) {
             printDebug("plotPolygonDensity(): ",
                "hx$breaks:",
@@ -2629,9 +2669,13 @@ plotPolygonDensity <- function
                maxHistY);
          }
          ## Scale the y-axis to match the histogram
-         dx$y <- normScale(dx$y,
-            from=0,
-            to=maxHistY*heightFactor);
+         xout <- (head(hx$breaks, -1) + tail(hx$breaks, -1))/2;
+         dy <- approx(x=dx$x, y=dx$y, xout=xout)$y;
+         dScale <- median(hx$counts[hx$counts > 0] / dy[hx$counts > 0]);
+         dx$y <- dx$y * dScale;
+         #dx$y <- normScale(dx$y,
+         #   from=0,
+         #   to=maxHistY*heightFactor);
       }
       if (verbose) {
          printDebug("Completed density calculations.");
@@ -2685,6 +2729,28 @@ plotPolygonDensity <- function
       if (doPolygon) {
          polygon(dx, col=polyCol, border=polyBorder, lwd=lwd, ...);
       }
+
+      ## Optionally plot highlightPoints
+      if (doHistogram) {
+         if (length(highlightPoints) > 0) {
+            if (verbose) {
+               printDebug("plotPolygonDensity(): ",
+                  "Plotting highlightPoints.");
+            }
+            hxh <- hist(x[highlightPoints],
+               breaks=hx$breaks,
+               col=highlightCol,
+               main="",
+               border=makeColorDarker(highlightCol),
+               xaxt="n",
+               yaxt="n",
+               ylab="",
+               xlab="",
+               add=TRUE,
+               ...);
+         }
+      }
+
       if (!is.null(ablineV)) {
          abline(v=ablineV, col=ablineVcol, lty=ablineVlty, ...);
       }

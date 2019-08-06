@@ -34,6 +34,7 @@ that there might be a large number of points in the cell, and should
 therefore be darkly colored.
 
 2. `printDebug()` option for HTML or Rmarkdown-friendly output.
+Note this feature seems to work when producing HTML output from Rmarkdown.
 
 3. `jargs()` is choking on certain argument formats:
 

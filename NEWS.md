@@ -1,3 +1,16 @@
+# jamba version 0.0.40.900
+
+## changes
+
+* `plotPolygonDensity()` new argument `highlightPoints`
+allows highlighting points in the distribution, which
+is currently displayed as histogram bars on top of
+the histogram and density polygon fill. Also 
+slight change to how the polygon density is sized,
+it uses the median ratio of the height
+of the density curve to the histogram bars at the center
+of each bar.
+
 # jamba version 0.0.39.900
 
 ## changes
