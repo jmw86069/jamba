@@ -789,8 +789,9 @@ pasteByRow <- function
       for (i1 in 2:ncol(x)) {
          xVals1 <- getColVals(x, i1, includeNames, na.rm, sepName);
          if (condenseBlanks) {
-            isBlank <- (is.na(xVals1) | grepl("^[ ]*$", xVals1));
-            sepV <- ifelse(isBlank, "", sep);
+            isBlank1 <- (is.na(xVals1) | grepl(blankGrep, xVals1));
+            isBlank <- (is.na(xVals) | grepl(blankGrep, xVals));
+            sepV <- ifelse(isBlank | isBlank1, "", sep);
          } else {
             sepV <- sep;
          }

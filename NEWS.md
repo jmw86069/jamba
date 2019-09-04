@@ -1,3 +1,13 @@
+# jamba version 0.0.41.900
+
+## bug fixes
+
+* `pasteByRow()` properly handles leading blanks, it
+previously only correctly handled blank values in
+the second and subsequent columns. Caused by trying
+to simplify the R function when moving into the jamba
+package.
+
 # jamba version 0.0.40.900
 
 ## changes
