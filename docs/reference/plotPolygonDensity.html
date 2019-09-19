@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.39.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.42.900</span>
       </span>
     </div>
 
@@ -140,7 +140,8 @@
   <span class='kw'>usePanels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>useOnePanel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ablineV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>ablineH</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ablineVcol</span> <span class='kw'>=</span> <span class='st'>"#44444499"</span>, <span class='kw'>ablineHcol</span> <span class='kw'>=</span> <span class='st'>"#44444499"</span>,
   <span class='kw'>ablineVlty</span> <span class='kw'>=</span> <span class='st'>"solid"</span>, <span class='kw'>ablineHlty</span> <span class='kw'>=</span> <span class='st'>"solid"</span>, <span class='kw'>removeNA</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ylimQuantile</span> <span class='kw'>=</span> <span class='fl'>0.99</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ylimQuantile</span> <span class='kw'>=</span> <span class='fl'>0.99</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>highlightPoints</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>highlightCol</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -240,6 +241,21 @@ threshold is only applied when <code>ylim</code> is NULL.</p></td>
 the x-axis range is determined for each plot panel.</p></td>
     </tr>
     <tr>
+      <th>highlightPoints</th>
+      <td><p>optional vector with either integer
+values to indicate row numbers, or character values matching
+<code><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames(x)</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/names'>names(x)</a></code> if <code>x</code> is a numeric vector.
+When <code>x</code> is supplied as a <code>matrix</code>, <code>highlightPoints</code> can
+be a list of vectors, referring to each column in <code>x</code>.</p></td>
+    </tr>
+    <tr>
+      <th>highlightCol</th>
+      <td><p>character vector of highlight colors to
+use to fill the histogram when <code>highlightPoints</code> is supplied.
+Multiple values are recycled one per column in <code>x</code>,
+as needed.</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
       <td><p>logical indicating whether to print verbose output.</p></td>
     </tr>
@@ -285,14 +301,21 @@ with <code>polyCol</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># basic density plot</span>
-<span class='fu'>plotPolygonDensity</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>2000</span>), <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"basic polygon density plot"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='img'><img src='plotPolygonDensity-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>2000</span>);
+<span class='fu'>plotPolygonDensity</span>(<span class='no'>x</span>, <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"basic polygon density plot"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='img'><img src='plotPolygonDensity-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># fewer breaks</span>
-<span class='fu'>plotPolygonDensity</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>2000</span>), <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>20</span>,
+<span class='fu'>plotPolygonDensity</span>(<span class='no'>x</span>,
+   <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>20</span>,
    <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"breaks=20"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='img'><img src='plotPolygonDensity-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># log-scaled x-axis</span>
 <span class='fu'>plotPolygonDensity</span>(<span class='fl'>10</span>^(<span class='fl'>3</span>+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>2000</span>)), <span class='kw'>log</span><span class='kw'>=</span><span class='st'>"x"</span>,
    <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>50</span>,
    <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"log-scaled x-axis"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='img'><img src='plotPolygonDensity-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># highlighted points</span>
+<span class='fu'>plotPolygonDensity</span>(<span class='no'>x</span>,
+   <span class='kw'>highlightPoints</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='no'>x</span> <span class='kw'>&gt;</span> <span class='fl'>1</span>),
+   <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>40</span>,
+   <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"breaks=20"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='img'><img src='plotPolygonDensity-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

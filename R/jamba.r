@@ -1129,6 +1129,9 @@ groupedAxis <- function
 #'    \code{file} specifies a filename.
 #' @param invert logical indicating whether foreground and background
 #'    colors should be switched.
+#' @param htmlOut logical indicating whether to print HTML span
+#'    output, using format
+#'    `<span style="color:fg;background-color:bg">text</span>`.
 #'
 #' @return This function is called for the by-product of printing
 #'    debug output, it returns `invisible(NULL)`, no output.
@@ -1186,6 +1189,7 @@ printDebug <- function
  file="",
  append=TRUE,
  invert=FALSE,
+ htmlOut=FALSE,
  x)
 {
    ## Purpose is to wrapper a print() function with optional time-date stamp
@@ -1217,12 +1221,16 @@ printDebug <- function
    ## - availability of the package crayon
    ## - availability of the package xterm256
    ## - the given preference doColor value (1=xterm256, 2=crayon, 0=no color, everything else is pickem)
-   hasCrayon <- as.character(suppressPackageStartupMessages(require(crayon)));
-   if (is.null(doColor)) {
-      if (hasCrayon %in% "TRUE") {
-         doColor <- 2;
-      } else {
-         doColor <- 0;
+   if (htmlOut) {
+      doColor <- 1;
+   } else {
+      hasCrayon <- as.character(suppressPackageStartupMessages(require(crayon)));
+      if (is.null(doColor)) {
+         if (hasCrayon %in% "TRUE") {
+            doColor <- 2;
+         } else {
+            doColor <- 0;
+         }
       }
    }
 
@@ -1316,7 +1324,8 @@ printDebug <- function
          replaceNULL=replaceNULL,
          adjustRgb=adjustRgb,
          byLine=byLine,
-         invert=invert);
+         invert=invert,
+         htmlOut=htmlOut);
       invisible(NULL);
    } else {
 
@@ -1333,6 +1342,9 @@ printDebug <- function
       }
       ## Optionally replace NULL with "NULL"
       xList <- rmNULL(xList, replaceNULL="NULL");
+
+      ## Attempt to unlist each list element
+      xList <- unnestList(xList);
 
       ## Extend fgText and bgText to the length of xList
       if (!igrepHas("list", class(fgText))) {
@@ -1357,17 +1369,32 @@ printDebug <- function
             } else if (length(iColor) == 1) {
                ## If the color is dark, make the off-color lighter,
                ## if the color is bright, make the off-color darker
-               if (col2hcl(iColor)["L",] < 70) {
-                  useDarkFactor <- darkFactor * -1;
+               iL <- col2hcl(iColor)["L",];
+               if (1 == 2) {
+                  if (iL < 70) {
+                     useDarkFactor <- darkFactor * -1;
+                  } else {
+                     useDarkFactor <- darkFactor;
+                  }
+                  iColor <- rep(
+                     makeColorDarker(darkFactor=useDarkFactor,
+                        sFactor=c(sFactor),
+                        iColor,
+                        keepNA=keepNA),
+                     length.out=xListSlength[i]);
                } else {
-                  useDarkFactor <- darkFactor;
+                  if (iL < 70) {
+                     ik <- 1;
+                  } else if (iL > 90) {
+                     ik <- 4;
+                  } else {
+                     ik <- 3;
+                  }
+                  iColor <- rep(
+                     c(iColor,
+                        color2gradient(iColor, n=4, gradientWtFactor=1)[ik]),
+                     length.out=xListSlength[i]);
                }
-               iColor <- rep(
-                  makeColorDarker(darkFactor=useDarkFactor,
-                     sFactor=c(sFactor),
-                     iColor,
-                     keepNA=keepNA),
-                  length.out=xListSlength[i]);
                if (any(iColor_na)) {
                   iColor[iColor_na] <- NA;
                }
@@ -1442,7 +1469,7 @@ printDebug <- function
          if (verbose) {
             printDebug("Using crayon package colorization.");
          }
-         if (8 == crayon::num_colors()) {
+         if (crayon::num_colors() < 256) {
             ## If crayon detects 8-color terminal,
             ## make one attempt at 256-color terminal
             Sys.setenv(TERM="xterm-256color");
@@ -1463,71 +1490,65 @@ printDebug <- function
             timeStampValue <- "";
          }
 
-         if (1 == 1 || length(bgText) > 0) {
-            printValue <- paste(sapply(seq_along(x), function(ix){
-               xStr <- x[ix];
-               if (igrepHas("factor", class(xStr))) {
-                  xStr <- as.character(xStr);
-               }
-               new_string <- make_styles(
-                  style=fgText[ix],
-                  bg_style=bgText[ix],
+         printValue <- paste(sapply(seq_along(x), function(ix){
+            xStr <- x[ix];
+            if (igrepHas("factor", class(xStr))) {
+               xStr <- as.character(xStr);
+            }
+            new_string <- make_styles(
+               style=fgText[ix],
+               bg_style=bgText[ix],
+               bg=FALSE,
+               text=xStr,
+               verbose=verbose,
+               Lrange=Lrange,
+               Crange=Crange,
+               adjustRgb=adjustRgb);
+            new_string;
+         }), collapse=collapse);
+
+         printString <- c(timeStampValue, printValue);
+         if (comment) {
+            printString <- c("## ", printString);
+         }
+         cat(printString, "\n",
+            file=file,
+            append=append);
+      } else if (doColor == 1) {
+         ################### HTML span output
+         if (verbose) {
+            printDebug("Using html span colorization.");
+         }
+         if (timeStamp) {
+            timeStampValue <- paste(c("(",
+               make_html_styles(style=fgTime,
+                  bg_style=NA,
                   bg=FALSE,
-                  text=xStr,
-                  verbose=verbose,
                   Lrange=Lrange,
                   Crange=Crange,
-                  adjustRgb=adjustRgb)
-               if (1 == 2) {
-                  if (!is.na(fgText[ix])) {
-                     if (is.na(bgText[[ix]])) {
-                        make_styles(style=fgText[ix],
-                           text=xStr,
-                           Lrange=Lrange,
-                           Crange=Crange,
-                           adjustRgb=adjustRgb);
-                     } else {
-                        make_styles(style=bgText[[ix]],
-                           bg=TRUE,
-                           adjustRgb=adjustRgb,
-                           Lrange=Lrange,
-                           Crange=Crange,
-                           text=make_styles(style=fgText[ix],
-                              adjustRgb=adjustRgb,
-                              Lrange=Lrange,
-                              Crange=Crange,
-                              text=xStr));
-                     }
-                  } else if (!is.na(bgText[[ix]])) {
-                      make_styles(style=bgText[[ix]],
-                         bg=TRUE,
-                         text=xStr,
-                         Lrange=Lrange,
-                         Crange=Crange,
-                         adjustRgb=adjustRgb);
-                  } else {
-                     xStr;
-                  }
-               }
-               new_string;
-            }), collapse=collapse);
+                  verbose=verbose,
+                  text=format(Sys.time(), "%H:%M:%S")),
+               ") ", format(Sys.time(), "%d%b%Y"), ": "), collapse="");
          } else {
-            printValue <- paste(sapply(seq_along(x), function(ix){
-               xStr <- x[ix];
-               if (igrepHas("factor", class(xStr))) {
-                  xStr <- as.character(xStr);
-               }
-               if (!is.na(fgText[ix])) {
-                  make_styles(style=fgText[ix],
-                     text=xStr,
-                     Lrange=Lrange,
-                     Crange=Crange,
-                     adjustRgb=adjustRgb);
-               } else {
-                  xStr;
-               }
-            }), collapse=collapse);
+            timeStampValue <- "";
          }
+         printValue <- paste(sapply(seq_along(x), function(ix){
+            xStr <- x[ix];
+            if (igrepHas("factor", class(xStr))) {
+               xStr <- as.character(xStr);
+            }
+            new_string <- make_html_styles(
+               style=fgText[ix],
+               bg_style=bgText[ix],
+               bg=FALSE,
+               text=xStr,
+               verbose=verbose,
+               Lrange=Lrange,
+               Crange=Crange,
+               adjustRgb=adjustRgb);
+            new_string;
+         }), collapse=collapse);
+
          printString <- c(timeStampValue, printValue);
          if (comment) {
             printString <- c("## ", printString);
@@ -2088,6 +2109,11 @@ make_styles <- function
          fixYellow));
    }
 
+   if (length(fixYellow) == 0) {
+      fixYellow <- FALSE;
+   }
+   fixYellow <- rep(fixYellow, length.out=length(text));
+
    ## Process style
    if (length(style) > 0 && igrepHas("matrix", class(style))) {
       if (verbose) {
@@ -2151,6 +2177,13 @@ make_styles <- function
    bg <- rmNA(naValue=FALSE,
       rep(bg, length.out=length(text)));
 
+   ## Optionally apply fixYellow() to bg
+   if (any(fixYellow & !bg_styleNA)) {
+      ## fixYellow
+      bg[!bg_styleNA & fixYellow] <- fixYellow(bg[!bg_styleNA & fixYellow],
+         ...);
+   }
+
    if (verbose) {
       print(paste0("styleV (before):", cPaste(styleV)));
       print(styleV);
@@ -2183,12 +2216,20 @@ make_styles <- function
       styleV[style_white] <- "#F7F7F7";
    }
 
+   ## Optionally apply fixYellow() to styleV
+   if (any(fixYellow & !styleNA)) {
+      ## fixYellow
+      styleV[!styleNA & fixYellow] <- fixYellow(styleV[!styleNA & fixYellow],
+         ...);
+   }
+
    if (verbose) {
       print(paste0("styleV (after):",
          paste(styleV, collapse=",")));
       print(paste0("bg_styleV (after):",
          paste(bg_styleV, collapse=",")));
    }
+   ## Convert to rgb
    style <- col2rgb(styleV, alpha=TRUE);
    if (any(styleNA)) {
       style[,styleNA] <- NA;
@@ -3143,6 +3184,39 @@ handleArgsText <- function
                   debug=debug,
                   verbose=verbose);
             });
+         } else if (class(argTextA) %in% "pairlist" &&
+               length(whichMid) > 0 &&
+               all(is.numeric(argTextA[whichMid]))) {
+            ############################################
+            ## Handle pairlist, all values are numeric
+            if (verbose) {
+               printDebug(indent, "", "handleArgsText(): ",
+                  "'c1' && all(is.numeric)",
+                  ", calling handleArgsText()",
+                  fgText=c("orange", "aquamarine1"));
+            }
+            arg_colors <- colorjam::vals2colorLevels(argTextA[whichMid],
+               divergent=TRUE,
+               lens=50,
+               col=getColorRamp("RdBu_r", trimRamp=c(3, 3)));
+            names(arg_colors) <- as.character(whichMid);
+            argTextA[whichMid] <- sapply(whichMid, function(j1){
+               j <- argTextA[[j1]];
+               jName <- names(argTextA)[j1];
+               handleArgsText(j,
+                  name=jName,
+                  col1=arg_colors[as.character(j1)],
+                  col2=arg_colors[as.character(j1)],
+                  indent=paste0(indent, "   "),
+                  useCollapseBase=useCollapseBase,
+                  adjustRgb=adjustRgb,
+                  Crange=Crange,
+                  Lrange=Lrange,
+                  level=level+1,
+                  useColor=useColor,
+                  debug=debug,
+                  verbose=verbose);
+            });
          } else {
             ############################################
             ## Handle pairlist, values are not colors
@@ -3280,7 +3354,7 @@ handleArgsText <- function
                   name,
                   fgText=c("lightskyblue","lightpink"));
             }
-            if (useColor) {
+            if (useColor && length(name) > 0) {
                argTextA <- make_styles(text=paste0(name,
                   ifelse(nchar(name)>0,"=",""),
                   as.character(argTextA)),
@@ -3771,6 +3845,7 @@ sdim <- function
             names(xl) <- xn1;
          }
          x <- xl;
+         rm(xl);
       }
    }
 

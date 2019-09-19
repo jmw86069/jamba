@@ -1,3 +1,36 @@
+# jamba version 0.0.42.900
+
+## bug fixes / enhancements
+
+* `printDebug()` now handles nested lists, calling `jamba::unnestList()`
+which flattens nested lists to one layer. This change allows
+printing a list `printDebug(c("one", "two "), c("three", "four"))`
+or `l <- list(c("one", "two "), c("three", "four"));printDebug(l);`.
+* `printDebug()` now uses `color2gradient()` to create alternating
+light-dark shadings, used when a single color is defined for
+a multi-item vector concatenated by `sep=","`. The gradient
+was more reliable (so far) than `makeColorDarker()` because
+ANSI output is limited, as are the colors allowed for contrast
+with light or dark background.
+* `printDebug()` new argument `htmlOut=TRUE` will output character
+string containing text colorized using HTML using the format
+`<span style="color:red;background=white">text</span>`. Intended
+whenever the colorized text would not otherwise be interpreted
+and colorized in a web browser context. It calls `make_html_styles()`.
+* `make_html_styles()` is a new function, which takes a vector
+of text, a vector of foreground colors, a vector of background colors,
+and returns a character string with HTML which colorizes the text.
+This function is intended for Rmarkdown or web page HTML output.
+* `jargs()` was updated to handle arguments with vectors containing
+negative numbers. The negative `-` sign for example from `-3` is
+being returned by `formals()` as `call(\\`-\\`, 3)`, which
+stores the numeric value separate from the negative sign. This
+seems like a change, which therefore broke how the colorization
+previously worked. For now the function works, but somehow
+lost the ability to colorize numeric vectors by value. Will
+leave for future.
+
+
 # jamba version 0.0.41.900
 
 ## bug fixes

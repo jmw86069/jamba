@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>relist a vector which allows re-ordered names — relist_named • jamba</title>
+<title>vectorized make_styles for html span output — make_html_styles • jamba</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="relist a vector which allows re-ordered names — relist_named" />
+<meta property="og:title" content="vectorized make_styles for html span output — make_html_styles" />
 
-<meta property="og:description" content="relist a vector which allows re-ordered names" />
+<meta property="og:description" content="vectorized make_styles for html span output" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,82 +114,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>relist a vector which allows re-ordered names</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-string.r'><code>R/jamba-string.r</code></a></small>
-    <div class="hidden name"><code>relist_named.Rd</code></div>
+    <h1>vectorized make_styles for html span output</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-styles.R'><code>R/jamba-styles.R</code></a></small>
+    <div class="hidden name"><code>make_html_styles.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>relist a vector which allows re-ordered names</p>
+    <p>vectorized make_styles for html span output</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>relist_named</span>(<span class='no'>x</span>, <span class='no'>skeleton</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>vector to be applied to the <code>skeleton</code> list
-structure in order.</p></td>
-    </tr>
-    <tr>
-      <th>skeleton</th>
-      <td><p><code>list</code> object representing the desired
-final list structure, or <code>vector</code> when the input
-data <code>x</code> should be returned as-is, without change.
-Specifically, when <code>skeleton</code> is a <code>vector</code>, the
-<code><a href='https://www.rdocumentation.org/packages/base/topics/names'>names(x)</a></code> are maintained without change.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>additional arguments are ignored.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p><code>list</code> object with the same structure as the <code>skeleton</code>.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function is a simple update to <code><a href='https://www.rdocumentation.org/packages/utils/topics/relist'>utils::relist()</a></code>
-that allows updating the names of each list element.
-More specifically, this function does not replace the
-updated names with the corresponding names from
-the list <code>skeleton</code>, as is the case in
-<code>utils:::relist.default()</code>.</p>
-<p>It is somewhat surprising that <code><a href='https://www.rdocumentation.org/packages/utils/topics/relist'>utils::relist()</a></code> is
-simply a nested for loop, instead of <code><a href='https://www.rdocumentation.org/packages/base/topics/rapply'>rapply()</a></code> or some
-fancy vectorized alternative. That said, the function works,
-and there is much to be commended for functions that work.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other jam list functions: <code><a href='cPasteSU.html'>cPasteSU</a></code>,
-  <code><a href='cPasteS.html'>cPasteS</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='cPasteU.html'>cPasteU</a></code>, <code><a href='cPaste.html'>cPaste</a></code>,
-  <code><a href='list2df.html'>list2df</a></code>, <code><a href='mergeAllXY.html'>mergeAllXY</a></code>,
-  <code><a href='mixedSorts.html'>mixedSorts</a></code>, <code><a href='rbindList.html'>rbindList</a></code>,
-  <code><a href='rlengths.html'>rlengths</a></code>, <code><a href='sclass.html'>sclass</a></code>,
-  <code><a href='sdim.html'>sdim</a></code>, <code><a href='ssdim.html'>ssdim</a></code>,
-  <code><a href='uniques.html'>uniques</a></code>, <code><a href='unnestList.html'>unnestList</a></code></p></div>
-    
+    <pre class="usage"><span class='fu'>make_html_styles</span>(<span class='kw'>style</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>text</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>bg_style</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>grey</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Cgrey"</span>),
+  <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='fu'><a href='checkLightMode.html'>checkLightMode</a></span>(), <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Crange"</span>),
+  <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.Lrange"</span>),
+  <span class='kw'>adjustRgb</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"jam.adjustRgb"</span>), <span class='kw'>adjustPower</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
+  <span class='kw'>fixYellow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>alphaPower</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>setOptions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+        
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

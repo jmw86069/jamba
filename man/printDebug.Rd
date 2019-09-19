@@ -14,7 +14,7 @@ printDebug(..., fgText = NULL, bgText = NULL, fgTime = "cyan",
   removeNA = FALSE, replaceNULL = NULL,
   adjustRgb = getOption("jam.adjustRgb"), byLine = FALSE,
   verbose = FALSE, indent = "", keepNA = TRUE, file = "",
-  append = TRUE, invert = FALSE, x)
+  append = TRUE, invert = FALSE, htmlOut = FALSE, x)
 }
 \arguments{
 \item{...}{text to be printed to the R console.}
@@ -102,6 +102,10 @@ a specified file.}
 
 \item{invert}{logical indicating whether foreground and background
 colors should be switched.}
+
+\item{htmlOut}{logical indicating whether to print HTML span
+output, using format
+\code{<span style="color:fg;background-color:bg">text</span>}.}
 }
 \value{
 This function is called for the by-product of printing

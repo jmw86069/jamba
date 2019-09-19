@@ -1,21 +1,10 @@
 ## TODO for jamba
 
+
 ### General enhancements
 
 * Add message during package install suggesting the "crayon" package be
 installed if not already installed.
-* Update `checkLightMode()` to use `rstudioapi::getThemeInfo()` if
-the `rstudioapi` package is installed.
-* Update `make_styles()` to handle style and bg_style in one step,
-allowing background colors to be defined, and by default the
-foreground will be defined with `setTextContrastColor()` if NA
-or NULL. Also, when bg_style is defined, the foreground color
-no longer uses `Crange` and `Lrange` to restrict the brightness
-to those that contrast with the console background color, since
-the text will already be printed on the background color.
-Lastly, ensure that background color is not restricted by
-`Crange` and `Lrange` by default; not sure if this setting
-needs a method to override it.
 
 ### Bug fixes / Enhancements to existing functions
 
@@ -23,15 +12,29 @@ needs a method to override it.
 smooth scatter plot like `plotSmoothScatter()` except that it will
 also allow coloring points by group. The previous closest estimate
 was the ability to overlay contours of different colors, however
-the transparency of each layer was not effective, mostly letting
-the last color drawn become the dominant color. This function must
-calculate two things: the blended color defined by the composition
-of points in each cell, and the intensity of that blended color
-based upon the total number of points per cell. All attempts at blending
-gradient colors has been problematic, since for example three half-tone
-colors blend together to one half-tone grey color, which loses the fact
-that there might be a large number of points in the cell, and should
-therefore be darkly colored.
+the transparency of each layer is not effective, the last color
+layer drawn becomes the dominant color.
+This function essentially creates a layer for each color, then
+blends them into one collective layer. Each layer should probably
+be a `weight` applied to each layer of colors, in order to
+avoid blending the paleness become dominant. The point color will
+be determined by the weighted color blend, the intensity of the color
+as a gradient starting from background color will be determined by
+the sum of the weights, relative to the rest of the plot.
+
+Required secondary functions:
+
+* Weighted color blending function. Must blend yellow and blue to
+make green, not grey (my own requirement). See `"jonclayden/shades"`,
+or `colorspace::mixcolor()` though it only works with 2 colors.
+* Weighted gradient color assignment, such that given any color,
+and a weight from 0 to 1, returns a single color representing the
+color at that position along the gradient from background to
+foreground color.
+
+Commentary: Does any one color space blend `red + yellow = orange`
+and `blue + yellow = green`? Maybe `polarLUV`. Others either blend
+`blue + yellow` into `grey` or `purple` ... makes zero sense (to me).
 
 2. `printDebug()` option for HTML or Rmarkdown-friendly output.
 Note this feature seems to work when producing HTML output from Rmarkdown.
