@@ -113,7 +113,7 @@ make_html_styles <- function
    ## Optionally apply fixYellow() to bg
    if (any(fixYellow & !bg_styleNA)) {
       ## fixYellow
-      bg[!bg_styleNA & fixYellow] <- fixYellow(bg[!bg_styleNA & fixYellow],
+      bg_style[!bg_styleNA & fixYellow] <- fixYellow(bg_style[!bg_styleNA & fixYellow],
          ...);
    }
 

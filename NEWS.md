@@ -1,3 +1,12 @@
+# jamba version 0.0.43.900
+
+## bug fixes / enhancements
+
+* `make_styles()` fixed issue with background color supplied in vector
+form, it was errantly calling `fixYellow()` with the logical vector
+of whether to colorize, instead of the color vector itself. This
+package needs `"testthat"`.
+
 # jamba version 0.0.42.900
 
 ## bug fixes / enhancements
