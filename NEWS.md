@@ -1,3 +1,19 @@
+# jamba version 0.0.44.900
+
+## enhancements
+
+* `sdim()` and `ssdim()` now handle environment input, or list of
+environments. Previously worked for `sdim()` but using random order
+returned by `names(x)` instead of proper order from `ls(envir=x)`.
+An environment is essentially treated as a list, and `ssdim()` will
+now properly traverse into the environment as if it were a list.
+* `sdim()` and `ssdim()` now handle `"List"` object classes and
+sub-classes from the `S4Vectors` Bioconductor package, but it
+only works when the `S4Vectors` package is previously loaded
+into the search path, otherwise the R object object system
+does not load the dependent package automatically. In that case,
+the `slotNames(x)` are used, which is somewhat less useful.
+
 # jamba version 0.0.43.900
 
 ## bug fixes / enhancements

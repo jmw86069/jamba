@@ -3855,15 +3855,47 @@ sdim <- function
    x_is_table <- igrepHas("tbl|tibble|data.frame|matrix|data.table|dataframe",
       class(x));
    if (isS4(x) && !x_is_table) {
-      if (verbose) {
-         printDebug("sdim(): ",
-            "Coercing S4 class using ",
-            "slotNames(x)");
+      ## Wrap in tryCatch() in case the supporting object package
+      ## is not installed, otherwise just use slotNames(x).
+      is_List <- tryCatch({
+         inherits(x, "List") && length(x[[1]]) >= 0;
+      }, error=function(e){
+         FALSE;
+      });
+      if (is_List) {
+         sn1 <- nameVector(seq_along(x), names(x));
+         if (verbose) {
+            printDebug("sdim(): ",
+               "Coercing S4 List using ",
+               "names(x)");
+         }
+      } else {
+         sn1 <- nameVector(slotNames(x));
+         if (verbose) {
+            printDebug("sdim(): ",
+               "Coercing S4 class using ",
+               "slotNames(x)");
+         }
       }
-      sn1 <- slotNames(x);
-      sdL <- lapply(nameVector(sn1), function(sni){
-         i <- slot(x, sni);
+      sdL <- lapply(sn1, function(sni){
+         if (is_List) {
+            i <- x[[sni]];
+         } else {
+            i <- slot(x, sni);
+         }
          iDim <- getDim(i,
+            doFormat=doFormat,
+            includeClass=includeClass,
+            big.mark=big.mark,
+            ...);
+         iDim;
+      });
+   } else if (is.environment(x)) {
+      ## handle environment by using ls(x) which maintains order,
+      ## instead of names(x) which is in random order
+      sdL <- lapply(nameVector(ls(x)), function(i){
+         iDim <- getDim(
+            get(i, envir=x),
             doFormat=doFormat,
             includeClass=includeClass,
             big.mark=big.mark,
@@ -3927,9 +3959,18 @@ sdim <- function
 #' this process only recurses two steps. Attempts to recurse deeper sometimes
 #' results in printing much more detail than originally intended.
 #'
-#' @param x an S3 object inheriting from class "list", typically a list of
-#'    lists, but will accept a list object in which case it simply calls
-#'    `sdim(x)` once, in order to avoid treating a data.frame as a list.
+#' @param x one of several recognized object classes: an S3
+#'    object inheriting from class `"list"`, including a nested list of
+#'    lists or simple list;
+#'    an `S4` object in which case it used `slotNames(x)`
+#'    to traverse the object structure;
+#'    an `"environment"` object, in which case `ls(envir=x)` is
+#'    used to traverse the object structure. When the object is
+#'    `S4` that inherits `"List"` from the `S4Vectors` package,
+#'    it will attempt to use the proper subset functions from
+#'    `S4Vectors` via `names(x)`, but that process only works
+#'    properly if the `S4Vectors` package is previously loaded,
+#'    otherwise it reverts to using `slotNames(x)`.
 #' @param includeClass boolean passed to `sdim()`,
 #'    indicating whether to print the class of
 #'    each element in the input `x` object. Note that for S4 objects,
@@ -3959,14 +4000,30 @@ sdim <- function
 #' @family jam list functions
 #'
 #' @examples
+#' ## Simple list
 #' L <- list(LETTERS=LETTERS,
 #'    letters=letters,
 #'    lettersDF=data.frame(LETTERS, letters));
-#' L2 <- list(List1=L,
-#'    List2=L);
-#'
 #' sdim(L);
+#'
+#' ## list of lists
+#' L2 <- list(List1=L,
+#'    List2=rev(L));
+#' ## first level of detail
+#' sdim(L2);
+#' ## second level of detail
 #' ssdim(L2);
+#'
+#' ## Perform the same steps using an environment
+#' E1 <- new.env();
+#' assign("L", envir=E1, value=L);
+#' sdim(E1);
+#' ssdim(E1);
+#'
+#' assign("L2", envir=E1, value=L2);
+#' ssdim(E1);
+#'
+#' rm(E1);
 #'
 #' @export
 ssdim <- function
@@ -4006,15 +4063,44 @@ ssdim <- function
          printDebug("ssdim(): ",
             "Handling S4 object type.");
       }
-      lapply(nameVector(slotNames(x)), function(iName){
-         sdim(slot(x, iName),
-            includeClass=includeClass,
-            doFormat=doFormat,
-            big.mark=big.mark,
-            verbose=verbose);
-      });
-   }
-   if (!any("list" %in% unlist(sclass(x)))) {
+      ## Wrap in tryCatch() in case the supporting object package
+      ## is not installed, otherwise just use slotNames(x).
+      is_List <- tryCatch({
+         inherits(x, "List") && length(x[[1]]) >= 0;
+      }, error=function(e){
+         FALSE;
+      })
+      if (is_List) {
+         ## List uses names(x)
+         lapply(nameVector(seq_along(x), names(x)), function(iName){
+            if (verbose) {
+               printDebug("ssdim(): ",
+                  "S4 List item:",
+                  iName,
+                  ", List name:",
+                  names(x)[iName]);
+            }
+            sdim(x[[iName]],
+               includeClass=includeClass,
+               doFormat=doFormat,
+               big.mark=big.mark,
+               verbose=verbose);
+         });
+      } else {
+         lapply(nameVector(slotNames(x)), function(iName){
+            if (verbose) {
+               printDebug("ssdim(): ",
+                  "slotName iName:",
+                  iName);
+            }
+            sdim(slot(x, iName),
+               includeClass=includeClass,
+               doFormat=doFormat,
+               big.mark=big.mark,
+               verbose=verbose);
+         });
+      }
+   } else if (!any(c("list", "environment") %in% unlist(sclass(x)))) {
       ## No recognizable list structure
       if (is.vector(x) || igrepHas("data.*frame|tibble|matrix|ranges$", class(x))) {
          if (verbose) {

@@ -8,9 +8,18 @@ ssdim(x, includeClass = TRUE, doFormat = FALSE, big.mark = ",",
   verbose = FALSE, ...)
 }
 \arguments{
-\item{x}{an S3 object inheriting from class "list", typically a list of
-lists, but will accept a list object in which case it simply calls
-\code{sdim(x)} once, in order to avoid treating a data.frame as a list.}
+\item{x}{one of several recognized object classes: an S3
+object inheriting from class \code{"list"}, including a nested list of
+lists or simple list;
+an \code{S4} object in which case it used \code{slotNames(x)}
+to traverse the object structure;
+an \code{"environment"} object, in which case \code{ls(envir=x)} is
+used to traverse the object structure. When the object is
+\code{S4} that inherits \code{"List"} from the \code{S4Vectors} package,
+it will attempt to use the proper subset functions from
+\code{S4Vectors} via \code{names(x)}, but that process only works
+properly if the \code{S4Vectors} package is previously loaded,
+otherwise it reverts to using \code{slotNames(x)}.}
 
 \item{includeClass}{boolean passed to \code{sdim()},
 indicating whether to print the class of
@@ -53,14 +62,30 @@ this process only recurses two steps. Attempts to recurse deeper sometimes
 results in printing much more detail than originally intended.
 }
 \examples{
+## Simple list
 L <- list(LETTERS=LETTERS,
    letters=letters,
    lettersDF=data.frame(LETTERS, letters));
-L2 <- list(List1=L,
-   List2=L);
-
 sdim(L);
+
+## list of lists
+L2 <- list(List1=L,
+   List2=rev(L));
+## first level of detail
+sdim(L2);
+## second level of detail
 ssdim(L2);
+
+## Perform the same steps using an environment
+E1 <- new.env();
+assign("L", envir=E1, value=L);
+sdim(E1);
+ssdim(E1);
+
+assign("L2", envir=E1, value=L2);
+ssdim(E1);
+
+rm(E1);
 
 }
 \seealso{

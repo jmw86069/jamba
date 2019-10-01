@@ -403,6 +403,11 @@ provigrep <- function
 #' @param x input list of vectors.
 #' @param emptyValue character value to use to represent missing values,
 #'    whenever a blank cell is introduced into the resulting matrix
+#' @param nullValue optional value used to replace NULL entries in
+#'    the input list, useful especially when the data was produced
+#'    by `strsplit()` with `""`. Use `nullValue=""` to replace `NULL`
+#'    with `""` and preserve the original list length. Otherwise when
+#'    `nullValue=NULL` any empty entries will be silently dropped.
 #' @param keepListNames logical whether to use list names as rownames
 #'    in the resulting matrix or data.frame.
 #' @param newColnames NULL or character vector of colnames to use for the
@@ -429,6 +434,7 @@ provigrep <- function
 rbindList <- function
 (x,
  emptyValue="",
+ nullValue=NULL,
  keepListNames=TRUE,
  newColnames=NULL,
  newRownames=NULL,
@@ -461,6 +467,10 @@ rbindList <- function
    ##
    xLslen <- lengths(x);
    if (any(xLslen %in% 0)) {
+      if (length(nullValue) > 0) {
+         x[xLslen == 0] <- head(nullValue, 1);
+         xLslen[xLslen == 0] <- 1;
+      }
       if (all(xLslen == 0)) {
          return(NULL);
       }
@@ -1515,12 +1525,29 @@ mixedOrder <- function
                x))));
       }
    }
+   if (verbose) {
+      printDebug("mixedOrder(): ",
+         "delim:");
+      print(delim);
+      printDebug("delimited:")
+      print(delimited);
+      printDebug("x:")
+      print(x);
+      printDebug("which_blanks:")
+      print(which_blanks);
+   }
    if (any(which_blanks)) {
       delimited[which_blanks] <- x[which_blanks];
    }
+   if (verbose) {
+      printDebug("delimited:")
+      print(delimited);
+   }
 
    ## Split delimited strings into columns, one row per entry
-   step1m <- rbindList(strsplit(delimited, delim));
+   step1m <- rbindList(
+      rmNULL(strsplit(delimited, delim),
+         nullValue=""));
 
    ## Split the numeric values in their own matrix
    step1mNumeric <- matrix(ncol=ncol(step1m),
@@ -1543,6 +1570,12 @@ mixedOrder <- function
          printDebug("mixedOrder(): ",
             "Using keepInfinite:", "TRUE",
             fgText=c("darkorange1","dodgerblue","cyan"));
+         printDebug("head(step1m, 40):");
+         print(head(step1m, 40));
+         printDebug("dim(step1m):", dim(step1m));
+         printDebug("head(step1mNumeric, 40):");
+         print(head(step1mNumeric, 40));
+         printDebug("dim(step1mNumeric):", dim(step1mNumeric));
       }
    }
    ## Exception to converting Inf is with keepBlanks, NAlast
