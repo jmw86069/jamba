@@ -1413,6 +1413,7 @@ imageByColors <- function
  adjBy=c("column","row"),
  verbose=FALSE,
  xpd=NULL,
+ bty=par("bty"),
  flip=c("none","y","x","xy"),
  keepTextAlpha=FALSE,
  doTest=FALSE,
@@ -1480,14 +1481,21 @@ imageByColors <- function
    xFac <- as.factor(x);
    xFacM <- matrix(data=as.numeric(xFac), ncol=ncol(x), dimnames=dimnames(x));
    if (doPlot) {
-      imageDefault(x=xNcolSeq, y=xNrowSeq, z=t(xFacM),
+      imageDefault(x=xNcolSeq,
+         y=xNrowSeq,
+         z=t(xFacM),
          col=levels(xFac),
-         xaxt="n", yaxt="n", oldstyle=TRUE,
+         xaxt="n",
+         yaxt="n",
+         oldstyle=TRUE,
          useRaster=useRaster,
-         xlab="", ylab="", axes=FALSE,
+         xlab="",
+         ylab="",
+         axes=FALSE,
          flip=flip,
          fixRasterRatio=fixRasterRatio,
          maxRatioFix=maxRatioFix,
+         bty=bty,
          verbose=verbose,
          ...);
    }
@@ -1723,7 +1731,8 @@ imageByColors <- function
       if (!yaxt %in% "n" && !is.null(rownames(x))) {
          axis(2, las=2, at=1:nrow(x), labels=rownames(x), ...);
       }
-      box();
+      graphics::box(bty=bty,
+         ...);
    }
    invisible(list(x=xNcolSeq,
       y=xNrowSeq,

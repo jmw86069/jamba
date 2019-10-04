@@ -1,5 +1,10 @@
 ## TODO for jamba
 
+### Bug 02oct2019
+
+* `plotSmoothScatter()` throws an error
+`"is.numeric(xlim) is not TRUE"`
+when plotting data with class `"difftime"`.
 
 ### General enhancements
 

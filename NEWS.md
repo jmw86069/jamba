@@ -13,6 +13,9 @@ only works when the `S4Vectors` package is previously loaded
 into the search path, otherwise the R object object system
 does not load the dependent package automatically. In that case,
 the `slotNames(x)` are used, which is somewhat less useful.
+* `imageDefault()` now properly honors the `par("bty")` setting,
+that is by not calling its own `box()` to force drawing a
+box around the heatmap.
 
 # jamba version 0.0.43.900
 

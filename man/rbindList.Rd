@@ -4,7 +4,7 @@
 \alias{rbindList}
 \title{rbind a list of vectors into matrix or data.frame}
 \usage{
-rbindList(x, emptyValue = "", nullValue = "", keepListNames = TRUE,
+rbindList(x, emptyValue = "", nullValue = NULL, keepListNames = TRUE,
   newColnames = NULL, newRownames = NULL, fixBlanks = TRUE,
   returnDF = FALSE, verbose = FALSE, ...)
 }
@@ -17,7 +17,8 @@ whenever a blank cell is introduced into the resulting matrix}
 \item{nullValue}{optional value used to replace NULL entries in
 the input list, useful especially when the data was produced
 by \code{strsplit()} with \code{""}. Use \code{nullValue=""} to replace \code{NULL}
-with \code{""} and preserve the original list length.}
+with \code{""} and preserve the original list length. Otherwise when
+\code{nullValue=NULL} any empty entries will be silently dropped.}
 
 \item{keepListNames}{logical whether to use list names as rownames
 in the resulting matrix or data.frame.}
