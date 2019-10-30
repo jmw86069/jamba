@@ -67,11 +67,13 @@ Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{jargs}}, \code{\link{kable_coloring}},
   \code{\link{log2signed}}, \code{\link{make_styles}},
   \code{\link{mergeAllXY}}, \code{\link{minorLogTicks}},
-  \code{\link{newestFile}}, \code{\link{printDebug}},
-  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
-  \code{\link{rmNA}}, \code{\link{rmNULL}},
-  \code{\link{sclass}}, \code{\link{setCLranges}},
-  \code{\link{setPrompt}}, \code{\link{ssdim}}
+  \code{\link{newestFile}}, \code{\link{printDebugI}},
+  \code{\link{printDebug}}, \code{\link{renameColumn}},
+  \code{\link{rmInfinite}}, \code{\link{rmNA}},
+  \code{\link{rmNULL}}, \code{\link{sclass}},
+  \code{\link{sdima}}, \code{\link{setCLranges}},
+  \code{\link{setPrompt}}, \code{\link{ssdima}},
+  \code{\link{ssdim}}
 
 Other jam list functions: \code{\link{cPasteSU}},
   \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
@@ -79,7 +81,8 @@ Other jam list functions: \code{\link{cPasteSU}},
   \code{\link{list2df}}, \code{\link{mergeAllXY}},
   \code{\link{mixedSorts}}, \code{\link{rbindList}},
   \code{\link{relist_named}}, \code{\link{rlengths}},
-  \code{\link{sclass}}, \code{\link{ssdim}},
+  \code{\link{sclass}}, \code{\link{sdima}},
+  \code{\link{ssdima}}, \code{\link{ssdim}},
   \code{\link{uniques}}, \code{\link{unnestList}}
 }
 \concept{jam list functions}

@@ -4,8 +4,8 @@
 \alias{adjustAxisLabelMargins}
 \title{Adjust axis label margins}
 \usage{
-adjustAxisLabelMargins(x, margin = 1, maxFig = 1/2, cex = NULL,
-  prefix = "-- -- ", ...)
+adjustAxisLabelMargins(x, margin = 1, maxFig = 1/2, cex = par("cex"),
+  cex.axis = par("cex.axis"), prefix = "-- -- ", ...)
 }
 \arguments{
 \item{x}{vector of axis labels}

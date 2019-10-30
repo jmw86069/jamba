@@ -1575,6 +1575,25 @@ printDebug <- function
    invisible(NULL);
 }
 
+#' print colorized output to R console, inverted
+#'
+#' print colorized output to R console, inverted
+#'
+#' This function prints colorized output to the R console, using the
+#' same logic as `printDebug` except by default the color is inverted
+#' so the default `fgText` colors are applied to the background.
+#'
+#' @family jam practical functions
+#'
+#' @export
+printDebugI <- function
+(...,
+ invert=TRUE)
+{
+   printDebug(...,
+      invert=invert);
+}
+
 #' check lightMode for light background color
 #'
 #' check lightMode for light background color
@@ -3947,6 +3966,90 @@ sdim <- function
    sd1$rows <- rmNA(naValue="", sd1$rows);
    sd1$cols <- rmNA(naValue="", sd1$cols);
    return(sd1);
+}
+
+#' print dimensions of object attributes
+#'
+#' print dimensions of object attributes
+#'
+#' This function is a shallow wrapper around `sdim()`
+#' except that it operates on `attributes(x)`
+#' instead of `x` itself.
+#'
+#' @return `data.frame` which
+#'    describes the dimensions of the objects in
+#'    `attributes(x)`.
+#'
+#' @family jam practical functions
+#' @family jam list functions
+#'
+#' @examples
+#' m <- matrix(1:9,
+#'    ncol=3,
+#'    dimnames=list(
+#'       Rows=letters[1:3],
+#'       Columns=LETTERS[1:3]));
+#' sdima(m);
+#' ssdima(m);
+#'
+#' @export
+sdima <- function
+(x,
+ includeClass=TRUE,
+ doFormat=FALSE,
+ big.mark=",",
+ verbose=FALSE,
+ ...)
+{
+   #
+   sdim(attributes(x),
+      includeClass=includeClass,
+      doFormat=doFormat,
+      big.mark=big.mark,
+      verbose=verbose,
+      ...);
+}
+
+#' print nested dimensions of object attributes
+#'
+#' print nested dimensions of object attributes
+#'
+#' This function is a shallow wrapper around `ssdim()`
+#' except that it operates on `attributes(x)`
+#' instead of `x` itself.
+#'
+#' @return `list` of `data.frame` each of which
+#'    describes the dimensions of the objects in
+#'    `attributes(x)`.
+#'
+#' @family jam practical functions
+#' @family jam list functions
+#'
+#' @examples
+#' m <- matrix(1:9,
+#'    ncol=3,
+#'    dimnames=list(
+#'       Rows=letters[1:3],
+#'       Columns=LETTERS[1:3]));
+#' sdima(m);
+#' ssdima(m);
+#'
+#' @export
+ssdima <- function
+(x,
+ includeClass=TRUE,
+ doFormat=FALSE,
+ big.mark=",",
+ verbose=FALSE,
+ ...)
+{
+   #
+   ssdim(attributes(x),
+      includeClass=includeClass,
+      doFormat=doFormat,
+      big.mark=big.mark,
+      verbose=verbose,
+      ...);
 }
 
 #' print dimensions of nested list objects

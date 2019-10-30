@@ -82,11 +82,13 @@ Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{jargs}}, \code{\link{kable_coloring}},
   \code{\link{log2signed}}, \code{\link{make_styles}},
   \code{\link{mergeAllXY}}, \code{\link{minorLogTicks}},
-  \code{\link{newestFile}}, \code{\link{printDebug}},
-  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
-  \code{\link{rmNA}}, \code{\link{rmNULL}},
-  \code{\link{sclass}}, \code{\link{sdim}},
-  \code{\link{setPrompt}}, \code{\link{ssdim}}
+  \code{\link{newestFile}}, \code{\link{printDebugI}},
+  \code{\link{printDebug}}, \code{\link{renameColumn}},
+  \code{\link{rmInfinite}}, \code{\link{rmNA}},
+  \code{\link{rmNULL}}, \code{\link{sclass}},
+  \code{\link{sdima}}, \code{\link{sdim}},
+  \code{\link{setPrompt}}, \code{\link{ssdima}},
+  \code{\link{ssdim}}
 
 Other jam color functions: \code{\link{alpha2col}},
   \code{\link{applyCLrange}}, \code{\link{col2alpha}},

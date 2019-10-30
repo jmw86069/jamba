@@ -7,10 +7,11 @@
 imageByColors(x, useRaster = FALSE, fixRasterRatio = TRUE,
   maxRatioFix = 100, xaxt = "s", yaxt = "s", doPlot = TRUE,
   cellnote = NULL, cexCellnote = 1, srtCellnote = 0,
-  fontCellnote = 1, groupCellnotes = TRUE, adjBy = c("column",
-  "row"), verbose = FALSE, xpd = NULL, bty = par("bty"),
-  flip = c("none", "y", "x", "xy"), keepTextAlpha = FALSE,
-  doTest = FALSE, add = FALSE, ...)
+  fontCellnote = 1, groupCellnotes = TRUE, groupBy = c("column",
+  "row"), groupByColors = TRUE, adjBy = c("column", "row"),
+  adjustMargins = FALSE, verbose = FALSE, xpd = NULL,
+  bty = par("bty"), flip = c("none", "y", "x", "xy"),
+  keepTextAlpha = FALSE, doTest = FALSE, add = FALSE, ...)
 }
 \arguments{
 \item{x}{matrix or data.frame containing colors}
@@ -57,8 +58,24 @@ y-axis, and left-to-right on the x-axis.}
 cells contain the same label and identical cell colors, thus only
 displaying one label in the center of these groups.}
 
+\item{groupBy}{character value indicating the direction to group
+cellnotes, when \code{groupCellnotes=TRUE}: \code{"row"} will group cellnote
+values by row; \code{"column"} will group cellnote values by column.
+By default, it will first group cellnotes by \code{"row"} then
+by \code{"column"}.}
+
+\item{groupByColors}{logical indicating whether the cellnote grouping
+should also include the cell color. When \code{groupByColors=FALSE},
+cellnote values will be grouped together regardless whether the
+underlying colors change, which may be preferred when applying
+text label to topographical data.}
+
 \item{adjBy}{character value indicating how to apply adjustments for
 cexCellnote, srtCellnote, and fontCellnote, as described above.}
+
+\item{adjustMargins}{logical indicating whether to adjust the axis
+label margins to ensure enough room to draw the text rownames
+and colnames.}
 
 \item{verbose}{logical whether to print verbose output.}
 

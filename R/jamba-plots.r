@@ -1362,8 +1362,21 @@ imageDefault <- function
 #' @param groupCellnotes logical whether to group labels where consecutive
 #'    cells contain the same label and identical cell colors, thus only
 #'    displaying one label in the center of these groups.
+#' @param groupBy character value indicating the direction to group
+#'    cellnotes, when `groupCellnotes=TRUE`: `"row"` will group cellnote
+#'    values by row; `"column"` will group cellnote values by column.
+#'    By default, it will first group cellnotes by `"row"` then
+#'    by `"column"`.
+#' @param groupByColors logical indicating whether the cellnote grouping
+#'    should also include the cell color. When `groupByColors=FALSE`,
+#'    cellnote values will be grouped together regardless whether the
+#'    underlying colors change, which may be preferred when applying
+#'    text label to topographical data.
 #' @param adjBy character value indicating how to apply adjustments for
 #'    cexCellnote, srtCellnote, and fontCellnote, as described above.
+#' @param adjustMargins logical indicating whether to adjust the axis
+#'    label margins to ensure enough room to draw the text rownames
+#'    and colnames.
 #' @param verbose logical whether to print verbose output.
 #' @param xpd NULLL or logical used for \code{par("xpd")} to define whether
 #'    to crop displayed output to the plot area. If xpd=NULL then par("xpd")
@@ -1410,7 +1423,10 @@ imageByColors <- function
  srtCellnote=0,
  fontCellnote=1,
  groupCellnotes=TRUE,
+ groupBy=c("column", "row"),
+ groupByColors=TRUE,
  adjBy=c("column","row"),
+ adjustMargins=FALSE,
  verbose=FALSE,
  xpd=NULL,
  bty=par("bty"),
@@ -1479,8 +1495,24 @@ imageByColors <- function
    }
 
    xFac <- as.factor(x);
-   xFacM <- matrix(data=as.numeric(xFac), ncol=ncol(x), dimnames=dimnames(x));
+   xFacM <- matrix(data=as.numeric(xFac),
+      ncol=ncol(x),
+      dimnames=dimnames(x));
    if (doPlot) {
+      if (adjustMargins && (!xaxt %in% "n" || !yaxt %in% "n")) {
+         parmar <- par("mar");
+         #on.exit(par("mar"=parmar));
+         if (!xaxt %in% "n") {
+            adjustAxisLabelMargins(x=colnames(x),
+               margin=1,
+               ...);
+         }
+         if (!yaxt %in% "n") {
+            adjustAxisLabelMargins(x=rownames(x),
+               margin=2,
+               ...);
+         }
+      }
       imageDefault(x=xNcolSeq,
          y=xNrowSeq,
          z=t(xFacM),
@@ -1516,6 +1548,7 @@ imageByColors <- function
       if (verbose) {
          printDebug("dim(cellnote):", dim(cellnote));
       }
+      ## apply cellnote grouping
       if (groupCellnotes) {
          if (nrow(x) > 1) {
             xrow <- rep(1:nrow(cellnote), each=2);
@@ -1530,12 +1563,26 @@ imageByColors <- function
             printDebug("   xcol:", xcol);
          }
          cellnote <- cellnote[xrow,xcol,drop=FALSE];
+         cellnote_fac <- cellnote;
+         if (groupByColors) {
+            cellnote_fac[] <- paste(cellnote, xFacM[xrow,xcol,drop=FALSE]);
+         }
+         cellnote_fac_n <- unique(as.vector(cellnote_fac));
+         cellnote_fac_v <- nameVector(
+            as.vector(cellnote)[match(cellnote_fac_n, cellnote_fac)],
+            cellnote_fac_n);
          x1 <- x[xrow,xcol,drop=FALSE];
          if (nrow(cellnote) > 1) {
-            cellnoteL <- apply(cellnote, 2, function(i){
+            cellnoteL <- apply(cellnote_fac, 2, function(i){
                i1 <- rmNA(i, naValue="")
                cellnoteXi <- 1:nrow(cellnote);
-               if (length(unique(i1)) == 1) {
+               if (!"column" %in% groupBy) {
+                  i1seq <- seq_len(nrow(cellnote)/2) * 2 - 1;
+                  i1 <- rep(i1seq, each=2);
+                  bbv1 <- breaksByVector(i1, returnFractions=TRUE);
+                  cellnoteXi[trunc(bbv1$labelPoints)] <- bbv1$labelPoints;
+                  cellnoteVi <- rmNA(naValue="", i[as.numeric(bbv1$newLabels)]);
+               } else if (length(unique(i1)) == 1) {
                   cellnoteXi[trunc(nrow(cellnote)/2+0.5)] <- nrow(cellnote)/2+0.5;
                   cellnoteVi <- rep("",nrow(cellnote));
                   cellnoteVi[trunc(nrow(cellnote)/2+0.5)] <- unique(i1);
@@ -1549,7 +1596,7 @@ imageByColors <- function
             cellnoteY <- do.call(cbind, lapply(cellnoteL, function(i){
                i$cellnoteXi;
             }));
-            cellnote <- do.call(cbind, lapply(cellnoteL, function(i){
+            cellnote_fac <- do.call(cbind, lapply(cellnoteL, function(i){
                i$cellnoteVi;
             }));
          } else {
@@ -1557,10 +1604,16 @@ imageByColors <- function
                dimnames=dimnames(cellnote), rep(1:nrow(cellnote), ncol(cellnote)));
          }
          if (ncol(cellnote) > 1) {
-            cellnoteL <- apply(cellnote, 1, function(i){
+            cellnoteL <- apply(cellnote_fac, 1, function(i){
                i1 <- rmNA(i, naValue="")
                cellnoteXi <- 1:ncol(cellnote);
-               if (length(unique(i1)) == 1) {
+               if (!"row" %in% groupBy) {
+                  i1seq <- seq_len(ncol(cellnote)/2) * 2 - 1;
+                  i1 <- rep(i1seq, each=2);
+                  bbv1 <- breaksByVector(i1, returnFractions=TRUE);
+                  cellnoteXi[trunc(bbv1$labelPoints)] <- bbv1$labelPoints;
+                  cellnoteVi <- rmNA(naValue="", i[as.numeric(bbv1$newLabels)]);
+               } else if (length(unique(i1)) == 1) {
                   cellnoteXi[trunc(ncol(cellnote)/2+0.5)] <- ncol(cellnote)/2+0.5;
                   cellnoteVi <- rep("",ncol(cellnote));
                   cellnoteVi[trunc(ncol(cellnote)/2+0.5)] <- unique(i1);
@@ -1574,7 +1627,7 @@ imageByColors <- function
             cellnoteX <- rbindList(lapply(cellnoteL, function(i){
                i$cellnoteXi;
             }));
-            cellnote <- rbindList(lapply(cellnoteL, function(i){
+            cellnote_fac <- rbindList(lapply(cellnoteL, function(i){
                i$cellnoteVi;
             }));
          } else {
@@ -1586,6 +1639,7 @@ imageByColors <- function
                print(head(cellnoteX));
             }
          }
+         cellnote[] <- cellnote_fac_v[as.vector(cellnote_fac)];
       } else {
          x1 <- x;
       }
@@ -2006,7 +2060,8 @@ adjustAxisLabelMargins <- function
 (x,
  margin=1,
  maxFig=1/2,
- cex=NULL,
+ cex=par("cex"),
+ cex.axis=par("cex.axis"),
  prefix="-- -- ",
  ...)
 {
@@ -2030,9 +2085,12 @@ adjustAxisLabelMargins <- function
    ## Get plot and figure sizes in inches
    parMai <- par("mai");
    parFin <- par("fin");
-   maxWidth <- max(strwidth(paste(prefix, x),
-      units="inches",
-      cex=cex), na.rm=TRUE);
+   cex_use <- cex * cex.axis;
+   maxWidth <- max(
+      strwidth(paste(prefix, x),
+         units="inches",
+         cex=cex_use) + 0.2,
+      na.rm=TRUE);
 
    ## Make sure label margins are not more than 1/2 the figure size
    refMargin <- 2-(margin %% 2);

@@ -17,7 +17,7 @@ applyXlsxConditionalFormat(xlsxFile, sheet = 1, fcColumns = NULL,
   "#678ADF", "#5673AA"), numRule = c(1, 10, 20),
   numType = "colourScale", pvalueColumns = NULL, pvalueGrep = NULL,
   pvalueStyle = c("#AA6346", "#DF8A67", "#EEECE1"),
-  pvalueRule = c(1e-04, 0.01, 1), pvalueType = "colourScale",
+  pvalueRule = c(0.0001, 0.01, 1), pvalueType = "colourScale",
   verbose = FALSE, startRow = 2, overwrite = TRUE, ...)
 }
 \arguments{

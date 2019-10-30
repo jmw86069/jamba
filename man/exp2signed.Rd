@@ -55,10 +55,12 @@ Other jam practical functions: \code{\link{applyCLrange}},
   \code{\link{kable_coloring}}, \code{\link{log2signed}},
   \code{\link{make_styles}}, \code{\link{mergeAllXY}},
   \code{\link{minorLogTicks}}, \code{\link{newestFile}},
-  \code{\link{printDebug}}, \code{\link{renameColumn}},
-  \code{\link{rmInfinite}}, \code{\link{rmNA}},
-  \code{\link{rmNULL}}, \code{\link{sclass}},
+  \code{\link{printDebugI}}, \code{\link{printDebug}},
+  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
+  \code{\link{rmNA}}, \code{\link{rmNULL}},
+  \code{\link{sclass}}, \code{\link{sdima}},
   \code{\link{sdim}}, \code{\link{setCLranges}},
-  \code{\link{setPrompt}}, \code{\link{ssdim}}
+  \code{\link{setPrompt}}, \code{\link{ssdima}},
+  \code{\link{ssdim}}
 }
 \concept{jam practical functions}

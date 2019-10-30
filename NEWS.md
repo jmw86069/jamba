@@ -1,3 +1,42 @@
+# jamba version 0.0.45.900
+
+## new functions
+
+* `sdima()` and `ssdima()` are equivalent to `sdim()` and
+`ssdim()` except that they operate on `attributes(x)`. I somehow
+found myself constantly typing `sdim(attributes(x))` and finally
+had enough of that.
+* `printDebugI()` is a shortcut to `printDebug(..., invert=TRUE)`,
+intended to be a quick way to use inverted colors, to colorize
+the background instead of the text. Note that `printDebug()` applies
+a color range restriction, to make sure the text contrasts with
+either light or dark background. When `invert=TRUE` the background
+color is not restricted, instead the foreground text uses
+`setTextContrastColor()` to determine a suitable contrasting
+color for the text and its corresponding background color.
+
+## changes to existing functions
+
+* `imageByColors()` was refactored to handle grouped labels more
+cleanly. New argument `groupByColors=TRUE` decides whether to
+group cellnotes only when the label and underlying color
+are both identical -- which is a change from previous behavior.
+Previous behavior grouped consecutive identical labels, regardless
+the underlying color, which is sometimes helpful, for example
+labeling a color gradient by the base color.
+Typically the cellnote and color would change together, but not
+always. The new default is consistent with the expected behavior.
+* `imageByColors()` new argument `groupBy` with one or both values
+`"row"` which groups cellnote values by row, and `"column"` which
+groups cellnote values by column. Useful to limit cellnote grouping
+so the values are not grouped inappropriately. This argument is
+mostly useful when `groupByColors=FALSE`.
+* `imageByColors()` new argument `adjustMargins=TRUE` will call
+`adjustAxisLabelMargins()` to adjust the margins to ensure the labels
+will fit in the plot device size.
+* `adjustAxisLabelMargins()` was updated to handle `par("cex")` and
+`par("cex.axis")` appropriately.
+
 # jamba version 0.0.44.900
 
 ## enhancements
