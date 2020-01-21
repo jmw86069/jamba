@@ -3,7 +3,6 @@
 \docType{package}
 \name{jamba}
 \alias{jamba}
-\alias{jamba-package}
 \title{jamba: Jam Base Methods}
 \description{
 The jamba package contains several jam base functions
@@ -98,22 +97,38 @@ colors used by the \code{crayon} functions to produce ANSI color text.
 }
 
 \seealso{
-Other jam practical functions: \code{\link{applyCLrange}},
-  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
-  \code{\link{colNum2excelName}}, \code{\link{exp2signed}},
-  \code{\link{fileInfo}}, \code{\link{fixYellowHue}},
-  \code{\link{fixYellow}}, \code{\link{getAxisLabel}},
-  \code{\link{handleArgsText}}, \code{\link{isFALSEV}},
-  \code{\link{isTRUEV}}, \code{\link{jargs}},
-  \code{\link{kable_coloring}}, \code{\link{log2signed}},
-  \code{\link{make_styles}}, \code{\link{mergeAllXY}},
-  \code{\link{minorLogTicks}}, \code{\link{newestFile}},
-  \code{\link{printDebugI}}, \code{\link{printDebug}},
-  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
-  \code{\link{rmNA}}, \code{\link{rmNULL}},
-  \code{\link{sclass}}, \code{\link{sdima}},
-  \code{\link{sdim}}, \code{\link{setCLranges}},
-  \code{\link{setPrompt}}, \code{\link{ssdima}},
-  \code{\link{ssdim}}
+Other jam practical functions: 
+\code{\link{applyCLrange}()},
+\code{\link{breakDensity}()},
+\code{\link{checkLightMode}()},
+\code{\link{colNum2excelName}()},
+\code{\link{exp2signed}()},
+\code{\link{fileInfo}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getAxisLabel}()},
+\code{\link{handleArgsText}()},
+\code{\link{isFALSEV}()},
+\code{\link{isTRUEV}()},
+\code{\link{jargs}()},
+\code{\link{kable_coloring}()},
+\code{\link{log2signed}()},
+\code{\link{make_styles}()},
+\code{\link{mergeAllXY}()},
+\code{\link{minorLogTicks}()},
+\code{\link{newestFile}()},
+\code{\link{printDebugI}()},
+\code{\link{printDebug}()},
+\code{\link{renameColumn}()},
+\code{\link{rmInfinite}()},
+\code{\link{rmNA}()},
+\code{\link{rmNULL}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{setCLranges}()},
+\code{\link{setPrompt}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()}
 }
 \concept{jam practical functions}

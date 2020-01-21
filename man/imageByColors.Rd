@@ -4,14 +4,32 @@
 \alias{imageByColors}
 \title{Display color raster image using a matrix of colors}
 \usage{
-imageByColors(x, useRaster = FALSE, fixRasterRatio = TRUE,
-  maxRatioFix = 100, xaxt = "s", yaxt = "s", doPlot = TRUE,
-  cellnote = NULL, cexCellnote = 1, srtCellnote = 0,
-  fontCellnote = 1, groupCellnotes = TRUE, groupBy = c("column",
-  "row"), groupByColors = TRUE, adjBy = c("column", "row"),
-  adjustMargins = FALSE, verbose = FALSE, xpd = NULL,
-  bty = par("bty"), flip = c("none", "y", "x", "xy"),
-  keepTextAlpha = FALSE, doTest = FALSE, add = FALSE, ...)
+imageByColors(
+  x,
+  useRaster = FALSE,
+  fixRasterRatio = TRUE,
+  maxRatioFix = 100,
+  xaxt = "s",
+  yaxt = "s",
+  doPlot = TRUE,
+  cellnote = NULL,
+  cexCellnote = 1,
+  srtCellnote = 0,
+  fontCellnote = 1,
+  groupCellnotes = TRUE,
+  groupBy = c("column", "row"),
+  groupByColors = TRUE,
+  adjBy = c("column", "row"),
+  adjustMargins = FALSE,
+  verbose = FALSE,
+  xpd = NULL,
+  bty = par("bty"),
+  flip = c("none", "y", "x", "xy"),
+  keepTextAlpha = FALSE,
+  doTest = FALSE,
+  add = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{matrix or data.frame containing colors}
@@ -160,15 +178,22 @@ imageByColors(df1, cellnote=df1, useRaster=TRUE, adjBy="column",
    srtCellnote=list(c(90,0,0), c(0,45), c(0,0,0), c(0,90,0)));
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

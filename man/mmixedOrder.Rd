@@ -4,8 +4,14 @@
 \alias{mmixedOrder}
 \title{order alphanumeric values from a list}
 \usage{
-mmixedOrder(..., na.last = TRUE, decreasing = FALSE, verbose = FALSE,
-  ignore.case = TRUE, matrixAsDF = TRUE)
+mmixedOrder(
+  ...,
+  na.last = TRUE,
+  decreasing = FALSE,
+  verbose = FALSE,
+  ignore.case = TRUE,
+  matrixAsDF = TRUE
+)
 }
 \arguments{
 \item{...}{parameters treated as a list of vectors to be ordered in
@@ -40,37 +46,63 @@ See \code{\link{mixedOrder}} and \code{\link{mixedSort}} for a better
 description of how the sort order logic operates.
 }
 \seealso{
-Other jam sort functions: \code{\link{mixedOrder}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSorts}},
-  \code{\link{mixedSort}}
+Other jam sort functions: 
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()}
 
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 }
 \concept{jam sort functions}
 \concept{jam string functions}

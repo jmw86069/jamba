@@ -4,10 +4,18 @@
 \alias{groupedAxis}
 \title{Draw groups axis labels}
 \usage{
-groupedAxis(side = 1, x, group_style = c("partial_grouped", "grouped",
-  "centered"), las = 2, returnFractions = TRUE, nudge = 0.2,
-  do_abline = FALSE, abline_lty = "solid", abline_col = "grey40",
-  ...)
+groupedAxis(
+  side = 1,
+  x,
+  group_style = c("partial_grouped", "grouped", "centered"),
+  las = 2,
+  returnFractions = TRUE,
+  nudge = 0.2,
+  do_abline = FALSE,
+  abline_lty = "solid",
+  abline_col = "grey40",
+  ...
+)
 }
 \description{
 Draw grouped axis labels given a character vector.
@@ -38,15 +46,22 @@ mtext(side=4, "group_style='grouped'", line=2, las=0);
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{imageByColors}}, \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

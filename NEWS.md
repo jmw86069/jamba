@@ -1,3 +1,35 @@
+# jamba version 0.0.47.900
+
+## Enhancements
+
+* `setTextContrastColor()` no longer calls `par("bg")` to
+determine the background color, unless a graphics device is
+already open. This change will prevent a graphics device from
+being opened in somewhat random situations. The argument `bg`
+is only used when input `colors` have alpha transparency.
+When `bg` is not supplied, it will query `par("bg")` only
+when `length(dev.list())>0`, otherwise it uses `"white"`
+by default.
+Note that calling `par()` always opens a new graphics device
+if one is not already open, even though the `"bg"` value is
+stored somewhere and should not require a new device. The R
+docs do describe this behavior, for what it's worth.
+* `imageByColors()` now accepts argument `cellnote` as an
+atomic vector, which is coerced to a matrix with same
+dimensions as input matrix `x`. This change makes it easier
+to use numeric formatting functions, which sometimes take
+matrix input and provide vector output.
+* `applyCLrange()` new argument `fixup` which is passed to
+`hcl2col()` which in turn passes it to `colorspace::hex()`
+when converting colors outside the color gamut. These functions will
+soon be replaced with calls to `farver`.
+
+# jamba version 0.0.46.900
+
+## Enhancements
+
+* `rbindList()` has two optional arguments: 
+
 # jamba version 0.0.45.900
 
 ## new functions

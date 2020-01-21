@@ -30,7 +30,8 @@ dateToDaysOld("23aug2007")
 
 }
 \seealso{
-Other jam date functions: \code{\link{asDate}},
-  \code{\link{getDate}}
+Other jam date functions: 
+\code{\link{asDate}()},
+\code{\link{getDate}()}
 }
 \concept{jam date functions}

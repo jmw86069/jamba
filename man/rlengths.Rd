@@ -18,7 +18,7 @@ return the total length of all elements in \code{x} as one value.}
 \item{...}{additional parameters are ignored}
 }
 \value{
-By default, when \code{doSum is NULL}, it returns an integer vector
+By default, when \verb{doSum is NULL}, it returns an integer vector
 with length \code{length(x)} and names \code{names(x)},
 whose values are the total number of elements in each item in
 \code{x} after running \code{base::unlist()}. When \code{doSum=="TRUE"}, it
@@ -27,7 +27,7 @@ returns the single total length of all elements in \code{x}. When
 length of each element.
 
 The parameter \code{doSum} is intended for internal use, during
-recursive calls of \code{rlengths()} to itself. When \code{doSum is NULL} or
+recursive calls of \code{rlengths()} to itself. When \verb{doSum is NULL} or
 \code{TRUE}, recursive calls to \code{rlengths()} set \code{doSum=TRUE}.
 }
 \description{
@@ -53,14 +53,23 @@ rlengths(x)
 
 }
 \seealso{
-Other jam list functions: \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{list2df}}, \code{\link{mergeAllXY}},
-  \code{\link{mixedSorts}}, \code{\link{rbindList}},
-  \code{\link{relist_named}}, \code{\link{sclass}},
-  \code{\link{sdima}}, \code{\link{sdim}},
-  \code{\link{ssdima}}, \code{\link{ssdim}},
-  \code{\link{uniques}}, \code{\link{unnestList}}
+Other jam list functions: 
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{list2df}()},
+\code{\link{mergeAllXY}()},
+\code{\link{mixedSorts}()},
+\code{\link{rbindList}()},
+\code{\link{relist_named}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()},
+\code{\link{uniques}()},
+\code{\link{unnestList}()}
 }
 \concept{jam list functions}

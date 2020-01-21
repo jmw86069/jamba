@@ -4,13 +4,33 @@
 \alias{minorLogTicksAxis}
 \title{Display major and minor tick marks for log-scale axis}
 \usage{
-minorLogTicksAxis(side = NULL, lims = NULL, logBase = 2,
-  displayBase = 10, offset = 0, symmetricZero = (offset > 0),
-  majorCex = 1, minorCex = 0.65, doMajor = TRUE, doLabels = TRUE,
-  doMinorLabels = TRUE, asValues = TRUE, padj = NULL,
-  doFormat = TRUE, big.mark = ",", scipen = 10, minorWhich = c(2,
-  5), logStep = 1, cex = 1, las = 2, col = "black",
-  col.ticks = col, minorLogTicksData = NULL, verbose = FALSE, ...)
+minorLogTicksAxis(
+  side = NULL,
+  lims = NULL,
+  logBase = 2,
+  displayBase = 10,
+  offset = 0,
+  symmetricZero = (offset > 0),
+  majorCex = 1,
+  minorCex = 0.65,
+  doMajor = TRUE,
+  doLabels = TRUE,
+  doMinorLabels = TRUE,
+  asValues = TRUE,
+  padj = NULL,
+  doFormat = TRUE,
+  big.mark = ",",
+  scipen = 10,
+  minorWhich = c(2, 5),
+  logStep = 1,
+  cex = 1,
+  las = 2,
+  col = "black",
+  col.ticks = col,
+  minorLogTicksData = NULL,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{side}{integer indicating the axis side, 1=bottom, 2=left,
@@ -149,15 +169,22 @@ minorLogTicksAxis(1, offset=1, logBase=10,
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

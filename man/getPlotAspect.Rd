@@ -4,8 +4,13 @@
 \alias{getPlotAspect}
 \title{Get aspect ratio for coordinates, plot, or device}
 \usage{
-getPlotAspect(type = c("coords", "plot", "device"),
-  parUsr = par("usr"), parPin = par("pin"), parDin = par("din"), ...)
+getPlotAspect(
+  type = c("coords", "plot", "device"),
+  parUsr = par("usr"),
+  parPin = par("pin"),
+  parDin = par("din"),
+  ...
+)
 }
 \arguments{
 \item{type}{character type of aspect ratio to calculate.
@@ -54,15 +59,22 @@ getPlotAspect("device");
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{groupedAxis}},
-  \code{\link{imageByColors}}, \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

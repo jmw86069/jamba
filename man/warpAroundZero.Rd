@@ -78,9 +78,12 @@ legend("topleft",
 
 }
 \seealso{
-Other jam numeric functions: \code{\link{deg2rad}},
-  \code{\link{noiseFloor}}, \code{\link{normScale}},
-  \code{\link{rad2deg}}, \code{\link{rowGroupMeans}},
-  \code{\link{rowRmMadOutliers}}
+Other jam numeric functions: 
+\code{\link{deg2rad}()},
+\code{\link{noiseFloor}()},
+\code{\link{normScale}()},
+\code{\link{rad2deg}()},
+\code{\link{rowGroupMeans}()},
+\code{\link{rowRmMadOutliers}()}
 }
 \concept{jam numeric functions}

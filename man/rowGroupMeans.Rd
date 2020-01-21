@@ -4,10 +4,20 @@
 \alias{rowGroupMeans}
 \title{Calculate row group means, or other statistics}
 \usage{
-rowGroupMeans(x, groups, na.rm = TRUE, useMedian = TRUE,
-  rmOutliers = FALSE, madFactor = 5, returnType = c("output",
-  "input"), rowStatsFunc = NULL, groupOrder = c("same", "sort"),
-  keepNULLlevels = FALSE, verbose = FALSE, ...)
+rowGroupMeans(
+  x,
+  groups,
+  na.rm = TRUE,
+  useMedian = TRUE,
+  rmOutliers = FALSE,
+  madFactor = 5,
+  returnType = c("output", "input"),
+  rowStatsFunc = NULL,
+  groupOrder = c("same", "sort"),
+  keepNULLlevels = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{numeric data matrix}
@@ -110,9 +120,12 @@ rowGroupMeans(x, groups=rep(letters[1:3], each=3))
 
 }
 \seealso{
-Other jam numeric functions: \code{\link{deg2rad}},
-  \code{\link{noiseFloor}}, \code{\link{normScale}},
-  \code{\link{rad2deg}}, \code{\link{rowRmMadOutliers}},
-  \code{\link{warpAroundZero}}
+Other jam numeric functions: 
+\code{\link{deg2rad}()},
+\code{\link{noiseFloor}()},
+\code{\link{normScale}()},
+\code{\link{rad2deg}()},
+\code{\link{rowRmMadOutliers}()},
+\code{\link{warpAroundZero}()}
 }
 \concept{jam numeric functions}

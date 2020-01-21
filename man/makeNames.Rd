@@ -4,10 +4,19 @@
 \alias{makeNames}
 \title{make unique vector names}
 \usage{
-makeNames(x, unique = TRUE, suffix = "_v", renameOnes = FALSE,
-  doPadInteger = FALSE, startN = 1, numberStyle = c("number",
-  "letters", "LETTERS"), useNchar = NULL, renameFirst = TRUE,
-  keepNA = TRUE, ...)
+makeNames(
+  x,
+  unique = TRUE,
+  suffix = "_v",
+  renameOnes = FALSE,
+  doPadInteger = FALSE,
+  startN = 1,
+  numberStyle = c("number", "letters", "LETTERS"),
+  useNchar = NULL,
+  renameFirst = TRUE,
+  keepNA = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{character vector to be used when defining names. All other
@@ -56,7 +65,7 @@ be versioned, even when renameOnes=TRUE.}
 
 \item{keepNA}{logical whether to retain NA values using the string "NA".
 If keepNA is FALSE, then NA values will remain NA, thus causing some
-names to become <NA>, which can cause problems with some downstream
+names to become \verb{<NA>}, which can cause problems with some downstream
 functions which assume all names are either NULL or non-NA.}
 }
 \value{
@@ -104,18 +113,30 @@ makeNames(rep(exons, c(2,3,1)), numberStyle="letters", suffix="");
 
 }
 \seealso{
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{mixedOrder}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSorts}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 }
 \concept{jam string functions}

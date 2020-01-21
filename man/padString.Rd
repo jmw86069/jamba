@@ -4,8 +4,13 @@
 \alias{padString}
 \title{pad a character string to a fixed length}
 \usage{
-padString(x, stringLength = max(nchar(x)), padCharacter = " ",
-  justify = "left", ...)
+padString(
+  x,
+  stringLength = max(nchar(x)),
+  padCharacter = " ",
+  justify = "left",
+  ...
+)
 }
 \arguments{
 \item{x}{character vector}
@@ -34,18 +39,30 @@ padString(c("one","two","three","four"), padCharacter="_", justify="center");
 
 }
 \seealso{
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}, \code{\link{nameVectorN}},
-  \code{\link{nameVector}}, \code{\link{padInteger}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 }
 \concept{jam string functions}

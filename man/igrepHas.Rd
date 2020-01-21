@@ -4,8 +4,14 @@
 \alias{igrepHas}
 \title{vector contains any case-insensitive grep match}
 \usage{
-igrepHas(pattern, x = NULL, ignore.case = TRUE, minCount = 1,
-  naToBlank = FALSE, ...)
+igrepHas(
+  pattern,
+  x = NULL,
+  ignore.case = TRUE,
+  minCount = 1,
+  naToBlank = FALSE,
+  ...
+)
 }
 \arguments{
 \item{pattern}{the grep pattern to use with \code{\link[base]{grep}}}
@@ -45,9 +51,13 @@ igrepHas("matrix", a);
 \seealso{
 \code{\link[base]{grep}}
 
-Other jam grep functions: \code{\link{grepls}},
-  \code{\link{igrep}}, \code{\link{provigrep}},
-  \code{\link{unigrep}}, \code{\link{unvigrep}},
-  \code{\link{vgrep}}, \code{\link{vigrep}}
+Other jam grep functions: 
+\code{\link{grepls}()},
+\code{\link{igrep}()},
+\code{\link{provigrep}()},
+\code{\link{unigrep}()},
+\code{\link{unvigrep}()},
+\code{\link{vgrep}()},
+\code{\link{vigrep}()}
 }
 \concept{jam grep functions}

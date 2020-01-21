@@ -4,29 +4,59 @@
 \alias{writeOpenxlsx}
 \title{Export a data.frame to Excel xlsx format}
 \usage{
-writeOpenxlsx(x, file, sheetName = "Sheet1", append = FALSE,
+writeOpenxlsx(
+  x,
+  file,
+  sheetName = "Sheet1",
+  append = FALSE,
   headerColors = c("lightskyblue1", "lightskyblue2"),
   columnColors = c("aliceblue", "azure2"),
   highlightHeaderColors = c("tan1", "tan2"),
   highlightColors = c("moccasin", "navajowhite"),
-  borderColor = "gray75", borderPosition = "BottomRight",
-  highlightColumns = NULL, numColumns = NULL, fcColumns = NULL,
-  lfcColumns = NULL, hitColumns = NULL, intColumns = NULL,
-  pvalueColumns = NULL, numFormat = "#,##0.00", fcFormat = "#,##0.0",
-  lfcFormat = "#,##0.0", hitFormat = "#,##0.0", intFormat = "#,##0",
-  pvalueFormat = "0.00E+00", numRule = c(1, 10, 20), fcRule = c(-6,
-  0, 6), lfcRule = c(-3, 0, 3), hitRule = c(-2, 0, 2), intRule = c(0,
-  100, 10000), pvalueRule = c(0.00001, 0.01, 1),
-  numStyle = c("#EEECE1", "#678ADF", "#5673AA"), fcStyle = c("#4F81BD",
-  "#EEECE1", "#C0504D"), lfcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
+  borderColor = "gray75",
+  borderPosition = "BottomRight",
+  highlightColumns = NULL,
+  numColumns = NULL,
+  fcColumns = NULL,
+  lfcColumns = NULL,
+  hitColumns = NULL,
+  intColumns = NULL,
+  pvalueColumns = NULL,
+  numFormat = "#,##0.00",
+  fcFormat = "#,##0.0",
+  lfcFormat = "#,##0.0",
+  hitFormat = "#,##0.0",
+  intFormat = "#,##0",
+  pvalueFormat = "0.00E+00",
+  numRule = c(1, 10, 20),
+  fcRule = c(-6, 0, 6),
+  lfcRule = c(-3, 0, 3),
+  hitRule = c(-2, 0, 2),
+  intRule = c(0, 100, 10000),
+  pvalueRule = c(1e-05, 0.01, 1),
+  numStyle = c("#EEECE1", "#678ADF", "#5673AA"),
+  fcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
+  lfcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
   hitStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
   intStyle = c("#EEECE1", "#DF8A67", "#AA6346"),
   pvalueStyle = c("#AA6346", "#DF8A67", "#EEECE1"),
-  doConditional = TRUE, doCategorical = TRUE, colorSub = NULL,
-  freezePaneColumn = 1, freezePaneRow = 2, doFilter = TRUE,
-  fontName = "Arial", fontSize = 12, minWidth = 8, maxWidth = 40,
-  autoWidth = TRUE, wrapHeaders = TRUE, headerRowMultiplier = 5,
-  keepRownames = FALSE, verbose = FALSE, ...)
+  doConditional = TRUE,
+  doCategorical = TRUE,
+  colorSub = NULL,
+  freezePaneColumn = 1,
+  freezePaneRow = 2,
+  doFilter = TRUE,
+  fontName = "Arial",
+  fontSize = 12,
+  minWidth = 8,
+  maxWidth = 40,
+  autoWidth = TRUE,
+  wrapHeaders = TRUE,
+  headerRowMultiplier = 5,
+  keepRownames = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{data.frame to be saved to an Excel xlsx file.}
@@ -192,7 +222,8 @@ writeOpenxlsx(file="/Users/wardjm/test.xlsx",
 
 }
 \seealso{
-Other jam export functions: \code{\link{applyXlsxCategoricalFormat}},
-  \code{\link{applyXlsxConditionalFormat}}
+Other jam export functions: 
+\code{\link{applyXlsxCategoricalFormat}()},
+\code{\link{applyXlsxConditionalFormat}()}
 }
 \concept{jam export functions}

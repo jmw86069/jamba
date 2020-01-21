@@ -4,8 +4,17 @@
 \alias{sqrtAxis}
 \title{Determine square root axis tick mark positions}
 \usage{
-sqrtAxis(side = 1, x = NULL, pretty.n = 10, u5.bias = 0,
-  big.mark = ",", plot = TRUE, las = 2, cex.axis = 0.6, ...)
+sqrtAxis(
+  side = 1,
+  x = NULL,
+  pretty.n = 10,
+  u5.bias = 0,
+  big.mark = ",",
+  plot = TRUE,
+  las = 2,
+  cex.axis = 0.6,
+  ...
+)
 }
 \arguments{
 \item{side}{integer value indicating the axis position, as used
@@ -50,15 +59,22 @@ The main goal of this function is to provide reasonably placed
 tick marks using integer values.
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

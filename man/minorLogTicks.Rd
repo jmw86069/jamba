@@ -4,11 +4,23 @@
 \alias{minorLogTicks}
 \title{Calculate major and minor tick marks for log-scale axis}
 \usage{
-minorLogTicks(side = NULL, lims = NULL, logBase = 2,
-  displayBase = 10, logStep = 1, minorWhich = c(2, 5),
-  asValues = TRUE, offset = 0, symmetricZero = (offset > 0),
-  col = "black", col.ticks = col, combine = FALSE,
-  logAxisType = c("normal", "flipped", "pvalue"), verbose = FALSE, ...)
+minorLogTicks(
+  side = NULL,
+  lims = NULL,
+  logBase = 2,
+  displayBase = 10,
+  logStep = 1,
+  minorWhich = c(2, 5),
+  asValues = TRUE,
+  offset = 0,
+  symmetricZero = (offset > 0),
+  col = "black",
+  col.ticks = col,
+  combine = FALSE,
+  logAxisType = c("normal", "flipped", "pvalue"),
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{side}{integer value indicating which axis to produce tick
@@ -131,22 +143,38 @@ points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
 
 }
 \seealso{
-Other jam practical functions: \code{\link{applyCLrange}},
-  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
-  \code{\link{colNum2excelName}}, \code{\link{exp2signed}},
-  \code{\link{fileInfo}}, \code{\link{fixYellowHue}},
-  \code{\link{fixYellow}}, \code{\link{getAxisLabel}},
-  \code{\link{handleArgsText}}, \code{\link{isFALSEV}},
-  \code{\link{isTRUEV}}, \code{\link{jamba}},
-  \code{\link{jargs}}, \code{\link{kable_coloring}},
-  \code{\link{log2signed}}, \code{\link{make_styles}},
-  \code{\link{mergeAllXY}}, \code{\link{newestFile}},
-  \code{\link{printDebugI}}, \code{\link{printDebug}},
-  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
-  \code{\link{rmNA}}, \code{\link{rmNULL}},
-  \code{\link{sclass}}, \code{\link{sdima}},
-  \code{\link{sdim}}, \code{\link{setCLranges}},
-  \code{\link{setPrompt}}, \code{\link{ssdima}},
-  \code{\link{ssdim}}
+Other jam practical functions: 
+\code{\link{applyCLrange}()},
+\code{\link{breakDensity}()},
+\code{\link{checkLightMode}()},
+\code{\link{colNum2excelName}()},
+\code{\link{exp2signed}()},
+\code{\link{fileInfo}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getAxisLabel}()},
+\code{\link{handleArgsText}()},
+\code{\link{isFALSEV}()},
+\code{\link{isTRUEV}()},
+\code{\link{jamba}},
+\code{\link{jargs}()},
+\code{\link{kable_coloring}()},
+\code{\link{log2signed}()},
+\code{\link{make_styles}()},
+\code{\link{mergeAllXY}()},
+\code{\link{newestFile}()},
+\code{\link{printDebugI}()},
+\code{\link{printDebug}()},
+\code{\link{renameColumn}()},
+\code{\link{rmInfinite}()},
+\code{\link{rmNA}()},
+\code{\link{rmNULL}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{setCLranges}()},
+\code{\link{setPrompt}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()}
 }
 \concept{jam practical functions}

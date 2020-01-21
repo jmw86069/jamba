@@ -4,8 +4,14 @@
 \alias{grepls}
 \title{Search for objects in the environment}
 \usage{
-grepls(x, where = "all", ignore.case = TRUE, searchNames = TRUE,
-  verbose = FALSE, ...)
+grepls(
+  x,
+  where = "all",
+  ignore.case = TRUE,
+  searchNames = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{grep pattern}
@@ -61,9 +67,13 @@ grepls("Raw", ignore.case=FALSE)
 
 }
 \seealso{
-Other jam grep functions: \code{\link{igrepHas}},
-  \code{\link{igrep}}, \code{\link{provigrep}},
-  \code{\link{unigrep}}, \code{\link{unvigrep}},
-  \code{\link{vgrep}}, \code{\link{vigrep}}
+Other jam grep functions: 
+\code{\link{igrepHas}()},
+\code{\link{igrep}()},
+\code{\link{provigrep}()},
+\code{\link{unigrep}()},
+\code{\link{unvigrep}()},
+\code{\link{vgrep}()},
+\code{\link{vigrep}()}
 }
 \concept{jam grep functions}

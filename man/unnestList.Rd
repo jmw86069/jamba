@@ -4,9 +4,15 @@
 \alias{unnestList}
 \title{Un-nest a nested list into a simple list}
 \usage{
-unnestList(x, unnamedBase = "x", parentName = NULL, sep = ".",
-  makeNameFunc = makeNames, stopClasses = c("dendrogram", "data.frame",
-  "matrix"), ...)
+unnestList(
+  x,
+  unnamedBase = "x",
+  parentName = NULL,
+  sep = ".",
+  makeNameFunc = makeNames,
+  stopClasses = c("dendrogram", "data.frame", "matrix"),
+  ...
+)
 }
 \arguments{
 \item{x}{list potentially containing lists}
@@ -46,14 +52,23 @@ str(unnestList(L))
 
 }
 \seealso{
-Other jam list functions: \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{list2df}}, \code{\link{mergeAllXY}},
-  \code{\link{mixedSorts}}, \code{\link{rbindList}},
-  \code{\link{relist_named}}, \code{\link{rlengths}},
-  \code{\link{sclass}}, \code{\link{sdima}},
-  \code{\link{sdim}}, \code{\link{ssdima}},
-  \code{\link{ssdim}}, \code{\link{uniques}}
+Other jam list functions: 
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{list2df}()},
+\code{\link{mergeAllXY}()},
+\code{\link{mixedSorts}()},
+\code{\link{rbindList}()},
+\code{\link{relist_named}()},
+\code{\link{rlengths}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()},
+\code{\link{uniques}()}
 }
 \concept{jam list functions}

@@ -4,11 +4,19 @@
 \alias{setPrompt}
 \title{set R prompt with project name and R version}
 \usage{
-setPrompt(projectName = NULL, useColor = TRUE,
-  projectColor = "yellow", bracketColor = "white",
-  Rcolors = c("white", "white", "white"), PIDcolor = NA,
-  promptColor = "white", usePid = TRUE, resetPrompt = FALSE,
-  verbose = FALSE, ...)
+setPrompt(
+  projectName = NULL,
+  useColor = TRUE,
+  projectColor = "yellow",
+  bracketColor = "white",
+  Rcolors = c("white", "white", "white"),
+  PIDcolor = NA,
+  promptColor = "white",
+  usePid = TRUE,
+  resetPrompt = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{projectName}{character string representing the active project.}
@@ -91,22 +99,38 @@ setPrompt("jamba", usePid=FALSE);
 
 }
 \seealso{
-Other jam practical functions: \code{\link{applyCLrange}},
-  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
-  \code{\link{colNum2excelName}}, \code{\link{exp2signed}},
-  \code{\link{fileInfo}}, \code{\link{fixYellowHue}},
-  \code{\link{fixYellow}}, \code{\link{getAxisLabel}},
-  \code{\link{handleArgsText}}, \code{\link{isFALSEV}},
-  \code{\link{isTRUEV}}, \code{\link{jamba}},
-  \code{\link{jargs}}, \code{\link{kable_coloring}},
-  \code{\link{log2signed}}, \code{\link{make_styles}},
-  \code{\link{mergeAllXY}}, \code{\link{minorLogTicks}},
-  \code{\link{newestFile}}, \code{\link{printDebugI}},
-  \code{\link{printDebug}}, \code{\link{renameColumn}},
-  \code{\link{rmInfinite}}, \code{\link{rmNA}},
-  \code{\link{rmNULL}}, \code{\link{sclass}},
-  \code{\link{sdima}}, \code{\link{sdim}},
-  \code{\link{setCLranges}}, \code{\link{ssdima}},
-  \code{\link{ssdim}}
+Other jam practical functions: 
+\code{\link{applyCLrange}()},
+\code{\link{breakDensity}()},
+\code{\link{checkLightMode}()},
+\code{\link{colNum2excelName}()},
+\code{\link{exp2signed}()},
+\code{\link{fileInfo}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getAxisLabel}()},
+\code{\link{handleArgsText}()},
+\code{\link{isFALSEV}()},
+\code{\link{isTRUEV}()},
+\code{\link{jamba}},
+\code{\link{jargs}()},
+\code{\link{kable_coloring}()},
+\code{\link{log2signed}()},
+\code{\link{make_styles}()},
+\code{\link{mergeAllXY}()},
+\code{\link{minorLogTicks}()},
+\code{\link{newestFile}()},
+\code{\link{printDebugI}()},
+\code{\link{printDebug}()},
+\code{\link{renameColumn}()},
+\code{\link{rmInfinite}()},
+\code{\link{rmNA}()},
+\code{\link{rmNULL}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{setCLranges}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()}
 }
 \concept{jam practical functions}

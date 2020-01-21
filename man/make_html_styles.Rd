@@ -4,13 +4,24 @@
 \alias{make_html_styles}
 \title{vectorized make_styles for html span output}
 \usage{
-make_html_styles(style = NULL, text, bg = FALSE, bg_style = NULL,
-  grey = FALSE, Cgrey = getOption("jam.Cgrey"),
-  lightMode = checkLightMode(), Crange = getOption("jam.Crange"),
+make_html_styles(
+  style = NULL,
+  text,
+  bg = FALSE,
+  bg_style = NULL,
+  grey = FALSE,
+  Cgrey = getOption("jam.Cgrey"),
+  lightMode = checkLightMode(),
+  Crange = getOption("jam.Crange"),
   Lrange = getOption("jam.Lrange"),
-  adjustRgb = getOption("jam.adjustRgb"), adjustPower = 1.5,
-  fixYellow = TRUE, alphaPower = 2, setOptions = FALSE,
-  verbose = FALSE, ...)
+  adjustRgb = getOption("jam.adjustRgb"),
+  adjustPower = 1.5,
+  fixYellow = TRUE,
+  alphaPower = 2,
+  setOptions = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \description{
 vectorized make_styles for html span output

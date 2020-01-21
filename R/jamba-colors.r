@@ -73,7 +73,7 @@ setTextContrastColor <- function
  colorModel=c("hcl", "rgb"),
  useGrey=0,
  keepAlpha=FALSE,
- bg=par("bg"),
+ bg=NULL,
  ...)
 {
    ## Purpose is to provide a good contrasting text color, given a background color
@@ -97,7 +97,15 @@ setTextContrastColor <- function
    useGrey[useGrey > 100] <- 100;
 
    greyVals <- abs(c(0,-100) + useGrey);
-   bwColors <- rgb2col(col2rgb(paste0("grey", greyVals)))
+   bwColors <- rgb2col(col2rgb(paste0("grey", greyVals)));
+
+   if (length(bg) == 0) {
+      if (length(dev.list()) > 0) {
+         bg <- par("bg");
+      } else {
+         bg <- "white";
+      }
+   }
 
    if (colorModel %in% "rgb") {
       colRgbMean <- colMeans(col2rgb(color));
@@ -158,7 +166,7 @@ setTextContrastColor <- function
 col2hcl <- function
 (x,
  maxColorValue=255,
- model=c("polarLUV", "polarLAB"),
+ model=c("hcl","polarLUV", "polarLAB"),
  ...)
 {
    ## Purpose is to convert R color to HCL
@@ -166,7 +174,23 @@ col2hcl <- function
    if (!suppressPackageStartupMessages(require(colorspace))) {
       stop("The colorspace package is required.");
    }
+   if (!suppressPackageStartupMessages(require(farver))) {
+      stop("The farver package is required.");
+   }
    model <- match.arg(model);
+   if ("jam.model" %in% names(options())) {
+      model <- getOption("jam.model");
+   }
+
+   if ("hcl" %in% model) {
+      x3 <- t(farver::decode_colour(x,
+         to="hcl",
+         alpha=TRUE,
+         ...));
+      colnames(x3) <- names(x);
+      rownames(x3)[1:3] <- toupper(rownames(x3)[1:3]);
+      return(x3);
+   }
 
    x1 <- col2rgb(x);
    a1 <- col2alpha(x);
@@ -245,7 +269,7 @@ hcl2col <- function
  maxColorValue=255,
  alpha=NULL,
  fixup=NULL,
- model=c("polarLUV","polarLAB"),
+ model=c("hcl","polarLUV","polarLAB"),
  verbose=FALSE,
  ...)
 {
@@ -255,12 +279,18 @@ hcl2col <- function
    if (!suppressPackageStartupMessages(require(colorspace))) {
       stop("hcl2col() requires the colorspace package.");
    }
+   if (!suppressPackageStartupMessages(require(farver))) {
+      stop("hcl2col() requires the farver package.");
+   }
    if (!suppressPackageStartupMessages(require(matrixStats))) {
       useMatrixStats <- TRUE;
    } else {
       useMatrixStats <- FALSE;
    }
    model <- match.arg(model);
+   if ("jam.model" %in% names(options())) {
+      model <- getOption("jam.model");
+   }
    if (verbose) {
       printDebug("hcl2col(): ",
          "useMatrixStats:",
@@ -272,6 +302,7 @@ hcl2col <- function
       #x <- t(colorspace::coords(x));
    } else {
       if (igrepHas("matrix", class(x))) {
+         x <- x[c("H","C","L","alpha"),,drop=FALSE];
          H <- x["H",];
          C <- x["C",];
          L <- x["L",];
@@ -299,6 +330,8 @@ hcl2col <- function
             C=x["C",],
             L=x["L",]
          );
+      } else {
+         x2 <- x;
       }
    }
 
@@ -330,7 +363,17 @@ hcl2col <- function
    ## repair any colors outside of normal RGB ranges (the color gamut),
    ## otherwise they become NA. Note that the fixup=TRUE method is lossy,
    ## as colorspace apparently applies a non-linear conversion strategy.
-   if (length(fixup) > 0) {
+   if ("hcl" %in% model) {
+      if (verbose) {
+         cat("hcl2col():\n");
+         cat("   x2:\n");
+         print(x2);
+      }
+      xCol <- farver::encode_colour(t(x2),
+         alpha=a1,
+         from="hcl");
+      names(xCol) <- xnames;
+   } else if (length(fixup) > 0) {
       xCol <- hex(x2, fixup=fixup);
       xCol <- alpha2col(xCol, alpha=a1, maxValue=255);
       names(xCol) <- xnames;

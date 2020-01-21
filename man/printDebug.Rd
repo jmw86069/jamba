@@ -4,17 +4,45 @@
 \alias{printDebug}
 \title{print colorized output to R console}
 \usage{
-printDebug(..., fgText = NULL, bgText = NULL, fgTime = "cyan",
-  timeStamp = TRUE, comment = TRUE, formatNumbers = TRUE,
-  trim = TRUE, digits = NULL, nsmall = 0L, justify = "left",
-  big.mark = "", small.mark = "", zero.print = NULL, width = NULL,
-  doColor = NULL, splitComments = FALSE, collapse = "", sep = ",",
-  detectColors = TRUE, darkFactor = c(1, 1.5), sFactor = c(1, 1.5),
-  lightMode = checkLightMode(), Crange = NULL, Lrange = NULL,
-  removeNA = FALSE, replaceNULL = NULL,
-  adjustRgb = getOption("jam.adjustRgb"), byLine = FALSE,
-  verbose = FALSE, indent = "", keepNA = TRUE, file = "",
-  append = TRUE, invert = FALSE, htmlOut = FALSE, x)
+printDebug(
+  ...,
+  fgText = NULL,
+  bgText = NULL,
+  fgTime = "cyan",
+  timeStamp = TRUE,
+  comment = TRUE,
+  formatNumbers = TRUE,
+  trim = TRUE,
+  digits = NULL,
+  nsmall = 0L,
+  justify = "left",
+  big.mark = "",
+  small.mark = "",
+  zero.print = NULL,
+  width = NULL,
+  doColor = NULL,
+  splitComments = FALSE,
+  collapse = "",
+  sep = ",",
+  detectColors = TRUE,
+  darkFactor = c(1, 1.5),
+  sFactor = c(1, 1.5),
+  lightMode = checkLightMode(),
+  Crange = NULL,
+  Lrange = NULL,
+  removeNA = FALSE,
+  replaceNULL = NULL,
+  adjustRgb = getOption("jam.adjustRgb"),
+  byLine = FALSE,
+  verbose = FALSE,
+  indent = "",
+  keepNA = TRUE,
+  file = "",
+  append = TRUE,
+  invert = FALSE,
+  htmlOut = FALSE,
+  x
+)
 }
 \arguments{
 \item{...}{text to be printed to the R console.}
@@ -105,7 +133,7 @@ colors should be switched.}
 
 \item{htmlOut}{logical indicating whether to print HTML span
 output, using format
-\code{<span style="color:fg;background-color:bg">text</span>}.}
+\verb{<span style="color:fg;background-color:bg">text</span>}.}
 }
 \value{
 This function is called for the by-product of printing
@@ -136,7 +164,7 @@ printDebug("List of vectors:", c("one", "two", "three"),
 
 # slightly different style, one entry per line, indented:
 printDebug("List of vectors:", c("one", "two", "three"),
-   c("four", "five", "six"), collapse="\\n   ");
+   c("four", "five", "six"), collapse="\n   ");
 
 # in an R console, or when writing to a log file, the
 # following output text is colored
@@ -144,22 +172,38 @@ printDebug(c("red", "blue", "yellow"));
 
 }
 \seealso{
-Other jam practical functions: \code{\link{applyCLrange}},
-  \code{\link{breakDensity}}, \code{\link{checkLightMode}},
-  \code{\link{colNum2excelName}}, \code{\link{exp2signed}},
-  \code{\link{fileInfo}}, \code{\link{fixYellowHue}},
-  \code{\link{fixYellow}}, \code{\link{getAxisLabel}},
-  \code{\link{handleArgsText}}, \code{\link{isFALSEV}},
-  \code{\link{isTRUEV}}, \code{\link{jamba}},
-  \code{\link{jargs}}, \code{\link{kable_coloring}},
-  \code{\link{log2signed}}, \code{\link{make_styles}},
-  \code{\link{mergeAllXY}}, \code{\link{minorLogTicks}},
-  \code{\link{newestFile}}, \code{\link{printDebugI}},
-  \code{\link{renameColumn}}, \code{\link{rmInfinite}},
-  \code{\link{rmNA}}, \code{\link{rmNULL}},
-  \code{\link{sclass}}, \code{\link{sdima}},
-  \code{\link{sdim}}, \code{\link{setCLranges}},
-  \code{\link{setPrompt}}, \code{\link{ssdima}},
-  \code{\link{ssdim}}
+Other jam practical functions: 
+\code{\link{applyCLrange}()},
+\code{\link{breakDensity}()},
+\code{\link{checkLightMode}()},
+\code{\link{colNum2excelName}()},
+\code{\link{exp2signed}()},
+\code{\link{fileInfo}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getAxisLabel}()},
+\code{\link{handleArgsText}()},
+\code{\link{isFALSEV}()},
+\code{\link{isTRUEV}()},
+\code{\link{jamba}},
+\code{\link{jargs}()},
+\code{\link{kable_coloring}()},
+\code{\link{log2signed}()},
+\code{\link{make_styles}()},
+\code{\link{mergeAllXY}()},
+\code{\link{minorLogTicks}()},
+\code{\link{newestFile}()},
+\code{\link{printDebugI}()},
+\code{\link{renameColumn}()},
+\code{\link{rmInfinite}()},
+\code{\link{rmNA}()},
+\code{\link{rmNULL}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{setCLranges}()},
+\code{\link{setPrompt}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()}
 }
 \concept{jam practical functions}

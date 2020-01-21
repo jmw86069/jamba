@@ -4,8 +4,17 @@
 \alias{gsubOrdered}
 \title{Global substitution into ordered factor}
 \usage{
-gsubOrdered(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
-  fixed = FALSE, useBytes = FALSE, sortFunc = mixedSort, ...)
+gsubOrdered(
+  pattern,
+  replacement,
+  x,
+  ignore.case = FALSE,
+  perl = FALSE,
+  fixed = FALSE,
+  useBytes = FALSE,
+  sortFunc = mixedSort,
+  ...
+)
 }
 \arguments{
 \item{pattern, replacement, x, ignore.case, perl, fixed, useBytes}{arguments sent to \code{base::gsub()}}
@@ -69,18 +78,30 @@ gsubOrdered("", "", x, sortFunc=mixedSort)
 
 }
 \seealso{
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{makeNames}}, \code{\link{mixedOrder}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSorts}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 }
 \concept{jam string functions}

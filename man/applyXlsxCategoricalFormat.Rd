@@ -4,10 +4,19 @@
 \alias{applyXlsxCategoricalFormat}
 \title{Add categorical colors to Excel xlsx worksheets}
 \usage{
-applyXlsxCategoricalFormat(xlsxFile, sheet = 1, rowRange = NULL,
-  colRange = NULL, colorSub = NULL,
-  colorSubText = setTextContrastColor(colorSub), trimCatNames = TRUE,
-  overwrite = TRUE, stack = TRUE, verbose = FALSE, ...)
+applyXlsxCategoricalFormat(
+  xlsxFile,
+  sheet = 1,
+  rowRange = NULL,
+  colRange = NULL,
+  colorSub = NULL,
+  colorSubText = setTextContrastColor(colorSub),
+  trimCatNames = TRUE,
+  overwrite = TRUE,
+  stack = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{xlsxFile}{filename pointing to an existing Excel xlsx file.}
@@ -53,7 +62,8 @@ to define cell background colors, and optionally \code{colorSubText}
 to define a specific color for the cell text.
 }
 \seealso{
-Other jam export functions: \code{\link{applyXlsxConditionalFormat}},
-  \code{\link{writeOpenxlsx}}
+Other jam export functions: 
+\code{\link{applyXlsxConditionalFormat}()},
+\code{\link{writeOpenxlsx}()}
 }
 \concept{jam export functions}

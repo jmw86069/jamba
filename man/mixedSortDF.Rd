@@ -4,8 +4,15 @@
 \alias{mixedSortDF}
 \title{sort data.frame keeping numeric values in proper order}
 \usage{
-mixedSortDF(df, byCols = seq_len(ncol(df)), na.last = TRUE,
-  decreasing = NULL, useRownames = TRUE, verbose = FALSE, ...)
+mixedSortDF(
+  df,
+  byCols = seq_len(ncol(df)),
+  na.last = TRUE,
+  decreasing = NULL,
+  useRownames = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{df}{data.frame input}
@@ -74,23 +81,37 @@ x <- data.frame(l1=letters[1:10],
 
 }
 \seealso{
-Other jam sort functions: \code{\link{mixedOrder}},
-  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}
+Other jam sort functions: 
+\code{\link{mixedOrder}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()}
 
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSorts}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 }
 \concept{jam sort functions}
 \concept{jam string functions}

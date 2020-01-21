@@ -4,7 +4,7 @@
 \alias{col2hcl}
 \title{convert R color to HCL color matrix}
 \usage{
-col2hcl(x, maxColorValue = 255, model = c("polarLUV", "polarLAB"), ...)
+col2hcl(x, maxColorValue = 255, model = c("hcl", "polarLUV", "polarLAB"), ...)
 }
 \arguments{
 \item{x}{R compatible color, either a color name, or hex value, or
@@ -35,17 +35,26 @@ col2hcl("#FF000044")
 
 }
 \seealso{
-Other jam color functions: \code{\link{alpha2col}},
-  \code{\link{applyCLrange}}, \code{\link{col2alpha}},
-  \code{\link{col2hsv}}, \code{\link{color2gradient}},
-  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
-  \code{\link{getColorRamp}}, \code{\link{hcl2col}},
-  \code{\link{hsv2col}}, \code{\link{isColor}},
-  \code{\link{kable_coloring}},
-  \code{\link{makeColorDarker}}, \code{\link{make_styles}},
-  \code{\link{rgb2col}}, \code{\link{setCLranges}},
-  \code{\link{setTextContrastColor}},
-  \code{\link{showColors}}, \code{\link{unalpha}},
-  \code{\link{warpRamp}}
+Other jam color functions: 
+\code{\link{alpha2col}()},
+\code{\link{applyCLrange}()},
+\code{\link{col2alpha}()},
+\code{\link{col2hsv}()},
+\code{\link{color2gradient}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getColorRamp}()},
+\code{\link{hcl2col}()},
+\code{\link{hsv2col}()},
+\code{\link{isColor}()},
+\code{\link{kable_coloring}()},
+\code{\link{makeColorDarker}()},
+\code{\link{make_styles}()},
+\code{\link{rgb2col}()},
+\code{\link{setCLranges}()},
+\code{\link{setTextContrastColor}()},
+\code{\link{showColors}()},
+\code{\link{unalpha}()},
+\code{\link{warpRamp}()}
 }
 \concept{jam color functions}

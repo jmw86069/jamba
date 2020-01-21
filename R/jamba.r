@@ -2594,6 +2594,11 @@ setCLranges <- function
 #'    fixed cutoff, any values outside the range are set to equal the
 #'    range boundary itself. "expand" will rescale all values so the
 #'    range is equal to `Crange`.
+#' @param fixup logical, argument passed to `hcl2col()` and subsequently
+#'    to `colorspace::hex()` when converting colors outside the color
+#'    gamut (visible range.) When `fixup` is `NULL`, the `hcl2col()`
+#'    method applies its own aggressive technique to restrict the color
+#'    range.
 #' @param ... additional argyments are passed to `fixYellowHue()` when
 #'    `fixYellow` is `TRUE`.
 #'
@@ -2608,6 +2613,7 @@ applyCLrange <- function
  Cgrey=5,
  fixYellow=TRUE,
  CLmethod=c("scale", "floor", "expand"),
+ fixup=NULL,
  ...)
 {
    ## Purpose is to restrict the chroma (C) or luminance (L) ranges
@@ -2678,7 +2684,9 @@ applyCLrange <- function
    }
 
    ## Convert back to hex color
-   x <- hcl2col(styleHcl);
+   x <- hcl2col(styleHcl,
+      fixup=fixup,
+      ...);
    if (length(styleNA) > 0) {
       x[styleNA] <- NA;
    }

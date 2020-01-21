@@ -4,8 +4,14 @@
 \alias{usrBox}
 \title{Draw colored box indicating R plot space}
 \usage{
-usrBox(fill = "#FFFF9966", label = NULL, parUsr = par("usr"),
-  debug = FALSE, add = FALSE, ...)
+usrBox(
+  fill = "#FFFF9966",
+  label = NULL,
+  parUsr = par("usr"),
+  debug = FALSE,
+  add = FALSE,
+  ...
+)
 }
 \arguments{
 \item{fill}{character R color used to fill the background of the plot}
@@ -40,15 +46,22 @@ usrBox();
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()}
 }
 \concept{jam plot functions}

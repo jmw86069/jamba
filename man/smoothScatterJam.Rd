@@ -4,14 +4,31 @@
 \alias{smoothScatterJam}
 \title{Smooth scatter plot, Jam style}
 \usage{
-smoothScatterJam(x, y = NULL, nbin = 256, bandwidth,
-  colramp = colorRampPalette(c("#FFFFFF", "#6BAED6", "#9ECAE1",
-  "#2171B5", "#4292C6", "#08306B", "#08519C", "#C6DBEF", "#DEEBF7",
-  "#F7FBFF")), nrpoints = 100, pch = ".", cex = 1, col = "black",
-  transformation = function(x) x^0.25, postPlotHook = box,
-  xlab = NULL, ylab = NULL, xlim, ylim, add = FALSE,
-  xaxs = par("xaxs"), yaxs = par("yaxs"), xaxt = par("xaxt"),
-  yaxt = par("yaxt"), useRaster = NULL, ...)
+smoothScatterJam(
+  x,
+  y = NULL,
+  nbin = 256,
+  bandwidth,
+  colramp = colorRampPalette(c("#FFFFFF", "#6BAED6", "#9ECAE1", "#2171B5", "#4292C6",
+    "#08306B", "#08519C", "#C6DBEF", "#DEEBF7", "#F7FBFF")),
+  nrpoints = 100,
+  pch = ".",
+  cex = 1,
+  col = "black",
+  transformation = function(x) x^0.25,
+  postPlotHook = box,
+  xlab = NULL,
+  ylab = NULL,
+  xlim,
+  ylim,
+  add = FALSE,
+  xaxs = par("xaxs"),
+  yaxs = par("yaxs"),
+  xaxt = par("xaxt"),
+  yaxt = par("yaxt"),
+  useRaster = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{numeric vector, or data matrix with two or  more columns.}
@@ -106,15 +123,22 @@ function, with due credit and respect to its authors.
 \seealso{
 \code{\link[graphics]{smoothScatter}}
 
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{sqrtAxis}}, \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

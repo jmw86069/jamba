@@ -4,13 +4,27 @@
 \alias{plotSmoothScatter}
 \title{Smooth scatter plot with enhancements}
 \usage{
-plotSmoothScatter(x, y = NULL, bandwidthN = 300,
-  transformation = function(x) x^0.25, xlim = NULL, ylim = NULL,
-  nbin = 256, nrpoints = 0, colramp = c("white", "lightblue", "blue",
-  "orange", "orangered2"), doTest = FALSE, fillBackground = TRUE,
-  naAction = c("remove", "floor0", "floor1"), xaxt = "s", yaxt = "s",
-  add = FALSE, applyRangeCeiling = TRUE, useRaster = TRUE,
-  verbose = FALSE, ...)
+plotSmoothScatter(
+  x,
+  y = NULL,
+  bandwidthN = 300,
+  transformation = function(x) x^0.25,
+  xlim = NULL,
+  ylim = NULL,
+  nbin = 256,
+  nrpoints = 0,
+  colramp = c("white", "lightblue", "blue", "orange", "orangered2"),
+  doTest = FALSE,
+  fillBackground = TRUE,
+  naAction = c("remove", "floor0", "floor1"),
+  xaxt = "s",
+  yaxt = "s",
+  add = FALSE,
+  applyRangeCeiling = TRUE,
+  useRaster = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{numeric vector, or data matrix with two or  more columns.}
@@ -142,15 +156,22 @@ plotSmoothScatter(x, colramp="viridis");
 \code{\link{smoothScatterJam}},
 \code{\link[graphics]{smoothScatter}}
 
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

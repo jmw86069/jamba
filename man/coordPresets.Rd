@@ -4,25 +4,34 @@
 \alias{coordPresets}
 \title{Process coordinate adjustment presets}
 \usage{
-coordPresets(preset = "default", x = 0, y = 0,
-  adjPreset = "default", adjX = 0.5, adjY = 0.5, adjOffsetX = 0,
-  adjOffsetY = 0, verbose = FALSE, ...)
+coordPresets(
+  preset = "default",
+  x = 0,
+  y = 0,
+  adjPreset = "default",
+  adjX = 0.5,
+  adjY = 0.5,
+  adjOffsetX = 0,
+  adjOffsetY = 0,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{preset}{character vector of coordinate positions, or "default"
-to use the \code{x,y} coordinates.}
+to use the \verb{x,y} coordinates.}
 
-\item{x, y}{numeric vectors indicating the default coordinates \code{x,y}.}
+\item{x, y}{numeric vectors indicating the default coordinates \verb{x,y}.}
 
 \item{adjPreset}{character vector of text label positions, or
 "default" to use \code{preset}, or when \code{preset="default"} the
-\code{adjX,adjY} values are used.}
+\verb{adjX,adjY} values are used.}
 
 \item{adjX, adjY}{numeric vectors indicating default text adjustment
 values, as described for \code{adj} in \code{graphics::text()}.}
 
 \item{adjOffsetX, adjOffsetY}{numeric vector used to apply an offset
-value to the \code{adjX,adjY} values, where positive values would
+value to the \verb{adjX,adjY} values, where positive values would
 place a label farther away from center. Note these units are
 relative to the text label size, when used with \code{graphics::text()},
 larger labels will be adjusted more than smaller labels.}
@@ -32,7 +41,7 @@ larger labels will be adjusted more than smaller labels.}
 \item{...}{additional arguments are ignored.}
 }
 \value{
-data.frame with colnames \code{x,y,adjX,adjY,preset,adjPreset}
+data.frame with colnames \verb{x,y,adjX,adjY,preset,adjPreset}
 after adjustment, where the number of rows is determined by the
 longest input argument.
 }
@@ -47,8 +56,8 @@ Similarly, it is intended to help define corresponding text
 adjustments, using \code{adj} compatible with \code{graphics::text()},
 using preset terms like "bottomright", "center".
 
-When \code{preset} is \code{"default"}, the original \code{x,y} coordinates
-are used. Otherwise the \code{x,y} coordinates are defined using the
+When \code{preset} is \code{"default"}, the original \verb{x,y} coordinates
+are used. Otherwise the \verb{x,y} coordinates are defined using the
 plot region coordinates, where \code{"left"} uses \code{par("usr")[1]},
 and \code{"top"} uses \code{par("usr")[4]}.
 
@@ -57,15 +66,15 @@ define a reciprocal text placement. For example when \code{preset="topright"}
 the text placement will be equivalent to \code{adjPreset="bottomleft"}.
 The \code{adjPreset} terms \code{"top"}, \code{"bottom"}, \code{"right"}, \code{"left"},
 and \code{"center"} refer to the text label placement relative to
-\code{x,y} coordinate.
+\verb{x,y} coordinate.
 
 If both \code{preset="default"} and \code{adjPreset="default"} the original
-\code{adjX,adjY} values are returned.
+\verb{adjX,adjY} values are returned.
 
 The function is vectorized, and uses the longest input argument,
 so one can supply a vector of \code{preset} and it will return coordinates
 and adjustments of length equal to the input \code{preset} vector.
-The \code{preset} value takes priority over the supplied \code{x,y} coordinates.
+The \code{preset} value takes priority over the supplied \verb{x,y} coordinates.
 }
 \examples{
 # make sure to prepare the plot region first
@@ -94,15 +103,22 @@ drawLabels(x=cp2$x, y=cp2$y, adjX=cp2$adjX, adjY=cp2$adjY, txt=presetV2, boxCexA
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{decideMfrow}}, \code{\link{drawLabels}},
-  \code{\link{getPlotAspect}}, \code{\link{groupedAxis}},
-  \code{\link{imageByColors}}, \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

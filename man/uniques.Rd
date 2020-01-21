@@ -4,8 +4,7 @@
 \alias{uniques}
 \title{apply unique to each element of a list}
 \usage{
-uniques(x, keepNames = TRUE, incomparables = FALSE, useBioc = TRUE,
-  ...)
+uniques(x, keepNames = TRUE, incomparables = FALSE, useBioc = TRUE, ...)
 }
 \arguments{
 \item{x}{input list of vectors}
@@ -38,29 +37,50 @@ long lists, but which may still be less efficient than the
 C implementation provided by \code{S4Vectors}.
 }
 \seealso{
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}, \code{\link{nameVectorN}},
-  \code{\link{nameVector}}, \code{\link{padInteger}},
-  \code{\link{padString}}, \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()}
 
-Other jam list functions: \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{list2df}}, \code{\link{mergeAllXY}},
-  \code{\link{mixedSorts}}, \code{\link{rbindList}},
-  \code{\link{relist_named}}, \code{\link{rlengths}},
-  \code{\link{sclass}}, \code{\link{sdima}},
-  \code{\link{sdim}}, \code{\link{ssdima}},
-  \code{\link{ssdim}}, \code{\link{unnestList}}
+Other jam list functions: 
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{list2df}()},
+\code{\link{mergeAllXY}()},
+\code{\link{mixedSorts}()},
+\code{\link{rbindList}()},
+\code{\link{relist_named}()},
+\code{\link{rlengths}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()},
+\code{\link{unnestList}()}
 }
 \concept{jam list functions}
 \concept{jam string functions}

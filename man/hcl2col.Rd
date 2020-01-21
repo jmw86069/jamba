@@ -4,9 +4,19 @@
 \alias{hcl2col}
 \title{convert HCL to R color}
 \usage{
-hcl2col(x = NULL, H = NULL, C = NULL, L = NULL, ceiling = 255,
-  maxColorValue = 255, alpha = NULL, fixup = NULL,
-  model = c("polarLUV", "polarLAB"), verbose = FALSE, ...)
+hcl2col(
+  x = NULL,
+  H = NULL,
+  C = NULL,
+  L = NULL,
+  ceiling = 255,
+  maxColorValue = 255,
+  alpha = NULL,
+  fixup = NULL,
+  model = c("hcl", "polarLUV", "polarLAB"),
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{matrix of colors, with rownames \code{"H"}, \code{"C"}, \code{"L"}, or if not
@@ -64,17 +74,26 @@ showColors(colorV);
 
 }
 \seealso{
-Other jam color functions: \code{\link{alpha2col}},
-  \code{\link{applyCLrange}}, \code{\link{col2alpha}},
-  \code{\link{col2hcl}}, \code{\link{col2hsv}},
-  \code{\link{color2gradient}}, \code{\link{fixYellowHue}},
-  \code{\link{fixYellow}}, \code{\link{getColorRamp}},
-  \code{\link{hsv2col}}, \code{\link{isColor}},
-  \code{\link{kable_coloring}},
-  \code{\link{makeColorDarker}}, \code{\link{make_styles}},
-  \code{\link{rgb2col}}, \code{\link{setCLranges}},
-  \code{\link{setTextContrastColor}},
-  \code{\link{showColors}}, \code{\link{unalpha}},
-  \code{\link{warpRamp}}
+Other jam color functions: 
+\code{\link{alpha2col}()},
+\code{\link{applyCLrange}()},
+\code{\link{col2alpha}()},
+\code{\link{col2hcl}()},
+\code{\link{col2hsv}()},
+\code{\link{color2gradient}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getColorRamp}()},
+\code{\link{hsv2col}()},
+\code{\link{isColor}()},
+\code{\link{kable_coloring}()},
+\code{\link{makeColorDarker}()},
+\code{\link{make_styles}()},
+\code{\link{rgb2col}()},
+\code{\link{setCLranges}()},
+\code{\link{setTextContrastColor}()},
+\code{\link{showColors}()},
+\code{\link{unalpha}()},
+\code{\link{warpRamp}()}
 }
 \concept{jam color functions}

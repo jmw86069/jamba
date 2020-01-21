@@ -4,9 +4,16 @@
 \alias{normScale}
 \title{Scale a numeric vector from 0 to 1}
 \usage{
-normScale(x, from = 0, to = 1, low = min(x, na.rm = TRUE),
-  high = max(x, na.rm = TRUE), naValue = NA,
-  singletMethod = c("mean", "min", "max"), ...)
+normScale(
+  x,
+  from = 0,
+  to = 1,
+  low = min(x, na.rm = TRUE),
+  high = max(x, na.rm = TRUE),
+  naValue = NA,
+  singletMethod = c("mean", "min", "max"),
+  ...
+)
 }
 \arguments{
 \item{x}{numeric vector.}
@@ -75,10 +82,12 @@ normScale(c(10,20,40,30), from=50, to=65);
 
 }
 \seealso{
-Other jam numeric functions: \code{\link{deg2rad}},
-  \code{\link{noiseFloor}}, \code{\link{rad2deg}},
-  \code{\link{rowGroupMeans}},
-  \code{\link{rowRmMadOutliers}},
-  \code{\link{warpAroundZero}}
+Other jam numeric functions: 
+\code{\link{deg2rad}()},
+\code{\link{noiseFloor}()},
+\code{\link{rad2deg}()},
+\code{\link{rowGroupMeans}()},
+\code{\link{rowRmMadOutliers}()},
+\code{\link{warpAroundZero}()}
 }
 \concept{jam numeric functions}

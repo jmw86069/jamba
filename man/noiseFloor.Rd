@@ -4,8 +4,15 @@
 \alias{noiseFloor}
 \title{Apply noise floor and ceiling to numeric vector}
 \usage{
-noiseFloor(x, minimum = 0, newValue = minimum, adjustNA = FALSE,
-  ceiling = NULL, newCeiling = ceiling, ...)
+noiseFloor(
+  x,
+  minimum = 0,
+  newValue = minimum,
+  adjustNA = FALSE,
+  ceiling = NULL,
+  newCeiling = ceiling,
+  ...
+)
 }
 \arguments{
 \item{x}{numeric vector or matrix}
@@ -78,10 +85,12 @@ par("mfrow"=parMfrow);
 
 }
 \seealso{
-Other jam numeric functions: \code{\link{deg2rad}},
-  \code{\link{normScale}}, \code{\link{rad2deg}},
-  \code{\link{rowGroupMeans}},
-  \code{\link{rowRmMadOutliers}},
-  \code{\link{warpAroundZero}}
+Other jam numeric functions: 
+\code{\link{deg2rad}()},
+\code{\link{normScale}()},
+\code{\link{rad2deg}()},
+\code{\link{rowGroupMeans}()},
+\code{\link{rowRmMadOutliers}()},
+\code{\link{warpAroundZero}()}
 }
 \concept{jam numeric functions}

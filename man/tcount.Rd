@@ -4,8 +4,14 @@
 \alias{tcount}
 \title{frequency of entries, ordered by frequency}
 \usage{
-tcount(x, doSort = TRUE, minCount = NULL, maxCount = NULL,
-  nameSortFunc = sort, ...)
+tcount(
+  x,
+  doSort = TRUE,
+  minCount = NULL,
+  maxCount = NULL,
+  nameSortFunc = sort,
+  ...
+)
 }
 \arguments{
 \item{x}{vector input to use when calculating frequencies.}
@@ -50,18 +56,30 @@ tcount(testVector, minCount=2);
 
 }
 \seealso{
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}, \code{\link{nameVectorN}},
-  \code{\link{nameVector}}, \code{\link{padInteger}},
-  \code{\link{padString}}, \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{ucfirst}},
-  \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 }
 \concept{jam string functions}

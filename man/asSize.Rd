@@ -4,9 +4,17 @@
 \alias{asSize}
 \title{convert numeric value to size}
 \usage{
-asSize(x, humanFriendly = TRUE, digits = 3, abbreviateUnits = TRUE,
-  unitType = "bytes", unitAbbrev = gsub("^(.).*$", "\\\\1", unitType),
-  kiloSize = 1024, sep = " ", ...)
+asSize(
+  x,
+  humanFriendly = TRUE,
+  digits = 3,
+  abbreviateUnits = TRUE,
+  unitType = "bytes",
+  unitAbbrev = gsub("^(.).*$", "\\\\1", unitType),
+  kiloSize = 1024,
+  sep = " ",
+  ...
+)
 }
 \arguments{
 \item{x}{numeric vector}
@@ -65,18 +73,30 @@ asSize(c(1, 100, 1000, 10000), unitType="", kiloSize=100)
 
 }
 \seealso{
-Other jam string functions: \code{\link{breaksByVector}},
-  \code{\link{cPasteSU}}, \code{\link{cPasteS}},
-  \code{\link{cPasteUnique}}, \code{\link{cPasteU}},
-  \code{\link{cPaste}}, \code{\link{fillBlanks}},
-  \code{\link{formatInt}}, \code{\link{gsubOrdered}},
-  \code{\link{makeNames}}, \code{\link{mixedOrder}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSorts}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 }
 \concept{jam string functions}

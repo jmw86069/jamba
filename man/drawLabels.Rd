@@ -4,15 +4,35 @@
 \alias{drawLabels}
 \title{Draw text labels on a base R plot}
 \usage{
-drawLabels(txt = NULL, newCoords = NULL, x = NULL, y = NULL,
-  lx = NULL, ly = NULL, segmentLwd = 1, segmentCol = "#00000088",
-  drawSegments = TRUE, boxBorderColor = "#000000AA",
-  boxColor = "#DDAA77", boxLwd = 1, drawBox = TRUE,
-  drawLabels = TRUE, font = 1, labelCex = 0.8, boxCexAdjust = 1.9,
+drawLabels(
+  txt = NULL,
+  newCoords = NULL,
+  x = NULL,
+  y = NULL,
+  lx = NULL,
+  ly = NULL,
+  segmentLwd = 1,
+  segmentCol = "#00000088",
+  drawSegments = TRUE,
+  boxBorderColor = "#000000AA",
+  boxColor = "#DDAA77",
+  boxLwd = 1,
+  drawBox = TRUE,
+  drawLabels = TRUE,
+  font = 1,
+  labelCex = 0.8,
+  boxCexAdjust = 1.9,
   labelCol = alpha2col(alpha = 0.8, setTextContrastColor(boxColor)),
-  doPlot = TRUE, xpd = NA, preset = "default",
-  adjPreset = "default", adjX = 0.5, adjY = 0.5,
-  trimReturns = TRUE, verbose = FALSE, ...)
+  doPlot = TRUE,
+  xpd = NA,
+  preset = "default",
+  adjPreset = "default",
+  adjX = 0.5,
+  adjY = 0.5,
+  trimReturns = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{txt}{character vector of labels, length equal to \code{x} and \code{y}.}
@@ -108,19 +128,19 @@ example axis labels.
 nullPlot();
 drawLabels(x=par("usr")[1],
    y=par("usr")[4],
-   txt="Top-left\\nof plot",
+   txt="Top-left\nof plot",
    preset="topleft",
    boxColor="blue4");
 
 drawLabels(x=par("usr")[2],
    y=par("usr")[3],
-   txt="Bottom-right\\nof plot",
+   txt="Bottom-right\nof plot",
    preset="bottomright",
    boxColor="green4");
 
 drawLabels(x=mean(par("usr")[1:2]),
    y=mean(par("usr")[3:4]),
-   txt="Center\\nof plot",
+   txt="Center\nof plot",
    preset="center",
    boxColor="purple");
 
@@ -134,15 +154,22 @@ points(x=c(par("usr")[1], par("usr")[2],
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{getPlotAspect}}, \code{\link{groupedAxis}},
-  \code{\link{imageByColors}}, \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

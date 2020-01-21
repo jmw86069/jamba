@@ -4,12 +4,28 @@
 \alias{nullPlot}
 \title{Create a blank plot with optional labels}
 \usage{
-nullPlot(xaxt = "n", yaxt = "n", xlab = "", ylab = "",
-  col = "transparent", xlim = c(1, 2), ylim = c(1, 2),
-  las = par("las"), doBoxes = TRUE, doUsrBox = doBoxes,
-  fill = "#FFFF9966", doAxes = FALSE, doMargins = TRUE,
-  plotAreaTitle = "Plot Area", plotSrt = 0, plotNumPrefix = "",
-  bty = "n", showMarginsOnly = FALSE, add = FALSE, ...)
+nullPlot(
+  xaxt = "n",
+  yaxt = "n",
+  xlab = "",
+  ylab = "",
+  col = "transparent",
+  xlim = c(1, 2),
+  ylim = c(1, 2),
+  las = par("las"),
+  doBoxes = TRUE,
+  doUsrBox = doBoxes,
+  fill = "#FFFF9966",
+  doAxes = FALSE,
+  doMargins = TRUE,
+  plotAreaTitle = "Plot Area",
+  plotSrt = 0,
+  plotNumPrefix = "",
+  bty = "n",
+  showMarginsOnly = FALSE,
+  add = FALSE,
+  ...
+)
 }
 \arguments{
 \item{xaxt}{character value compatible with \code{options(xaxt)}}
@@ -91,16 +107,22 @@ nullPlot(doBoxes=FALSE)
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

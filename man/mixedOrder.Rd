@@ -4,10 +4,20 @@
 \alias{mixedOrder}
 \title{order alphanumeric values keeping numeric values in proper order}
 \usage{
-mixedOrder(x, ..., blanksFirst = TRUE, NAlast = TRUE,
-  keepNegative = FALSE, keepInfinite = FALSE, keepDecimal = FALSE,
-  verbose = FALSE, ignore.case = TRUE, useCaseTiebreak = TRUE,
-  returnDebug = FALSE, returnType = c("order", "rank"))
+mixedOrder(
+  x,
+  ...,
+  blanksFirst = TRUE,
+  NAlast = TRUE,
+  keepNegative = FALSE,
+  keepInfinite = FALSE,
+  keepDecimal = FALSE,
+  verbose = FALSE,
+  ignore.case = TRUE,
+  useCaseTiebreak = TRUE,
+  returnDebug = FALSE,
+  returnType = c("order", "rank")
+)
 }
 \arguments{
 \item{x}{input vector}
@@ -43,7 +53,7 @@ algorithms.}
 
 \item{keepDecimal}{logical whether to keep the decimal in numbers,
 sorting as a true number and not as a version number. By default
-\code{keepDecimal=FALSE``, which means "v1.200" will be ordered after "v1.30", since it considers }"1.200"\code{effectively as}1\code{and}200\code{, and }"1.30"\code{effectively as}1\code{and}30\code{. When }keepDecimal=TRUE\code{, the numeric sort orders }"v1.200"\code{before}"v1.30"`.}
+\verb{keepDecimal=FALSE``, which means "v1.200" will be ordered after "v1.30", since it considers }"1.200"\verb{effectively as}1\code{and}200\verb{, and }"1.30"\verb{effectively as}1\code{and}30\verb{. When }keepDecimal=TRUE\verb{, the numeric sort orders }"v1.200"\code{before}"v1.30"`.}
 
 \item{verbose}{logical whether to print verbose output.}
 
@@ -139,23 +149,37 @@ x[mixedOrder(x, blanksFirst=FALSE, keepInfinite=TRUE, keepNegative=TRUE)]
 \seealso{
 \code{gtools::mixedorder()}, \code{gtools::mixedsort()}
 
-Other jam sort functions: \code{\link{mixedSortDF}},
-  \code{\link{mixedSorts}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}
+Other jam sort functions: 
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()}
 
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSorts}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSorts}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 }
 \concept{jam sort functions}
 \concept{jam string functions}

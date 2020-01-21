@@ -4,11 +4,25 @@
 \alias{shadowText}
 \title{Draw text with shadow border}
 \usage{
-shadowText(x, y = NULL, labels = NULL, col = "white",
-  bg = setTextContrastColor(col), r = 0.1, offset = c(0.15, -0.15),
-  n = 8, outline = TRUE, alphaOutline = 0.9, shadow = FALSE,
-  shadowColor = "black", alphaShadow = 0.2, cex = par("cex"),
-  font = par("font"), doTest = FALSE, ...)
+shadowText(
+  x,
+  y = NULL,
+  labels = NULL,
+  col = "white",
+  bg = setTextContrastColor(col),
+  r = 0.1,
+  offset = c(0.15, -0.15),
+  n = 8,
+  outline = TRUE,
+  alphaOutline = 0.9,
+  shadow = FALSE,
+  shadowColor = "black",
+  alphaShadow = 0.2,
+  cex = par("cex"),
+  font = par("font"),
+  doTest = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x, y}{numeric coordinates, either as vectors x and y, or x as a
@@ -85,15 +99,22 @@ shadowText(doTest=TRUE, fill="red4");
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{showColors}}, \code{\link{smoothScatterJam}},
-  \code{\link{sqrtAxis}}, \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

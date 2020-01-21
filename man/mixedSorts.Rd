@@ -4,10 +4,20 @@
 \alias{mixedSorts}
 \title{sort alphanumeric values within a list format}
 \usage{
-mixedSorts(x, blanksFirst = TRUE, NAlast = TRUE,
-  keepNegative = FALSE, keepInfinite = TRUE, keepDecimal = FALSE,
-  ignore.case = TRUE, sortByName = FALSE, na.rm = FALSE,
-  verbose = FALSE, debug = FALSE, ...)
+mixedSorts(
+  x,
+  blanksFirst = TRUE,
+  NAlast = TRUE,
+  keepNegative = FALSE,
+  keepInfinite = TRUE,
+  keepDecimal = FALSE,
+  ignore.case = TRUE,
+  sortByName = FALSE,
+  na.rm = FALSE,
+  verbose = FALSE,
+  debug = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{input vector}
@@ -85,33 +95,56 @@ mixedSorts(l1, sortByName=TRUE);
 
 }
 \seealso{
-Other jam sort functions: \code{\link{mixedOrder}},
-  \code{\link{mixedSortDF}}, \code{\link{mixedSort}},
-  \code{\link{mmixedOrder}}
+Other jam sort functions: 
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()}
 
-Other jam string functions: \code{\link{asSize}},
-  \code{\link{breaksByVector}}, \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{fillBlanks}}, \code{\link{formatInt}},
-  \code{\link{gsubOrdered}}, \code{\link{makeNames}},
-  \code{\link{mixedOrder}}, \code{\link{mixedSortDF}},
-  \code{\link{mixedSort}}, \code{\link{mmixedOrder}},
-  \code{\link{nameVectorN}}, \code{\link{nameVector}},
-  \code{\link{padInteger}}, \code{\link{padString}},
-  \code{\link{pasteByRowOrdered}},
-  \code{\link{pasteByRow}}, \code{\link{tcount}},
-  \code{\link{ucfirst}}, \code{\link{uniques}}
+Other jam string functions: 
+\code{\link{asSize}()},
+\code{\link{breaksByVector}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{fillBlanks}()},
+\code{\link{formatInt}()},
+\code{\link{gsubOrdered}()},
+\code{\link{makeNames}()},
+\code{\link{mixedOrder}()},
+\code{\link{mixedSortDF}()},
+\code{\link{mixedSort}()},
+\code{\link{mmixedOrder}()},
+\code{\link{nameVectorN}()},
+\code{\link{nameVector}()},
+\code{\link{padInteger}()},
+\code{\link{padString}()},
+\code{\link{pasteByRowOrdered}()},
+\code{\link{pasteByRow}()},
+\code{\link{tcount}()},
+\code{\link{ucfirst}()},
+\code{\link{uniques}()}
 
-Other jam list functions: \code{\link{cPasteSU}},
-  \code{\link{cPasteS}}, \code{\link{cPasteUnique}},
-  \code{\link{cPasteU}}, \code{\link{cPaste}},
-  \code{\link{list2df}}, \code{\link{mergeAllXY}},
-  \code{\link{rbindList}}, \code{\link{relist_named}},
-  \code{\link{rlengths}}, \code{\link{sclass}},
-  \code{\link{sdima}}, \code{\link{sdim}},
-  \code{\link{ssdima}}, \code{\link{ssdim}},
-  \code{\link{uniques}}, \code{\link{unnestList}}
+Other jam list functions: 
+\code{\link{cPasteSU}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteUnique}()},
+\code{\link{cPasteU}()},
+\code{\link{cPaste}()},
+\code{\link{list2df}()},
+\code{\link{mergeAllXY}()},
+\code{\link{rbindList}()},
+\code{\link{relist_named}()},
+\code{\link{rlengths}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()},
+\code{\link{uniques}()},
+\code{\link{unnestList}()}
 }
 \concept{jam list functions}
 \concept{jam sort functions}

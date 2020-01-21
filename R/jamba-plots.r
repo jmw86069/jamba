@@ -1535,6 +1535,11 @@ imageByColors <- function
    if (!is.null(cellnote)) {
       if (class(cellnote) %in% c("data.frame")) {
          cellnote <- as.matrix(cellnote);
+      } else if (is.atomic(cellnote)) {
+         cellnote <- matrix(data=cellnote,
+            ncol=ncol(x),
+            nrow=nrow(x),
+            dimnames=dimnames(x));
       }
       cellnoteY <- matrix(ncol=ncol(cellnote), nrow=nrow(cellnote),
          dimnames=dimnames(cellnote), rep(1:nrow(cellnote), ncol(cellnote)));

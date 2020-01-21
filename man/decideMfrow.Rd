@@ -4,8 +4,7 @@
 \alias{decideMfrow}
 \title{Decide plot panel rows, columns for par(mfrow)}
 \usage{
-decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE,
-  ...)
+decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE, ...)
 }
 \arguments{
 \item{n}{integer number of plot panels}
@@ -56,15 +55,22 @@ for(i in seq_len(n)){
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{drawLabels}},
-  \code{\link{getPlotAspect}}, \code{\link{groupedAxis}},
-  \code{\link{imageByColors}}, \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

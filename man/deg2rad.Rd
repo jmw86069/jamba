@@ -24,10 +24,12 @@ deg2rad(rad2deg(c(pi*2, pi/2)))/pi;
 
 }
 \seealso{
-Other jam numeric functions: \code{\link{noiseFloor}},
-  \code{\link{normScale}}, \code{\link{rad2deg}},
-  \code{\link{rowGroupMeans}},
-  \code{\link{rowRmMadOutliers}},
-  \code{\link{warpAroundZero}}
+Other jam numeric functions: 
+\code{\link{noiseFloor}()},
+\code{\link{normScale}()},
+\code{\link{rad2deg}()},
+\code{\link{rowGroupMeans}()},
+\code{\link{rowRmMadOutliers}()},
+\code{\link{warpAroundZero}()}
 }
 \concept{jam numeric functions}

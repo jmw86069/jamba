@@ -4,8 +4,15 @@
 \alias{rowRmMadOutliers}
 \title{Remove outlier points per row by MAD factor threshold}
 \usage{
-rowRmMadOutliers(x, madFactor = 5, na.rm = TRUE, minDiff = 0,
-  includeAttributes = FALSE, verbose = FALSE, ...)
+rowRmMadOutliers(
+  x,
+  madFactor = 5,
+  na.rm = TRUE,
+  minDiff = 0,
+  includeAttributes = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{numeric matrix}
@@ -96,9 +103,12 @@ rowRmMadOutliers(x, madFactor=5);
 
 }
 \seealso{
-Other jam numeric functions: \code{\link{deg2rad}},
-  \code{\link{noiseFloor}}, \code{\link{normScale}},
-  \code{\link{rad2deg}}, \code{\link{rowGroupMeans}},
-  \code{\link{warpAroundZero}}
+Other jam numeric functions: 
+\code{\link{deg2rad}()},
+\code{\link{noiseFloor}()},
+\code{\link{normScale}()},
+\code{\link{rad2deg}()},
+\code{\link{rowGroupMeans}()},
+\code{\link{warpAroundZero}()}
 }
 \concept{jam numeric functions}

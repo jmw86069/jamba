@@ -4,8 +4,17 @@
 \alias{rgb2col}
 \title{Convert RGB color matrix to R color}
 \usage{
-rgb2col(red, green = NULL, blue = NULL, alpha = NULL, names = NULL,
-  maxColorValue = NULL, keepNA = TRUE, verbose = FALSE, ...)
+rgb2col(
+  red,
+  green = NULL,
+  blue = NULL,
+  alpha = NULL,
+  names = NULL,
+  maxColorValue = NULL,
+  keepNA = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{red}{numeric vector of red values; or RGB numeric matrix with
@@ -22,7 +31,7 @@ character string, this parameter is ignored.}
 
 \item{alpha}{numeric vector, or when red is a matrix or comma-delimited
 character string, this parameter is ignored. Alpha values are always
-expected in range \code{[0,1]}, even when \code{maxColorValue} is higher
+expected in range \verb{[0,1]}, even when \code{maxColorValue} is higher
 than \code{1}. When \code{alpha} is \code{FALSE}, the alpha transparency is removed.
 When \code{alpha} is \code{TRUE} the original alpha transparency is retained
 without change. If supplying \code{alpha} as a numeric vector, use \code{Inf}
@@ -61,7 +70,7 @@ means colors are in format \code{"#RRGGBB"} and not \code{"#RRGGBBAA"}.
 \item When \code{alpha} is \code{TRUE} the previous alpha transparency values are
 used without change.
 \item When \code{alpha} is a numeric vector, numeric values are always
-expected to be in range \code{[0,1]}, where \code{0} is completely transparent,
+expected to be in range \verb{[0,1]}, where \code{0} is completely transparent,
 and \code{1} is completely not transparent. Supplied \code{alpha} values will
 override those present in \code{red} when \code{red} is a matrix like that
 produced from \code{grDevices::col2rgb(..., alpha=TRUE)}.
@@ -89,17 +98,26 @@ rgb2col(col2rgb(colorV, alpha=TRUE));
 
 }
 \seealso{
-Other jam color functions: \code{\link{alpha2col}},
-  \code{\link{applyCLrange}}, \code{\link{col2alpha}},
-  \code{\link{col2hcl}}, \code{\link{col2hsv}},
-  \code{\link{color2gradient}}, \code{\link{fixYellowHue}},
-  \code{\link{fixYellow}}, \code{\link{getColorRamp}},
-  \code{\link{hcl2col}}, \code{\link{hsv2col}},
-  \code{\link{isColor}}, \code{\link{kable_coloring}},
-  \code{\link{makeColorDarker}}, \code{\link{make_styles}},
-  \code{\link{setCLranges}},
-  \code{\link{setTextContrastColor}},
-  \code{\link{showColors}}, \code{\link{unalpha}},
-  \code{\link{warpRamp}}
+Other jam color functions: 
+\code{\link{alpha2col}()},
+\code{\link{applyCLrange}()},
+\code{\link{col2alpha}()},
+\code{\link{col2hcl}()},
+\code{\link{col2hsv}()},
+\code{\link{color2gradient}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getColorRamp}()},
+\code{\link{hcl2col}()},
+\code{\link{hsv2col}()},
+\code{\link{isColor}()},
+\code{\link{kable_coloring}()},
+\code{\link{makeColorDarker}()},
+\code{\link{make_styles}()},
+\code{\link{setCLranges}()},
+\code{\link{setTextContrastColor}()},
+\code{\link{showColors}()},
+\code{\link{unalpha}()},
+\code{\link{warpRamp}()}
 }
 \concept{jam color functions}

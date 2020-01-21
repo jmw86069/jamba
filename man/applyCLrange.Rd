@@ -4,8 +4,16 @@
 \alias{applyCLrange}
 \title{Apply CL color range}
 \usage{
-applyCLrange(x, Crange = NULL, Lrange = NULL, Cgrey = 5,
-  fixYellow = TRUE, CLmethod = c("scale", "floor", "expand"), ...)
+applyCLrange(
+  x,
+  Crange = NULL,
+  Lrange = NULL,
+  Cgrey = 5,
+  fixYellow = TRUE,
+  CLmethod = c("scale", "floor", "expand"),
+  fixup = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{vector of R colors}
@@ -35,6 +43,12 @@ fixed cutoff, any values outside the range are set to equal the
 range boundary itself. "expand" will rescale all values so the
 range is equal to \code{Crange}.}
 
+\item{fixup}{logical, argument passed to \code{hcl2col()} and subsequently
+to \code{colorspace::hex()} when converting colors outside the color
+gamut (visible range.) When \code{fixup} is \code{NULL}, the \code{hcl2col()}
+method applies its own aggressive technique to restrict the color
+range.}
+
 \item{...}{additional argyments are passed to \code{fixYellowHue()} when
 \code{fixYellow} is \code{TRUE}.}
 }
@@ -51,7 +65,7 @@ values so they contrast with a background color, particularly when the
 background color may be bright or dark in different scenarios.
 
 The C and L values are defined by \code{colorspace::polarLUV()}, where C is
-typically restricted to \code{0..100} and L is typically \code{0..100}. For some
+typically restricted to \verb{0..100} and L is typically \verb{0..100}. For some
 colors, values above 100 are allowed.
 
 Values are restricted to the given numeric range using one of three
@@ -88,36 +102,61 @@ applyCLrange(c("red","blue","yellow"), Lrange=c(0,60));
 
 }
 \seealso{
-Other jam practical functions: \code{\link{breakDensity}},
-  \code{\link{checkLightMode}},
-  \code{\link{colNum2excelName}}, \code{\link{exp2signed}},
-  \code{\link{fileInfo}}, \code{\link{fixYellowHue}},
-  \code{\link{fixYellow}}, \code{\link{getAxisLabel}},
-  \code{\link{handleArgsText}}, \code{\link{isFALSEV}},
-  \code{\link{isTRUEV}}, \code{\link{jamba}},
-  \code{\link{jargs}}, \code{\link{kable_coloring}},
-  \code{\link{log2signed}}, \code{\link{make_styles}},
-  \code{\link{mergeAllXY}}, \code{\link{minorLogTicks}},
-  \code{\link{newestFile}}, \code{\link{printDebugI}},
-  \code{\link{printDebug}}, \code{\link{renameColumn}},
-  \code{\link{rmInfinite}}, \code{\link{rmNA}},
-  \code{\link{rmNULL}}, \code{\link{sclass}},
-  \code{\link{sdima}}, \code{\link{sdim}},
-  \code{\link{setCLranges}}, \code{\link{setPrompt}},
-  \code{\link{ssdima}}, \code{\link{ssdim}}
+Other jam practical functions: 
+\code{\link{breakDensity}()},
+\code{\link{checkLightMode}()},
+\code{\link{colNum2excelName}()},
+\code{\link{exp2signed}()},
+\code{\link{fileInfo}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getAxisLabel}()},
+\code{\link{handleArgsText}()},
+\code{\link{isFALSEV}()},
+\code{\link{isTRUEV}()},
+\code{\link{jamba}},
+\code{\link{jargs}()},
+\code{\link{kable_coloring}()},
+\code{\link{log2signed}()},
+\code{\link{make_styles}()},
+\code{\link{mergeAllXY}()},
+\code{\link{minorLogTicks}()},
+\code{\link{newestFile}()},
+\code{\link{printDebugI}()},
+\code{\link{printDebug}()},
+\code{\link{renameColumn}()},
+\code{\link{rmInfinite}()},
+\code{\link{rmNA}()},
+\code{\link{rmNULL}()},
+\code{\link{sclass}()},
+\code{\link{sdima}()},
+\code{\link{sdim}()},
+\code{\link{setCLranges}()},
+\code{\link{setPrompt}()},
+\code{\link{ssdima}()},
+\code{\link{ssdim}()}
 
-Other jam color functions: \code{\link{alpha2col}},
-  \code{\link{col2alpha}}, \code{\link{col2hcl}},
-  \code{\link{col2hsv}}, \code{\link{color2gradient}},
-  \code{\link{fixYellowHue}}, \code{\link{fixYellow}},
-  \code{\link{getColorRamp}}, \code{\link{hcl2col}},
-  \code{\link{hsv2col}}, \code{\link{isColor}},
-  \code{\link{kable_coloring}},
-  \code{\link{makeColorDarker}}, \code{\link{make_styles}},
-  \code{\link{rgb2col}}, \code{\link{setCLranges}},
-  \code{\link{setTextContrastColor}},
-  \code{\link{showColors}}, \code{\link{unalpha}},
-  \code{\link{warpRamp}}
+Other jam color functions: 
+\code{\link{alpha2col}()},
+\code{\link{col2alpha}()},
+\code{\link{col2hcl}()},
+\code{\link{col2hsv}()},
+\code{\link{color2gradient}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getColorRamp}()},
+\code{\link{hcl2col}()},
+\code{\link{hsv2col}()},
+\code{\link{isColor}()},
+\code{\link{kable_coloring}()},
+\code{\link{makeColorDarker}()},
+\code{\link{make_styles}()},
+\code{\link{rgb2col}()},
+\code{\link{setCLranges}()},
+\code{\link{setTextContrastColor}()},
+\code{\link{showColors}()},
+\code{\link{unalpha}()},
+\code{\link{warpRamp}()}
 }
 \concept{jam color functions}
 \concept{jam practical functions}

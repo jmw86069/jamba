@@ -4,14 +4,33 @@
 \alias{imageDefault}
 \title{Display a color raster image}
 \usage{
-imageDefault(x = seq_len(nrow(z) + 1) - 0.5, y = seq_len(ncol(z) + 1) -
-  0.5, z, zlim = range(z[is.finite(z)]), xlim = range(x),
-  ylim = range(y), col = heat.colors(12), add = FALSE, xaxs = "i",
-  yaxs = "i", xaxt = "n", yaxt = "n", xlab, ylab, breaks,
-  flip = c("none", "x", "y", "xy"), oldstyle = TRUE,
-  useRaster = NULL, fixRasterRatio = TRUE, maxRatioFix = 100,
-  minRasterMultiple = NULL, rasterTarget = 200,
-  interpolate = getOption("interpolate", TRUE), verbose = FALSE, ...)
+imageDefault(
+  x = seq_len(nrow(z) + 1) - 0.5,
+  y = seq_len(ncol(z) + 1) - 0.5,
+  z,
+  zlim = range(z[is.finite(z)]),
+  xlim = range(x),
+  ylim = range(y),
+  col = heat.colors(12),
+  add = FALSE,
+  xaxs = "i",
+  yaxs = "i",
+  xaxt = "n",
+  yaxt = "n",
+  xlab,
+  ylab,
+  breaks,
+  flip = c("none", "x", "y", "xy"),
+  oldstyle = TRUE,
+  useRaster = NULL,
+  fixRasterRatio = TRUE,
+  maxRatioFix = 100,
+  minRasterMultiple = NULL,
+  rasterTarget = 200,
+  interpolate = getOption("interpolate", TRUE),
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{location of grid lines at which the intervals in z are measured.}
@@ -114,15 +133,22 @@ plotSmoothScatter(doTest=TRUE)
 \seealso{
 \code{\link[graphics]{image}}
 
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

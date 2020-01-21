@@ -4,8 +4,15 @@
 \alias{adjustAxisLabelMargins}
 \title{Adjust axis label margins}
 \usage{
-adjustAxisLabelMargins(x, margin = 1, maxFig = 1/2, cex = par("cex"),
-  cex.axis = par("cex.axis"), prefix = "-- -- ", ...)
+adjustAxisLabelMargins(
+  x,
+  margin = 1,
+  maxFig = 1/2,
+  cex = par("cex"),
+  cex.axis = par("cex.axis"),
+  prefix = "-- -- ",
+  ...
+)
 }
 \arguments{
 \item{x}{vector of axis labels}
@@ -55,15 +62,22 @@ axis(4, at=1:20, labels=ylabs, las=2);
 
 }
 \seealso{
-Other jam plot functions: \code{\link{coordPresets}},
-  \code{\link{decideMfrow}}, \code{\link{drawLabels}},
-  \code{\link{getPlotAspect}}, \code{\link{groupedAxis}},
-  \code{\link{imageByColors}}, \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{showColors}},
-  \code{\link{smoothScatterJam}}, \code{\link{sqrtAxis}},
-  \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{showColors}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 }
 \concept{jam plot functions}

@@ -26,9 +26,13 @@ vigrep("d", V);
 
 }
 \seealso{
-Other jam grep functions: \code{\link{grepls}},
-  \code{\link{igrepHas}}, \code{\link{igrep}},
-  \code{\link{provigrep}}, \code{\link{unigrep}},
-  \code{\link{unvigrep}}, \code{\link{vgrep}}
+Other jam grep functions: 
+\code{\link{grepls}()},
+\code{\link{igrepHas}()},
+\code{\link{igrep}()},
+\code{\link{provigrep}()},
+\code{\link{unigrep}()},
+\code{\link{unvigrep}()},
+\code{\link{vgrep}()}
 }
 \concept{jam grep functions}

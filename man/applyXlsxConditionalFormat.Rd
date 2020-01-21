@@ -4,21 +4,44 @@
 \alias{applyXlsxConditionalFormat}
 \title{Xlsx Conditional formatting}
 \usage{
-applyXlsxConditionalFormat(xlsxFile, sheet = 1, fcColumns = NULL,
-  fcGrep = NULL, fcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
-  fcRule = c(-6, 0, 6), fcType = "colourScale", lfcColumns = NULL,
-  lfcGrep = NULL, lfcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
-  lfcRule = c(-3, 0, 3), lfcType = "colourScale", hitColumns = NULL,
-  hitGrep = NULL, hitStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
-  hitRule = c(-2, 0, 2), hitType = "colourScale", intColumns = NULL,
-  intGrep = NULL, intStyle = c("#EEECE1", "#DF8A67", "#AA6346"),
-  intRule = c(0, 100, 10000), intType = "colourScale",
-  numColumns = NULL, numGrep = NULL, numStyle = c("#EEECE1",
-  "#678ADF", "#5673AA"), numRule = c(1, 10, 20),
-  numType = "colourScale", pvalueColumns = NULL, pvalueGrep = NULL,
+applyXlsxConditionalFormat(
+  xlsxFile,
+  sheet = 1,
+  fcColumns = NULL,
+  fcGrep = NULL,
+  fcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
+  fcRule = c(-6, 0, 6),
+  fcType = "colourScale",
+  lfcColumns = NULL,
+  lfcGrep = NULL,
+  lfcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
+  lfcRule = c(-3, 0, 3),
+  lfcType = "colourScale",
+  hitColumns = NULL,
+  hitGrep = NULL,
+  hitStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
+  hitRule = c(-2, 0, 2),
+  hitType = "colourScale",
+  intColumns = NULL,
+  intGrep = NULL,
+  intStyle = c("#EEECE1", "#DF8A67", "#AA6346"),
+  intRule = c(0, 100, 10000),
+  intType = "colourScale",
+  numColumns = NULL,
+  numGrep = NULL,
+  numStyle = c("#EEECE1", "#678ADF", "#5673AA"),
+  numRule = c(1, 10, 20),
+  numType = "colourScale",
+  pvalueColumns = NULL,
+  pvalueGrep = NULL,
   pvalueStyle = c("#AA6346", "#DF8A67", "#EEECE1"),
-  pvalueRule = c(0.0001, 0.01, 1), pvalueType = "colourScale",
-  verbose = FALSE, startRow = 2, overwrite = TRUE, ...)
+  pvalueRule = c(1e-04, 0.01, 1),
+  pvalueType = "colourScale",
+  verbose = FALSE,
+  startRow = 2,
+  overwrite = TRUE,
+  ...
+)
 }
 \arguments{
 \item{xlsxFile}{character filename to a file with ".xlsx" extension.}
@@ -126,7 +149,8 @@ cell, they will be visible in order inside the Microsoft Excel
 application.
 }
 \seealso{
-Other jam export functions: \code{\link{applyXlsxCategoricalFormat}},
-  \code{\link{writeOpenxlsx}}
+Other jam export functions: 
+\code{\link{applyXlsxCategoricalFormat}()},
+\code{\link{writeOpenxlsx}()}
 }
 \concept{jam export functions}

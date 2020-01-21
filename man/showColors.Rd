@@ -4,8 +4,14 @@
 \alias{showColors}
 \title{Show colors from a vector or list}
 \usage{
-showColors(x, labelCells = NULL, transpose = FALSE,
-  srtCellnote = NULL, adjustMargins = TRUE, ...)
+showColors(
+  x,
+  labelCells = NULL,
+  transpose = FALSE,
+  srtCellnote = NULL,
+  adjustMargins = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{vector of colors, or list of color vectors.}
@@ -63,28 +69,45 @@ if (suppressPackageStartupMessages(require(viridis))) {
 
 }
 \seealso{
-Other jam plot functions: \code{\link{adjustAxisLabelMargins}},
-  \code{\link{coordPresets}}, \code{\link{decideMfrow}},
-  \code{\link{drawLabels}}, \code{\link{getPlotAspect}},
-  \code{\link{groupedAxis}}, \code{\link{imageByColors}},
-  \code{\link{imageDefault}},
-  \code{\link{minorLogTicksAxis}}, \code{\link{nullPlot}},
-  \code{\link{plotPolygonDensity}},
-  \code{\link{plotSmoothScatter}},
-  \code{\link{shadowText}}, \code{\link{smoothScatterJam}},
-  \code{\link{sqrtAxis}}, \code{\link{usrBox}}
+Other jam plot functions: 
+\code{\link{adjustAxisLabelMargins}()},
+\code{\link{coordPresets}()},
+\code{\link{decideMfrow}()},
+\code{\link{drawLabels}()},
+\code{\link{getPlotAspect}()},
+\code{\link{groupedAxis}()},
+\code{\link{imageByColors}()},
+\code{\link{imageDefault}()},
+\code{\link{minorLogTicksAxis}()},
+\code{\link{nullPlot}()},
+\code{\link{plotPolygonDensity}()},
+\code{\link{plotSmoothScatter}()},
+\code{\link{shadowText}()},
+\code{\link{smoothScatterJam}()},
+\code{\link{sqrtAxis}()},
+\code{\link{usrBox}()}
 
-Other jam color functions: \code{\link{alpha2col}},
-  \code{\link{applyCLrange}}, \code{\link{col2alpha}},
-  \code{\link{col2hcl}}, \code{\link{col2hsv}},
-  \code{\link{color2gradient}}, \code{\link{fixYellowHue}},
-  \code{\link{fixYellow}}, \code{\link{getColorRamp}},
-  \code{\link{hcl2col}}, \code{\link{hsv2col}},
-  \code{\link{isColor}}, \code{\link{kable_coloring}},
-  \code{\link{makeColorDarker}}, \code{\link{make_styles}},
-  \code{\link{rgb2col}}, \code{\link{setCLranges}},
-  \code{\link{setTextContrastColor}},
-  \code{\link{unalpha}}, \code{\link{warpRamp}}
+Other jam color functions: 
+\code{\link{alpha2col}()},
+\code{\link{applyCLrange}()},
+\code{\link{col2alpha}()},
+\code{\link{col2hcl}()},
+\code{\link{col2hsv}()},
+\code{\link{color2gradient}()},
+\code{\link{fixYellowHue}()},
+\code{\link{fixYellow}()},
+\code{\link{getColorRamp}()},
+\code{\link{hcl2col}()},
+\code{\link{hsv2col}()},
+\code{\link{isColor}()},
+\code{\link{kable_coloring}()},
+\code{\link{makeColorDarker}()},
+\code{\link{make_styles}()},
+\code{\link{rgb2col}()},
+\code{\link{setCLranges}()},
+\code{\link{setTextContrastColor}()},
+\code{\link{unalpha}()},
+\code{\link{warpRamp}()}
 }
 \concept{jam color functions}
 \concept{jam plot functions}

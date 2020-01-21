@@ -591,7 +591,7 @@ rbindList <- function
 #'    be versioned, even when renameOnes=TRUE.
 #' @param keepNA logical whether to retain NA values using the string "NA".
 #'    If keepNA is FALSE, then NA values will remain NA, thus causing some
-#'    names to become <NA>, which can cause problems with some downstream
+#'    names to become `<NA>`, which can cause problems with some downstream
 #'    functions which assume all names are either NULL or non-NA.
 #'
 #' @examples

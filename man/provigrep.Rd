@@ -4,9 +4,17 @@
 \alias{provigrep}
 \title{provigrep: progressive case-insensitive value-grep}
 \usage{
-provigrep(patterns, x, maxValues = NULL, sortFunc = c, rev = FALSE,
-  returnType = c("vector", "list"), ignore.case = TRUE, value = TRUE,
-  ...)
+provigrep(
+  patterns,
+  x,
+  maxValues = NULL,
+  sortFunc = c,
+  rev = FALSE,
+  returnType = c("vector", "list"),
+  ignore.case = TRUE,
+  value = TRUE,
+  ...
+)
 }
 \arguments{
 \item{patterns}{vector of grep patterns}
@@ -95,9 +103,13 @@ provigrep(c(letters[1:3], "."), x, returnType="list", rev=TRUE)
 
 }
 \seealso{
-Other jam grep functions: \code{\link{grepls}},
-  \code{\link{igrepHas}}, \code{\link{igrep}},
-  \code{\link{unigrep}}, \code{\link{unvigrep}},
-  \code{\link{vgrep}}, \code{\link{vigrep}}
+Other jam grep functions: 
+\code{\link{grepls}()},
+\code{\link{igrepHas}()},
+\code{\link{igrep}()},
+\code{\link{unigrep}()},
+\code{\link{unvigrep}()},
+\code{\link{vgrep}()},
+\code{\link{vigrep}()}
 }
 \concept{jam grep functions}
