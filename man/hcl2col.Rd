@@ -13,7 +13,7 @@ hcl2col(
   maxColorValue = 255,
   alpha = NULL,
   fixup = NULL,
-  model = c("hcl", "polarLUV", "polarLAB"),
+  model = c("polarLUV", "hcl", "polarLAB"),
   verbose = FALSE,
   ...
 )

@@ -21,7 +21,8 @@ Suggests: knitr,
     crayon,
     matrixStats,
     S4Vectors,
-    openxlsx
+    openxlsx,
+    farver
 License: GPL-2
 Encoding: UTF-8
 LazyData: true

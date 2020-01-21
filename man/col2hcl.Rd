@@ -4,7 +4,7 @@
 \alias{col2hcl}
 \title{convert R color to HCL color matrix}
 \usage{
-col2hcl(x, maxColorValue = 255, model = c("hcl", "polarLUV", "polarLAB"), ...)
+col2hcl(x, maxColorValue = 255, model = c("polarLUV", "hcl", "polarLAB"), ...)
 }
 \arguments{
 \item{x}{R compatible color, either a color name, or hex value, or

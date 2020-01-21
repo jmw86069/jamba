@@ -23,6 +23,12 @@ matrix input and provide vector output.
 `hcl2col()` which in turn passes it to `colorspace::hex()`
 when converting colors outside the color gamut. These functions will
 soon be replaced with calls to `farver`.
+* `hcl2col()` and `col2hcl()` now have argument option `model="hcl"` 
+that uses farver, and its color model `"hcl"`, which is equivalent
+to using `colorspace::hex(...,fixup=TRUE)`, except faster,
+and with better upside for other color manipulations. For now,
+the color model will not use `"hcl"` until I can work out better
+default values in `colorjam::rainbowJam()`.
 
 # jamba version 0.0.46.900
 

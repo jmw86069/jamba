@@ -166,7 +166,7 @@ setTextContrastColor <- function
 col2hcl <- function
 (x,
  maxColorValue=255,
- model=c("hcl","polarLUV", "polarLAB"),
+ model=c("polarLUV", "hcl", "polarLAB"),
  ...)
 {
    ## Purpose is to convert R color to HCL
@@ -174,12 +174,12 @@ col2hcl <- function
    if (!suppressPackageStartupMessages(require(colorspace))) {
       stop("The colorspace package is required.");
    }
-   if (!suppressPackageStartupMessages(require(farver))) {
-      stop("The farver package is required.");
-   }
    model <- match.arg(model);
    if ("jam.model" %in% names(options())) {
       model <- getOption("jam.model");
+   }
+   if ("hcl" %in% model && !suppressPackageStartupMessages(require(farver))) {
+      stop("The farver package is required for model 'hcl'.");
    }
 
    if ("hcl" %in% model) {
@@ -269,7 +269,7 @@ hcl2col <- function
  maxColorValue=255,
  alpha=NULL,
  fixup=NULL,
- model=c("hcl","polarLUV","polarLAB"),
+ model=c("polarLUV","hcl","polarLAB"),
  verbose=FALSE,
  ...)
 {
@@ -278,9 +278,6 @@ hcl2col <- function
    ## used by the built-in R method hcl()
    if (!suppressPackageStartupMessages(require(colorspace))) {
       stop("hcl2col() requires the colorspace package.");
-   }
-   if (!suppressPackageStartupMessages(require(farver))) {
-      stop("hcl2col() requires the farver package.");
    }
    if (!suppressPackageStartupMessages(require(matrixStats))) {
       useMatrixStats <- TRUE;
@@ -291,10 +288,8 @@ hcl2col <- function
    if ("jam.model" %in% names(options())) {
       model <- getOption("jam.model");
    }
-   if (verbose) {
-      printDebug("hcl2col(): ",
-         "useMatrixStats:",
-         useMatrixStats);
+   if ("hcl" %in% model && !suppressPackageStartupMessages(require(farver))) {
+      stop("The farver package is required for model 'hcl'.");
    }
    if (igrepHas("polarLUV|polarLAB", class(x))) {
       xnames <- colnames(x);
