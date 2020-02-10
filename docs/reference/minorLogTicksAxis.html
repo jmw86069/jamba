@@ -8,21 +8,25 @@
 
 <title>Display major and minor tick marks for log-scale axis — minorLogTicksAxis • jamba</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,11 +34,12 @@
 
 
 
-<meta property="og:title" content="Display major and minor tick marks for log-scale axis — minorLogTicksAxis" />
 
+<meta property="og:title" content="Display major and minor tick marks for log-scale axis — minorLogTicksAxis" />
 <meta property="og:description" content="Display major and minor tick marks for log-scale axis,
 with optional offset for proper labeling of log2(1+x)." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -46,6 +51,7 @@ with optional offset for proper labeling of log2(1+x)." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -64,7 +70,7 @@ with optional offset for proper labeling of log2(1+x)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.42.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.48.900</span>
       </span>
     </div>
 
@@ -72,7 +78,7 @@ with optional offset for proper labeling of log2(1+x)." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,11 +101,10 @@ with optional offset for proper labeling of log2(1+x)." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jmw86069/jamba">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -110,6 +115,7 @@ with optional offset for proper labeling of log2(1+x)." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -121,20 +127,38 @@ with optional offset for proper labeling of log2(1+x)." />
     </div>
 
     <div class="ref-description">
-    
     <p>Display major and minor tick marks for log-scale axis,
-with optional offset for proper labeling of <code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2(1+x)</a></code>.</p>
-    
+with optional offset for proper labeling of <code><a href='https://rdrr.io/r/base/Log.html'>log2(1+x)</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>minorLogTicksAxis</span>(<span class='kw'>side</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lims</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>logBase</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>displayBase</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>symmetricZero</span> <span class='kw'>=</span> (<span class='no'>offset</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>),
-  <span class='kw'>majorCex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>minorCex</span> <span class='kw'>=</span> <span class='fl'>0.65</span>, <span class='kw'>doMajor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>doLabels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>doMinorLabels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>asValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>padj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>doFormat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>big.mark</span> <span class='kw'>=</span> <span class='st'>","</span>, <span class='kw'>scipen</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>minorWhich</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,
-  <span class='fl'>5</span>), <span class='kw'>logStep</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>las</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>col.ticks</span> <span class='kw'>=</span> <span class='no'>col</span>, <span class='kw'>minorLogTicksData</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>minorLogTicksAxis</span>(
+  <span class='kw'>side</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>lims</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>logBase</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>displayBase</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>symmetricZero</span> <span class='kw'>=</span> (<span class='no'>offset</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>),
+  <span class='kw'>majorCex</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>minorCex</span> <span class='kw'>=</span> <span class='fl'>0.65</span>,
+  <span class='kw'>doMajor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>doLabels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>doMinorLabels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>asValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>padj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>doFormat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>big.mark</span> <span class='kw'>=</span> <span class='st'>","</span>,
+  <span class='kw'>scipen</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>minorWhich</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>5</span>),
+  <span class='kw'>logStep</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>las</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>col.ticks</span> <span class='kw'>=</span> <span class='no'>col</span>,
+  <span class='kw'>minorLogTicksData</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -146,13 +170,13 @@ with optional offset for proper labeling of <code><a href='https://www.rdocument
     <tr>
       <th>lims</th>
       <td><p>NULL or numeric range for which the axis tick marks
-will be determined. If NULL then the corresponding <code><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par("usr")</a></code>
+will be determined. If NULL then the corresponding <code><a href='https://rdrr.io/r/graphics/par.html'>par("usr")</a></code>
 will be used.</p></td>
     </tr>
     <tr>
       <th>logBase</th>
       <td><p>numeric value indicating the log base units, which
-will be used similar to how <code>base</code> is used in <code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log(x, base)</a></code>.</p></td>
+will be used similar to how <code>base</code> is used in <code><a href='https://rdrr.io/r/base/Log.html'>log(x, base)</a></code>.</p></td>
     </tr>
     <tr>
       <th>displayBase</th>
@@ -165,7 +189,7 @@ show log transformed axis units in base 10 units. See examples.</p></td>
       <th>offset</th>
       <td><p>numeric offset used in transforming the
 numeric data displayed on this axis. For example, a common
-technique is to transform data using <code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2(1+x)</a></code> which adds
+technique is to transform data using <code><a href='https://rdrr.io/r/base/Log.html'>log2(1+x)</a></code> which adds
 <code>1</code> to values prior to the log2 transformation. In this case,
 <code>offset=1</code>, which ensures the axis labels exactly
 match the initial numeric value prior to the log2 transform.</p></td>
@@ -183,7 +207,7 @@ labeled <code>-4</code> to indicate a negative four fold change. If
       <th>majorCex, minorCex</th>
       <td><p>the base text size factors, relative
 to cex=1 for default text size. These factors are applied in
-addition to existing <code><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par("cex")</a></code> values, preserving any
+addition to existing <code><a href='https://rdrr.io/r/graphics/par.html'>par("cex")</a></code> values, preserving any
 global text size defined there.</p></td>
     </tr>
     <tr>
@@ -197,12 +221,12 @@ up on the right side of each section.</p></td>
     </tr>
     <tr>
       <th>doFormat</th>
-      <td><p>logical indicating whether to apply <code><a href='https://www.rdocumentation.org/packages/base/topics/format'>base::format()</a></code> to
+      <td><p>logical indicating whether to apply <code><a href='https://rdrr.io/r/base/format.html'>base::format()</a></code> to
 format numeric labels.</p></td>
     </tr>
     <tr>
       <th>big.mark, scipen</th>
-      <td><p>parameters passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/format'>base::format()</a></code> when
+      <td><p>parameters passed to <code><a href='https://rdrr.io/r/base/format.html'>base::format()</a></code> when
 <code>doFormat=TRUE</code>.</p></td>
     </tr>
     <tr>
@@ -210,9 +234,9 @@ format numeric labels.</p></td>
       <td><p>integer vector indicating which of the minor tick
 marks should be labeled. Labels are generally numbered from <code>2</code>
 to <code>displayBase-1</code>. So by default, log 10 units would add
-minor tick marks and labels to the <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(2,5)</a></code> position. For log2
+minor tick marks and labels to the <code><a href='https://rdrr.io/r/base/c.html'>c(2,5)</a></code> position. For log2
 units only, the second label is defined at 1.5, which shows
-minor labels at <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(3, 6, 12)</a></code>, which are <code>1.5 * c(2, 4, 8)</code>.</p></td>
+minor labels at <code><a href='https://rdrr.io/r/base/c.html'>c(3, 6, 12)</a></code>, which are <code>1.5 * c(2, 4, 8)</code>.</p></td>
     </tr>
     <tr>
       <th>cex, col, col.ticks, las</th>
@@ -231,13 +255,12 @@ the content for custom control.</p></td>
       <td><p>logical indicating whether to print verbose output.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with vectors of majorLabels, majorTicks, minorLabels,
 minorTicks, and allLabelsDF which is a <code>data.frame</code> containing
 all axis tick positions, with corresponding labels.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function displays log units on the axis of an
@@ -246,17 +269,18 @@ calculates appropriate tick and label positions.</p>
 <p>Note: This function assumes the axis values have already been
 log-transformed. Make sure to adjust the <code>offset</code> to reflect
 the method of log-transformation, for example:</p><ul>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2(1+x)</a></code> would require <code>logBase=2</code> and <code>offset=1</code> in order
+<li><p><code><a href='https://rdrr.io/r/base/Log.html'>log2(1+x)</a></code> would require <code>logBase=2</code> and <code>offset=1</code> in order
 to represent values properly at or near zero.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log(0.5+x)</a></code> would require <code>logBase=exp(1)</code> and <code>offset=0.5</code>.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log10(x)</a></code> would require <code>logBase=10</code> and <code>offset=0</code>.</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/Log.html'>log(0.5+x)</a></code> would require <code>logBase=exp(1)</code> and <code>offset=0.5</code>.</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/Log.html'>log10(x)</a></code> would require <code>logBase=10</code> and <code>offset=0</code>.</p></li>
 </ul>
-    <p>The defaults <code>logBase=2</code> and <code>displayBase=10</code> assume data
+
+<p>The defaults <code>logBase=2</code> and <code>displayBase=10</code> assume data
 has been log2-transformed, and displays tick marks using the
 common base of 10. To display tick marks at two-fold intervals,
 use <code>displayBase=2</code>.</p>
 <p>This function was motivated in order to label log-transformed
-data properly in some special cases, like using <code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2(1+x)</a></code>
+data properly in some special cases, like using <code><a href='https://rdrr.io/r/base/Log.html'>log2(1+x)</a></code>
 where the resulting values are shifted "off by one" using
 standard log-scaled axis tick marks and labels.</p>
 <p>For log fold changes, set <code>symmetricZero=TRUE</code>, which will
@@ -267,46 +291,51 @@ negative values. For example, this option would label a
 <code>symmetricZero=TRUE</code> is also defined, since a negative value in
 that scenario has little meaning. This behavior can be turned
 off by setting <code>symmetricZero=FALSE</code>.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam plot functions: <code><a href='adjustAxisLabelMargins.html'>adjustAxisLabelMargins</a></code>,
-  <code><a href='coordPresets.html'>coordPresets</a></code>, <code><a href='decideMfrow.html'>decideMfrow</a></code>,
-  <code><a href='drawLabels.html'>drawLabels</a></code>, <code><a href='getPlotAspect.html'>getPlotAspect</a></code>,
-  <code><a href='groupedAxis.html'>groupedAxis</a></code>, <code><a href='imageByColors.html'>imageByColors</a></code>,
-  <code><a href='imageDefault.html'>imageDefault</a></code>, <code><a href='nullPlot.html'>nullPlot</a></code>,
-  <code><a href='plotPolygonDensity.html'>plotPolygonDensity</a></code>,
-  <code><a href='plotSmoothScatter.html'>plotSmoothScatter</a></code>,
-  <code><a href='shadowText.html'>shadowText</a></code>, <code><a href='showColors.html'>showColors</a></code>,
-  <code><a href='smoothScatterJam.html'>smoothScatterJam</a></code>, <code><a href='sqrtAxis.html'>sqrtAxis</a></code>,
-  <code><a href='usrBox.html'>usrBox</a></code></p></div>
-    
+    <div class='dont-index'><p>Other jam plot functions: 
+<code><a href='adjustAxisLabelMargins.html'>adjustAxisLabelMargins</a>()</code>,
+<code><a href='coordPresets.html'>coordPresets</a>()</code>,
+<code><a href='decideMfrow.html'>decideMfrow</a>()</code>,
+<code><a href='drawLabels.html'>drawLabels</a>()</code>,
+<code><a href='getPlotAspect.html'>getPlotAspect</a>()</code>,
+<code><a href='groupedAxis.html'>groupedAxis</a>()</code>,
+<code><a href='imageByColors.html'>imageByColors</a>()</code>,
+<code><a href='imageDefault.html'>imageDefault</a>()</code>,
+<code><a href='nullPlot.html'>nullPlot</a>()</code>,
+<code><a href='plotPolygonDensity.html'>plotPolygonDensity</a>()</code>,
+<code><a href='plotSmoothScatter.html'>plotSmoothScatter</a>()</code>,
+<code><a href='shadowText.html'>shadowText</a>()</code>,
+<code><a href='showColors.html'>showColors</a>()</code>,
+<code><a href='smoothScatterJam.html'>smoothScatterJam</a>()</code>,
+<code><a href='sqrtAxis.html'>sqrtAxis</a>()</code>,
+<code><a href='usrBox.html'>usrBox</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='img'><img src='minorLogTicksAxis-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='img'><img src='minorLogTicksAxis-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>, <span class='kw'>log</span><span class='kw'>=</span><span class='st'>"x"</span>,
    <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"plotPolygonDensity() uses minorLogTicksAxis()"</span>,
    <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"x (log-scaled)"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘xlab’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: In density.default(x, width = width, weight = rep(weightFactor, </span>
 #&gt; <span class='warning'>    length.out = length(x)), ...) :</span>
-#&gt; <span class='warning'> extra argument ‘xlab’ will be disregarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='img'><img src='minorLogTicksAxis-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2</a></span>(<span class='fl'>1</span>+<span class='fl'>0</span>:<span class='fl'>100</span>), <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>,
+#&gt; <span class='warning'> extra argument ‘xlab’ will be disregarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='img'><img src='minorLogTicksAxis-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log2</a></span>(<span class='fl'>1</span>+<span class='fl'>0</span>:<span class='fl'>100</span>), <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>,
    <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"manually called minorLogTicksAxis(logBase=2)"</span>,
    <span class='kw'>xaxt</span><span class='kw'>=</span><span class='st'>"n"</span>,
    <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"x (log-scaled)"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘xlab’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: In density.default(x, width = width, weight = rep(weightFactor, </span>
 #&gt; <span class='warning'>    length.out = length(x)), ...) :</span>
-#&gt; <span class='warning'> extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='input'><span class='fu'>minorLogTicksAxis</span>(<span class='fl'>1</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>logBase</span><span class='kw'>=</span><span class='fl'>2</span>);</div><div class='img'><img src='minorLogTicksAxis-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log10</a></span>(<span class='fl'>1</span>+<span class='fl'>0</span>:<span class='fl'>100</span>), <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>,
+#&gt; <span class='warning'> extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='input'><span class='fu'>minorLogTicksAxis</span>(<span class='fl'>1</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>logBase</span><span class='kw'>=</span><span class='fl'>2</span>);</div><div class='img'><img src='minorLogTicksAxis-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='fl'>1</span>+<span class='fl'>0</span>:<span class='fl'>100</span>), <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>,
    <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"manually called minorLogTicksAxis(logBase=10)"</span>,
    <span class='kw'>xaxt</span><span class='kw'>=</span><span class='st'>"n"</span>,
    <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"x (log-scaled)"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘xlab’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: In density.default(x, width = width, weight = rep(weightFactor, </span>
 #&gt; <span class='warning'>    length.out = length(x)), ...) :</span>
-#&gt; <span class='warning'> extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='input'><span class='fu'>minorLogTicksAxis</span>(<span class='fl'>1</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>logBase</span><span class='kw'>=</span><span class='fl'>10</span>);</div><div class='img'><img src='minorLogTicksAxis-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log10</a></span>(<span class='fl'>1</span>+<span class='fl'>0</span>:<span class='fl'>100</span>), <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>,
+#&gt; <span class='warning'> extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='input'><span class='fu'>minorLogTicksAxis</span>(<span class='fl'>1</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>logBase</span><span class='kw'>=</span><span class='fl'>10</span>);</div><div class='img'><img src='minorLogTicksAxis-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plotPolygonDensity.html'>plotPolygonDensity</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='fl'>1</span>+<span class='fl'>0</span>:<span class='fl'>100</span>), <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>,
    <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"using 'minorWhich=2:9'"</span>,
    <span class='kw'>xaxt</span><span class='kw'>=</span><span class='st'>"n"</span>,
    <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"x (log-scaled)"</span>);</div><div class='output co'>#&gt; <span class='warning'>Warning: arguments ‘col’, ‘border’, ‘main’, ‘xlab’, ‘ylab’, ‘...’ are not made use of</span></div><div class='output co'>#&gt; <span class='warning'>Warning: In density.default(x, width = width, weight = rep(weightFactor, </span>
 #&gt; <span class='warning'>    length.out = length(x)), ...) :</span>
-#&gt; <span class='warning'> extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='input'><span class='fu'>minorLogTicksAxis</span>(<span class='fl'>1</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>logBase</span><span class='kw'>=</span><span class='fl'>10</span>,
+#&gt; <span class='warning'> extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='input'><span class='fu'>minorLogTicksAxis</span>(<span class='fl'>1</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>logBase</span><span class='kw'>=</span><span class='fl'>10</span>,
    <span class='kw'>minorWhich</span><span class='kw'>=</span><span class='fl'>2</span>:<span class='fl'>9</span>);</div><div class='img'><img src='minorLogTicksAxis-5.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
@@ -314,18 +343,15 @@ off by setting <code>symmetricZero=FALSE</code>.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -333,13 +359,16 @@ off by setting <code>symmetricZero=FALSE</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

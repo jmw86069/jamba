@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Handle function arguments as text — handleArgsText • jamba</title>
+<title>print nested dimensions of object attributes — ssdima • jamba</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Handle function arguments as text — handleArgsText" />
-<meta property="og:description" content="Handles a list or list of lists, converting to human-readable text format" />
+<meta property="og:title" content="print nested dimensions of object attributes — ssdima" />
+<meta property="og:description" content="print nested dimensions of object attributes" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,43 +120,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Handle function arguments as text</h1>
+    <h1>print nested dimensions of object attributes</h1>
     <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba.r'><code>R/jamba.r</code></a></small>
-    <div class="hidden name"><code>handleArgsText.Rd</code></div>
+    <div class="hidden name"><code>ssdima.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Handles a list or list of lists, converting to human-readable text format</p>
+    <p>print nested dimensions of object attributes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>handleArgsText</span>(
-  <span class='no'>argTextA</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>col1</span> <span class='kw'>=</span> <span class='st'>"mediumpurple2"</span>,
-  <span class='kw'>col2</span> <span class='kw'>=</span> <span class='st'>"mediumaquamarine"</span>,
-  <span class='kw'>colT</span> <span class='kw'>=</span> <span class='st'>"dodgerblue3"</span>,
-  <span class='kw'>colF</span> <span class='kw'>=</span> <span class='st'>"red1"</span>,
-  <span class='kw'>colNULL</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>,
-  <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='fu'><a href='checkLightMode.html'>checkLightMode</a></span>(),
-  <span class='kw'>adjustRgb</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.adjustRgb"</span>),
-  <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>indent</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>useCollapseList</span> <span class='kw'>=</span> <span class='st'>",\n      "</span>,
-  <span class='kw'>useCollapseBase</span> <span class='kw'>=</span> <span class='st'>", "</span>,
-  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>useColor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>ssdima</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>includeClass</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>doFormat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>big.mark</span> <span class='kw'>=</span> <span class='st'>","</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>list</code> of <code>data.frame</code> each of which
+describes the dimensions of the objects in
+<code><a href='https://rdrr.io/r/base/attributes.html'>attributes(x)</a></code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is a rare non-exported function intended to be called by
-<code><a href='jargs.html'>jargs()</a></code>, but separated in order to help isolate the logical
-steps required.</p>
+    <p>This function is a shallow wrapper around <code><a href='ssdim.html'>ssdim()</a></code>
+except that it operates on <code><a href='https://rdrr.io/r/base/attributes.html'>attributes(x)</a></code>
+instead of <code>x</code> itself.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam practical functions: 
@@ -169,6 +161,7 @@ steps required.</p>
 <code><a href='fixYellowHue.html'>fixYellowHue</a>()</code>,
 <code><a href='fixYellow.html'>fixYellow</a>()</code>,
 <code><a href='getAxisLabel.html'>getAxisLabel</a>()</code>,
+<code><a href='handleArgsText.html'>handleArgsText</a>()</code>,
 <code><a href='isFALSEV.html'>isFALSEV</a>()</code>,
 <code><a href='isTRUEV.html'>isTRUEV</a>()</code>,
 <code><a href='jamba.html'>jamba</a></code>,
@@ -190,15 +183,52 @@ steps required.</p>
 <code><a href='sdim.html'>sdim</a>()</code>,
 <code><a href='setCLranges.html'>setCLranges</a>()</code>,
 <code><a href='setPrompt.html'>setPrompt</a>()</code>,
-<code><a href='ssdima.html'>ssdima</a>()</code>,
-<code><a href='ssdim.html'>ssdim</a>()</code></p></div>
+<code><a href='ssdim.html'>ssdim</a>()</code></p>
+<p>Other jam list functions: 
+<code><a href='cPasteSU.html'>cPasteSU</a>()</code>,
+<code><a href='cPasteS.html'>cPasteS</a>()</code>,
+<code><a href='cPasteUnique.html'>cPasteUnique</a>()</code>,
+<code><a href='cPasteU.html'>cPasteU</a>()</code>,
+<code><a href='cPaste.html'>cPaste</a>()</code>,
+<code><a href='list2df.html'>list2df</a>()</code>,
+<code><a href='mergeAllXY.html'>mergeAllXY</a>()</code>,
+<code><a href='mixedSorts.html'>mixedSorts</a>()</code>,
+<code><a href='rbindList.html'>rbindList</a>()</code>,
+<code><a href='relist_named.html'>relist_named</a>()</code>,
+<code><a href='rlengths.html'>rlengths</a>()</code>,
+<code><a href='sclass.html'>sclass</a>()</code>,
+<code><a href='sdima.html'>sdima</a>()</code>,
+<code><a href='sdim.html'>sdim</a>()</code>,
+<code><a href='ssdim.html'>ssdim</a>()</code>,
+<code><a href='uniques.html'>uniques</a>()</code>,
+<code><a href='unnestList.html'>unnestList</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>1</span>:<span class='fl'>9</span>,
+   <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>3</span>,
+   <span class='kw'>dimnames</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+      <span class='kw'>Rows</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>],
+      <span class='kw'>Columns</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]));
+<span class='fu'><a href='sdima.html'>sdima</a></span>(<span class='no'>m</span>);</div><div class='output co'>#&gt;          rows   class
+#&gt; dim         2 integer
+#&gt; dimnames    2    list</div><div class='input'><span class='fu'>ssdima</span>(<span class='no'>m</span>);</div><div class='output co'>#&gt; $dim
+#&gt;   rows   class
+#&gt; 1    2 integer
+#&gt; 
+#&gt; $dimnames
+#&gt;         rows     class
+#&gt; Rows       3 character
+#&gt; Columns    3 character
+#&gt; </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

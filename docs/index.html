@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jam Base Methods • jamba</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Jam Base Methods">
 <meta property="og:description" content="Jam Base methods.
     plotSmoothScatter: smooth scatter plot with fine detail;
@@ -24,7 +25,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -36,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.42.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.48.900</span>
       </span>
     </div>
 
@@ -44,7 +45,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -70,7 +71,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/jmw86069/jamba">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -83,13 +84,9 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+      </header><div class="row">
+  <div class="contents col-md-9">
 <div id="jamba" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#jamba" class="anchor"></a>jamba</h1></div>
@@ -100,34 +97,244 @@
 <p>A full online function reference is available via the pkgdown documentation:</p>
 <p><a href="https://jmw86069.github.io/jamba">Full jamba command reference</a></p>
 <p>Functions are categorized, some examples are listed below:</p>
+</div>
+<div id="background" class="section level2">
+<h2 class="hasAnchor">
+<a href="#background" class="anchor"></a>Background</h2>
+<p>The R functions in <code>jamba</code> have been built up over several years, often based upon and citing the relevant discussion from Stackoverflow, R-help, or Bioconductor, along with the principal author(s). Almost every function is some sort of wrapper around existing R functions – designed for specific cases where I can make it faster, more flexible, or customized to make my analysis life easier. Kudos and thanks to the original authors! The R community is built upon the collective greatness of its contributors!</p>
+<p>Most of the functions are designed around workflows for Bioinformatics analyses, where functions need to be efficient when operating over 10,000 to 100,000 elements. (They work really well with millions as well.) Usually the speed gains are obvious with about 100 elements, then scale linearly (or worse) as the number increases. I and others use these functions <em>all the time</em>.</p>
+<p>Small and large efficiencies are used wherever possible. For example it is faster to operate on unique entries from a 100,000 element list, than it is to perform a function on the full list. In most cases, I have tested numerous available R methods and packages, and settled on the fastest* available at the time. If there is something faster or better, I would <em>love</em> for you to let me/us know!</p>
+<p>The functions in <code>jamba</code> are intended to be convenient wrappers around whatever series of steps it takes to get the job done. My design goal is to “make my own analysis jobs easier” as first priority.</p>
 <ul>
-<li>plot - <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>, <code><a href="reference/imageByColors.html">imageByColors()</a></code>, <code><a href="reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code>
-</li>
-<li>color - <code><a href="reference/color2gradient.html">color2gradient()</a></code>, <code><a href="reference/makeColorDarker.html">makeColorDarker()</a></code>
-</li>
-<li>string - <code><a href="reference/pasteByRow.html">pasteByRow()</a></code>, <code><a href="reference/pasteByRowOrdered.html">pasteByRowOrdered()</a></code>
-</li>
-<li>numeric - <code><a href="reference/rowGroupMeans.html">rowGroupMeans()</a></code>, <code><a href="reference/rowRmMadOutliers.html">rowRmMadOutliers()</a></code>
-</li>
-<li>list - <code><a href="reference/cPaste.html">cPaste()</a></code>, <code><a href="reference/uniques.html">uniques()</a></code>, <code><a href="reference/sdim.html">sdim()</a></code>, <code><a href="reference/rbindList.html">rbindList()</a></code>
-</li>
-<li>sort - <code><a href="reference/mixedSort.html">mixedSort()</a></code>, <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> - suite of efficient alphanumeric sorts</li>
-<li>date - <code><a href="reference/dateToDaysOld.html">dateToDaysOld()</a></code>, <code><a href="reference/getDate.html">getDate()</a></code>
-</li>
-<li>grep - <code><a href="reference/vgrep.html">vgrep()</a></code>, <code><a href="reference/vigrep.html">vigrep()</a></code>, <code><a href="reference/provigrep.html">provigrep()</a></code>, <code><a href="reference/grepls.html">grepls()</a></code>
-</li>
-<li>practical - <code><a href="reference/jargs.html">jargs()</a></code>, <code><a href="reference/printDebug.html">printDebug()</a></code>, <code><a href="reference/setPrompt.html">setPrompt()</a></code>, <code><a href="reference/newestFile.html">newestFile()</a></code>, <code><a href="reference/renameColumn.html">renameColumn()</a></code>
-</li>
+<li>If I don’t find it useful, nobody else will.</li>
+<li>And even if nobody else finds it useful, at least I do!</li>
 </ul>
+<p>Lastly, <code>jamba</code> should motivate me and others to create R packages instead of a random collection of R functions in <code>*.R</code> files.</p>
+</div>
+<div id="example-r-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-r-functions" class="anchor"></a>Example R functions</h2>
+<div id="efficient-alphanumeric-sort" class="section level3">
+<h3 class="hasAnchor">
+<a href="#efficient-alphanumeric-sort" class="anchor"></a>Efficient alphanumeric sort</h3>
+<ul>
+<li>
+<code><a href="reference/mixedSort.html">mixedSort()</a></code> - highly efficient alphanumeric sort, for example chr1, chr2, chr3, chr10, etc.</li>
+<li>
+<code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> - as above, applied to columns in a <code>data.frame</code> (or <code>matrix</code>, <code>tibble</code>, <code>DataFrame</code>, etc.)</li>
+<li>
+<code><a href="reference/mixedSorts.html">mixedSorts()</a></code> - as above, applied to a list of vectors with no speed loss.</li>
+</ul>
+</div>
+<div id="base-r-plotting" class="section level3">
+<h3 class="hasAnchor">
+<a href="#base-r-plotting" class="anchor"></a>Base R plotting</h3>
+<p>These functions help with base R plots, in all those little cases when the amazing <code>ggplot2</code> package is not a smooth fit.</p>
+<ul>
+<li>
+<code><a href="reference/nullPlot.html">nullPlot()</a></code> - convenient “blank” base R plot, optionally displays margins</li>
+<li>
+<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> - smooth scatter <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> for point density, enhanced over <code><a href="https://rdrr.io/r/graphics/smoothScatter.html">smoothScatter()</a></code>
+</li>
+<li>
+<code><a href="reference/plotPolygonDensity.html">plotPolygonDensity()</a></code> - fast density/histogram plot for vector or matrix</li>
+<li>
+<code><a href="reference/imageDefault.html">imageDefault()</a></code> - enhanced <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></code> that enables raster output with consistent pixel aspect ratio.</li>
+<li>
+<code><a href="reference/imageByColors.html">imageByColors()</a></code> - wrapper to <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></code> for a matrix or data.frame of colors, with optional labels</li>
+<li>
+<code><a href="reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> - log-transformed axis labels, flexible log base, and option for properly adjusted <code><a href="https://rdrr.io/r/base/Log.html">log2(1 + x)</a></code> format.</li>
+<li>
+<code><a href="reference/sqrtAxis.html">sqrtAxis()</a></code> - draw a square-root transformed axis, with proper labels.</li>
+<li>
+<code><a href="reference/drawLabels.html">drawLabels()</a></code> - draw square colorized text labels</li>
+<li>
+<code><a href="reference/shadowText.html">shadowText()</a></code> - replacement for <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> that draws shadows or outlines.</li>
+<li>
+<code><a href="reference/groupedAxis.html">groupedAxis()</a></code> - grouped axis labels to show regions/ranges</li>
+<li>
+<code><a href="reference/decideMfrow.html">decideMfrow()</a></code> - determine appropriate value for <code><a href="https://rdrr.io/r/graphics/par.html">par("mfrow")</a></code> for multipanel output in base R plotting.</li>
+<li>
+<code><a href="reference/getPlotAspect.html">getPlotAspect()</a></code> - determine visible plot aspect ratio.</li>
+</ul>
+</div>
+<div id="excel-export" class="section level3">
+<h3 class="hasAnchor">
+<a href="#excel-export" class="anchor"></a>Excel export</h3>
+<p>Every Bioinformatician/statistician needs to write data to Excel, the <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> function is consistent and makes it look pretty. You can save numerous worksheets in a single Excel file, without having to go back and custom-format everything.</p>
+<ul>
+<li>
+<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> - flexible Excel exporter, with categorical and conditional colors.</li>
+<li>
+<code>applyXlsxCategorical()</code> - apply categorical colors to Excel</li>
+<li>
+<code>applyXlsxConditional()</code> - apply conditional colors to Excel</li>
+</ul>
+</div>
+<div id="color" class="section level3">
+<h3 class="hasAnchor">
+<a href="#color" class="anchor"></a>Color</h3>
+<p>Everything I do uses color to the utmost limit, especially on R console, and in every R plot.</p>
+<ul>
+<li>
+<code><a href="reference/getColorRamp.html">getColorRamp()</a></code> - flexible to create or retrieve color gradients</li>
+<li>
+<code><a href="reference/warpRamp.html">warpRamp()</a></code> - “bend” a color gradient to enhance the visual range</li>
+<li>
+<code><a href="reference/color2gradient.html">color2gradient()</a></code> - convert a color to gradient of n colors; or do the same for a vector</li>
+<li>
+<code><a href="reference/makeColorDarker.html">makeColorDarker()</a></code> - adjust darkness and saturation</li>
+<li>
+<code><a href="reference/showColors.html">showColors()</a></code> - display a vector or list of colors</li>
+<li>
+<code><a href="reference/fixYellow.html">fixYellow()</a></code> - adjust the weird green-yellow, by personal preference</li>
+<li>
+<code><a href="reference/printDebug.html">printDebug()</a></code> - pretty colorized text output using <code>crayon</code> package.</li>
+</ul>
+</div>
+<div id="list" class="section level3">
+<h3 class="hasAnchor">
+<a href="#list" class="anchor"></a>List</h3>
+<p>Cool methods to operate on super-long lists in one call, to avoid looping through the list either with <code>for()</code> loops, <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> or <code>map()</code> functions.</p>
+<ul>
+<li>
+<code><a href="reference/cPaste.html">cPaste()</a></code> - highly efficient <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> over a large list of vectors</li>
+<li>
+<code><a href="reference/cPasteS.html">cPasteS()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>.</li>
+<li>
+<code><a href="reference/cPasteU.html">cPasteU()</a></code> - as above but using <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>.</li>
+<li>
+<code><a href="reference/cPasteSU.html">cPasteSU()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>.</li>
+<li>
+<code><a href="reference/uniques.html">uniques()</a></code> - efficient <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code> over a list of vectors</li>
+<li>
+<code><a href="reference/sclass.html">sclass()</a></code> - runs <code><a href="https://rdrr.io/r/base/class.html">class()</a></code> on a list</li>
+<li>
+<code><a href="reference/sdim.html">sdim()</a></code>, <code><a href="reference/ssdim.html">ssdim()</a></code> - dimensions of list objects, or nested list of lists</li>
+<li>
+<code><a href="reference/rbindList.html">rbindList()</a></code> - efficient <code><a href="https://rdrr.io/r/base/do.call.html">do.call(rbind, ...)</a></code> to bind rows into a matrix or data.frame, useful when following <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code>.</li>
+<li>
+<code><a href="reference/mergeAllXY.html">mergeAllXY()</a></code> - merge a list of <code>data.frame</code> objects</li>
+<li>
+<code><a href="reference/rmNULL.html">rmNULL()</a></code> - remove NULL or empty elements from a list, with optional replacement</li>
+</ul>
+</div>
+<div id="names" class="section level3">
+<h3 class="hasAnchor">
+<a href="#names" class="anchor"></a>Names</h3>
+<p>We use R names as an additional method to make sure everything is kept in the proper order. Many R functions return results using input names, so it helps to have a really solid naming strategy. For the R functions that remove names – I highly recommend adding them back yourself!</p>
+<ul>
+<li>
+<code><a href="reference/makeNames.html">makeNames()</a></code> - make unique names, using flexible logic</li>
+<li>
+<code><a href="reference/nameVector.html">nameVector()</a></code> - add names to a vector, using its own value, or supplied names</li>
+<li>
+<code><a href="reference/nameVectorN.html">nameVectorN()</a></code> - make named vector using the names of a vector (useful inside <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>) or any function that returns data using names of the input vector.</li>
+</ul>
+</div>
+<div id="data-framematrixtibble" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-framematrixtibble" class="anchor"></a>data.frame/matrix/tibble</h3>
+<ul>
+<li>
+<code><a href="reference/pasteByRow.html">pasteByRow()</a></code> - fast, flexible row-paste with delimiters, optionally remove blanks</li>
+<li>
+<code><a href="reference/pasteByRowOrdered.html">pasteByRowOrdered()</a></code> - as above but returns ordered factor, using existing factor orders from each column when present</li>
+<li>
+<code><a href="reference/rowGroupMeans.html">rowGroupMeans()</a></code>, <code><a href="reference/rowRmMadOutliers.html">rowRmMadOutliers()</a></code> - efficient grouped row functions</li>
+<li>
+<code><a href="reference/mergeAllXY.html">mergeAllXY()</a></code> - merge a list of <code>data.frame</code> into one</li>
+<li>
+<code><a href="reference/renameColumn.html">renameColumn()</a></code> - rename columns <code>from</code> and <code>to</code>.</li>
+<li>
+<code><a href="reference/kable_coloring.html">kable_coloring()</a></code> - flexible colorized <code>data.frame</code> output in Rmarkdown.</li>
+</ul>
+</div>
+<div id="string-grep" class="section level3">
+<h3 class="hasAnchor">
+<a href="#string-grep" class="anchor"></a>String / grep</h3>
+<ul>
+<li>
+<code><a href="reference/gsubOrdered.html">gsubOrdered()</a></code> - gsub that returns ordered factor, maintians the previous factor order</li>
+<li>
+<code><a href="reference/grepls.html">grepls()</a></code> - grep the environment (including attached packages) for object names</li>
+<li>
+<code><a href="reference/vgrep.html">vgrep()</a></code>, <code><a href="reference/vigrep.html">vigrep()</a></code> - value-grep shortcut</li>
+<li>
+<code>unvgrep()</code>, <code><a href="reference/unvigrep.html">unvigrep()</a></code> - un-grep – remove matched results from the output.</li>
+<li>
+<code><a href="reference/provigrep.html">provigrep()</a></code> - progressive grep, searches each pattern in order, returning results in that order</li>
+<li>
+<code><a href="reference/igrepHas.html">igrepHas()</a></code> - rapid case-insensitive grep presence/absense test</li>
+<li>
+<code><a href="reference/ucfirst.html">ucfirst()</a></code> - upper-case the first letter of each word.</li>
+<li>
+<code><a href="reference/padString.html">padString()</a></code>, <code><a href="reference/padInteger.html">padInteger()</a></code> - produce strings from numeric values with consistent leading zeros.</li>
+</ul>
+</div>
+<div id="numeric" class="section level3">
+<h3 class="hasAnchor">
+<a href="#numeric" class="anchor"></a>Numeric</h3>
+<ul>
+<li>
+<code><a href="reference/noiseFloor.html">noiseFloor()</a></code> - apply noise floor (and ceiling) with flexible replacement values</li>
+<li>
+<code><a href="reference/warpAroundZero.html">warpAroundZero()</a></code> - warp a numeric vector symmetrically around zero</li>
+<li>
+<code><a href="reference/rowGroupMeans.html">rowGroupMeans()</a></code>, <code><a href="reference/rowRmMadOutliers.html">rowRmMadOutliers()</a></code> - efficient grouped row functions</li>
+<li>
+<code><a href="reference/deg2rad.html">deg2rad()</a></code>, <code><a href="reference/rad2deg.html">rad2deg()</a></code> - convert degrees to radians</li>
+<li>
+<code><a href="reference/rmNA.html">rmNA()</a></code> - remove NA values, with optional replacement</li>
+<li>
+<code><a href="reference/rmInfinite.html">rmInfinite()</a></code> - remove infinite values, with optional replacement.</li>
+<li>
+<code><a href="reference/formatInt.html">formatInt()</a></code> - convenient <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> for integer output, with comma-delimiter by default</li>
+</ul>
+</div>
+<div id="practical-helpful" class="section level3">
+<h3 class="hasAnchor">
+<a href="#practical-helpful" class="anchor"></a>Practical / helpful</h3>
+<ul>
+<li>
+<code><a href="reference/jargs.html">jargs()</a></code> - pretty function arguments, optional pattern search argument name</li>
+<li>
+<code><a href="reference/sdim.html">sdim()</a></code>, <code><a href="reference/ssdim.html">ssdim()</a></code> - dimensions of list objects, or nested list of lists</li>
+<li>
+<code><a href="reference/sdima.html">sdima()</a></code> - runs <code><a href="reference/sdim.html">sdim()</a></code> on the attributes of an object.</li>
+<li>
+<code><a href="reference/isTRUEV.html">isTRUEV()</a></code>, <code><a href="reference/isFALSEV.html">isFALSEV()</a></code> - vectorized test for TRUE or FALSE values, since <code><a href="https://rdrr.io/r/base/Logic.html">isTRUE()</a></code> only operates on single values, and does not allow <code>NA</code>.</li>
+</ul>
+</div>
+<div id="r-console" class="section level3">
+<h3 class="hasAnchor">
+<a href="#r-console" class="anchor"></a>R console</h3>
+<ul>
+<li>
+<code><a href="reference/printDebug.html">printDebug()</a></code> - pretty colorized text output using <code>crayon</code> package.</li>
+<li>
+<code><a href="reference/setPrompt.html">setPrompt()</a></code> - pretty colorized R console prompt with project name and R version</li>
+<li>
+<code><a href="reference/newestFile.html">newestFile()</a></code> - most recently modified file from a vector of files</li>
+</ul>
+</div>
 </div>
 <div id="other-related-jam-packages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-related-jam-packages" class="anchor"></a>Other related Jam packages</h2>
 <ul>
 <li>
-<code>colorjam</code> – package focused on use of color, with some cross-over with functions in <code>jamba</code>. The <code>colorjam</code> package defines a set of categorical colors or arbitrary length, which are applied in a variety of ways to experimental designs. The color functions in <code>jamba</code> may soon be transitioned to the <code>colorjam</code> package, mainly for consistency.</li>
+<code>jamma</code> – MA-plots (also known as “mean-variance”, “Bland-Altman”, or “mean-difference” plots), relies upon <code><a href="reference/plotSmoothScatter.html">jamba::plotSmoothScatter()</a></code>; <code>centerGeneData()</code> to apply flexible row-centering with optional groups and control samples; <code>jammanorm()</code> - normalize data based upon MA-plot output</li>
 <li>
-<code>jamma</code> – package focused on creating MA-plots, which relies heavily upon the <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> function in <code>jamba</code>.</li>
+<code>colorjam</code> – <code><a href="https://rdrr.io/pkg/colorjam/man/rainbowJam.html">colorjam::rainbowJam()</a></code> for scalable categorical colors using alternating luminance and chroma values.</li>
+<li>
+<code>genejam</code> – fast, consistent conversion of gene symbols to the most current gene nomenclature</li>
+<li>
+<code>splicejam</code> – Sashimi plots for RNA-seq data</li>
+<li>
+<code>multienrichjam</code> – multiple gene set enrichment analysis and visualization</li>
+<li>
+<code>platjam</code> – platform technology functions, importers for NanoString</li>
 </ul>
 </div>
 </div>
@@ -156,8 +363,7 @@
 </ul>
 </div>
 
-      </div>
-
+  </div>
 </div>
 
 
@@ -166,12 +372,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

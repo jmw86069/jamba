@@ -13,6 +13,7 @@ applyXlsxCategoricalFormat(
   colorSubText = setTextContrastColor(colorSub),
   trimCatNames = TRUE,
   overwrite = TRUE,
+  wrapText = TRUE,
   stack = TRUE,
   verbose = FALSE,
   ...
@@ -41,6 +42,8 @@ to Excel values.}
 
 \item{overwrite}{logical indicating whether new cell color styles
 should be forced overwrite of previous cell styles.}
+
+\item{wrapText}{logical indicating whether to wrap text.}
 
 \item{stack}{logical indicating whether new color rules should be
 applied above existing styles, many of whose styles may not affect

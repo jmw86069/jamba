@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Handle function arguments as text — handleArgsText • jamba</title>
+<title>print colorized output to R console, inverted — printDebugI • jamba</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Handle function arguments as text — handleArgsText" />
-<meta property="og:description" content="Handles a list or list of lists, converting to human-readable text format" />
+<meta property="og:title" content="print colorized output to R console, inverted — printDebugI" />
+<meta property="og:description" content="print colorized output to R console, inverted" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,43 +120,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Handle function arguments as text</h1>
+    <h1>print colorized output to R console, inverted</h1>
     <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba.r'><code>R/jamba.r</code></a></small>
-    <div class="hidden name"><code>handleArgsText.Rd</code></div>
+    <div class="hidden name"><code>printDebugI.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Handles a list or list of lists, converting to human-readable text format</p>
+    <p>print colorized output to R console, inverted</p>
     </div>
 
-    <pre class="usage"><span class='fu'>handleArgsText</span>(
-  <span class='no'>argTextA</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>col1</span> <span class='kw'>=</span> <span class='st'>"mediumpurple2"</span>,
-  <span class='kw'>col2</span> <span class='kw'>=</span> <span class='st'>"mediumaquamarine"</span>,
-  <span class='kw'>colT</span> <span class='kw'>=</span> <span class='st'>"dodgerblue3"</span>,
-  <span class='kw'>colF</span> <span class='kw'>=</span> <span class='st'>"red1"</span>,
-  <span class='kw'>colNULL</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>,
-  <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='fu'><a href='checkLightMode.html'>checkLightMode</a></span>(),
-  <span class='kw'>adjustRgb</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.adjustRgb"</span>),
-  <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>indent</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>useCollapseList</span> <span class='kw'>=</span> <span class='st'>",\n      "</span>,
-  <span class='kw'>useCollapseBase</span> <span class='kw'>=</span> <span class='st'>", "</span>,
-  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>useColor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>printDebugI</span>(<span class='no'>...</span>, <span class='kw'>invert</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is a rare non-exported function intended to be called by
-<code><a href='jargs.html'>jargs()</a></code>, but separated in order to help isolate the logical
-steps required.</p>
+    <p>This function prints colorized output to the R console, using the
+same logic as <code>printDebug</code> except by default the color is inverted
+so the default <code>fgText</code> colors are applied to the background.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam practical functions: 
@@ -169,6 +149,7 @@ steps required.</p>
 <code><a href='fixYellowHue.html'>fixYellowHue</a>()</code>,
 <code><a href='fixYellow.html'>fixYellow</a>()</code>,
 <code><a href='getAxisLabel.html'>getAxisLabel</a>()</code>,
+<code><a href='handleArgsText.html'>handleArgsText</a>()</code>,
 <code><a href='isFALSEV.html'>isFALSEV</a>()</code>,
 <code><a href='isTRUEV.html'>isTRUEV</a>()</code>,
 <code><a href='jamba.html'>jamba</a></code>,
@@ -179,7 +160,6 @@ steps required.</p>
 <code><a href='mergeAllXY.html'>mergeAllXY</a>()</code>,
 <code><a href='minorLogTicks.html'>minorLogTicks</a>()</code>,
 <code><a href='newestFile.html'>newestFile</a>()</code>,
-<code><a href='printDebugI.html'>printDebugI</a>()</code>,
 <code><a href='printDebug.html'>printDebug</a>()</code>,
 <code><a href='renameColumn.html'>renameColumn</a>()</code>,
 <code><a href='rmInfinite.html'>rmInfinite</a>()</code>,

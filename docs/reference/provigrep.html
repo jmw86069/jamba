@@ -8,21 +8,25 @@
 
 <title>provigrep: progressive case-insensitive value-grep — provigrep • jamba</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +34,11 @@
 
 
 
-<meta property="og:title" content="provigrep: progressive case-insensitive value-grep — provigrep" />
 
+<meta property="og:title" content="provigrep: progressive case-insensitive value-grep — provigrep" />
 <meta property="og:description" content="case-insensitive value-grep for a vector of patterns" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -45,6 +50,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -63,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.42.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.48.900</span>
       </span>
     </div>
 
@@ -71,7 +77,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -94,11 +100,10 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jmw86069/jamba">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -109,6 +114,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -120,15 +126,21 @@
     </div>
 
     <div class="ref-description">
-    
     <p>case-insensitive value-grep for a vector of patterns</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>provigrep</span>(<span class='no'>patterns</span>, <span class='no'>x</span>, <span class='kw'>maxValues</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sortFunc</span> <span class='kw'>=</span> <span class='no'>c</span>, <span class='kw'>rev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>returnType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"vector"</span>, <span class='st'>"list"</span>), <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>provigrep</span>(
+  <span class='no'>patterns</span>,
+  <span class='no'>x</span>,
+  <span class='kw'>maxValues</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sortFunc</span> <span class='kw'>=</span> <span class='no'>c</span>,
+  <span class='kw'>rev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>returnType</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"vector"</span>, <span class='st'>"list"</span>),
+  <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -138,7 +150,7 @@
     </tr>
     <tr>
       <th>x</th>
-      <td><p>vector to be tested by <code><a href='https://www.rdocumentation.org/packages/base/topics/grep'>grep</a></code></p></td>
+      <td><p>vector to be tested by <code><a href='https://rdrr.io/r/base/grep.html'>grep</a></code></p></td>
     </tr>
     <tr>
       <th>maxValues</th>
@@ -169,7 +181,7 @@ when you would like to know which patterns matched specific entries.</p></td>
     </tr>
     <tr>
       <th>ignore.case</th>
-      <td><p>logical parameter sent to <code><a href='https://www.rdocumentation.org/packages/base/topics/grep'>grep</a></code>, TRUE
+      <td><p>logical parameter sent to <code><a href='https://rdrr.io/r/base/grep.html'>grep</a></code>, TRUE
 runs in case-insensitive mode, as by default.</p></td>
     </tr>
     <tr>
@@ -182,7 +194,7 @@ or when <code>value=FALSE</code> the index position is returned.</p></td>
       <td><p>additional arguments are passed to <code><a href='vigrep.html'>vigrep()</a></code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Purpose is to provide "progressive vigrep()",which is value-returning,
@@ -190,33 +202,35 @@ case-insensitive grep, starting with an ordered vector of grep patterns.
 For example, it returns entries in the order they are matched, by the
 progressive use of grep patterns.</p>
 <p>It is particularly good when using multiple grep patterns, since
-<code><a href='https://www.rdocumentation.org/packages/base/topics/grep'>grep()</a></code> does not accept multiple patterns as input. This function
+<code><a href='https://rdrr.io/r/base/grep.html'>grep()</a></code> does not accept multiple patterns as input. This function
 also only returns the unique matches in the order they were matched,
-which alleviates the need to run a series of <code><a href='https://www.rdocumentation.org/packages/base/topics/grep'>grep()</a></code> functions
+which alleviates the need to run a series of <code><a href='https://rdrr.io/r/base/grep.html'>grep()</a></code> functions
 and collating their results.</p>
 <p>It is mainly to allow for prioritized ordering of matching entries, where
 one would like certain matching  entries first, followed by another
 set of matching entries, without duplication. For example,
 one might grep for a few patterns, but want certain pattern hits to be
 listed first.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam grep functions: <code><a href='grepls.html'>grepls</a></code>,
-  <code><a href='igrepHas.html'>igrepHas</a></code>, <code><a href='igrep.html'>igrep</a></code>,
-  <code><a href='unigrep.html'>unigrep</a></code>, <code><a href='unvigrep.html'>unvigrep</a></code>,
-  <code><a href='vgrep.html'>vgrep</a></code>, <code><a href='vigrep.html'>vigrep</a></code></p></div>
-    
+    <div class='dont-index'><p>Other jam grep functions: 
+<code><a href='grepls.html'>grepls</a>()</code>,
+<code><a href='igrepHas.html'>igrepHas</a>()</code>,
+<code><a href='igrep.html'>igrep</a>()</code>,
+<code><a href='unigrep.html'>unigrep</a>()</code>,
+<code><a href='unvigrep.html'>unvigrep</a>()</code>,
+<code><a href='vgrep.html'>vgrep</a>()</code>,
+<code><a href='vigrep.html'>vigrep</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># a rather comical example</span>
 <span class='co'># set up a test set with labels containing several substrings</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>);
-<span class='no'>testTerms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"robot"</span>,<span class='st'>"tree"</span>,<span class='st'>"dog"</span>,<span class='st'>"mailbox"</span>,<span class='st'>"pizza"</span>,<span class='st'>"noob"</span>);
-<span class='no'>testWords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pasteByRow.html'>pasteByRow</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/combn'>combn</a></span>(<span class='no'>testTerms</span>,<span class='fl'>3</span>)));
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>);
+<span class='no'>testTerms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"robot"</span>,<span class='st'>"tree"</span>,<span class='st'>"dog"</span>,<span class='st'>"mailbox"</span>,<span class='st'>"pizza"</span>,<span class='st'>"noob"</span>);
+<span class='no'>testWords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pasteByRow.html'>pasteByRow</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/combn.html'>combn</a></span>(<span class='no'>testTerms</span>,<span class='fl'>3</span>)));
 
 <span class='co'># now pull out entries matching substrings in order</span>
-<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>);</div><div class='output co'>#&gt;                     3                     6                     8 
+<span class='fu'>provigrep</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>);</div><div class='output co'>#&gt;                     3                     6                     8 
 #&gt;    "robot_tree_pizza"     "robot_dog_pizza" "robot_mailbox_pizza" 
 #&gt;                    10                    12                    14 
 #&gt;    "robot_pizza_noob"      "tree_dog_pizza"  "tree_mailbox_pizza" 
@@ -230,7 +244,7 @@ listed first.</p>
 #&gt;    "dog_mailbox_noob"     "robot_tree_noob"  "robot_mailbox_noob" 
 #&gt;                    15                     2 
 #&gt;   "tree_mailbox_noob"  "robot_tree_mailbox" </div><div class='input'><span class='co'># more detail about the sort order is shown with returnType="list"</span>
-<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>);</div><div class='output co'>#&gt; $pizza
+<span class='fu'>provigrep</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>);</div><div class='output co'>#&gt; $pizza
 #&gt;                     3                     6                     8 
 #&gt;    "robot_tree_pizza"     "robot_dog_pizza" "robot_mailbox_pizza" 
 #&gt;                    10                    12                    14 
@@ -254,7 +268,7 @@ listed first.</p>
 #&gt;                    2 
 #&gt; "robot_tree_mailbox" 
 #&gt; </div><div class='input'><span class='co'># rev=TRUE will reverse the order of the list</span>
-<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt; $.
+<span class='fu'>provigrep</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt; $.
 #&gt;                    2 
 #&gt; "robot_tree_mailbox" 
 #&gt; 
@@ -277,7 +291,7 @@ listed first.</p>
 #&gt;     "tree_pizza_noob"   "dog_mailbox_pizza"      "dog_pizza_noob" 
 #&gt;                    20 
 #&gt;  "mailbox_pizza_noob" 
-#&gt; </div><div class='input'><span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                     2                     4                     9 
+#&gt; </div><div class='input'><span class='fu'>provigrep</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pizza"</span>, <span class='st'>"dog"</span>, <span class='st'>"noob"</span>, <span class='st'>"."</span>), <span class='no'>testWords</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                     2                     4                     9 
 #&gt;  "robot_tree_mailbox"     "robot_tree_noob"  "robot_mailbox_noob" 
 #&gt;                    15                     1                     5 
 #&gt;   "tree_mailbox_noob"      "robot_tree_dog"   "robot_dog_mailbox" 
@@ -292,49 +306,49 @@ listed first.</p>
 #&gt;                    19                    20 
 #&gt;      "dog_pizza_noob"  "mailbox_pizza_noob" </div><div class='input'>
 <span class='co'># another example showing ordering of duplicated entries</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>);
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(
-   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='no'>letters</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>)]),
-   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>));
-<span class='no'>x</span>;</div><div class='output co'>#&gt;  [1] "b2" "c1" "c3" "d4" "b5" "d2" "d1" "c3" "d4" "a5"</div><div class='input'><span class='co'># sort by letter</span>
-<span class='fu'>provigrep</span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>4</span>], <span class='no'>x</span>)</div><div class='output co'>#&gt;  [1] "a5" "b2" "b5" "c1" "c3" "c3" "d4" "d2" "d1" "d4"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>);
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(
+   <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>letters</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>)]),
+   <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>));
+<span class='no'>x</span>;</div><div class='output co'>#&gt;  [1] "d3" "c5" "d1" "a4" "b2" "c3" "b5" "d1" "c4" "d2"</div><div class='input'><span class='co'># sort by letter</span>
+<span class='fu'>provigrep</span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>4</span>], <span class='no'>x</span>)</div><div class='output co'>#&gt;  [1] "a4" "b2" "b5" "c5" "c3" "c4" "d3" "d1" "d1" "d2"</div><div class='input'>
 <span class='co'># show more detail about how the sort is performed</span>
 <span class='fu'>provigrep</span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>4</span>], <span class='no'>x</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>)</div><div class='output co'>#&gt; $a
-#&gt; [1] "a5"
+#&gt; [1] "a4"
 #&gt; 
 #&gt; $b
 #&gt; [1] "b2" "b5"
 #&gt; 
 #&gt; $c
-#&gt; [1] "c1" "c3" "c3"
+#&gt; [1] "c5" "c3" "c4"
 #&gt; 
 #&gt; $d
-#&gt; [1] "d4" "d2" "d1" "d4"
+#&gt; [1] "d3" "d1" "d1" "d2"
 #&gt; </div><div class='input'>
 <span class='co'># rev=TRUE will reverse the order of pattern matching</span>
 <span class='co'># which is most useful when "." is the last pattern:</span>
-<span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='st'>"."</span>), <span class='no'>x</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>)</div><div class='output co'>#&gt; $a
-#&gt; [1] "a5"
+<span class='fu'>provigrep</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='st'>"."</span>), <span class='no'>x</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>)</div><div class='output co'>#&gt; $a
+#&gt; [1] "a4"
 #&gt; 
 #&gt; $b
 #&gt; [1] "b2" "b5"
 #&gt; 
 #&gt; $c
-#&gt; [1] "c1" "c3" "c3"
+#&gt; [1] "c5" "c3" "c4"
 #&gt; 
 #&gt; $.
-#&gt; [1] "d4" "d2" "d1" "d4"
-#&gt; </div><div class='input'><span class='fu'>provigrep</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='st'>"."</span>), <span class='no'>x</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $.
-#&gt; [1] "d4" "d2" "d1" "d4"
+#&gt; [1] "d3" "d1" "d1" "d2"
+#&gt; </div><div class='input'><span class='fu'>provigrep</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='st'>"."</span>), <span class='no'>x</span>, <span class='kw'>returnType</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>rev</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $.
+#&gt; [1] "d3" "d1" "d1" "d2"
 #&gt; 
 #&gt; $c
-#&gt; [1] "c1" "c3" "c3"
+#&gt; [1] "c5" "c3" "c4"
 #&gt; 
 #&gt; $b
 #&gt; [1] "b2" "b5"
 #&gt; 
 #&gt; $a
-#&gt; [1] "a5"
+#&gt; [1] "a4"
 #&gt; </div><div class='input'>
 </div></pre>
   </div>
@@ -342,16 +356,14 @@ listed first.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -359,13 +371,16 @@ listed first.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

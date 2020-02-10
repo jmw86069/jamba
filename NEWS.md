@@ -1,3 +1,27 @@
+# jamba version 0.0.48.900
+
+## Enhancements to README
+
+The README.Rmd was re-organized, with more callouts of
+helpful `jamba` functions. Next step will be to include
+visual examples.
+
+## Minor bug fix
+
+* `writeOpenxlsx()` was exporting files with inconsistent word wrapping
+by column, and inconsistent vertical align (`valign`) settings.
+The culprit was `openxlsx::saveWorkbook()` which appears to apply
+default styles for cell styles that are not specifically encoded.
+Simply loading and saving a workbook would modify column styles.
+The workaround/fix was to ensure `writeOpenxlsx()` would specifically
+encode `wrapText` and `valign` for each cell, so that it would not
+be overridden by `openxlsx::saveWorkbook()` mood.
+* `writeOpenxlsx()` now forces `wrapText=TRUE` for all columns. In future
+the function may allow per-column `wrapText`.
+* `applyXlsxCategorical()` has new argument `wrapText=TRUE` which is passed
+to `openxlsx::createStyle()`, since that function requires wrapText
+be either `TRUE` or `FALSE`, and its default is `FALSE`.
+
 # jamba version 0.0.47.900
 
 ## Enhancements

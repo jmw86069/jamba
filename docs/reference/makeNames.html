@@ -8,21 +8,25 @@
 
 <title>make unique vector names — makeNames • jamba</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +34,11 @@
 
 
 
-<meta property="og:title" content="make unique vector names — makeNames" />
 
+<meta property="og:title" content="make unique vector names — makeNames" />
 <meta property="og:description" content="make unique vector names" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -45,6 +50,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -63,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.42.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.48.900</span>
       </span>
     </div>
 
@@ -71,7 +77,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -94,11 +100,10 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jmw86069/jamba">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -109,6 +114,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -120,16 +126,23 @@
     </div>
 
     <div class="ref-description">
-    
     <p>make unique vector names</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>makeNames</span>(<span class='no'>x</span>, <span class='kw'>unique</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='st'>"_v"</span>, <span class='kw'>renameOnes</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>doPadInteger</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>startN</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>numberStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"number"</span>,
-  <span class='st'>"letters"</span>, <span class='st'>"LETTERS"</span>), <span class='kw'>useNchar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>renameFirst</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>keepNA</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>makeNames</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>unique</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='st'>"_v"</span>,
+  <span class='kw'>renameOnes</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>doPadInteger</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>startN</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>numberStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"number"</span>, <span class='st'>"letters"</span>, <span class='st'>"LETTERS"</span>),
+  <span class='kw'>useNchar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>renameFirst</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>keepNA</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -141,7 +154,7 @@ vector types will be coerced to character prior to use.</p></td>
     <tr>
       <th>unique</th>
       <td><p>argument which is ignored, included only for
-compatibility with <code><a href='https://www.rdocumentation.org/packages/base/topics/make.names'>base::make.names</a></code>. All results from
+compatibility with <code><a href='https://rdrr.io/r/base/make.names.html'>base::make.names</a></code>. All results from
 <code>makeNames()</code> are unique.</p></td>
     </tr>
     <tr>
@@ -181,6 +194,7 @@ It is usually best to change the suffix to "_" or "" when using
 "letters".</p></dd>
 <dt>"LETTERS"</dt><dd><p>Use uppercase letters to represent each duplicated
 entry, with the same rules as applied to "letters".</p></dd>
+
 </dl></td>
     </tr>
     <tr>
@@ -198,23 +212,22 @@ be versioned, even when renameOnes=TRUE.</p></td>
       <th>keepNA</th>
       <td><p>logical whether to retain NA values using the string "NA".
 If keepNA is FALSE, then NA values will remain NA, thus causing some
-names to become &lt;NA&gt;, which can cause problems with some downstream
+names to become <code>&lt;NA&gt;</code>, which can cause problems with some downstream
 functions which assume all names are either NULL or non-NA.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>character vector of unique names</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function extends the basic goal from <code><a href='https://www.rdocumentation.org/packages/base/topics/make.names'>make.names</a></code>
+    <p>This function extends the basic goal from <code><a href='https://rdrr.io/r/base/make.names.html'>make.names</a></code>
 which is intended to make syntactically valid names from a character vector.
 This makeNames function makes names unique, and offers configurable methods
 to handle duplicate names. By default, any duplicated entries receive a
 suffix _v# where # is s running count of entries observed, starting at 1.
-The <code><a href='https://www.rdocumentation.org/packages/base/topics/make.names'>make.names</a></code> function, by contrast, renames the
+The <code><a href='https://rdrr.io/r/base/make.names.html'>make.names</a></code> function, by contrast, renames the
 second observed entry starting at .1, leaving the original entry
 unchanged. Optionally, makeNames can rename all entries with a numeric
 suffix, for consistency.</p>
@@ -223,56 +236,63 @@ suffix, for consistency.</p>
 becomes:
 <code>A_v1, A_v2, A_v3, B_v1, B_v2, C</code></p>
 <p>Also, makeNames always allows "_".</p>
-<p>This makeNames function is similar to <code><a href='https://www.rdocumentation.org/packages/base/topics/make.unique'>make.unique</a></code>
+<p>This makeNames function is similar to <code><a href='https://rdrr.io/r/base/make.unique.html'>make.unique</a></code>
 which also converts a vector into a unique vector by adding suffix values,
-however the <code><a href='https://www.rdocumentation.org/packages/base/topics/make.unique'>make.unique</a></code> function intends to allow
+however the <code><a href='https://rdrr.io/r/base/make.unique.html'>make.unique</a></code> function intends to allow
 repeated operations which recognize duplicated entries and continually
 increment the suffix number. This makeNames function currently does not
 handle repeat operations. The recommended approach to workaround having
 pre-existing versioned names would be to remove suffix values prior to
 running this function. One small distinction from
-<code><a href='https://www.rdocumentation.org/packages/base/topics/make.unique'>make.unique</a></code> is that makeNames does version the first
+<code><a href='https://rdrr.io/r/base/make.unique.html'>make.unique</a></code> is that makeNames does version the first
 entry in a set.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam string functions: <code><a href='asSize.html'>asSize</a></code>,
-  <code><a href='breaksByVector.html'>breaksByVector</a></code>, <code><a href='cPasteSU.html'>cPasteSU</a></code>,
-  <code><a href='cPasteS.html'>cPasteS</a></code>, <code><a href='cPasteUnique.html'>cPasteUnique</a></code>,
-  <code><a href='cPasteU.html'>cPasteU</a></code>, <code><a href='cPaste.html'>cPaste</a></code>,
-  <code><a href='fillBlanks.html'>fillBlanks</a></code>, <code><a href='formatInt.html'>formatInt</a></code>,
-  <code><a href='gsubOrdered.html'>gsubOrdered</a></code>, <code><a href='mixedOrder.html'>mixedOrder</a></code>,
-  <code><a href='mixedSortDF.html'>mixedSortDF</a></code>, <code><a href='mixedSorts.html'>mixedSorts</a></code>,
-  <code><a href='mixedSort.html'>mixedSort</a></code>, <code><a href='mmixedOrder.html'>mmixedOrder</a></code>,
-  <code><a href='nameVectorN.html'>nameVectorN</a></code>, <code><a href='nameVector.html'>nameVector</a></code>,
-  <code><a href='padInteger.html'>padInteger</a></code>, <code><a href='padString.html'>padString</a></code>,
-  <code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a></code>,
-  <code><a href='pasteByRow.html'>pasteByRow</a></code>, <code><a href='tcount.html'>tcount</a></code>,
-  <code><a href='ucfirst.html'>ucfirst</a></code>, <code><a href='uniques.html'>uniques</a></code></p></div>
-    
+    <div class='dont-index'><p>Other jam string functions: 
+<code><a href='asSize.html'>asSize</a>()</code>,
+<code><a href='breaksByVector.html'>breaksByVector</a>()</code>,
+<code><a href='cPasteSU.html'>cPasteSU</a>()</code>,
+<code><a href='cPasteS.html'>cPasteS</a>()</code>,
+<code><a href='cPasteUnique.html'>cPasteUnique</a>()</code>,
+<code><a href='cPasteU.html'>cPasteU</a>()</code>,
+<code><a href='cPaste.html'>cPaste</a>()</code>,
+<code><a href='fillBlanks.html'>fillBlanks</a>()</code>,
+<code><a href='formatInt.html'>formatInt</a>()</code>,
+<code><a href='gsubOrdered.html'>gsubOrdered</a>()</code>,
+<code><a href='mixedOrder.html'>mixedOrder</a>()</code>,
+<code><a href='mixedSortDF.html'>mixedSortDF</a>()</code>,
+<code><a href='mixedSorts.html'>mixedSorts</a>()</code>,
+<code><a href='mixedSort.html'>mixedSort</a>()</code>,
+<code><a href='mmixedOrder.html'>mmixedOrder</a>()</code>,
+<code><a href='nameVectorN.html'>nameVectorN</a>()</code>,
+<code><a href='nameVector.html'>nameVector</a>()</code>,
+<code><a href='padInteger.html'>padInteger</a>()</code>,
+<code><a href='padString.html'>padString</a>()</code>,
+<code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a>()</code>,
+<code><a href='pasteByRow.html'>pasteByRow</a>()</code>,
+<code><a href='tcount.html'>tcount</a>()</code>,
+<code><a href='ucfirst.html'>ucfirst</a>()</code>,
+<code><a href='uniques.html'>uniques</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>V</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>1</span>));
-<span class='fu'>makeNames</span>(<span class='no'>V</span>);</div><div class='output co'>#&gt; [1] "A_v1" "A_v2" "B_v1" "B_v2" "B_v3" "C"   </div><div class='input'><span class='fu'>makeNames</span>(<span class='no'>V</span>, <span class='kw'>renameOnes</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt; [1] "A_v1" "A_v2" "B_v1" "B_v2" "B_v3" "C_v1"</div><div class='input'><span class='fu'>makeNames</span>(<span class='no'>V</span>, <span class='kw'>renameFirst</span><span class='kw'>=</span><span class='fl'>FALSE</span>);</div><div class='output co'>#&gt; [1] "A"    "A_v1" "B"    "B_v1" "B_v2" "C"   </div><div class='input'><span class='no'>exons</span> <span class='kw'>&lt;-</span> <span class='fu'>makeNames</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"exon"</span>, <span class='fl'>3</span>), <span class='kw'>suffix</span><span class='kw'>=</span><span class='st'>""</span>);
-<span class='fu'>makeNames</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='no'>exons</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>1</span>)), <span class='kw'>numberStyle</span><span class='kw'>=</span><span class='st'>"letters"</span>, <span class='kw'>suffix</span><span class='kw'>=</span><span class='st'>""</span>);</div><div class='output co'>#&gt; [1] "exon1a" "exon1b" "exon2a" "exon2b" "exon2c" "exon3" </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>V</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>1</span>));
+<span class='fu'>makeNames</span>(<span class='no'>V</span>);</div><div class='output co'>#&gt; [1] "A_v1" "A_v2" "B_v1" "B_v2" "B_v3" "C"   </div><div class='input'><span class='fu'>makeNames</span>(<span class='no'>V</span>, <span class='kw'>renameOnes</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt; [1] "A_v1" "A_v2" "B_v1" "B_v2" "B_v3" "C_v1"</div><div class='input'><span class='fu'>makeNames</span>(<span class='no'>V</span>, <span class='kw'>renameFirst</span><span class='kw'>=</span><span class='fl'>FALSE</span>);</div><div class='output co'>#&gt; [1] "A"    "A_v1" "B"    "B_v1" "B_v2" "C"   </div><div class='input'><span class='no'>exons</span> <span class='kw'>&lt;-</span> <span class='fu'>makeNames</span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"exon"</span>, <span class='fl'>3</span>), <span class='kw'>suffix</span><span class='kw'>=</span><span class='st'>""</span>);
+<span class='fu'>makeNames</span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='no'>exons</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>1</span>)), <span class='kw'>numberStyle</span><span class='kw'>=</span><span class='st'>"letters"</span>, <span class='kw'>suffix</span><span class='kw'>=</span><span class='st'>""</span>);</div><div class='output co'>#&gt; [1] "exon1a" "exon1b" "exon2a" "exon2b" "exon2c" "exon3" </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -280,13 +300,16 @@ entry in a set.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
