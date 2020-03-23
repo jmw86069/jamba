@@ -1873,14 +1873,14 @@ shadowText <- function
  labels=NULL,
  col="white",
  bg=setTextContrastColor(col),
- r=0.1,
+ r=getOption("jam.shadow.r", 0.15),
  offset=c(0.15, -0.15),
- n=8,
- outline=TRUE,
- alphaOutline=0.9,
- shadow=FALSE,
- shadowColor="black",
- alphaShadow=0.2,
+ n=getOption("jam.shadow.n", 8),
+ outline=getOption("jam.outline", TRUE),
+ alphaOutline=getOption("jam.alphaOutline", 0.4),
+ shadow=getOption("jam.shadow", FALSE),
+ shadowColor=getOption("jam.shadowColor", "black"),
+ alphaShadow=getOption("jam.alphaShadow", 0.2),
  cex=par("cex"),
  font=par("font"),
  doTest=FALSE,
@@ -1901,6 +1901,10 @@ shadowText <- function
    #font <- rep(font, length.out=length(labels));
    #srt <- rep(srt, length.out=length(labels));
 
+   if (length(alphaOutline) == 0) {
+      alphaOutline <- 0.7;
+      options("jam.alphaOutline"=0.7);
+   }
    if (doTest) {
       ## Example shadow text
       nullPlot(xlim=c(1,9), ylim=c(0,10), doBoxes=FALSE,

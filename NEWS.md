@@ -1,3 +1,23 @@
+# jamba version 0.0.50.900
+
+## changes to existing functions
+
+* `shadowText()` was updated to use several `options()` as default
+argument values. Although `options()` is not always an ideal mechanism,
+for purely visual effects it is not in conflict with statistical
+reproducibility, and allows some overall graphical settings to be
+maintained when `shadowText()` is being called through internal
+`plot()` functions. For example setting `text <- jamba::shadowText`
+then calling a default base R plot function will use the
+`jamba::shadowText()` in place of `text()`, but without allowing
+any customization. The `options()` mechanic allows some custom settings
+to be honored. The primary driver for these changes is in
+`multienrichjam::jam_igraph()` which plots `igraph` objects with
+some customization, one option is `use_shadowText=TRUE` which
+invokes `jamba::shadowText()`. It is desirable to adjust the
+contrast of the outline effect so it does not completely obscure
+the underlying network graph display.
+
 # jamba version 0.0.49.900
 
 ## New experimental function
