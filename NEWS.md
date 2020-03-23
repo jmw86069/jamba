@@ -1,3 +1,17 @@
+# jamba version 0.0.49.900
+
+## New experimental function
+
+* `fix_matrix_ratio()` is used to expand a matrix to have
+roughly 1:1 dimensions, up to a maximum factor per dimension.
+The purpose is to enhance `image()`, `rasterImage()`, and
+`grid.raster()` functions, specifically when `interpolate=TRUE`
+for images with more rows or columns than there are actual
+pixels to display the image. The `interpolate=TRUE` methods
+in base R do not account for assymetry, nor do they account
+for a low number of rows or columns. See examples for visible
+examples of the effect.
+
 # jamba version 0.0.48.900
 
 ## Enhancements to README

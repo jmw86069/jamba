@@ -84,6 +84,7 @@ normScale(c(10,20,40,30), from=50, to=65);
 \seealso{
 Other jam numeric functions: 
 \code{\link{deg2rad}()},
+\code{\link{fix_matrix_ratio}()},
 \code{\link{noiseFloor}()},
 \code{\link{rad2deg}()},
 \code{\link{rowGroupMeans}()},

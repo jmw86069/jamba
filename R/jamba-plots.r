@@ -895,7 +895,7 @@ imageDefault <- function
  oldstyle=TRUE,
  useRaster=NULL,
  fixRasterRatio=TRUE,
- maxRatioFix=100,
+ maxRatioFix=10,
  minRasterMultiple=NULL,
  rasterTarget=200,
  interpolate=getOption("interpolate", TRUE),

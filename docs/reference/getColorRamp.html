@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.48.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
       </span>
     </div>
 
@@ -312,11 +312,12 @@ case transparency can be added after the fact using <code><a href='alpha2col.htm
    <span class='no'>RdBu_r</span> <span class='kw'>&lt;-</span> <span class='fu'>getColorRamp</span>(<span class='st'>"RdBu_r"</span>);
    <span class='no'>colorList</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>colorList</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>RdBu</span><span class='kw'>=</span><span class='no'>RdBu</span>, <span class='kw'>RdBu_r</span><span class='kw'>=</span><span class='no'>RdBu_r</span>));
    <span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>RdBu</span>);
-}</div><div class='input'>
+}</div><div class='img'><img src='getColorRamp-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressPackageStartupMessages</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>viridis</span>))) {
    <span class='no'>viridisV</span> <span class='kw'>&lt;-</span> <span class='fu'>getColorRamp</span>(<span class='st'>"viridis"</span>);
    <span class='no'>colorList</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>colorList</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>viridis</span><span class='kw'>=</span><span class='no'>viridisV</span>));
-}</div><div class='img'><img src='getColorRamp-3.png' alt='' width='700' height='433' /></div><div class='input'>
+}
+
 <span class='co'># for fun, put a few color ramps onto one plot</span>
 <span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>colorList</span>, <span class='kw'>cexCellnote</span><span class='kw'>=</span><span class='fl'>0.7</span>);</div><div class='img'><img src='getColorRamp-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
