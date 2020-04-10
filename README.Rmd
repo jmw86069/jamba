@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
   comment="#>",
   fig.path="man/figures/README-"
 );
+options(knitr.table.format='markdown')
 ```
 # jamba
 
@@ -93,13 +94,12 @@ df1 <- data.frame(
   miRNA=x,
   sort_rank=seq_along(x),
   mixedSort_rank=order(jamba::mixedOrder(x)),
-  ` `="",
   check.names=FALSE,
   stringsAsFactors=FALSE);
 df2 <- jamba::mixedSortDF(df1);
-#cbind(df1, df2);
-knitr::kable(df2);
+df2;
 ```
+
 
 ### Base R plotting
 

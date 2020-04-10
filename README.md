@@ -69,17 +69,318 @@ instead of a random collection of R functions in `*.R` files.
 
 Example:
 
-|   | miRNA   | sort_rank  | mixedSort_rank  |  |
-| - | :------ | ---------: | --------------: |  |
-| 2 | ABCA2   |          2 |               1 |  |
-| 1 | ABCA12  |          1 |               2 |  |
-| 3 | miR-1   |          3 |               3 |  |
-| 6 | miR-1a  |          6 |               4 |  |
-| 7 | miR-1b  |          7 |               5 |  |
-| 8 | miR-2   |          8 |               6 |  |
-| 4 | miR-12  |          4 |               7 |  |
-| 9 | miR-22  |          9 |               8 |  |
-| 5 | miR-122 |          5 |               9 |  |
+<div class="kable-table">
+
+|   | miRNA   | sort\_rank | mixedSort\_rank |
+| :- | :------ | ---------: | --------------: |
+| 2 | ABCA2   |          2 |               1 |
+| 1 | ABCA12  |          1 |               2 |
+| 3 | miR-1   |          3 |               3 |
+| 6 | miR-1a  |          6 |               4 |
+| 7 | miR-1b  |          7 |               5 |
+| 8 | miR-2   |          8 |               6 |
+| 4 | miR-12  |          4 |               7 |
+| 9 | miR-22  |          9 |               8 |
+| 5 | miR-122 |          5 |               9 |
+
+</div>
+
+<table class="myTable">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+</th>
+
+<th style="text-align:left;">
+
+miRNA
+
+</th>
+
+<th style="text-align:right;">
+
+sort\_rank
+
+</th>
+
+<th style="text-align:right;">
+
+mixedSort\_rank
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+2
+
+</td>
+
+<td style="text-align:left;">
+
+ABCA2
+
+</td>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+1
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+ABCA12
+
+</td>
+
+<td style="text-align:right;">
+
+1
+
+</td>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+3
+
+</td>
+
+<td style="text-align:left;">
+
+miR-1
+
+</td>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+6
+
+</td>
+
+<td style="text-align:left;">
+
+miR-1a
+
+</td>
+
+<td style="text-align:right;">
+
+6
+
+</td>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+7
+
+</td>
+
+<td style="text-align:left;">
+
+miR-1b
+
+</td>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:right;">
+
+5
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+8
+
+</td>
+
+<td style="text-align:left;">
+
+miR-2
+
+</td>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:right;">
+
+6
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+4
+
+</td>
+
+<td style="text-align:left;">
+
+miR-12
+
+</td>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+9
+
+</td>
+
+<td style="text-align:left;">
+
+miR-22
+
+</td>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+5
+
+</td>
+
+<td style="text-align:left;">
+
+miR-122
+
+</td>
+
+<td style="text-align:right;">
+
+5
+
+</td>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<style>
+  .myTable td {
+    padding: 0px;
+    spacing: 0px;
+  }
+</style>
 
 ### Base R plotting
 

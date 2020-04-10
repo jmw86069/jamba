@@ -2467,8 +2467,7 @@ plotPolygonDensity <- function
          newMfrow <- c(1,1);
       }
       if (doPar) {
-         origMfrow <- par("mfrow");
-         par("mfrow"=newMfrow);
+         origMfrow <- par("mfrow"=newMfrow);
       }
       if (length(barCol) == ncol(x)) {
          panelColors <- barCol;
@@ -2566,14 +2565,12 @@ plotPolygonDensity <- function
             border=alpha2col(panelColors, alpha=colAlphas[3]));
       }
       if (doPar) {
-         par("mfrow"=origMfrow);
+         par(newMfrow);
       }
       invisible(d1);
    } else {
       ##
-      oPar <- par();
-      par("xaxs"=xaxs);
-      par("yaxs"=yaxs);
+      oPar <- par("xaxs"=xaxs, "yaxs"=yaxs);
       #if (is.null(bw) & is.null(width)) {
       #   bw <- "ucv";
       #}
@@ -2634,14 +2631,14 @@ plotPolygonDensity <- function
          } else {
             hx <- hist(x,
                breaks=breaks,
-               col=barCol,
-               main=main,
-               border=histBorder,
-               xaxt="n",
-               las=las,
-               ylab="",
-               cex.axis=cex.axis*0.8,
-               add=add,
+               #col=barCol,
+               #main=main,
+               #border=histBorder,
+               #xaxt="n",
+               #las=las,
+               #ylab="",
+               #cex.axis=cex.axis*0.8,
+               #add=add,
                plot=FALSE,
                ...);
             ## Optionally define the y-axis scale
@@ -2669,7 +2666,11 @@ plotPolygonDensity <- function
          if (verbose) {
             printDebug("plotPolygonDensity(): ",
                "hx$breaks:",
-               format(trim=TRUE, digits=2, c(head(hx$breaks), NA, tail(hx$breaks))));
+               format(trim=TRUE,
+                  digits=2,
+                  c(head(hx$breaks),
+                     NA,
+                     tail(hx$breaks))));
          }
          if (!add) {
             if ("log10" %in% xScale) {
@@ -2723,35 +2724,40 @@ plotPolygonDensity <- function
       }
 
       ## Calculate density
-      dx <- breakDensity(x=x,
-         bw=bw,
-         width=width,
-         breaks=breaks,
-         densityBreaksFactor=densityBreaksFactor,
-         weightFactor=weightFactor,
-         addZeroEnds=TRUE,
-         verbose=verbose,
-         ...);
-
-      if (doHistogram) {
-         maxHistY <- max(hx$counts, na.rm=TRUE);
-         maxHistY <- par("usr")[4];
+      if (doPolygon) {
+         dx <- breakDensity(x=x,
+            bw=bw,
+            width=width,
+            breaks=breaks,
+            densityBreaksFactor=densityBreaksFactor,
+            weightFactor=weightFactor,
+            addZeroEnds=TRUE,
+            verbose=verbose,
+            ...);
+         if (doHistogram) {
+            maxHistY <- max(hx$counts, na.rm=TRUE);
+            maxHistY <- par("usr")[4];
+            if (verbose) {
+               printDebug("plotPolygonDensity(): ",
+                  "Re-scaled y to histogram height maxHistY:",
+                  maxHistY);
+            }
+            ## Scale the y-axis to match the histogram
+            xout <- (head(hx$breaks, -1) + tail(hx$breaks, -1))/2;
+            xu <- match(unique(dx$x), dx$x);
+            dy <- approx(x=dx$x[xu], y=dx$y[xu], xout=xout)$y;
+            dScale <- median(hx$counts[hx$counts > 0] / dy[hx$counts > 0]);
+            dx$y <- dx$y * dScale;
+            #dx$y <- normScale(dx$y,
+            #   from=0,
+            #   to=maxHistY*heightFactor);
+         }
          if (verbose) {
             printDebug("plotPolygonDensity(): ",
-               "Re-scaled y to histogram height maxHistY:",
-               maxHistY);
+               "Completed density calculations.");
          }
-         ## Scale the y-axis to match the histogram
-         xout <- (head(hx$breaks, -1) + tail(hx$breaks, -1))/2;
-         dy <- approx(x=dx$x, y=dx$y, xout=xout)$y;
-         dScale <- median(hx$counts[hx$counts > 0] / dy[hx$counts > 0]);
-         dx$y <- dx$y * dScale;
-         #dx$y <- normScale(dx$y,
-         #   from=0,
-         #   to=maxHistY*heightFactor);
-      }
-      if (verbose) {
-         printDebug("Completed density calculations.");
+      } else {
+         dx <- NULL;
       }
       if (!doHistogram) {
          plot(dx,
@@ -2830,7 +2836,9 @@ plotPolygonDensity <- function
       if (!is.null(ablineH)) {
          abline(h=ablineH, col=ablineHcol, lty=ablineHlty, ...);
       }
-      #par(oPar);
+      if (doPar) {
+         par(oPar);
+      }
       invisible(list(d=dx,
          hist=hx,
          barCol=barCol,
@@ -3023,6 +3031,10 @@ breakDensity <- function
    ## which helps when used to draw a polygon, using the baseline parameter.
    ##
    ## floorBaseline=TRUE will change any value below the baseline to the baseline
+   if (length(weightFactor) > 0) {
+      weightFactor <- rep(weightFactor, length.out=length(x));
+   }
+
    if (is.null(bw)) {
       if (is.null(width)) {
          if (length(breaks) == 1) {
@@ -3041,12 +3053,12 @@ breakDensity <- function
       }
       dx <- density(x,
          width=width,
-         weight=rep(weightFactor, length.out=length(x)),
+         weight=weightFactor,
          ...);
    } else {
       dx <- density(x,
          width=width,
-         weight=rep(weightFactor, length.out=length(x)),
+         weight=weightFactor,
          bw=bw,
          ...);
    }
