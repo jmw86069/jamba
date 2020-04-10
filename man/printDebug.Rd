@@ -24,12 +24,13 @@ printDebug(
   splitComments = FALSE,
   collapse = "",
   sep = ",",
+  doReset = NULL,
   detectColors = TRUE,
   darkFactor = c(1, 1.5),
   sFactor = c(1, 1.5),
   lightMode = checkLightMode(),
-  Crange = NULL,
-  Lrange = NULL,
+  Crange = getOption("jam.Crange"),
+  Lrange = getOption("jam.Lrange"),
   removeNA = FALSE,
   replaceNULL = NULL,
   adjustRgb = getOption("jam.adjustRgb"),
@@ -77,6 +78,15 @@ by default "" so text separation is expected in the input data.}
 
 \item{sep}{character separator used to separate vector elements, when
 a list items contains a vector.}
+
+\item{doReset}{logical or \code{NULL}, indicating whether to apply
+\code{crayon::reset()} to the delimiter \code{sep}. When \code{doReset=TRUE} the
+style on the delimiter is forced to reset, using \code{crayon::reset()},
+or to remove pre-existing style with \code{crayon::strip_style()}. When
+\code{doReset=NULL} and \code{sep} contains ANSI escape characters, they are
+left as-is; when \code{doReset=NULL} and \code{sep} does not contain ANSI escape
+characters, \code{sep} becomes \code{crayon::reset(sep)} which forces the style
+to be reset between printed values.}
 
 \item{detectColors}{logical whether to detect and potentially try to
 correct console color capabilities.}
@@ -159,6 +169,11 @@ Colors in fgText are recycled to the length of '...'
 \examples{
 printDebug("Testing ", "default ", "printDebug().");
 printDebug("List of vectors:", c("one", "two", "three"));
+
+# By default, there is no space between separate elements in `...`
+printDebug("List of vectors:", c("one", "two", "three"),
+   c("four", "five", "six"));
+# To add a space " " between elements, use collapse
 printDebug("List of vectors:", c("one", "two", "three"),
    c("four", "five", "six"), collapse=" ");
 
@@ -166,9 +181,17 @@ printDebug("List of vectors:", c("one", "two", "three"),
 printDebug("List of vectors:", c("one", "two", "three"),
    c("four", "five", "six"), collapse="\n   ");
 
-# in an R console, or when writing to a log file, the
-# following output text is colored
+# when a vector entirely contains recognized colors,
+# the colors are used in the output
 printDebug(c("red", "blue", "yellow"));
+
+# When the vector contains colors, the names are used as the label
+color_vector <- jamba::nameVector(c("red", "blue", "green","orange"),
+   c("group_A", "group_B", "group_C", "group_D"));
+printDebug(color_vector);
+
+# Remember the sister function that inverses the colors
+printDebugI(color_vector);
 
 }
 \seealso{

@@ -6,11 +6,11 @@
 \usage{
 setCLranges(
   lightMode = checkLightMode(),
-  Crange = getOption("jam.Crange"),
+  Crange = getOption("jam.Crange", c(30, 190)),
   Lrange = getOption("jam.Lrange"),
-  Cgrey = getOption("jam.Cgrey"),
-  adjustRgb = getOption("jam.adjustRgb"),
-  setOptions = TRUE,
+  Cgrey = getOption("jam.Cgrey", 5),
+  adjustRgb = getOption("jam.adjustRgb", 0),
+  setOptions = c("ifnull", "TRUE", "FALSE"),
   verbose = FALSE,
   ...
 )
@@ -40,8 +40,11 @@ a full RGB palette, and the conversion is somewhat lossy.
 By default, \code{getOptions("jam.adjustRgb")} is used to store a
 globally re-usable value.}
 
-\item{setOptions}{logical indicating whether to update \code{options()}
-with \code{jam.Crange}, \code{jam.Lrange}, and \code{jam.adjustRgb} values.}
+\item{setOptions}{character or logical whether to update \code{Crange} and \code{Lrange}
+options during the subsequent call to \code{setCLranges()}. By default,
+\code{"ifnull"} will update only options which were previously \code{NULL};
+\code{"FALSE"} prevents modifying the global options; \code{"TRUE"} will
+update these options with the current values.}
 
 \item{verbose}{boolean indicating whether to print verbose output.}
 

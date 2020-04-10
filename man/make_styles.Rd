@@ -11,7 +11,7 @@ make_styles(
   bg_style = NULL,
   grey = FALSE,
   colors = num_colors(),
-  Cgrey = getOption("jam.Cgrey"),
+  Cgrey = getOption("jam.Cgrey", 5),
   lightMode = checkLightMode(),
   Crange = getOption("jam.Crange"),
   Lrange = getOption("jam.Lrange"),
@@ -20,7 +20,7 @@ make_styles(
   fixYellow = TRUE,
   colorTransparent = "grey45",
   alphaPower = 2,
-  setOptions = FALSE,
+  setOptions = c("ifnull", "FALSE", "TRUE"),
   verbose = FALSE,
   ...
 )
@@ -82,11 +82,11 @@ a valid R color, but not a valid color for the crayon package.}
 values less than 255, by raising the ratio to 1/alphaPower, which takes
 the ratio of square roots.  alphaPower=100 for minimal adjustment.}
 
-\item{setOptions}{logical whether to update \code{Crange} and \code{Lrange}
+\item{setOptions}{character or logical whether to update \code{Crange} and \code{Lrange}
 options during the subsequent call to \code{setCLranges()}. By default,
-\code{FALSE} prevents modifying the global settings, in favor of using
-a direct call to \code{setCLranges()} itself, outside of \code{make_styles()}
-to make such updates.}
+\code{"ifnull"} will update only options which were previously \code{NULL};
+\code{"FALSE"} prevents modifying the global options; \code{"TRUE"} will
+update these options with the current values.}
 
 \item{verbose}{logical whether to print verbose output}
 

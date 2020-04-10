@@ -14,7 +14,27 @@
 #' Define visible text color
 #'
 #' Given a vector or colors, define a contrasting color for text,
-#' typically using either white or black.
+#' typically using either white or black. The `useGrey` argument
+#' defines the offset from pure white and pure black, to use a
+#' contrasting grey shade.
+#'
+#' The `color` is expected to represent a background color, the
+#' output is intended to be a color with enough contrast to read
+#' text legibly.
+#'
+#' The brightness of the `color` is detected dependent upon
+#' the `colorModel`: when `"hcl"` the luminance `L` is compared
+#' to `hclCutoff`; when `"rgb"` the brightness is the sum of
+#' the RGB channels which is compared to `rgbCutoff`. In most
+#' cases the `"hcl"` and `L` will be more accurate.
+#'
+#' When `color` contains transparency, an optional argument `bg`
+#' represents the figure background color, as if the `color` is
+#' used to draw a color-filled rectangle. In this case, the `bg`
+#' and `color` are combined to determine the resulting actual color.
+#' This scenario is mostly useful when plotting text labels on
+#' a dark background, such as black background with colored
+#' text boxes.
 #'
 #' @param color character vector with one or more R-compatible colors.
 #' @param colorModel Either 'hcl' or 'rgb' to indicate how the colors
@@ -25,43 +45,75 @@
 #'    used.
 #' @param hclCutoff numeric threshold above which a color is judged to be
 #'    bright, therefore requiring a dark text color. This comparison uses the
-#'    L value from the \code{\link{col2hcl}} function, which scales colors from
+#'    L value from the `col2hcl()` function, which scales colors from
 #'    1 to 100.
 #' @param useGrey numeric threshold used to define dark and bright text colors,
-#'    using the R greyscale gradient from 0 to 100. useGrey=10 implies
-#'    'grey10' and 'grey90' for the contrasting text colors.
-#'    useGrey=15 is useful if labels may also overlap white or black space,
+#'    using the R greyscale gradient from 0 to 100: `useGrey=10` implies
+#'    `"grey10"` and `"grey90"` for the contrasting text colors;
+#'    `useGrey=15` is useful if labels may also overlap white or black space,
 #'    since the text will never be fully white or black.
 #' @param keepAlpha logical indicates whether the input color alpha
 #'    transparency should be maintained in the text color. By default, text
 #'    alpha is not maintained, and instead is set to alpha=1, fully
 #'    opaque.
+#' @param alphaLens numeric value used to adjust the effect of alpha
+#'    transparency, where positive values emphasize the background color,
+#'    and negative values emphasize the foreground (transparent) color.
 #' @param bg vector of R colors, used as a background when determining the
 #'    brightness of a semi-transparent color. The corresponding brightness
 #'    value from the `bg` is applied via weighted mean to the input
 #'    `color` brightness, the result is compared the the relevant cutoff.
 #'    By default `graphics::par("bg")` is used to determine the default
-#'    plot background color.
+#'    plot background color, only when there is an open graphics device,
+#'    otherwise calling `graphics::par("bg")` would open a graphics
+#'    device, which is not desireable. When no graphics device is open,
+#'    and when `bg=NULL`, the default is `bg="white"`.
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
-#' color <- c("red","yellow","lightblue","blue4");
+#' color <- c("red","yellow","lightblue","darkorchid1","blue4");
 #' setTextContrastColor(color);
 #'
-#' # by default, showColors() uses setTextContrastColors() on labels
+#' # showColors() uses setTextContrastColor() for labels
 #' showColors(color)
+#' # printDebugI() uses setTextContrastColor() for foreground text
+#' printDebugI(color)
 #'
 #' # demonstrate the effect of alpha transparency
-#' colorL <- lapply(nameVector(c(1,0.7, 0.6, 0.4)), function(i){
+#' colorL <- lapply(nameVector(c(1, 0.9, 0.8, 0.6, 0.3)), function(i){
 #'    nameVector(alpha2col(color, alpha=i), color);
 #' })
-#' jamba::showColors(colorL, groupCellnotes=FALSE)
+#' jamba::showColors(colorL,
+#'    groupCellnotes=FALSE,
+#'    srtCellnote=seq(from=15, to=-15, length.out=5));
+#' title(ylab="alpha", line=1.5);
 #'
 #' # change background to dark blue
-#' bg <- par("bg");
-#' par("bg"="navy");
-#' jamba::showColors(colorL, groupCellnotes=FALSE)
-#' par("bg"=bg);
+#' opar <- par("bg"="navy",
+#'    "col"="white",
+#'    "col.axis"="white");
+#' jamba::showColors(colorL,
+#'    groupCellnotes=FALSE,
+#'    srtCellnote=seq(from=15, to=-15, length.out=5))
+#' title(ylab="alpha", line=1.5);
+#' par(opar);
+#'
+#' # Example using transparency and drawLabels()
+#' bg <- "blue4";
+#' col <- fixYellow("palegoldenrod");
+#' nullPlot(fill=bg, plotAreaTitle="", doMargins=FALSE);
+#' for (alpha in c(0.1, 0.3, 0.5, 0.7, 0.9)) {
+#'    labelCol <- setTextContrastColor(
+#'       alpha2col("yellow", alpha),
+#'       bg=bg);
+#'    drawLabels(x=1 + alpha,
+#'       y=2 - alpha,
+#'       labelCex=1.5,
+#'       txt="Plot Title",
+#'       boxColor=alpha2col(col, alpha),
+#'       boxBorderColor=labelCol,
+#'       labelCol=labelCol);
+#' }
 #'
 #' @family jam color functions
 #'
@@ -73,6 +125,7 @@ setTextContrastColor <- function
  colorModel=c("hcl", "rgb"),
  useGrey=0,
  keepAlpha=FALSE,
+ alphaLens=0,
  bg=NULL,
  ...)
 {
@@ -124,7 +177,7 @@ setTextContrastColor <- function
       if (any(col2alpha(unique(color)) < 1)) {
          bgL <- col2hcl(bg)["L",];
          colWeight <- col2alpha(color);
-         warpWeight <- warpAroundZero(1-colWeight, xCeiling=1, lens=-17);
+         warpWeight <- warpAroundZero(1-colWeight, xCeiling=1, lens=alphaLens);
          colL <- ((colL) * (1-warpWeight) + (bgL) * warpWeight);
       }
       iColor <- ifelse(colL > hclCutoff,
@@ -147,6 +200,12 @@ setTextContrastColor <- function
 #' maintain alpha transparency, to enable interconversion via other
 #' color manipulation functions as well.
 #'
+#' When `model="hcl"` this function uses `farver::decode_colour()`
+#' and bypasses `colorspace`. In future the `colorspace` dependency
+#' will likely be removed in favor of using `farver`. In any event,
+#' `model="hcl"` is equivalent to using `model="polarLUV"` and
+#' `fixup=TRUE`, except that it should be much faster.
+#'
 #' @param x R compatible color, either a color name, or hex value, or
 #'    a mixture of the two. Any value compatible with
 #'    \code{\link[grDevices]{col2rgb}}.
@@ -166,20 +225,18 @@ setTextContrastColor <- function
 col2hcl <- function
 (x,
  maxColorValue=255,
- model=c("polarLUV", "hcl", "polarLAB"),
+ model=getOption("jam.model", c("hcl", "polarLUV", "polarLAB")),
  ...)
 {
    ## Purpose is to convert R color to HCL
    ## R color can be a hex string or color name from colors()
-   if (!suppressPackageStartupMessages(require(colorspace))) {
-      stop("The colorspace package is required.");
-   }
-   model <- match.arg(model);
+   model <- head(model, 1);
    if ("jam.model" %in% names(options())) {
       model <- getOption("jam.model");
    }
-   if ("hcl" %in% model && !suppressPackageStartupMessages(require(farver))) {
-      stop("The farver package is required for model 'hcl'.");
+   if ("hcl" %in% model && !suppressWarnings(suppressPackageStartupMessages(require(farver)))) {
+      model <- "polarLUV";
+      fixup <- TRUE;
    }
 
    if ("hcl" %in% model) {
@@ -190,6 +247,9 @@ col2hcl <- function
       colnames(x3) <- names(x);
       rownames(x3)[1:3] <- toupper(rownames(x3)[1:3]);
       return(x3);
+   }
+   if (!suppressWarnings(suppressPackageStartupMessages(require(colorspace)))) {
+      stop("The colorspace package is required.");
    }
 
    x1 <- col2rgb(x);
@@ -213,6 +273,15 @@ col2hcl <- function
 #' convert HCL to R color
 #'
 #' Convert an HCL color matrix to vector of R hex colors
+#'
+#' This function takes an HCL matrix,and converts to an R color using
+#' the colorspace package `colorspace::polarLUV()` and `colorspace::hex()`.
+#'
+#' When `model="hcl"` this function uses `farver::encode_colour()`
+#' and bypasses `colorspace`. In future the `colorspace` dependency
+#' will likely be removed in favor of using `farver`. In any event,
+#' `model="hcl"` is equivalent to using `model="polarLUV"` and
+#' `fixup=TRUE`, except that it should be much faster.
 #'
 #' @param x matrix of colors, with rownames `"H"`, `"C"`, `"L"`, or if not
 #'    supplied it looks for vectors `H`, `C`, and `L` accordingly. It can
@@ -268,28 +337,30 @@ hcl2col <- function
  ceiling=255,
  maxColorValue=255,
  alpha=NULL,
- fixup=NULL,
- model=c("polarLUV","hcl","polarLAB"),
+ fixup=TRUE,
+ model=getOption("jam.model", c("hcl","polarLUV","polarLAB")),
  verbose=FALSE,
  ...)
 {
    ## Purpose is to convert HCL back to an R hex color string
    ## Note that this function uses the colorspace HCL, which differs from the
    ## used by the built-in R method hcl()
-   if (!suppressPackageStartupMessages(require(colorspace))) {
+   if (!suppressWarnings(suppressPackageStartupMessages(require(colorspace)))) {
       stop("hcl2col() requires the colorspace package.");
    }
-   if (!suppressPackageStartupMessages(require(matrixStats))) {
+   if (!suppressWarnings(suppressPackageStartupMessages(require(matrixStats)))) {
       useMatrixStats <- TRUE;
    } else {
       useMatrixStats <- FALSE;
    }
-   model <- match.arg(model);
-   if ("jam.model" %in% names(options())) {
-      model <- getOption("jam.model");
+   model <- head(model, 1);
+   if (length(model) == 0) {
+      model <- "hcl";
    }
-   if ("hcl" %in% model && !suppressPackageStartupMessages(require(farver))) {
-      stop("The farver package is required for model 'hcl'.");
+   if ("hcl" %in% model && !suppressWarnings(suppressPackageStartupMessages(require(farver)))) {
+      #jamba::printDebug("The farver package is required for model '", "hcl", "'.");
+      model <- "polarLUV";
+      fixup <- TRUE;
    }
    if (igrepHas("polarLUV|polarLAB", class(x))) {
       xnames <- colnames(x);
@@ -349,8 +420,7 @@ hcl2col <- function
          #a1 / 255;
       }
    }, error=function(e) {
-      printDebug("Error: ", e, c("orange", "lightblue"));
-      exit;
+      printDebug("Error: ", e, c("orangered", "mediumslateblue"));
       a1;
    });
 
@@ -1248,7 +1318,7 @@ getColorRamp <- function
             col %in% c("viridis","inferno","plasma","magma","cividis")) {
          #######################################
          ## Viridis package color handling
-         if (!suppressPackageStartupMessages(require(viridisLite))) {
+         if (!suppressWarnings(suppressPackageStartupMessages(require(viridisLite)))) {
             stop(paste0("The viridisLite package is required for color ramps:",
                " cividis,inferno,magma,plasma,viridis"));
          }
@@ -1260,7 +1330,7 @@ getColorRamp <- function
          colorFunc <- get(col,
             mode="function");
       } else if (length(col) == 1 &&
-            suppressPackageStartupMessages(require(RColorBrewer)) &&
+            suppressWarnings(suppressPackageStartupMessages(require(RColorBrewer))) &&
             col %in% rownames(brewer.pal.info)) {
          #######################################
          ## Brewer Colors

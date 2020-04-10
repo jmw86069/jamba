@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@
   <span class='kw'>bg_style</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>grey</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='fu'>num_colors</span>(),
-  <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Cgrey"</span>),
+  <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Cgrey"</span>, <span class='fl'>5</span>),
   <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='fu'><a href='checkLightMode.html'>checkLightMode</a></span>(),
   <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Crange"</span>),
   <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Lrange"</span>),
@@ -145,7 +145,7 @@
   <span class='kw'>fixYellow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>colorTransparent</span> <span class='kw'>=</span> <span class='st'>"grey45"</span>,
   <span class='kw'>alphaPower</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>setOptions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>setOptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ifnull"</span>, <span class='st'>"FALSE"</span>, <span class='st'>"TRUE"</span>),
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -239,11 +239,11 @@ the ratio of square roots.  alphaPower=100 for minimal adjustment.</p></td>
     </tr>
     <tr>
       <th>setOptions</th>
-      <td><p>logical whether to update <code>Crange</code> and <code>Lrange</code>
+      <td><p>character or logical whether to update <code>Crange</code> and <code>Lrange</code>
 options during the subsequent call to <code><a href='setCLranges.html'>setCLranges()</a></code>. By default,
-<code>FALSE</code> prevents modifying the global settings, in favor of using
-a direct call to <code><a href='setCLranges.html'>setCLranges()</a></code> itself, outside of <code>make_styles()</code>
-to make such updates.</p></td>
+<code>"ifnull"</code> will update only options which were previously <code>NULL</code>;
+<code>"FALSE"</code> prevents modifying the global options; <code>"TRUE"</code> will
+update these options with the current values.</p></td>
     </tr>
     <tr>
       <th>verbose</th>

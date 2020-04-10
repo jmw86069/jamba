@@ -37,7 +37,9 @@
 
 <meta property="og:title" content="Define visible text color — setTextContrastColor" />
 <meta property="og:description" content="Given a vector or colors, define a contrasting color for text,
-typically using either white or black." />
+typically using either white or black. The useGrey argument
+defines the offset from pure white and pure black, to use a
+contrasting grey shade." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -70,7 +72,7 @@ typically using either white or black." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
       </span>
     </div>
 
@@ -128,7 +130,9 @@ typically using either white or black." />
 
     <div class="ref-description">
     <p>Given a vector or colors, define a contrasting color for text,
-typically using either white or black.</p>
+typically using either white or black. The <code>useGrey</code> argument
+defines the offset from pure white and pure black, to use a
+contrasting grey shade.</p>
     </div>
 
     <pre class="usage"><span class='fu'>setTextContrastColor</span>(
@@ -138,6 +142,7 @@ typically using either white or black.</p>
   <span class='kw'>colorModel</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hcl"</span>, <span class='st'>"rgb"</span>),
   <span class='kw'>useGrey</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>keepAlpha</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>alphaLens</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>
 )</pre>
@@ -153,7 +158,7 @@ typically using either white or black.</p>
       <th>hclCutoff</th>
       <td><p>numeric threshold above which a color is judged to be
 bright, therefore requiring a dark text color. This comparison uses the
-L value from the <code><a href='col2hcl.html'>col2hcl</a></code> function, which scales colors from
+L value from the <code><a href='col2hcl.html'>col2hcl()</a></code> function, which scales colors from
 1 to 100.</p></td>
     </tr>
     <tr>
@@ -171,9 +176,9 @@ value, which more reliably represents overall visible lightness.</p></td>
     <tr>
       <th>useGrey</th>
       <td><p>numeric threshold used to define dark and bright text colors,
-using the R greyscale gradient from 0 to 100. useGrey=10 implies
-'grey10' and 'grey90' for the contrasting text colors.
-useGrey=15 is useful if labels may also overlap white or black space,
+using the R greyscale gradient from 0 to 100: <code>useGrey=10</code> implies
+<code>"grey10"</code> and <code>"grey90"</code> for the contrasting text colors;
+<code>useGrey=15</code> is useful if labels may also overlap white or black space,
 since the text will never be fully white or black.</p></td>
     </tr>
     <tr>
@@ -184,13 +189,22 @@ alpha is not maintained, and instead is set to alpha=1, fully
 opaque.</p></td>
     </tr>
     <tr>
+      <th>alphaLens</th>
+      <td><p>numeric value used to adjust the effect of alpha
+transparency, where positive values emphasize the background color,
+and negative values emphasize the foreground (transparent) color.</p></td>
+    </tr>
+    <tr>
       <th>bg</th>
       <td><p>vector of R colors, used as a background when determining the
 brightness of a semi-transparent color. The corresponding brightness
 value from the <code>bg</code> is applied via weighted mean to the input
 <code>color</code> brightness, the result is compared the the relevant cutoff.
 By default <code><a href='https://rdrr.io/r/graphics/par.html'>graphics::par("bg")</a></code> is used to determine the default
-plot background color.</p></td>
+plot background color, only when there is an open graphics device,
+otherwise calling <code><a href='https://rdrr.io/r/graphics/par.html'>graphics::par("bg")</a></code> would open a graphics
+device, which is not desireable. When no graphics device is open,
+and when <code>bg=NULL</code>, the default is <code>bg="white"</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -198,6 +212,23 @@ plot background color.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The <code>color</code> is expected to represent a background color, the
+output is intended to be a color with enough contrast to read
+text legibly.</p>
+<p>The brightness of the <code>color</code> is detected dependent upon
+the <code>colorModel</code>: when <code>"hcl"</code> the luminance <code>L</code> is compared
+to <code>hclCutoff</code>; when <code>"rgb"</code> the brightness is the sum of
+the RGB channels which is compared to <code>rgbCutoff</code>. In most
+cases the <code>"hcl"</code> and <code>L</code> will be more accurate.</p>
+<p>When <code>color</code> contains transparency, an optional argument <code>bg</code>
+represents the figure background color, as if the <code>color</code> is
+used to draw a color-filled rectangle. In this case, the <code>bg</code>
+and <code>color</code> are combined to determine the resulting actual color.
+This scenario is mostly useful when plotting text labels on
+a dark background, such as black background with colored
+text boxes.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam color functions: 
@@ -223,24 +254,48 @@ plot background color.</p></td>
 <code><a href='warpRamp.html'>warpRamp</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>color</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"red"</span>,<span class='st'>"yellow"</span>,<span class='st'>"lightblue"</span>,<span class='st'>"blue4"</span>);
-<span class='fu'>setTextContrastColor</span>(<span class='no'>color</span>);</div><div class='output co'>#&gt; [1] "#FFFFFFFF" "#000000FF" "#000000FF" "#FFFFFFFF"</div><div class='input'>
-<span class='co'># by default, showColors() uses setTextContrastColors() on labels</span>
-<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>color</span>)</div><div class='img'><img src='setTextContrastColor-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>color</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"red"</span>,<span class='st'>"yellow"</span>,<span class='st'>"lightblue"</span>,<span class='st'>"darkorchid1"</span>,<span class='st'>"blue4"</span>);
+<span class='fu'>setTextContrastColor</span>(<span class='no'>color</span>);</div><div class='output co'>#&gt; [1] "#FFFFFFFF" "#000000FF" "#000000FF" "#FFFFFFFF" "#FFFFFFFF"</div><div class='input'>
+<span class='co'># showColors() uses setTextContrastColor() for labels</span>
+<span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>color</span>)</div><div class='img'><img src='setTextContrastColor-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># printDebugI() uses setTextContrastColor() for foreground text</span>
+<span class='fu'><a href='printDebugI.html'>printDebugI</a></span>(<span class='no'>color</span>)</div><div class='output co'>#&gt; ##  (<span style='color: #00BBBB;font-weight: bold;'>11:40:14</span><span>) 10Apr2020:  </span><span style='color: #BBBBBB;background-color: #BB0000;'>red</span><span>,</span><span style='color: #000000;background-color: #BBBB00;'>yellow</span><span>,</span><span style='color: #000000;background-color: #BBBBBB;'>lightblue</span><span>,</span><span style='color: #BBBBBB;background-color: #BB00BB;'>darkorchid1</span><span>,</span><span style='color: #BBBBBB;background-color: #0000BB;'>blue4</span><span> </div><div class='input'>
 <span class='co'># demonstrate the effect of alpha transparency</span>
-<span class='no'>colorL</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0.7</span>, <span class='fl'>0.6</span>, <span class='fl'>0.4</span>)), <span class='kw'>function</span>(<span class='no'>i</span>){
+<span class='no'>colorL</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.9</span>, <span class='fl'>0.8</span>, <span class='fl'>0.6</span>, <span class='fl'>0.3</span>)), <span class='kw'>function</span>(<span class='no'>i</span>){
    <span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='fu'><a href='alpha2col.html'>alpha2col</a></span>(<span class='no'>color</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='no'>i</span>), <span class='no'>color</span>);
 })
-<span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/showColors.html'>showColors</a></span>(<span class='no'>colorL</span>, <span class='kw'>groupCellnotes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='img'><img src='setTextContrastColor-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/showColors.html'>showColors</a></span>(<span class='no'>colorL</span>,
+   <span class='kw'>groupCellnotes</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
+   <span class='kw'>srtCellnote</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>from</span><span class='kw'>=</span><span class='fl'>15</span>, <span class='kw'>to</span><span class='kw'>=</span>-<span class='fl'>15</span>, <span class='kw'>length.out</span><span class='kw'>=</span><span class='fl'>5</span>));</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span>(<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>"alpha"</span>, <span class='kw'>line</span><span class='kw'>=</span><span class='fl'>1.5</span>);</div><div class='img'><img src='setTextContrastColor-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change background to dark blue</span>
-<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"bg"</span>);
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"bg"</span><span class='kw'>=</span><span class='st'>"navy"</span>);
-<span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/showColors.html'>showColors</a></span>(<span class='no'>colorL</span>, <span class='kw'>groupCellnotes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='img'><img src='setTextContrastColor-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"bg"</span><span class='kw'>=</span><span class='no'>bg</span>);</div></pre>
+<span class='no'>opar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"bg"</span><span class='kw'>=</span><span class='st'>"navy"</span>,
+   <span class='st'>"col"</span><span class='kw'>=</span><span class='st'>"white"</span>,
+   <span class='st'>"col.axis"</span><span class='kw'>=</span><span class='st'>"white"</span>);
+<span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/showColors.html'>showColors</a></span>(<span class='no'>colorL</span>,
+   <span class='kw'>groupCellnotes</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
+   <span class='kw'>srtCellnote</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>from</span><span class='kw'>=</span><span class='fl'>15</span>, <span class='kw'>to</span><span class='kw'>=</span>-<span class='fl'>15</span>, <span class='kw'>length.out</span><span class='kw'>=</span><span class='fl'>5</span>))</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span>(<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>"alpha"</span>, <span class='kw'>line</span><span class='kw'>=</span><span class='fl'>1.5</span>);</div><div class='img'><img src='setTextContrastColor-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='no'>opar</span>);
+
+<span class='co'># Example using transparency and drawLabels()</span>
+<span class='no'>bg</span> <span class='kw'>&lt;-</span> <span class='st'>"blue4"</span>;
+<span class='no'>col</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fixYellow.html'>fixYellow</a></span>(<span class='st'>"palegoldenrod"</span>);
+<span class='fu'><a href='nullPlot.html'>nullPlot</a></span>(<span class='kw'>fill</span><span class='kw'>=</span><span class='no'>bg</span>, <span class='kw'>plotAreaTitle</span><span class='kw'>=</span><span class='st'>""</span>, <span class='kw'>doMargins</span><span class='kw'>=</span><span class='fl'>FALSE</span>);</div><div class='input'><span class='kw'>for</span> (<span class='no'>alpha</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.1</span>, <span class='fl'>0.3</span>, <span class='fl'>0.5</span>, <span class='fl'>0.7</span>, <span class='fl'>0.9</span>)) {
+   <span class='no'>labelCol</span> <span class='kw'>&lt;-</span> <span class='fu'>setTextContrastColor</span>(
+      <span class='fu'><a href='alpha2col.html'>alpha2col</a></span>(<span class='st'>"yellow"</span>, <span class='no'>alpha</span>),
+      <span class='kw'>bg</span><span class='kw'>=</span><span class='no'>bg</span>);
+   <span class='fu'><a href='drawLabels.html'>drawLabels</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fl'>1</span> + <span class='no'>alpha</span>,
+      <span class='kw'>y</span><span class='kw'>=</span><span class='fl'>2</span> - <span class='no'>alpha</span>,
+      <span class='kw'>labelCex</span><span class='kw'>=</span><span class='fl'>1.5</span>,
+      <span class='kw'>txt</span><span class='kw'>=</span><span class='st'>"Plot Title"</span>,
+      <span class='kw'>boxColor</span><span class='kw'>=</span><span class='fu'><a href='alpha2col.html'>alpha2col</a></span>(<span class='no'>col</span>, <span class='no'>alpha</span>),
+      <span class='kw'>boxBorderColor</span><span class='kw'>=</span><span class='no'>labelCol</span>,
+      <span class='kw'>labelCol</span><span class='kw'>=</span><span class='no'>labelCol</span>);
+}</div><div class='img'><img src='setTextContrastColor-4.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

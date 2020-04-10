@@ -12,8 +12,8 @@ hcl2col(
   ceiling = 255,
   maxColorValue = 255,
   alpha = NULL,
-  fixup = NULL,
-  model = c("polarLUV", "hcl", "polarLAB"),
+  fixup = TRUE,
+  model = getOption("jam.model", c("hcl", "polarLUV", "polarLAB")),
   verbose = FALSE,
   ...
 )
@@ -57,6 +57,16 @@ values are returned in the same order.
 }
 \description{
 Convert an HCL color matrix to vector of R hex colors
+}
+\details{
+This function takes an HCL matrix,and converts to an R color using
+the colorspace package \code{colorspace::polarLUV()} and \code{colorspace::hex()}.
+
+When \code{model="hcl"} this function uses \code{farver::encode_colour()}
+and bypasses \code{colorspace}. In future the \code{colorspace} dependency
+will likely be removed in favor of using \code{farver}. In any event,
+\code{model="hcl"} is equivalent to using \code{model="polarLUV"} and
+\code{fixup=TRUE}, except that it should be much faster.
 }
 \examples{
 # Prepare a basic HCL matrix

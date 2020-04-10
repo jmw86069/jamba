@@ -11,6 +11,7 @@ setTextContrastColor(
   colorModel = c("hcl", "rgb"),
   useGrey = 0,
   keepAlpha = FALSE,
+  alphaLens = 0,
   bg = NULL,
   ...
 )
@@ -20,7 +21,7 @@ setTextContrastColor(
 
 \item{hclCutoff}{numeric threshold above which a color is judged to be
 bright, therefore requiring a dark text color. This comparison uses the
-L value from the \code{\link{col2hcl}} function, which scales colors from
+L value from the \code{col2hcl()} function, which scales colors from
 1 to 100.}
 
 \item{rgbCutoff}{numeric threshold above which a color is judged to be
@@ -32,9 +33,9 @@ will be judged for overall brightness. The 'hcl' method uses the L
 value, which more reliably represents overall visible lightness.}
 
 \item{useGrey}{numeric threshold used to define dark and bright text colors,
-using the R greyscale gradient from 0 to 100. useGrey=10 implies
-'grey10' and 'grey90' for the contrasting text colors.
-useGrey=15 is useful if labels may also overlap white or black space,
+using the R greyscale gradient from 0 to 100: \code{useGrey=10} implies
+\code{"grey10"} and \code{"grey90"} for the contrasting text colors;
+\code{useGrey=15} is useful if labels may also overlap white or black space,
 since the text will never be fully white or black.}
 
 \item{keepAlpha}{logical indicates whether the input color alpha
@@ -42,37 +43,91 @@ transparency should be maintained in the text color. By default, text
 alpha is not maintained, and instead is set to alpha=1, fully
 opaque.}
 
+\item{alphaLens}{numeric value used to adjust the effect of alpha
+transparency, where positive values emphasize the background color,
+and negative values emphasize the foreground (transparent) color.}
+
 \item{bg}{vector of R colors, used as a background when determining the
 brightness of a semi-transparent color. The corresponding brightness
 value from the \code{bg} is applied via weighted mean to the input
 \code{color} brightness, the result is compared the the relevant cutoff.
 By default \code{graphics::par("bg")} is used to determine the default
-plot background color.}
+plot background color, only when there is an open graphics device,
+otherwise calling \code{graphics::par("bg")} would open a graphics
+device, which is not desireable. When no graphics device is open,
+and when \code{bg=NULL}, the default is \code{bg="white"}.}
 
 \item{...}{additional arguments are ignored.}
 }
 \description{
 Given a vector or colors, define a contrasting color for text,
-typically using either white or black.
+typically using either white or black. The \code{useGrey} argument
+defines the offset from pure white and pure black, to use a
+contrasting grey shade.
+}
+\details{
+The \code{color} is expected to represent a background color, the
+output is intended to be a color with enough contrast to read
+text legibly.
+
+The brightness of the \code{color} is detected dependent upon
+the \code{colorModel}: when \code{"hcl"} the luminance \code{L} is compared
+to \code{hclCutoff}; when \code{"rgb"} the brightness is the sum of
+the RGB channels which is compared to \code{rgbCutoff}. In most
+cases the \code{"hcl"} and \code{L} will be more accurate.
+
+When \code{color} contains transparency, an optional argument \code{bg}
+represents the figure background color, as if the \code{color} is
+used to draw a color-filled rectangle. In this case, the \code{bg}
+and \code{color} are combined to determine the resulting actual color.
+This scenario is mostly useful when plotting text labels on
+a dark background, such as black background with colored
+text boxes.
 }
 \examples{
-color <- c("red","yellow","lightblue","blue4");
+color <- c("red","yellow","lightblue","darkorchid1","blue4");
 setTextContrastColor(color);
 
-# by default, showColors() uses setTextContrastColors() on labels
+# showColors() uses setTextContrastColor() for labels
 showColors(color)
+# printDebugI() uses setTextContrastColor() for foreground text
+printDebugI(color)
 
 # demonstrate the effect of alpha transparency
-colorL <- lapply(nameVector(c(1,0.7, 0.6, 0.4)), function(i){
+colorL <- lapply(nameVector(c(1, 0.9, 0.8, 0.6, 0.3)), function(i){
    nameVector(alpha2col(color, alpha=i), color);
 })
-jamba::showColors(colorL, groupCellnotes=FALSE)
+jamba::showColors(colorL,
+   groupCellnotes=FALSE,
+   srtCellnote=seq(from=15, to=-15, length.out=5));
+title(ylab="alpha", line=1.5);
 
 # change background to dark blue
-bg <- par("bg");
-par("bg"="navy");
-jamba::showColors(colorL, groupCellnotes=FALSE)
-par("bg"=bg);
+opar <- par("bg"="navy",
+   "col"="white",
+   "col.axis"="white");
+jamba::showColors(colorL,
+   groupCellnotes=FALSE,
+   srtCellnote=seq(from=15, to=-15, length.out=5))
+title(ylab="alpha", line=1.5);
+par(opar);
+
+# Example using transparency and drawLabels()
+bg <- "blue4";
+col <- fixYellow("palegoldenrod");
+nullPlot(fill=bg, plotAreaTitle="", doMargins=FALSE);
+for (alpha in c(0.1, 0.3, 0.5, 0.7, 0.9)) {
+   labelCol <- setTextContrastColor(
+      alpha2col("yellow", alpha),
+      bg=bg);
+   drawLabels(x=1 + alpha,
+      y=2 - alpha,
+      labelCex=1.5,
+      txt="Plot Title",
+      boxColor=alpha2col(col, alpha),
+      boxBorderColor=labelCol,
+      labelCol=labelCol);
+}
 
 }
 \seealso{

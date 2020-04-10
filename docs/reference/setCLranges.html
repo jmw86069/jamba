@@ -70,7 +70,7 @@ which helps define sensible default ranges for contrasting colors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
       </span>
     </div>
 
@@ -133,11 +133,11 @@ which helps define sensible default ranges for contrasting colors.</p>
 
     <pre class="usage"><span class='fu'>setCLranges</span>(
   <span class='kw'>lightMode</span> <span class='kw'>=</span> <span class='fu'><a href='checkLightMode.html'>checkLightMode</a></span>(),
-  <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Crange"</span>),
+  <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Crange"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>30</span>, <span class='fl'>190</span>)),
   <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Lrange"</span>),
-  <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Cgrey"</span>),
-  <span class='kw'>adjustRgb</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.adjustRgb"</span>),
-  <span class='kw'>setOptions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Cgrey"</span>, <span class='fl'>5</span>),
+  <span class='kw'>adjustRgb</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.adjustRgb"</span>, <span class='fl'>0</span>),
+  <span class='kw'>setOptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ifnull"</span>, <span class='st'>"TRUE"</span>, <span class='st'>"FALSE"</span>),
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -181,8 +181,11 @@ globally re-usable value.</p></td>
     </tr>
     <tr>
       <th>setOptions</th>
-      <td><p>logical indicating whether to update <code><a href='https://rdrr.io/r/base/options.html'>options()</a></code>
-with <code>jam.Crange</code>, <code>jam.Lrange</code>, and <code>jam.adjustRgb</code> values.</p></td>
+      <td><p>character or logical whether to update <code>Crange</code> and <code>Lrange</code>
+options during the subsequent call to <code>setCLranges()</code>. By default,
+<code>"ifnull"</code> will update only options which were previously <code>NULL</code>;
+<code>"FALSE"</code> prevents modifying the global options; <code>"TRUE"</code> will
+update these options with the current values.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -275,10 +278,10 @@ sensible default ranges.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>setCLranges</span>(<span class='kw'>lightMode</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; $Crange
-#&gt; [1]  10 100
+#&gt; [1]  30 190
 #&gt; 
 #&gt; $Lrange
-#&gt; [1]  0 80
+#&gt; [1]  5 70
 #&gt; 
 #&gt; $adjustRgb
 #&gt; [1] 0

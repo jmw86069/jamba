@@ -1,3 +1,45 @@
+# jamba version 0.0.51.900
+
+## changes to existing functions
+
+* `printDebug()` has a new argument, largely silent, `doReset`
+which defines whether to apply an additional color reset to
+the delimiter argument `sep`. Previously the delimiter inherited
+the color from the previous text, but now by default the delimiter
+style is reset, giving more clear distinction between multiple
+values.
+* `printDebug()` now properly applies the Crange and Lrange values
+when lightMode is TRUE, which means it limits the brightness of
+text colors on a light background, to ensure enough contrast to
+read the text. When using `printDebugI()` the background color
+is not adjusted, and the foreground (text) color is set using
+`setTextContrastColor()`, meaning either white or black depending
+upon the background brightness.
+* `setCLranges()` and `make_styles()` were updated to apply
+options `"jam.Crange"`, `"jam.Lrange"` only when those options were
+`NULL`, otherwise leave them as-is.
+* `applyCLrange()` now properly applies the desired `Crange` and `Lrange`
+values, and defines the appropriate options, by default only
+when those options are `NULL`.
+* `fixYellow()` default settings were changed to expand the range
+corrected "for green-ness", also `fixup=TRUE` by default.
+* `hcl2col()` argument was changed to `fixup=TRUE`, and `model="hcl"`,
+consistent with other changes in color handling.
+* `hcl2col()` and `col2hcl()` now use `model="hcl"` by default,
+which now calls the `farver` package if installed, otherwise they
+revert to using colorspace `model="polarLUV"` and `fixup=TRUE`. In
+future colorspace will likely be removed in favor of farver, so
+for now the transition has begun.
+* `setTextContrastColor()` was adjusted to handle alpha transparency
+more accurately, the examples were updated and include a new example
+that uses `drawLabels()` on a dark background. New argument `alphaLens`
+allows some fine-tuning of the alpha transparency blending of
+foreground and background colors.
+
+## Other updates
+
+Added some visuals to README.Rmd.
+
 # jamba version 0.0.50.900
 
 ## changes to existing functions

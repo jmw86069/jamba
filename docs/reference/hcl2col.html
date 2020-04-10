@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
       </span>
     </div>
 
@@ -137,8 +137,8 @@
   <span class='kw'>ceiling</span> <span class='kw'>=</span> <span class='fl'>255</span>,
   <span class='kw'>maxColorValue</span> <span class='kw'>=</span> <span class='fl'>255</span>,
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fixup</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"polarLUV"</span>, <span class='st'>"hcl"</span>, <span class='st'>"polarLAB"</span>),
+  <span class='kw'>fixup</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.model"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hcl"</span>, <span class='st'>"polarLUV"</span>, <span class='st'>"polarLAB"</span>)),
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -198,6 +198,15 @@ It is here is an option for comparison, and if specifically needed.</p></td>
 
     <p>vector of R colors, or where the input was NA, then NA
 values are returned in the same order.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function takes an HCL matrix,and converts to an R color using
+the colorspace package <code><a href='http://colorspace.R-Forge.R-project.org//reference/polarLUV.html'>colorspace::polarLUV()</a></code> and <code><a href='http://colorspace.R-Forge.R-project.org//reference/hex.html'>colorspace::hex()</a></code>.</p>
+<p>When <code>model="hcl"</code> this function uses <code>farver::encode_colour()</code>
+and bypasses <code>colorspace</code>. In future the <code>colorspace</code> dependency
+will likely be removed in favor of using <code>farver</code>. In any event,
+<code>model="hcl"</code> is equivalent to using <code>model="polarLUV"</code> and
+<code>fixup=TRUE</code>, except that it should be much faster.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam color functions: 
@@ -236,7 +245,7 @@ values are returned in the same order.</p>
 <span class='co'># Now convert back to R hex colors</span>
 <span class='no'>colorV</span> <span class='kw'>&lt;-</span> <span class='fu'>hcl2col</span>(<span class='no'>hclM</span>);
 <span class='no'>colorV</span>;</div><div class='output co'>#&gt;         red        blue      yellow      orange 
-#&gt; "#FF0000FF" "#0000FFFF" "#FFFF00FF" "#FF660066" </div><div class='input'>
+#&gt; "#FF0000FF" "#0000FFFF" "#FFFF00FF" "#FFAA0066" </div><div class='input'>
 <span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>colorV</span>);</div><div class='img'><img src='hcl2col-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
@@ -245,6 +254,7 @@ values are returned in the same order.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

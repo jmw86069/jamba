@@ -423,9 +423,6 @@ smoothScatterJam <- function
    if (!suppressPackageStartupMessages(require(grDevices))) {
       stop("smoothScatterJam() requires the grDevices package.");
    }
-   #if (!suppressPackageStartupMessages(require(KernSmooth))) {
-   #   stop("smoothScatterJam() requires the KernSmooth package.");
-   #}
    if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) !=1)) {
       stop("'nrpoints' should be numeric scalar with value >= 0.");
    }
@@ -2476,10 +2473,10 @@ plotPolygonDensity <- function
       if (length(barCol) == ncol(x)) {
          panelColors <- barCol;
       } else {
-         if (suppressPackageStartupMessages(require(colorjam))) {
+         if (suppressWarnings(suppressPackageStartupMessages(require(colorjam)))) {
             panelColors <- colorjam::rainbowJam(ncol(x));
          } else {
-            panelColors <- sample(colors(),
+            panelColors <- sample(unvigrep("gr[ae]y|white|black|[34]$", colors()),
                size=ncol(x));
          }
       }

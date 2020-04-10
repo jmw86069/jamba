@@ -4,7 +4,12 @@
 \alias{col2hcl}
 \title{convert R color to HCL color matrix}
 \usage{
-col2hcl(x, maxColorValue = 255, model = c("polarLUV", "hcl", "polarLAB"), ...)
+col2hcl(
+  x,
+  maxColorValue = 255,
+  model = getOption("jam.model", c("hcl", "polarLUV", "polarLAB")),
+  ...
+)
 }
 \arguments{
 \item{x}{R compatible color, either a color name, or hex value, or
@@ -29,6 +34,12 @@ the colorspace package, and \code{\link[colorspace]{RGB}} and
 \code{\link[colorspace]{polarLUV}} functions. It is also used to
 maintain alpha transparency, to enable interconversion via other
 color manipulation functions as well.
+
+When \code{model="hcl"} this function uses \code{farver::decode_colour()}
+and bypasses \code{colorspace}. In future the \code{colorspace} dependency
+will likely be removed in favor of using \code{farver}. In any event,
+\code{model="hcl"} is equivalent to using \code{model="polarLUV"} and
+\code{fixup=TRUE}, except that it should be much faster.
 }
 \examples{
 col2hcl("#FF000044")

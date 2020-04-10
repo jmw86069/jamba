@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
       </span>
     </div>
 
@@ -135,14 +135,14 @@
   <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
   <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'><a href='setTextContrastColor.html'>setTextContrastColor</a></span>(<span class='no'>col</span>),
-  <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>r</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.shadow.r"</span>, <span class='fl'>0.15</span>),
   <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.15</span>, -<span class='fl'>0.15</span>),
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-  <span class='kw'>outline</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>alphaOutline</span> <span class='kw'>=</span> <span class='fl'>0.9</span>,
-  <span class='kw'>shadow</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>shadowColor</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>alphaShadow</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.shadow.n"</span>, <span class='fl'>8</span>),
+  <span class='kw'>outline</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.outline"</span>, <span class='fl'>TRUE</span>),
+  <span class='kw'>alphaOutline</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.alphaOutline"</span>, <span class='fl'>0.4</span>),
+  <span class='kw'>shadow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.shadow"</span>, <span class='fl'>FALSE</span>),
+  <span class='kw'>shadowColor</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.shadowColor"</span>, <span class='st'>"black"</span>),
+  <span class='kw'>alphaShadow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.alphaShadow"</span>, <span class='fl'>0.2</span>),
   <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"cex"</span>),
   <span class='kw'>font</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"font"</span>),
   <span class='kw'>doTest</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,

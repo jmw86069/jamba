@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
       </span>
     </div>
 
@@ -129,7 +129,12 @@
     <p>convert R color to HCL color matrix</p>
     </div>
 
-    <pre class="usage"><span class='fu'>col2hcl</span>(<span class='no'>x</span>, <span class='kw'>maxColorValue</span> <span class='kw'>=</span> <span class='fl'>255</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"polarLUV"</span>, <span class='st'>"hcl"</span>, <span class='st'>"polarLAB"</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>col2hcl</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>maxColorValue</span> <span class='kw'>=</span> <span class='fl'>255</span>,
+  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.model"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hcl"</span>, <span class='st'>"polarLUV"</span>, <span class='st'>"polarLAB"</span>)),
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +169,11 @@ the colorspace package, and <code><a href='http://colorspace.R-Forge.R-project.o
 <code><a href='http://colorspace.R-Forge.R-project.org//reference/polarLUV.html'>polarLUV</a></code> functions. It is also used to
 maintain alpha transparency, to enable interconversion via other
 color manipulation functions as well.</p>
+<p>When <code>model="hcl"</code> this function uses <code>farver::decode_colour()</code>
+and bypasses <code>colorspace</code>. In future the <code>colorspace</code> dependency
+will likely be removed in favor of using <code>farver</code>. In any event,
+<code>model="hcl"</code> is equivalent to using <code>model="polarLUV"</code> and
+<code>fixup=TRUE</code>, except that it should be much faster.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam color functions: 

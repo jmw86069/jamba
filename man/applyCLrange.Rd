@@ -6,12 +6,12 @@
 \usage{
 applyCLrange(
   x,
-  Crange = NULL,
-  Lrange = NULL,
-  Cgrey = 5,
+  Crange = getOption("jam.Crange"),
+  Lrange = getOption("jam.Lrange"),
+  Cgrey = getOption("jam.Cgrey"),
   fixYellow = TRUE,
   CLmethod = c("scale", "floor", "expand"),
-  fixup = NULL,
+  fixup = TRUE,
   ...
 )
 }

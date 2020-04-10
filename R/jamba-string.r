@@ -2068,7 +2068,7 @@ uniques <- function
    ## for each vector in the list.
    ##
    ## keepNames=TRUE will keep the first name for the each duplicated entry
-   if (useBioc && suppressPackageStartupMessages(require(S4Vectors))) {
+   if (useBioc && suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
       useBioc <- TRUE;
    } else {
       useBioc <- FALSE;
@@ -2197,7 +2197,7 @@ cPaste <- function
    if (length(x) == 0) {
       return("");
    }
-   if (!suppressPackageStartupMessages(require(IRanges))) {
+   if (!suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
       warn("cPaste() is substantially faster when Bioconductor package S4Vectors is installed.");
       #stop("The IRanges package is required by cPaste() for the CharacterList class.");
       useBioc <- FALSE;

@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
       </span>
     </div>
 
@@ -131,12 +131,12 @@
 
     <pre class="usage"><span class='fu'>applyCLrange</span>(
   <span class='no'>x</span>,
-  <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>Crange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Crange"</span>),
+  <span class='kw'>Lrange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Lrange"</span>),
+  <span class='kw'>Cgrey</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.Cgrey"</span>),
   <span class='kw'>fixYellow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>CLmethod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"scale"</span>, <span class='st'>"floor"</span>, <span class='st'>"expand"</span>),
-  <span class='kw'>fixup</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fixup</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -293,7 +293,7 @@ is still required to have a hue H, it is important not to increase
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>applyCLrange</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"red"</span>,<span class='st'>"blue"</span>,<span class='st'>"yellow"</span>), <span class='kw'>Lrange</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>60</span>));</div><div class='output co'>#&gt;      col_v1      col_v2      col_v3 
-#&gt; "#7E0000FF" "#404000FF" "#704600FF" </div><div class='input'>
+#&gt; "#BB0000FF" "#898900FF" "#B18F00FF" </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

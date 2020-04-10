@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.49.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
       </span>
     </div>
 
@@ -134,14 +134,16 @@
 <li>
 <code><a href="reference/nullPlot.html">nullPlot()</a></code> - convenient “blank” base R plot, optionally displays margins</li>
 <li>
-<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> - smooth scatter <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> for point density, enhanced over <code><a href="https://rdrr.io/r/graphics/smoothScatter.html">smoothScatter()</a></code>
+<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> - smooth scatter <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> for point density, enhanced over <code><a href="https://rdrr.io/r/graphics/smoothScatter.html">smoothScatter()</a></code> <img src="reference/figures/README-plotSmoothScatter-1.png"><!-- -->
 </li>
 <li>
-<code><a href="reference/plotPolygonDensity.html">plotPolygonDensity()</a></code> - fast density/histogram plot for vector or matrix</li>
+<code><a href="reference/plotPolygonDensity.html">plotPolygonDensity()</a></code> - fast density/histogram plot for vector or matrix <img src="reference/figures/README-plotPolygonDensity-1.png"><!-- -->
+</li>
 <li>
 <code><a href="reference/imageDefault.html">imageDefault()</a></code> - enhanced <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></code> that enables raster output with consistent pixel aspect ratio.</li>
 <li>
-<code><a href="reference/imageByColors.html">imageByColors()</a></code> - wrapper to <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></code> for a matrix or data.frame of colors, with optional labels</li>
+<code><a href="reference/imageByColors.html">imageByColors()</a></code> - wrapper to <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></code> for a matrix or data.frame of colors, with optional labels <img src="reference/figures/README-imageByColors-1.png"><!-- -->
+</li>
 <li>
 <code><a href="reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> - log-transformed axis labels, flexible log base, and option for properly adjusted <code><a href="https://rdrr.io/r/base/Log.html">log2(1 + x)</a></code> format.</li>
 <li>
@@ -149,7 +151,8 @@
 <li>
 <code><a href="reference/drawLabels.html">drawLabels()</a></code> - draw square colorized text labels</li>
 <li>
-<code><a href="reference/shadowText.html">shadowText()</a></code> - replacement for <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> that draws shadows or outlines.</li>
+<code><a href="reference/shadowText.html">shadowText()</a></code> - replacement for <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> that draws shadows or outlines. <img src="reference/figures/README-labels-1.png"><!-- -->
+</li>
 <li>
 <code><a href="reference/groupedAxis.html">groupedAxis()</a></code> - grouped axis labels to show regions/ranges</li>
 <li>
@@ -190,6 +193,9 @@
 <code><a href="reference/fixYellow.html">fixYellow()</a></code> - adjust the weird green-yellow, by personal preference</li>
 <li>
 <code><a href="reference/printDebug.html">printDebug()</a></code> - pretty colorized text output using <code>crayon</code> package.</li>
+<li>
+<code>closestRcolor()</code> - find the closest R color to a vector of hex colors. <img src="reference/figures/README-colorshow-1.png"><!-- -->
+</li>
 </ul>
 </div>
 <div id="list" class="section level3">
@@ -298,6 +304,28 @@
 <ul>
 <li>
 <code><a href="reference/jargs.html">jargs()</a></code> - pretty function arguments, optional pattern search argument name</li>
+</ul>
+<!-- end list --><div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="reference/jargs.html">jargs</a></span>(plotSmoothScatter)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt;                 x = ,</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;                 y = NULL,</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;        bandwidthN = 300,</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;    transformation = function( x ) x^0.25,</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;              xlim = NULL,</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt;              ylim = NULL,</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt;              nbin = 256,</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;          nrpoints = 0,</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;           colramp = c("white", "lightblue", "blue", "orange", "orangered2"),</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;            doTest = FALSE,</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt;    fillBackground = TRUE,</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;          naAction = c("remove", "floor0", "floor1"),</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt;              xaxt = "s",</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;              yaxt = "s",</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt;               add = FALSE,</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; applyRangeCeiling = TRUE,</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt;         useRaster = TRUE,</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt;           verbose = FALSE,</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt;               ... =</span></a></code></pre></div>
+<ul>
 <li>
 <code><a href="reference/sdim.html">sdim()</a></code>, <code><a href="reference/ssdim.html">ssdim()</a></code> - dimensions of list objects, or nested list of lists</li>
 <li>
