@@ -103,6 +103,7 @@
 <a href="#background" class="anchor"></a>Background</h2>
 <p>The R functions in <code>jamba</code> have been built up over several years, often based upon and citing the relevant discussion from Stackoverflow, R-help, or Bioconductor, along with the principal author(s). Almost every function is some sort of wrapper around existing R functions – designed for specific cases where I can make it faster, more flexible, or customized to make my analysis life easier. Kudos and thanks to the original authors! The R community is built upon the collective greatness of its contributors!</p>
 <p>Most of the functions are designed around workflows for Bioinformatics analyses, where functions need to be efficient when operating over 10,000 to 100,000 elements. (They work really well with millions as well.) Usually the speed gains are obvious with about 100 elements, then scale linearly (or worse) as the number increases. I and others use these functions <em>all the time</em>.</p>
+<p>One example function <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> is a simple wrapper around very useful <code><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html">openxlsx::write.xlsx()</a></code>. Also <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> applies column formatting for things like P-values, fold changes, log2 fold changes, numeric and integer values – and uses color-shading of cells for each type. So many hours saved from hand-editing Excel formats!</p>
 <p>Small and large efficiencies are used wherever possible. For example it is faster to operate on unique entries from a 100,000 element list, than it is to perform a function on the full list. In most cases, I have tested numerous available R methods and packages, and settled on the fastest* available at the time. If there is something faster or better, I would <em>love</em> for you to let me/us know!</p>
 <p>The functions in <code>jamba</code> are intended to be convenient wrappers around whatever series of steps it takes to get the job done. My design goal is to “make my own analysis jobs easier” as first priority.</p>
 <ul>
@@ -125,6 +126,8 @@
 <li>
 <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> - as above, applied to a list of vectors with no speed loss.</li>
 </ul>
+<p>Example:</p>
+<p>| | miRNA | sort_rank | mixedSort_rank | | | - | :—— | ———: | ————–: | | | 2 | ABCA2 | 2 | 1 | | | 1 | ABCA12 | 1 | 2 | | | 3 | miR-1 | 3 | 3 | | | 6 | miR-1a | 6 | 4 | | | 7 | miR-1b | 7 | 5 | | | 8 | miR-2 | 8 | 6 | | | 4 | miR-12 | 4 | 7 | | | 9 | miR-22 | 9 | 8 | | | 5 | miR-122 | 5 | 9 | |</p>
 </div>
 <div id="base-r-plotting" class="section level3">
 <h3 class="hasAnchor">
@@ -169,9 +172,9 @@
 <li>
 <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> - flexible Excel exporter, with categorical and conditional colors.</li>
 <li>
-<code>applyXlsxCategorical()</code> - apply categorical colors to Excel</li>
+<code><a href="reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code> - apply categorical colors to Excel</li>
 <li>
-<code>applyXlsxConditional()</code> - apply conditional colors to Excel</li>
+<code><a href="reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code> - apply conditional colors to Excel</li>
 </ul>
 </div>
 <div id="color" class="section level3">
@@ -192,9 +195,7 @@
 <li>
 <code><a href="reference/fixYellow.html">fixYellow()</a></code> - adjust the weird green-yellow, by personal preference</li>
 <li>
-<code><a href="reference/printDebug.html">printDebug()</a></code> - pretty colorized text output using <code>crayon</code> package.</li>
-<li>
-<code>closestRcolor()</code> - find the closest R color to a vector of hex colors. <img src="reference/figures/README-colorshow-1.png"><!-- -->
+<code><a href="reference/printDebug.html">printDebug()</a></code> - pretty colorized text output using <code>crayon</code> package. <img src="reference/figures/README-colorshow-1.png"><!-- -->
 </li>
 </ul>
 </div>
