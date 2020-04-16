@@ -18,7 +18,7 @@ mmixedOrder(
 proper order, based upon the mechanism by \code{\link[base]{order}}.}
 
 \item{na.last, decreasing, verbose, ignore.case}{parameters sent to
-\code{\link{mixedOrder}}.}
+\code{mixedOrder()} and \code{base::order()}.}
 
 \item{matrixAsDF}{logical if \code{...} supplies only one matrix object,
 whether to convert it to data.frame, the coerce to a list, before
@@ -33,16 +33,22 @@ integer vector of row orders
 order alphanumeric values from a list
 }
 \details{
-This function is a minor extension to \code{\link{mixedOrder}} in that
-it accepts list input, similar to how \code{\link[base]{order}} operates.
-This function is mainly useful when sorting something like a data.frame,
-where ties in column 1 should be maintained then broken by non-equal
-values in column 2.
+This function is a minor extension to \code{mixedOrder()} ("multiple mixedOder")
+which accepts list input, similar to how \code{base::order()} operates.
+This function is mainly useful when sorting something like a
+data.frame, where ties in column 1 should be maintained then
+broken by non-equal values in column 2, and so on.
 
-In fact, \code{\link{mixedSortDF}} calls this \code{mmixedOrder} function,
-in order to sort a data.frame properly by column.
+This function essentially converts any non-numeric column
+to a factor, whose levels are sorted using \code{mixedOrder()}.
+That factor is converted to numeric value, multiplied by \code{-1}
+when \code{decreasing=TRUE}. Finally the list of numeric vectors
+is passed to \code{base::order()}.
 
-See \code{\link{mixedOrder}} and \code{\link{mixedSort}} for a better
+In fact, \code{mixedSortDF()} calls this \code{mmixedOrder()} function,
+in order to sort a \code{data.frame} properly by column.
+
+See \code{mixedOrder()} and \code{mixedSort()} for a better
 description of how the sort order logic operates.
 }
 \seealso{

@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -135,6 +135,7 @@
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>condenseBlanks</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>includeNames</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>na.last</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -164,12 +165,14 @@ without including an extra delimiter between columns.</p></td>
 prior to the value, using sepName as the delimiter.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>additional arguments are passed to <code><a href='pasteByRow.html'>jamba::pasteByRow()</a></code>.</p></td>
+      <th>na.last</th>
+      <td><p><code>logical</code> passed to <code><a href='https://rdrr.io/r/base/factor.html'>base::factor()</a></code> to determine whether
+<code>NA</code> values are first or last in factor level order.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>logical whether to print verbose output.</p></td>
+      <th>...</th>
+      <td><p>additional arguments are passed to <code><a href='pasteByRow.html'>jamba::pasteByRow()</a></code>,
+and to <code><a href='mixedSortDF.html'>jamba::mixedSortDF()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -177,12 +180,15 @@ prior to the value, using sepName as the delimiter.</p></td>
 
     <p>This function is an extension to <code><a href='pasteByRow.html'>jamba::pasteByRow()</a></code> which
 pastes rows from a <code>data.frame</code> into a character vector. This
-function orders the resulting character vector after ordering
-the <code>data.frame</code> with <code><a href='mixedSortDF.html'>jamba::mixedSortDF()</a></code>, which maintains
-the proper factor level ordering of each column.</p>
-<p>Note that the order of columns in the data.frame is the sort
-order of factors. In future, the column sort order may become
-an optional parameter.</p>
+function defines factor levels by running <code><a href='mixedSortDF.html'>jamba::mixedSortDF(unique(x))</a></code>
+and calling <code><a href='pasteByRow.html'>jamba::pasteByRow()</a></code> on the result. Therefore the
+original order of the input <code>x</code> is maintained while the factor
+levels are based upon the appropriate column-based sort.</p>
+<p>Note that the <code>...</code> additional arguments are
+passed to <code><a href='mixedSortDF.html'>jamba::mixedSortDF()</a></code> to customize the column-based
+sort order, used to define factor levels. A good way to test the
+order of factors is to run <code><a href='mixedSortDF.html'>jamba::mixedSortDF(unique(x))</a></code> with
+appropriate arguments, and confirm the rows are ordered as expected.</p>
 <p>Note also that <code><a href='mixedSortDF.html'>jamba::mixedSortDF()</a></code> uses <code><a href='mixedSort.html'>jamba::mixedSort()</a></code>
 which itself performs alphanumeric sort in order to keep
 values in proper numeric order where possible.</p>
@@ -214,6 +220,36 @@ values in proper numeric order where possible.</p>
 <code><a href='ucfirst.html'>ucfirst</a>()</code>,
 <code><a href='uniques.html'>uniques</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='no'>LETTERS</span>;
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='no'>f</span>[<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>2</span>)],
+   <span class='kw'>B</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='no'>f</span>[<span class='fl'>3</span>]),
+   <span class='kw'>C</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='no'>f</span>[<span class='fl'>2</span>]))
+<span class='no'>df</span></div><div class='output co'>#&gt;   A    B    C
+#&gt; 1 A &lt;NA&gt; &lt;NA&gt;
+#&gt; 2 A    C &lt;NA&gt;
+#&gt; 3 B &lt;NA&gt;    B
+#&gt; 4 B    C &lt;NA&gt;
+#&gt; 5 C &lt;NA&gt; &lt;NA&gt;
+#&gt; 6 C    C    B</div><div class='input'><span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/mixedSortDF.html'>mixedSortDF</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;   A    B    C
+#&gt; 2 A    C &lt;NA&gt;
+#&gt; 1 A &lt;NA&gt; &lt;NA&gt;
+#&gt; 4 B    C &lt;NA&gt;
+#&gt; 3 B &lt;NA&gt;    B
+#&gt; 6 C    C    B
+#&gt; 5 C &lt;NA&gt; &lt;NA&gt;</div><div class='input'><span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/mixedSortDF.html'>mixedSortDF</a></span>(<span class='no'>df</span>, <span class='kw'>na.last</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;   A    B    C
+#&gt; 1 A &lt;NA&gt; &lt;NA&gt;
+#&gt; 2 A    C &lt;NA&gt;
+#&gt; 3 B &lt;NA&gt;    B
+#&gt; 4 B    C &lt;NA&gt;
+#&gt; 5 C &lt;NA&gt; &lt;NA&gt;
+#&gt; 6 C    C    B</div><div class='input'>
+<span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/pasteByRowOrdered.html'>pasteByRowOrdered</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;     1     2     3     4     5     6 
+#&gt;     A   A_C   B_B   B_C     C C_C_B 
+#&gt; Levels: A_C A B_C B_B C_C_B C</div><div class='input'><span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/pasteByRowOrdered.html'>pasteByRowOrdered</a></span>(<span class='no'>df</span>, <span class='kw'>na.last</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;     1     2     3     4     5     6 
+#&gt;     A   A_C   B_B   B_C     C C_C_B 
+#&gt; Levels: A A_C B_B B_C C C_C_B</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -221,6 +257,7 @@ values in proper numeric order where possible.</p>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>order alphanumeric values from a list — mmixedOrder • jamba</title>
+<title>Jam-specific recursive apply — jam_rapply • jamba</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="order alphanumeric values from a list — mmixedOrder" />
-<meta property="og:description" content="order alphanumeric values from a list" />
+<meta property="og:title" content="Jam-specific recursive apply — jam_rapply" />
+<meta property="og:description" content="Jam-specific recursive apply" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,132 +120,88 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>order alphanumeric values from a list</h1>
+    <h1>Jam-specific recursive apply</h1>
     <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-string.r'><code>R/jamba-string.r</code></a></small>
-    <div class="hidden name"><code>mmixedOrder.Rd</code></div>
+    <div class="hidden name"><code>jam_rapply.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>order alphanumeric values from a list</p>
+    <p>Jam-specific recursive apply</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mmixedOrder</span>(
-  <span class='no'>...</span>,
-  <span class='kw'>na.last</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>decreasing</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>matrixAsDF</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>jam_rapply</span>(<span class='no'>x</span>, <span class='no'>FUN</span>, <span class='kw'>how</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"unlist"</span>, <span class='st'>"list"</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>x</th>
+      <td><p><code>list</code></p></td>
+    </tr>
+    <tr>
+      <th>FUN</th>
+      <td><p><code>function</code> to be called on non-list elements in <code>x</code>.</p></td>
+    </tr>
+    <tr>
+      <th>how</th>
+      <td><p><code>character</code> string indicating whether to return the
+<code>list</code> or whether to call <code><a href='https://rdrr.io/r/base/unlist.html'>unlist()</a></code> on the result.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>parameters treated as a list of vectors to be ordered in
-proper order, based upon the mechanism by <code><a href='https://rdrr.io/r/base/order.html'>order</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>na.last, decreasing, verbose, ignore.case</th>
-      <td><p>parameters sent to
-<code><a href='mixedOrder.html'>mixedOrder()</a></code> and <code><a href='https://rdrr.io/r/base/order.html'>base::order()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>matrixAsDF</th>
-      <td><p>logical if <code>...</code> supplies only one matrix object,
-whether to convert it to data.frame, the coerce to a list, before
-processing. By default, in the event only one matrix object is supplied,
-this conversion is performed, in order to define a sort order based upon
-each column in order.</p></td>
+      <td><p>additional arguments are passed to <code>FUN</code>.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>integer vector of row orders</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is a minor extension to <code><a href='mixedOrder.html'>mixedOrder()</a></code> ("multiple mixedOder")
-which accepts list input, similar to how <code><a href='https://rdrr.io/r/base/order.html'>base::order()</a></code> operates.
-This function is mainly useful when sorting something like a
-data.frame, where ties in column 1 should be maintained then
-broken by non-equal values in column 2, and so on.</p>
-<p>This function essentially converts any non-numeric column
-to a factor, whose levels are sorted using <code><a href='mixedOrder.html'>mixedOrder()</a></code>.
-That factor is converted to numeric value, multiplied by <code>-1</code>
-when <code>decreasing=TRUE</code>. Finally the list of numeric vectors
-is passed to <code><a href='https://rdrr.io/r/base/order.html'>base::order()</a></code>.</p>
-<p>In fact, <code><a href='mixedSortDF.html'>mixedSortDF()</a></code> calls this <code>mmixedOrder()</code> function,
-in order to sort a <code>data.frame</code> properly by column.</p>
-<p>See <code><a href='mixedOrder.html'>mixedOrder()</a></code> and <code><a href='mixedSort.html'>mixedSort()</a></code> for a better
-description of how the sort order logic operates.</p>
+    <p>This function is a very lightweight customization to <code><a href='https://rdrr.io/r/base/rapply.html'>base::rapply()</a></code>,
+specifically that it does not remove <code>NULL</code> entries.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam sort functions: 
-<code><a href='mixedOrder.html'>mixedOrder</a>()</code>,
-<code><a href='mixedSortDF.html'>mixedSortDF</a>()</code>,
-<code><a href='mixedSorts.html'>mixedSorts</a>()</code>,
-<code><a href='mixedSort.html'>mixedSort</a>()</code></p>
-<p>Other jam string functions: 
-<code><a href='asSize.html'>asSize</a>()</code>,
-<code><a href='breaksByVector.html'>breaksByVector</a>()</code>,
+    <div class='dont-index'><p>Other jam list functions: 
 <code><a href='cPasteSU.html'>cPasteSU</a>()</code>,
 <code><a href='cPasteS.html'>cPasteS</a>()</code>,
 <code><a href='cPasteUnique.html'>cPasteUnique</a>()</code>,
 <code><a href='cPasteU.html'>cPasteU</a>()</code>,
 <code><a href='cPaste.html'>cPaste</a>()</code>,
-<code><a href='fillBlanks.html'>fillBlanks</a>()</code>,
-<code><a href='formatInt.html'>formatInt</a>()</code>,
-<code><a href='gsubOrdered.html'>gsubOrdered</a>()</code>,
-<code><a href='makeNames.html'>makeNames</a>()</code>,
-<code><a href='mixedOrder.html'>mixedOrder</a>()</code>,
-<code><a href='mixedSortDF.html'>mixedSortDF</a>()</code>,
+<code><a href='list2df.html'>list2df</a>()</code>,
+<code><a href='mergeAllXY.html'>mergeAllXY</a>()</code>,
 <code><a href='mixedSorts.html'>mixedSorts</a>()</code>,
-<code><a href='mixedSort.html'>mixedSort</a>()</code>,
-<code><a href='nameVectorN.html'>nameVectorN</a>()</code>,
-<code><a href='nameVector.html'>nameVector</a>()</code>,
-<code><a href='padInteger.html'>padInteger</a>()</code>,
-<code><a href='padString.html'>padString</a>()</code>,
-<code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a>()</code>,
-<code><a href='pasteByRow.html'>pasteByRow</a>()</code>,
-<code><a href='tcount.html'>tcount</a>()</code>,
-<code><a href='ucfirst.html'>ucfirst</a>()</code>,
-<code><a href='uniques.html'>uniques</a>()</code></p>
-<p>Other jam string functions: 
-<code><a href='asSize.html'>asSize</a>()</code>,
-<code><a href='breaksByVector.html'>breaksByVector</a>()</code>,
-<code><a href='cPasteSU.html'>cPasteSU</a>()</code>,
-<code><a href='cPasteS.html'>cPasteS</a>()</code>,
-<code><a href='cPasteUnique.html'>cPasteUnique</a>()</code>,
-<code><a href='cPasteU.html'>cPasteU</a>()</code>,
-<code><a href='cPaste.html'>cPaste</a>()</code>,
-<code><a href='fillBlanks.html'>fillBlanks</a>()</code>,
-<code><a href='formatInt.html'>formatInt</a>()</code>,
-<code><a href='gsubOrdered.html'>gsubOrdered</a>()</code>,
-<code><a href='makeNames.html'>makeNames</a>()</code>,
-<code><a href='mixedOrder.html'>mixedOrder</a>()</code>,
-<code><a href='mixedSortDF.html'>mixedSortDF</a>()</code>,
-<code><a href='mixedSorts.html'>mixedSorts</a>()</code>,
-<code><a href='mixedSort.html'>mixedSort</a>()</code>,
-<code><a href='nameVectorN.html'>nameVectorN</a>()</code>,
-<code><a href='nameVector.html'>nameVector</a>()</code>,
-<code><a href='padInteger.html'>padInteger</a>()</code>,
-<code><a href='padString.html'>padString</a>()</code>,
-<code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a>()</code>,
-<code><a href='pasteByRow.html'>pasteByRow</a>()</code>,
-<code><a href='tcount.html'>tcount</a>()</code>,
-<code><a href='ucfirst.html'>ucfirst</a>()</code>,
-<code><a href='uniques.html'>uniques</a>()</code></p></div>
+<code><a href='rbindList.html'>rbindList</a>()</code>,
+<code><a href='relist_named.html'>relist_named</a>()</code>,
+<code><a href='rlengths.html'>rlengths</a>()</code>,
+<code><a href='sclass.html'>sclass</a>()</code>,
+<code><a href='sdima.html'>sdima</a>()</code>,
+<code><a href='sdim.html'>sdim</a>()</code>,
+<code><a href='ssdima.html'>ssdima</a>()</code>,
+<code><a href='ssdim.html'>ssdim</a>()</code>,
+<code><a href='uniques.html'>uniques</a>()</code>,
+<code><a href='unnestList.html'>unnestList</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>entryA</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"miR-112"</span>, <span class='st'>"miR-12"</span>, <span class='st'>"miR-112"</span>),
+   <span class='kw'>entryB</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>,<span class='st'>"B"</span>,<span class='st'>"A"</span>,<span class='st'>"B"</span>),
+      <span class='kw'>levels</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"B"</span>,<span class='st'>"A"</span>)),
+   <span class='kw'>entryC</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C"</span>,<span class='st'>"A"</span>,<span class='st'>"B"</span>,<span class='st'>"B"</span>,<span class='st'>"C"</span>),
+      <span class='kw'>levels</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>,<span class='st'>"B"</span>,<span class='st'>"C"</span>)),
+   <span class='kw'>entryNULL</span><span class='kw'>=</span><span class='kw'>NULL</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/rapply.html'>rapply</a></span>(<span class='no'>L</span>, <span class='no'>length</span>)</div><div class='output co'>#&gt; entryA entryB entryC 
+#&gt;      3      4      5 </div><div class='input'><span class='fu'>jam_rapply</span>(<span class='no'>L</span>, <span class='no'>length</span>)</div><div class='output co'>#&gt;    entryA    entryB    entryC entryNULL 
+#&gt;         3         4         5         0 </div><div class='input'>
+<span class='no'>L0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>B</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>C</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>D</span><span class='kw'>=</span><span class='fl'>4</span>:<span class='fl'>5</span>, <span class='kw'>E</span><span class='kw'>=</span><span class='kw'>NULL</span>));
+<span class='fu'><a href='https://rdrr.io/r/base/rapply.html'>rapply</a></span>(<span class='no'>L0</span>, <span class='no'>length</span>)</div><div class='output co'>#&gt;   A B.C B.D 
+#&gt;   3   3   2 </div><div class='input'><span class='fu'>jam_rapply</span>(<span class='no'>L0</span>, <span class='no'>length</span>)</div><div class='output co'>#&gt;   A B.C B.D B.E 
+#&gt;   3   3   2   0 </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

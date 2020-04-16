@@ -2,6 +2,11 @@
 #'
 #' vectorized make_styles for html span output
 #'
+#' Note this function is experimental.
+#'
+#' @family jam practical functions
+#' @family jam color functions
+#'
 #' @export
 make_html_styles <- function
 (style=NULL,

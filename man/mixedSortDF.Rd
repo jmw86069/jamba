@@ -26,7 +26,10 @@ optionally including prefix "-" to reverse the sort. Note that the
 parameter \code{decreasing} can also be used to specify columns
 to have reverse sort.}
 
-\item{na.last}{logical whether NA values should be ranked last}
+\item{na.last}{logical whether to move NA entries to the end of the sort.
+When \code{na.last=TRUE} then \code{NA} values will always be last, even following
+blanks and infinite values. When \code{na.last=FALSE} then \code{NA} values
+will always be first, even before blanks and negative infinite values.}
 
 \item{decreasing}{NULL or a logical vector indicating which columns
 in \code{byCols} should be sorted in decreasing order. By default, the

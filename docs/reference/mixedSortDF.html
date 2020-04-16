@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -159,7 +159,10 @@ to have reverse sort.</p></td>
     </tr>
     <tr>
       <th>na.last</th>
-      <td><p>logical whether NA values should be ranked last</p></td>
+      <td><p>logical whether to move NA entries to the end of the sort.
+When <code>na.last=TRUE</code> then <code>NA</code> values will always be last, even following
+blanks and infinite values. When <code>na.last=FALSE</code> then <code>NA</code> values
+will always be first, even before blanks and negative infinite values.</p></td>
     </tr>
     <tr>
       <th>decreasing</th>

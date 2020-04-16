@@ -7,13 +7,14 @@
 mixedSort(
   x,
   blanksFirst = TRUE,
-  NAlast = TRUE,
+  na.last = NAlast,
   keepNegative = FALSE,
   keepInfinite = FALSE,
   keepDecimal = FALSE,
   ignore.case = TRUE,
   sortByName = FALSE,
   verbose = FALSE,
+  NAlast = TRUE,
   ...
 )
 }
@@ -23,7 +24,8 @@ mixedSort(
 \item{blanksFirst}{logical whether to order blank entries before entries
 containing a value.}
 
-\item{NAlast}{logical whether to move NA entries to the end of the sort.}
+\item{na.last}{\code{logical} indicating whether to move NA entries at
+the end of the sort.}
 
 \item{keepNegative}{logical whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values.}
@@ -44,6 +46,9 @@ characters when defining the sort order.}
 of sorting by x itself.}
 
 \item{verbose}{logical whether to print verbose output.}
+
+\item{NAlast}{\code{logical} deprecated in favor of argument \code{na.last}
+for consistency with \code{base::sort()}.}
 
 \item{...}{additional parameters are sent to \code{\link{mixedOrder}}.}
 }

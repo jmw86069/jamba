@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -169,7 +169,7 @@ the colorspace package, and <code><a href='http://colorspace.R-Forge.R-project.o
 <code><a href='http://colorspace.R-Forge.R-project.org//reference/polarLUV.html'>polarLUV</a></code> functions. It is also used to
 maintain alpha transparency, to enable interconversion via other
 color manipulation functions as well.</p>
-<p>When <code>model="hcl"</code> this function uses <code>farver::decode_colour()</code>
+<p>When <code>model="hcl"</code> this function uses <code><a href='https://farver.data-imaginist.com/reference/decode_colour.html'>farver::decode_colour()</a></code>
 and bypasses <code>colorspace</code>. In future the <code>colorspace</code> dependency
 will likely be removed in favor of using <code>farver</code>. In any event,
 <code>model="hcl"</code> is equivalent to using <code>model="polarLUV"</code> and
@@ -199,10 +199,10 @@ will likely be removed in favor of using <code>farver</code>. In any event,
 <code><a href='warpRamp.html'>warpRamp</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>col2hcl</span>(<span class='st'>"#FF000044"</span>)</div><div class='output co'>#&gt;             alpha
-#&gt; L      53.2405879
-#&gt; C     179.0407624
-#&gt; H      12.1739464
+    <pre class="examples"><div class='input'><span class='fu'>col2hcl</span>(<span class='st'>"#FF000044"</span>)</div><div class='output co'>#&gt;              [,1]
+#&gt; H      12.1739887
+#&gt; C     179.0413601
+#&gt; L      53.2407941
 #&gt; alpha   0.2666667</div><div class='input'>
 </div></pre>
   </div>

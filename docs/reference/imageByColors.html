@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -146,6 +146,7 @@
   <span class='kw'>groupByColors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>adjBy</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"column"</span>, <span class='st'>"row"</span>),
   <span class='kw'>adjustMargins</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"interpolate"</span>, <span class='fl'>TRUE</span>),
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>xpd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>bty</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"bty"</span>),
@@ -247,6 +248,11 @@ cexCellnote, srtCellnote, and fontCellnote, as described above.</p></td>
       <td><p>logical indicating whether to adjust the axis
 label margins to ensure enough room to draw the text rownames
 and colnames.</p></td>
+    </tr>
+    <tr>
+      <th>interpolate</th>
+      <td><p>logical whether to implement image interpolation,
+by default TRUE when useRaster=TRUE.</p></td>
     </tr>
     <tr>
       <th>verbose</th>

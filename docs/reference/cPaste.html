@@ -70,7 +70,7 @@ delimited by default with a comma." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -140,6 +140,7 @@ delimited by default with a comma.</p>
   <span class='kw'>keepFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>checkClass</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>useBioc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -239,6 +240,7 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 <code><a href='cPasteS.html'>cPasteS</a>()</code>,
 <code><a href='cPasteUnique.html'>cPasteUnique</a>()</code>,
 <code><a href='cPasteU.html'>cPasteU</a>()</code>,
+<code><a href='jam_rapply.html'>jam_rapply</a>()</code>,
 <code><a href='list2df.html'>list2df</a>()</code>,
 <code><a href='mergeAllXY.html'>mergeAllXY</a>()</code>,
 <code><a href='mixedSorts.html'>mixedSorts</a>()</code>,
@@ -296,6 +298,42 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 #&gt; [1] "g" "h" "i" "j" "k" "i" "c"
 #&gt; </div><div class='input'><span class='fu'><a href='cPasteSU.html'>cPasteSU</a></span>(<span class='no'>L2</span>, <span class='kw'>keepFactors</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                         D                        CA                         B 
 #&gt; "l,k,j,i,h,g,f,e,d,c,b,a"             "A,B,C,D,F,G"             "k,j,i,h,g,c" </div><div class='input'>
+<span class='co'># tricky example with mix of character and factor</span>
+<span class='co'># and factor levels are inconsistent</span>
+<span class='co'># end result: factor levels are defined in order they appear</span>
+<span class='no'>L</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>entryA</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"miR-112"</span>, <span class='st'>"miR-12"</span>, <span class='st'>"miR-112"</span>),
+   <span class='kw'>entryB</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>,<span class='st'>"B"</span>,<span class='st'>"A"</span>,<span class='st'>"B"</span>),
+      <span class='kw'>levels</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"B"</span>,<span class='st'>"A"</span>)),
+   <span class='kw'>entryC</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C"</span>,<span class='st'>"A"</span>,<span class='st'>"B"</span>,<span class='st'>"B"</span>,<span class='st'>"C"</span>),
+      <span class='kw'>levels</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>,<span class='st'>"B"</span>,<span class='st'>"C"</span>)),
+   <span class='kw'>entryNULL</span><span class='kw'>=</span><span class='kw'>NULL</span>)
+<span class='no'>L</span>;</div><div class='output co'>#&gt; $entryA
+#&gt; [1] "miR-112" "miR-12"  "miR-112"
+#&gt; 
+#&gt; $entryB
+#&gt; [1] A B A B
+#&gt; Levels: B A
+#&gt; 
+#&gt; $entryC
+#&gt; [1] C A B B C
+#&gt; Levels: A B C
+#&gt; 
+#&gt; $entryNULL
+#&gt; NULL
+#&gt; </div><div class='input'><span class='fu'>cPaste</span>(<span class='no'>L</span>);</div><div class='output co'>#&gt;                   entryA                   entryB                   entryC 
+#&gt; "miR-112,miR-12,miR-112"                "A,B,A,B"              "C,A,B,B,C" 
+#&gt;                entryNULL 
+#&gt;                       "" </div><div class='input'><span class='fu'><a href='cPasteU.html'>cPasteU</a></span>(<span class='no'>L</span>);</div><div class='output co'>#&gt;           entryA           entryB           entryC        entryNULL 
+#&gt; "miR-112,miR-12"            "A,B"          "C,A,B"               "" </div><div class='input'>
+<span class='co'># by default keepFactors=FALSE, which means factors are sorted as characters</span>
+<span class='fu'><a href='cPasteS.html'>cPasteS</a></span>(<span class='no'>L</span>);</div><div class='output co'>#&gt;                   entryA                   entryB                   entryC 
+#&gt; "miR-12,miR-112,miR-112"                "A,A,B,B"              "A,B,B,C,C" 
+#&gt;                entryNULL 
+#&gt;                       "" </div><div class='input'><span class='fu'><a href='cPasteSU.html'>cPasteSU</a></span>(<span class='no'>L</span>);</div><div class='output co'>#&gt;           entryA           entryB           entryC        entryNULL 
+#&gt; "miR-12,miR-112"            "A,B"          "A,B,C"               "" </div><div class='input'><span class='co'># keepFactors=TRUE will keep unique factor levels in the order they appear</span>
+<span class='co'># this is the same behavior as unlist(L[c(2,3)]) on a list of factors</span>
+<span class='fu'><a href='cPasteSU.html'>cPasteSU</a></span>(<span class='no'>L</span>, <span class='kw'>keepFactors</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;           entryA           entryB           entryC        entryNULL 
+#&gt; "miR-12,miR-112"            "B,A"          "B,A,C"               "" </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>L</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>)]))</div><div class='output co'>#&gt; [1] "B" "A" "C"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

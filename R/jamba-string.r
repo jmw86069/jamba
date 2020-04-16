@@ -1165,7 +1165,8 @@ rmInfinite <- function
 #' @param x input vector
 #' @param blanksFirst logical whether to order blank entries before entries
 #'    containing a value.
-#' @param NAlast logical whether to move NA entries to the end of the sort.
+#' @param na.last `logical` indicating whether to move NA entries at
+#'    the end of the sort.
 #' @param keepNegative logical whether to keep '-' associated with adjacent
 #'    numeric values, in order to sort them as negative values.
 #' @param keepInfinite logical whether to allow "Inf" to be considered
@@ -1180,6 +1181,8 @@ rmInfinite <- function
 #' @param sortByName logical whether to sort the vector x by names(x) instead
 #'    of sorting by x itself.
 #' @param verbose logical whether to print verbose output.
+#' @param NAlast `logical` deprecated in favor of argument `na.last`
+#'    for consistency with `base::sort()`.
 #' @param ... additional parameters are sent to \code{\link{mixedOrder}}.
 #'
 #' @examples
@@ -1191,13 +1194,14 @@ rmInfinite <- function
 mixedSort <- function
 (x,
  blanksFirst=TRUE,
- NAlast=TRUE,
+ na.last=NAlast,
  keepNegative=FALSE,
  keepInfinite=FALSE,
  keepDecimal=FALSE,
  ignore.case=TRUE,
  sortByName=FALSE,
  verbose=FALSE,
+ NAlast=TRUE,
  ...)
 {
    ## Purpose is to wrapper and speed up gtools mixedsort()
@@ -1219,7 +1223,7 @@ mixedSort <- function
       if (ignore.case) {
          x[mixedOrder(toupper(names(x)),
             blanksFirst=blanksFirst,
-            NAlast=NAlast,
+            na.last=na.last,
             keepNegative=keepNegative,
             keepInfinite=keepInfinite,
             keepDecimal=keepDecimal,
@@ -1228,7 +1232,7 @@ mixedSort <- function
       } else {
          x[mixedOrder(names(x),
             blanksFirst=blanksFirst,
-            NAlast=NAlast,
+            na.last=na.last,
             keepNegative=keepNegative,
             keepInfinite=keepInfinite,
             keepDecimal=keepDecimal,
@@ -1239,7 +1243,7 @@ mixedSort <- function
       if (ignore.case) {
          x[mixedOrder(toupper(x),
             blanksFirst=blanksFirst,
-            NAlast=NAlast,
+            na.last=na.last,
             keepNegative=keepNegative,
             keepInfinite=keepInfinite,
             keepDecimal=keepDecimal,
@@ -1248,7 +1252,7 @@ mixedSort <- function
       } else {
          x[mixedOrder(x,
             blanksFirst=blanksFirst,
-            NAlast=NAlast,
+            na.last=na.last,
             keepNegative=keepNegative,
             keepInfinite=keepInfinite,
             keepDecimal=keepDecimal,
@@ -1263,7 +1267,7 @@ mixedSort <- function
 #' order alphanumeric values keeping numeric values in proper order
 #'
 #' This function is a refactor of `gtools::mixedorder()` which was
-#' the source of inspiration for this function.
+#' the source of inspiration for this function, thanks to Gregory R. Warnes!
 #' This function was designed to improve the efficiency for large vectors,
 #' and to handle special cases slightly differently. It was driven by some
 #' need to sort gene symbols, and miRNA symbols in numeric order, for example:
@@ -1311,9 +1315,9 @@ mixedSort <- function
 #' @param x input vector
 #' @param blanksFirst logical whether to order blank entries before entries
 #'    containing a value.
-#' @param NAlast logical whether to move NA entries to the end of the sort.
-#'    When `NAlast=TRUE` then `NA` values will always be last, even following
-#'    blanks and infinite values. When `NAlast=FALSE` then `NA` values
+#' @param na.last logical whether to move NA entries to the end of the sort.
+#'    When `na.last=TRUE` then `NA` values will always be last, even following
+#'    blanks and infinite values. When `na.last=FALSE` then `NA` values
 #'    will always be first, even before blanks and negative infinite values.
 #' @param keepNegative logical whether to keep '-' associated with adjacent
 #'    numeric values, in order to sort them as negative values. Note that
@@ -1384,9 +1388,10 @@ mixedSort <- function
 #'
 #' @export
 mixedOrder <- function
-(x, ...,
+(x,
+ ...,
+ na.last=NAlast,
  blanksFirst=TRUE,
- NAlast=TRUE,
  keepNegative=FALSE,
  keepInfinite=FALSE,
  keepDecimal=FALSE,
@@ -1394,7 +1399,8 @@ mixedOrder <- function
  ignore.case=TRUE,
  useCaseTiebreak=TRUE,
  returnDebug=FALSE,
- returnType=c("order", "rank"))
+ returnType=c("order", "rank"),
+ NAlast=TRUE)
 {
    ## Purpose is to customize the mixedorder() function from
    ## the gtools package, mainly because it is painfully slow
@@ -1440,7 +1446,7 @@ mixedOrder <- function
       } else {
          x[which_blanks] <- Inf;
       }
-      if (NAlast) {
+      if (na.last) {
          x[which_nas] <- Inf;
       } else {
          x[which_nas] <- -Inf;
@@ -1578,7 +1584,7 @@ mixedOrder <- function
          printDebug("dim(step1mNumeric):", dim(step1mNumeric));
       }
    }
-   ## Exception to converting Inf is with keepBlanks, NAlast
+   ## Exception to converting Inf is with keepBlanks, na.last
    if (any(which_blanks)) {
       if (blanksFirst) {
          step1mNumeric[which_blanks,1] <- -Inf;
@@ -1587,7 +1593,7 @@ mixedOrder <- function
       }
    }
    if (any(which_nas)) {
-      if (NAlast) {
+      if (na.last) {
          step1mNumeric[which_nas, ncol(step1mNumeric)] <- Inf;
       } else {
          step1mNumeric[which_nas,1] <- -Inf;
@@ -1681,20 +1687,21 @@ mixedOrder <- function
    if (any(which_blanks) && blanksFirst) {
       rankOverall[which_blanks, 1] <- -Inf;
    }
-   if (any(which_nas) && NAlast) {
+   if (any(which_nas) && na.last) {
       rankOverall[which_nas, 1] <- Inf;
    }
-   if (any(which_nas) && !NAlast) {
+   if (any(which_nas) && !na.last) {
       rankOverall[which_nas, 1] <- -Inf;
    }
 
    ## Rank initial string as a tiebreaker
    rankX <- rank(x,
-      na.last=NAlast);
+      na.last=na.last);
    rankOverall <- cbind(rankOverall, rankX);
 
    if (verbose) {
-      printDebug("rankOverall:");
+      printDebug("mixedOrder(): ",
+         "rankOverall:");
       print(head(rankOverall, 40));
    }
    ## TODO: add tiebreak using the original string
@@ -1739,16 +1746,22 @@ mixedOrder <- function
 #'
 #' order alphanumeric values from a list
 #'
-#' This function is a minor extension to \code{\link{mixedOrder}} in that
-#' it accepts list input, similar to how \code{\link[base]{order}} operates.
-#' This function is mainly useful when sorting something like a data.frame,
-#' where ties in column 1 should be maintained then broken by non-equal
-#' values in column 2.
+#' This function is a minor extension to `mixedOrder()` ("multiple mixedOder")
+#' which accepts list input, similar to how `base::order()` operates.
+#' This function is mainly useful when sorting something like a
+#' data.frame, where ties in column 1 should be maintained then
+#' broken by non-equal values in column 2, and so on.
 #'
-#' In fact, \code{\link{mixedSortDF}} calls this \code{mmixedOrder} function,
-#' in order to sort a data.frame properly by column.
+#' This function essentially converts any non-numeric column
+#' to a factor, whose levels are sorted using `mixedOrder()`.
+#' That factor is converted to numeric value, multiplied by `-1`
+#' when `decreasing=TRUE`. Finally the list of numeric vectors
+#' is passed to `base::order()`.
 #'
-#' See \code{\link{mixedOrder}} and \code{\link{mixedSort}} for a better
+#' In fact, `mixedSortDF()` calls this `mmixedOrder()` function,
+#' in order to sort a `data.frame` properly by column.
+#'
+#' See `mixedOrder()` and `mixedSort()` for a better
 #' description of how the sort order logic operates.
 #'
 #' @return integer vector of row orders
@@ -1759,7 +1772,7 @@ mixedOrder <- function
 #' @param ... parameters treated as a list of vectors to be ordered in
 #'    proper order, based upon the mechanism by \code{\link[base]{order}}.
 #' @param na.last,decreasing,verbose,ignore.case parameters sent to
-#'    \code{\link{mixedOrder}}.
+#'    `mixedOrder()` and `base::order()`.
 #' @param matrixAsDF logical if \code{...} supplies only one matrix object,
 #'    whether to convert it to data.frame, the coerce to a list, before
 #'    processing. By default, in the event only one matrix object is supplied,
@@ -1770,10 +1783,14 @@ mixedOrder <- function
 #'
 #' @export
 mmixedOrder <- function
-(..., na.last=TRUE, decreasing=FALSE, verbose=FALSE, ignore.case=TRUE,
+(...,
+ na.last=TRUE,
+ decreasing=FALSE,
+ verbose=FALSE,
+ ignore.case=TRUE,
  matrixAsDF=TRUE)
 {
-   ## Purpose is to provide a wrapper for mixedOrder which allows multiple lists,
+   ## Purpose is to provide a wrapper for mixedOrder which allowsmultiple lists,
    ## similar to how order() works.
    ## This change enables mmixedOrder() to work properly on data.frames, while
    ## maintaining sort order of factors
@@ -1787,8 +1804,12 @@ mmixedOrder <- function
    ## which enables it to sort by column, consistent with how data.frames are ordered.
    z <- list(...);
    if (verbose) {
-      printDebug("head(names(z),10):", head(names(z),10), c("orange", "lightblue"));
-      printDebug("length(z):", length(z), c("orange", "lightblue"));
+      printDebug("mmixedOrder(): ",
+         "head(names(z),10):",
+         head(names(z),10));
+      printDebug("mmixedOrder(): ",
+         "length(z):",
+         length(z));
    }
    if (length(z) == 1) {
       if (igrepHas("matrix", class(z[[1]])) && matrixAsDF) {
@@ -1799,23 +1820,32 @@ mmixedOrder <- function
       }
    }
    ## decreasing can now take multiple arguments, so each entry may be separately ordered
-   decreasing <- rep(decreasing, length.out=length(z));
+   decreasing <- rep(decreasing,
+      length.out=length(z));
 
    z1 <- lapply(seq_along(z), function(iNum){
       if (verbose) {
-         printDebug("mmixedOrder iNum: ", iNum, c("orange", "lightblue"));
+         printDebug("mmixedOrder(): ",
+            "iNum: ",
+            iNum);
       }
       i <- z[[iNum]];
       iSign <- (-2*decreasing[iNum])+1;
       if (verbose) {
-         printDebug("iSign:", iSign);
+         printDebug("mmixedOrder(): ",
+            "iSign:",
+            iSign);
       }
-      if (class(i) %in% c("numeric", "factor", "ordered")) {
+      if (any(class(i) %in% c("numeric", "factor", "ordered"))) {
          as.numeric(i) * iSign;
       } else {
          x2u <- unique(i);
-         x2uo <- mixedOrder(x2u, ignore.case=ignore.case, ...);
-         x2uof <- factor(i, levels=x2u[x2uo]);
+         x2uo <- mixedOrder(x2u,
+            ignore.case=ignore.case,
+            na.last=na.last,
+            ...);
+         x2uof <- factor(i,
+            levels=x2u[x2uo]);
          x2o <- as.numeric(x2uof) * iSign;
       }
    });
@@ -1845,7 +1875,10 @@ mmixedOrder <- function
 #'    optionally including prefix "-" to reverse the sort. Note that the
 #'    parameter \code{decreasing} can also be used to specify columns
 #'    to have reverse sort.
-#' @param na.last logical whether NA values should be ranked last
+#' @param na.last logical whether to move NA entries to the end of the sort.
+#'    When `na.last=TRUE` then `NA` values will always be last, even following
+#'    blanks and infinite values. When `na.last=FALSE` then `NA` values
+#'    will always be first, even before blanks and negative infinite values.
 #' @param decreasing NULL or a logical vector indicating which columns
 #'    in \code{byCols} should be sorted in decreasing order. By default, the
 #'    sign(byCols) is used to define the sort order of each column, but it
@@ -1970,19 +2003,23 @@ mixedSortDF <- function
    }
    if (verbose) {
       printDebug("mixedSortDF(): ",
-         "byCols:",
-         byCols,
-         fgText=list("yellow", "yellow",
+         "byCols: ",
+         format(byCols),
+         fgText=list("darkorange1", "dodgerblue",
+            rep(NA, length(byCols))),
+         bgText=list(NA, NA,
             ifelse(byCols < 0,
-               "red",
-               "lightgreen")));
+               "slateblue",
+               "tomato3")));
       printDebug("mixedSortDF(): ",
          "decreasing:",
          decreasingV,
-         fgText=list("yellow", "yellow",
+         fgText=list("darkorange1", "dodgerblue",
+            rep(NA, length(decreasingV))),
+         bgText=list(NA, NA,
             ifelse(decreasingV,
-               "red",
-               "lightgreen")));
+               "slateblue",
+               "tomato3")));
    }
    byCols <- abs(byCols);
 
@@ -2019,7 +2056,8 @@ mixedSortDF <- function
             na.last=na.last,
             ...);
       } else {
-         dfOrder <- mmixedOrder(df[,(byCols),drop=FALSE],
+         dfOrder <- mmixedOrder(
+            df[,(byCols),drop=FALSE],
             decreasing=decreasingV,
             na.last=na.last,
             ...);
@@ -2056,32 +2094,103 @@ mixedSortDF <- function
 #' @family jam string functions
 #' @family jam list functions
 #'
+#' @examples
+#' L1 <- list(CA=nameVector(LETTERS[c(1:4,2,7,4,6)]),
+#'    B=letters[c(7:11,9,3)],
+#'    D=nameVector(LETTERS[4]));
+#' L1;
+#' uniques(L1);
+#'
+#' if (1 == 1) {
+#' if (suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
+#'    printDebug("Bioc CompressedList:");
+#'    print(system.time(uniques(rep(L1, 10000), useBioc=TRUE)));
+#' }
+#' if (suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
+#'    printDebug("Bioc SimpleList:");
+#'    print(system.time(uniques(rep(L1, 10000), useSimpleBioc=TRUE)));
+#' }
+#' printDebug("Simple list, keepNames=FALSE:");
+#' print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=FALSE)));
+#' printDebug("Simple list, keepNames=TRUE:");
+#' print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=TRUE)));
+#' }
+#'
 #' @export
 uniques <- function
 (x,
  keepNames=TRUE,
  incomparables=FALSE,
  useBioc=TRUE,
+ useSimpleBioc=FALSE,
  ...)
 {
    ## Purpose is to take a list of vectors and return unique members
    ## for each vector in the list.
    ##
    ## keepNames=TRUE will keep the first name for the each duplicated entry
-   if (useBioc && suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
-      useBioc <- TRUE;
-   } else {
-      useBioc <- FALSE;
+   if (useBioc || useSimpleBioc) {
+      if (!suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
+         useSimpleBioc <- FALSE;
+         useBioc <- FALSE;
+      }
    }
    if (useBioc) {
+      if (!suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
+         useBioc <- FALSE;
+      }
+   }
+   xNames <- names(x);
+   if (useSimpleBioc) {
+      ## Former method used List(x)
+      ## which reverted to SimpleList for simple list input
+      ## and SimpleList does not have the amazing optimization
       as.list(
          unique(List(x),
             incomparables=incomparables,
             ...));
+   } else if (useBioc) {
+      ## Pro tip: use specific class to invoke optimized functions
+      ## otherwise they revert to base lapply(x, unique)
+      xclasses <- sclass(x);
+      xlist <- list();
+      xclassesu <- unique(xclasses);
+      for (xclass in xclassesu) {
+         xclassidx <- which(xclasses %in% xclass);
+         if ("character" %in% xclass) {
+            xlist[xclassidx] <- as.list(unique(CharacterList(x[xclassidx]),
+               incomparables=incomparables))
+         } else if ("factor" %in% xclass) {
+            xlist[xclassidx] <- as.list(unique(FactorList(x[xclassidx]),
+               incomparables=incomparables))
+         } else if ("integer" %in% xclass) {
+            xlist[xclassidx] <- as.list(unique(IntegerList(x[xclassidx]),
+               incomparables=incomparables))
+         } else if ("logical" %in% xclass) {
+            xlist[xclassidx] <- as.list(unique(LogicalList(x[xclassidx]),
+               incomparables=incomparables))
+         } else if ("raw" %in% xclass) {
+            xlist[xclassidx] <- as.list(unique(RawList(x[xclassidx]),
+               incomparables=incomparables))
+         } else if ("Rle" %in% xclass) {
+            xlist[xclassidx] <- as.list(unique(RleList(x[xclassidx]),
+               incomparables=incomparables))
+         } else if ("complex" %in% xclass) {
+            xlist[xclassidx] <- as.list(unique(ComplexList(x[xclassidx]),
+               incomparables=incomparables))
+         } else if ("GRanges" %in% xclass) {
+            xlist[xclassidx] <- lapply(unique(GenomicRanges::GRangesList(x[xclassidx])), function(gr){gr});
+         } else {
+            xlist[xclassidx] <- lapply(x[xclassidx], unique);
+         }
+      }
+      names(xlist) <- xNames;
+      return(xlist);
+   } else if (!keepNames) {
+      lapply(x, unique);
    } else {
       xu <- unlist(unname(x),
          use.names=TRUE);
-      xNames <- names(x);
       if (length(xNames) == 0) {
          names(x) <- seq_along(x);
       } else {
@@ -2093,11 +2202,11 @@ uniques <- function
       xun <- paste0(xn, "!!", xu);
       xmatch <- match(unique(xun), xun);
       xuse <- xu[xmatch];
-      xn <- xn[xmatch];
+      xnuse <- xn[xmatch];
       if (!keepNames) {
          xuse <- unname(xuse);
       }
-      xlist <- split(xuse, xn);
+      xlist <- split(xuse, xnuse);
       names(xlist) <- xNames;
       xlist;
    }
@@ -2178,6 +2287,27 @@ uniques <- function
 #' L2;
 #' cPasteSU(L2, keepFactors=TRUE);
 #'
+#' # tricky example with mix of character and factor
+#' # and factor levels are inconsistent
+#' # end result: factor levels are defined in order they appear
+#' L <- list(entryA=c("miR-112", "miR-12", "miR-112"),
+#'    entryB=factor(c("A","B","A","B"),
+#'       levels=c("B","A")),
+#'    entryC=factor(c("C","A","B","B","C"),
+#'       levels=c("A","B","C")),
+#'    entryNULL=NULL)
+#' L;
+#' cPaste(L);
+#' cPasteU(L);
+#'
+#' # by default keepFactors=FALSE, which means factors are sorted as characters
+#' cPasteS(L);
+#' cPasteSU(L);
+#' # keepFactors=TRUE will keep unique factor levels in the order they appear
+#' # this is the same behavior as unlist(L[c(2,3)]) on a list of factors
+#' cPasteSU(L, keepFactors=TRUE);
+#' levels(unlist(L[c(2,3)]))
+#'
 #' @family jam string functions
 #' @family jam list functions
 #'
@@ -2191,6 +2321,7 @@ cPaste <- function
  keepFactors=FALSE,
  checkClass=TRUE,
  useBioc=TRUE,
+ verbose=FALSE,
  ...)
 {
    ## Purpose is to utilize the vectorized function unstrsplit() from the S4Vectors package
@@ -2208,11 +2339,9 @@ cPaste <- function
       xNames <- NULL;
    }
    ## Assign temporary names if none are present
-   if (is.null(names(x))) {
+   if (length(names(x)) == 0) {
       names(x) <- seq_along(x);
-   }
-   ## Make names temporarily unique if some are duplicated
-   if (length(tcount(names(x), minCount=2)) > 0) {
+   } else {
       names(x) <- makeNames(names(x));
    }
 
@@ -2220,90 +2349,121 @@ cPaste <- function
    ## rather than a bunch of tiny vectors inside a list. Vector sorting
    ## is fast; splitting vector into a list is fast.
    if (checkClass) {
-      xclass <- cPaste(
-         lapply(x, class),
-         checkClass=FALSE,
-         keepFactors=FALSE,
-         doSort=FALSE,
-         na.rm=FALSE,
-         makeUnique=FALSE,
-      );
+      xclass <- sclass(x);
+      if (is.list(xclass)) {
+         xclass <- cPaste(xclass,
+            checkClass=FALSE);
+      }
    } else {
-      xclass <- "character";
+      xclass <- rep("character",
+         length.out=length(x));
    }
-
-   if (doSort ||
-         any(!grepl("character", xclass)) ||
-         na.rm) {
-      if (keepFactors) {
-         if (any(grepl("factor", xclass))) {
-            if (any(!grepl("factor", xclass))) {
-               # change mix of factor, non-factor to be all factor
-               x <- lapply(x, factor);
-            } else {
-               # if everything is factor, no action is required
-            }
-         } else {
-            # if nothing is factor, no action is required
-         }
-         xu <- unlist(x);
+   if (verbose) {
+      if (length(x) > 100) {
+         printDebug("cPaste(): ",
+            "head(xclass, 100):",
+            head(xclass, 100));
       } else {
-         if (any(grepl("factor", xclass))) {
-            if (any(!grepl("factor", xclass))) {
-               # if mix of factor, non-factor, change all to character first
-               x <- lapply(x, as.character);
-               xu <- unlist(x);
-            } else {
-               # if all are factor, unlist first, then convert to character
-               xu <- as.character(unlist(x));
-            }
-            # change all factor to non-factor
-         } else {
-            # if nothing is factor, no action is required
-            xu <- unlist(x);
-         }
+         printDebug("cPaste(): ",
+            "xclass:",
+            xclass);
       }
-      #xu <- unlist(x);
-      #if (!class(xu) %in% "character") {
-      #   xu <- as.character(xu);
-      #}
-      ## rlengths() will determine the correct length of
-      ## nested lists as necessary
-
-      ## We define a vector of names as a factor, so the
-      ## order of the factor levels will maintain the
-      ## original order of input data during the
-      ## split() which occurs later.
-      ## Using a factor also preserves empty levels,
-      ## in the case that NA values are removed.
-      xn <- factor(rep(names(x), rlengths(x)),
-         levels=names(x));
-      if (doSort && length(xu) > 0) {
-         if (igrepHas("factor", class(xu))) {
-            xuOrder <- order(xu, ...);
-         } else {
-            xuOrder <- mixedOrder(xu, ...);
-         }
-         xu <- xu[xuOrder];
-         xn <- xn[xuOrder];
-      }
-
-      ## Optionally remove NA values
-      if (na.rm && length(xu) > 0 && any(is.na(xu))) {
-         whichNotNA <- which(!is.na(xu));
-         xu <- xu[whichNotNA];
-         xn <- xn[whichNotNA];
-      }
-
-      ## split() using a factor keeps the data in original order
-      x1 <- split(as.character(unname(xu)), xn);
-      x <- x1;
    }
    ## Optionally make vectors unique
    if (makeUnique) {
       x <- uniques(x,
-         useBioc=useBioc);
+         useBioc=useBioc,
+         ...);
    }
+
+   ## Handle potential mix of factor and non-factor
+   if (any(grepl("factor", xclass))) {
+      if (any(!grepl("factor", xclass))) {
+         # x contains mix of factor and non-factor
+         if (verbose) {
+            printDebug("cPaste(): ",
+               "mix of factor and non-factor");
+         }
+         if (doSort && keepFactors) {
+            if (verbose) {
+               printDebug("cPaste(): ",
+                  "converting non-factor to factor with mixedSort()");
+            }
+            # if sorting we must convert non-factor to factor using mixedSort
+            xnonfactor <- which(!grepl("factor", xclass));
+            xnonfactorlevels <- mixedSort(unique(unlist(x[xnonfactor])));
+            ## carefully split using factor split so empty entries are not lost
+            x[xnonfactor] <- split(
+               factor(unlist(x[xnonfactor]),
+                  levels=xnonfactorlevels),
+               factor(
+                  rep(xnonfactor, lengths(x[xnonfactor])),
+                  levels=xnonfactor)
+               );
+         } else {
+            if (verbose) {
+               printDebug("cPaste(): ",
+                  "converting factor to character");
+            }
+            # if not sorting, or not keeping factor levels
+            # convert factor to character
+            xisfactor <- which(grepl("factor", xclass));
+            x[xisfactor] <- lapply(x[xisfactor], as.character);
+         }
+      } else {
+         # all values are factors
+         if (verbose) {
+            printDebug("cPaste(): ",
+               "all values are factor");
+         }
+      }
+   } else {
+      # no values are factors, leave as-is
+      if (verbose) {
+         printDebug("cPaste(): ",
+            "no values are factor");
+      }
+   }
+   xu <- unlist(x);
+   if (igrepHas("factor", class(xu)) && doSort && !keepFactors) {
+      # if sorting AND if xu is factor AND we do not want to keep factor levels
+      # then convert to character
+      if (verbose) {
+         printDebug("cPaste(): ",
+            "converting factor to character to drop factor levels during sort");
+      }
+      xu <- as.character(xu);
+   }
+
+   ## We define a vector of names as a factor, so the
+   ## order of the factor levels will maintain the
+   ## original order of input data during the
+   ## split() which occurs later.
+   ## Using a factor also preserves empty levels,
+   ## in the case that NA values are removed.
+   xn <- factor(rep(names(x), rlengths(x)),
+      levels=names(x));
+   if (doSort && length(xu) > 1) {
+      if (igrepHas("factor", class(xu))) {
+         xuOrder <- order(xu, ...);
+      } else {
+         xuOrder <- mixedOrder(xu, ...);
+      }
+      xu <- xu[xuOrder];
+      xn <- xn[xuOrder];
+   }
+
+   ## Optionally remove NA values
+   if (na.rm && length(xu) > 0 && any(is.na(xu))) {
+      whichNotNA <- which(!is.na(xu));
+      xu <- xu[whichNotNA];
+      xn <- xn[whichNotNA];
+   }
+
+   ## split() using a factor keeps the data in original order
+   x <- split(
+      as.character(unname(xu)),
+      xn);
 
    if (useBioc) {
       ## Note: The explicit conversion to class CharacterList is required
@@ -2746,6 +2906,61 @@ list2df <- function
    return(xdf);
 }
 
+#' Jam-specific recursive apply
+#'
+#' Jam-specific recursive apply
+#'
+#' This function is a very lightweight customization to `base::rapply()`,
+#' specifically that it does not remove `NULL` entries.
+#'
+#' @family jam list functions
+#'
+#' @param x `list`
+#' @param FUN `function` to be called on non-list elements in `x`.
+#' @param how `character` string indicating whether to return the
+#'    `list` or whether to call `unlist()` on the result.
+#' @param ... additional arguments are passed to `FUN`.
+#'
+#' @examples
+#' L <- list(entryA=c("miR-112", "miR-12", "miR-112"),
+#'    entryB=factor(c("A","B","A","B"),
+#'       levels=c("B","A")),
+#'    entryC=factor(c("C","A","B","B","C"),
+#'       levels=c("A","B","C")),
+#'    entryNULL=NULL)
+#' rapply(L, length)
+#' jam_rapply(L, length)
+#'
+#' L0 <- list(A=1:3, B=list(C=1:3, D=4:5, E=NULL));
+#' rapply(L0, length)
+#' jam_rapply(L0, length)
+#'
+#' @export
+jam_rapply <- function
+(x,
+ FUN,
+ how=c("unlist", "list"),
+ ...)
+{
+   how <- match.arg(how);
+   newlist <- lapply(x, function(i){
+      if (is.list(i)){
+         jam_rapply(i,
+            FUN=FUN,
+            how=how,
+            ...);
+      } else {
+         FUN(i,
+            ...)
+      }
+   });
+   if ("unlist" %in% how) {
+      newlist <- unlist(newlist);
+   }
+   return(newlist);
+}
+
+
 #' sort alphanumeric values within a list format
 #'
 #' sort alphanumeric values within a list format
@@ -2796,11 +3011,20 @@ list2df <- function
 #' mixedSorts(l1);
 #' mixedSorts(l1, sortByName=TRUE);
 #'
+#' # when one entry is missing
+#' L0 <- list(A=3:1,
+#'    B=list(C=c(1:3,NA,0),
+#'    D=LETTERS[c(4,5,2)],
+#'    E=NULL));
+#' L0
+#' mixedSorts(L0)
+#' mixedSorts(L0, na.rm=TRUE)
+#'
 #' @export
 mixedSorts <- function
 (x,
  blanksFirst=TRUE,
- NAlast=TRUE,
+ na.last=NAlast,
  keepNegative=FALSE,
  keepInfinite=TRUE,
  keepDecimal=FALSE,
@@ -2808,25 +3032,31 @@ mixedSorts <- function
  sortByName=FALSE,
  na.rm=FALSE,
  verbose=FALSE,
+ NAlast=TRUE,
  debug=FALSE,
  ...)
 {
    ## Purpose is to take a list of vectors and run mixedSort() efficiently
    ##
+   xNames <- names(x);
+   xclass <- unique(rapply(x, class, how="unlist"));
    xu <- unlist(x);
+   if (length(names(x)) == 0) {
+      names(x) <- seq_along(x);
+   } else {
+      names(x) <- makeNames(names(x));
+   }
    ## vector names
-   xun <- unname(rapply(x, names));
+   xun <- unname(jam_rapply(x, names));
    if (length(xun) < length(xu)) {
       if (sortByName) {
          stop("Cannot sort by name because not all vectors have names.");
       }
       xun <- NULL;
    }
-   if (!class(xu) %in% "character") {
+   if (length(xclass) > 1) {
       xu <- as.character(xu);
    }
-   ## rlengths() will determine the correct length of
-   ## nested lists as necessary
 
    ## We define a vector of names as a factor, so the
    ## order of the factor levels will maintain the
@@ -2834,7 +3064,7 @@ mixedSorts <- function
    ## split() which occurs later.
    ## Using a factor also preserves empty levels,
    ## in the case that NA values are removed.
-   xrn <- rapply(x, length);
+   xrn <- jam_rapply(x, length);
    xn <- factor(
       rep(names(xrn),
          xrn),
@@ -2847,27 +3077,45 @@ mixedSorts <- function
    } else {
       xu_use <- xu;
    }
-   xuOrder <- mixedOrder(xu_use,
-      blanksFirst=blanksFirst,
-      NAlast=NAlast,
-      keepNegative=keepNegative,
-      keepInfinite=keepInfinite,
-      keepDecimal=keepDecimal,
-      ignore.case=ignore.case);
+   if ("factor" %in% class(xu_use)) {
+      xuOrder <- order(xu_use,
+         na.last=na.last);
+   } else {
+      xuOrder <- mixedOrder(xu_use,
+         blanksFirst=blanksFirst,
+         na.last=na.last,
+         keepNegative=keepNegative,
+         keepInfinite=keepInfinite,
+         keepDecimal=keepDecimal,
+         ignore.case=ignore.case,
+         ...);
+   }
    xu <- xu[xuOrder];
    xn <- xn[xuOrder];
+   xu_use <- xu_use[xuOrder];
    if (length(xun) > 0) {
       xun <- xun[xuOrder];
    }
 
    ## Optionally remove NA values
    if (na.rm && any(is.na(xu_use))) {
+      printDebug("Removing NA values");
       whichNotNA <- which(!is.na(xu_use));
       xu <- xu[whichNotNA];
       xn <- xn[whichNotNA];
-      xun <- xun[whichNotNA];
+      if (length(xun) > 0) {
+         xun <- xun[whichNotNA];
+      }
+      xu_use <- xu_use[whichNotNA];
+      if (any("list" %in% sapply(x, class))) {
+         x <- jam_rapply(x, function(i){i[!is.na(i)]}, "list")
+      }
    }
-   names(xu) <- xun;
+   if (length(xun) > 0) {
+      names(xu) <- xun;
+   } else {
+      xu <- unname(xu);
+   }
 
    ## split() using a factor keeps the data in original order
    if (debug) {
@@ -2880,10 +3128,15 @@ mixedSorts <- function
    }
    if (any("list" %in% sapply(x, class))) {
       xu_ordered <- unlist(unname(split(xu, xn)))
-      relist_named(xu_ordered, x);
+      xnew <- relist_named(xu_ordered, x);
+      if (length(xnew) == length(xNames)) {
+         names(xnew) <- xNames;
+      }
    } else {
-      split(xu, xn);
+      xnew <- split(xu, xn);
+      names(xnew) <- xNames;
    }
+   return(xnew);
 }
 
 #' relist a vector which allows re-ordered names

@@ -1374,6 +1374,8 @@ imageDefault <- function
 #' @param adjustMargins logical indicating whether to adjust the axis
 #'    label margins to ensure enough room to draw the text rownames
 #'    and colnames.
+#' @param interpolate logical whether to implement image interpolation,
+#'    by default TRUE when useRaster=TRUE.
 #' @param verbose logical whether to print verbose output.
 #' @param xpd NULLL or logical used for \code{par("xpd")} to define whether
 #'    to crop displayed output to the plot area. If xpd=NULL then par("xpd")
@@ -1424,6 +1426,7 @@ imageByColors <- function
  groupByColors=TRUE,
  adjBy=c("column","row"),
  adjustMargins=FALSE,
+ interpolate=getOption("interpolate", TRUE),
  verbose=FALSE,
  xpd=NULL,
  bty=par("bty"),
@@ -1525,6 +1528,7 @@ imageByColors <- function
          fixRasterRatio=fixRasterRatio,
          maxRatioFix=maxRatioFix,
          bty=bty,
+         interpolate=interpolate,
          verbose=verbose,
          ...);
    }

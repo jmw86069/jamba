@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -202,7 +202,7 @@ values are returned in the same order.</p>
 
     <p>This function takes an HCL matrix,and converts to an R color using
 the colorspace package <code><a href='http://colorspace.R-Forge.R-project.org//reference/polarLUV.html'>colorspace::polarLUV()</a></code> and <code><a href='http://colorspace.R-Forge.R-project.org//reference/hex.html'>colorspace::hex()</a></code>.</p>
-<p>When <code>model="hcl"</code> this function uses <code>farver::encode_colour()</code>
+<p>When <code>model="hcl"</code> this function uses <code><a href='https://farver.data-imaginist.com/reference/encode_colour.html'>farver::encode_colour()</a></code>
 and bypasses <code>colorspace</code>. In future the <code>colorspace</code> dependency
 will likely be removed in favor of using <code>farver</code>. In any event,
 <code>model="hcl"</code> is equivalent to using <code>model="polarLUV"</code> and
@@ -238,14 +238,14 @@ will likely be removed in favor of using <code>farver</code>. In any event,
    <span class='kw'>yellow</span><span class='kw'>=</span><span class='st'>"yellow"</span>,
    <span class='kw'>orange</span><span class='kw'>=</span><span class='st'>"#FFAA0066"</span>));
 <span class='no'>hclM</span>;</div><div class='output co'>#&gt;             red      blue    yellow    orange
-#&gt; L      53.24059  32.29567  97.13951  76.07843
-#&gt; C     179.04076 130.67593 107.06462 103.63861
-#&gt; H      12.17395 265.87278  85.87351  46.97691
+#&gt; H      12.17399 265.87273  85.87275  46.97627
+#&gt; C     179.04136 130.68125 107.06428 103.63940
+#&gt; L      53.24079  32.29701  97.13927  76.07836
 #&gt; alpha   1.00000   1.00000   1.00000   0.40000</div><div class='input'>
 <span class='co'># Now convert back to R hex colors</span>
 <span class='no'>colorV</span> <span class='kw'>&lt;-</span> <span class='fu'>hcl2col</span>(<span class='no'>hclM</span>);
-<span class='no'>colorV</span>;</div><div class='output co'>#&gt;         red        blue      yellow      orange 
-#&gt; "#FF0000FF" "#0000FFFF" "#FFFF00FF" "#FFAA0066" </div><div class='input'>
+<span class='no'>colorV</span>;</div><div class='output co'>#&gt;       red      blue    yellow    orange 
+#&gt; "#FF0000" "#0000FF" "#FFFF00" "#FFAA00" </div><div class='input'>
 <span class='fu'><a href='showColors.html'>showColors</a></span>(<span class='no'>colorV</span>);</div><div class='img'><img src='hcl2col-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

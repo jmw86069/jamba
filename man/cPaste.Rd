@@ -13,6 +13,7 @@ cPaste(
   keepFactors = FALSE,
   checkClass = TRUE,
   useBioc = TRUE,
+  verbose = FALSE,
   ...
 )
 }
@@ -100,6 +101,27 @@ L2 <- c(
 L2;
 cPasteSU(L2, keepFactors=TRUE);
 
+# tricky example with mix of character and factor
+# and factor levels are inconsistent
+# end result: factor levels are defined in order they appear
+L <- list(entryA=c("miR-112", "miR-12", "miR-112"),
+   entryB=factor(c("A","B","A","B"),
+      levels=c("B","A")),
+   entryC=factor(c("C","A","B","B","C"),
+      levels=c("A","B","C")),
+   entryNULL=NULL)
+L;
+cPaste(L);
+cPasteU(L);
+
+# by default keepFactors=FALSE, which means factors are sorted as characters
+cPasteS(L);
+cPasteSU(L);
+# keepFactors=TRUE will keep unique factor levels in the order they appear
+# this is the same behavior as unlist(L[c(2,3)]) on a list of factors
+cPasteSU(L, keepFactors=TRUE);
+levels(unlist(L[c(2,3)]))
+
 }
 \seealso{
 Other jam string functions: 
@@ -133,6 +155,7 @@ Other jam list functions:
 \code{\link{cPasteS}()},
 \code{\link{cPasteUnique}()},
 \code{\link{cPasteU}()},
+\code{\link{jam_rapply}()},
 \code{\link{list2df}()},
 \code{\link{mergeAllXY}()},
 \code{\link{mixedSorts}()},

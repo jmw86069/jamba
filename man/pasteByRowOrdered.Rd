@@ -10,6 +10,7 @@ pasteByRowOrdered(
   na.rm = TRUE,
   condenseBlanks = TRUE,
   includeNames = FALSE,
+  na.last = TRUE,
   ...
 )
 }
@@ -26,9 +27,11 @@ without including an extra delimiter between columns.}
 \item{includeNames}{logical whether to include the colname delimited
 prior to the value, using sepName as the delimiter.}
 
-\item{...}{additional arguments are passed to \code{jamba::pasteByRow()}.}
+\item{na.last}{\code{logical} passed to \code{base::factor()} to determine whether
+\code{NA} values are first or last in factor level order.}
 
-\item{verbose}{logical whether to print verbose output.}
+\item{...}{additional arguments are passed to \code{jamba::pasteByRow()},
+and to \code{jamba::mixedSortDF()}.}
 }
 \description{
 Paste data.frame rows into an ordered factor
@@ -36,17 +39,33 @@ Paste data.frame rows into an ordered factor
 \details{
 This function is an extension to \code{jamba::pasteByRow()} which
 pastes rows from a \code{data.frame} into a character vector. This
-function orders the resulting character vector after ordering
-the \code{data.frame} with \code{jamba::mixedSortDF()}, which maintains
-the proper factor level ordering of each column.
+function defines factor levels by running \code{jamba::mixedSortDF(unique(x))}
+and calling \code{jamba::pasteByRow()} on the result. Therefore the
+original order of the input \code{x} is maintained while the factor
+levels are based upon the appropriate column-based sort.
 
-Note that the order of columns in the data.frame is the sort
-order of factors. In future, the column sort order may become
-an optional parameter.
+Note that the \code{...} additional arguments are
+passed to \code{jamba::mixedSortDF()} to customize the column-based
+sort order, used to define factor levels. A good way to test the
+order of factors is to run \code{jamba::mixedSortDF(unique(x))} with
+appropriate arguments, and confirm the rows are ordered as expected.
 
 Note also that \code{jamba::mixedSortDF()} uses \code{jamba::mixedSort()}
 which itself performs alphanumeric sort in order to keep
 values in proper numeric order where possible.
+}
+\examples{
+f <- LETTERS;
+df <- data.frame(A=f[rep(1:3, each=2)],
+   B=c(NA, f[3]),
+   C=c(NA, NA, f[2]))
+df
+jamba::mixedSortDF(df)
+jamba::mixedSortDF(df, na.last=FALSE)
+
+jamba::pasteByRowOrdered(df)
+jamba::pasteByRowOrdered(df, na.last=FALSE)
+
 }
 \seealso{
 Other jam string functions: 

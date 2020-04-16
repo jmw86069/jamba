@@ -86,6 +86,7 @@ Other jam list functions:
 \code{\link{cPasteUnique}()},
 \code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{jam_rapply}()},
 \code{\link{list2df}()},
 \code{\link{mergeAllXY}()},
 \code{\link{mixedSorts}()},

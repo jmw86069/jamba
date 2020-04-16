@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -228,6 +228,9 @@ substring, for example <code>grepls("statshits")</code>.</p>
 #&gt; [1] "draw.details"    "drawDetails"     "grid.draw"       "postDrawDetails"
 #&gt; [5] "preDrawDetails" 
 #&gt; 
+#&gt; $`package:IRanges`
+#&gt; [1] "RawList"
+#&gt; 
 #&gt; $`package:jamba`
 #&gt; [1] "drawLabels"
 #&gt; 
@@ -238,7 +241,10 @@ substring, for example <code>grepls("statshits")</code>.</p>
 #&gt; [10] "rawShift"           "rawToBits"          "rawToChar"         
 #&gt; </div><div class='input'>
 <span class='co'># Require "Raw" to be case-sensitive</span>
-<span class='fu'>grepls</span>(<span class='st'>"Raw"</span>, <span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; $`package:base`
+<span class='fu'>grepls</span>(<span class='st'>"Raw"</span>, <span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; $`package:IRanges`
+#&gt; [1] "RawList"
+#&gt; 
+#&gt; $`package:base`
 #&gt; [1] "charToRaw" "grepRaw"  
 #&gt; </div><div class='input'>
 </div></pre>

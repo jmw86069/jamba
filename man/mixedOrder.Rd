@@ -7,8 +7,8 @@
 mixedOrder(
   x,
   ...,
+  na.last = NAlast,
   blanksFirst = TRUE,
-  NAlast = TRUE,
   keepNegative = FALSE,
   keepInfinite = FALSE,
   keepDecimal = FALSE,
@@ -16,7 +16,8 @@ mixedOrder(
   ignore.case = TRUE,
   useCaseTiebreak = TRUE,
   returnDebug = FALSE,
-  returnType = c("order", "rank")
+  returnType = c("order", "rank"),
+  NAlast = TRUE
 )
 }
 \arguments{
@@ -24,13 +25,13 @@ mixedOrder(
 
 \item{...}{additional parameters are sent to \code{\link{mixedOrder}}.}
 
+\item{na.last}{logical whether to move NA entries to the end of the sort.
+When \code{na.last=TRUE} then \code{NA} values will always be last, even following
+blanks and infinite values. When \code{na.last=FALSE} then \code{NA} values
+will always be first, even before blanks and negative infinite values.}
+
 \item{blanksFirst}{logical whether to order blank entries before entries
 containing a value.}
-
-\item{NAlast}{logical whether to move NA entries to the end of the sort.
-When \code{NAlast=TRUE} then \code{NA} values will always be last, even following
-blanks and infinite values. When \code{NAlast=FALSE} then \code{NA} values
-will always be first, even before blanks and negative infinite values.}
 
 \item{keepNegative}{logical whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values. Note that
@@ -73,7 +74,7 @@ order alphanumeric values keeping numeric values in proper order
 }
 \details{
 This function is a refactor of \code{gtools::mixedorder()} which was
-the source of inspiration for this function.
+the source of inspiration for this function, thanks to Gregory R. Warnes!
 This function was designed to improve the efficiency for large vectors,
 and to handle special cases slightly differently. It was driven by some
 need to sort gene symbols, and miRNA symbols in numeric order, for example:

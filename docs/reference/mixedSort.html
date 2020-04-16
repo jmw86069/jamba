@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -132,13 +132,14 @@
     <pre class="usage"><span class='fu'>mixedSort</span>(
   <span class='no'>x</span>,
   <span class='kw'>blanksFirst</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>NAlast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>na.last</span> <span class='kw'>=</span> <span class='no'>NAlast</span>,
   <span class='kw'>keepNegative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>keepInfinite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>keepDecimal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sortByName</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>NAlast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -155,8 +156,9 @@
 containing a value.</p></td>
     </tr>
     <tr>
-      <th>NAlast</th>
-      <td><p>logical whether to move NA entries to the end of the sort.</p></td>
+      <th>na.last</th>
+      <td><p><code>logical</code> indicating whether to move NA entries at
+the end of the sort.</p></td>
     </tr>
     <tr>
       <th>keepNegative</th>
@@ -189,6 +191,11 @@ of sorting by x itself.</p></td>
     <tr>
       <th>verbose</th>
       <td><p>logical whether to print verbose output.</p></td>
+    </tr>
+    <tr>
+      <th>NAlast</th>
+      <td><p><code>logical</code> deprecated in favor of argument <code>na.last</code>
+for consistency with <code><a href='https://rdrr.io/r/base/sort.html'>base::sort()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>

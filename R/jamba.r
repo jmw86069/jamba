@@ -5302,13 +5302,16 @@ isTRUEV <- function
 #'
 #' This function is an extension to `jamba::pasteByRow()` which
 #' pastes rows from a `data.frame` into a character vector. This
-#' function orders the resulting character vector after ordering
-#' the `data.frame` with `jamba::mixedSortDF()`, which maintains
-#' the proper factor level ordering of each column.
+#' function defines factor levels by running `jamba::mixedSortDF(unique(x))`
+#' and calling `jamba::pasteByRow()` on the result. Therefore the
+#' original order of the input `x` is maintained while the factor
+#' levels are based upon the appropriate column-based sort.
 #'
-#' Note that the order of columns in the data.frame is the sort
-#' order of factors. In future, the column sort order may become
-#' an optional parameter.
+#' Note that the `...` additional arguments are
+#' passed to `jamba::mixedSortDF()` to customize the column-based
+#' sort order, used to define factor levels. A good way to test the
+#' order of factors is to run `jamba::mixedSortDF(unique(x))` with
+#' appropriate arguments, and confirm the rows are ordered as expected.
 #'
 #' Note also that `jamba::mixedSortDF()` uses `jamba::mixedSort()`
 #' which itself performs alphanumeric sort in order to keep
@@ -5321,10 +5324,24 @@ isTRUEV <- function
 #'    without including an extra delimiter between columns.
 #' @param includeNames logical whether to include the colname delimited
 #'    prior to the value, using sepName as the delimiter.
-#' @param verbose logical whether to print verbose output.
-#' @param ... additional arguments are passed to `jamba::pasteByRow()`.
+#' @param na.last `logical` passed to `base::factor()` to determine whether
+#'    `NA` values are first or last in factor level order.
+#' @param ... additional arguments are passed to `jamba::pasteByRow()`,
+#'    and to `jamba::mixedSortDF()`.
 #'
 #' @family jam string functions
+#'
+#' @examples
+#' f <- LETTERS;
+#' df <- data.frame(A=f[rep(1:3, each=2)],
+#'    B=c(NA, f[3]),
+#'    C=c(NA, NA, f[2]))
+#' df
+#' jamba::mixedSortDF(df)
+#' jamba::mixedSortDF(df, na.last=FALSE)
+#'
+#' jamba::pasteByRowOrdered(df)
+#' jamba::pasteByRowOrdered(df, na.last=FALSE)
 #'
 #' @export
 pasteByRowOrdered <- function
@@ -5333,6 +5350,7 @@ pasteByRowOrdered <- function
  na.rm=TRUE,
  condenseBlanks=TRUE,
  includeNames=FALSE,
+ na.last=TRUE,
  ...)
 {
    ## Purpose is to enhance pasteByRow() except maintain ordering of factors
@@ -5345,7 +5363,10 @@ pasteByRowOrdered <- function
       condenseBlanks=condenseBlanks,
       includeNames=includeNames,
       ...);
-   xlevels <- jamba::pasteByRow(unique(mixedSortDF(x)),
+   xlevels <- jamba::pasteByRow(
+      mixedSortDF(unique(x),
+         na.last=na.last,
+         ...),
       sep=sep,
       na.rm=na.rm,
       condenseBlanks=condenseBlanks,

@@ -1,3 +1,110 @@
+# jamba version 0.0.52.900
+
+## new functions
+
+* `jam_rapply()` is a lightweight customization to `base::rapply()`,
+specifically designed to keep `NULL` entries without dropping them
+silently. It has the added benefit of being able to flatten a nested
+input list, then expand back into the original nested list structure,
+without losing the `NULL` entries.
+
+## Notes on sorting lists with factors and vectors
+
+A theme of several updates this version has been to handle list
+input that may contain `factor` and non-`factor` vectors.
+In fact even handling a list of `factor` vectors is unclear
+at least to me. For example, `base::unlist()` operating on a
+list of factors will define one factor vector whose levels
+are literally the unique first-occurrence of each factor level.
+For example `sort(factor(c("A","B"), levels=c("A","B")))` results
+in `c("A", "B")`, while `sort(factor(c("A","B"), levels=c("B","A")))`
+results in `c("B", "A")`. So what should be done when given:
+
+>`list(factor(c("A","B"), levels=c("A","B")), factor(c("A","B"), levels=c("B","A"))`
+
+In reality, most such occurrences would not happen, if factor levels
+are specified, the best solution is to include the full set of factor
+levels with each factor vector. But if the input contains a mixture
+of factor and character, vectors, running `unlist()` converts factors
+to integers... which is really bad. At the very least I had to
+handle and prevent that scenario.
+
+## changes to existing functions
+
+* `pasteByRowOrdered()` was modified in two ways: new argument
+`na.last=TRUE` is passed to `mixedSortDF()` to allow `NA` values
+to be sorted at the top, which seems intuitive for most scenarios;
+also the `...` additional arguments are passed to `mixedSortDF()`
+which allows column sort order to be customized. Previously
+`pasteByRowOrdered()` called `mixedSortDF()` which sorted columns
+in the order they appear in the `data.frame`, however sometimes
+it is better to sort columns differently, while keeping the original
+column order intact. See examples for illustration of `na.last=TRUE`.
+In a two-column table with `NA` values in the second column,
+using `na.last=TRUE` (default) would yield factor levels
+`c("A_B", "A", "B_C", "B")`, while using `na.last=FALSE` would
+yield `c("A", "A_B", "B", "B_C")`. This output seems more intuitive,
+however the default in `mixedSortDF()` and `mixedSort()` are
+`na.last=TRUE` so that default will be maintained for consistency.
+* `mixedSort()` argument `NAlast` is deprecated in favor of
+`na.last` for consistency with `base::sort()`.
+
+## Bug fixes
+
+* `cPaste()` was refactored to simplify internal logic, and to
+handle a rare edge case that was inconsistent with related functions.
+It occurs when
+the input list contains some `factor` vectors, and some non-`factor`
+vectors, and when both `doSort=TRUE` and `keepFactors=TRUE`.
+The `keepFactors=TRUE` argument tries to maintain factor levels
+during the sort, instead of using `mixedSort()` across all vectors.
+In this case, previously the non-`factor` vectors were converted
+to factor, which by default would order factor levels using
+`sort()`. Now the output is consistent in that the `character`
+vectors are converted to factors whose levels are ordered using
+`mixedSort()`. The step occurs once across all `character` vectors,
+so it is fairly fast even for large input lists. Also, any `NULL`
+entries are still maintained and returned as `""`.
+* `mixedSorts()` was updated to allow input that has no names,
+which was errantly returning `NULL`. Now names are handled gracefully,
+allowing no names, or even duplicated names, without issue.
+* `mixedSorts()` now properly handles nested list input that
+may contain `NULL`, so that it returns the same structured list
+including `NULL` entries where appropriate.
+
+## Refactoring for performance
+
+* `uniques()` new argument `useSimpleBioc=TRUE` will optionally
+enable Bioconductor SimpleList intermediate -- mostly available
+to benchmark because it is so painfully slow it raised a red flag.
+The Bioconductor `S4Vectors` package changed how they handle `List`
+coersion from a simple `list` class, instead of using `CompressedList`
+it defaulted to use `SimpleList`. Unfortunately, `SimpleList`
+is roughly 6-10 times slower when calling `unique()`, and was causing
+curious slowdowns in other functions such as `cPasteU`. Bioconductor
+does not allow coersion directly to `CompressedList`, instead requires
+coersion by specific recognized classes such as `"character"` with
+`"CharacterList"`, and `"integer"` with `"IntegerList"`. So because
+the input list is allowed to contain different classes, the remedy
+is to make a `CompressedList` for each recognized class, call
+`uniques()` on that `CompressedList`, and repeat until all classes
+are handled. Any unrecognized classes are handled using
+`lapply(x, unique)`. See examples for some benchmark comparisons.
+When `useBioc=TRUE`, the optimized Bioconductor method is used.
+When `useBioc=FALSE`, and `useSimpleBioc=TRUE`, the slower
+Bioconductor approach is used, which uses `SimpleList` as an
+intermediate.
+When both `useBioc=FALSE` and `useSimpleBioc=FALSE`, there are two
+additional options:
+`keepNames=FALSE` uses `lapply(x, unique)` and loses vector names;
+`keepNames=TRUE` will invoke a special base R approach that maintains the
+original vector names for the remaining unique entries.
+Of these four approaches the timings relative to the fastest:
+1. useBioc=TRUE: 1x (fastest)
+2. useBioc=FALSE, useSimpleBioc=TRUE: 6x slower
+3. useBioc=FALSE, useSimpleBioc=FALSE, keepNames=FALSE: 1.8x slower
+4. useBioc=FALSE, useSimpleBioc=FALSE, keepNames=TRUE: 12x slower
+
 # jamba version 0.0.51.900
 
 ## changes to existing functions

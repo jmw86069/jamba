@@ -7,7 +7,7 @@
 mixedSorts(
   x,
   blanksFirst = TRUE,
-  NAlast = TRUE,
+  na.last = NAlast,
   keepNegative = FALSE,
   keepInfinite = TRUE,
   keepDecimal = FALSE,
@@ -15,6 +15,7 @@ mixedSorts(
   sortByName = FALSE,
   na.rm = FALSE,
   verbose = FALSE,
+  NAlast = TRUE,
   debug = FALSE,
   ...
 )
@@ -25,7 +26,8 @@ mixedSorts(
 \item{blanksFirst}{logical whether to order blank entries before entries
 containing a value.}
 
-\item{NAlast}{logical whether to move NA entries to the end of the sort.}
+\item{na.last}{\code{logical} indicating whether to move NA entries at
+the end of the sort.}
 
 \item{keepNegative}{logical whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values.}
@@ -46,6 +48,9 @@ characters when defining the sort order.}
 of sorting by x itself.}
 
 \item{verbose}{logical whether to print verbose output.}
+
+\item{NAlast}{\code{logical} deprecated in favor of argument \code{na.last}
+for consistency with \code{base::sort()}.}
 
 \item{...}{additional parameters are sent to \code{\link{mixedOrder}}.}
 }
@@ -93,6 +98,15 @@ l1;
 mixedSorts(l1);
 mixedSorts(l1, sortByName=TRUE);
 
+# when one entry is missing
+L0 <- list(A=3:1,
+   B=list(C=c(1:3,NA,0),
+   D=LETTERS[c(4,5,2)],
+   E=NULL));
+L0
+mixedSorts(L0)
+mixedSorts(L0, na.rm=TRUE)
+
 }
 \seealso{
 Other jam sort functions: 
@@ -133,6 +147,7 @@ Other jam list functions:
 \code{\link{cPasteUnique}()},
 \code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{jam_rapply}()},
 \code{\link{list2df}()},
 \code{\link{mergeAllXY}()},
 \code{\link{rbindList}()},

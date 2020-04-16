@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -132,8 +132,8 @@
     <pre class="usage"><span class='fu'>mixedOrder</span>(
   <span class='no'>x</span>,
   <span class='no'>...</span>,
+  <span class='kw'>na.last</span> <span class='kw'>=</span> <span class='no'>NAlast</span>,
   <span class='kw'>blanksFirst</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>NAlast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>keepNegative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>keepInfinite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>keepDecimal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -141,7 +141,8 @@
   <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>useCaseTiebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>returnDebug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>returnType</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"order"</span>, <span class='st'>"rank"</span>)
+  <span class='kw'>returnType</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"order"</span>, <span class='st'>"rank"</span>),
+  <span class='kw'>NAlast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -156,16 +157,16 @@
       <td><p>additional parameters are sent to <code>mixedOrder</code>.</p></td>
     </tr>
     <tr>
+      <th>na.last</th>
+      <td><p>logical whether to move NA entries to the end of the sort.
+When <code>na.last=TRUE</code> then <code>NA</code> values will always be last, even following
+blanks and infinite values. When <code>na.last=FALSE</code> then <code>NA</code> values
+will always be first, even before blanks and negative infinite values.</p></td>
+    </tr>
+    <tr>
       <th>blanksFirst</th>
       <td><p>logical whether to order blank entries before entries
 containing a value.</p></td>
-    </tr>
-    <tr>
-      <th>NAlast</th>
-      <td><p>logical whether to move NA entries to the end of the sort.
-When <code>NAlast=TRUE</code> then <code>NA</code> values will always be last, even following
-blanks and infinite values. When <code>NAlast=FALSE</code> then <code>NA</code> values
-will always be first, even before blanks and negative infinite values.</p></td>
     </tr>
     <tr>
       <th>keepNegative</th>
@@ -220,7 +221,7 @@ valid for use in chains, such as multiple columns of a data.frame.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function is a refactor of <code><a href='https://rdrr.io/pkg/gtools/man/mixedsort.html'>gtools::mixedorder()</a></code> which was
-the source of inspiration for this function.
+the source of inspiration for this function, thanks to Gregory R. Warnes!
 This function was designed to improve the efficiency for large vectors,
 and to handle special cases slightly differently. It was driven by some
 need to sort gene symbols, and miRNA symbols in numeric order, for example:</p>

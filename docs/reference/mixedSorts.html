@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.51.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
       </span>
     </div>
 
@@ -132,7 +132,7 @@
     <pre class="usage"><span class='fu'>mixedSorts</span>(
   <span class='no'>x</span>,
   <span class='kw'>blanksFirst</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>NAlast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>na.last</span> <span class='kw'>=</span> <span class='no'>NAlast</span>,
   <span class='kw'>keepNegative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>keepInfinite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>keepDecimal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -140,6 +140,7 @@
   <span class='kw'>sortByName</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>NAlast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -157,8 +158,9 @@
 containing a value.</p></td>
     </tr>
     <tr>
-      <th>NAlast</th>
-      <td><p>logical whether to move NA entries to the end of the sort.</p></td>
+      <th>na.last</th>
+      <td><p><code>logical</code> indicating whether to move NA entries at
+the end of the sort.</p></td>
     </tr>
     <tr>
       <th>keepNegative</th>
@@ -191,6 +193,11 @@ of sorting by x itself.</p></td>
     <tr>
       <th>verbose</th>
       <td><p>logical whether to print verbose output.</p></td>
+    </tr>
+    <tr>
+      <th>NAlast</th>
+      <td><p><code>logical</code> deprecated in favor of argument <code>na.last</code>
+for consistency with <code><a href='https://rdrr.io/r/base/sort.html'>base::sort()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -245,6 +252,7 @@ nested list sizes.</p>
 <code><a href='cPasteUnique.html'>cPasteUnique</a>()</code>,
 <code><a href='cPasteU.html'>cPasteU</a>()</code>,
 <code><a href='cPaste.html'>cPaste</a>()</code>,
+<code><a href='jam_rapply.html'>jam_rapply</a>()</code>,
 <code><a href='list2df.html'>list2df</a>()</code>,
 <code><a href='mergeAllXY.html'>mergeAllXY</a>()</code>,
 <code><a href='rbindList.html'>rbindList</a>()</code>,
@@ -370,7 +378,52 @@ nested list sizes.</p>
 #&gt; "E" "D" "C" "B" 
 #&gt; 
 #&gt; </div><div class='input'>
-</div></pre>
+<span class='co'># when one entry is missing</span>
+<span class='no'>L0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>3</span>:<span class='fl'>1</span>,
+   <span class='kw'>B</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>C</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>,<span class='fl'>NA</span>,<span class='fl'>0</span>),
+   <span class='kw'>D</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>2</span>)],
+   <span class='kw'>E</span><span class='kw'>=</span><span class='kw'>NULL</span>));
+<span class='no'>L0</span></div><div class='output co'>#&gt; $A
+#&gt; [1] 3 2 1
+#&gt; 
+#&gt; $B
+#&gt; $B$C
+#&gt; [1]  1  2  3 NA  0
+#&gt; 
+#&gt; $B$D
+#&gt; [1] "D" "E" "B"
+#&gt; 
+#&gt; $B$E
+#&gt; NULL
+#&gt; 
+#&gt; </div><div class='input'><span class='fu'>mixedSorts</span>(<span class='no'>L0</span>)</div><div class='output co'>#&gt; $A
+#&gt; [1] "1" "2" "3"
+#&gt; 
+#&gt; $B
+#&gt; $B$C
+#&gt; [1] "0" "1" "2" "3" NA 
+#&gt; 
+#&gt; $B$D
+#&gt; [1] "B" "D" "E"
+#&gt; 
+#&gt; $B$E
+#&gt; character(0)
+#&gt; 
+#&gt; </div><div class='input'><span class='fu'>mixedSorts</span>(<span class='no'>L0</span>, <span class='kw'>na.rm</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; ##  (<span style='color: #00BBBB;font-weight: bold;'>18:22:37</span><span>) 16Apr2020:  </span><span style='color: #BB0000;'>Removing NA values</span><span> </div><div class='output co'>#&gt; $A
+#&gt; [1] "1" "2" "3"
+#&gt; 
+#&gt; $B
+#&gt; $B$C
+#&gt; [1] "0" "1" "2" "3"
+#&gt; 
+#&gt; $B$D
+#&gt; [1] "B" "D" "E"
+#&gt; 
+#&gt; $B$E
+#&gt; character(0)
+#&gt; 
+#&gt; </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

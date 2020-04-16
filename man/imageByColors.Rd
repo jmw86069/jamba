@@ -21,6 +21,7 @@ imageByColors(
   groupByColors = TRUE,
   adjBy = c("column", "row"),
   adjustMargins = FALSE,
+  interpolate = getOption("interpolate", TRUE),
   verbose = FALSE,
   xpd = NULL,
   bty = par("bty"),
@@ -94,6 +95,9 @@ cexCellnote, srtCellnote, and fontCellnote, as described above.}
 \item{adjustMargins}{logical indicating whether to adjust the axis
 label margins to ensure enough room to draw the text rownames
 and colnames.}
+
+\item{interpolate}{logical whether to implement image interpolation,
+by default TRUE when useRaster=TRUE.}
 
 \item{verbose}{logical whether to print verbose output.}
 

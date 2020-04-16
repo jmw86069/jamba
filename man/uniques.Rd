@@ -4,7 +4,14 @@
 \alias{uniques}
 \title{apply unique to each element of a list}
 \usage{
-uniques(x, keepNames = TRUE, incomparables = FALSE, useBioc = TRUE, ...)
+uniques(
+  x,
+  keepNames = TRUE,
+  incomparables = FALSE,
+  useBioc = TRUE,
+  useSimpleBioc = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{input list of vectors}
@@ -35,6 +42,29 @@ it applies uniqueness to the \code{unlist}ed vector of values, which is
 also substantially faster than the \code{apply} family functions for
 long lists, but which may still be less efficient than the
 C implementation provided by \code{S4Vectors}.
+}
+\examples{
+L1 <- list(CA=nameVector(LETTERS[c(1:4,2,7,4,6)]),
+   B=letters[c(7:11,9,3)],
+   D=nameVector(LETTERS[4]));
+L1;
+uniques(L1);
+
+if (1 == 1) {
+if (suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
+   printDebug("Bioc CompressedList:");
+   print(system.time(uniques(rep(L1, 10000), useBioc=TRUE)));
+}
+if (suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
+   printDebug("Bioc SimpleList:");
+   print(system.time(uniques(rep(L1, 10000), useSimpleBioc=TRUE)));
+}
+printDebug("Simple list, keepNames=FALSE:");
+print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=FALSE)));
+printDebug("Simple list, keepNames=TRUE:");
+print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=TRUE)));
+}
+
 }
 \seealso{
 Other jam string functions: 
@@ -69,6 +99,7 @@ Other jam list functions:
 \code{\link{cPasteUnique}()},
 \code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{jam_rapply}()},
 \code{\link{list2df}()},
 \code{\link{mergeAllXY}()},
 \code{\link{mixedSorts}()},
