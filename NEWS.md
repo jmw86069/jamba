@@ -1,3 +1,20 @@
+# jamba version 0.0.53.900
+
+## changes to existing functions
+
+* `printDebug()` fixed a visual glitch caused by using `gsub()` to
+remove trailing `sep` characters from vector elements before adding
+the `sep` itself, without removing ANSI-encoding from the `sep`
+string, sometimes removing trailing zero from numeric strings
+but only in the middle of a multi-element vector.
+Now the `sep` is appended only using `paste0()` and no trailing
+`sep` characters are checked nor removed. This behavior is probably
+better since it should properly represent the input content.
+* `printDebug()` was modified to fix a longstanding visual glitch
+that would not fully reset inverted ANSI colors that span multiple lines.
+If the output uses color, a trailing `crayon::reset("")` is added to
+the end of each line.
+
 # jamba version 0.0.52.900
 
 ## new functions

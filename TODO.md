@@ -13,6 +13,9 @@ installed if not already installed.
 
 ### Bug fixes / Enhancements to existing functions
 
+1. `printDebug()` probably needs a specific delimiter between
+lists. Currently `collapse` is accepted via `...` but separates
+every entry.
 1. `plotSmoothScatterG()` is a new function which would create a
 smooth scatter plot like `plotSmoothScatter()` except that it will
 also allow coloring points by group. The previous closest estimate
@@ -46,8 +49,6 @@ Note this feature seems to work when producing HTML output from Rmarkdown.
 
 3. `jargs()` is choking on certain argument formats:
 
-    * `jargs(writeOpenxlsx, "lfcRule")` displays the escaped ANSI
-    color-codes instead of applying the color-codes for negative values.
     * When an argument is a prefixed function, the `::` should not have
     spaces before and after. `f <- function(x=jamba::colorjam){10};jargs(f);`
     It doesn't happen when the function has parentheses:
@@ -68,13 +69,6 @@ sure it produces output as desired.
 needs several tests to confirm consistent outputs for the various
 custom conditions.
 
-
-### printDebug color range updates
-
-* Something in the transition from RGB to sRGB in the colorspace
-package caused the color ranges (lightMode on and off) to be
-slightly off. Also `setTextContrastColor()` needs a slight tweak
-to use dark text more often.
 
 
 ### Functions to add
@@ -122,27 +116,34 @@ lightMode=TRUE.
 
 ### rbindList
 
-* optinoal recursive operation, in the event of a nested list of data.frames,
+* optional recursive operation, in the event of a nested list of data.frames,
 it should recurse through the list, calling rbindList() on each list element
 and progressive build up one resulting data.frame or matrix.
-
+* optional ability to handle different colnames; alternative is to review
+`data.table::rbindlist()` as potential replacement.
 
 ### imageByColors
 
+* new argument `cellnoteColor` to define specific cellnote text color,
+currently uses `setTextContrastColor()` but should be able to define custom
+colors. (Setup for print colorized text data.frame using similar input.)
 * optional boolean parameter to transpose the image, i.e. t(x) and
    if applicable t(cellnote).
 * optionally draw boxes around grouped labels, a visual indicator of
    groups of cells sharing one label. Care should be taken not to enable
    this functionality with a large table containing no grouped labels, or
    even with any scenario resulting in "too many boxes".
+   This option likely needs SpatialPolygons and some related
+   function like `rgeos::gUnion()`. Is `rgeos` a reasonable package
+   dependency, or is that too heavy for this purpose?
 
 ### color brightness and saturation handling
 
-* consider adding helper functions like darken(), lighten(), saturate(),
+* helper functions like darken(), lighten(), saturate(),
    desaturate(). Note colorspace::desaturate() completely removes all color
    saturation (chroma), and conflicts with this function naming scheme.
-   We could use jamdesaturate(), jamdarken(), jambrighten(), jamsaturate().
-* add new function subsetColors() which internally creates a data.frame with
+   Maybe: `jam_desaturate()`, `jam_darken()`, `jam_brighten()`, `jam_saturate()`.
+* new function `subsetColors()` which internally creates a data.frame with
    hex, RGB, HSV, and HCL values, which can then be used to subset an input
    set of colors. Bonus points for accepting different color classes at
    input, and returning the same color class at output.

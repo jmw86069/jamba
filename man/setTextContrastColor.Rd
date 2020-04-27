@@ -146,6 +146,7 @@ Other jam color functions:
 \code{\link{isColor}()},
 \code{\link{kable_coloring}()},
 \code{\link{makeColorDarker}()},
+\code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},

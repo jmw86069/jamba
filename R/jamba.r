@@ -1304,6 +1304,10 @@ printDebug <- function
    }
 
    if (length(xList) == 0) {
+      if (verbose) {
+         printDebug("printDebug(): ",
+            "input recognzied as color vector.");
+      }
       if (!igrepHas("list", class(fgText))) {
          fgText <- list(fgText);
       }
@@ -1349,7 +1353,7 @@ printDebug <- function
          byLine=byLine,
          invert=invert,
          htmlOut=htmlOut);
-      invisible(NULL);
+      return(invisible(NULL));
    } else {
 
       ## Optionally split the list into a single vector
@@ -1366,13 +1370,28 @@ printDebug <- function
       ## Optionally apply crayon::reset() to delimiter sep
       if (length(doReset) == 0) {
          if (!crayon::has_style(sep)) {
+            if (verbose) {
+               printDebug("printDebug(): ",
+                  c("applied ", "sep <- crayon::reset(sep)"),
+                  sep="");
+            }
             sep <- crayon::reset(sep);
          }
       } else if (doReset) {
          if (!crayon::has_style(sep)) {
             sep <- crayon::reset(sep);
+            if (verbose) {
+               printDebug("printDebug(): ",
+                  c("applied ", "sep <- crayon::reset(sep)"),
+                  sep="");
+            }
          } else {
             sep <- crayon::reset(crayon::strip_style(sep));
+            if (verbose) {
+               printDebug("printDebug(): ",
+                  c("applied ", "sep <- crayon::reset(crayon::strip_style(sep))"),
+                  sep="");
+            }
          }
       }
       ## Optionally replace NULL with "NULL"
@@ -1382,18 +1401,24 @@ printDebug <- function
       xList <- unnestList(xList);
 
       ## Extend fgText and bgText to the length of xList
-      if (!igrepHas("list", class(fgText))) {
-         fgText <- as.list(fgText);
-      }
-      if (length(fgText) > 0) {
-         fgText <- rep(fgText, length.out=length(xList));
-      }
-      if (length(bgText) > 0) {
-         bgText <- rep(bgText, length.out=length(xList));
+      if (doColor) {
+         if (!igrepHas("list", class(fgText))) {
+            fgText <- as.list(fgText);
+         }
+         if (length(fgText) > 0) {
+            fgText <- rep(fgText, length.out=length(xList));
+         }
+         if (length(bgText) > 0) {
+            bgText <- rep(bgText, length.out=length(xList));
+         }
       }
 
       xListSlength <- lengths(xList);
-      if (any(xListSlength >= 1)) {
+      if (doColor > 0 && any(xListSlength >= 1)) {
+         if (verbose) {
+            printDebug("printDebug(): ",
+               "Applying colors within list elements.")
+         }
          xListMulti <- which(xListSlength > 1);
          fgText <- lapply(seq_along(fgText), function(i){
             iColor <- fgText[[i]];
@@ -1460,12 +1485,27 @@ printDebug <- function
       fgText <- unlist(fgText);
       bgText <- unlist(bgText);
       if (invert) {
+         if (verbose) {
+            printDebug("printDebug(): ",
+               c("Inverting ", "fgText", " and ", "bgText"),
+               sep="");
+         }
          fgText1 <- fgText;
          fgText <- bgText;
          bgText <- fgText1;
       }
 
+      if (verbose) {
+         printDebug("printDebug(): ",
+            "xList (before):");
+         print(xList);
+      }
       x <- unlist(lapply(xList, function(i){
+         if (verbose) {
+            printDebug("printDebug(): ",
+               "i:");
+            print(i);
+         }
          if (formatNumbers &&
             igrepHas("numeric|float|integer|long|double", class(i))) {
             i <- format(i,
@@ -1477,32 +1517,43 @@ printDebug <- function
                small.mark=small.mark,
                zero.print=zero.print,
                width=width);
+         } else {
+            i <- as.character(i);
          }
-         i <- as.character(i);
-         if (length(i) > 1) {
-            if (nchar(sep) > 0) {
-               i[-length(i)] <- gsub(paste0("[", sep, "]*$"), sep,
-                  i[-length(i)]);
-            }
+         ## trim duplicated delimiters
+         ## (under evaluation since it bugs out when the delimiter is ANSI-colored)
+         if (length(i) > 1 && nchar(sep) > 0) {
+            i[-length(i)] <- paste0(i[-length(i)], sep);
+         }
+         ## apply final color reset
+         if (doColor) {
+            i[length(i)] <- paste0(i[length(i)], crayon::reset(""));
          }
          i;
       }));
+      if (verbose) {
+         printDebug("printDebug(): ",
+            "x (after):");
+         print(x);
+      }
 
       ## Convert "transparent" to "grey" for compatibility with crayon
-      fgText <- sapply(fgText, function(ix){
-         ix[ix %in% "transparent" | grepl("^[#]......00$", ix)] <- "#777777";
-         ix;
-      });
-      if (length(bgText) == 0) {
-         bgText <- sapply(bgText, function(ix){
-            ix[ix %in% "transparent" | grepl("^[#]......00$", ix)] <- "#777777";
-            ix;
-         });
+      fgAlpha <- col2alpha(fgText);
+      if (any(fgAlpha <= 0)) {
+         fgText[fgAlpha <= 0] <- "#777777";
+      }
+      bgAlpha <- col2alpha(bgText);
+      if (any(bgAlpha <= 0)) {
+         #bgText[bgAlpha <= 0] <- "#777777";
+         ## use NA which makes bgText color transparent
+         bgText[bgAlpha <= 0] <- NA;
       }
 
       if (doColor == 2) {
+         ################### crayon output
          if (verbose) {
-            printDebug("Using crayon package colorization.");
+            printDebug("printDebug(): ",
+               "Using crayon package colorization.");
          }
          if (crayon::num_colors() < 256) {
             ## If crayon detects 8-color terminal,
@@ -1519,7 +1570,7 @@ printDebug <- function
                      Lrange=Lrange,
                      Crange=Crange,
                      setOptions="FALSE",
-                     verbose=verbose,
+                     verbose=verbose>1,
                      text=format(Sys.time(), "%H:%M:%S"))
                ), ") ", format(Sys.time(), "%d%b%Y"), ": "), collapse="");
          } else {
@@ -1536,7 +1587,7 @@ printDebug <- function
                bg_style=bgText[ix],
                bg=FALSE,
                text=xStr,
-               verbose=verbose,
+               verbose=verbose>1,
                Lrange=Lrange,
                Crange=Crange,
                setOptions="FALSE",
@@ -1554,7 +1605,8 @@ printDebug <- function
       } else if (doColor == 1) {
          ################### HTML span output
          if (verbose) {
-            printDebug("Using html span colorization.");
+            printDebug("printDebug(): ",
+               "Using html span colorization.");
          }
          if (timeStamp) {
             timeStampValue <- paste(c("(",
@@ -1563,7 +1615,7 @@ printDebug <- function
                   bg=FALSE,
                   Lrange=Lrange,
                   Crange=Crange,
-                  verbose=verbose,
+                  verbose=verbose>1,
                   text=format(Sys.time(), "%H:%M:%S")),
                ") ", format(Sys.time(), "%d%b%Y"), ": "), collapse="");
          } else {
@@ -1579,7 +1631,7 @@ printDebug <- function
                bg_style=bgText[ix],
                bg=FALSE,
                text=xStr,
-               verbose=verbose,
+               verbose=verbose>1,
                Lrange=Lrange,
                Crange=Crange,
                adjustRgb=adjustRgb);
@@ -1594,6 +1646,11 @@ printDebug <- function
             file=file,
             append=append);
       } else {
+         ################### no colorized output
+         if (verbose) {
+            printDebug("printDebug(): ",
+               "Using no colorization.");
+         }
          if (timeStamp) {
             timeStampValue <- as.character(format(Sys.time(),
                "(%H:%M:%S) %d%b%Y: "));

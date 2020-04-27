@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.52.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53.900</span>
       </span>
     </div>
 
@@ -157,8 +157,6 @@
 <li>
 <p><code><a href="reference/jargs.html">jargs()</a></code> is choking on certain argument formats:</p>
 <ul>
-<li>
-<code><a href="reference/jargs.html">jargs(writeOpenxlsx, "lfcRule")</a></code> displays the escaped ANSI color-codes instead of applying the color-codes for negative values.</li>
 <li>When an argument is a prefixed function, the <code>::</code> should not have spaces before and after. <code>f &lt;- function(x=jamba::colorjam){10};jargs(f);</code> It doesn’t happen when the function has parentheses: <code>f &lt;- function(x=jamba::colorjam(a)){10};jargs(f);</code>
 </li>
 <li>There was another case of an empty argument being displayed where an actual argument existed for the function. I can’t remember the exact conditions, but this is a placeholder for now.</li>
@@ -175,13 +173,6 @@
 <code><a href="reference/jargs.html">jargs()</a></code> can be tested with several example custom functions to make sure it produces output as desired.</li>
 <li>
 <code><a href="reference/mixedSort.html">mixedSort()</a></code>, <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code>, <code><a href="reference/mixedOrder.html">mixedOrder()</a></code>, <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> needs several tests to confirm consistent outputs for the various custom conditions.</li>
-</ul>
-</div>
-<div id="printdebug-color-range-updates" class="section level3">
-<h3 class="hasAnchor">
-<a href="#printdebug-color-range-updates" class="anchor"></a>printDebug color range updates</h3>
-<ul>
-<li>Something in the transition from RGB to sRGB in the colorspace package caused the color ranges (lightMode on and off) to be slightly off. Also <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> needs a slight tweak to use dark text more often.</li>
 </ul>
 </div>
 <div id="functions-to-add" class="section level3">
@@ -214,23 +205,25 @@
 <h3 class="hasAnchor">
 <a href="#rbindlist" class="anchor"></a>rbindList</h3>
 <ul>
-<li>optinoal recursive operation, in the event of a nested list of data.frames, it should recurse through the list, calling rbindList() on each list element and progressive build up one resulting data.frame or matrix.</li>
+<li>optional recursive operation, in the event of a nested list of data.frames, it should recurse through the list, calling rbindList() on each list element and progressive build up one resulting data.frame or matrix.</li>
+<li>optional ability to handle different colnames; alternative is to review <code><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html">data.table::rbindlist()</a></code> as potential replacement.</li>
 </ul>
 </div>
 <div id="imagebycolors" class="section level3">
 <h3 class="hasAnchor">
 <a href="#imagebycolors" class="anchor"></a>imageByColors</h3>
 <ul>
+<li>new argument <code>cellnoteColor</code> to define specific cellnote text color, currently uses <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> but should be able to define custom colors. (Setup for print colorized text data.frame using similar input.)</li>
 <li>optional boolean parameter to transpose the image, i.e. t(x) and if applicable t(cellnote).</li>
-<li>optionally draw boxes around grouped labels, a visual indicator of groups of cells sharing one label. Care should be taken not to enable this functionality with a large table containing no grouped labels, or even with any scenario resulting in “too many boxes”.</li>
+<li>optionally draw boxes around grouped labels, a visual indicator of groups of cells sharing one label. Care should be taken not to enable this functionality with a large table containing no grouped labels, or even with any scenario resulting in “too many boxes”. This option likely needs SpatialPolygons and some related function like <code><a href="https://rdrr.io/pkg/rgeos/man/topo-bin-gUnion.html">rgeos::gUnion()</a></code>. Is <code>rgeos</code> a reasonable package dependency, or is that too heavy for this purpose?</li>
 </ul>
 </div>
 <div id="color-brightness-and-saturation-handling" class="section level3">
 <h3 class="hasAnchor">
 <a href="#color-brightness-and-saturation-handling" class="anchor"></a>color brightness and saturation handling</h3>
 <ul>
-<li>consider adding helper functions like darken(), lighten(), saturate(), desaturate(). Note colorspace::desaturate() completely removes all color saturation (chroma), and conflicts with this function naming scheme. We could use jamdesaturate(), jamdarken(), jambrighten(), jamsaturate().</li>
-<li>add new function subsetColors() which internally creates a data.frame with hex, RGB, HSV, and HCL values, which can then be used to subset an input set of colors. Bonus points for accepting different color classes at input, and returning the same color class at output.</li>
+<li>helper functions like darken(), lighten(), saturate(), desaturate(). Note colorspace::desaturate() completely removes all color saturation (chroma), and conflicts with this function naming scheme. Maybe: <code>jam_desaturate()</code>, <code>jam_darken()</code>, <code>jam_brighten()</code>, <code>jam_saturate()</code>.</li>
+<li>new function <code>subsetColors()</code> which internally creates a data.frame with hex, RGB, HSV, and HCL values, which can then be used to subset an input set of colors. Bonus points for accepting different color classes at input, and returning the same color class at output.</li>
 </ul>
 </div>
 </div>

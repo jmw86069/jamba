@@ -160,6 +160,7 @@ Other jam practical functions:
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{log2signed}()},
+\code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
 \code{\link{mergeAllXY}()},
 \code{\link{newestFile}()},
