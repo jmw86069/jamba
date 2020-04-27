@@ -10,6 +10,9 @@ when plotting data with class `"difftime"`.
 
 * Add message during package install suggesting the "crayon" package be
 installed if not already installed.
+* Investigate the interplay between Mac/Linux TERM,
+locale with LC_ALL, special characters like <ce> (theta),
+and R help docs.
 
 ### Bug fixes / Enhancements to existing functions
 
