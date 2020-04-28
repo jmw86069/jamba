@@ -363,20 +363,26 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #'
 #' @family jam practical functions
 #'
-#' @param projectName character string representing the active project.
+#' @param projectName `character` string representing the active project.
 #' @param useColor logical whether to define a color prompt if the
 #'    `crayon` package is installed.
 #' @param projectColor,bracketColor,Rcolors,PIDcolor,promptColor colors
-#'    used when useColor==TRUE and the \code{crayon} package
-#'    is installed. `projectColor` colors the project name; `bracketColor`
+#'    used when `useColor==TRUE` and the `crayon` package
+#'    is installed: `projectColor` colors the project name; `bracketColor`
 #'    colors the curly brackets around the project; `Rcolors` can be
 #'    a vector of 3 colors, colorizing "R", the "-" divider, and the
 #'    R version; `PIDcolor` colors the PID when `usePid=TRUE`; and
 #'    `promptColor` colors the `">"` at the end of the prompt.
-#' @param usePid logical whether to include the process ID in the prompt.
-#' @param resetPrompt logical whether to revert all changes to the prompt
+#' @param usePid `logical` whether to include the process ID in the prompt.
+#' @param resetPrompt `logical` whether to revert all changes to the prompt
 #'    back to the default R prompt, that is, no color and no projectName.
-#' @param verbose logical whether to print verbose output
+#' @param addEscape `logical` indicating whether to wrap color encoding
+#'    inside additional escape sequences. These escape sequences are
+#'    required for many linux-like terminals to enforce correct word-wrap
+#'    by ignoring the color sequences in the character count per line.
+#'    Note this behavior is disabled when `Sys.getenv("RSTUDIO")=="1"`,
+#'    which means the R session is running inside Rstudio.
+#' @param verbose `logical` whether to print verbose output
 #' @param ... additional parameters are passed to `make_styles()` which is
 #'    only relevant with the argument `useColor=TRUE`.
 #'
@@ -397,6 +403,7 @@ setPrompt <- function
  promptColor="white",
  usePid=TRUE,
  resetPrompt=FALSE,
+ addEscape=TRUE,
  verbose=FALSE,
  ...)
 {
@@ -510,9 +517,17 @@ setPrompt <- function
             "> ");
       }
    }
+   ## optionally add escape sequences
+   if (useColor && addEscape && !Sys.getenv("RSTUDIO") == "1") {
+      promptValue <- gsub("(\033[[0-9;]+[nm]{0,1})",
+         "\001\\1\002",
+         promptValue);
+   }
+
    if (verbose) {
       cat("setPrompt() defined promptValue: '", promptValue, "'\n\n");
    }
+
    options("prompt"=promptValue);
    invisible(promptValue);
 }

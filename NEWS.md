@@ -1,3 +1,12 @@
+# jamba version 0.0.54.900
+
+## changes to existing functions
+
+* `setPrompt()` by default wraps the color sequence inside proper
+ansi escape sequences, which helps the console properly apply
+word wrapping by ignoring color sequences in the estimate of
+character count per line.
+
 # jamba version 0.0.53.900
 
 ## changes to existing functions

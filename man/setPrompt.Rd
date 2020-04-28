@@ -14,30 +14,38 @@ setPrompt(
   promptColor = "white",
   usePid = TRUE,
   resetPrompt = FALSE,
+  addEscape = TRUE,
   verbose = FALSE,
   ...
 )
 }
 \arguments{
-\item{projectName}{character string representing the active project.}
+\item{projectName}{\code{character} string representing the active project.}
 
 \item{useColor}{logical whether to define a color prompt if the
 \code{crayon} package is installed.}
 
 \item{projectColor, bracketColor, Rcolors, PIDcolor, promptColor}{colors
-used when useColor==TRUE and the \code{crayon} package
-is installed. \code{projectColor} colors the project name; \code{bracketColor}
+used when \code{useColor==TRUE} and the \code{crayon} package
+is installed: \code{projectColor} colors the project name; \code{bracketColor}
 colors the curly brackets around the project; \code{Rcolors} can be
 a vector of 3 colors, colorizing "R", the "-" divider, and the
 R version; \code{PIDcolor} colors the PID when \code{usePid=TRUE}; and
 \code{promptColor} colors the \code{">"} at the end of the prompt.}
 
-\item{usePid}{logical whether to include the process ID in the prompt.}
+\item{usePid}{\code{logical} whether to include the process ID in the prompt.}
 
-\item{resetPrompt}{logical whether to revert all changes to the prompt
+\item{resetPrompt}{\code{logical} whether to revert all changes to the prompt
 back to the default R prompt, that is, no color and no projectName.}
 
-\item{verbose}{logical whether to print verbose output}
+\item{addEscape}{\code{logical} indicating whether to wrap color encoding
+inside additional escape sequences. These escape sequences are
+required for many linux-like terminals to enforce correct word-wrap
+by ignoring the color sequences in the character count per line.
+Note this behavior is disabled when \code{Sys.getenv("RSTUDIO")=="1"},
+which means the R session is running inside Rstudio.}
+
+\item{verbose}{\code{logical} whether to print verbose output}
 
 \item{...}{additional parameters are passed to \code{make_styles()} which is
 only relevant with the argument \code{useColor=TRUE}.}
