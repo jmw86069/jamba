@@ -120,94 +120,98 @@
 #' @examples
 #' # set up a test data.frame
 #' set.seed(123);
-#' df1 <- data.frame(
-#'    Gene=paste0("Gene", LETTERS[2:11]),
-#'    log2fc=rnorm(10)*5,
-#'    `P-value`=1/sample(((10:50)/10)^3, 10));
-#' df1$hit <- sign(df1[,2]) * (abs(df1[,2]) >= 1 & df1[,3] < 0.03);
-#' # apply sort
-#' df1 <- mixedSortDF(df1, byCols=c(4,2,3));
-#' # set of categorical colors for genes
-#' colorSubGene <- nameVector(
-#'    rep(c("purple4","orange","red4"),
-#'       c(2,6,2)),
-#'    df1$Gene);
-#' df1;
-#' writeOpenxlsx(file="/Users/wardjm/test.xlsx",
-#'    sheetName="sheet1",
-#'    append=FALSE,
-#'    x=df1,
-#'    colorSub=colorSubGene,
-#'    highlightColumns=1,
-#'    pvalueColumns=3,
-#'    lfcColumns=2,
-#'    hitColumns=4,
-#'    freezePaneRow=2,
-#'    freezePaneColumn=2);
+#' \dontrun{
+#'    set.seed(123);
+#'    lfc <- -3:3 + rnorm(7)/3;
+#'    colorSub <- nameVector(
+#'       rainbow(7, s=c(0.8, 1), v=c(0.8, 1)),
+#'       LETTERS[1:7])
+#'    df <- data.frame(name=LETTERS[1:7],
+#'       int=round(4^(1:7)),
+#'       num=(1:7)*4-2 + rnorm(7),
+#'       fold=2^abs(lfc)*sign(lfc),
+#'       lfc=lfc,
+#'       pvalue=10^(-1:-7 + rnorm(7)),
+#'       hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
+#'    df;
+#'    writeOpenxlsx(x=df,
+#'       file="jamba_test.xlsx",
+#'       sheetName="jamba_test",
+#'       colorSub=colorSub,
+#'       intColumns=2,
+#'       numColumns=3,
+#'       fcColumns=4,
+#'       lfcColumns=5,
+#'       pvalueColumns=6,
+#'       hitColumn=7,
+#'       freezePaneRow=2,
+#'       freezePaneColumn=2,
+#'       append=FALSE);
+#' }
 #'
 #' @export
 writeOpenxlsx <- function
 (x,
-file,
-sheetName="Sheet1",
-append=FALSE,
-headerColors=c("lightskyblue1", "lightskyblue2"),
-columnColors=c("aliceblue", "azure2"),
-highlightHeaderColors=c("tan1", "tan2"),
-highlightColors=c("moccasin", "navajowhite"),
-borderColor="gray75",
-borderPosition="BottomRight",
+ file,
+ sheetName="Sheet1",
+ append=FALSE,
+ headerColors=c("lightskyblue1", "lightskyblue2"),
+ columnColors=c("aliceblue", "azure2"),
+ highlightHeaderColors=c("tan1", "tan2"),
+ highlightColors=c("moccasin", "navajowhite"),
+ borderColor="gray75",
+ borderPosition="BottomRight",
 
-highlightColumns=NULL,
-numColumns=NULL,
-fcColumns=NULL,
-lfcColumns=NULL,
-hitColumns=NULL,
-intColumns=NULL,
-pvalueColumns=NULL,
+ highlightColumns=NULL,
+ numColumns=NULL,
+ fcColumns=NULL,
+ lfcColumns=NULL,
+ hitColumns=NULL,
+ intColumns=NULL,
+ pvalueColumns=NULL,
 
-numFormat="#,##0.00",
-fcFormat="#,##0.0",
-lfcFormat="#,##0.0",
-hitFormat="#,##0.0",
-intFormat="#,##0",
-pvalueFormat="0.00E+00",
+ numFormat="#,##0.00",
+ fcFormat="#,##0.0",
+ lfcFormat="#,##0.0",
+ hitFormat="#,##0.0",
+ intFormat="#,##0",
+ pvalueFormat="[>0.01]0.00#;0.00E+00",
 
-numRule=c(1,10,20),
-fcRule=c(-6,0,6),
-lfcRule=c(-3,0,3),
-hitRule=c(-2,0,2),
-intRule=c(0,100,10000),
-pvalueRule=c(1e-5,0.01,1),
+ numRule=c(1, 10, 20),
+ fcRule=c(-6, 0, 6),
+ lfcRule=c(-3, 0, 3),
+ hitRule=c(-1.5, 0, 1.5),
+ intRule=c(0, 100, 10000),
+ pvalueRule=c(0, 0.01, 0.05),
 
-numStyle=c("#EEECE1", "#678ADF", "#5673AA"),
-fcStyle= c("#4F81BD", "#EEECE1", "#C0504D"),
-lfcStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
-hitStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
-intStyle=c("#EEECE1", "#DF8A67", "#AA6346"),
-pvalueStyle=c("#AA6346", "#DF8A67", "#EEECE1"),
+ numStyle=c("#F2F0F7", "#B4B1D4", "#938EC2"),
+ fcStyle= c("#4F81BD", "#EEECE1", "#C0504D"),
+ lfcStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
+ hitStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
+ intStyle=c("#EEECE1", "#FDA560", "#F77F30"),
+ pvalueStyle=c("#F77F30", "#FDC99B", "#EEECE1"),
 
-doConditional=TRUE,
-doCategorical=TRUE,
-colorSub=NULL,
+ doConditional=TRUE,
+ doCategorical=TRUE,
+ colorSub=NULL,
 
-freezePaneColumn=1,
-freezePaneRow=2,
-doFilter=TRUE,
+ freezePaneColumn=1,
+ freezePaneRow=2,
+ doFilter=TRUE,
 
-fontName="Arial",
-fontSize=12,
+ fontName="Arial",
+ fontSize=12,
 
-minWidth=8,
-maxWidth=40,
-autoWidth=TRUE,
+ minWidth=8,
+ maxWidth=40,
+ autoWidth=TRUE,
 
-wrapHeaders=TRUE,
-headerRowMultiplier=5,
-keepRownames=FALSE,
+ wrapHeaders=TRUE,
+ headerRowMultiplier=5,
+ keepRownames=FALSE,
 
-verbose=FALSE,
-...)
+ verbose=FALSE,
+ ...)
 {
    ## Purpose is to use openxlsx::writeDataTable() to write .xlsx files
    ##
@@ -651,6 +655,9 @@ verbose=FALSE,
 #' to Excel xlsx worksheets, with reasonable settings for commonly used
 #' data types.
 #'
+#' Note that this function does not apply cell formatting, such as numeric
+#' formatting as displayed in Excel.
+#'
 #' A description of column types follows:
 #'    \describe{
 #'       \item{"fc"}{Fold change, typically positive and negative values,
@@ -744,40 +751,68 @@ verbose=FALSE,
 #'    be replaced with the new one, or whether a new file will be created.
 #' @param ... additional parameters are ignored.
 #'
+#' @examples
+#' \dontrun{
+#'    df <- data.frame(a=LETTERS[1:5], b=1:5);
+#'    jamba::writeOpenxlsx(x=df,
+#'       file="jamba_test.xlsx",
+#'       sheetName="test_jamba");
+#'
+#'    applyXlsxConditionalFormat(
+#'       xlsxFile="jamba_test.xlsx",
+#'       sheet="test_jamba",
+#'       intColumns=2,
+#'       intRule=c(0,3,5),
+#'       intStyle=c("#FFFFFF", "#1E90FF", "#9932CC")
+#'    )
+#' }
+#'
 #' @export
 applyXlsxConditionalFormat <- function
-(xlsxFile, sheet=1,
-## fold change
-fcColumns=NULL, fcGrep=NULL,
-## blue-white-red color scale
-fcStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
-fcRule=c(-6,0,6),  fcType="colourScale",
-## log fold change
-lfcColumns=NULL, lfcGrep=NULL,
-## blue-white-red color scale
-lfcStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
-lfcRule=c(-3,0,3), lfcType="colourScale",
-## Hit numeric, usually integer
-hitColumns=NULL, hitGrep=NULL,
-## blue-white-red color scale
-hitStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
-hitRule=c(-2,0,2), hitType="colourScale",
-## Integer numbers
-intColumns=NULL, intGrep=NULL,
-## white-orange-red color scale
-intStyle=c("#EEECE1", "#DF8A67", "#AA6346"),
-intRule=c(0,100,10000), intType="colourScale",
-## Decimal numbers
-numColumns=NULL, numGrep=NULL,
-## white-purple-navy color scale
-numStyle=c("#EEECE1", "#678ADF", "#5673AA"),
-numRule=c(1,10,20),
-numType="colourScale",
-## P-values
-pvalueColumns=NULL, pvalueGrep=NULL,
-## red-orange-white color scale
-pvalueStyle=c("#AA6346", "#DF8A67", "#EEECE1"),
-pvalueRule=c(1e-4,0.01,1), pvalueType="colourScale",
+(xlsxFile,
+ sheet=1,
+ ## fold change
+ fcColumns=NULL,
+ fcGrep=NULL,
+ ## blue-white-red color scale
+ fcStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
+ fcRule=c(-6,0,6),
+ fcType="colourScale",
+ ## log fold change
+ lfcColumns=NULL,
+ lfcGrep=NULL,
+ ## blue-white-red color scale
+ lfcStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
+ lfcRule=c(-3, 0, 3),
+ lfcType="colourScale",
+ ## Hit numeric, usually integer
+ hitColumns=NULL,
+ hitGrep=NULL,
+ ## blue-white-red color scale
+ hitStyle=c("#4F81BD", "#EEECE1", "#C0504D"),
+ hitRule=c(-1.5, 0, 1.5),
+ hitType="colourScale",
+ ## Integer numbers
+ intColumns=NULL,
+ intGrep=NULL,
+ ## white-orange-red color scale
+ intStyle=c("#EEECE1", "#FDC99B", "#F77F30"),
+ intRule=c(0, 100, 10000),
+ intType="colourScale",
+ ## Decimal numbers
+ numColumns=NULL,
+ numGrep=NULL,
+ ## white-purple-navy color scale
+ numStyle=c("#F2F0F7","#B4B1D4","#938EC2"),
+ numRule=c(1, 10, 20),
+ numType="colourScale",
+ ## P-values
+ pvalueColumns=NULL,
+ pvalueGrep=NULL,
+ ## red-orange-white color scale
+ pvalueStyle=c("#F77F30","#FDC99B","#EEECE1"),
+ pvalueRule=c(0, 0.01, 0.05),
+ pvalueType="colourScale",
 ##
 verbose=FALSE,
 startRow=2,
@@ -1024,6 +1059,23 @@ overwrite=TRUE,
 #' @param verbose logical indicating whether to print verbose output.
 #' @param ... additional arguments are ignored.
 #'
+#' @examples
+#' \dontrun{
+#'    df <- data.frame(a=LETTERS[1:5], b=1:5);
+#'    jamba::writeOpenxlsx(x=df,
+#'       file="jamba_test.xlsx",
+#'       sheetName="test_jamba");
+#'
+#'    colorSub <- nameVector(
+#'       rainbow(5, s=c(0.8, 1), v=c(0.8, 1)),
+#'       LETTERS[1:5]);
+#'    applyXlsxCategoricalFormat(
+#'       xlsxFile="jamba_test.xlsx",
+#'       sheet="test_jamba",
+#'       colorSub=colorSub
+#'    )
+#' }
+#'
 #' @export
 applyXlsxCategoricalFormat <- function
 (xlsxFile,
@@ -1221,4 +1273,131 @@ applyXlsxCategoricalFormat <- function
    }
    retVals$xlsxFile <- xlsxFile;
    invisible(retVals);
+}
+
+#' Set column widths in Xlsx files
+#'
+#' Set column widths in Xlsx files
+#'
+#' This function is a light wrapper to perform these steps
+#' from the very useful `openxlsx` R package:
+#'
+#' * `openxlsx::loadWorkbook()`
+#' * `openxlsx::setColWidths()`
+#' * `openxlsx::saveWorkbook()`
+#'
+#' @family jam export functions
+#'
+#' @param xlsxFile `character` path to a file saved as `xlsx` format.
+#' @param sheet value passed to `openxlsx::setColWidths()` indicating
+#'    the worksheet to affect. It can either be an `integer` value, or
+#'    the `character` name of a sheet.
+#' @param cols `integer vector` indicating the column numbers to affect.
+#' @param widths `numeric vector` indicating the width of each column
+#'    defined by `cols`.
+#' @param ... additional arguments are passed to `openxlsx::setColWidths()`.
+#'
+#' @examples
+#' \dontrun{
+#'    df <- data.frame(a=LETTERS[1:5], b=1:5);
+#'    jamba::writeOpenxlsx(x=df,
+#'       file="jamba_test.xlsx",
+#'       sheetName="test_jamba");
+#'
+#'    ## By default, cols starts at column 1 and continues to length(widths)
+#'    jamba::set_xlsx_colwidths(file="jamba_test.xlsx",
+#'       sheetName="test_jamba",
+#'       widths=rep(20, ncol(df))
+#'    )
+#' }
+#'
+#' @export
+set_xlsx_colwidths <- function
+(xlsxFile,
+ sheet=1,
+ cols=seq_along(widths),
+ widths=11,
+ ...)
+{
+   ## Load the requested file as a workbook
+   wb <- openxlsx::loadWorkbook(xlsxFile);
+
+   openxlsx::setColWidths(wb,
+      sheet=sheet,
+      cols=cols,
+      widths=widths,
+      ...);
+
+   ## Save workbook
+   openxlsx::saveWorkbook(wb,
+      xlsxFile,
+      overwrite=TRUE);
+}
+
+#' Set row heights in Xlsx files
+#'
+#' This function is a light wrapper to perform these steps
+#' from the very useful `openxlsx` R package:
+#'
+#' * `openxlsx::loadWorkbook()`
+#' * `openxlsx::setRowHeights()`
+#' * `openxlsx::saveWorkbook()`
+#'
+#' Note that when only the argument `heights` is defined,
+#' the argument `rows` will point to row 2 and lower, thus
+#' skipping the first (header) row. Define `rows` specifically
+#' in order to affect the header row as well.
+#'
+#' @family jam export functions
+#'
+#' @param xlsxFile `character` path to a file saved as `xlsx` format.
+#' @param sheet value passed to `openxlsx::setRowHeights()` indicating
+#'    the worksheet to affect. It can either be an `integer` value, or
+#'    the `character` name of a sheet.
+#' @param rows `integer vector` indicating the row numbers to affect.
+#' @param heights `numeric vector` indicating the height of each column
+#'    defined by `rows`.
+#' @param ... additional arguments are passed to `openxlsx::setRowHeights()`.
+#'
+#' @examples
+#' \dontrun{
+#'    df <- data.frame(a=LETTERS[1:5], b=1:5);
+#'    jamba::writeOpenxlsx(x=df,
+#'       file="jamba_test.xlsx",
+#'       sheetName="test_jamba");
+#'
+#'    ## by default, rows will start at row 2, skipping the header
+#'    jamba::set_xlsx_rowheights(file="jamba_test.xlsx",
+#'       sheetName="test_jamba",
+#'       heights=rep(17, nrow(df))
+#'    )
+#'
+#'    ## to include the header row
+#'    jamba::set_xlsx_rowheights(file="jamba_test.xlsx",
+#'       sheetName="test_jamba",
+#'       rows=seq_len(nrow(df)+1),
+#'       heights=rep(17, nrow(df)+1)
+#'    )
+#' }
+#'
+#' @export
+set_xlsx_rowheights <- function
+(xlsxFile,
+ sheet=1,
+ rows=seq_along(heights)+1,
+ heights=17,
+ ...)
+{
+   ## Load the requested file as a workbook
+   wb <- openxlsx::loadWorkbook(xlsxFile);
+
+   openxlsx::setRowHeights(wb,
+      sheet=sheet,
+      rows=rows,
+      heights=heights);
+
+   ## Save workbook
+   openxlsx::saveWorkbook(wb,
+      xlsxFile,
+      overwrite=TRUE);
 }

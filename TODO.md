@@ -1,5 +1,44 @@
 ## TODO for jamba
 
+### Enhance cPaste() family functions 11may2020
+
+* handle `AsIs` columns in `data.frame`
+
+`df <- data.frame(a=letters[1:2], b=I(list(1:2, 3:4)))`
+
+### Enhance writeOpenxlsx() 08may2020
+
+* `applyXlsxConditionalFormat()` make the default colors better,
+they're kind of meh, washed out. Add some life.
+* `applyXlsxConditionalFormat()` should in theory color the text
+with `setTextContrastColor()` to use white text on dark background
+colors. Not sure if Excel allows it, or if it requires manually
+setting the color in each cell.
+* `writeOpenxlsx()` option to apply conditional formatting
+to numeric columns using each column numeric range, not fixed range.
+Other option is to supply a list of rules for `numRule`. Design idea:
+When `numRule=NULL` or `numRule=NA` then create rule based upon
+the numeric range (min, mean, max). Also, `numRule` can be a `list`,
+for example `numRule=list(c(0,100,1000), NA, c(0,1,2))`. This rule
+would apply `c(0,100,1000)` to the first column in `numColumns`,
+then would apply `NA` to the second column (thus auto-scaled),
+then would apply `c(0,1,2)` to the third column.
+* `writeOpenxlsx()` option to supply a header which is displayed in
+the top row of the Excel worksheet, with its own style. For example
+the header may be a title "Data following normalization and limma analysis"
+with dark blue background, white text, font size 18.
+
+### Optimizations 29apr2020
+
+* `cPaste()` is not fully efficient when the input does not
+require going through steps `unlist()` then `split()`. In these
+cases the data should be left as `CharacterList` if possible,
+to use `S4Vectors::unstrsplit()` directly. Conditions that
+require `unlist()` then `split()`:
+
+   * `na.rm=TRUE` and the presence of `NA` values
+   * `doSort=TRUE` and any list element with multiple values
+
 ### Bug 02oct2019
 
 * `plotSmoothScatter()` throws an error

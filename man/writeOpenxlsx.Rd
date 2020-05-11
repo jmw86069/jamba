@@ -27,19 +27,19 @@ writeOpenxlsx(
   lfcFormat = "#,##0.0",
   hitFormat = "#,##0.0",
   intFormat = "#,##0",
-  pvalueFormat = "0.00E+00",
+  pvalueFormat = "[>0.01]0.00#;0.00E+00",
   numRule = c(1, 10, 20),
   fcRule = c(-6, 0, 6),
   lfcRule = c(-3, 0, 3),
-  hitRule = c(-2, 0, 2),
+  hitRule = c(-1.5, 0, 1.5),
   intRule = c(0, 100, 10000),
-  pvalueRule = c(1e-05, 0.01, 1),
-  numStyle = c("#EEECE1", "#678ADF", "#5673AA"),
+  pvalueRule = c(0, 0.01, 0.05),
+  numStyle = c("#F2F0F7", "#B4B1D4", "#938EC2"),
   fcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
   lfcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
   hitStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
-  intStyle = c("#EEECE1", "#DF8A67", "#AA6346"),
-  pvalueStyle = c("#AA6346", "#DF8A67", "#EEECE1"),
+  intStyle = c("#EEECE1", "#FDA560", "#F77F30"),
+  pvalueStyle = c("#F77F30", "#FDC99B", "#EEECE1"),
   doConditional = TRUE,
   doCategorical = TRUE,
   colorSub = NULL,
@@ -195,35 +195,41 @@ A screenshot of the file produced by the example is shown below.
 \examples{
 # set up a test data.frame
 set.seed(123);
-df1 <- data.frame(
-   Gene=paste0("Gene", LETTERS[2:11]),
-   log2fc=rnorm(10)*5,
-   `P-value`=1/sample(((10:50)/10)^3, 10));
-df1$hit <- sign(df1[,2]) * (abs(df1[,2]) >= 1 & df1[,3] < 0.03);
-# apply sort
-df1 <- mixedSortDF(df1, byCols=c(4,2,3));
-# set of categorical colors for genes
-colorSubGene <- nameVector(
-   rep(c("purple4","orange","red4"),
-      c(2,6,2)),
-   df1$Gene);
-df1;
-writeOpenxlsx(file="/Users/wardjm/test.xlsx",
-   sheetName="sheet1",
-   append=FALSE,
-   x=df1,
-   colorSub=colorSubGene,
-   highlightColumns=1,
-   pvalueColumns=3,
-   lfcColumns=2,
-   hitColumns=4,
-   freezePaneRow=2,
-   freezePaneColumn=2);
+\dontrun{
+   set.seed(123);
+   lfc <- -3:3 + rnorm(7)/3;
+   colorSub <- nameVector(
+      rainbow(7, s=c(0.8, 1), v=c(0.8, 1)),
+      LETTERS[1:7])
+   df <- data.frame(name=LETTERS[1:7],
+      int=round(4^(1:7)),
+      num=(1:7)*4-2 + rnorm(7),
+      fold=2^abs(lfc)*sign(lfc),
+      lfc=lfc,
+      pvalue=10^(-1:-7 + rnorm(7)),
+      hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
+   df;
+   writeOpenxlsx(x=df,
+      file="jamba_test.xlsx",
+      sheetName="jamba_test",
+      colorSub=colorSub,
+      intColumns=2,
+      numColumns=3,
+      fcColumns=4,
+      lfcColumns=5,
+      pvalueColumns=6,
+      hitColumn=7,
+      freezePaneRow=2,
+      freezePaneColumn=2,
+      append=FALSE);
+}
 
 }
 \seealso{
 Other jam export functions: 
 \code{\link{applyXlsxCategoricalFormat}()},
-\code{\link{applyXlsxConditionalFormat}()}
+\code{\link{applyXlsxConditionalFormat}()},
+\code{\link{set_xlsx_colwidths}()},
+\code{\link{set_xlsx_rowheights}()}
 }
 \concept{jam export functions}

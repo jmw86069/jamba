@@ -20,22 +20,22 @@ applyXlsxConditionalFormat(
   hitColumns = NULL,
   hitGrep = NULL,
   hitStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
-  hitRule = c(-2, 0, 2),
+  hitRule = c(-1.5, 0, 1.5),
   hitType = "colourScale",
   intColumns = NULL,
   intGrep = NULL,
-  intStyle = c("#EEECE1", "#DF8A67", "#AA6346"),
+  intStyle = c("#EEECE1", "#FDC99B", "#F77F30"),
   intRule = c(0, 100, 10000),
   intType = "colourScale",
   numColumns = NULL,
   numGrep = NULL,
-  numStyle = c("#EEECE1", "#678ADF", "#5673AA"),
+  numStyle = c("#F2F0F7", "#B4B1D4", "#938EC2"),
   numRule = c(1, 10, 20),
   numType = "colourScale",
   pvalueColumns = NULL,
   pvalueGrep = NULL,
-  pvalueStyle = c("#AA6346", "#DF8A67", "#EEECE1"),
-  pvalueRule = c(1e-04, 0.01, 1),
+  pvalueStyle = c("#F77F30", "#FDC99B", "#EEECE1"),
+  pvalueRule = c(0, 0.01, 0.05),
   pvalueType = "colourScale",
   verbose = FALSE,
   startRow = 2,
@@ -89,6 +89,9 @@ Xlsx Conditional formatting
 This function is a convenient wrapper for applying conditional formatting
 to Excel xlsx worksheets, with reasonable settings for commonly used
 data types.
+
+Note that this function does not apply cell formatting, such as numeric
+formatting as displayed in Excel.
 
 A description of column types follows:
 \describe{
@@ -148,9 +151,28 @@ Interestingly, if multiple conditional rules are applied to the same
 cell, they will be visible in order inside the Microsoft Excel
 application.
 }
+\examples{
+\dontrun{
+   df <- data.frame(a=LETTERS[1:5], b=1:5);
+   jamba::writeOpenxlsx(x=df,
+      file="jamba_test.xlsx",
+      sheetName="test_jamba");
+
+   applyXlsxConditionalFormat(
+      xlsxFile="jamba_test.xlsx",
+      sheet="test_jamba",
+      intColumns=2,
+      intRule=c(0,3,5),
+      intStyle=c("#FFFFFF", "#1E90FF", "#9932CC")
+   )
+}
+
+}
 \seealso{
 Other jam export functions: 
 \code{\link{applyXlsxCategoricalFormat}()},
+\code{\link{set_xlsx_colwidths}()},
+\code{\link{set_xlsx_rowheights}()},
 \code{\link{writeOpenxlsx}()}
 }
 \concept{jam export functions}

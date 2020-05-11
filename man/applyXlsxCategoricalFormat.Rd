@@ -64,9 +64,29 @@ It uses a named character vector of colors supplied as \code{colorSub}
 to define cell background colors, and optionally \code{colorSubText}
 to define a specific color for the cell text.
 }
+\examples{
+\dontrun{
+   df <- data.frame(a=LETTERS[1:5], b=1:5);
+   jamba::writeOpenxlsx(x=df,
+      file="jamba_test.xlsx",
+      sheetName="test_jamba");
+
+   colorSub <- nameVector(
+      rainbow(5, s=c(0.8, 1), v=c(0.8, 1)),
+      LETTERS[1:5]);
+   applyXlsxCategoricalFormat(
+      xlsxFile="jamba_test.xlsx",
+      sheet="test_jamba",
+      colorSub=colorSub
+   )
+}
+
+}
 \seealso{
 Other jam export functions: 
 \code{\link{applyXlsxConditionalFormat}()},
+\code{\link{set_xlsx_colwidths}()},
+\code{\link{set_xlsx_rowheights}()},
 \code{\link{writeOpenxlsx}()}
 }
 \concept{jam export functions}

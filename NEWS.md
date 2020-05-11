@@ -1,3 +1,28 @@
+# jamba version 0.0.55.900
+
+## changes to existing functions
+
+* `applyXlsxConditionalFormat()` and `writeOpenxlsx()` were updated
+to make default colors in `numStyle`, `intStyle`, `pvalueStyle`
+slightly more colorful, while also being less dark, so Excel
+default black text has better visible contrast. (Why can Excel
+not apply conditional format rules to text font color?)
+* `writeOpenxlsx()` format for P-values `pvalueFormat` formats
+values above 0.01 as decimal value such as `0.022` or `0.157`,
+P-values below 0.01 are exponential notation such as `2.31E-10`.
+(I wish R could avoid formatting things like `1.1e+00` and
+`1.0e+01` without using a custom function.)
+* `writeOpenxlsx()` was updated with a more comprehensive example.
+* `applyCategoricalFormat()` has a simple working example.
+* `applyXlsxConditionalFormat()` has a simple working example.
+
+## new functions
+
+* `set_xlsx_rowheights()` and `set_xlsx_colwidths()` are light
+wrappers to the very useful functions `openxlsx::setRowHeights()`
+and `openxlsx::setColWidths()`. They simply open the workbook,
+apply the values to the appropriate sheet, then save the workbook.
+
 # jamba version 0.0.54.900
 
 ## changes to existing functions
