@@ -121,11 +121,13 @@
 plotSmoothScatter <- function
 (x,
  y=NULL,
- bandwidthN=300,
+ bandwidthN=NULL,#300,
+ bpi=50,
  transformation=function(x)x^0.25,
  xlim=NULL,
  ylim=NULL,
- nbin=256,
+ nbin=NULL,#256,
+ binpi=50,
  nrpoints=0,
  colramp=c("white", "lightblue", "blue", "orange", "orangered2"),
  doTest=FALSE,
@@ -229,7 +231,6 @@ plotSmoothScatter <- function
          y[naValuesY] <- 1;
       }
 
-      bandwidthN <- rep(bandwidthN, length.out=2);
       if (is.null(xlim)) {
          xlim <- range(x);
       }
@@ -253,10 +254,65 @@ plotSmoothScatter <- function
       ## which contains the actual dimensions.
       ## Note that it does not require the actual coordinates of the plot,
       ## just the relative size of the display
-      pin1 <- par("pin")[1] / par("pin")[2];
-      bandwidthXY <- c(diff(xlim4)/bandwidthN[1], diff(ylim4)/bandwidthN[2]*pin1);
       if (fillBackground) {
          nullPlot(doBoxes=FALSE, doUsrBox=TRUE, fill=head(colramp(11),1),
+            xaxs="i", yaxs="i", xaxt="n", yaxt="n",
+            xlim=xlim4, ylim=ylim4, add=add, ...);
+      } else {
+         nullPlot(doBoxes=FALSE, #doUsrBox=TRUE, fill=head(colramp(11),1),
+            xaxs="i", yaxs="i", xaxt="n", yaxt="n",
+            xlim=xlim4, ylim=ylim4, add=add, ...);
+      }
+      axis(1, las=2, xaxt=xaxt);
+      axis(2, las=2, yaxt=yaxt);
+
+
+      ## Determine resolution of 2D density, and of pixel display
+      pin1 <- par("pin")[1] / par("pin")[2];
+      if (length(bandwidthN) > 0) {
+         bandwidthN <- rep(bandwidthN, length.out=2);
+         bandwidthXY <- c(diff(xlim4)/bandwidthN[1], diff(ylim4)/bandwidthN[2]*pin1);
+      } else {
+         ## Alternate method using breaks per inch
+         if (length(bpi) == 0) {
+            bpi <- 30;
+         }
+         bandwidthXY <- c(diff(xlim4) / (par("pin")[1] * bpi),
+            diff(ylim4) / (par("pin")[2] * bpi));
+      }
+      if (length(nbin) == 0) {
+         if (length(binpi) == 0) {
+            binpi <- 50;
+         }
+         nbin <- max(c(
+            round(par("pin")[1] * binpi),
+            round(par("pin")[2] * binpi)));
+      }
+      if (verbose) {
+         jamba::printDebug("plotSmoothScatter(): ",
+            "bandwidthXY: ",
+            bandwidthXY);
+         jamba::printDebug("nbin: ", nbin);
+      }
+
+      smoothScatterJam(x=x,
+         y=y,
+         add=TRUE,
+         transformation=transformation,
+         bandwidth=bandwidthXY,
+         nbin=nbin,
+         nrpoints=nrpoints,
+         xlim=xlim4,
+         ylim=ylim4,
+         xaxs="i",
+         yaxs="i",
+         xaxt="n",
+         yaxt="n",
+         colramp=colramp,
+         useRaster=useRaster,
+         ...);
+      if (1 == 2) {
+         nullPlot(doBoxes=FALSE, #doUsrBox=TRUE, fill=head(colramp(11),1),
             xaxs="i", yaxs="i", xaxt="n", yaxt="n",
             xlim=xlim4, ylim=ylim4, add=add, ...);
          axis(1, las=2, xaxt=xaxt);
@@ -264,22 +320,6 @@ plotSmoothScatter <- function
          smoothScatterJam(x=x,
             y=y,
             add=TRUE,
-            transformation=transformation,
-            bandwidth=bandwidthXY,
-            nbin=nbin,
-            nrpoints=nrpoints,
-            xlim=xlim4,
-            ylim=ylim4,
-            xaxs="i",
-            yaxs="i",
-            xaxt="n",
-            yaxt="n",
-            colramp=colramp,
-            useRaster=useRaster,
-            ...);
-      } else {
-         smoothScatterJam(x=x,
-            y=y,
             transformation=transformation,
             bandwidth=bandwidthXY,
             nbin=nbin,

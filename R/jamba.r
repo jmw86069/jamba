@@ -2012,7 +2012,7 @@ getPlotAspect <- function
 #'
 #' frequency of entries, ordered by frequency
 #'
-#' This function mimics output from \code{table} with two key
+#' This function mimics output from `table()` with two key
 #' differences. It sorts the results by decreasing frequency, and optionally
 #' filters results for a minimum frequency. It is effective when checking
 #' for duplicate values, and ordering them by the number of occurrences.
@@ -2035,8 +2035,8 @@ getPlotAspect <- function
 #'    fewer counts observed will be omitted from results.
 #' @param maxCount optional integer maximum frequency for returned results.
 #' @param nameSortFunc function used to sort results after sorting by
-#'    frequency. For example, one might use \code{mixedSort}. If NULL
-#'    then no name sort will be applied.
+#'    frequency. For example, one might use `mixedSort()`. If
+#'    `nameSortFunc=NULL` then no name sort will be applied.
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
@@ -2046,7 +2046,81 @@ getPlotAspect <- function
 #'
 #' @export
 tcount <- function
-(x, doSort=TRUE, minCount=NULL, maxCount=NULL, nameSortFunc=sort,
+(x,
+ minCount=NULL,
+ doSort=TRUE,
+ maxCount=NULL,
+ nameSortFunc=sort,
+ ...)
+{
+   ## Purpose is similar to table(), except this is just a quick way to return counts of each element,
+   ## sorted by the counts in decreasing order. tcount(x)[1] is a quick way to see if any element is
+   ## present more than once.
+   ##
+   ## minCount will filter results to those having at least that high a count
+
+   ## Note we detect factor class in reverse, since ordered factors have two class values
+   ## and would otherwise fail to be detected if we use class(x) %in% "factor"
+   if (c("factor") %in% class(x)) {
+      x <- as.character(x);
+   }
+   #x1 <- tapply(x, x, length);
+   x1 <- table(x);
+   x1 <- nameVector(as.vector(x1), names(x1), makeNamesFunc=c);
+
+   ## Filter before sort, for potential speed gain
+   if (!is.null(minCount)) {
+      x1 <- x1[x1 >= minCount];
+   }
+   if (!is.null(maxCount)) {
+      x1 <- x1[x1 <= maxCount];
+   }
+
+   if (doSort) {
+      if (!is.null(nameSortFunc)) {
+         x1 <- x1[match(nameSortFunc(names(x1)), names(x1))];
+      }
+      x1 <- sort(x1, decreasing=TRUE);
+   }
+   return(x1);
+}
+
+#' frequency of entries, ordered by frequency, minimum count 2
+#'
+#' frequency of entries, ordered by frequency, minimum count 2
+#'
+#' This function is a simple customization of `tcount()`
+#' with `minCount=2` so it only reports frequencies of `2` or higher.
+#'
+#' @return integer vector of counts, named by the unique input
+#'    values in `x`, by default limited to entries with frequency
+#'    `2` or higher.
+#'
+#' @family jam string functions
+#'
+#' @param x vector input to use when calculating frequencies.
+#' @param doSort logical whether to sort results decreasing by frequency.
+#' @param minCount optional integer minimum frequency, any results with
+#'    fewer counts observed will be omitted from results. Note the default
+#'    for `tcount2()` is `minCount=2`.
+#' @param maxCount optional integer maximum frequency for returned results.
+#' @param nameSortFunc function used to sort results after sorting by
+#'    frequency. For example, one might use `mixedSort()`. If
+#'    `nameSortFunc=NULL` then no name sort will be applied.
+#' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' testVector <- rep(c("one", "two", "three", "four"), c(1:4));
+#' tcount(testVector);
+#' tcount2(testVector);
+#'
+#' @export
+tcount2 <- function
+(x,
+ minCount=2,
+ doSort=TRUE,
+ maxCount=NULL,
+ nameSortFunc=sort,
  ...)
 {
    ## Purpose is similar to table(), except this is just a quick way to return counts of each element,
@@ -2759,12 +2833,14 @@ applyCLrange <- function
    if (length(x) == 0 || all(is.na(x)) ||
          (length(Crange) == 0 &&
                length(Lrange) == 0 &&
-               !fixYellow)) {
+               !any(fixYellow))) {
       return(x);
    }
    if (is.null(names(x))) {
       names(x) <- makeNames(rep("col", length(x)));
    }
+   fixYellow <- rep(fixYellow,
+      length.out=length(x));
    styleHcl <- col2hcl(x);
    styleNA <- is.na(x);
 
@@ -2816,8 +2892,8 @@ applyCLrange <- function
    }
 
    ## Optionally "fix" yellows
-   if (fixYellow) {
-      styleHcl <- fixYellowHue(styleHcl, ...);
+   if (any(fixYellow)) {
+      styleHcl[,fixYellow] <- fixYellowHue(styleHcl[,fixYellow,drop=FALSE], ...);
    }
 
    ## Convert back to hex color

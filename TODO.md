@@ -1,15 +1,40 @@
 ## TODO for jamba
 
-### Enhance cPaste() family functions 11may2020
+### Bugs 28aug2020
 
-* handle `AsIs` columns in `data.frame`
+* `printDebug()` throws a warning about fixYellow:
 
-`df <- data.frame(a=letters[1:2], b=I(list(1:2, 3:4)))`
+> Warning message:
+> In if (fixYellow) { :
+>   the condition has length > 1 and only the first element will be used
+
+
+### Bugs 29jul2020
+
+* `writeOpenxlsx()` highlightColumns appears to prevent conditional
+formatting on the same columns.
+* `provigrep()` checks for names and assigns only if missing, it does
+not correct duplicate names if they are already present.
+
+### enhancements 29jul2020
+
+* `tcount2()` - wrapper for `tcount(..., minCount=2)`
+
+### migrate functions from other packages
+
+* `find_colname()`
+* `deconcat_df()`
+
 
 ### Enhance writeOpenxlsx() 08may2020
 
-* `applyXlsxConditionalFormat()` make the default colors better,
-they're kind of meh, washed out. Add some life.
+* `writeOpenxlsx()` option to supply a header which is displayed in
+the top row of the Excel worksheet, with its own style. For example
+the header may be a title "Data following normalization and limma analysis"
+with dark blue background, white text, font size 18.
+
+#### Nice to have
+
 * `applyXlsxConditionalFormat()` should in theory color the text
 with `setTextContrastColor()` to use white text on dark background
 colors. Not sure if Excel allows it, or if it requires manually
@@ -23,10 +48,6 @@ for example `numRule=list(c(0,100,1000), NA, c(0,1,2))`. This rule
 would apply `c(0,100,1000)` to the first column in `numColumns`,
 then would apply `NA` to the second column (thus auto-scaled),
 then would apply `c(0,1,2)` to the third column.
-* `writeOpenxlsx()` option to supply a header which is displayed in
-the top row of the Excel worksheet, with its own style. For example
-the header may be a title "Data following normalization and limma analysis"
-with dark blue background, white text, font size 18.
 
 ### Optimizations 29apr2020
 

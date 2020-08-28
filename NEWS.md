@@ -1,3 +1,48 @@
+# jamba version 0.0.56.900
+
+## bug fixes
+
+* `applyCLranges()` was updated to remove the warning message
+for argument `fixYellow` that read
+`"the condition has length > 1 and only the first element will be used"`.
+The function now handles vector input for `fixYellow` and extends the
+vector to the length of `x`.
+
+## changes to existing functions
+
+* `plotSmoothScatter()` now correctly determines the plot
+aspect ratio after the plot is initiated. The situation occurs
+when using `graphics::layout()` which does not update
+the `par()` settings until the plot is created. Now a
+blank plot is initiated, which informs the aspect ratio,
+then allows proper calculation of the 2D density plot.
+
+* `plotSmoothScatter()` major refactor in the method used
+to calculate default `bandwidth` and `nbin` values.
+The new approach defines 2D bandwidth by "breaks per inch",
+as opposed to using a fixed number of breaks across the figure.
+When plotting multi-panel output, e.g. using `par("mfrow"=c(2,2))`,
+the previous method used the same level of detail even for
+very small panels. The new method uses less detail by default,
+consistent with having fewer pixels available to display these
+smaller panels.
+For the old behavior, use `plotSmoothScatter(..., nbin=256, bandwidthN=300)`.
+The new behavior is roughly the same as before for one-panel plots,
+but may require a bit of testing on larger (poster-sized) figures,
+and for `jamma::jammaplot()` panels, which can become quite small.
+Two new arguments:
+
+* `bpi` - "bandwidth per inch": adjusts the bandwidth used to
+calculate 2D kernel density. This argument adjusts the resolution
+and detail of the 2D kernel density.
+* `binpi` - "bins per inch": adjusts the bins used to display
+the density -- analogous to the number of actual pixel cells
+across the plot panel.
+
+It is possible to calculate density using a fixed number of bins
+across each plot, but separately reduce the number of pixel "bins"
+used to display the density in each plot panel.
+
 # jamba version 0.0.55.900
 
 ## changes to existing functions
