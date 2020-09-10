@@ -7,7 +7,7 @@
 plotSmoothScatter(
   x,
   y = NULL,
-  bandwidthN = NULL,
+  bandwidthN = 300,
   bpi = 50,
   transformation = function(x) x^0.25,
   xlim = NULL,

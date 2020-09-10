@@ -121,7 +121,7 @@
 plotSmoothScatter <- function
 (x,
  y=NULL,
- bandwidthN=NULL,#300,
+ bandwidthN=300,
  bpi=50,
  transformation=function(x)x^0.25,
  xlim=NULL,
@@ -197,7 +197,7 @@ plotSmoothScatter <- function
       plotSmoothScatter(x2, colramp=colramp, bandwidthN=600,
          main="plotSmoothScatter higher bandwidth");
       par(oPar);
-      invisible(x2);
+      return(invisible(x2));
    } else {
 
       if (!is.null(y) && is.numeric(y) && is.numeric(x)) {
@@ -255,13 +255,27 @@ plotSmoothScatter <- function
       ## Note that it does not require the actual coordinates of the plot,
       ## just the relative size of the display
       if (fillBackground) {
-         nullPlot(doBoxes=FALSE, doUsrBox=TRUE, fill=head(colramp(11),1),
-            xaxs="i", yaxs="i", xaxt="n", yaxt="n",
-            xlim=xlim4, ylim=ylim4, add=add, ...);
+         nullPlot(doBoxes=FALSE,
+            doUsrBox=TRUE,
+            fill=head(colramp(11),1),
+            xaxs="i",
+            yaxs="i",
+            xaxt="n",
+            yaxt="n",
+            xlim=xlim4,
+            ylim=ylim4,
+            add=add,
+            ...);
       } else {
          nullPlot(doBoxes=FALSE, #doUsrBox=TRUE, fill=head(colramp(11),1),
-            xaxs="i", yaxs="i", xaxt="n", yaxt="n",
-            xlim=xlim4, ylim=ylim4, add=add, ...);
+            xaxs="i",
+            yaxs="i",
+            xaxt="n",
+            yaxt="n",
+            xlim=xlim4,
+            ylim=ylim4,
+            add=add,
+            ...);
       }
       axis(1, las=2, xaxt=xaxt);
       axis(2, las=2, yaxt=yaxt);
