@@ -10,7 +10,8 @@ unnestList(
   parentName = NULL,
   sep = ".",
   makeNameFunc = makeNames,
-  stopClasses = c("dendrogram", "data.frame", "matrix"),
+  stopClasses = c("dendrogram", "data.frame", "matrix", "package_version", "tbl",
+    "data.table"),
   ...
 )
 }

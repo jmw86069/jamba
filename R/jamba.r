@@ -5660,7 +5660,12 @@ unnestList <- function
  parentName=NULL,
  sep=".",
  makeNameFunc=makeNames,
- stopClasses=c("dendrogram", "data.frame", "matrix"),
+ stopClasses=c("dendrogram",
+    "data.frame",
+    "matrix",
+    "package_version",
+    "tbl",
+    "data.table"),
  ...)
 {
    ## Purpose is to take a list of lists, and un-nest them
@@ -5692,7 +5697,7 @@ unnestList <- function
          ## If we reached a list, and if the class isn't something
          ## we want to allow (e.g. dendrogram) then unnest one layer deeper
          if (inherits(i, "list") || is.list(i) && !class(i) %in% stopClasses) {
-            i <- unnestList(x=i, parentName=j, ...);
+            i <- unnestList(x=i, parentName=j)#, ...);
          } else {
             i <- list(i);
             names(i) <- j;

@@ -2,6 +2,12 @@
 
 ## bug fixes
 
+* `printDebug()` failed on class `"package_version"` ultimately
+because `unnestList()` could not unlist this object type. The
+"package_version" class is a list, e.g. `is.list(packageVersion("base"))`
+is `TRUE`. However, accessing the first item, e.g. `x[[1]]`
+always returns the full object unchanged... which is not expected
+behavior for a list. This class was added to `stopClasses`.
 * `applyCLranges()` was updated to remove the warning message
 for argument `fixYellow` that read
 `"the condition has length > 1 and only the first element will be used"`.
