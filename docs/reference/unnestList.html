@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56.900</span>
       </span>
     </div>
 
@@ -131,11 +131,14 @@
 
     <pre class="usage"><span class='fu'>unnestList</span>(
   <span class='no'>x</span>,
+  <span class='kw'>addNames</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>unnamedBase</span> <span class='kw'>=</span> <span class='st'>"x"</span>,
   <span class='kw'>parentName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"."</span>,
-  <span class='kw'>makeNameFunc</span> <span class='kw'>=</span> <span class='no'>makeNames</span>,
-  <span class='kw'>stopClasses</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dendrogram"</span>, <span class='st'>"data.frame"</span>, <span class='st'>"matrix"</span>),
+  <span class='kw'>makeNamesFunc</span> <span class='kw'>=</span> <span class='no'>makeNames</span>,
+  <span class='kw'>stopClasses</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dendrogram"</span>, <span class='st'>"data.frame"</span>, <span class='st'>"matrix"</span>, <span class='st'>"package_version"</span>, <span class='st'>"tbl"</span>,
+    <span class='st'>"data.table"</span>),
+  <span class='kw'>extraStopClasses</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"jam.stopClasses"</span>),
   <span class='no'>...</span>
 )</pre>
 
@@ -144,34 +147,54 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>list potentially containing lists</p></td>
+      <td><p><code>list</code> potentially containing nested lists.</p></td>
+    </tr>
+    <tr>
+      <th>addNames</th>
+      <td><p><code>logical</code> indicating whether to add names to
+the list elements when names are not already present. When
+<code>addNames=TRUE</code> and no names are present <code>unnamedBase</code> is
+used to define names.</p></td>
     </tr>
     <tr>
       <th>unnamedBase</th>
-      <td><p>character value used as a base for naming any
+      <td><p><code>character</code> value used as a base for naming any
 un-named lists, using the format <code>makeNamesFunc(rep(unnamedBase, n))</code>.</p></td>
     </tr>
     <tr>
       <th>sep</th>
-      <td><p>character delimiter used between nested list names.</p></td>
+      <td><p><code>character</code> delimiter used between nested list names.</p></td>
+    </tr>
+    <tr>
+      <th>makeNamesFunc</th>
+      <td><p><code>function</code> that takes a character vector and returns
+non-duplicated character vector of equal length. By default it
+uses <code><a href='makeNames.html'>jamba::makeNames()</a></code>.</p></td>
     </tr>
     <tr>
       <th>stopClasses</th>
-      <td><p>vector of classes that should not be un-nested,
+      <td><p><code>vector</code> of classes that should not be un-nested,
 useful in case some classes inherit list properties.</p></td>
+    </tr>
+    <tr>
+      <th>extraStopClasses</th>
+      <td><p><code>vector</code> of additional values for <code>stopClasses</code>,
+created mostly to show that <code><a href='https://rdrr.io/r/base/options.html'>options("jam.stopClasses")</a></code> can be
+used to define <code>stopClasses</code>, for example when this function
+is called but where arguments cannot be conveniently passed
+through the calling function.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>additional arguments are ignored.</p></td>
     </tr>
-    <tr>
-      <th>makeNamesFunc</th>
-      <td><p>function that takes a character vector and returns
-non-duplicated character vector of equal length. By default it
-uses <code><a href='makeNames.html'>jamba::makeNames()</a></code>.</p></td>
-    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>list</code> that has been flattened so that it contains
+no <code>list</code> elements. Note that it may contain some list-like
+objects such as <code>data.frame</code>, defined by <code>stopClasses</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function inspects a list, and unlists each entry
@@ -202,7 +225,9 @@ by providing one flat list.</p>
 <code><a href='uniques.html'>uniques</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>10</span>], <span class='kw'>B</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>C</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fl'>3</span>:<span class='fl'>9</span>], <span class='kw'>D</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>4</span>:<span class='fl'>11</span>]));
+    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
+   <span class='kw'>B</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>C</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fl'>3</span>:<span class='fl'>9</span>], <span class='kw'>D</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>4</span>:<span class='fl'>11</span>]),
+   <span class='kw'>E</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>F</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>G</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fl'>3</span>:<span class='fl'>9</span>], <span class='kw'>D</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>4</span>:<span class='fl'>11</span>])));
 <span class='no'>L</span>;</div><div class='output co'>#&gt; $A
 #&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j"
 #&gt; 
@@ -213,7 +238,28 @@ by providing one flat list.</p>
 #&gt; $B$D
 #&gt; [1] "d" "e" "f" "g" "h" "i" "j" "k"
 #&gt; 
-#&gt; </div><div class='input'><span class='fu'>unnestList</span>(<span class='no'>L</span>);</div><div class='output co'>#&gt; $A
+#&gt; 
+#&gt; $E
+#&gt; $E$F
+#&gt; $E$F$G
+#&gt; [1] "C" "D" "E" "F" "G" "H" "I"
+#&gt; 
+#&gt; $E$F$D
+#&gt; [1] "d" "e" "f" "g" "h" "i" "j" "k"
+#&gt; 
+#&gt; 
+#&gt; </div><div class='input'>
+<span class='co'># inspect the data using str()</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>L</span>);</div><div class='output co'>#&gt; List of 3
+#&gt;  $ A: chr [1:10] "a" "b" "c" "d" ...
+#&gt;  $ B:List of 2
+#&gt;   ..$ C: chr [1:7] "C" "D" "E" "F" ...
+#&gt;   ..$ D: chr [1:8] "d" "e" "f" "g" ...
+#&gt;  $ E:List of 1
+#&gt;   ..$ F:List of 2
+#&gt;   .. ..$ G: chr [1:7] "C" "D" "E" "F" ...
+#&gt;   .. ..$ D: chr [1:8] "d" "e" "f" "g" ...</div><div class='input'>
+<span class='fu'>unnestList</span>(<span class='no'>L</span>);</div><div class='output co'>#&gt; $A
 #&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j"
 #&gt; 
 #&gt; $B.C
@@ -221,22 +267,109 @@ by providing one flat list.</p>
 #&gt; 
 #&gt; $B.D
 #&gt; [1] "d" "e" "f" "g" "h" "i" "j" "k"
+#&gt; 
+#&gt; $E.F.G
+#&gt; [1] "C" "D" "E" "F" "G" "H" "I"
+#&gt; 
+#&gt; $E.F.D
+#&gt; [1] "d" "e" "f" "g" "h" "i" "j" "k"
 #&gt; </div><div class='input'>
-<span class='co'># inspect the data using str()</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>L</span>);</div><div class='output co'>#&gt; List of 2
-#&gt;  $ A: chr [1:10] "a" "b" "c" "d" ...
+<span class='co'># optionally change the delimiter</span>
+<span class='fu'>unnestList</span>(<span class='no'>L</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>"|"</span>);</div><div class='output co'>#&gt; $A
+#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j"
+#&gt; 
+#&gt; $`B|C`
+#&gt; [1] "C" "D" "E" "F" "G" "H" "I"
+#&gt; 
+#&gt; $`B|D`
+#&gt; [1] "d" "e" "f" "g" "h" "i" "j" "k"
+#&gt; 
+#&gt; $`E|F|G`
+#&gt; [1] "C" "D" "E" "F" "G" "H" "I"
+#&gt; 
+#&gt; $`E|F|D`
+#&gt; [1] "d" "e" "f" "g" "h" "i" "j" "k"
+#&gt; </div><div class='input'>
+<span class='co'># example with nested lists of data.frame objects</span>
+<span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>a</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>b</span><span class='kw'>=</span><span class='no'>letters</span>[<span class='fl'>3</span>:<span class='fl'>4</span>]);
+<span class='no'>DFL</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='no'>df1</span>,
+   <span class='kw'>B</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>C</span><span class='kw'>=</span><span class='no'>df1</span>, <span class='kw'>D</span><span class='kw'>=</span><span class='no'>df1</span>),
+   <span class='kw'>E</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>F</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>G</span><span class='kw'>=</span><span class='no'>df1</span>, <span class='kw'>D</span><span class='kw'>=</span><span class='no'>df1</span>)));
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>DFL</span>);</div><div class='output co'>#&gt; List of 3
+#&gt;  $ A:'data.frame':	2 obs. of  2 variables:
+#&gt;   ..$ a: int [1:2] 1 2
+#&gt;   ..$ b: Factor w/ 2 levels "c","d": 1 2
 #&gt;  $ B:List of 2
-#&gt;   ..$ C: chr [1:7] "C" "D" "E" "F" ...
-#&gt;   ..$ D: chr [1:8] "d" "e" "f" "g" ...</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>unnestList</span>(<span class='no'>L</span>))</div><div class='output co'>#&gt; List of 3
-#&gt;  $ A  : chr [1:10] "a" "b" "c" "d" ...
-#&gt;  $ B.C: chr [1:7] "C" "D" "E" "F" ...
-#&gt;  $ B.D: chr [1:8] "d" "e" "f" "g" ...</div><div class='input'>
+#&gt;   ..$ C:'data.frame':	2 obs. of  2 variables:
+#&gt;   .. ..$ a: int [1:2] 1 2
+#&gt;   .. ..$ b: Factor w/ 2 levels "c","d": 1 2
+#&gt;   ..$ D:'data.frame':	2 obs. of  2 variables:
+#&gt;   .. ..$ a: int [1:2] 1 2
+#&gt;   .. ..$ b: Factor w/ 2 levels "c","d": 1 2
+#&gt;  $ E:List of 1
+#&gt;   ..$ F:List of 2
+#&gt;   .. ..$ G:'data.frame':	2 obs. of  2 variables:
+#&gt;   .. .. ..$ a: int [1:2] 1 2
+#&gt;   .. .. ..$ b: Factor w/ 2 levels "c","d": 1 2
+#&gt;   .. ..$ D:'data.frame':	2 obs. of  2 variables:
+#&gt;   .. .. ..$ a: int [1:2] 1 2
+#&gt;   .. .. ..$ b: Factor w/ 2 levels "c","d": 1 2</div><div class='input'><span class='fu'>unnestList</span>(<span class='no'>DFL</span>);</div><div class='output co'>#&gt; $A
+#&gt;   a b
+#&gt; 1 1 c
+#&gt; 2 2 d
+#&gt; 
+#&gt; $B.C
+#&gt;   a b
+#&gt; 1 1 c
+#&gt; 2 2 d
+#&gt; 
+#&gt; $B.D
+#&gt;   a b
+#&gt; 1 1 c
+#&gt; 2 2 d
+#&gt; 
+#&gt; $E.F.G
+#&gt;   a b
+#&gt; 1 1 c
+#&gt; 2 2 d
+#&gt; 
+#&gt; $E.F.D
+#&gt;   a b
+#&gt; 1 1 c
+#&gt; 2 2 d
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>unnestList</span>(<span class='no'>DFL</span>));</div><div class='output co'>#&gt; List of 5
+#&gt;  $ A    :'data.frame':	2 obs. of  2 variables:
+#&gt;   ..$ a: int [1:2] 1 2
+#&gt;   ..$ b: Factor w/ 2 levels "c","d": 1 2
+#&gt;  $ B.C  :'data.frame':	2 obs. of  2 variables:
+#&gt;   ..$ a: int [1:2] 1 2
+#&gt;   ..$ b: Factor w/ 2 levels "c","d": 1 2
+#&gt;  $ B.D  :'data.frame':	2 obs. of  2 variables:
+#&gt;   ..$ a: int [1:2] 1 2
+#&gt;   ..$ b: Factor w/ 2 levels "c","d": 1 2
+#&gt;  $ E.F.G:'data.frame':	2 obs. of  2 variables:
+#&gt;   ..$ a: int [1:2] 1 2
+#&gt;   ..$ b: Factor w/ 2 levels "c","d": 1 2
+#&gt;  $ E.F.D:'data.frame':	2 obs. of  2 variables:
+#&gt;   ..$ a: int [1:2] 1 2
+#&gt;   ..$ b: Factor w/ 2 levels "c","d": 1 2</div><div class='input'>
+<span class='co'># packageVersion() returns class "package_version"</span>
+<span class='co'># where is.list(packageVersion("base")) is TRUE,</span>
+<span class='co'># but it cannot ever be subsetted as a list with x[[1]],</span>
+<span class='co'># and thus it breaks this function</span>
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>is.list</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion</a></span>(<span class='st'>"base"</span>)), <span class='fu'><a href='https://rdrr.io/r/base/list.html'>is.list</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion</a></span>(<span class='st'>"base"</span>))<span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>unnestList</span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='nameVector.html'>nameVector</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"base"</span>,<span class='st'>"graphics"</span>)), <span class='no'>packageVersion</span>))</div><div class='output co'>#&gt; $base
+#&gt; [1] ‘3.6.1’
+#&gt; 
+#&gt; $graphics
+#&gt; [1] ‘3.6.1’
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>

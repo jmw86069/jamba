@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add categorical colors to Excel xlsx worksheets — applyXlsxCategoricalFormat • jamba</title>
+<title>Set row heights in Xlsx files — set_xlsx_rowheights • jamba</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="Add categorical colors to Excel xlsx worksheets — applyXlsxCategoricalFormat" />
-<meta property="og:description" content="Add categorical colors to Excel xlsx worksheets" />
+<meta property="og:title" content="Set row heights in Xlsx files — set_xlsx_rowheights" />
+<meta property="og:description" content="This function is a light wrapper to perform these steps
+from the very useful openxlsx R package:" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,27 +121,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add categorical colors to Excel xlsx worksheets</h1>
+    <h1>Set row heights in Xlsx files</h1>
     <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-export.r'><code>R/jamba-export.r</code></a></small>
-    <div class="hidden name"><code>applyXlsxCategoricalFormat.Rd</code></div>
+    <div class="hidden name"><code>set_xlsx_rowheights.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Add categorical colors to Excel xlsx worksheets</p>
+    <p>This function is a light wrapper to perform these steps
+from the very useful <code>openxlsx</code> R package:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>applyXlsxCategoricalFormat</span>(
+    <pre class="usage"><span class='fu'>set_xlsx_rowheights</span>(
   <span class='no'>xlsxFile</span>,
   <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>rowRange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>colRange</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>colorSub</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>colorSubText</span> <span class='kw'>=</span> <span class='fu'><a href='setTextContrastColor.html'>setTextContrastColor</a></span>(<span class='no'>colorSub</span>),
-  <span class='kw'>trimCatNames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>wrapText</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>heights</span>) + <span class='fl'>1</span>,
+  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='fl'>17</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -149,75 +144,48 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>xlsxFile</th>
-      <td><p>filename pointing to an existing Excel xlsx file.</p></td>
+      <td><p><code>character</code> path to a file saved as <code>xlsx</code> format.</p></td>
     </tr>
     <tr>
       <th>sheet</th>
-      <td><p>integer index of the worksheet or worksheets.</p></td>
+      <td><p>value passed to <code><a href='https://rdrr.io/pkg/openxlsx/man/setRowHeights.html'>openxlsx::setRowHeights()</a></code> indicating
+the worksheet to affect. It can either be an <code>integer</code> value, or
+the <code>character</code> name of a sheet.</p></td>
     </tr>
     <tr>
-      <th>rowRange, colRange</th>
-      <td><p>integer vectors of rows and columns
-to apply categorical colors in the Excel xlsx worksheet.</p></td>
+      <th>rows</th>
+      <td><p><code>integer vector</code> indicating the row numbers to affect.</p></td>
     </tr>
     <tr>
-      <th>colorSub</th>
-      <td><p>named character vector of valid R colors, whose
-names correspond to values in the worksheet cells.</p></td>
-    </tr>
-    <tr>
-      <th>colorSubText</th>
-      <td><p>optional character vector of colors, whose
-names correspond to values in the worksheet cells. In
-absence of a specific text color, <code><a href='setTextContrastColor.html'>jamba::setTextContrastColor()</a></code>
-is used to define a contrasting text color to be visible on
-the colored background.</p></td>
-    </tr>
-    <tr>
-      <th>trimCatNames</th>
-      <td><p>logical whether to trim whitespace and punctuation
-from <code>colorSub</code> and from Excel cell fields before matching colors
-to Excel values.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>logical indicating whether new cell color styles
-should be forced overwrite of previous cell styles.</p></td>
-    </tr>
-    <tr>
-      <th>wrapText</th>
-      <td><p>logical indicating whether to wrap text.</p></td>
-    </tr>
-    <tr>
-      <th>stack</th>
-      <td><p>logical indicating whether new color rules should be
-applied above existing styles, many of whose styles may not affect
-the specific cell color, for example the font size and font name.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>logical indicating whether to print verbose output.</p></td>
+      <th>heights</th>
+      <td><p><code>numeric vector</code> indicating the height of each column
+defined by <code>rows</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional arguments are ignored.</p></td>
+      <td><p>additional arguments are passed to <code><a href='https://rdrr.io/pkg/openxlsx/man/setRowHeights.html'>openxlsx::setRowHeights()</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is a convenient wrapper for applying categorical
-color formatting to cell background colors, and applies a contrasting
-color to the text in cells using <code><a href='setTextContrastColor.html'>jamba::setTextContrastColor()</a></code>.
-It uses a named character vector of colors supplied as <code>colorSub</code>
-to define cell background colors, and optionally <code>colorSubText</code>
-to define a specific color for the cell text.</p>
+    
+<ul>
+<li><p><code><a href='https://rdrr.io/pkg/openxlsx/man/loadWorkbook.html'>openxlsx::loadWorkbook()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/pkg/openxlsx/man/setRowHeights.html'>openxlsx::setRowHeights()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html'>openxlsx::saveWorkbook()</a></code></p></li>
+</ul>
+
+<p>Note that when only the argument <code>heights</code> is defined,
+the argument <code>rows</code> will point to row 2 and lower, thus
+skipping the first (header) row. Define <code>rows</code> specifically
+in order to affect the header row as well.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other jam export functions: 
+<code><a href='applyXlsxCategoricalFormat.html'>applyXlsxCategoricalFormat</a>()</code>,
 <code><a href='applyXlsxConditionalFormat.html'>applyXlsxConditionalFormat</a>()</code>,
 <code><a href='set_xlsx_colwidths.html'>set_xlsx_colwidths</a>()</code>,
-<code><a href='set_xlsx_rowheights.html'>set_xlsx_rowheights</a>()</code>,
 <code><a href='writeOpenxlsx.html'>writeOpenxlsx</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -227,13 +195,17 @@ to define a specific color for the cell text.</p>
       <span class='kw'>file</span><span class='kw'>=</span><span class='st'>"jamba_test.xlsx"</span>,
       <span class='kw'>sheetName</span><span class='kw'>=</span><span class='st'>"test_jamba"</span>);
 
-   <span class='no'>colorSub</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nameVector.html'>nameVector</a></span>(
-      <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>rainbow</a></span>(<span class='fl'>5</span>, <span class='kw'>s</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.8</span>, <span class='fl'>1</span>), <span class='kw'>v</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.8</span>, <span class='fl'>1</span>)),
-      <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]);
-   <span class='fu'>applyXlsxCategoricalFormat</span>(
-      <span class='kw'>xlsxFile</span><span class='kw'>=</span><span class='st'>"jamba_test.xlsx"</span>,
-      <span class='kw'>sheet</span><span class='kw'>=</span><span class='st'>"test_jamba"</span>,
-      <span class='kw'>colorSub</span><span class='kw'>=</span><span class='no'>colorSub</span>
+   <span class='co'>## by default, rows will start at row 2, skipping the header</span>
+   <span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/set_xlsx_rowheights.html'>set_xlsx_rowheights</a></span>(<span class='kw'>file</span><span class='kw'>=</span><span class='st'>"jamba_test.xlsx"</span>,
+      <span class='kw'>sheetName</span><span class='kw'>=</span><span class='st'>"test_jamba"</span>,
+      <span class='kw'>heights</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>17</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>))
+   )
+
+   <span class='co'>## to include the header row</span>
+   <span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/set_xlsx_rowheights.html'>set_xlsx_rowheights</a></span>(<span class='kw'>file</span><span class='kw'>=</span><span class='st'>"jamba_test.xlsx"</span>,
+      <span class='kw'>sheetName</span><span class='kw'>=</span><span class='st'>"test_jamba"</span>,
+      <span class='kw'>rows</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)+<span class='fl'>1</span>),
+      <span class='kw'>heights</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>17</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)+<span class='fl'>1</span>)
    )
 }</div></pre>
   </div>

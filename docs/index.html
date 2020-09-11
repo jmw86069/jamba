@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56.900</span>
       </span>
     </div>
 
@@ -253,9 +253,9 @@
 <code><a href="reference/nameVectorN.html">nameVectorN()</a></code> - make named vector using the names of a vector (useful inside <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>) or any function that returns data using names of the input vector.</li>
 </ul>
 </div>
-<div id="data-framematrixtibble" class="section level3">
+<div id="dataframematrixtibble" class="section level3">
 <h3 class="hasAnchor">
-<a href="#data-framematrixtibble" class="anchor"></a>data.frame/matrix/tibble</h3>
+<a href="#dataframematrixtibble" class="anchor"></a>data.frame/matrix/tibble</h3>
 <ul>
 <li>
 <code><a href="reference/pasteByRow.html">pasteByRow()</a></code> - fast, flexible row-paste with delimiters, optionally remove blanks</li>
@@ -271,9 +271,9 @@
 <code><a href="reference/kable_coloring.html">kable_coloring()</a></code> - flexible colorized <code>data.frame</code> output in Rmarkdown.</li>
 </ul>
 </div>
-<div id="string-grep" class="section level3">
+<div id="string--grep" class="section level3">
 <h3 class="hasAnchor">
-<a href="#string-grep" class="anchor"></a>String / grep</h3>
+<a href="#string--grep" class="anchor"></a>String / grep</h3>
 <ul>
 <li>
 <code><a href="reference/gsubOrdered.html">gsubOrdered()</a></code> - gsub that returns ordered factor, maintians the previous factor order</li>
@@ -313,33 +313,33 @@
 <code><a href="reference/formatInt.html">formatInt()</a></code> - convenient <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> for integer output, with comma-delimiter by default</li>
 </ul>
 </div>
-<div id="practical-helpful" class="section level3">
+<div id="practical--helpful" class="section level3">
 <h3 class="hasAnchor">
-<a href="#practical-helpful" class="anchor"></a>Practical / helpful</h3>
+<a href="#practical--helpful" class="anchor"></a>Practical / helpful</h3>
 <ul>
 <li>
 <code><a href="reference/jargs.html">jargs()</a></code> - pretty function arguments, optional pattern search argument name</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="reference/jargs.html">jargs</a></span>(plotSmoothScatter)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt;                 x = ,</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;                 y = NULL,</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;        bandwidthN = 300,</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;    transformation = function( x ) x^0.25,</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;              xlim = NULL,</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt;              ylim = NULL,</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt;              nbin = 256,</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;          nrpoints = 0,</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;           colramp = c("white", "lightblue", "blue", "orange", "orangered2"),</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;            doTest = FALSE,</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt;    fillBackground = TRUE,</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;          naAction = c("remove", "floor0", "floor1"),</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt;              xaxt = "s",</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;              yaxt = "s",</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt;               add = FALSE,</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; applyRangeCeiling = TRUE,</span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt;         useRaster = TRUE,</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt;           verbose = FALSE,</span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt;               ... =</span></a></code></pre></div>
+<!-- end list --><div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="reference/jargs.html">jargs</a></span>(plotSmoothScatter)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt;                 x = ,</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt;                 y = NULL,</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt;        bandwidthN = 300,</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;    transformation = function( x ) x^0.25,</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;              xlim = NULL,</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;              ylim = NULL,</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;              nbin = 256,</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;          nrpoints = 0,</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;           colramp = c("white", "lightblue", "blue", "orange", "orangered2"),</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;            doTest = FALSE,</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;    fillBackground = TRUE,</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;          naAction = c("remove", "floor0", "floor1"),</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;              xaxt = "s",</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;              yaxt = "s",</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt;               add = FALSE,</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; applyRangeCeiling = TRUE,</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt;         useRaster = TRUE,</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt;           verbose = FALSE,</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt;               ... =</span></span></code></pre></div>
 <ul>
 <li>
 <code><a href="reference/sdim.html">sdim()</a></code>, <code><a href="reference/ssdim.html">ssdim()</a></code> - dimensions of list objects, or nested list of lists</li>

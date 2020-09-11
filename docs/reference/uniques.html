@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56.900</span>
       </span>
     </div>
 
@@ -202,6 +202,7 @@ C implementation provided by <code>S4Vectors</code>.</p>
 <code><a href='padString.html'>padString</a>()</code>,
 <code><a href='pasteByRowOrdered.html'>pasteByRowOrdered</a>()</code>,
 <code><a href='pasteByRow.html'>pasteByRow</a>()</code>,
+<code><a href='tcount2.html'>tcount2</a>()</code>,
 <code><a href='tcount.html'>tcount</a>()</code>,
 <code><a href='ucfirst.html'>ucfirst</a>()</code></p>
 <p>Other jam list functions: 
@@ -263,18 +264,18 @@ C implementation provided by <code>S4Vectors</code>.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>uniques</span>(<span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>rep</a></span>(<span class='no'>L1</span>, <span class='fl'>10000</span>), <span class='kw'>useBioc</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>keepNames</span><span class='kw'>=</span><span class='fl'>FALSE</span>)));
 <span class='fu'><a href='printDebug.html'>printDebug</a></span>(<span class='st'>"Simple list, keepNames=TRUE:"</span>);
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>uniques</span>(<span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>rep</a></span>(<span class='no'>L1</span>, <span class='fl'>10000</span>), <span class='kw'>useBioc</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>keepNames</span><span class='kw'>=</span><span class='fl'>TRUE</span>)));
-}</div><div class='output co'>#&gt; ##  (<span style='color: #00BBBB;font-weight: bold;'>14:32:56</span><span>) 27Apr2020:  </span><span style='color: #BB0000;'>Bioc CompressedList:</span><span> 
+}</div><div class='output co'>#&gt; ##  (<span style='color: #00BBBB;font-weight: bold;'>12:43:56</span><span>) 11Sep2020:  </span><span style='color: #BB0000;'>Bioc CompressedList:</span><span> 
 #&gt;    user  system elapsed 
-#&gt;   0.061   0.006   0.067 
-#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>14:32:56</span><span>) 27Apr2020:  </span><span style='color: #BB0000;'>Bioc SimpleList:</span><span> 
+#&gt;   0.063   0.006   0.069 
+#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>12:43:56</span><span>) 11Sep2020:  </span><span style='color: #BB0000;'>Bioc SimpleList:</span><span> 
 #&gt;    user  system elapsed 
-#&gt;   0.369   0.002   0.371 
-#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>14:32:56</span><span>) 27Apr2020:  </span><span style='color: #BB0000;'>Simple list, keepNames=FALSE:</span><span> 
+#&gt;   0.378   0.002   0.389 
+#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>12:43:57</span><span>) 11Sep2020:  </span><span style='color: #BB0000;'>Simple list, keepNames=FALSE:</span><span> 
 #&gt;    user  system elapsed 
-#&gt;   0.111   0.003   0.114 
-#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>14:32:57</span><span>) 27Apr2020:  </span><span style='color: #BB0000;'>Simple list, keepNames=TRUE:</span><span> 
+#&gt;   0.104   0.002   0.106 
+#&gt; ##  (</span><span style='color: #00BBBB;font-weight: bold;'>12:43:57</span><span>) 11Sep2020:  </span><span style='color: #BB0000;'>Simple list, keepNames=TRUE:</span><span> 
 #&gt;    user  system elapsed 
-#&gt;   0.683   0.009   0.691 </div><div class='input'>
+#&gt;   0.758   0.009   0.767 </div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

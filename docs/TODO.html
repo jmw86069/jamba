@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56.900</span>
       </span>
     </div>
 
@@ -124,6 +124,77 @@
 <div id="todo-for-jamba" class="section level2">
 <h2 class="hasAnchor">
 <a href="#todo-for-jamba" class="anchor"></a>TODO for jamba</h2>
+<div id="bugs-28aug2020" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bugs-28aug2020" class="anchor"></a>Bugs 28aug2020</h3>
+<ul>
+<li>
+<code><a href="reference/printDebug.html">printDebug()</a></code> throws a warning about fixYellow:</li>
+</ul>
+<blockquote>
+<p>Warning message: In if (fixYellow) { : the condition has length &gt; 1 and only the first element will be used</p>
+</blockquote>
+</div>
+<div id="bugs-29jul2020" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bugs-29jul2020" class="anchor"></a>Bugs 29jul2020</h3>
+<ul>
+<li>
+<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> highlightColumns appears to prevent conditional formatting on the same columns.</li>
+<li>
+<code><a href="reference/provigrep.html">provigrep()</a></code> checks for names and assigns only if missing, it does not correct duplicate names if they are already present.</li>
+</ul>
+</div>
+<div id="enhancements-29jul2020" class="section level3">
+<h3 class="hasAnchor">
+<a href="#enhancements-29jul2020" class="anchor"></a>enhancements 29jul2020</h3>
+<ul>
+<li>
+<code><a href="reference/tcount2.html">tcount2()</a></code> - wrapper for <code><a href="reference/tcount.html">tcount(..., minCount=2)</a></code>
+</li>
+</ul>
+</div>
+<div id="migrate-functions-from-other-packages" class="section level3">
+<h3 class="hasAnchor">
+<a href="#migrate-functions-from-other-packages" class="anchor"></a>migrate functions from other packages</h3>
+<ul>
+<li><code>find_colname()</code></li>
+<li><code>deconcat_df()</code></li>
+</ul>
+</div>
+<div id="enhance-writeopenxlsx-08may2020" class="section level3">
+<h3 class="hasAnchor">
+<a href="#enhance-writeopenxlsx-08may2020" class="anchor"></a>Enhance writeOpenxlsx() 08may2020</h3>
+<ul>
+<li>
+<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> option to supply a header which is displayed in the top row of the Excel worksheet, with its own style. For example the header may be a title “Data following normalization and limma analysis” with dark blue background, white text, font size 18.</li>
+</ul>
+<div id="nice-to-have" class="section level4">
+<h4 class="hasAnchor">
+<a href="#nice-to-have" class="anchor"></a>Nice to have</h4>
+<ul>
+<li>
+<code><a href="reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code> should in theory color the text with <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> to use white text on dark background colors. Not sure if Excel allows it, or if it requires manually setting the color in each cell.</li>
+<li>
+<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> option to apply conditional formatting to numeric columns using each column numeric range, not fixed range. Other option is to supply a list of rules for <code>numRule</code>. Design idea: When <code>numRule=NULL</code> or <code>numRule=NA</code> then create rule based upon the numeric range (min, mean, max). Also, <code>numRule</code> can be a <code>list</code>, for example <code>numRule=list(c(0,100,1000), NA, c(0,1,2))</code>. This rule would apply <code><a href="https://rdrr.io/r/base/c.html">c(0,100,1000)</a></code> to the first column in <code>numColumns</code>, then would apply <code>NA</code> to the second column (thus auto-scaled), then would apply <code><a href="https://rdrr.io/r/base/c.html">c(0,1,2)</a></code> to the third column.</li>
+</ul>
+</div>
+</div>
+<div id="optimizations-29apr2020" class="section level3">
+<h3 class="hasAnchor">
+<a href="#optimizations-29apr2020" class="anchor"></a>Optimizations 29apr2020</h3>
+<ul>
+<li>
+<p><code><a href="reference/cPaste.html">cPaste()</a></code> is not fully efficient when the input does not require going through steps <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> then <code><a href="https://rdrr.io/r/base/split.html">split()</a></code>. In these cases the data should be left as <code>CharacterList</code> if possible, to use <code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html">S4Vectors::unstrsplit()</a></code> directly. Conditions that require <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> then <code><a href="https://rdrr.io/r/base/split.html">split()</a></code>:</p>
+<ul>
+<li>
+<code>na.rm=TRUE</code> and the presence of <code>NA</code> values</li>
+<li>
+<code>doSort=TRUE</code> and any list element with multiple values</li>
+</ul>
+</li>
+</ul>
+</div>
 <div id="bug-02oct2019" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bug-02oct2019" class="anchor"></a>Bug 02oct2019</h3>
@@ -137,12 +208,16 @@
 <a href="#general-enhancements" class="anchor"></a>General enhancements</h3>
 <ul>
 <li>Add message during package install suggesting the “crayon” package be installed if not already installed.</li>
+<li>Investigate the interplay between Mac/Linux TERM, locale with LC_ALL, special characters like <ce> (theta), and R help docs.</ce>
+</li>
 </ul>
 </div>
-<div id="bug-fixes-enhancements-to-existing-functions" class="section level3">
+<div id="bug-fixes--enhancements-to-existing-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-enhancements-to-existing-functions" class="anchor"></a>Bug fixes / Enhancements to existing functions</h3>
+<a href="#bug-fixes--enhancements-to-existing-functions" class="anchor"></a>Bug fixes / Enhancements to existing functions</h3>
 <ol>
+<li>
+<code><a href="reference/printDebug.html">printDebug()</a></code> probably needs a specific delimiter between lists. Currently <code>collapse</code> is accepted via <code>...</code> but separates every entry.</li>
 <li>
 <code>plotSmoothScatterG()</code> is a new function which would create a smooth scatter plot like <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> except that it will also allow coloring points by group. The previous closest estimate was the ability to overlay contours of different colors, however the transparency of each layer is not effective, the last color layer drawn becomes the dominant color. This function essentially creates a layer for each color, then blends them into one collective layer. Each layer should probably be a <code>weight</code> applied to each layer of colors, in order to avoid blending the paleness become dominant. The point color will be determined by the weighted color blend, the intensity of the color as a gradient starting from background color will be determined by the sum of the weights, relative to the rest of the plot.</li>
 </ol>

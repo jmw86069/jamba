@@ -8,6 +8,11 @@ because `unnestList()` could not unlist this object type. The
 is `TRUE`. However, accessing the first item, e.g. `x[[1]]`
 always returns the full object unchanged... which is not expected
 behavior for a list. This class was added to `stopClasses`.
+* `unnestList()` was refactored to handle nested lists with
+and without names in various combinations, and to use
+`tryCatch()` as a final protection from infinite recursion,
+when list-list objects do not behave like list objects
+(as is the case with the `"package_version"` class.)
 * `applyCLranges()` was updated to remove the warning message
 for argument `fixYellow` that read
 `"the condition has length > 1 and only the first element will be used"`.
@@ -20,34 +25,70 @@ vector to the length of `x`.
 aspect ratio after the plot is initiated. The situation occurs
 when using `graphics::layout()` which does not update
 the `par()` settings until the plot is created. Now a
-blank plot is initiated, which informs the aspect ratio,
-then allows proper calculation of the 2D density plot.
+blank plot is initiated before determining aspect ratio,
+which allows proper calculation of the 2D density plot.
 
-* `plotSmoothScatter()` major refactor in the method used
-to calculate default `bandwidth` and `nbin` values.
-The new approach defines 2D bandwidth by "breaks per inch",
-as opposed to using a fixed number of breaks across the figure.
-When plotting multi-panel output, e.g. using `par("mfrow"=c(2,2))`,
-the previous method used the same level of detail even for
-very small panels. The new method uses less detail by default,
-consistent with having fewer pixels available to display these
-smaller panels.
-For the old behavior, use `plotSmoothScatter(..., nbin=256, bandwidthN=300)`.
-The new behavior is roughly the same as before for one-panel plots,
-but may require a bit of testing on larger (poster-sized) figures,
-and for `jamma::jammaplot()` panels, which can become quite small.
-Two new arguments:
+## refactoring of plotSmoothScatter
 
-* `bpi` - "bandwidth per inch": adjusts the bandwidth used to
-calculate 2D kernel density. This argument adjusts the resolution
-and detail of the 2D kernel density.
-* `binpi` - "bins per inch": adjusts the bins used to display
-the density -- analogous to the number of actual pixel cells
-across the plot panel.
+* `plotSmoothScatter()` new argument `binpi` defines the `nbin`
+number of displayed bins based upon plot panel size. The default
+`binpi=50` defines 50 display bins per inch. This value will
+adjust accordingly for large and small figures, based upon
+the physical size of the figure in inches.
+* `plotSmoothScatter()` argument `nbin` new default is `nbin=NULL`,
+which then uses `binpi` to calculate `nbin`. To use the previous
+style, set `nbin=256` which will ignore `binpi`.
+* `plotSmoothScatter()` new argument `bwpi` defines `bandwidthN`
+based upon the plot panel size. The default `bwpi=NULL` does
+not implement this scaling by default, instead `bandwidthN=300`
+is still the default. The benefit of using `bwpi` is mostly
+in speed of calculating 2D density for multi-panel plots
+where detail would already be lost during display.
 
-It is possible to calculate density using a fixed number of bins
-across each plot, but separately reduce the number of pixel "bins"
-used to display the density in each plot panel.
+### plotSmoothScatter commentary
+
+`plotSmoothScatter()` uses two arguments to determine how
+data is plotted:
+
+* `bandwidthN` defines the number of bandwidth
+divisions on the x- and y-axes used to calculate the 2D density.
+Higher `bandwidthN` calculates greater
+detail in the 2D density -- these values are all typically higher
+than `graphics::smoothScatter()`, and this is still the driving
+reason to use `plotSmoothScatter` and not `smoothScatter()`.
+* `nbin` defines the number of visible pixels used to display
+the calculated 2D density. Higher `nbin` creates visually
+more detailed representation of the 2D density.
+
+Usually `nbin` and `bandwidthN` values are similar to each other,
+since it conceptually makes sense to calculate 2D density at
+roughly the resolution used to display the results.
+These arguments are adjustable
+and are still valid for most purposes.
+
+So why the change? The short summary is that multi-panel plots
+have fewer pixels being displayed, and I wanted a convenient method
+to reduce the number of pixels (`nbin`) displayed in each panel.
+(Truth be told, while working from home creating plots on remote servers,
+I noticed just how long multi-panel plots take to render. Most of that
+time is spent rendering detail never seen during display.)
+
+After some extended testing, I concluded that bandwidth should
+remain relatively constant regardless of the display pixels,
+in order to maintain consistent 2D density despite the image size.
+(Conceptually, it makes sense that the image display size should
+not affect underlying calculation of the data to be displayed.)
+However, the number of displayed pixels should be reduced roughly
+proportional to the size of the plot panel, which solves the
+issue I was having of plotting data with far more detail than
+could be visually rendered, making plots larger, take longer
+to display, and creating larger saved file sizes.
+
+Also, the resolution of the resulting plot can now be adjusted
+relative to the output plot size, consistent with computer
+monitor resolution (dots per inch dpi), and printed paper output
+dpi.
+
 
 # jamba version 0.0.55.900
 

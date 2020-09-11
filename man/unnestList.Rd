@@ -6,31 +6,49 @@
 \usage{
 unnestList(
   x,
+  addNames = FALSE,
   unnamedBase = "x",
   parentName = NULL,
   sep = ".",
-  makeNameFunc = makeNames,
+  makeNamesFunc = makeNames,
   stopClasses = c("dendrogram", "data.frame", "matrix", "package_version", "tbl",
     "data.table"),
+  extraStopClasses = getOption("jam.stopClasses"),
   ...
 )
 }
 \arguments{
-\item{x}{list potentially containing lists}
+\item{x}{\code{list} potentially containing nested lists.}
 
-\item{unnamedBase}{character value used as a base for naming any
+\item{addNames}{\code{logical} indicating whether to add names to
+the list elements when names are not already present. When
+\code{addNames=TRUE} and no names are present \code{unnamedBase} is
+used to define names.}
+
+\item{unnamedBase}{\code{character} value used as a base for naming any
 un-named lists, using the format \code{makeNamesFunc(rep(unnamedBase, n))}.}
 
-\item{sep}{character delimiter used between nested list names.}
+\item{sep}{\code{character} delimiter used between nested list names.}
 
-\item{stopClasses}{vector of classes that should not be un-nested,
-useful in case some classes inherit list properties.}
-
-\item{...}{additional arguments are ignored.}
-
-\item{makeNamesFunc}{function that takes a character vector and returns
+\item{makeNamesFunc}{\code{function} that takes a character vector and returns
 non-duplicated character vector of equal length. By default it
 uses \code{jamba::makeNames()}.}
+
+\item{stopClasses}{\code{vector} of classes that should not be un-nested,
+useful in case some classes inherit list properties.}
+
+\item{extraStopClasses}{\code{vector} of additional values for \code{stopClasses},
+created mostly to show that \code{options("jam.stopClasses")} can be
+used to define \code{stopClasses}, for example when this function
+is called but where arguments cannot be conveniently passed
+through the calling function.}
+
+\item{...}{additional arguments are ignored.}
+}
+\value{
+\code{list} that has been flattened so that it contains
+no \code{list} elements. Note that it may contain some list-like
+objects such as \code{data.frame}, defined by \code{stopClasses}.
 }
 \description{
 Un-nest a nested list into a simple list
@@ -43,13 +61,34 @@ added as a list-of-lists. This function resolves that problem
 by providing one flat list.
 }
 \examples{
-L <- list(A=letters[1:10], B=list(C=LETTERS[3:9], D=letters[4:11]));
+L <- list(A=letters[1:10],
+   B=list(C=LETTERS[3:9], D=letters[4:11]),
+   E=list(F=list(G=LETTERS[3:9], D=letters[4:11])));
 L;
-unnestList(L);
 
 # inspect the data using str()
 str(L);
-str(unnestList(L))
+
+unnestList(L);
+
+# optionally change the delimiter
+unnestList(L, sep="|");
+
+# example with nested lists of data.frame objects
+df1 <- data.frame(a=1:2, b=letters[3:4]);
+DFL <- list(A=df1,
+   B=list(C=df1, D=df1),
+   E=list(F=list(G=df1, D=df1)));
+str(DFL);
+unnestList(DFL);
+str(unnestList(DFL));
+
+# packageVersion() returns class "package_version"
+# where is.list(packageVersion("base")) is TRUE,
+# but it cannot ever be subsetted as a list with x[[1]],
+# and thus it breaks this function
+identical(is.list(packageVersion("base")), is.list(packageVersion("base"))[[1]])
+unnestList(lapply(nameVector(c("base","graphics")), packageVersion))
 
 }
 \seealso{

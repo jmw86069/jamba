@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>case-insensitive grep, returning values — vigrep • jamba</title>
+<title>Set column widths in Xlsx files — set_xlsx_colwidths • jamba</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="case-insensitive grep, returning values — vigrep" />
-<meta property="og:description" content="case-insensitive grep, returning values" />
+<meta property="og:title" content="Set column widths in Xlsx files — set_xlsx_colwidths" />
+<meta property="og:description" content="Set column widths in Xlsx files" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,55 +120,86 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>case-insensitive grep, returning values</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-string.r'><code>R/jamba-string.r</code></a></small>
-    <div class="hidden name"><code>vigrep.Rd</code></div>
+    <h1>Set column widths in Xlsx files</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jmw86069/jamba/blob/master/R/jamba-export.r'><code>R/jamba-export.r</code></a></small>
+    <div class="hidden name"><code>set_xlsx_colwidths.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>case-insensitive grep, returning values</p>
+    <p>Set column widths in Xlsx files</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vigrep</span>(<span class='no'>...</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>set_xlsx_colwidths</span>(
+  <span class='no'>xlsxFile</span>,
+  <span class='kw'>sheet</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>widths</span>),
+  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fl'>11</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>..., value, ignore.case</th>
-      <td><p>parameters sent to <code><a href='https://rdrr.io/r/base/grep.html'>grep</a></code></p></td>
+      <th>xlsxFile</th>
+      <td><p><code>character</code> path to a file saved as <code>xlsx</code> format.</p></td>
+    </tr>
+    <tr>
+      <th>sheet</th>
+      <td><p>value passed to <code><a href='https://rdrr.io/pkg/openxlsx/man/setColWidths.html'>openxlsx::setColWidths()</a></code> indicating
+the worksheet to affect. It can either be an <code>integer</code> value, or
+the <code>character</code> name of a sheet.</p></td>
+    </tr>
+    <tr>
+      <th>cols</th>
+      <td><p><code>integer vector</code> indicating the column numbers to affect.</p></td>
+    </tr>
+    <tr>
+      <th>widths</th>
+      <td><p><code>numeric vector</code> indicating the width of each column
+defined by <code>cols</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments are passed to <code><a href='https://rdrr.io/pkg/openxlsx/man/setColWidths.html'>openxlsx::setColWidths()</a></code>.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>vector of matching values</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is a simple wrapper around <code><a href='https://rdrr.io/r/base/grep.html'>grep</a></code> which
-runs in case-insensitive mode, and returns matching values. It is
-particularly helpful when grabbing values from a vector.</p>
+    <p>This function is a light wrapper to perform these steps
+from the very useful <code>openxlsx</code> R package:</p><ul>
+<li><p><code><a href='https://rdrr.io/pkg/openxlsx/man/loadWorkbook.html'>openxlsx::loadWorkbook()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/pkg/openxlsx/man/setColWidths.html'>openxlsx::setColWidths()</a></code></p></li>
+<li><p><code><a href='https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html'>openxlsx::saveWorkbook()</a></code></p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other jam grep functions: 
-<code><a href='grepls.html'>grepls</a>()</code>,
-<code><a href='igrepHas.html'>igrepHas</a>()</code>,
-<code><a href='igrep.html'>igrep</a>()</code>,
-<code><a href='provigrep.html'>provigrep</a>()</code>,
-<code><a href='unigrep.html'>unigrep</a>()</code>,
-<code><a href='unvigrep.html'>unvigrep</a>()</code>,
-<code><a href='vgrep.html'>vgrep</a>()</code></p></div>
+    <div class='dont-index'><p>Other jam export functions: 
+<code><a href='applyXlsxCategoricalFormat.html'>applyXlsxCategoricalFormat</a>()</code>,
+<code><a href='applyXlsxConditionalFormat.html'>applyXlsxConditionalFormat</a>()</code>,
+<code><a href='set_xlsx_rowheights.html'>set_xlsx_rowheights</a>()</code>,
+<code><a href='writeOpenxlsx.html'>writeOpenxlsx</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>V</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='no'>LETTERS</span>[<span class='fl'>4</span>:<span class='fl'>8</span>]);
-<span class='fu'>vigrep</span>(<span class='st'>"d"</span>, <span class='no'>V</span>);</div><div class='output co'>#&gt; [1] "AD" "DG"</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+   <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>a</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='kw'>b</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>5</span>);
+   <span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/writeOpenxlsx.html'>writeOpenxlsx</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>df</span>,
+      <span class='kw'>file</span><span class='kw'>=</span><span class='st'>"jamba_test.xlsx"</span>,
+      <span class='kw'>sheetName</span><span class='kw'>=</span><span class='st'>"test_jamba"</span>);
+
+   <span class='co'>## By default, cols starts at column 1 and continues to length(widths)</span>
+   <span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/set_xlsx_colwidths.html'>set_xlsx_colwidths</a></span>(<span class='kw'>file</span><span class='kw'>=</span><span class='st'>"jamba_test.xlsx"</span>,
+      <span class='kw'>sheetName</span><span class='kw'>=</span><span class='st'>"test_jamba"</span>,
+      <span class='kw'>widths</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>20</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>df</span>))
+   )
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>

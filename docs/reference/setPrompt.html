@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56.900</span>
       </span>
     </div>
 
@@ -139,6 +139,7 @@
   <span class='kw'>promptColor</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
   <span class='kw'>usePid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>resetPrompt</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>addEscape</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -148,7 +149,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>projectName</th>
-      <td><p>character string representing the active project.</p></td>
+      <td><p><code>character</code> string representing the active project.</p></td>
     </tr>
     <tr>
       <th>useColor</th>
@@ -158,8 +159,8 @@
     <tr>
       <th>projectColor, bracketColor, Rcolors, PIDcolor, promptColor</th>
       <td><p>colors
-used when useColor==TRUE and the <code>crayon</code> package
-is installed. <code>projectColor</code> colors the project name; <code>bracketColor</code>
+used when <code>useColor==TRUE</code> and the <code>crayon</code> package
+is installed: <code>projectColor</code> colors the project name; <code>bracketColor</code>
 colors the curly brackets around the project; <code>Rcolors</code> can be
 a vector of 3 colors, colorizing "R", the "-" divider, and the
 R version; <code>PIDcolor</code> colors the PID when <code>usePid=TRUE</code>; and
@@ -167,16 +168,25 @@ R version; <code>PIDcolor</code> colors the PID when <code>usePid=TRUE</code>; a
     </tr>
     <tr>
       <th>usePid</th>
-      <td><p>logical whether to include the process ID in the prompt.</p></td>
+      <td><p><code>logical</code> whether to include the process ID in the prompt.</p></td>
     </tr>
     <tr>
       <th>resetPrompt</th>
-      <td><p>logical whether to revert all changes to the prompt
+      <td><p><code>logical</code> whether to revert all changes to the prompt
 back to the default R prompt, that is, no color and no projectName.</p></td>
     </tr>
     <tr>
+      <th>addEscape</th>
+      <td><p><code>logical</code> indicating whether to wrap color encoding
+inside additional escape sequences. These escape sequences are
+required for many linux-like terminals to enforce correct word-wrap
+by ignoring the color sequences in the character count per line.
+Note this behavior is disabled when <code>Sys.getenv("RSTUDIO")=="1"</code>,
+which means the R session is running inside Rstudio.</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
-      <td><p>logical whether to print verbose output</p></td>
+      <td><p><code>logical</code> whether to print verbose output</p></td>
     </tr>
     <tr>
       <th>...</th>

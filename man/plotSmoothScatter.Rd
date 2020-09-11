@@ -8,12 +8,12 @@ plotSmoothScatter(
   x,
   y = NULL,
   bandwidthN = 300,
-  bpi = 50,
+  bwpi = 50,
+  nbin = NULL,
+  binpi = 50,
   transformation = function(x) x^0.25,
   xlim = NULL,
   ylim = NULL,
-  nbin = NULL,
-  binpi = 50,
   nrpoints = 0,
   colramp = c("white", "lightblue", "blue", "orange", "orangered2"),
   doTest = FALSE,
@@ -42,18 +42,18 @@ sufficiently similar to the data range, the resulting smoothed
 density will not be visibly distorted. This parameter also permits
 display of higher (or lower) level of detail.}
 
+\item{nbin}{integer number of bins to use when converting the kernel
+density result (which uses bandwidthN above) into a usable image.
+For example, nbin=256 produces notably high detail, while nbin=32
+produces lower resolution which may be more suitable when plotting
+multiple smaller plot panels.}
+
 \item{transformation}{function which converts point density to a number,
 typically related to square root or cube root transformation.}
 
 \item{xlim}{optional numeric x-axis range}
 
 \item{ylim}{optional numeric y-axis range}
-
-\item{nbin}{integer number of bins to use when converting the kernel
-density result (which uses bandwidthN above) into a usable image.
-For example, nbin=256 produces notably high detail, while nbin=32
-produces lower resolution which may be more suitable when plotting
-multiple smaller plot panels.}
 
 \item{nrpoints}{integer number of outlier datapoints to display,
 as defined by the

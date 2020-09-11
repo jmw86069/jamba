@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.53.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56.900</span>
       </span>
     </div>
 
@@ -145,22 +145,22 @@
   <span class='kw'>hitColumns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>hitGrep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>hitStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#4F81BD"</span>, <span class='st'>"#EEECE1"</span>, <span class='st'>"#C0504D"</span>),
-  <span class='kw'>hitRule</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>2</span>, <span class='fl'>0</span>, <span class='fl'>2</span>),
+  <span class='kw'>hitRule</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>1.5</span>, <span class='fl'>0</span>, <span class='fl'>1.5</span>),
   <span class='kw'>hitType</span> <span class='kw'>=</span> <span class='st'>"colourScale"</span>,
   <span class='kw'>intColumns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>intGrep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>intStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#EEECE1"</span>, <span class='st'>"#DF8A67"</span>, <span class='st'>"#AA6346"</span>),
+  <span class='kw'>intStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#EEECE1"</span>, <span class='st'>"#FDC99B"</span>, <span class='st'>"#F77F30"</span>),
   <span class='kw'>intRule</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>10000</span>),
   <span class='kw'>intType</span> <span class='kw'>=</span> <span class='st'>"colourScale"</span>,
   <span class='kw'>numColumns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>numGrep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>numStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#EEECE1"</span>, <span class='st'>"#678ADF"</span>, <span class='st'>"#5673AA"</span>),
+  <span class='kw'>numStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#F2F0F7"</span>, <span class='st'>"#B4B1D4"</span>, <span class='st'>"#938EC2"</span>),
   <span class='kw'>numRule</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>20</span>),
   <span class='kw'>numType</span> <span class='kw'>=</span> <span class='st'>"colourScale"</span>,
   <span class='kw'>pvalueColumns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pvalueGrep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pvalueStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#AA6346"</span>, <span class='st'>"#DF8A67"</span>, <span class='st'>"#EEECE1"</span>),
-  <span class='kw'>pvalueRule</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1e-04</span>, <span class='fl'>0.01</span>, <span class='fl'>1</span>),
+  <span class='kw'>pvalueStyle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#F77F30"</span>, <span class='st'>"#FDC99B"</span>, <span class='st'>"#EEECE1"</span>),
+  <span class='kw'>pvalueRule</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.01</span>, <span class='fl'>0.05</span>),
   <span class='kw'>pvalueType</span> <span class='kw'>=</span> <span class='st'>"colourScale"</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>startRow</span> <span class='kw'>=</span> <span class='fl'>2</span>,
@@ -238,6 +238,8 @@ be replaced with the new one, or whether a new file will be created.</p></td>
     <p>This function is a convenient wrapper for applying conditional formatting
 to Excel xlsx worksheets, with reasonable settings for commonly used
 data types.</p>
+<p>Note that this function does not apply cell formatting, such as numeric
+formatting as displayed in Excel.</p>
 <p>A description of column types follows:</p><dl class='dl-horizontal'>
 <dt>"fc"</dt><dd><p>Fold change, typically positive and negative values,
 which are formatted to show one decimal place, and use commas
@@ -298,8 +300,25 @@ application.</p>
 
     <div class='dont-index'><p>Other jam export functions: 
 <code><a href='applyXlsxCategoricalFormat.html'>applyXlsxCategoricalFormat</a>()</code>,
+<code><a href='set_xlsx_colwidths.html'>set_xlsx_colwidths</a>()</code>,
+<code><a href='set_xlsx_rowheights.html'>set_xlsx_rowheights</a>()</code>,
 <code><a href='writeOpenxlsx.html'>writeOpenxlsx</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+   <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>a</span><span class='kw'>=</span><span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='kw'>b</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>5</span>);
+   <span class='kw pkg'>jamba</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/jamba/man/writeOpenxlsx.html'>writeOpenxlsx</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>df</span>,
+      <span class='kw'>file</span><span class='kw'>=</span><span class='st'>"jamba_test.xlsx"</span>,
+      <span class='kw'>sheetName</span><span class='kw'>=</span><span class='st'>"test_jamba"</span>);
+
+   <span class='fu'>applyXlsxConditionalFormat</span>(
+      <span class='kw'>xlsxFile</span><span class='kw'>=</span><span class='st'>"jamba_test.xlsx"</span>,
+      <span class='kw'>sheet</span><span class='kw'>=</span><span class='st'>"test_jamba"</span>,
+      <span class='kw'>intColumns</span><span class='kw'>=</span><span class='fl'>2</span>,
+      <span class='kw'>intRule</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>3</span>,<span class='fl'>5</span>),
+      <span class='kw'>intStyle</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#FFFFFF"</span>, <span class='st'>"#1E90FF"</span>, <span class='st'>"#9932CC"</span>)
+   )
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -307,6 +326,7 @@ application.</p>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

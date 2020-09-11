@@ -5631,41 +5631,77 @@ mergeAllXY <- function
 #' added as a list-of-lists. This function resolves that problem
 #' by providing one flat list.
 #'
+#' @return `list` that has been flattened so that it contains
+#'    no `list` elements. Note that it may contain some list-like
+#'    objects such as `data.frame`, defined by `stopClasses`.
+#'
 #' @family jam list functions
 #'
-#' @param x list potentially containing lists
-#' @param unnamedBase character value used as a base for naming any
+#' @param x `list` potentially containing nested lists.
+#' @param addNames `logical` indicating whether to add names to
+#'    the list elements when names are not already present. When
+#'    `addNames=TRUE` and no names are present `unnamedBase` is
+#'    used to define names.
+#' @param unnamedBase `character` value used as a base for naming any
 #'    un-named lists, using the format `makeNamesFunc(rep(unnamedBase, n))`.
-#' @param sep character delimiter used between nested list names.
-#' @param makeNamesFunc function that takes a character vector and returns
+#' @param sep `character` delimiter used between nested list names.
+#' @param makeNamesFunc `function` that takes a character vector and returns
 #'    non-duplicated character vector of equal length. By default it
 #'    uses `jamba::makeNames()`.
-#' @param stopClasses vector of classes that should not be un-nested,
+#' @param stopClasses `vector` of classes that should not be un-nested,
 #'    useful in case some classes inherit list properties.
+#' @param extraStopClasses `vector` of additional values for `stopClasses`,
+#'    created mostly to show that `options("jam.stopClasses")` can be
+#'    used to define `stopClasses`, for example when this function
+#'    is called but where arguments cannot be conveniently passed
+#'    through the calling function.
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
-#' L <- list(A=letters[1:10], B=list(C=LETTERS[3:9], D=letters[4:11]));
+#' L <- list(A=letters[1:10],
+#'    B=list(C=LETTERS[3:9], D=letters[4:11]),
+#'    E=list(F=list(G=LETTERS[3:9], D=letters[4:11])));
 #' L;
-#' unnestList(L);
 #'
 #' # inspect the data using str()
 #' str(L);
-#' str(unnestList(L))
+#'
+#' unnestList(L);
+#'
+#' # optionally change the delimiter
+#' unnestList(L, sep="|");
+#'
+#' # example with nested lists of data.frame objects
+#' df1 <- data.frame(a=1:2, b=letters[3:4]);
+#' DFL <- list(A=df1,
+#'    B=list(C=df1, D=df1),
+#'    E=list(F=list(G=df1, D=df1)));
+#' str(DFL);
+#' unnestList(DFL);
+#' str(unnestList(DFL));
+#'
+#' # packageVersion() returns class "package_version"
+#' # where is.list(packageVersion("base")) is TRUE,
+#' # but it cannot ever be subsetted as a list with x[[1]],
+#' # and thus it breaks this function
+#' identical(is.list(packageVersion("base")), is.list(packageVersion("base"))[[1]])
+#' unnestList(lapply(nameVector(c("base","graphics")), packageVersion))
 #'
 #' @export
 unnestList <- function
 (x,
+ addNames=FALSE,
  unnamedBase="x",
  parentName=NULL,
  sep=".",
- makeNameFunc=makeNames,
+   makeNamesFunc=makeNames,
  stopClasses=c("dendrogram",
     "data.frame",
     "matrix",
     "package_version",
     "tbl",
     "data.table"),
+ extraStopClasses=getOption("jam.stopClasses"),
  ...)
 {
    ## Purpose is to take a list of lists, and un-nest them
@@ -5673,34 +5709,76 @@ unnestList <- function
    ## contained within it
    newList <- list();
 
-   ## Create default names if they don't exist already
-   if (is.null(names(x))) {
-      names(x) <- rep(unnamedBase, length(x));
+   stopClasses <- unique(c(stopClasses, extraStopClasses));
+   if (any(class(x) %in% stopClasses)) {
+      return(x);
    }
-   emptyNamesX <- which(names(x) %in% c("", NA));
-   if (any(emptyNamesX)) {
-      names(x)[emptyNamesX] <- rep(unnamedBase, length(emptyNamesX));
+
+   ## Create default names if they don't exist already
+   if (addNames) {
+      x_names <- names(x);
+      if (length(x_names) == 0) {
+         names(x) <- rep(unnamedBase, length(x));
+      }
+      emptyNamesX <- which(names(x) %in% c("", NA));
+      if (any(emptyNamesX)) {
+         names(x)[emptyNamesX] <- rep(unnamedBase, length(emptyNamesX));
+      }
    }
 
    ## add prefix if it were specified
-   if (!is.null(parentName)) {
+   if (length(parentName) > 0) {
       names(x) <- paste(parentName, names(x), sep=sep);
    }
 
    ## Make sure names are unique
-   names(x) <- makeNameFunc(names(x), ...);
+   if (length(names(x)) > 0) {
+      names(x) <- makeNamesFunc(names(x), ...);
+   }
 
    ## Iterate each list until we hit a non-list entry
    if (inherits(x, "list") || is.list(x)) {
-      for (j in names(x)) {
+      jvals <- seq_along(x);
+      for (j in jvals) {
          i <- x[[j]];
          ## If we reached a list, and if the class isn't something
          ## we want to allow (e.g. dendrogram) then unnest one layer deeper
-         if (inherits(i, "list") || is.list(i) && !class(i) %in% stopClasses) {
-            i <- unnestList(x=i, parentName=j)#, ...);
+         ##
+         ## Note the use of tryCatch() which returns the original
+         ## object upon error, which should catch infinite recursion.
+         if (inherits(i, "list") || is.list(i) && !any(class(i) %in% stopClasses)) {
+            if (1 == 2) {
+               i <- unnestList(x=i,
+                  addNames=addNames,
+                  unnamedBase=unnamedBase,
+                  stopClasses=stopClasses,
+                  parentName=j,
+                  sep=sep,
+                  makeNamesFunc=makeNamesFunc,
+                  ...);
+            } else {
+               i <- tryCatch({
+                  unnestList(x=i,
+                     addNames=addNames,
+                     unnamedBase=unnamedBase,
+                     stopClasses=stopClasses,
+                     parentName=names(x[j]),
+                     sep=sep,
+                     makeNamesFunc=makeNamesFunc,
+                     ...);
+               }, error=function(e){
+                  structure("error", class="try-error", condition=e);
+               });
+               if ("try-error" %in% class(i)) {
+                  return(x);
+                  i <- list(x[[j]]);
+               }
+            }
          } else {
             i <- list(i);
-            names(i) <- j;
+            if (length(names(x[j])) > 0 && !names(x[j]) %in% c("", NA)) {
+               names(i) <- names(x[j]);
+            }
          }
          newList <- c(newList, i);
       };

@@ -122,12 +122,12 @@ plotSmoothScatter <- function
 (x,
  y=NULL,
  bandwidthN=300,
- bpi=50,
+ bwpi=50,
+ nbin=NULL,
+ binpi=50,
  transformation=function(x)x^0.25,
  xlim=NULL,
  ylim=NULL,
- nbin=NULL,#256,
- binpi=50,
  nrpoints=0,
  colramp=c("white", "lightblue", "blue", "orange", "orangered2"),
  doTest=FALSE,
@@ -288,11 +288,11 @@ plotSmoothScatter <- function
          bandwidthXY <- c(diff(xlim4)/bandwidthN[1], diff(ylim4)/bandwidthN[2]*pin1);
       } else {
          ## Alternate method using breaks per inch
-         if (length(bpi) == 0) {
-            bpi <- 30;
+         if (length(bwpi) == 0) {
+            bwpi <- 30;
          }
-         bandwidthXY <- c(diff(xlim4) / (par("pin")[1] * bpi),
-            diff(ylim4) / (par("pin")[2] * bpi));
+         bandwidthXY <- c(diff(xlim4) / (par("pin")[1] * bwpi),
+            diff(ylim4) / (par("pin")[2] * bwpi));
       }
       if (length(nbin) == 0) {
          if (length(binpi) == 0) {
