@@ -6,6 +6,7 @@
 \usage{
 applyCLrange(
   x,
+  lightMode = NULL,
   Crange = getOption("jam.Crange"),
   Lrange = getOption("jam.Lrange"),
   Cgrey = getOption("jam.Cgrey"),
@@ -18,23 +19,31 @@ applyCLrange(
 \arguments{
 \item{x}{vector of R colors}
 
-\item{Crange}{NULL or numeric vector with minimum and maximum allowed
+\item{lightMode}{\code{NULL} or \code{logical}. When \code{lightMode=NULL} then
+\code{Crange} and \code{Lrange} values are used as-is; when \code{lightMode=TRUE}
+or \code{lightMode=FALSE} then default values are used for \code{Crange} and
+\code{Lrange} values, where \code{lightMode=TRUE} is intended for colors
+to have contrast against a light/bright/white background,
+and \code{lightMode=FALSE} is intended for colors to have contrast
+against a dark background.}
+
+\item{Crange}{\code{NULL} or \code{numeric} range with minimum and maximum allowed
 values for the chroma (C) component.}
 
-\item{Lrange}{NULL or numeric vector with minimum and maximum allowed
+\item{Lrange}{\code{NUL}L or \code{numeric} range with minimum and maximum allowed
 values for the luminance (L) component.}
 
-\item{Cgrey}{numeric chroma (C) value, which defines grey colors at or
+\item{Cgrey}{\code{numeric} chroma (C) value, which defines grey colors at or
 below this chroma. Any colors at or below the grey cutoff will have
 their C values unchanged. This mechanism prevents converting black
 to red, for example. To disable the effect, set \code{Cgrey=-1}.}
 
-\item{fixYellow}{boolean indicating whether to "fix" the darkening of
+\item{fixYellow}{\code{logical} indicating whether to "fix" the darkening of
 yellow, which otherwise turns to green. Instead, since JAM can,
 JAM will make the yellow slightly more golden before darkening,
 which is achieved by calling \code{fixYellowHue()}.}
 
-\item{CLmethod}{character string indicating how to alter values
+\item{CLmethod}{\code{character} string indicating how to alter values
 outside the respective \code{Crange} and \code{Lrange} ranges. "scale" will
 rescale values only if any are outside of range, and will rescale
 the full range of \code{c(Crange, Cvalues)} to \code{c(Crange)}. In this way,
@@ -43,7 +52,7 @@ fixed cutoff, any values outside the range are set to equal the
 range boundary itself. "expand" will rescale all values so the
 range is equal to \code{Crange}.}
 
-\item{fixup}{logical, argument passed to \code{hcl2col()} and subsequently
+\item{fixup}{\code{logical} passed to \code{hcl2col()} and subsequently
 to \code{colorspace::hex()} when converting colors outside the color
 gamut (visible range.) When \code{fixup} is \code{NULL}, the \code{hcl2col()}
 method applies its own aggressive technique to restrict the color
@@ -57,12 +66,18 @@ vector of colors after applying the chroma (C) and luminance (L)
 ranges.
 }
 \description{
-Apply chroma (C) and luminance (L) ranges to a vector of R colors
+Restrict chroma (C) and luminance (L) ranges for a vector of R colors
 }
 \details{
 This function is primarily intended to restrict the range of brightness
 values so they contrast with a background color, particularly when the
-background color may be bright or dark in different scenarios.
+background color may be bright or dark.
+
+Note that output is slightly different when supplying one color,
+compared to supplying a vector of colors. One color is simply
+restricted to the \code{Crange} and \code{Lrange}. However, a vector of colors
+is scaled within the ranges so that relative \code{C} and \code{L} values
+are maintained, for visual comparison.
 
 The C and L values are defined by \code{colorspace::polarLUV()}, where C is
 typically restricted to \verb{0..100} and L is typically \verb{0..100}. For some
@@ -98,7 +113,21 @@ is still required to have a hue H, it is important not to increase
 \code{C}.
 }
 \examples{
-applyCLrange(c("red","blue","yellow"), Lrange=c(0,60));
+cl <- c("red", "blue", "navy", "yellow", "orange");
+cl_lite <- applyCLrange(cl, lightMode=TRUE);
+cl_dark <- applyCLrange(cl, lightMode=FALSE);
+
+# individual colors
+cl_lite_ind <- sapply(cl, applyCLrange, lightMode=TRUE);
+cl_dark_ind <- sapply(cl, applyCLrange, lightMode=FALSE);
+
+# display colors
+showColors(list(`input colors`=cl,
+   `lightMode=TRUE, vector`=cl_lite,
+   `lightMode=TRUE, individual`=cl_lite_ind,
+   `lightMode=FALSE, vector`=cl_dark,
+   `lightMode=FALSE, individual`=cl_dark_ind))
+printDebug(cl, lightMode=TRUE);
 
 }
 \seealso{

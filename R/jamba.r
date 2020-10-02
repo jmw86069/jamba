@@ -1213,7 +1213,7 @@ printDebug <- function
  detectColors=TRUE,
  darkFactor=c(1,1.5),
  sFactor=c(1,1.5),
- lightMode=checkLightMode(),
+ lightMode=NULL,
  Crange=getOption("jam.Crange"),
  Lrange=getOption("jam.Lrange"),
  removeNA=FALSE,
@@ -1279,12 +1279,8 @@ printDebug <- function
    if (length(adjustRgb) == 0) {
       adjustRgb <- CLranges$adjustRgb;
    }
-   if (length(Lrange) == 0) {
-      Lrange <- CLranges$Lrange;
-   }
-   if (length(Crange) == 0) {
-      Crange <- CLranges$Crange;
-   }
+   Crange <- CLranges$Crange;
+   Lrange <- CLranges$Lrange;
 
    if (length(darkFactor) <= 1) {
       darkFactor <- c(1, darkFactor);
@@ -2234,7 +2230,7 @@ make_styles <- function
  grey=FALSE,
  colors=num_colors(),
  Cgrey=getOption("jam.Cgrey", 5),
- lightMode=checkLightMode(),
+ lightMode=NULL,
  Crange=getOption("jam.Crange"),
  Lrange=getOption("jam.Lrange"),
  adjustRgb=getOption("jam.adjustRgb"),
@@ -2304,8 +2300,8 @@ make_styles <- function
    if (length(adjustRgb) == 0) {
       adjustRgb <- CLranges$adjustRgb;
    }
-   Lrange <- CLranges$Lrange;
    Crange <- CLranges$Crange;
+   Lrange <- CLranges$Lrange;
    if (verbose) {
       print(paste0("make_styles(): ",
          "Crange:",
@@ -2648,12 +2644,12 @@ make_styles <- function
 #'
 #' @export
 setCLranges <- function
-(lightMode=checkLightMode(),
- Crange=getOption("jam.Crange", c(30, 190)),
+(lightMode=NULL,
+ Crange=getOption("jam.Crange"),
  Lrange=getOption("jam.Lrange"),
  Cgrey=getOption("jam.Cgrey", 5),
  adjustRgb=getOption("jam.adjustRgb", 0),
- setOptions=c("ifnull","TRUE","FALSE"),
+ setOptions=c("ifnull", "TRUE", "FALSE"),
  verbose=FALSE,
  ...)
 {
@@ -2664,6 +2660,61 @@ setCLranges <- function
       setOptions <- "ifnull";
    } else {
       setOptions <- as.character(setOptions);
+   }
+
+   ## Remove NA values and convert Lrange and Crange to range format
+   Lrange <- range(rmNA(Lrange));
+   Crange <- range(rmNA(Crange));
+
+   ## First time through, these values are empty
+   ## so we use checkLightMode() default values
+   if (length(Lrange) == 0 && length(Crange) == 0 && length(lightMode) == 0) {
+      lightMode <- checkLightMode();
+   }
+
+   ## When lightMode is NULL use Lrange, Crange as supplied
+   ## When lightMode is TRUE or FALSE, override existing values with defaults
+   Lrange_default_lite <- c(5, 70);
+   Crange_default_lite <- c(10, 190);
+   Lrange_default_dark <- c(45, 100);
+   Crange_default_dark <- c(30, 190);
+
+   ## Define Crange and Lrange as needed
+   if (length(lightMode) > 0) {
+      ## If lightMode is defined, use default values for TRUE and FALSE
+      if (head(lightMode, 1)) {
+         Lrange <- Lrange_default_lite;
+         Crange <- Crange_default_lite;
+      } else {
+         Lrange <- Lrange_default_dark;
+         Crange <- Crange_default_dark;
+      }
+      if (verbose) {
+         printDebug("setCLranges(): ",
+            "Defined default values: ", "lightMode=",
+            lightMode, "; Crange=c(", Crange, "); Lrange=c(", Lrange, ")");
+      }
+   } else {
+      ## If lightMode is not defined, only use it if Crange or Lrange are NULL
+      if (length(Crange) == 0 || length(Lrange) == 0) {
+         lightMode <- checkLightMode();
+      }
+      if (length(Lrange) == 0) {
+         if (lightMode) {
+            Lrange <- Lrange_default_lite;
+         } else {
+            Lrange <- Lrange_default_dark;
+         }
+      } else {
+         Lrange <- range(Lrange);
+      }
+      if (length(Crange) == 0) {
+         if (lightMode) {
+            Crange <- Crange_default_lite;
+         } else {
+            Crange <- Crange_default_dark;
+         }
+      }
    }
 
    if (length(lightMode) > 0 && lightMode) {
@@ -2710,6 +2761,8 @@ setCLranges <- function
    if (length(rmNA(Cgrey)) == 0 || !is.numeric(Cgrey)) {
       Cgrey <- 5;
    }
+
+   ## Update options() as needed
    if ("ifnull" %in% setOptions) {
       if (length(getOption("jam.adjustRgb")) == 0) {
          options("jam.adjustRgb"=adjustRgb);
@@ -2735,16 +2788,22 @@ setCLranges <- function
       Lrange=Lrange,
       adjustRgb=adjustRgb,
       Cgrey=Cgrey);
-   CLranges;
+   invisible(CLranges);
 }
 
 #' Apply CL color range
 #'
-#' Apply chroma (C) and luminance (L) ranges to a vector of R colors
+#' Restrict chroma (C) and luminance (L) ranges for a vector of R colors
 #'
 #' This function is primarily intended to restrict the range of brightness
 #' values so they contrast with a background color, particularly when the
-#' background color may be bright or dark in different scenarios.
+#' background color may be bright or dark.
+#'
+#' Note that output is slightly different when supplying one color,
+#' compared to supplying a vector of colors. One color is simply
+#' restricted to the `Crange` and `Lrange`. However, a vector of colors
+#' is scaled within the ranges so that relative `C` and `L` values
+#' are maintained, for visual comparison.
 #'
 #' The C and L values are defined by `colorspace::polarLUV()`, where C is
 #' typically restricted to `0..100` and L is typically `0..100`. For some
@@ -2785,19 +2844,26 @@ setCLranges <- function
 #' @family jam color functions
 #'
 #' @param x vector of R colors
-#' @param Crange NULL or numeric vector with minimum and maximum allowed
+#' @param lightMode `NULL` or `logical`. When `lightMode=NULL` then
+#'    `Crange` and `Lrange` values are used as-is; when `lightMode=TRUE`
+#'    or `lightMode=FALSE` then default values are used for `Crange` and
+#'    `Lrange` values, where `lightMode=TRUE` is intended for colors
+#'    to have contrast against a light/bright/white background,
+#'    and `lightMode=FALSE` is intended for colors to have contrast
+#'    against a dark background.
+#' @param Crange `NULL` or `numeric` range with minimum and maximum allowed
 #'    values for the chroma (C) component.
-#' @param Lrange NULL or numeric vector with minimum and maximum allowed
+#' @param Lrange `NUL`L or `numeric` range with minimum and maximum allowed
 #'    values for the luminance (L) component.
-#' @param Cgrey numeric chroma (C) value, which defines grey colors at or
+#' @param Cgrey `numeric` chroma (C) value, which defines grey colors at or
 #'    below this chroma. Any colors at or below the grey cutoff will have
 #'    their C values unchanged. This mechanism prevents converting black
 #'    to red, for example. To disable the effect, set `Cgrey=-1`.
-#' @param fixYellow boolean indicating whether to "fix" the darkening of
+#' @param fixYellow `logical` indicating whether to "fix" the darkening of
 #'    yellow, which otherwise turns to green. Instead, since JAM can,
 #'    JAM will make the yellow slightly more golden before darkening,
 #'    which is achieved by calling `fixYellowHue()`.
-#' @param CLmethod character string indicating how to alter values
+#' @param CLmethod `character` string indicating how to alter values
 #'    outside the respective `Crange` and `Lrange` ranges. "scale" will
 #'    rescale values only if any are outside of range, and will rescale
 #'    the full range of `c(Crange, Cvalues)` to `c(Crange)`. In this way,
@@ -2805,7 +2871,7 @@ setCLranges <- function
 #'    fixed cutoff, any values outside the range are set to equal the
 #'    range boundary itself. "expand" will rescale all values so the
 #'    range is equal to `Crange`.
-#' @param fixup logical, argument passed to `hcl2col()` and subsequently
+#' @param fixup `logical` passed to `hcl2col()` and subsequently
 #'    to `colorspace::hex()` when converting colors outside the color
 #'    gamut (visible range.) When `fixup` is `NULL`, the `hcl2col()`
 #'    method applies its own aggressive technique to restrict the color
@@ -2814,11 +2880,26 @@ setCLranges <- function
 #'    `fixYellow` is `TRUE`.
 #'
 #' @examples
-#' applyCLrange(c("red","blue","yellow"), Lrange=c(0,60));
+#' cl <- c("red", "blue", "navy", "yellow", "orange");
+#' cl_lite <- applyCLrange(cl, lightMode=TRUE);
+#' cl_dark <- applyCLrange(cl, lightMode=FALSE);
+#'
+#' # individual colors
+#' cl_lite_ind <- sapply(cl, applyCLrange, lightMode=TRUE);
+#' cl_dark_ind <- sapply(cl, applyCLrange, lightMode=FALSE);
+#'
+#' # display colors
+#' showColors(list(`input colors`=cl,
+#'    `lightMode=TRUE, vector`=cl_lite,
+#'    `lightMode=TRUE, individual`=cl_lite_ind,
+#'    `lightMode=FALSE, vector`=cl_dark,
+#'    `lightMode=FALSE, individual`=cl_dark_ind))
+#' printDebug(cl, lightMode=TRUE);
 #'
 #' @export
 applyCLrange <- function
 (x,
+ lightMode=NULL,
  Crange=getOption("jam.Crange"),
  Lrange=getOption("jam.Lrange"),
  Cgrey=getOption("jam.Cgrey"),
@@ -2829,6 +2910,14 @@ applyCLrange <- function
 {
    ## Purpose is to restrict the chroma (C) or luminance (L) ranges
    ## for a vector of R colors
+   if (length(lightMode) > 0) {
+      CLrange <- setCLranges(lightMode=lightMode,
+         Crange=Crange,
+         Lrange=Lrange,
+         ...);
+      Crange <- CLrange$Crange;
+      Lrange <- CLrange$Lrange;
+   }
    CLmethod <- match.arg(CLmethod);
    if (length(x) == 0 || all(is.na(x)) ||
          (length(Crange) == 0 &&
@@ -3111,10 +3200,10 @@ jargs <- function
  sortVars=FALSE,
  asList=TRUE,
  useColor=TRUE,
- lightMode=checkLightMode(),
- Crange=NULL,
- Lrange=NULL,
- adjustRgb=0,
+ lightMode=NULL,
+ Crange=getOption("jam.Crange"),
+ Lrange=getOption("jam.Lrange"),
+ adjustRgb=getOption("jam.adjustRgb"),
  useCollapseBase=", ",
  verbose=FALSE,
  debug=0,
@@ -3133,16 +3222,15 @@ jargs <- function
    ## useColor=TRUE because why not, right?
 
    ## Check lightMode, whether the background color is light or not
-   CLranges <- setCLranges(lightMode=lightMode);
+   CLranges <- setCLranges(lightMode=lightMode,
+      Crange=Crange,
+      Lrange=Lrange,
+      ...);
    if (length(adjustRgb) == 0) {
       adjustRgb <- CLranges$adjustRgb;
    }
-   if (length(Lrange) == 0) {
-      Lrange <- CLranges$Lrange;
-   }
-   if (length(Crange) == 0) {
-      Crange <- CLranges$Crange;
-   }
+   Crange <- CLranges$Crange;
+   Lrange <- CLranges$Lrange;
 
    if (useColor) {
       if (suppressWarnings(suppressPackageStartupMessages(require(crayon)))) {
@@ -3251,10 +3339,10 @@ handleArgsText <- function
  colT="dodgerblue3",
  colF="red1",
  colNULL="grey60",
- lightMode=checkLightMode(),
+ lightMode=NULL,
+ Crange=getOption("jam.Crange"),
+ Lrange=getOption("jam.Lrange"),
  adjustRgb=getOption("jam.adjustRgb"),
- Crange=NULL,
- Lrange=NULL,
  indent="",
  useCollapseList=",\n      ",
  useCollapseBase=", ",
@@ -3279,16 +3367,15 @@ handleArgsText <- function
    }
 
    ## Check lightMode, whether the background color is light or not
-   CLranges <- setCLranges(lightMode=lightMode);
+   CLranges <- setCLranges(lightMode=lightMode,
+      Crange=Crange,
+      Lrange=Lrange,
+      ...);
    if (length(adjustRgb) == 0) {
       adjustRgb <- CLranges$adjustRgb;
    }
-   if (length(Lrange) == 0) {
-      Lrange <- CLranges$Lrange;
-   }
-   if (length(Crange) == 0) {
-      Crange <- CLranges$Crange;
-   }
+   Lrange <- CLranges$Lrange;
+   Crange <- CLranges$Crange;
 
    if (verbose) {
       printDebug(indent, "", "handleArgsText(): ",

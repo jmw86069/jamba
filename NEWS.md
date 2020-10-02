@@ -1,3 +1,36 @@
+# jamba version 0.0.57.900
+
+## changes to existing functions
+
+Updates to `setCLranges()` mainly affect colorized console
+text output, used by `printDebug()` which calls `make_styles()`.
+This function is also useful to adjust a color or vector of
+colors for contrast on a light or dark background.
+
+* `setCLranges()` argument has new default `lightMode=NULL` and
+slightly different, more intuitive behavior. When `lightMode` is
+defined (`TRUE` or `FALSE`) then it over-rides existing values,
+and uses the corresponding `lightMode` setting directly.
+Otherwise, when `lightMode=NULL` any existing `Crange` and
+`Lrange` values are used. If none are defined, then
+`checkLightMode()` is called, then default values are used.
+* Functions that use `setCLranges()` were updated so the
+argument default `lightMode=NULL` is used. When those functions
+are called with `lightMode=TRUE` or `lightMode=FALSE` the
+text output will be adjusted. For example:
+```
+printDebug("yellow", lightMode=FALSE)
+printDebug("yellow", lightMode=TRUE)
+```
+
+Functions affected:
+* `checkLightMode()`
+* `applyCLrange()`
+* `setCLranges()`
+* `printDebug()`
+* `make_styles()`
+* `jargs()`
+
 # jamba version 0.0.56.900
 
 ## bug fixes

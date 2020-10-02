@@ -5,8 +5,8 @@
 \title{Get chroma (C) and luminance (L) ranges for the given lightMode}
 \usage{
 setCLranges(
-  lightMode = checkLightMode(),
-  Crange = getOption("jam.Crange", c(30, 190)),
+  lightMode = NULL,
+  Crange = getOption("jam.Crange"),
   Lrange = getOption("jam.Lrange"),
   Cgrey = getOption("jam.Cgrey", 5),
   adjustRgb = getOption("jam.adjustRgb", 0),

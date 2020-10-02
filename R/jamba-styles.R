@@ -15,7 +15,7 @@ make_html_styles <- function
  bg_style=NULL,
  grey=FALSE,
  Cgrey=getOption("jam.Cgrey"),
- lightMode=checkLightMode(),
+ lightMode=NULL,
  Crange=getOption("jam.Crange"),
  Lrange=getOption("jam.Lrange"),
  adjustRgb=getOption("jam.adjustRgb"),

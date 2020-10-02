@@ -28,7 +28,7 @@ printDebug(
   detectColors = TRUE,
   darkFactor = c(1, 1.5),
   sFactor = c(1, 1.5),
-  lightMode = checkLightMode(),
+  lightMode = NULL,
   Crange = getOption("jam.Crange"),
   Lrange = getOption("jam.Lrange"),
   removeNA = FALSE,
