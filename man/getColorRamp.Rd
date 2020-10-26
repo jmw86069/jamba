@@ -167,6 +167,11 @@ if (suppressPackageStartupMessages(require(viridis))) {
 # for fun, put a few color ramps onto one plot
 showColors(colorList, cexCellnote=0.7);
 
+showColors(list(`white background\ncolor='red'`=getColorRamp("red"),
+   `black background\ncolor='red'`=getColorRamp("red", defaultBaseColor="black"),
+   `white background\ncolor='gold'`=getColorRamp("gold"),
+   `black background\ncolor='gold'`=getColorRamp("gold", defaultBaseColor="black")))
+
 }
 \seealso{
 Other jam color functions: 

@@ -1,3 +1,13 @@
+# jamba version 0.0.58.900
+
+## changes to existing functions
+
+* `getColorRamp()` was updated for single-color input
+and `defaultBaseColor`. It now properly creates a
+color gradient from light-to-dark, or dark-to-light
+based upon the relative brightness of `color` and
+`defaultBaseColor`.
+
 # jamba version 0.0.57.900
 
 ## changes to existing functions

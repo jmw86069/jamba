@@ -1270,6 +1270,11 @@ makeColorDarker <- function
 #' # for fun, put a few color ramps onto one plot
 #' showColors(colorList, cexCellnote=0.7);
 #'
+#' showColors(list(`white background\ncolor='red'`=getColorRamp("red"),
+#'    `black background\ncolor='red'`=getColorRamp("red", defaultBaseColor="black"),
+#'    `white background\ncolor='gold'`=getColorRamp("gold"),
+#'    `black background\ncolor='gold'`=getColorRamp("gold", defaultBaseColor="black")))
+#'
 #' @family jam color functions
 #'
 #' @export
@@ -1364,11 +1369,14 @@ getColorRamp <- function
          if (length(colset) > 0) {
             if (length(colset) == 1) {
                ## If given one color, make a color ramp from white to this color
-               #colset <- c(defaultBaseColor, colset);
+               mini_3set <- color2gradient(colset,
+                  n=3,
+                  gradientWtFactor=gradientWtFactor);
+               if (col2hcl(defaultBaseColor)["L",] < col2hcl(colset)["L",]) {
+                  mini_3set <- rev(mini_3set);
+               }
                colset <- c(defaultBaseColor,
-                  color2gradient(colset,
-                     n=3,
-                     gradientWtFactor=gradientWtFactor));
+                  mini_3set);
                if (verbose) {
                   printDebug("getColorRamp(): ",
                      "Using defaultBaseColor, color to make a gradient.");
