@@ -11,9 +11,13 @@ plotSmoothScatter(
   bwpi = 50,
   nbin = NULL,
   binpi = 50,
+  expand = c(0.04, 0.04),
+  transFactor = 0.25,
   transformation = function(x) x^0.25,
   xlim = NULL,
   ylim = NULL,
+  xlab = NULL,
+  ylab = NULL,
   nrpoints = 0,
   colramp = c("white", "lightblue", "blue", "orange", "orangered2"),
   doTest = FALSE,
@@ -36,50 +40,78 @@ is NULL.}
 
 \item{bandwidthN}{integer number of bandwidth steps to use across the
 visible plot window. Note that this bandwidth differs from default
-\code{\link[graphics]{smoothScatter}} in that it uses the visible
+\code{graphics::smoothScatter()} in that it uses the visible
 plot window instead of the data range, so if the plot window is not
 sufficiently similar to the data range, the resulting smoothed
 density will not be visibly distorted. This parameter also permits
 display of higher (or lower) level of detail.}
 
-\item{nbin}{integer number of bins to use when converting the kernel
+\item{bwpi}{\code{numeric} value indicating the desired bandwidth "per inch"
+which effectively scales the bandwidth based upon relative visual
+space available. Note that \code{bwpi} is only used when \code{bandwidthN=NULL}.}
+
+\item{nbin}{\code{integer} number of bins to use when converting the kernel
 density result (which uses bandwidthN above) into a usable image.
-For example, nbin=256 produces notably high detail, while nbin=32
-produces lower resolution which may be more suitable when plotting
-multiple smaller plot panels.}
+This setting is effectively the resolution of rendering the
+bandwidth density in terms of visible pixels. For example
+\code{nbin=256} will create 256 visible pixels wide and tall in each
+plot panel; and \code{nbin=32} will create 32 visible pixels, with
+lower detail which may be suitable for multi-panel plots.
+To use a variable number of bins, try \code{binpi}.}
 
-\item{transformation}{function which converts point density to a number,
-typically related to square root or cube root transformation.}
+\item{binpi}{\code{numeric} value indicating the desired number of bins
+as used by \code{nbin}, but scaled \code{"per inch"} of plot space so
+smaller plot panels will still only display a reasonably consistent
+number of visible pixels.}
 
-\item{xlim}{optional numeric x-axis range}
+\item{expand}{\code{numeric} value indicating the fraction of the x-axis
+and y-axis range to add to create an expanded range. The default
+\code{expand=c(0.04, 0.04)} mimics the R base plot default which adds
+4 percent, 2 percent to each side of the visible range.}
 
-\item{ylim}{optional numeric y-axis range}
+\item{transFactor}{\code{numeric} value used by the default \code{transformation}
+function, which effectively scales the density of points to
+a reasonable visible distribution. This argument is a convenience
+method to avoid having to type out the full \code{transformation} function.}
 
-\item{nrpoints}{integer number of outlier datapoints to display,
-as defined by the
-hidden but very useful
-\code{grDevices:::.smoothScatterCalcDensity}
-function. The base \code{link[graphics]{smoothScatter}} function
-plots 100 such points, perhaps to overcome the default over-smoothing
-of data which results in large areas not displaying density. The
-default here is zero, since the new default bandwidthN parameter
+\item{transformation}{\code{function} which converts point density to a number,
+typically related to square root or cube root transformation. Note
+that the default uses \code{transFactor} but if a custom function is
+supplied, it will not use \code{transFactor} unless specified.}
+
+\item{xlim}{\code{numeric} x-axis range, or \code{NULL} to use the data range.}
+
+\item{ylim}{\code{numeric} y-axis range, or \code{NULL} to use the data range.}
+
+\item{nrpoints}{\code{integer} number of outlier datapoints to display,
+as defined by the hidden but very useful
+\code{grDevices:::.smoothScatterCalcDensity()}.
+The base \code{graphics::smoothScatter()} default is \code{nrpoints=100},
+perhaps intended to overcome the default over-smoothing
+of data which results in large areas not displaying density. This
+default is \code{nrpoints=0}, since the new default \code{bandwidthN} parameter
 typically already indicates these points.}
 
 \item{colramp}{one of several inputs recognized by
-\code{\link{getColorRamp}}. It typically recognizes either the name of
-a color ramp from RColorBrewer, the name of functions from the
-\code{viridis} package, or single R colors, or
-a vector of R colors.}
+\code{getColorRamp()}: a \code{character} vector with multiple colors;
+a single \code{character} color used to create a color gradient;
+a \code{character} name of a known color gradient from \code{RColorBrewer}
+or \code{viridis}; or a \code{function} that itself produces vector of colors,
+in the form \verb{function(n)} where \code{n} defines the number of colors.}
 
-\item{doTest}{logical, defines whether to create a visual set of test
+\item{doTest}{\code{logical} indicating whether to create a visual set of test
 plots to demonstrate the utility of this function.}
 
-\item{fillBackground}{logical, whether to fill the background with the
-first colramp color, which is useful especially when that color is
-not white, and most visible when the x- and y-axes are not identical
-to the data range. Run doTest=TRUE with colramp="viridis" as a test.}
+\item{fillBackground}{\code{logical} indicating whether to fill the
+background of the plot panel with the first color in \code{colramp}.
+The default \code{fillBackground=TRUE} is useful since the plot panel
+may be slightly wider than the range of data being displayed, and
+when the first color in \code{colramp} is not the same as the plot device
+background color. Run a test using
+\code{plotSmoothScatter(doTest=TRUE, fillBackground=FALSE, colramp="viridis")}
+and compare with \code{plotSmoothScatter(doTest=TRUE, colramp="viridis")}.}
 
-\item{naAction}{character value, indicating how to handle missing NA values,
+\item{naAction}{\code{character} string indicating how to handle NA values,
 typically when x is NA and y is not NA, or vice versa. valid values:
 \describe{
 \item{"remove"}{ignore any points where either x or y are NA}
@@ -92,34 +124,43 @@ the corresponding non-NA value in the opposing axis. The driving use
 was plotting gene fold changes from two experiments, where the two
 experiments may not have measured the same genes.}
 
-\item{xaxt}{character value compatible with par(xaxt), used to control
+\item{xaxt}{\code{character} value compatible with par(xaxt), used to control
 the x-axis range, similar to its use in plot(...) generic functions.}
 
-\item{yaxt}{character value compatible with par(yaxt), used to control
+\item{yaxt}{\code{character} value compatible with par(yaxt), used to control
 the y-axis range, similar to its use in plot(...) generic functions.}
 
-\item{add}{logical whether to add to an existing active R plot, or create
+\item{add}{\code{logical} whether to add to an existing active R plot, or create
 a new plot window.}
 
-\item{applyRangeCeiling}{logical, indicates how to handle points outside
+\item{applyRangeCeiling}{\code{logical} indicating how to handle points outside
 the visible plot range. Valid values:
 \describe{
-\item{TRUE}{apply floor and ceiling, which fixes
-these values to the edges of the visible plot area, so they have a
-visible indication without forcing the plot space to be expanded outside
-what may be a more useful (zoomed) range.}
-\item{FALSE}{do not apply floor
-and ceiling, meaning points outside the visible range are simply not
-displayed. Not applying a ceiling is desirable for example, if there
-is a huge number of points at zero, and the presence of these points
-adversely affects the kernel density.}
+\item{TRUE}{Points outside the viewing area are fixed to the
+plot boundaries, in order to represent that there are additional
+points outside the boundary. This setting is recommended when
+the reasonable viewing area is smaller than the actual data,
+for example to be consistent across plot panels, but where
+you want to indicate that points may be outside the range.}
+\item{FALSE}{Points outside the viewing area is not displayed,
+with no special visual indication. This setting is useful when
+data may contain a large number of points at \code{c(0, 0)} and the
+density overwhelms the detail in the rest of the plot. In that
+case setting \code{xlim=c(1e-10, 10)} and \code{applyRangeCeiling=FALSE}
+would obscure these points.}
 }}
 
-\item{useRaster}{logical, indicating whether to produce plots using the
-\code{\link[graphics]{rasterImage}} function, which produces a plot
-raster image offline then scales this image to usable plot space,
-often resulting in substantially faster plot output, with subtantially
-smaller object size especially in vector output files like PDF and SVG.}
+\item{useRaster}{\code{logical} indicating whether to produce plots using the
+`graphics::rasterImage() function which produces a plot
+raster image offline then scales this image to visible plot space.
+This technique is two benefits: it produces substantially faster
+plot output, with substantially fewer plot objects which results
+in much smaller file sizes when saving in PDF or SVG format.}
+
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
+
+\item{...}{additional arguments are passed to called functions,
+including \code{getColorRamp()}, \code{nullPlot()}, \code{smoothScatterJam()}.}
 }
 \description{
 Produce scatter plot using point density instead of displaying
@@ -127,36 +168,30 @@ individual data points.
 }
 \details{
 This function intends to make several potentially customizable
-features of \code{\link[graphics]{smoothScatter}} plots much easier
+features of \code{graphics::smoothScatter()} plots much easier
 to customize. For example bandwidthN allows defining the number of
 bandwidth steps used by the kernel density function, and importantly
 bases the number of steps on the visible plot window, and not the range
-of data, which can differ substantially. The nbin parameter is related,
+of data, which can differ substantially. The \code{nbin} argument is related,
 but is used to define the level of detail used in the image function,
 which when plotting numerous smaller panels, can be useful to reduce
 unnecessary visual details.
 
-A related new function could be part of ggplot2, and is certainly
-on the todo list. However, frankly it is quite difficult to grok where one
-would obtain several of the values required by this function, notably
-the visible plot space per panel. The documentation for ggplot2 developers
-is not well described. That said, panelSmoothScatter could be created to
-handle the main features of this function. However, it would also
-need to call a custom imageDefault() function in order to handle the
-custom (and hopefully beneficial) mechanism of creating a properly-scaled
-raster image.
+This function also by default produces a raster image plot
+with \code{useRaster=TRUE}, which adjusts the x- and y-bandwidth to
+produce visually round density even when the x- and y-ranges
+are very different.
 }
 \examples{
 # doTest=TRUE invisibly returns the test data
 x <- plotSmoothScatter(doTest=TRUE);
 
 # so it can be plotted again with different settings
-plotSmoothScatter(x, colramp="viridis");
+plotSmoothScatter(x, colramp="magma");
 
 }
 \seealso{
-\code{\link{smoothScatterJam}},
-\code{\link[graphics]{smoothScatter}}
+\code{smoothScatterJam()},\code{graphics::smoothScatter()}
 
 Other jam plot functions: 
 \code{\link{adjustAxisLabelMargins}()},

@@ -4759,8 +4759,13 @@ normScale <- function
    ## more than one input value), then we honor that range. This way
    ## we can receive a single value, along with a defined low and high,
    ## and process it consistently
+
+   # process NA input
+   if (all(is.na(x))) {
+      return(NA);
+   }
+
    if (length(low) > 0 && length(high) > 0 && low == high) {
-   #if (length(rmNA(x)) == 1) {
       singletMethod <- match.arg(singletMethod);
       if (singletMethod %in% "mean") {
          x[!is.na(x)] <- mean(c(from, to));

@@ -1,8 +1,21 @@
 ## TODO for jamba
 
+
+### implement testthis unit testing
+
+
+### new functions
+
+* `splomSmooth()` is a `plotSmoothScatter()` equivalent for
+`lattice::splom()`, with some default settings and usability
+to help make it easier to call than `lattice::splom()`. It
+is also much more efficient than ggplot2 equivalent methods,
+despite substantial efforts. Go with what works! (For now.)
+
+
 ### Bugs 28aug2020
 
-* `printDebug()` throws a warning about fixYellow:
+* FIXED: `printDebug()` throws a warning about fixYellow:
 
 > Warning message:
 > In if (fixYellow) { :
@@ -51,7 +64,7 @@ then would apply `c(0,1,2)` to the third column.
 
 ### Optimizations 29apr2020
 
-* `cPaste()` is not fully efficient when the input does not
+* FIXED: `cPaste()` is not fully efficient when the input does not
 require going through steps `unlist()` then `split()`. In these
 cases the data should be left as `CharacterList` if possible,
 to use `S4Vectors::unstrsplit()` directly. Conditions that
@@ -79,7 +92,10 @@ and R help docs.
 1. `printDebug()` probably needs a specific delimiter between
 lists. Currently `collapse` is accepted via `...` but separates
 every entry.
-1. `plotSmoothScatterG()` is a new function which would create a
+
+### new plotSmoothScatterG with grouped colors
+
+1. `plotSmoothScatterG()` a new function which would create a
 smooth scatter plot like `plotSmoothScatter()` except that it will
 also allow coloring points by group. The previous closest estimate
 was the ability to overlay contours of different colors, however

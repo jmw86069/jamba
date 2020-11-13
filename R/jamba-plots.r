@@ -11,24 +11,19 @@
 #' individual data points.
 #'
 #' This function intends to make several potentially customizable
-#' features of \code{\link[graphics]{smoothScatter}} plots much easier
+#' features of `graphics::smoothScatter()` plots much easier
 #' to customize. For example bandwidthN allows defining the number of
 #' bandwidth steps used by the kernel density function, and importantly
 #' bases the number of steps on the visible plot window, and not the range
-#' of data, which can differ substantially. The nbin parameter is related,
+#' of data, which can differ substantially. The `nbin` argument is related,
 #' but is used to define the level of detail used in the image function,
 #' which when plotting numerous smaller panels, can be useful to reduce
 #' unnecessary visual details.
 #'
-#' A related new function could be part of ggplot2, and is certainly
-#' on the todo list. However, frankly it is quite difficult to grok where one
-#' would obtain several of the values required by this function, notably
-#' the visible plot space per panel. The documentation for ggplot2 developers
-#' is not well described. That said, panelSmoothScatter could be created to
-#' handle the main features of this function. However, it would also
-#' need to call a custom imageDefault() function in order to handle the
-#' custom (and hopefully beneficial) mechanism of creating a properly-scaled
-#' raster image.
+#' This function also by default produces a raster image plot
+#' with `useRaster=TRUE`, which adjusts the x- and y-bandwidth to
+#' produce visually round density even when the x- and y-ranges
+#' are very different.
 #'
 #' @family jam plot functions
 #'
@@ -37,41 +32,65 @@
 #'    is NULL.
 #' @param bandwidthN integer number of bandwidth steps to use across the
 #'    visible plot window. Note that this bandwidth differs from default
-#'    \code{\link[graphics]{smoothScatter}} in that it uses the visible
+#'    `graphics::smoothScatter()` in that it uses the visible
 #'    plot window instead of the data range, so if the plot window is not
 #'    sufficiently similar to the data range, the resulting smoothed
 #'    density will not be visibly distorted. This parameter also permits
 #'    display of higher (or lower) level of detail.
-#' @param transformation function which converts point density to a number,
-#'    typically related to square root or cube root transformation.
-#' @param xlim optional numeric x-axis range
-#' @param ylim optional numeric y-axis range
-#' @param nbin integer number of bins to use when converting the kernel
+#' @param bwpi `numeric` value indicating the desired bandwidth "per inch"
+#'    which effectively scales the bandwidth based upon relative visual
+#'    space available. Note that `bwpi` is only used when `bandwidthN=NULL`.
+#' @param nbin `integer` number of bins to use when converting the kernel
 #'    density result (which uses bandwidthN above) into a usable image.
-#'    For example, nbin=256 produces notably high detail, while nbin=32
-#'    produces lower resolution which may be more suitable when plotting
-#'    multiple smaller plot panels.
-#' @param nrpoints integer number of outlier datapoints to display,
-#'    as defined by the
-#'    hidden but very useful
-#'    \code{grDevices:::.smoothScatterCalcDensity}
-#'    function. The base \code{link[graphics]{smoothScatter}} function
-#'    plots 100 such points, perhaps to overcome the default over-smoothing
-#'    of data which results in large areas not displaying density. The
-#'    default here is zero, since the new default bandwidthN parameter
+#'    This setting is effectively the resolution of rendering the
+#'    bandwidth density in terms of visible pixels. For example
+#'    `nbin=256` will create 256 visible pixels wide and tall in each
+#'    plot panel; and `nbin=32` will create 32 visible pixels, with
+#'    lower detail which may be suitable for multi-panel plots.
+#'    To use a variable number of bins, try `binpi`.
+#' @param binpi `numeric` value indicating the desired number of bins
+#'    as used by `nbin`, but scaled `"per inch"` of plot space so
+#'    smaller plot panels will still only display a reasonably consistent
+#'    number of visible pixels.
+#' @param expand `numeric` value indicating the fraction of the x-axis
+#'    and y-axis range to add to create an expanded range. The default
+#'    `expand=c(0.04, 0.04)` mimics the R base plot default which adds
+#'    4 percent, 2 percent to each side of the visible range.
+#' @param transFactor `numeric` value used by the default `transformation`
+#'    function, which effectively scales the density of points to
+#'    a reasonable visible distribution. This argument is a convenience
+#'    method to avoid having to type out the full `transformation` function.
+#' @param transformation `function` which converts point density to a number,
+#'    typically related to square root or cube root transformation. Note
+#'    that the default uses `transFactor` but if a custom function is
+#'    supplied, it will not use `transFactor` unless specified.
+#' @param xlim `numeric` x-axis range, or `NULL` to use the data range.
+#' @param ylim `numeric` y-axis range, or `NULL` to use the data range.
+#' @param nrpoints `integer` number of outlier datapoints to display,
+#'    as defined by the hidden but very useful
+#'    `grDevices:::.smoothScatterCalcDensity()`.
+#'    The base `graphics::smoothScatter()` default is `nrpoints=100`,
+#'    perhaps intended to overcome the default over-smoothing
+#'    of data which results in large areas not displaying density. This
+#'    default is `nrpoints=0`, since the new default `bandwidthN` parameter
 #'    typically already indicates these points.
 #' @param colramp one of several inputs recognized by
-#'    \code{\link{getColorRamp}}. It typically recognizes either the name of
-#'    a color ramp from RColorBrewer, the name of functions from the
-#'    \code{viridis} package, or single R colors, or
-#'    a vector of R colors.
-#' @param doTest logical, defines whether to create a visual set of test
+#'    `getColorRamp()`: a `character` vector with multiple colors;
+#'    a single `character` color used to create a color gradient;
+#'    a `character` name of a known color gradient from `RColorBrewer`
+#'    or `viridis`; or a `function` that itself produces vector of colors,
+#'    in the form `function(n)` where `n` defines the number of colors.
+#' @param doTest `logical` indicating whether to create a visual set of test
 #'    plots to demonstrate the utility of this function.
-#' @param fillBackground logical, whether to fill the background with the
-#'    first colramp color, which is useful especially when that color is
-#'    not white, and most visible when the x- and y-axes are not identical
-#'    to the data range. Run doTest=TRUE with colramp="viridis" as a test.
-#' @param naAction character value, indicating how to handle missing NA values,
+#' @param fillBackground `logical` indicating whether to fill the
+#'    background of the plot panel with the first color in `colramp`.
+#'    The default `fillBackground=TRUE` is useful since the plot panel
+#'    may be slightly wider than the range of data being displayed, and
+#'    when the first color in `colramp` is not the same as the plot device
+#'    background color. Run a test using
+#'    `plotSmoothScatter(doTest=TRUE, fillBackground=FALSE, colramp="viridis")`
+#'    and compare with `plotSmoothScatter(doTest=TRUE, colramp="viridis")`.
+#' @param naAction `character` string indicating how to handle NA values,
 #'    typically when x is NA and y is not NA, or vice versa. valid values:
 #'    \describe{
 #'       \item{"remove"}{ignore any points where either x or y are NA}
@@ -83,39 +102,46 @@
 #'    the corresponding non-NA value in the opposing axis. The driving use
 #'    was plotting gene fold changes from two experiments, where the two
 #'    experiments may not have measured the same genes.
-#' @param xaxt character value compatible with par(xaxt), used to control
+#' @param xaxt `character` value compatible with par(xaxt), used to control
 #'    the x-axis range, similar to its use in plot(...) generic functions.
-#' @param yaxt character value compatible with par(yaxt), used to control
+#' @param yaxt `character` value compatible with par(yaxt), used to control
 #'    the y-axis range, similar to its use in plot(...) generic functions.
-#' @param add logical whether to add to an existing active R plot, or create
+#' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
-#' @param applyRangeCeiling logical, indicates how to handle points outside
+#' @param applyRangeCeiling `logical` indicating how to handle points outside
 #'    the visible plot range. Valid values:
 #'    \describe{
-#'       \item{TRUE}{apply floor and ceiling, which fixes
-#'       these values to the edges of the visible plot area, so they have a
-#'    visible indication without forcing the plot space to be expanded outside
-#'    what may be a more useful (zoomed) range.}
-#'       \item{FALSE}{do not apply floor
-#'    and ceiling, meaning points outside the visible range are simply not
-#'    displayed. Not applying a ceiling is desirable for example, if there
-#'    is a huge number of points at zero, and the presence of these points
-#'    adversely affects the kernel density.}
+#'       \item{TRUE}{Points outside the viewing area are fixed to the
+#'       plot boundaries, in order to represent that there are additional
+#'       points outside the boundary. This setting is recommended when
+#'       the reasonable viewing area is smaller than the actual data,
+#'       for example to be consistent across plot panels, but where
+#'       you want to indicate that points may be outside the range.}
+#'       \item{FALSE}{Points outside the viewing area is not displayed,
+#'       with no special visual indication. This setting is useful when
+#'       data may contain a large number of points at `c(0, 0)` and the
+#'       density overwhelms the detail in the rest of the plot. In that
+#'       case setting `xlim=c(1e-10, 10)` and `applyRangeCeiling=FALSE`
+#'       would obscure these points.}
 #'    }
-#' @param useRaster logical, indicating whether to produce plots using the
-#'    \code{\link[graphics]{rasterImage}} function, which produces a plot
-#'    raster image offline then scales this image to usable plot space,
-#'    often resulting in substantially faster plot output, with subtantially
-#'    smaller object size especially in vector output files like PDF and SVG.
-#' @seealso \code{\link{smoothScatterJam}},
-#'    \code{\link[graphics]{smoothScatter}}
+#' @param useRaster `logical` indicating whether to produce plots using the
+#'    `graphics::rasterImage() function which produces a plot
+#'    raster image offline then scales this image to visible plot space.
+#'    This technique is two benefits: it produces substantially faster
+#'    plot output, with substantially fewer plot objects which results
+#'    in much smaller file sizes when saving in PDF or SVG format.
+#' @param verbose `logical` indicating whether to print verbose output.
+#' @param ... additional arguments are passed to called functions,
+#'    including `getColorRamp()`, `nullPlot()`, `smoothScatterJam()`.
+#'
+#' @seealso `smoothScatterJam()`,`graphics::smoothScatter()`
 #'
 #' @examples
 #' # doTest=TRUE invisibly returns the test data
 #' x <- plotSmoothScatter(doTest=TRUE);
 #'
 #' # so it can be plotted again with different settings
-#' plotSmoothScatter(x, colramp="viridis");
+#' plotSmoothScatter(x, colramp="magma");
 #'
 #' @export
 plotSmoothScatter <- function
@@ -125,9 +151,13 @@ plotSmoothScatter <- function
  bwpi=50,
  nbin=NULL,
  binpi=50,
+ expand=c(0.04, 0.04),
+ transFactor=0.25,
  transformation=function(x)x^0.25,
  xlim=NULL,
  ylim=NULL,
+ xlab=NULL,
+ ylab=NULL,
  nrpoints=0,
  colramp=c("white", "lightblue", "blue", "orange", "orangered2"),
  doTest=FALSE,
@@ -165,12 +195,24 @@ plotSmoothScatter <- function
    ## plotSmoothScatter(doTest=TRUE, colramp=c("white","navy","orange")
    ##
    naAction <- match.arg(naAction);
-   if (is.null(colramp)) {
-      colramp <- c("white", "lightblue", "blue", "orange", "orangered2");
+
+   # make sure colramp is a function
+   if (length(colramp) == 0) {
+      colramp <- eval(formals(plotSmoothScatter)$colramp);
+   } else {
+      colramp <- getColorRamp(colramp,
+         n=NULL,
+         ...);
    }
-   if ("character" %in% class(colramp)) {
-      colramp <- colorRampPalette(getColorRamp(colramp));
+
+   # validate expand for x and y axis limit expansion
+   if (length(expand) == 0) {
+      expand <- c(0, 0);
    }
+   expand <- rep(expand,
+      length.out=2);
+
+   # optional visual test
    if (doTest) {
       ## create somewhat noisy correlation data
       n <- 20000;
@@ -186,259 +228,255 @@ plotSmoothScatter <- function
       x2 <- rbind(x, xSub);
       n2 <- sample(seq_len(nrow(x2)), n1);
       x2[n2,2] <- x2[n2,1] + rnorm(n1) * 0.6;
-      oPar <- par(no.readonly=TRUE);
-      par("mfrow"=c(2,2), "mar"=c(2,3,4,1));
-      smoothScatter(x2, #col=getColorRamp("Blues"),
-         main="smoothScatter default", ylab="", xlab="");
-      plotSmoothScatter(x2, colramp=getColorRamp("Blues"),
-         main="plotSmoothScatter, Blues");
-      plotSmoothScatter(x2, colramp=colramp,
-         main="plotSmoothScatter");
-      plotSmoothScatter(x2, colramp=colramp, bandwidthN=600,
-         main="plotSmoothScatter higher bandwidth");
-      par(oPar);
+      #oPar <- par(no.readonly=TRUE);
+      oPar <- par("mfrow"=c(2,2), "mar"=c(2,3,4,1));
+      on.exit(par(oPar));
+      smoothScatter(x2,
+         main="smoothScatter default",
+         ylab="",
+         xlab="");
+      plotSmoothScatter(x2,
+         colramp=c("white", blues9),
+         fillBackground=fillBackground,
+         main="plotSmoothScatter default using blues9",
+         ...);
+      plotSmoothScatter(x2,
+         colramp=colramp,
+         fillBackground=fillBackground,
+         main="plotSmoothScatter with colramp provided",
+         ...);
+      plotSmoothScatter(x2,
+         colramp=colramp,
+         bandwidthN=600,
+         binpi=100,
+         fillBackground=fillBackground,
+         main="plotSmoothScatter higher bandwidth",
+         ...);
       return(invisible(x2));
-   } else {
+   }
 
-      if (!is.null(y) && is.numeric(y) && is.numeric(x)) {
-         x <- matrix(ncol=2, c(x, y));
-      }
-      ## Handle data.frame, matrix
-      if (is.matrix(x) && ncol(x) >= 2) {
-         y <- x[,2];
-         x <- x[,1];
-      } else if (any(class(x) %in% c("data.frame","DataFrame","tbl")) &&
-         ncol(x) >= 2) {
-         y <- x[[2]];
-         x <- x[[1]];
-      } else if (is.null(y) && (is.matrix(x) || is.data.frame(x))) {
-         stop("Cannot handle matrix input x, when y is NULL.");
-      }
-      ## Deal with NA values
-      if (naAction == "remove") {
-         naValues <- is.na(x) | is.na(y);
-         x <- x[!naValues];
-         y <- y[!naValues];
-      } else if (naAction == "floor0") {
-         naValuesX <- is.na(x);
-         x[naValuesX] <- 0;
-         naValuesY <- is.na(y);
-         y[naValuesY] <- 0;
-      } else if (naAction == "floor1") {
-         naValuesX <- is.na(x);
-         x[naValuesX] <- 1;
-         naValuesY <- is.na(y);
-         y[naValuesY] <- 1;
-      }
+   ## use xy.coords()
+   xy <- xy.coords(x=x,
+      y=y,
+      xlab=xlab,
+      ylab=ylab,
+      recycle=TRUE,
+      setLab=TRUE);
+   x <- xy$x;
+   y <- xy$y;
+   xlab <- xy$xlab;
+   ylab <- xy$ylab;
 
-      if (is.null(xlim)) {
-         xlim <- range(x);
-      }
-      if (is.null(ylim)) {
-         ylim <- range(y);
-      }
-      ## Apply a ceiling to values outside the range
-      if (applyRangeCeiling) {
-         tooHighX <- x > max(xlim);
-         tooLowX <- x < min(xlim);
-         x[tooHighX] <- max(xlim);
-         x[tooLowX] <- min(xlim);
-         tooHighY <- y > max(ylim);
-         tooLowY <- y < min(ylim);
-         y[tooHighY] <- max(ylim);
-         y[tooLowY] <- min(ylim);
-      }
-      xlim4 <- sort((c(-1,1) * diff(xlim)*0.02) + xlim);
-      ylim4 <- sort((c(-1,1) * diff(ylim)*0.02) + ylim);
-      ## Adjust for uneven plot aspect ratio, by using the plot par("pin")
-      ## which contains the actual dimensions.
-      ## Note that it does not require the actual coordinates of the plot,
-      ## just the relative size of the display
-      if (fillBackground) {
-         nullPlot(doBoxes=FALSE,
-            doUsrBox=TRUE,
-            fill=head(colramp(11),1),
-            xaxs="i",
-            yaxs="i",
-            xaxt="n",
-            yaxt="n",
-            xlim=xlim4,
-            ylim=ylim4,
-            add=add,
-            ...);
-      } else {
-         nullPlot(doBoxes=FALSE, #doUsrBox=TRUE, fill=head(colramp(11),1),
-            xaxs="i",
-            yaxs="i",
-            xaxt="n",
-            yaxt="n",
-            xlim=xlim4,
-            ylim=ylim4,
-            add=add,
-            ...);
-      }
-      axis(1, las=2, xaxt=xaxt);
-      axis(2, las=2, yaxt=yaxt);
+   ## Deal with NA values
+   if (naAction == "remove") {
+      naValues <- (is.na(x) | is.na(y));
+      x <- x[!naValues];
+      y <- y[!naValues];
+   } else if (naAction == "floor0") {
+      naValuesX <- is.na(x);
+      x[naValuesX] <- 0;
+      naValuesY <- is.na(y);
+      y[naValuesY] <- 0;
+   } else if (naAction == "floor1") {
+      naValuesX <- is.na(x);
+      x[naValuesX] <- 1;
+      naValuesY <- is.na(y);
+      y[naValuesY] <- 1;
+   }
 
+   if (length(xlim) == 0) {
+      xlim <- range(x, na.rm=TRUE);
+   }
+   if (length(ylim) == 0) {
+      ylim <- range(y, na.rm=TRUE);
+   }
+   ## Apply a ceiling to values outside the range
+   if (applyRangeCeiling) {
+      tooHighX <- x > max(xlim);
+      tooLowX <- x < min(xlim);
+      x[tooHighX] <- max(xlim);
+      x[tooLowX] <- min(xlim);
+      tooHighY <- y > max(ylim);
+      tooLowY <- y < min(ylim);
+      y[tooHighY] <- max(ylim);
+      y[tooLowY] <- min(ylim);
+   }
 
-      ## Determine resolution of 2D density, and of pixel display
-      pin1 <- par("pin")[1] / par("pin")[2];
-      if (length(bandwidthN) > 0) {
-         bandwidthN <- rep(bandwidthN, length.out=2);
-         bandwidthXY <- c(diff(xlim4)/bandwidthN[1], diff(ylim4)/bandwidthN[2]*pin1);
-      } else {
-         ## Alternate method using breaks per inch
-         if (length(bwpi) == 0) {
-            bwpi <- 30;
-         }
-         bandwidthXY <- c(diff(xlim4) / (par("pin")[1] * bwpi),
-            diff(ylim4) / (par("pin")[2] * bwpi));
-      }
-      if (length(nbin) == 0) {
-         if (length(binpi) == 0) {
-            binpi <- 50;
-         }
-         nbin <- max(c(
-            round(par("pin")[1] * binpi),
-            round(par("pin")[2] * binpi)));
-      }
-      if (verbose) {
-         jamba::printDebug("plotSmoothScatter(): ",
-            "bandwidthXY: ",
-            bandwidthXY);
-         jamba::printDebug("nbin: ", nbin);
-      }
+   # expand xlim and ylim viewing range
+   xlim4 <- sort((c(-1,1) * diff(xlim) * expand[1]/2) + xlim);
+   ylim4 <- sort((c(-1,1) * diff(ylim) * expand[2]/2) + ylim);
 
-      smoothScatterJam(x=x,
-         y=y,
-         add=TRUE,
-         transformation=transformation,
-         bandwidth=bandwidthXY,
-         nbin=nbin,
-         nrpoints=nrpoints,
-         xlim=xlim4,
-         ylim=ylim4,
+   ## Adjust for uneven plot aspect ratio, by using the plot par("pin")
+   ## which contains the actual dimensions.
+   ## Note that it does not require the actual coordinates of the plot,
+   ## just the relative size of the display
+   if (fillBackground) {
+      nullPlot(doBoxes=FALSE,
+         doUsrBox=TRUE,
+         fill=head(colramp(11),1),
          xaxs="i",
          yaxs="i",
          xaxt="n",
          yaxt="n",
-         colramp=colramp,
-         useRaster=useRaster,
-         ...);
-      if (1 == 2) {
-         nullPlot(doBoxes=FALSE, #doUsrBox=TRUE, fill=head(colramp(11),1),
-            xaxs="i", yaxs="i", xaxt="n", yaxt="n",
-            xlim=xlim4, ylim=ylim4, add=add, ...);
-         axis(1, las=2, xaxt=xaxt);
-         axis(2, las=2, yaxt=yaxt);
-         smoothScatterJam(x=x,
-            y=y,
-            add=TRUE,
-            transformation=transformation,
-            bandwidth=bandwidthXY,
-            nbin=nbin,
-            nrpoints=nrpoints,
-            xlim=xlim4,
-            ylim=ylim4,
-            xaxs="i",
-            yaxs="i",
-            xaxt=xaxt,
-            yaxt=yaxt,
-            colramp=colramp,
-            useRaster=useRaster,
-            ...);
-      }
-      invisible(list(x=x,
-         y=y,
-         transformation=transformation,
-         bandwidth=bandwidthXY,
-         nbin=nbin,
          xlim=xlim4,
          ylim=ylim4,
+         add=add,
+         ...);
+   } else {
+      nullPlot(doBoxes=FALSE,
          xaxs="i",
          yaxs="i",
-         xaxt=xaxt,
-         yaxt=yaxt,
-         colramp=colramp));
+         xaxt="n",
+         yaxt="n",
+         xlim=xlim4,
+         ylim=ylim4,
+         add=add,
+         ...);
    }
+   axis(1, las=2, xaxt=xaxt);
+   axis(2, las=2, yaxt=yaxt);
+
+
+   ## Determine resolution of 2D density, and of pixel display
+   pin1 <- par("pin")[1] / par("pin")[2];
+   if (length(bandwidthN) > 0) {
+      bandwidthN <- rep(bandwidthN, length.out=2);
+      bandwidthXY <- c(diff(xlim4)/bandwidthN[1],
+         diff(ylim4)/bandwidthN[2]*pin1);
+   } else {
+      ## Alternate method using breaks per inch
+      if (length(bwpi) == 0) {
+         bwpi <- 30;
+      }
+      bandwidthXY <- c(diff(xlim4) / (par("pin")[1] * bwpi),
+         diff(ylim4) / (par("pin")[2] * bwpi));
+   }
+   if (length(nbin) == 0) {
+      if (length(binpi) == 0) {
+         binpi <- 50;
+      }
+      nbin <- c(
+         round(par("pin")[1] * binpi),
+         round(par("pin")[2] * binpi));
+   }
+   if (verbose) {
+      jamba::printDebug("plotSmoothScatter(): ",
+         "bandwidthXY: ",
+         bandwidthXY);
+      jamba::printDebug("nbin: ", nbin);
+   }
+
+   smoothScatterJam(x=x,
+      y=y,
+      add=TRUE,
+      transformation=transformation,
+      bandwidth=bandwidthXY,
+      nbin=nbin,
+      nrpoints=nrpoints,
+      xlim=xlim4,
+      ylim=ylim4,
+      xaxs="i",
+      yaxs="i",
+      xaxt="n",
+      yaxt="n",
+      colramp=colramp,
+      useRaster=useRaster,
+      ...);
+
+   invisible(list(x=x,
+      y=y,
+      transformation=transformation,
+      bandwidth=bandwidthXY,
+      nbin=nbin,
+      xlim=xlim4,
+      ylim=ylim4,
+      xaxs="i",
+      yaxs="i",
+      xaxt=xaxt,
+      yaxt=yaxt,
+      colramp=colramp));
 }
 
 #' Smooth scatter plot, Jam style
 #'
 #' Produce smooth scatter plot, a helper function called by
-#' \code{\link{plotSmoothScatter}}.
+#' `plotSmoothScatter()`.
+#'
+#' For general purposes, use `plotSmoothScatter()` as a replacement
+#' for `graphics::smoothScatter()`, which produces better default
+#' settings for pixel size and density bandwidth.
 #'
 #' This function is only necessary in order to override the
-#' \code{\link[graphics]{smoothScatter}} function which calls image.default().
-#' Instead, this function calls \code{\link{imageDefault}} which is required
+#' `graphics::smoothScatter()` function which calls
+#' `graphics::image.default()`.
+#' Instead, this function calls `imageDefault()` which is required
 #' in order to utilize custom raster image scaling, particularly important
 #' when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
 #' 10 units, but the y-axis spans 10,000 units. The bulk of this function
 #' and its parameters are simply copied from
-#' \code{\link[graphics]{smoothScatter}} for consistency with the parent
+#' `smoothScatter()` for consistency with the parent
 #' function, with due credit and respect to its authors.
 #'
 #' @family jam plot functions
 #'
-#' @param x numeric vector, or data matrix with two or  more columns.
-#' @param y numeric vector, or if data is supplied via x as a matrix, y
+#' @param x `numeric` vector, or data matrix with two or  more columns.
+#' @param y `numeric` vector, or if data is supplied via x as a matrix, y
 #'    is NULL.
-#' @param nbin integer number of bins to use when converting the kernel
+#' @param nbin `integer` number of bins to use when converting the kernel
 #'    density result (which uses bandwidthN above) into a usable image.
 #'    For example, nbin=123 is the default used by
-#'    \code{\link[graphics]{smoothScatter}}, however the
-#'    \code{\link{plotSmoothScatter}} function default is higher (256).
-#' @param bandwidth numeric vector used to define the y- and x-axis
+#'    `graphics::smoothScatter()`, however the
+#'    `plotSmoothScatter()` function default is higher (256).
+#' @param bandwidth `numeric` vector used to define the y- and x-axis
 #'    bandwidths, respectively, for the hidden but very useful
-#'    \code{grDevices:::.smoothScatterCalcDensity}
+#'    `grDevices:::.smoothScatterCalcDensity()`
 #'    function, which calculates the underlying 2-dimensional kernel
 #'    density of data points. This parameter is also why the
-#'    wrapper function \code{\link{plotSmoothScatter}} was created, in
+#'    wrapper function `plotSmoothScatter()` was created, in
 #'    order to avoid ever having to define this parameter directly.
-#' @param nrpoints integer number of outlier datapoints to display,
-#'    as defined by the
-#'    hidden but very useful
-#'    \code{grDevices:::.smoothScatterCalcDensity}
-#'    function. The base \code{link[graphics]{smoothScatter}} function
+#' @param nrpoints `integer` number of outlier datapoints to display,
+#'    as defined by the hidden but very useful
+#'    `grDevices:::.smoothScatterCalcDensity()`
+#'    function. The base `graphics::smoothScatter()` function
 #'    plots 100 such points, perhaps to overcome the default over-smoothing
 #'    of data which results in large areas not displaying density. The
 #'    default here is zero, since the new default bandwidthN parameter
 #'    typically already indicates these points.
-#' @param transformation function which converts point density to a number,
+#' @param transformation `function` which converts point density to a number,
 #'    typically related to square root or cube root transformation.
-#' @param postPlotHook is NULL for no post-plot hook, or a function which
+#' @param postPlotHook is `NULL` for no post-plot hook, or a `function` which
 #'    is called after producing the image plot. By default it is simply used
 #'    to draw a box around the image, but could be used to layer additional
 #'    information atop the image plot, for example contours, labels, etc.
-#' @param xlab character x-axis label
-#' @param ylab character y-axis label
-#' @param xlim numeric x-axis range for the plot
-#' @param ylim numeric y-axis range for the plot
+#' @param xlab `character` x-axis label
+#' @param ylab `character` y-axis label
+#' @param xlim `numeric` x-axis range for the plot
+#' @param ylim `numeric` y-axis range for the plot
 #' @param add logical whether to add to an existing active R plot, or create
 #'    a new plot window.
-#' @param xaxs character value compatible with par(xaxs), mainly useful
+#' @param xaxs `character` value compatible with `par("xaxs")`, mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    range, most useful to restrict the axis range expansion done by R
 #'    by default.
-#' @param yaxs character value compatible with par(yaxs), mainly useful
+#' @param yaxs `character` value compatible with `par("yaxs")`, mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    range, most useful to restrict the axis range expansion done by R
 #'    by default.
-#' @param xaxt character value compatible with par(xaxt), mainly useful
+#' @param xaxt `character` value compatible with `par("xaxt")`, mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    by other mechanisms, e.g. log-scaled x-axis tick marks.
-#' @param yaxt character value compatible with par(yaxt), mainly useful
+#' @param yaxt `character` value compatible with `par("yaxt")`, mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    by other mechanisms, e.g. log-scaled y-axis tick marks.
-#' @param useRaster NULL or logical, indicating whether to invoke
-#'    \code{\link[graphics]{rasterImage}} to produce a raster image.
+#' @param useRaster `NULL` or `logical` indicating whether to invoke
+#'    `graphics::rasterImage()` to produce a raster image.
 #'    If NULL, it determines whether to produce a raster image within the
-#'    \code{\link{imageDefault}} function, which checks the options
-#'    using \code{getOption("preferRaster", FALSE)} to determine among
+#'    `imageDefault()` function, which checks the options
+#'    using `getOption("preferRaster", FALSE)` to determine among
 #'    other things, whether the user prefers raster images, and if the
-#'    dev.capabilities supports raster.
+#'    `dev.capabilities()` supports raster.
 #'
-#' @seealso \code{\link[graphics]{smoothScatter}}
+#' @seealso `graphics::smoothScatter()`
 #'
 #' @export
 smoothScatterJam <- function

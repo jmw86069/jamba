@@ -1,3 +1,26 @@
+# jamba version 0.0.59.900
+
+## changes to existing functions
+
+* `plotSmoothScatter()` new argument `expand` will
+expand the x-axis and y-axis ranges by this amount.
+The default `expand=c(0.04, 0.04)` mimics the default
+setting for R base plots. The help text was updated.
+* `plotSmoothScatter()` now uses `grDevices::xy.coords()`
+to define coordinates, avoiding internal logic that
+essentially did the same thing. This change should be
+silent. This change does remove the warnings that
+were produced with input supplied as a single numeric vector.
+
+## bug fixes
+
+* `plotSmoothScatter()` argument `binpi` was setting the
+bins per inch identically for x and y axes, using the
+maximum size -- when it can and now does handle each axis
+independently. Now the output pixels should be square,
+rather than being influenced by the ratio of the plot
+device.
+
 # jamba version 0.0.58.900
 
 ## changes to existing functions

@@ -31,97 +31,101 @@ smoothScatterJam(
 )
 }
 \arguments{
-\item{x}{numeric vector, or data matrix with two or  more columns.}
+\item{x}{\code{numeric} vector, or data matrix with two or  more columns.}
 
-\item{y}{numeric vector, or if data is supplied via x as a matrix, y
+\item{y}{\code{numeric} vector, or if data is supplied via x as a matrix, y
 is NULL.}
 
-\item{nbin}{integer number of bins to use when converting the kernel
+\item{nbin}{\code{integer} number of bins to use when converting the kernel
 density result (which uses bandwidthN above) into a usable image.
 For example, nbin=123 is the default used by
-\code{\link[graphics]{smoothScatter}}, however the
-\code{\link{plotSmoothScatter}} function default is higher (256).}
+\code{graphics::smoothScatter()}, however the
+\code{plotSmoothScatter()} function default is higher (256).}
 
-\item{bandwidth}{numeric vector used to define the y- and x-axis
+\item{bandwidth}{\code{numeric} vector used to define the y- and x-axis
 bandwidths, respectively, for the hidden but very useful
-\code{grDevices:::.smoothScatterCalcDensity}
+\code{grDevices:::.smoothScatterCalcDensity()}
 function, which calculates the underlying 2-dimensional kernel
 density of data points. This parameter is also why the
-wrapper function \code{\link{plotSmoothScatter}} was created, in
+wrapper function \code{plotSmoothScatter()} was created, in
 order to avoid ever having to define this parameter directly.}
 
-\item{nrpoints}{integer number of outlier datapoints to display,
-as defined by the
-hidden but very useful
-\code{grDevices:::.smoothScatterCalcDensity}
-function. The base \code{link[graphics]{smoothScatter}} function
+\item{nrpoints}{\code{integer} number of outlier datapoints to display,
+as defined by the hidden but very useful
+\code{grDevices:::.smoothScatterCalcDensity()}
+function. The base \code{graphics::smoothScatter()} function
 plots 100 such points, perhaps to overcome the default over-smoothing
 of data which results in large areas not displaying density. The
 default here is zero, since the new default bandwidthN parameter
 typically already indicates these points.}
 
-\item{transformation}{function which converts point density to a number,
+\item{transformation}{\code{function} which converts point density to a number,
 typically related to square root or cube root transformation.}
 
-\item{postPlotHook}{is NULL for no post-plot hook, or a function which
+\item{postPlotHook}{is \code{NULL} for no post-plot hook, or a \code{function} which
 is called after producing the image plot. By default it is simply used
 to draw a box around the image, but could be used to layer additional
 information atop the image plot, for example contours, labels, etc.}
 
-\item{xlab}{character x-axis label}
+\item{xlab}{\code{character} x-axis label}
 
-\item{ylab}{character y-axis label}
+\item{ylab}{\code{character} y-axis label}
 
-\item{xlim}{numeric x-axis range for the plot}
+\item{xlim}{\code{numeric} x-axis range for the plot}
 
-\item{ylim}{numeric y-axis range for the plot}
+\item{ylim}{\code{numeric} y-axis range for the plot}
 
 \item{add}{logical whether to add to an existing active R plot, or create
 a new plot window.}
 
-\item{xaxs}{character value compatible with par(xaxs), mainly useful
+\item{xaxs}{\code{character} value compatible with \code{par("xaxs")}, mainly useful
 for suppressing the x-axis, in order to produce a custom x-axis
 range, most useful to restrict the axis range expansion done by R
 by default.}
 
-\item{yaxs}{character value compatible with par(yaxs), mainly useful
+\item{yaxs}{\code{character} value compatible with \code{par("yaxs")}, mainly useful
 for suppressing the y-axis, in order to produce a custom y-axis
 range, most useful to restrict the axis range expansion done by R
 by default.}
 
-\item{xaxt}{character value compatible with par(xaxt), mainly useful
+\item{xaxt}{\code{character} value compatible with \code{par("xaxt")}, mainly useful
 for suppressing the x-axis, in order to produce a custom x-axis
 by other mechanisms, e.g. log-scaled x-axis tick marks.}
 
-\item{yaxt}{character value compatible with par(yaxt), mainly useful
+\item{yaxt}{\code{character} value compatible with \code{par("yaxt")}, mainly useful
 for suppressing the y-axis, in order to produce a custom y-axis
 by other mechanisms, e.g. log-scaled y-axis tick marks.}
 
-\item{useRaster}{NULL or logical, indicating whether to invoke
-\code{\link[graphics]{rasterImage}} to produce a raster image.
+\item{useRaster}{\code{NULL} or \code{logical} indicating whether to invoke
+\code{graphics::rasterImage()} to produce a raster image.
 If NULL, it determines whether to produce a raster image within the
-\code{\link{imageDefault}} function, which checks the options
+\code{imageDefault()} function, which checks the options
 using \code{getOption("preferRaster", FALSE)} to determine among
 other things, whether the user prefers raster images, and if the
-dev.capabilities supports raster.}
+\code{dev.capabilities()} supports raster.}
 }
 \description{
 Produce smooth scatter plot, a helper function called by
-\code{\link{plotSmoothScatter}}.
+\code{plotSmoothScatter()}.
 }
 \details{
+For general purposes, use \code{plotSmoothScatter()} as a replacement
+for \code{graphics::smoothScatter()}, which produces better default
+settings for pixel size and density bandwidth.
+
 This function is only necessary in order to override the
-\code{\link[graphics]{smoothScatter}} function which calls image.default().
-Instead, this function calls \code{\link{imageDefault}} which is required
+\code{graphics::smoothScatter()} function which calls
+\code{graphics::image.default()}.
+Instead, this function calls \code{imageDefault()} which is required
 in order to utilize custom raster image scaling, particularly important
 when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
 10 units, but the y-axis spans 10,000 units. The bulk of this function
 and its parameters are simply copied from
-\code{\link[graphics]{smoothScatter}} for consistency with the parent
+\code{smoothScatter()} for consistency with the parent
 function, with due credit and respect to its authors.
 }
 \seealso{
-\code{\link[graphics]{smoothScatter}}
+\code{graphics::smoothScatter()}
 
 Other jam plot functions: 
 \code{\link{adjustAxisLabelMargins}()},
