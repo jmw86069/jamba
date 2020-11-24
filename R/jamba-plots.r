@@ -80,6 +80,8 @@
 #'    a `character` name of a known color gradient from `RColorBrewer`
 #'    or `viridis`; or a `function` that itself produces vector of colors,
 #'    in the form `function(n)` where `n` defines the number of colors.
+#' @param col `character` string with R color used when `nrpoints` is
+#'    non-zero, this color defines the color of those points.
 #' @param doTest `logical` indicating whether to create a visual set of test
 #'    plots to demonstrate the utility of this function.
 #' @param fillBackground `logical` indicating whether to fill the
@@ -160,6 +162,7 @@ plotSmoothScatter <- function
  ylab=NULL,
  nrpoints=0,
  colramp=c("white", "lightblue", "blue", "orange", "orangered2"),
+ col="black",
  doTest=FALSE,
  fillBackground=TRUE,
  naAction=c("remove", "floor0", "floor1"),
@@ -380,6 +383,7 @@ plotSmoothScatter <- function
       xaxt="n",
       yaxt="n",
       colramp=colramp,
+      col=col,
       useRaster=useRaster,
       ...);
 
@@ -394,7 +398,9 @@ plotSmoothScatter <- function
       yaxs="i",
       xaxt=xaxt,
       yaxt=yaxt,
-      colramp=colramp));
+      colramp=colramp,
+      nrpoints=nrpoints,
+      col=col));
 }
 
 #' Smooth scatter plot, Jam style

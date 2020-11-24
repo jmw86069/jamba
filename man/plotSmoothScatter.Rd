@@ -20,6 +20,7 @@ plotSmoothScatter(
   ylab = NULL,
   nrpoints = 0,
   colramp = c("white", "lightblue", "blue", "orange", "orangered2"),
+  col = "black",
   doTest = FALSE,
   fillBackground = TRUE,
   naAction = c("remove", "floor0", "floor1"),
@@ -98,6 +99,9 @@ a single \code{character} color used to create a color gradient;
 a \code{character} name of a known color gradient from \code{RColorBrewer}
 or \code{viridis}; or a \code{function} that itself produces vector of colors,
 in the form \verb{function(n)} where \code{n} defines the number of colors.}
+
+\item{col}{\code{character} string with R color used when \code{nrpoints} is
+non-zero, this color defines the color of those points.}
 
 \item{doTest}{\code{logical} indicating whether to create a visual set of test
 plots to demonstrate the utility of this function.}

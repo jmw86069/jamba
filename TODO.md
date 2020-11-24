@@ -1,16 +1,52 @@
 ## TODO for jamba
 
 
+### Vignettes for common small use cases
+
+* color manipulation
+
+   * creating and adjusting color gradients
+   
+      * `getColorRamp()`
+      * `showColors()`
+   
+   * creating categorical colors, using them to make gradients
+   
+      * `colorjam::rainbowJam()`
+   
+* log-transformation, sqrt-transformation and plotting appropriate axes
+   
+   * `log2signed()`, `exp2signed()`
+   * `minorLogTicksAxis()`, `sqrtAxis()`
+   * log-transformed P-values
+
+
+### Usability
+
+* `plotSmoothScatter()` ignores `xlab` and `ylab`.
+* `plotSmoothScatter()` using `bandwidthN` is confusing, it overrides `bwpi`.
+* `getColorRamp()` value `defaultBaseColor="grey95"` is annoying to me,
+change to `"grey98"` or `"grey99"`
+
+
 ### implement testthis unit testing
 
 
 ### new functions
 
-* `splomSmooth()` is a `plotSmoothScatter()` equivalent for
-`lattice::splom()`, with some default settings and usability
-to help make it easier to call than `lattice::splom()`. It
-is also much more efficient than ggplot2 equivalent methods,
-despite substantial efforts. Go with what works! (For now.)
+* `splomSmooth()` 
+
+   * all-versus-all scatter plot matrix using equivalent
+   logic as used in `plotSmoothScatter()`, but using
+   `lattice::splom()`. It is much more efficient than
+   equivalent base and ggplot2 plot methods.
+   * add option to "hide" combinations of panels, when
+   those combinations are not relevant or appropriate
+   to the visualization.
+   * option to specify the specific color gradient in each
+   cell, as opposed to combining the categorical color
+   from each input column.
+   * make options for bandwidth and visual bins more intuitive
 
 
 ### Bugs 28aug2020

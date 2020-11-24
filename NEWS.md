@@ -1,3 +1,17 @@
+# jamba version 0.0.60.900
+
+## changes to existing functions
+
+* `getColorRamp()` argument `defaultBaseColor="grey99"`
+from the previous `defaultBaseColor="grey95"` which just
+felt too dark.
+* `plotSmoothScatter()` new argument `col` passed to
+`smoothScatterJam()` to be compatible with `smoothScatter()`,
+this defines point color when `nrpoints` is non-zero.
+Apparently not defining this argument allowed R to
+do fuzzy argument name matching, causing conflict
+with `colramp`.
+
 # jamba version 0.0.59.900
 
 ## changes to existing functions

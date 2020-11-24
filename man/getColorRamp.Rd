@@ -9,7 +9,7 @@ getColorRamp(
   n = 15,
   trimRamp = c(0, 0),
   gradientN = 15,
-  defaultBaseColor = "grey95",
+  defaultBaseColor = "grey99",
   reverseRamp = FALSE,
   alpha = TRUE,
   gradientWtFactor = 2/3,
