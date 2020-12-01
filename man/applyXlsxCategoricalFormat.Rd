@@ -85,6 +85,7 @@ to define a specific color for the cell text.
 \seealso{
 Other jam export functions: 
 \code{\link{applyXlsxConditionalFormat}()},
+\code{\link{readOpenxlsx}()},
 \code{\link{set_xlsx_colwidths}()},
 \code{\link{set_xlsx_rowheights}()},
 \code{\link{writeOpenxlsx}()}

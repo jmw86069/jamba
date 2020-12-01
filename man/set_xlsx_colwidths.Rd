@@ -57,6 +57,7 @@ from the very useful \code{openxlsx} R package:
 Other jam export functions: 
 \code{\link{applyXlsxCategoricalFormat}()},
 \code{\link{applyXlsxConditionalFormat}()},
+\code{\link{readOpenxlsx}()},
 \code{\link{set_xlsx_rowheights}()},
 \code{\link{writeOpenxlsx}()}
 }

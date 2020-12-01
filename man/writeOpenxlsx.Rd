@@ -229,6 +229,7 @@ set.seed(123);
 Other jam export functions: 
 \code{\link{applyXlsxCategoricalFormat}()},
 \code{\link{applyXlsxConditionalFormat}()},
+\code{\link{readOpenxlsx}()},
 \code{\link{set_xlsx_colwidths}()},
 \code{\link{set_xlsx_rowheights}()}
 }

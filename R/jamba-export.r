@@ -1401,3 +1401,111 @@ set_xlsx_rowheights <- function
       xlsxFile,
       overwrite=TRUE);
 }
+
+
+#' Import one or more data.frame from Excel xlsx format
+#'
+#' Import one or more data.frame from Excel xlsx format
+#'
+#' This function is equivalent to `openxlsx::read.xlsx()`
+#' with a few minor additions:
+#'
+#' 1. It returns a `list` of `data.frame` objects, one per `sheet`.
+#' 2. It properly reads the `colnames` with `check.names=FALSE`.
+#'
+#' By default this function returns every `sheet` for a given
+#' `xlsx` file.
+#'
+#' @family jam export functions
+#'
+#' @param xlsx `character` path to an Excel file in `xlsx` format,
+#'    compatible with `openxlsx::read.xlsx()`.
+#' @param sheet one of `NULL`, `character`, or `integer` vector,
+#'    where: `sheet=NULL` will import every sheet; `character` is
+#'    a vector of sheet names; and `integer` is a vector of sheet
+#'    index values. The sheet names are determined with
+#'    `openxlsx::getSheetNames()`.
+#' @param startRow `integer` indicating the row number to start
+#'    importing each `sheet`. Note that `startRow` can be a vector
+#'    with length `length(sheet)`, to specify the `startRow` for
+#'    each `sheet`.
+#' @param rows `integer` vector indicating specific rows to import
+#'    for each `sheet`. To specify different `rows` for each `sheet`,
+#'    supply `rows` as a `list` of `integer` vectors.
+#' @param check.names `logical` indicating whether to call `make.names()`
+#'    on the `colnames` of each `data.frame`.
+#' @param verbose `logical` indicating whether to print verbose output.
+#' @param ... additional arguments are passed to `openxlsx::read.xlsx()`.
+#'
+#' @export
+readOpenxlsx <- function
+(xlsx,
+ sheet=NULL,
+ startRow=1,
+ rows=NULL,
+ check.names=FALSE,
+ verbose=FALSE,
+ ...)
+{
+   if (length(xlsx) == 0 || !file.exists(xlsx)) {
+      stop("xlsx file not found.");
+   }
+   if (length(sheet) == 0) {
+      sheet <- nameVector(openxlsx::getSheetNames(xlsx));
+   } else if (length(names(sheet)) == 0) {
+      if (is.numeric(sheet)) {
+         sheets <- openxlsx::getSheetNames(xlsx);
+         names(sheet) <- sheets[sheet];
+      } else {
+         names(sheet) <- sheet;
+      }
+   }
+
+   # recycle startRow to length(sheet)
+   if (length(startRow) < length(sheet)) {
+      startRow <- rep(startRow, length.out=length(sheet));
+   }
+   # recycle rows to length(sheet)
+   if (length(rows) == 0) {
+      rows <- list(NULL);
+   }
+   if (!is.list(rows)) {
+      rows <- list(rows);
+   }
+   if (length(rows) < length(rows)) {
+      rows <- rep(rows, length.out=length(sheet));
+   }
+
+   sheet_idx <- nameVector(seq_along(sheet),
+      names(sheet));
+   dfs <- lapply(sheet_idx, function(j){
+      i <- sheet[[j]];
+      if (verbose) {
+         printDebug("read_xlsx(): ",
+            "reading sheet:",
+            i);
+      }
+      idf <- openxlsx::read.xlsx(xlsxFile=xlsx,
+         sheet=i,
+         startRow=startRow[[j]],
+         rows=rows[[j]],
+         ...);
+      if (length(check.names) > 0 && !check.names) {
+         if (length(startRow[[j]]) > 0) {
+            k <- startRow[[j]];
+         } else if (length(rows) > 0) {
+            k <- head(rows[[j]], 1);
+         } else {
+            k <- 1;
+         }
+         iheader <- openxlsx::read.xlsx(xlsxFile=xlsx,
+            sheet=i,
+            startRow=k,
+            rows=k,
+            colNames=FALSE);
+         colnames(idf) <- unname(unlist(iheader[1,]));
+      }
+      idf;
+   });
+   return(dfs);
+}

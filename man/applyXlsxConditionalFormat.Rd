@@ -171,6 +171,7 @@ application.
 \seealso{
 Other jam export functions: 
 \code{\link{applyXlsxCategoricalFormat}()},
+\code{\link{readOpenxlsx}()},
 \code{\link{set_xlsx_colwidths}()},
 \code{\link{set_xlsx_rowheights}()},
 \code{\link{writeOpenxlsx}()}

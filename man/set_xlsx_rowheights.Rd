@@ -68,6 +68,7 @@ in order to affect the header row as well.
 Other jam export functions: 
 \code{\link{applyXlsxCategoricalFormat}()},
 \code{\link{applyXlsxConditionalFormat}()},
+\code{\link{readOpenxlsx}()},
 \code{\link{set_xlsx_colwidths}()},
 \code{\link{writeOpenxlsx}()}
 }

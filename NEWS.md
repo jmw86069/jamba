@@ -1,5 +1,17 @@
 # jamba version 0.0.60.900
 
+## new functions
+
+* `readOpenxlsx()` is the reciprocal to `writeOpenxlsx()`
+that differs from `openxlsx::read.xlsx()` mainly in that
+it loads multiple sheets at a time, and does not mangle
+column names when `check.names=FALSE`. The `openxlsx`
+method behaves as if `check.names=TRUE` in all cases,
+as of 01-Dec-2020.
+
+
+# jamba version 0.0.59.900
+
 ## changes to existing functions
 
 * `getColorRamp()` argument `defaultBaseColor="grey99"`
@@ -11,11 +23,6 @@ this defines point color when `nrpoints` is non-zero.
 Apparently not defining this argument allowed R to
 do fuzzy argument name matching, causing conflict
 with `colramp`.
-
-# jamba version 0.0.59.900
-
-## changes to existing functions
-
 * `plotSmoothScatter()` new argument `expand` will
 expand the x-axis and y-axis ranges by this amount.
 The default `expand=c(0.04, 0.04)` mimics the default
