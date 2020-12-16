@@ -230,52 +230,14 @@ fix_matrix_ratio <- function
       newCols <- rep(1:(ncol(x)-0), each=dupColX);
       newRows <- rep(1:(nrow(x)-0), each=dupRowX);
 
-      ## Column processing
-      if (1 == 2) {
-         xNcolSeq <- seq(from=0.5,
-            to=(ncol(x)-0)+0.5,
-            length.out=length(newCols)+1);
-         ## 29oct2018 modify so the x range is same as before
-         xNcolSeq <- normScale(xNcolSeq,
-            from=0,
-            to=ncol(x));
-         newColBreaks <- breaksByVector(newCols);
-         newColLabels <- newColBreaks$newLabels;
-         if (verbose) {
-            printDebug("head(newCols, 100):");
-            print(head(newCols, 100));
-            printDebug("sdim(newColBreaks):");
-            print(sdim(newColBreaks));
-            printDebug("head(newColLabels, 100):");
-            print(head(newColLabels, 100));
-         }
-      }
-
-      ## Row processing
-      if (1 == 2) {
-         yNrowSeq <- seq(from=0.5, to=(nrow(x)-1)+0.5,
-            length.out=length(newRows)+1);
-         ## 29oct2018 modify so the x range is same as before
-         yNrowSeq <- normScale(yNrowSeq,
-            from=0,
-            to=nrow(x));
-         newRowBreaks <- breaksByVector(newRows);
-         newRowLabels <- newRowBreaks$newLabels;
-      }
       x <- x[newRows,newCols,drop=FALSE];
-   } else if (ncol(x) > ratioThreshold * nrow(y)) {
+   } else if (ncol(x) > ratioThreshold * nrow(x)) {
       if (verbose) {
          printDebug("fix_matrix_ratio(): ",
             "ncol(x) is more than ", ratioThreshold, "x nrow(x).");
       }
       dupRowX <- floor((ncol(x)-0)/(nrow(x)-0));
       newRows <- rep(1:(nrow(x)-0), each=dupRowX);
-      if (1 == 2) {
-         yNrowSeq <- seq(from=0.5, to=(nrow(x)-1)+0.5,
-            length.out=length(newRows)+1);
-         newRowBreaks <- breaksByVector(newRows);
-         newRowLabels <- newRowBreaks$newLabels;
-      }
       x <- x[newRows,,drop=FALSE];
    }
    return(x);

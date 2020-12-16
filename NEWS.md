@@ -1,3 +1,14 @@
+# jamba version 0.0.61.900
+
+## changes to existing functions
+
+* `fix_matrix_ratio()` had a bug in secondary logic referring
+to non-existent object `y`. This function is used as an optional
+backend for `imageDefault` when `useRaster=TRUE` to provide
+reasonable default matrix adjustment to reduce or prevent
+visual distortion when image interpolation is performed on
+matrices with non-1:1 ratio of rows and columns.
+
 # jamba version 0.0.60.900
 
 ## new functions
