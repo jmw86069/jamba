@@ -1952,6 +1952,11 @@ imageByColors <- function
 #' @param doTest logical whether to create a visual example of output. Note
 #'    that it calls \code{\link{usrBox}} to color the plot area, and the
 #'    background can be overridden with something like \code{fill="navy"}.
+#' @param shadowOrder `character` value indicating when shadows are drawn
+#'    relative to drawing labels: `"each"` draws each shadow with each label,
+#'    so that shadows will overlap previous labels; `"all"` draws all shadows
+#'    first then all labels, so labels will always appear above all
+#'    shadows. See examples.
 #' @param ... other parameters are passed to \code{\link[graphics]{text}}.
 #'    Note that certain parameters are not vectorized in that function,
 #'    such as \code{srt} which requires only a fixed value. To rotate each
@@ -1964,6 +1969,18 @@ imageByColors <- function
 #' shadowText(doTest=TRUE);
 #' shadowText(doTest=TRUE, fill="navy");
 #' shadowText(doTest=TRUE, fill="red4");
+#'
+#' # example showing labels with overlapping shadows
+#' opar <- par("mfrow"=c(1, 2))
+#' nullPlot(doBoxes=FALSE);
+#' title(main="shadowOrder='each'");
+#' shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
+#'    labels=c("one", "two"), cex=c(2, 4), shadowOrder="each")
+#' nullPlot(doBoxes=FALSE);
+#' title(main="shadowOrder='all'");
+#' shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
+#'    labels=c("one", "two"), cex=c(2, 4), shadowOrder="all")
+#' par(opar)
 #'
 #' @export
 shadowText <- function
@@ -1980,6 +1997,7 @@ shadowText <- function
  shadow=getOption("jam.shadow", FALSE),
  shadowColor=getOption("jam.shadowColor", "black"),
  alphaShadow=getOption("jam.alphaShadow", 0.2),
+ shadowOrder=c("each", "all"),
  cex=par("cex"),
  font=par("font"),
  doTest=FALSE,
@@ -1999,6 +2017,7 @@ shadowText <- function
    #cex <- rep(cex, length.out=length(labels));
    #font <- rep(font, length.out=length(labels));
    #srt <- rep(srt, length.out=length(labels));
+   shadowOrder <- match.arg(shadowOrder);
 
    if (length(alphaOutline) == 0) {
       alphaOutline <- 0.7;
@@ -2049,76 +2068,85 @@ shadowText <- function
          cex=c(1.1,1.1,1,1,1,1,1,1,1),
          offset=offset, n=n, r=r,
          doTest=FALSE);
-      invisible(list(st1=st1, st2=st2, st3=st3));
-   } else {
-      cex <- rep(cex, length.out=length(labels));
-      font <- rep(font, length.out=length(labels));
-      xy <- xy.coords(x, y);
-      xo <- r * strwidth("A");
-      yo <- r * strheight("A");
-      if (length(offset) == 0) {
-         offset <- c(0.15, 0.15);
-      }
-      offset <- rep(offset, length.out=2);
-      offsetX <- offset[1] * strwidth("A");
-      offsetY <- offset[2] * strheight("A");
-
-      ## Angular sequence with n steps
-      theta <- tail(seq(0, 2*pi, length.out=n+1), -1);
-
-      ## Outline has no offset
-      if (outline) {
-         ## Make a matrix of coordinates per label
-         outlineX <- matrix(ncol=n, byrow=TRUE,
-            rep(xy$x, each=n) + cos(theta)*xo);
-         outlineY <- matrix(ncol=n, byrow=TRUE,
-            rep(xy$y, each=n) + sin(theta)*yo);
-         outlineLabels <- matrix(ncol=n, byrow=TRUE,
-            rep(labels, each=n));
-         outlineColors <- matrix(ncol=n, nrow=length(labels), byrow=TRUE,
-            rep(alpha2col(bg, alpha=alphaOutline), each=n));
-      } else {
-         outlineX <- outlineY <- outlineLabels <- outlineColors <- NULL;
-      }
-
-      ## Shadow has offset
-      if (shadow) {
-         ## Make a matrix of coordinates per label
-         shadowX <- matrix(ncol=n, byrow=TRUE,
-            rep(xy$x + offsetX, each=n) + cos(theta)*xo*1.5);
-         shadowY <- matrix(ncol=n, byrow=TRUE,
-            rep(xy$y + offsetY, each=n) + sin(theta)*yo*1.5);
-         shadowLabels <- matrix(ncol=n, byrow=TRUE,
-            rep(labels, each=n));
-         shadowColors <- matrix(ncol=n, nrow=length(labels), byrow=TRUE,
-            rep(alpha2col(shadowColor, alpha=alphaShadow), each=n));
-      } else {
-         shadowX <- shadowY <- shadowLabels <- shadowColors <- NULL;
-      }
-
-      ## Append label coordinates to shadow coordinates so the shadows
-      ## are drawn first, for each label in order. This order ensures
-      ## that overlaps are respected without any labels appearing above
-      ## another label shadow out of order.
-      allX <- cbind(shadowX, outlineX, xy$x);
-      allY <- cbind(shadowY, outlineY, xy$y);
-      allColors <- cbind(shadowColors, outlineColors,
-         rep(col, length.out=length(labels)));
-      allLabels <- cbind(shadowLabels, outlineLabels, labels);
-      #allCex <- rep(cex, n+1);
-      #allFont <- rep(font, n+1);
-      #allSrt <- rep(srt, n+1);
-
-      ## Draw labels with one text() call to make it vectorized
-      graphics::text(x=c(allX),
-         y=c(allY),
-         labels=c(allLabels),
-         col=c(allColors),
-         cex=cex, font=font,
-         ...);
-      invisible(list(allX=allX, allY=allY, allColors=allColors,
-         allLabels=allLabels));
+      return(invisible(list(st1=st1, st2=st2, st3=st3)));
    }
+
+   cex <- rep(cex, length.out=length(labels));
+   font <- rep(font, length.out=length(labels));
+   xy <- xy.coords(x, y);
+   xo <- r * strwidth("A");
+   yo <- r * strheight("A");
+   if (length(offset) == 0) {
+      offset <- c(0.15, 0.15);
+   }
+   offset <- rep(offset, length.out=2);
+   offsetX <- offset[1] * strwidth("A");
+   offsetY <- offset[2] * strheight("A");
+
+   ## Angular sequence with n steps
+   theta <- tail(seq(0, 2*pi, length.out=n+1), -1);
+
+   ## Outline has no offset
+   if (outline) {
+      ## Make a matrix of coordinates per label
+      outlineX <- matrix(ncol=n, byrow=TRUE,
+         rep(xy$x, each=n) + cos(theta)*xo);
+      outlineY <- matrix(ncol=n, byrow=TRUE,
+         rep(xy$y, each=n) + sin(theta)*yo);
+      outlineLabels <- matrix(ncol=n, byrow=TRUE,
+         rep(labels, each=n));
+      outlineColors <- matrix(ncol=n, nrow=length(labels), byrow=TRUE,
+         rep(alpha2col(bg, alpha=alphaOutline), each=n));
+   } else {
+      outlineX <- outlineY <- outlineLabels <- outlineColors <- NULL;
+   }
+
+   ## Shadow has offset
+   if (shadow) {
+      ## Make a matrix of coordinates per label
+      shadowX <- matrix(ncol=n, byrow=TRUE,
+         rep(xy$x + offsetX, each=n) + cos(theta)*xo*1.5);
+      shadowY <- matrix(ncol=n, byrow=TRUE,
+         rep(xy$y + offsetY, each=n) + sin(theta)*yo*1.5);
+      shadowLabels <- matrix(ncol=n, byrow=TRUE,
+         rep(labels, each=n));
+      shadowColors <- matrix(ncol=n, nrow=length(labels), byrow=TRUE,
+         rep(alpha2col(shadowColor, alpha=alphaShadow), each=n));
+   } else {
+      shadowX <- shadowY <- shadowLabels <- shadowColors <- NULL;
+   }
+
+   ## Append label coordinates to shadow coordinates so the shadows
+   ## are drawn first, for each label in order. This order ensures
+   ## that overlaps are respected without any labels appearing above
+   ## another label shadow out of order.
+   allX <- cbind(shadowX, outlineX, xy$x);
+   allY <- cbind(shadowY, outlineY, xy$y);
+   allColors <- cbind(shadowColors, outlineColors,
+      rep(col, length.out=length(labels)));
+   allLabels <- cbind(shadowLabels, outlineLabels, labels);
+   if ("each" %in% shadowOrder) {
+      allX <- t(allX);
+      allY <- t(allY);
+      allColors <- t(allColors);
+      allLabels <- t(allLabels);
+      cex <- rep(cex, each=nrow(allX));
+      font <- rep(font, each=nrow(allX));
+   }
+   #allCex <- rep(cex, n+1);
+   #allFont <- rep(font, n+1);
+   #allSrt <- rep(srt, n+1);
+
+   ## Draw labels with one text() call to make it vectorized
+   graphics::text(x=c(allX),
+      y=c(allY),
+      labels=c(allLabels),
+      col=c(allColors),
+      cex=cex,
+      font=font,
+      ...);
+   return(invisible(list(allX=allX, allY=allY, allColors=allColors,
+      allLabels=allLabels)));
 }
 
 #' Adjust axis label margins

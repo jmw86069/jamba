@@ -2663,12 +2663,24 @@ setCLranges <- function
    }
 
    ## Remove NA values and convert Lrange and Crange to range format
-   Lrange <- range(rmNA(Lrange));
-   Crange <- range(rmNA(Crange));
+   if (length(Lrange) > 1) {
+      Lrange <- range(rmNA(Lrange));
+   } else {
+      Lrange <- NULL;
+   }
+   if (length(Crange) > 1) {
+      Crange <- range(rmNA(Crange));
+   } else {
+      Crange <- NULL;
+   }
 
    ## First time through, these values are empty
    ## so we use checkLightMode() default values
    if (length(Lrange) == 0 && length(Crange) == 0 && length(lightMode) == 0) {
+      if (verbose) {
+         printDebug("setCLranges(): ",
+            "lightMode <- checkLightMode()");
+      }
       lightMode <- checkLightMode();
    }
 

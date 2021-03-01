@@ -18,6 +18,7 @@ shadowText(
   shadow = getOption("jam.shadow", FALSE),
   shadowColor = getOption("jam.shadowColor", "black"),
   alphaShadow = getOption("jam.alphaShadow", 0.2),
+  shadowOrder = c("each", "all"),
   cex = par("cex"),
   font = par("font"),
   doTest = FALSE,
@@ -61,6 +62,12 @@ and shadow colors, respectively.}
 
 \item{shadow}{logical whether to enable shadow drawing.}
 
+\item{shadowOrder}{\code{character} value indicating when shadows are drawn
+relative to drawing labels: \code{"each"} draws each shadow with each label,
+so that shadows will overlap previous labels; \code{"all"} draws all shadows
+first then all labels, so labels will always appear above all
+shadows. See examples.}
+
 \item{doTest}{logical whether to create a visual example of output. Note
 that it calls \code{\link{usrBox}} to color the plot area, and the
 background can be overridden with something like \code{fill="navy"}.}
@@ -96,6 +103,18 @@ background color can be modified with \code{fill="navy"} for example.
 shadowText(doTest=TRUE);
 shadowText(doTest=TRUE, fill="navy");
 shadowText(doTest=TRUE, fill="red4");
+
+# example showing labels with overlapping shadows
+opar <- par("mfrow"=c(1, 2))
+nullPlot(doBoxes=FALSE);
+title(main="shadowOrder='each'");
+shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
+   labels=c("one", "two"), cex=c(2, 4), shadowOrder="each")
+nullPlot(doBoxes=FALSE);
+title(main="shadowOrder='all'");
+shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
+   labels=c("one", "two"), cex=c(2, 4), shadowOrder="all")
+par(opar)
 
 }
 \seealso{

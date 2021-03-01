@@ -1,3 +1,20 @@
+# jamba version 0.0.62.900
+
+## changes to existing functions
+
+* `shadowText()` new argument `shadowOrder` to control the
+rendering of shadows and labels for a vector of labels:
+`shadowOrder="each"` renders each shadow then each label in
+order, so that subsequent shadows will overlap previously
+rendered labels; `shadowOrder="all"` renders all shadows at once
+then all labels, so that shadows will never overlap labels.
+Very minor issue, mostly affecting display of labels that
+slightly overlap - see examples in `shadowText()`.
+* `setCLranges()` fixed issue in first time processing, which was
+wrongly defining Crange and Lrange for future use even inside
+Rstudio. (Minor issue that would only affect text labels with
+light colors on a light background.)
+
 # jamba version 0.0.61.900
 
 ## changes to existing functions

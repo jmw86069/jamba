@@ -1,6 +1,42 @@
 ## TODO for jamba
 
 
+### Functions to update
+
+* DONE: `shadowText()` - consider re-ordering the rendering so that
+the shadow for each text label is placed before the next label.
+* DONE: `checkLightmode()` along with `printDebug()`, `makeStyles()`,
+and `setPrompt()` collectively do not update light mode as
+intended when used inside RStudio. The issue was with `setCLranges()`.
+
+   * Also, once set, light mode is not as easily changed as intended.
+
+* `colorRampPaletteJam()` - new function as a drop-in replacement
+to `colorRampPalette()`; this alternative calls `blend_colors()`
+between each pair of colors in order to create better intermediate
+colors in the gradient. Examples: red-blue which should produce
+purple intermediate; yellow-blue which should produce green
+intermediate.
+* `colorjam::blend_colors()` currently purple-gold and
+purple-yellow create a green intermediate color, these
+cases should go through red/brown. It requires either manual
+correction and/or requires that purple-to-yellow shortest hue
+angular path goes through red.
+
+   * Consider using a slightly improved red-yellow-blue color hue wheel,
+   with better delineation of the blue-purple-red transitions. The hope
+   is that this color hue wheel might make purple-red-yellow the preferred
+   (shorter) angular path between purple-to-yellow.
+   * Consider manual correction inside `blend_colors()`
+   for cases where colors are roughly 180 hue degrees different,
+   instead of leaving it to chance.
+
+* `colorjam::rainbowJam()` should have better mechanism to define
+`preset` for custom color hue wheels, for example `"custom"` or
+some option that uses the `h1` and `h2` hue conversion already
+defined if it has been defined.
+
+
 ### Vignettes for common small use cases
 
 * color manipulation
