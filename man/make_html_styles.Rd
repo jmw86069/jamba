@@ -46,6 +46,7 @@ Other jam practical functions:
 \code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
+\code{\link{lldf}()},
 \code{\link{log2signed}()},
 \code{\link{make_styles}()},
 \code{\link{mergeAllXY}()},

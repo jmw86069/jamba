@@ -112,6 +112,7 @@ Other jam practical functions:
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
+\code{\link{lldf}()},
 \code{\link{log2signed}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},

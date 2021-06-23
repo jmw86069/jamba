@@ -149,7 +149,7 @@
 plotSmoothScatter <- function
 (x,
  y=NULL,
- bandwidthN=300,
+ bandwidthN=NULL,
  bwpi=50,
  nbin=NULL,
  binpi=50,
@@ -235,30 +235,37 @@ plotSmoothScatter <- function
       oPar <- par("mfrow"=c(2,2), "mar"=c(2,3,4,1));
       on.exit(par(oPar));
       smoothScatter(x2,
-         main="smoothScatter default",
+         main="smoothScatter default (using colramp blues9)",
          ylab="",
          xlab="");
       plotSmoothScatter(x2,
+         colramp=colramp,
+         fillBackground=fillBackground,
+         main="plotSmoothScatter",
+         ...);
+      plotSmoothScatter(x2,
          colramp=c("white", blues9),
          fillBackground=fillBackground,
-         main="plotSmoothScatter default using blues9",
+         main="plotSmoothScatter (using colramp blues9)",
          ...);
       plotSmoothScatter(x2,
          colramp=colramp,
+         bwpi=bwpi * 1.5,
+         bandwidthN=bandwidthN * 1.5,
+         binpi=binpi * 1.5,
          fillBackground=fillBackground,
-         main="plotSmoothScatter with colramp provided",
-         ...);
-      plotSmoothScatter(x2,
-         colramp=colramp,
-         bandwidthN=600,
-         binpi=100,
-         fillBackground=fillBackground,
-         main="plotSmoothScatter higher bandwidth",
+         main="plotSmoothScatter with increased bandwidth and bin",
          ...);
       return(invisible(x2));
    }
 
    ## use xy.coords()
+   if (length(xlab) == 0 && !missing(x)) {
+      xlab <- deparse(substitute(x));
+   }
+   if (length(ylab) == 0 && length(y) > 0) {
+      ylab <- deparse(substitute(y));
+   }
    xy <- xy.coords(x=x,
       y=y,
       xlab=xlab,
@@ -267,8 +274,6 @@ plotSmoothScatter <- function
       setLab=TRUE);
    x <- xy$x;
    y <- xy$y;
-   xlab <- xy$xlab;
-   ylab <- xy$ylab;
 
    ## Deal with NA values
    if (naAction == "remove") {
@@ -313,31 +318,39 @@ plotSmoothScatter <- function
    ## which contains the actual dimensions.
    ## Note that it does not require the actual coordinates of the plot,
    ## just the relative size of the display
-   if (fillBackground) {
-      nullPlot(doBoxes=FALSE,
-         doUsrBox=TRUE,
-         fill=head(colramp(11),1),
-         xaxs="i",
-         yaxs="i",
-         xaxt="n",
-         yaxt="n",
-         xlim=xlim4,
-         ylim=ylim4,
-         add=add,
-         ...);
-   } else {
-      nullPlot(doBoxes=FALSE,
-         xaxs="i",
-         yaxs="i",
-         xaxt="n",
-         yaxt="n",
-         xlim=xlim4,
-         ylim=ylim4,
-         add=add,
-         ...);
+   if (!add) {
+      if (fillBackground) {
+         nullPlot(doBoxes=FALSE,
+            doUsrBox=TRUE,
+            fill=head(colramp(11),1),
+            xaxs="i",
+            yaxs="i",
+            xaxt="n",
+            yaxt="n",
+            xlim=xlim4,
+            ylim=ylim4,
+            add=add,
+            ...);
+      } else {
+         nullPlot(doBoxes=FALSE,
+            xaxs="i",
+            yaxs="i",
+            xaxt="n",
+            yaxt="n",
+            xlim=xlim4,
+            ylim=ylim4,
+            add=add,
+            ...);
+      }
+      axis(1, las=1, xaxt=xaxt);
+      axis(2, las=2, yaxt=yaxt);
+      if ((length(xlab) > 0 && nchar(xlab) > 0) ||
+            (length(ylab) > 0 && nchar(ylab) > 0)) {
+         title(xlab=xlab,
+            ylab=ylab,
+            ...);
+      }
    }
-   axis(1, las=2, xaxt=xaxt);
-   axis(2, las=2, yaxt=yaxt);
 
 
    ## Determine resolution of 2D density, and of pixel display

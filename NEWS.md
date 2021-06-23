@@ -1,3 +1,28 @@
+# jamba version 0.0.63.900
+
+## new function
+
+* `lldf()` is a lightweight extension to `utils::ls()`
+that returns a `data.frame` with object name and size,
+sorted largest to smallest. I found myself using this
+function several times after becoming more aware of
+object sizes while using `jamsession::save_jamsession()`.
+
+## changes to existing functions
+
+* `plotSmoothScatter()` default argument `bandwidthN=NULL`
+which changes the default bandwidth to use `bwpi` for
+the per-inch calculation of the bandwidth that can
+be reasonably displayed given the output size.
+Previous default was `bandwidthN=300`. Note that the
+output density calculation is dependent upon the
+display size, which can affect the results.
+* `plotSmoothScatter()` now honors `xlab` and `ylab`,
+and when those are not provided, it uses base R
+convention and applies `deparse(substitute(x))` to
+determine a suitable default label.
+
+
 # jamba version 0.0.62.900
 
 ## changes to existing functions

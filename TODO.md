@@ -59,7 +59,7 @@ defined if it has been defined.
 
 ### Usability
 
-* `plotSmoothScatter()` ignores `xlab` and `ylab`.
+* FIXED: `plotSmoothScatter()` ignores `xlab` and `ylab`.
 * `plotSmoothScatter()` using `bandwidthN` is confusing, it overrides `bwpi`.
 * `getColorRamp()` value `defaultBaseColor="grey95"` is annoying to me,
 change to `"grey98"` or `"grey99"`
