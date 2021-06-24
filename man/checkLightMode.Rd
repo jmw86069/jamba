@@ -36,6 +36,7 @@ checkLightMode();
 Other jam practical functions: 
 \code{\link{applyCLrange}()},
 \code{\link{breakDensity}()},
+\code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
 \code{\link{exp2signed}()},
 \code{\link{fileInfo}()},
@@ -43,6 +44,7 @@ Other jam practical functions:
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
+\code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jamba}},
@@ -52,6 +54,7 @@ Other jam practical functions:
 \code{\link{log2signed}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{match_unique}()},
 \code{\link{mergeAllXY}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

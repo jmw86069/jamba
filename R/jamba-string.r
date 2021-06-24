@@ -235,26 +235,30 @@ unvigrep <- function
 #' one might grep for a few patterns, but want certain pattern hits to be
 #' listed first.
 #'
-#' @param patterns vector of grep patterns
-#' @param x vector to be tested by \code{\link[base]{grep}}
-#' @param maxValues integer or NULL, the maximum matching entries to
-#'    return per grep pattern. This parameter is mainly useful when returning
-#'    a list of matches, where one would like each list to contain a maximum
-#'    number of entries.
-#' @param sortFunc function or NULL, used to sort entries within each set of
+#' @param patterns `character` vector of regular expression patterns,
+#'    ultimately passed to `base::grep()`.
+#' @param x `character` vector that is the subject of `base::grep()`.
+#' @param maxValues `integer` or NULL, the maximum matching entries to
+#'    return per grep pattern. Note that each grep pattern may match multiple
+#'    values, and values are only returned at most once each, so restricting
+#'    items returned by one grep pattern may allow an item to be matched
+#'    by subsequent patterns, see examples. This argument is most commonly
+#'    used with `maxValues=1` which returns only the first matching entry
+#'    per pattern.
+#' @param sortFunc `function` or NULL, used to sort entries within each set of
 #'    matching entries. Use NULL to avoid sorting entries.
-#' @param rev logical whether to reverse the order of matching entries. Use
+#' @param rev `logical` whether to reverse the order of matching entries. Use
 #'    TRUE if you would like entries matching the patterns to be placed last,
 #'    and entries not matching the grep patterns to be placed first. This
-#'    technique is effective at placing "noise named" at the end of a long
+#'    technique is effective at placing "noise names" at the end of a long
 #'    vector, for example.
-#' @param returnType character indicating whether to return a vector or list.
+#' @param returnType `character` indicating whether to return a vector or list.
 #'    A list will be in order of the grep patterns, using empty elements to
 #'    indicate when no entries matched each pattern. This output is useful
 #'    when you would like to know which patterns matched specific entries.
-#' @param ignore.case logical parameter sent to \code{\link[base]{grep}}, TRUE
+#' @param ignore.case `logical` parameter sent to \code{\link[base]{grep}}, TRUE
 #'    runs in case-insensitive mode, as by default.
-#' @param value logical indicating whether to return the matched value,
+#' @param value `logical` indicating whether to return the matched value,
 #'    or when `value=FALSE` the index position is returned.
 #' @param ... additional arguments are passed to `vigrep()`.
 #'
@@ -289,6 +293,15 @@ unvigrep <- function
 #' # which is most useful when "." is the last pattern:
 #' provigrep(c(letters[1:3], "."), x, returnType="list")
 #' provigrep(c(letters[1:3], "."), x, returnType="list", rev=TRUE)
+#'
+#' # example demonstrating maxValues
+#' # return in list format
+#' provigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, returnType="list")
+#'
+#' # maxValues=1
+#' provigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, returnType="list", maxValues=1)
+#' provigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, returnType="list", maxValues=1, value=FALSE)
+#' proigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, maxValues=1)
 #'
 #' @family jam grep functions
 #'
@@ -341,13 +354,20 @@ provigrep <- function
          x_unique);
    });
 
+   ## Apply maxValues
+   if (length(maxValues) > 0) {
+      valueSetL <- jamba::heads(valueSetL,
+         n=maxValues);
+   }
+
    ## Make each item only represented once across the list
    if (length(names(patterns)) == 0) {
       names(valueSetL) <- makeNames(patterns);
    } else {
       names(valueSetL) <- names(patterns);
    }
-   f1 <- factor(names(valueSetL), levels=names(valueSetL));
+   f1 <- factor(names(valueSetL),
+      levels=names(valueSetL));
    m1 <- match(
       make.unique(sep="_v",
          as.character(unlist(valueSetL))),
@@ -375,12 +395,25 @@ provigrep <- function
       valueSet <- unique(unlist(valueSetL));
    }
 
-   if (!is.null(maxValues) && maxValues > 0 && length(valueSet) > 0) {
-      #valueSet <- valueSet[1:maxValues];
-      valueSet <- head(valueSet, maxValues);
-   }
    return(valueSet);
 }
+
+#' proigrep: progressive case-insensitive grep
+#'
+#' case-insensitive grep for a vector of patterns
+#'
+#' @rdname provigrep
+#'
+#' @export
+proigrep <- function
+(...,
+ value=FALSE)
+{
+   provigrep(...,
+      value=value);
+}
+
+
 
 #' rbind a list of vectors into matrix or data.frame
 #'

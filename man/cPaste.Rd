@@ -156,6 +156,7 @@ Other jam list functions:
 \code{\link{cPasteS}()},
 \code{\link{cPasteUnique}()},
 \code{\link{cPasteU}()},
+\code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},
 \code{\link{mergeAllXY}()},

@@ -33,6 +33,7 @@ Other jam list functions:
 \code{\link{cPasteUnique}()},
 \code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{mergeAllXY}()},
 \code{\link{mixedSorts}()},

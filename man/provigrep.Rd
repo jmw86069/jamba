@@ -2,6 +2,7 @@
 % Please edit documentation in R/jamba-string.r
 \name{provigrep}
 \alias{provigrep}
+\alias{proigrep}
 \title{provigrep: progressive case-insensitive value-grep}
 \usage{
 provigrep(
@@ -15,41 +16,49 @@ provigrep(
   value = TRUE,
   ...
 )
+
+proigrep(..., value = FALSE)
 }
 \arguments{
-\item{patterns}{vector of grep patterns}
+\item{patterns}{\code{character} vector of regular expression patterns,
+ultimately passed to \code{base::grep()}.}
 
-\item{x}{vector to be tested by \code{\link[base]{grep}}}
+\item{x}{\code{character} vector that is the subject of \code{base::grep()}.}
 
-\item{maxValues}{integer or NULL, the maximum matching entries to
-return per grep pattern. This parameter is mainly useful when returning
-a list of matches, where one would like each list to contain a maximum
-number of entries.}
+\item{maxValues}{\code{integer} or NULL, the maximum matching entries to
+return per grep pattern. Note that each grep pattern may match multiple
+values, and values are only returned at most once each, so restricting
+items returned by one grep pattern may allow an item to be matched
+by subsequent patterns, see examples. This argument is most commonly
+used with \code{maxValues=1} which returns only the first matching entry
+per pattern.}
 
-\item{sortFunc}{function or NULL, used to sort entries within each set of
+\item{sortFunc}{\code{function} or NULL, used to sort entries within each set of
 matching entries. Use NULL to avoid sorting entries.}
 
-\item{rev}{logical whether to reverse the order of matching entries. Use
+\item{rev}{\code{logical} whether to reverse the order of matching entries. Use
 TRUE if you would like entries matching the patterns to be placed last,
 and entries not matching the grep patterns to be placed first. This
-technique is effective at placing "noise named" at the end of a long
+technique is effective at placing "noise names" at the end of a long
 vector, for example.}
 
-\item{returnType}{character indicating whether to return a vector or list.
+\item{returnType}{\code{character} indicating whether to return a vector or list.
 A list will be in order of the grep patterns, using empty elements to
 indicate when no entries matched each pattern. This output is useful
 when you would like to know which patterns matched specific entries.}
 
-\item{ignore.case}{logical parameter sent to \code{\link[base]{grep}}, TRUE
+\item{ignore.case}{\code{logical} parameter sent to \code{\link[base]{grep}}, TRUE
 runs in case-insensitive mode, as by default.}
 
-\item{value}{logical indicating whether to return the matched value,
+\item{value}{\code{logical} indicating whether to return the matched value,
 or when \code{value=FALSE} the index position is returned.}
 
 \item{...}{additional arguments are passed to \code{vigrep()}.}
 }
 \description{
 case-insensitive value-grep for a vector of patterns
+
+case-insensitive grep for a vector of patterns
 }
 \details{
 Purpose is to provide "progressive vigrep()",which is value-returning,
@@ -100,6 +109,15 @@ provigrep(letters[1:4], x, returnType="list")
 # which is most useful when "." is the last pattern:
 provigrep(c(letters[1:3], "."), x, returnType="list")
 provigrep(c(letters[1:3], "."), x, returnType="list", rev=TRUE)
+
+# example demonstrating maxValues
+# return in list format
+provigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, returnType="list")
+
+# maxValues=1
+provigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, returnType="list", maxValues=1)
+provigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, returnType="list", maxValues=1, value=FALSE)
+proigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, maxValues=1)
 
 }
 \seealso{

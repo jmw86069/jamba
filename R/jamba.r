@@ -6025,3 +6025,78 @@ exp2signed <- function
       (base^abs(x) - offset) * x_sign;
    }
 }
+
+#' Apply head() across each element in a list of vectors
+#'
+#' Apply head() across each element in a list of vectors
+#'
+#' Note that this function currently only operates on a list
+#' of vectors. This function is notably faster than
+#' `lapply(x, head, n)` because it operates on the entire
+#' vector in one step.
+#'
+#' Also the input `n` can be a vector so that each element in
+#' the list has a specific number of items returned.
+#'
+#' @return `list` with at most `n` elements per vector.
+#'
+#' @family jam practical functions
+#' @family jam list functions
+#'
+#' @param x `list` of atomic vectors, assumed to be the same
+#'    atomic type.
+#' @param n `integer` maximum number of items to include from
+#'    each element in the list `x`. When `n` contains multiple
+#'    values, they are recycled to `length(x)` and applied to each
+#'    list element in order.
+#' @param ... additional arguments are passed to `utils::head()`.
+#'
+#' @examples
+#' l <- list(a=1:10, b=2:5, c=NULL, d=1:100);
+#' heads(l, 1);
+#'
+#' heads(l, 2);
+#'
+#' heads(l, n=c(2, 1, 3, 5))
+#'
+#' @export
+heads <- function
+(x,
+ n=6,
+ ...)
+{
+   if (!is.list(x)) {
+      stop("Input must be a list.");
+   }
+   if (length(x) == 0) {
+      return(x)
+   }
+   if (length(x) == 1) {
+      x[[1]] <- head(x[[1]], n=head(n, 1), ..,);
+      return(x);
+   }
+   if (!is.atomic(x[[1]]) || !is.atomic(x[[(length(x))]])) {
+      stop("Input must be a list of atomic vectors.");
+   }
+   if (length(names(x)) == 0) {
+      xnames <- seq_along(x)
+   } else {
+      xnames <- factor(names(x), levels=names(x));
+   }
+   xidx <- rep(xnames, lengths(x));
+   xlen <- unlist(unname(lapply(split(xidx, xidx), seq_along)));
+
+   # Optionally expand n to be applied to each list element in order
+   if (length(n) > 1 && length(unique(n)) > 1) {
+      n <- rep(n, length.out=length(x))
+      n <- rep(n, lengths(x));
+   }
+
+   xkeep <- (xlen <= n);
+   xfull <- unlist(unname(x));
+   xnew <- split(xfull[xkeep], xidx[xkeep]);
+   if (length(names(x)) == 0) {
+      names(xnew) <- NULL;
+   }
+   xnew
+}

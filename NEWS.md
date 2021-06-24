@@ -1,3 +1,29 @@
+# jamba version 0.0.64.900
+
+## changes to existing functions
+
+* `provigrep()` argument `maxValues` had not beedn implemented
+properly when applying a limit to returned values per grep pattern.
+This implementation has been corrected. Examples have been updated
+to demonstrate its utility.
+
+
+## new functions
+
+* `heads()` applies `head()` across a list of atomic vectors,
+using a one-step style that is notably faster than
+`lapply(x, head, n)` especially for long lists.
+Also it can apply a vector of `n` values if needed.
+Its main utility is for `provigrep()` with argument `maxValues`.
+* `proigrep()` was added as a lightweight alias to
+`provigrep(..., value=FALSE)` which returns the index
+positions rather than the values.
+* `match_unique()` matches unique vector values to the full
+vector. I found myself performing this step so many times
+I thought a function might feel better. It may also be
+equivalent to `which(!duplicated(x))` - but again, that
+doesn't feel easy enough. I guess.
+
 # jamba version 0.0.63.900
 
 ## new function
