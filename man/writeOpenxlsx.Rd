@@ -51,6 +51,7 @@ writeOpenxlsx(
   minWidth = 8,
   maxWidth = 40,
   autoWidth = TRUE,
+  wrapCells = FALSE,
   wrapHeaders = TRUE,
   headerRowMultiplier = 5,
   keepRownames = FALSE,

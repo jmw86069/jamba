@@ -1,5 +1,15 @@
 ## TODO for jamba
 
+### 25jul2021
+
+* `geom_shadowText()` - essentially drop-in replacement for `geom_text()`
+except that it uses `shadowText()` logic in ggplot2 context. There is
+a similar package "shadowtext" by Dr.Guangchuang Yu, however that package
+does not offer the features implemented here:
+
+   * define the transparency of shadow or outline
+   * define the color of each shadow
+   * order rendering of shadows with each label and in vectorized context
 
 ### Functions to update
 

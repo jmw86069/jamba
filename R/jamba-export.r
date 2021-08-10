@@ -206,6 +206,7 @@ writeOpenxlsx <- function
  maxWidth=40,
  autoWidth=TRUE,
 
+ wrapCells=FALSE,
  wrapHeaders=TRUE,
  headerRowMultiplier=5,
  keepRownames=FALSE,
@@ -343,11 +344,11 @@ writeOpenxlsx <- function
       ## Cell styles
       basicACStyle <- openxlsx::createStyle(#bgFill=head(columnColors, 1),
          valign="top",
-         wrapText=TRUE,
+         wrapText=wrapCells,
          fgFill=head(columnColors, 1));
       basicBCStyle <- openxlsx::createStyle(#bgFill=tail(columnColors, 1),
          valign="top",
-         wrapText=TRUE,
+         wrapText=wrapCells,
          fgFill=tail(columnColors, 1));
       basicColumnsA <- basicColumns[basicColumns %% 2 == 1];
       basicColumnsB <- basicColumns[basicColumns %% 2 == 0];
@@ -404,12 +405,12 @@ writeOpenxlsx <- function
          textDecoration="bold", fontColour="navy");
       highACStyle <- openxlsx::createStyle(#bgFill=head(highlightColors, 1),
          valign="top",
-         wrapText=TRUE,
+         wrapText=wrapCells,
          fgFill=head(highlightColors, 1),
          textDecoration="bold", fontColour="navy");
       highBCStyle <- openxlsx::createStyle(#bgFill=tail(highlightColors, 1),
          valign="top",
-         wrapText=TRUE,
+         wrapText=wrapCells,
          fgFill=tail(highlightColors, 1),
          textDecoration="bold", fontColour="navy");
       highlightColumnsA <- highlightColumns[highlightColumns %% 2 == 1];
@@ -624,7 +625,7 @@ writeOpenxlsx <- function
             rowRange=seq_len(nrow(x))+0,
             colRange=textColumns,
             colorSub=colorSub,
-            wrapText=TRUE,
+            wrapText=wrapCells,
             ...);
       }
       ## Apply categorical colors to column headers
@@ -638,7 +639,7 @@ writeOpenxlsx <- function
             rowRange=c(0),
             colRange=colRange + keepRownames,
             colorSub=colorSub,
-            wrapText=TRUE,
+            wrapText=wrapCells,
             verbose=verbose,
             ...);
       }

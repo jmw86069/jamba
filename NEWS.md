@@ -1,3 +1,15 @@
+# jamba version 0.0.65.900
+
+## changes to existing functions
+
+* `writeOpenxlsx()` new argument `wrapCells=FALSE` changes
+the previous behavior so that cells are not word-wrapped
+by default. Previously, when column width did not accomodate
+the text, cells would be tall - and sometimes "super-tall".
+The function `set_xlsx_rowheights()` can be used to fix
+this situation, however that process can be quite slow for
+large Excel worksheets.
+
 # jamba version 0.0.64.900
 
 ## changes to existing functions
