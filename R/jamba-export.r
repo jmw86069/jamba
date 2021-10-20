@@ -1087,7 +1087,7 @@ applyXlsxCategoricalFormat <- function
  colorSubText=setTextContrastColor(colorSub),
  trimCatNames=TRUE,
  overwrite=TRUE,
- wrapText=TRUE,
+ wrapText=FALSE,
  stack=TRUE,
  verbose=FALSE,
  ...)
@@ -1118,6 +1118,16 @@ applyXlsxCategoricalFormat <- function
 
    ## Load the requested file as a workbook
    wb <- openxlsx::loadWorkbook(xlsxFile);
+
+   ## colorSub names
+   color_names1 <- names(colorSub);
+   # prepare one that matches the Excel changes that happen sometimes
+   color_names2 <- gsub(" ", ".", color_names1);
+   if (anyDuplicated(color_names2)) {
+      dupe_names <- names(tcount(color_names2, 2));
+      revert <- (color_names2 %in% dupe_names);
+      color_names2[revert] <- color_names1[revert];
+   }
 
    ## Wrap in a large loop to handle multiple worksheets
    sheets <- sheet;
@@ -1151,7 +1161,9 @@ applyXlsxCategoricalFormat <- function
 
       ## Optionally clean up some cell fields before matching
       if (trimCatNames) {
-         rangeM[!is.na(rangeM)] <- gsub("^[-_() ]+|[-_() ]+$", "", rangeM[!is.na(rangeM)]);
+         rangeM[!is.na(rangeM)] <- gsub("^[-_() ]+|[-_() ]+$",
+            "",
+            rangeM[!is.na(rangeM)]);
       }
 
       ## Identify which colorSub entries are found
@@ -1161,8 +1173,9 @@ applyXlsxCategoricalFormat <- function
             head(unique(as.vector(rangeM))));
          print(head(unique(as.vector(rangeM))));
       }
-      colorSubFound <- which(gsub(" ", ".", names(colorSub)) %in% rangeM |
-            names(colorSub) %in% rangeM);
+      colorSubFound <- which(
+         color_names1 %in% rangeM |
+         color_names2 %in% rangeM);
       if (length(colorSubFound) > 0) {
          wb_changed <- TRUE;
          if (verbose) {
@@ -1175,14 +1188,11 @@ applyXlsxCategoricalFormat <- function
                printDebug("   colorSubFound i:",
                   names(colorSub)[i]);
             }
-            bgColor <- rgb2col(col2rgb(colorSub[i]));
-            fgColor <- rgb2col(col2rgb(colorSubText[i]));
 
-            ## Remove all traces of alpha transparency, lest openxlsx choke
-            bgColor <- gsub("([#][0-9A-Za-z]{6})..$", "\\1", bgColor);
-            fgColor <- gsub("([#][0-9A-Za-z]{6})..$", "\\1", fgColor);
-            #bgColor <- closestRcolor(bgColor);
-            #fgColor <- closestRcolor(colorSubText[i]);
+            ## convert to hex while also removing all alpha transparency
+            bgColor <- unalpha(colorSub[i]);
+            fgColor <- unalpha(colorSubText[i]);
+
             if (verbose) {
                printDebug(paste0("     fontColour:", fgColor),
                   paste0(", bgColor:", bgColor),
@@ -1200,19 +1210,22 @@ applyXlsxCategoricalFormat <- function
          rangeMatch <- rangeM;
          rangeMatch[1:nrow(rangeMatch),1:ncol(rangeMatch)] <- "";
          for (i in colorSubFound) {
-            isMatched <- (rangeM %in% names(colorSub)[i] |
-                  rangeM %in% gsub(" ", ".", names(colorSub)[i]));
-            rangeMatch[isMatched] <- names(colorSub)[i];
+            isMatched <- (
+               rangeM %in% color_names1[i] |
+               rangeM %in% color_names2[i]);
+            rangeMatch[isMatched] <- color_names1[i];
          }
          retVals$rangeMatch <- rangeMatch;
 
          ## Apply colorSub formatting
+         ## Determine each row,column cell coordinate with a color substitution
          if (verbose) printDebug("   Determining colorSub replacements");
          catRes <- lapply(nameVector(colorSubFound, names(colorSub)[colorSubFound]), function(i){
             if (verbose) printDebug("      i:", i);
-            catColRes <- rbindList(rmNULL(lapply(1:ncol(rangeMatch), function(iCol){
-               iWhich <- which(rangeMatch[,iCol] %in% names(colorSub)[i] |
-                     rangeMatch[,iCol] %in% gsub(" ", ".", names(colorSub)[i]));
+            catColRes <- rbindList(rmNULL(lapply(seq_len(ncol(rangeMatch)), function(iCol){
+               iWhich <- which(
+                  rangeMatch[,iCol] %in% color_names1[i] |
+                  rangeMatch[,iCol] %in% color_names2[i]);
                catRowRes <- rbindList(lapply(iWhich, function(iRow){
                   doRow <- as.numeric(rownames(rangeMatch)[iRow]);
                   doCol <- as.numeric(colnames(rangeMatch)[iCol]);
@@ -1223,15 +1236,17 @@ applyXlsxCategoricalFormat <- function
          retVals$catRes <- catRes;
          if (verbose) {
             printDebug("   Applying colorSub formatting with addStyle()");
+            printDebug("   length(catRes): ", formatInt(length(catRes)));
+            printDebug("   sdim(catRes):");print(sdim(catRes));
          }
          addRes <- lapply(nameVector(seq_along(catRes), names(catRes)), function(i) {
             iStyle <- colorSubStyles[[i]];
-            if (verbose) {
+            if (verbose > 1) {
                printDebug("iStyle:");print(iStyle);
             }
             doRow <- catRes[[i]][,"row"];
             doCol <- catRes[[i]][,"col"];
-            if (verbose) {
+            if (verbose > 1) {
                printDebug("Updating colorSub:",
                   names(colorSub)[i],
                   ".",
@@ -1247,7 +1262,7 @@ applyXlsxCategoricalFormat <- function
                   printDebug("      tail(doRow):", tail(doRow));
                }
             }
-            if (verbose) {
+            if (verbose > 1) {
                printDebug("     openxlsx::addStyle in vectorized mode.");
             }
             openxlsx::addStyle(wb,
@@ -1269,6 +1284,9 @@ applyXlsxCategoricalFormat <- function
    if (wb_changed) {
       if (!overwrite) {
          xlsxFile <- gsub("([.]xls[x]*)$", paste0("_", getDate(), "\\1"), xlsxFile);
+      }
+      if (verbose) {
+         printDebug("Calling openxlsx::saveWorkbook().");
       }
       openxlsx::saveWorkbook(wb, xlsxFile, overwrite=TRUE);
    }

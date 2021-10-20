@@ -47,7 +47,7 @@ outlier points replaced with NA.}
 \item{rowStatsFunc}{optional function which takes a numeric matrix
 as input, and returns a numeric vector equal to the number of
 rows of the input data matrix. Examples: \code{base::rowMeans()},
-\code{base::rowMedians()}, \code{matrixStats::rowMads}.}
+\code{matrixStats::rowMedians()}, \code{matrixStats::rowMads}.}
 
 \item{groupOrder}{character value indicating how character group
 labels are ordered in the final data matrix, when \code{returnType="output"}.

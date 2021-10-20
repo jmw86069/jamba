@@ -7,7 +7,7 @@
 vgrep(..., value = TRUE, ignore.case = FALSE)
 }
 \arguments{
-\item{..., value, ignore.case}{parameters sent to \code{\link[base]{grep}}}
+\item{..., value, ignore.case}{parameters sent to \code{base::grep()}}
 }
 \value{
 vector of matching values
@@ -16,7 +16,7 @@ vector of matching values
 grep, returning values
 }
 \details{
-This function is a simple wrapper around \code{\link[base]{grep}} which
+This function is a simple wrapper around \code{base::grep()} which
 returns matching values. It is
 particularly helpful when grabbing values from a vector, but where the
 case (uppercase or lowercase) is known.
@@ -32,6 +32,7 @@ vigrep("d", V);
 Other jam grep functions: 
 \code{\link{grepls}()},
 \code{\link{igrepHas}()},
+\code{\link{igrepl}()},
 \code{\link{igrep}()},
 \code{\link{provigrep}()},
 \code{\link{unigrep}()},

@@ -14,7 +14,7 @@ igrepHas(
 )
 }
 \arguments{
-\item{pattern}{the grep pattern to use with \code{\link[base]{grep}}}
+\item{pattern}{the grep pattern to use with \code{base::grep()}}
 
 \item{x}{vector to use in the grep}
 
@@ -49,10 +49,11 @@ igrepHas("matrix", a);
 
 }
 \seealso{
-\code{\link[base]{grep}}
+\code{base::grep()}
 
 Other jam grep functions: 
 \code{\link{grepls}()},
+\code{\link{igrepl}()},
 \code{\link{igrep}()},
 \code{\link{provigrep}()},
 \code{\link{unigrep}()},

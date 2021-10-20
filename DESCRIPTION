@@ -1,6 +1,6 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.65.900
+Version: 0.0.66.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
 Description: Jam Base methods.
@@ -30,4 +30,4 @@ URL: http://github.com/jmw86069/jamba
 BugReports: http://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.2

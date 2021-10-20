@@ -13,7 +13,7 @@ applyXlsxCategoricalFormat(
   colorSubText = setTextContrastColor(colorSub),
   trimCatNames = TRUE,
   overwrite = TRUE,
-  wrapText = TRUE,
+  wrapText = FALSE,
   stack = TRUE,
   verbose = FALSE,
   ...

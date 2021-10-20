@@ -1,3 +1,22 @@
+# jamba version 0.0.66.900
+
+## changes to existing functions
+
+* `rowGroupMeans()` was updated to remove a silent dependency on
+`matrixStats` and now properly checks the dependency, and calls
+with prefix `matrixStats::rowMedians()` and `matrixStats::rowMads()`
+as needed.
+* `applyXlsxCategoricalFormat()` was updated to streamline the categorical
+color matching, though not by much for large files. Will revisit and
+improve speed eventually.
+* Fixed some help documents not using markdown format when referring to
+other package functions.
+
+## new functions
+
+* `igrepl()` is a convenient wrapper for `grepl(..., ignore-case=TRUE)`
+
+
 # jamba version 0.0.65.900
 
 ## changes to existing functions

@@ -40,7 +40,7 @@ factor levels, and non-factors will be ordered using
 \code{base::order()} instead of \code{jamba::mixedOrder()} (for now.)}
 
 \item{useBioc}{boolean indicating whether this function should try
-to use \code{\link[S4Vectors:unstrsplit]{S4Vectors::unstrsplit()}} when the Bioconductor package
+to use \code{\link[S4Vectors:character-utils]{S4Vectors::unstrsplit()}} when the Bioconductor package
 \code{S4Vectors} is installed, otherwise it will use a much less
 efficient \code{\link[=mapply]{mapply()}} operation.}
 

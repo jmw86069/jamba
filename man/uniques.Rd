@@ -20,11 +20,11 @@ uniques(
 names in the returned results.}
 
 \item{incomparables}{see \code{\link[=unique]{unique()}} for details, this value is only
-sent to \code{\link[S4Vectors:unique]{S4Vectors::unique()}} when the Bioconductor package
+sent to \code{S4Vectors::unique()} when the Bioconductor package
 \code{S4Vectors} is installed, and is ignored otherwise for efficiency.}
 
 \item{useBioc}{boolean indicating whether this function should try
-to use \code{\link[S4Vectors:unique]{S4Vectors::unique()}} when the Bioconductor package
+to use \code{S4Vectors::unique()} when the Bioconductor package
 \code{S4Vectors} is installed, otherwise it will use a somewhat less
 efficient bulk operation.}
 }
@@ -35,7 +35,7 @@ efficient bulk operation.}
 Apply unique to each element of a list, usually a list of vectors
 }
 \details{
-This function will attempt to use \code{\link[S4Vectors:unique]{S4Vectors::unique()}} which is
+This function will attempt to use \code{S4Vectors::unique()} which is
 substantially faster than any \code{apply} family function, especially
 for very long lists. However, when \code{S4Vectors} is not installed,
 it applies uniqueness to the \code{unlist}ed vector of values, which is

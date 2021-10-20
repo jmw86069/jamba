@@ -4161,10 +4161,11 @@ sdim <- function
 
       ## igraph objects return the number of vertices and edges
       if (igrepHas("igraph", iClass)) {
-         if (!suppressPackageStartupMessages(require(igraph))) {
+         if (!check_pkg_installed("igraph")) {
             stop("The igraph package is required to describe igraph objects.");
          }
-         iDim <- c(vcount(i), ecount(i));
+         iDim <- c(igraph::vcount(i),
+            igraph::ecount(i));
       } else {
          iDim <- tryCatch({
             dim(i);
@@ -4863,7 +4864,7 @@ normScale <- function
 #' @param rowStatsFunc optional function which takes a numeric matrix
 #'    as input, and returns a numeric vector equal to the number of
 #'    rows of the input data matrix. Examples: `base::rowMeans()`,
-#'    `base::rowMedians()`, `matrixStats::rowMads`.
+#'    `matrixStats::rowMedians()`, `matrixStats::rowMads`.
 #' @param groupOrder character value indicating how character group
 #'    labels are ordered in the final data matrix, when `returnType="output"`.
 #'    Note that when `groups` is a factor, the factor levels are kept
@@ -4977,9 +4978,18 @@ rowGroupMeans <- function
             ## If given a custom function, use it and not anything else
             iV <- rowStatsFunc(iM, ...);
          } else if (useMedian) {
-            iV <- rowMedians(iM, na.rm=na.rm);
+            if (check_pkg_installed("matrixStats")) {
+               iV <- matrixStats::rowMedians(iM,
+                  na.rm=na.rm);
+            } else {
+               iV <- apply(iM, 1, function(i){
+                  median(i,
+                     na.rm=na.rm);
+               });
+            }
          } else {
-            iV <- rowMeans(iM, na.rm=na.rm);
+            iV <- rowMeans(iM,
+               na.rm=na.rm);
          }
          if (length(rownames(iM)) > 0) {
             names(iV) <- rownames(iM);
@@ -5125,12 +5135,15 @@ rowRmMadOutliers <- function
       minDiff <- 0;
    }
 
-   if (suppressWarnings(suppressPackageStartupMessages(require(matrixStats)))) {
-      xMads <- rowMads(x, na.rm=na.rm);
+   if (check_pkg_installed("matrixStats")) {
+      xMads <- matrixStats::rowMads(x,
+         na.rm=na.rm);
+      xMedians <- matrixStats::rowMedians(x,
+         na.rm=TRUE);
    } else {
+      xMedians <- apply(x, 1, median, na.rm=TRUE);
       xMads <- apply(x, 1, mad, na.rm=na.rm);
    }
-   xMedians <- rowMedians(x, na.rm=TRUE);
 
    ## madMaxs is the threshold for each row
    rowThresholds <- noiseFloor(xMads * madFactor,

@@ -47,7 +47,7 @@ A list will be in order of the grep patterns, using empty elements to
 indicate when no entries matched each pattern. This output is useful
 when you would like to know which patterns matched specific entries.}
 
-\item{ignore.case}{\code{logical} parameter sent to \code{\link[base]{grep}}, TRUE
+\item{ignore.case}{\code{logical} parameter sent to \code{base::grep()}, TRUE
 runs in case-insensitive mode, as by default.}
 
 \item{value}{\code{logical} indicating whether to return the matched value,
@@ -124,6 +124,7 @@ proigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, maxValues=1)
 Other jam grep functions: 
 \code{\link{grepls}()},
 \code{\link{igrepHas}()},
+\code{\link{igrepl}()},
 \code{\link{igrep}()},
 \code{\link{unigrep}()},
 \code{\link{unvigrep}()},

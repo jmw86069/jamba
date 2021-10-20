@@ -41,7 +41,7 @@ factor levels, and non-factors will be ordered using
 \code{base::order()} instead of \code{jamba::mixedOrder()} (for now.)}
 
 \item{useBioc}{boolean indicating whether this function should try
-to use \code{\link[S4Vectors:unstrsplit]{S4Vectors::unstrsplit()}} when the Bioconductor package
+to use \code{\link[S4Vectors:character-utils]{S4Vectors::unstrsplit()}} when the Bioconductor package
 \code{S4Vectors} is installed, otherwise it will use a much less
 efficient \code{\link[=mapply]{mapply()}} operation.}
 
@@ -57,14 +57,14 @@ Paste a list of vectors into a character vector, with values
 delimited by default with a comma.
 }
 \details{
-This function is essentially a wrapper for \code{\link[S4Vectors:unstrsplit]{S4Vectors::unstrsplit()}}
+This function is essentially a wrapper for \code{\link[S4Vectors:character-utils]{S4Vectors::unstrsplit()}}
 except that it also optionally applies uniqueness to each vector
 in the list, and sorts values in each vector using \code{\link[=mixedOrder]{mixedOrder()}}.
 
 The sorting and uniqueness is applied to the \code{unlist}ed vector of
 values, which is substantially faster than any \code{apply} family function
 equivalent. The uniqueness is performed by \code{\link[=uniques]{uniques()}}, which itself
-will use \code{\link[S4Vectors:unique]{S4Vectors::unique()}} if available.
+will use \code{S4Vectors::unique()} if available.
 }
 \examples{
 L1 <- list(CA=LETTERS[c(1:4,2,7,4,6)], B=letters[c(7:11,9,3)]);

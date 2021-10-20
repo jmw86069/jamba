@@ -1,5 +1,27 @@
 ## TODO for jamba
 
+### 05oct2021
+
+Simple utility function to load a common set of JAM packages
+
+* "omics" - loads jamba, jamma, colorjam, jamsession, jamses
+* "regions" - as above plus GenomicRanges
+* "rnaseq" - as above plus splicejam
+* "peaks" - "omics", "regions", and slicejam
+* "covhm" - "omics" and platjam
+
+
+### 10aug2021
+
+* `writeOpenxlsx()` can be painfully slow with somewhat large
+Excel sheets, roughly 20,000 rows and 11 columns.
+
+   * The slow step is probably either `applyXlsxConditionalFormat()`,
+   or `applyXlsxCategoricalFormat()`. 
+   * Whichever step is slowest, it needs to become much faster.
+
+
+
 ### 25jul2021
 
 * `geom_shadowText()` - essentially drop-in replacement for `geom_text()`

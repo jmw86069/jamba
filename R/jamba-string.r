@@ -19,7 +19,7 @@
 #' the class might be slightly different than expected, e.g. data.frame,
 #' data_frame, DataFrame.
 #'
-#' @param pattern the grep pattern to use with \code{\link[base]{grep}}
+#' @param pattern the grep pattern to use with `base::grep()`
 #' @param x vector to use in the grep
 #' @param ignore.case logical default TRUE, meaning the grep will be performed
 #'    in case-insensitive mode.
@@ -31,7 +31,7 @@
 #'    TRUE indicates the grep pattern was present in minCount or more
 #'    number of entries.
 #'
-#' @seealso \code{\link[base]{grep}}
+#' @seealso `base::grep()`
 #'
 #' @examples
 #' a <- c("data.frame","data_frame","tibble","tbl");
@@ -73,11 +73,11 @@ igrepHas <- function
 #'
 #' case-insensitive grep, returning values
 #'
-#' This function is a simple wrapper around \code{\link[base]{grep}} which
+#' This function is a simple wrapper around `base::grep()` which
 #' runs in case-insensitive mode, and returns matching values. It is
 #' particularly helpful when grabbing values from a vector.
 #'
-#' @param ...,value,ignore.case parameters sent to \code{\link[base]{grep}}
+#' @param ...,value,ignore.case parameters sent to `base::grep()`
 #'
 #' @return vector of matching values
 #'
@@ -99,12 +99,12 @@ vigrep <- function
 #'
 #' grep, returning values
 #'
-#' This function is a simple wrapper around \code{\link[base]{grep}} which
+#' This function is a simple wrapper around `base::grep()` which
 #' returns matching values. It is
 #' particularly helpful when grabbing values from a vector, but where the
 #' case (uppercase or lowercase) is known.
 #'
-#' @param ...,value,ignore.case parameters sent to \code{\link[base]{grep}}
+#' @param ...,value,ignore.case parameters sent to `base::grep()`
 #'
 #' @return vector of matching values
 #'
@@ -128,12 +128,12 @@ vgrep <- function
 #'
 #' case-insensitive grep
 #'
-#' This function is a simple wrapper around \code{\link[base]{grep}} which
+#' This function is a simple wrapper around `base::grep()` which
 #' runs in case-insensitive mode. It is mainly used to save keystrokes,
 #' but is consistently named alongside \code{\link{vgrep}} and
 #' \code{\link{vigrep}}.
 #'
-#' @param ...,ignore.case parameters sent to \code{\link[base]{grep}}
+#' @param ...,ignore.case parameters sent to `base::grep()`
 #'
 #' @return vector of matching indices
 #'
@@ -153,17 +153,53 @@ igrep <- function
    grep(ignore.case=ignore.case, ...);
 }
 
+#' case-insensitive logical grepl
+#'
+#' case-insensitive logical grepl
+#'
+#' This function is a simple wrapper around `base::grepl()` which
+#' runs in case-insensitive mode simply by adding default `ignore.case=TRUE`.
+#' It is mainly used for convenience.
+#'
+#' @param ...,ignore.case parameters sent to `base::grep()`
+#'
+#' @return `logical` vector indicating pattern match
+#'
+#' @examples
+#' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
+#' ig1 <- grepl("D", V);
+#' ig2 <- igrepl("D", V);
+#' ig3 <- grepl("d", V);
+#' ig4 <- igrepl("d", V);
+#' data.frame(V,
+#'    grepl_D=ig1,
+#'    grepl_d=ig3,
+#'    igrepl_D=ig2,
+#'    igrepl_d=ig4);
+#'
+#' @family jam grep functions
+#'
+#' @export
+igrepl <- function
+(...,
+ ignore.case=TRUE)
+{
+   ## Purpose is simply to provide quick wrapper for case-insensitive grep()
+   grepl(ignore.case=ignore.case,
+      ...);
+}
+
 #' case-insensitive grep, returning unmatched indices
 #'
 #' case-insensitive grep, returning unmatched indices
 #'
-#' This function is a simple wrapper around \code{\link[base]{grep}} which
+#' This function is a simple wrapper around `base::grep()` which
 #' runs in case-insensitive mode, and returns unmatched entries.
 #' It is mainly used to save keystrokes,
 #' but is consistently named alongside \code{\link{vgrep}} and
 #' \code{\link{vigrep}}, and quite helpful for writing concise code.
 #'
-#' @param ...,ignore.case,invert parameters sent to \code{\link[base]{grep}}
+#' @param ...,ignore.case,invert parameters sent to `base::grep()`
 #'
 #' @return vector of non-matching indices
 #'
@@ -186,7 +222,7 @@ unigrep <- function
 #'
 #' case-insensitive grep, returning unmatched values
 #'
-#' This function is a simple wrapper around \code{\link[base]{grep}} which
+#' This function is a simple wrapper around `base::grep()` which
 #' runs in case-insensitive mode, and returns unmatched values.
 #' It is mainly used to save keystrokes,
 #' but is consistently named alongside \code{\link{vgrep}} and
@@ -195,7 +231,7 @@ unigrep <- function
 #' vector, for example removing accession numbers from a long
 #' vector of gene symbols in order to review gene annotations.
 #'
-#' @param ...,ignore.case,value,invert parameters sent to \code{\link[base]{grep}}
+#' @param ...,ignore.case,value,invert parameters sent to `base::grep()`
 #'
 #' @return vector of non-matching indices
 #'
@@ -224,9 +260,9 @@ unvigrep <- function
 #' progressive use of grep patterns.
 #'
 #' It is particularly good when using multiple grep patterns, since
-#' \code{grep()} does not accept multiple patterns as input. This function
+#' `grep()` does not accept multiple patterns as input. This function
 #' also only returns the unique matches in the order they were matched,
-#' which alleviates the need to run a series of \code{grep()} functions
+#' which alleviates the need to run a series of `grep()` functions
 #' and collating their results.
 #'
 #' It is mainly to allow for prioritized ordering of matching entries, where
@@ -256,7 +292,7 @@ unvigrep <- function
 #'    A list will be in order of the grep patterns, using empty elements to
 #'    indicate when no entries matched each pattern. This output is useful
 #'    when you would like to know which patterns matched specific entries.
-#' @param ignore.case `logical` parameter sent to \code{\link[base]{grep}}, TRUE
+#' @param ignore.case `logical` parameter sent to `base::grep()`, TRUE
 #'    runs in case-insensitive mode, as by default.
 #' @param value `logical` indicating whether to return the matched value,
 #'    or when `value=FALSE` the index position is returned.
@@ -2103,7 +2139,7 @@ mixedSortDF <- function
 #'
 #' Apply unique to each element of a list, usually a list of vectors
 #'
-#' This function will attempt to use [S4Vectors::unique()] which is
+#' This function will attempt to use `S4Vectors::unique()` which is
 #' substantially faster than any `apply` family function, especially
 #' for very long lists. However, when `S4Vectors` is not installed,
 #' it applies uniqueness to the `unlist`ed vector of values, which is
@@ -2117,10 +2153,10 @@ mixedSortDF <- function
 #' @param keepNames boolean indicating whether to keep the list element
 #'    names in the returned results.
 #' @param incomparables see [unique()] for details, this value is only
-#'    sent to [S4Vectors::unique()] when the Bioconductor package
+#'    sent to `S4Vectors::unique()` when the Bioconductor package
 #'    `S4Vectors` is installed, and is ignored otherwise for efficiency.
 #' @param useBioc boolean indicating whether this function should try
-#'    to use [S4Vectors::unique()] when the Bioconductor package
+#'    to use `S4Vectors::unique()` when the Bioconductor package
 #'    `S4Vectors` is installed, otherwise it will use a somewhat less
 #'    efficient bulk operation.
 #'
@@ -2257,7 +2293,7 @@ uniques <- function
 #' The sorting and uniqueness is applied to the `unlist`ed vector of
 #' values, which is substantially faster than any `apply` family function
 #' equivalent. The uniqueness is performed by [uniques()], which itself
-#' will use [S4Vectors::unique()] if available.
+#' will use `S4Vectors::unique()` if available.
 #'
 #' @return character vector with the same names and in the same order
 #'    as the input list `x`.
