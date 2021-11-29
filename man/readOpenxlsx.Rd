@@ -10,6 +10,8 @@ readOpenxlsx(
   startRow = 1,
   rows = NULL,
   check.names = FALSE,
+  check_header = TRUE,
+  check_header_n = 10,
   verbose = FALSE,
   ...
 )
@@ -35,6 +37,17 @@ supply \code{rows} as a \code{list} of \code{integer} vectors.}
 
 \item{check.names}{\code{logical} indicating whether to call \code{make.names()}
 on the \code{colnames} of each \code{data.frame}.}
+
+\item{check_header}{\code{logical} indicating whether to test for presence
+of header rows, which are not column headers.
+When \code{check_header=TRUE}, this
+method simply tests for the presence of rows that have \code{ncol}
+different than the remaining rows of data in the given sheet.
+When header rows are detected, the values are assigned to column
+\code{dimnames} of the \code{data.frame}.}
+
+\item{check_header_n}{\code{integer} number of rows to test for header rows,
+only used when \code{check_header=TRUE}.}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output.}
 

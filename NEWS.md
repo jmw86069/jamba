@@ -2,6 +2,26 @@
 
 ## changes to existing functions
 
+* `readOpenxlsx()` was updated to fix a small bug when loading multiple
+sheets in one pass. It should now work as expected to run `readOpenxlsx()`
+on any xlsx file, and return a `list` of `data.frame` objects representing
+each worksheet in the xlsx file.
+* `readOpenxlsx()` new arguments `check_header` and `check_header_n` are
+intended to check for header rows, recognized as rows with a different
+number of columns than subsequent rows of data in each sheet. When
+`check_header=TRUE` it will check the first `check_header_n` rows to
+determine `ncol()` and `sclass()` on each row loaded individually.
+When header rows are detected, the first value of the first row is
+assigned to column `dimnames` of the `data.frame` returned, and the full
+header data is included as an attribute `attr(df, "header")`.
+This method is intended to help when loading multiple worksheets,
+and none, some, or all worksheets may have header rows.
+
+
+# jamba version 0.0.66.900
+
+## changes to existing functions
+
 * `rowGroupMeans()` was updated to remove a silent dependency on
 `matrixStats` and now properly checks the dependency, and calls
 with prefix `matrixStats::rowMedians()` and `matrixStats::rowMads()`

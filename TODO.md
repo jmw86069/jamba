@@ -1,5 +1,40 @@
 ## TODO for jamba
 
+## 29nov2021
+
+* COMPLETE: `readOpenxlsx()` is throwing errors in edge cases, needs debugging.
+* COMPLETE: `readOpenxlsx()` detect when there is one or more header lines that
+are not column headers, for example when there is an overall title in the
+first row or rows of each worksheet. It can be detected either by counting
+`ncol()` for each of the first 5 rows individually, and by comparing column
+classes for each row loaded individually.
+
+
+## 22nov2021
+
+* Consider adding version to `check_pkg_installed()` for additional
+constraints. The idea is to check if the package is installed, and
+optionally if the package version is at least `>= x.y.z`, likely
+using `utils::compareVersion()`.
+* Update `getColorRamp()` to recognize any color ramps supplied by
+`colorjam` if that package is installed: `jam_linear` and `jam_divergent`.
+
+
+## 04nov2021
+
+`mixedSortDF()` currently allows applying reverse sort by using 
+colname prefix "-". For numeric columns it is sometimes useful to
+sort the magnitude instead of the absolute value.
+
+   * suggest new prefix "*" or "~" which may appear with or without "-".
+   * when "~-" or "-~" appear as prefix, data is sorted by decreasing
+   absolute value.
+   * when only "~" appears as a prefix, data is sorted by increasing
+   absolute value.
+   * at some point sort columns could use non-standard evaluation, which
+   could allow fancy math or logic to be applied here. Not yet.
+
+
 ### 05oct2021
 
 Simple utility function to load a common set of JAM packages

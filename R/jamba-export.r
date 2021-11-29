@@ -1453,6 +1453,15 @@ set_xlsx_rowheights <- function
 #'    supply `rows` as a `list` of `integer` vectors.
 #' @param check.names `logical` indicating whether to call `make.names()`
 #'    on the `colnames` of each `data.frame`.
+#' @param check_header `logical` indicating whether to test for presence
+#'    of header rows, which are not column headers.
+#'    When `check_header=TRUE`, this
+#'    method simply tests for the presence of rows that have `ncol`
+#'    different than the remaining rows of data in the given sheet.
+#'    When header rows are detected, the values are assigned to column
+#'    `dimnames` of the `data.frame`.
+#' @param check_header_n `integer` number of rows to test for header rows,
+#'    only used when `check_header=TRUE`.
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are passed to `openxlsx::read.xlsx()`.
 #'
@@ -1463,6 +1472,8 @@ readOpenxlsx <- function
  startRow=1,
  rows=NULL,
  check.names=FALSE,
+ check_header=TRUE,
+ check_header_n=10,
  verbose=FALSE,
  ...)
 {
@@ -1491,7 +1502,7 @@ readOpenxlsx <- function
    if (!is.list(rows)) {
       rows <- list(rows);
    }
-   if (length(rows) < length(rows)) {
+   if (length(rows) < length(sheet)) {
       rows <- rep(rows, length.out=length(sheet));
    }
 
@@ -1504,6 +1515,63 @@ readOpenxlsx <- function
             "reading sheet:",
             i);
       }
+      irows <- rows[[j]];
+      istartRow <- startRow[[j]];
+
+      # optionally check for header rows
+      header_v <- NULL;
+      header_df <- NULL;
+      if (length(check_header) > 0 && check_header) {
+         test_ncol <- integer(0);
+         test_classes <- list();
+         test_data_rows <- list();
+         if (length(irows) > 0) {
+            test_rows <- head(irows, check_header_n);
+         } else if (length(istartRow) > 0) {
+            test_rows <- seq_len(check_header_n) + istartRow - 1;
+         } else {
+            test_rows <- seq_len(check_header_n);
+         }
+         for (irow in test_rows) {
+            df <- openxlsx::read.xlsx(xlsxFile=file1,
+               sheet=i,
+               rows=irow,
+               colNames=FALSE);
+            test_ncol[irow] <- ncol(df)
+            test_data_rows[[irow]] <- df;
+            test_classes[[irow]] <- sclass(df)
+         }
+         if (length(unique(test_ncol)) == 1) {
+            # no header row
+         } else {
+            data_ncol <- tail(test_ncol, 1);
+            startRow <- length(test_ncol);
+            test_seq <- rev(seq_along(test_ncol))
+            for (irow in test_seq) {
+               if (test_ncol[irow] == data_ncol) {
+                  startRow <- irow;
+               } else {
+                  break;
+               }
+            }
+            data_seq <- seq(from=startRow,
+               to=length(test_ncol))
+            headerRows <- setdiff(test_rows, data_seq)
+            #printDebug("startRow: ", startRow);
+            #printDebug("data_seq: ", data_seq);
+            #printDebug("headerRows: ", headerRows);
+            header_df <- rbindList(test_data_rows[headerRows])
+            #print(header_df);
+            header_v <- pasteByRow(header_df[1, , drop=FALSE], sep="; ")
+            if (verbose) {
+               printDebug("readOpenxlsx(): ",
+                  c("detected header: ", header_v),
+                  sep="");
+            }
+         }
+      }
+
+      # load into data.frame
       idf <- openxlsx::read.xlsx(xlsxFile=xlsx,
          sheet=i,
          startRow=startRow[[j]],
@@ -1523,6 +1591,10 @@ readOpenxlsx <- function
             rows=k,
             colNames=FALSE);
          colnames(idf) <- unname(unlist(iheader[1,]));
+      }
+      if (length(header_v) > 0) {
+         names(dimnames(idf)) <- c("rows", header_v);
+         attr(idf, "header") <- header_df;
       }
       idf;
    });
