@@ -2,6 +2,8 @@
 
 ## 29nov2021
 
+* `mixedSortDF()` appears to have issues sorting data.frame columns with
+type "integer64". It appears not to sort these columns at all.
 * COMPLETE: `readOpenxlsx()` is throwing errors in edge cases, needs debugging.
 * COMPLETE: `readOpenxlsx()` detect when there is one or more header lines that
 are not column headers, for example when there is an overall title in the

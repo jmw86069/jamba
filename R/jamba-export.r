@@ -1551,6 +1551,11 @@ readOpenxlsx <- function
          #data_ncol <- tail(test_ncol, 1);
          #data_ncol <- as.integer(names(head(tcount(tail(test_ncol, -2)), 1)));
          data_ncol <- max(tail(test_ncol, -1));
+         if (verbose > 1) {
+            printDebug("test_ncol: ", test_ncol);
+            printDebug("data_ncol: ", data_ncol);
+         }
+
          if (length(unique(test_ncol[!is.na(test_ncol)])) == 1 ||
                all(head(test_ncol, 1) == data_ncol)) {
             # no header row
@@ -1596,19 +1601,30 @@ readOpenxlsx <- function
       # load into data.frame
       idf <- openxlsx::read.xlsx(xlsxFile=xlsx,
          sheet=i,
+         skipEmptyCols=FALSE,
          startRow=istartRow,
          rows=irows,
          ...);
       if (length(check.names) > 0 && !check.names) {
-         if (length(startRow[[j]]) > 0) {
-            k <- startRow[[j]];
-         } else if (length(rows) > 0) {
-            k <- head(rows[[j]], 1);
+         if (length(irows) > 0) {
+            if (length(istartRow) > 0) {
+               k <- irows[istartRow];
+            } else {
+               k <- head(irows, 1);
+            }
+         } else if (length(istartRow) > 0) {
+            k <- istartRow;
          } else {
             k <- 1;
          }
+         if (verbose > 1) {
+            printDebug("readOpenxlsx(): ",
+               c("column header row: ", k),
+               sep="");
+         }
          iheader <- openxlsx::read.xlsx(xlsxFile=xlsx,
             sheet=i,
+            skipEmptyCols=FALSE,
             startRow=k,
             rows=k,
             colNames=FALSE);

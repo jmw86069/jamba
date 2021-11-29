@@ -23,6 +23,11 @@ others. The intent is to expect `skipEmptyCols=FALSE` to return all columns
 even when there is no data present, for consistent `ncol()` from data rows,
 and fewer columns for header rows. The logic may be updated over time.
 
+* `readOpenxlsx()` was updated to apply `skipEmptyCols=FALSE` by default
+for each step, to avoid inconsistencies especially when the column headers
+are not defined for all columns, or data is not present in all columns
+with column headers.
+
 
 # jamba version 0.0.66.900
 
