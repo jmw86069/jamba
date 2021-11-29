@@ -1511,7 +1511,7 @@ readOpenxlsx <- function
    dfs <- lapply(sheet_idx, function(j){
       i <- sheet[[j]];
       if (verbose) {
-         printDebug("read_xlsx(): ",
+         printDebug("readOpenxlsx(): ",
             "reading sheet:",
             i);
       }
@@ -1535,6 +1535,7 @@ readOpenxlsx <- function
          for (irow in test_rows) {
             df <- openxlsx::read.xlsx(xlsxFile=file1,
                sheet=i,
+               skipEmptyCols=FALSE,
                rows=irow,
                colNames=FALSE);
             test_ncol[irow] <- ncol(df)
@@ -1544,24 +1545,36 @@ readOpenxlsx <- function
          if (length(unique(test_ncol)) == 1) {
             # no header row
          } else {
+            # bottom-up: keep rows where ncol matches data_ncol
             data_ncol <- tail(test_ncol, 1);
-            startRow <- length(test_ncol);
+            istartRow <- length(test_ncol);
             test_seq <- rev(seq_along(test_ncol))
             for (irow in test_seq) {
                if (test_ncol[irow] == data_ncol) {
-                  startRow <- irow;
+                  istartRow <- irow;
                } else {
                   break;
                }
             }
-            data_seq <- seq(from=startRow,
+            data_seq <- seq(from=istartRow,
                to=length(test_ncol))
             headerRows <- setdiff(test_rows, data_seq)
-            #printDebug("startRow: ", startRow);
-            #printDebug("data_seq: ", data_seq);
-            #printDebug("headerRows: ", headerRows);
+            if (verbose > 1) {
+               printDebug("istartRow: ", istartRow);
+               printDebug("data_seq: ", data_seq);
+               printDebug("headerRows: ", headerRows);
+            }
+            if (length(headerRows) > 1) {
+               warning(paste0("readOpenxlsx() found ",
+                  length(headerRows),
+                  " header rows in sheet '",
+                  i,
+                  "'. Please verify data to ensure there were no problems."));
+            }
             header_df <- rbindList(test_data_rows[headerRows])
-            #print(header_df);
+            if (verbose > 1) {
+               print(header_df);
+            }
             header_v <- pasteByRow(header_df[1, , drop=FALSE], sep="; ")
             if (verbose) {
                printDebug("readOpenxlsx(): ",
@@ -1574,8 +1587,8 @@ readOpenxlsx <- function
       # load into data.frame
       idf <- openxlsx::read.xlsx(xlsxFile=xlsx,
          sheet=i,
-         startRow=startRow[[j]],
-         rows=rows[[j]],
+         startRow=istartRow,
+         rows=irows,
          ...);
       if (length(check.names) > 0 && !check.names) {
          if (length(startRow[[j]]) > 0) {
