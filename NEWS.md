@@ -17,6 +17,12 @@ header data is included as an attribute `attr(df, "header")`.
 This method is intended to help when loading multiple worksheets,
 and none, some, or all worksheets may have header rows.
 
+* Note this methodology is being tested currently, to debug edge cases
+where data is sometimes detected to have fewer columns in some rows than
+others. The intent is to expect `skipEmptyCols=FALSE` to return all columns
+even when there is no data present, for consistent `ncol()` from data rows,
+and fewer columns for header rows. The logic may be updated over time.
+
 
 # jamba version 0.0.66.900
 

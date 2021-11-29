@@ -1533,24 +1533,33 @@ readOpenxlsx <- function
             test_rows <- seq_len(check_header_n);
          }
          for (irow in test_rows) {
-            df <- openxlsx::read.xlsx(xlsxFile=file1,
+            df <- openxlsx::read.xlsx(xlsxFile=xlsx,
                sheet=i,
                skipEmptyCols=FALSE,
                rows=irow,
                colNames=FALSE);
-            test_ncol[irow] <- ncol(df)
-            test_data_rows[[irow]] <- df;
-            test_classes[[irow]] <- sclass(df)
+            if (length(df) == 0) {
+               test_ncol[irow] <- NA;
+               test_data_rows[[irow]] <- NULL;
+               test_classes[[irow]] <- NULL;
+            } else {
+               test_ncol[irow] <- ncol(df)
+               test_data_rows[[irow]] <- df;
+               test_classes[[irow]] <- sclass(df)
+            }
          }
-         if (length(unique(test_ncol)) == 1) {
+         #data_ncol <- tail(test_ncol, 1);
+         #data_ncol <- as.integer(names(head(tcount(tail(test_ncol, -2)), 1)));
+         data_ncol <- max(tail(test_ncol, -1));
+         if (length(unique(test_ncol[!is.na(test_ncol)])) == 1 ||
+               all(head(test_ncol, 1) == data_ncol)) {
             # no header row
          } else {
             # bottom-up: keep rows where ncol matches data_ncol
-            data_ncol <- tail(test_ncol, 1);
             istartRow <- length(test_ncol);
             test_seq <- rev(seq_along(test_ncol))
             for (irow in test_seq) {
-               if (test_ncol[irow] == data_ncol) {
+               if (is.na(test_ncol[irow]) || test_ncol[irow] == data_ncol) {
                   istartRow <- irow;
                } else {
                   break;
