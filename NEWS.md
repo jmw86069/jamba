@@ -1,4 +1,16 @@
-# jamba version 0.0.66.900
+# jamba version 0.0.68.900
+
+## changes to existing functions
+
+* `lldf()` new argument `use_utils_objectsize=TRUE` to prefer
+`utils::object.size()` instead of `pryr::object_size()` after
+observing some cases where object sizes were vastly over-stated
+for unusual Bioconductor object types. It is unclear to me exactly
+how the memory usage is determined, and which function is correct,
+so for now the two alternatives will remain in `lldf()`.
+
+
+# jamba version 0.0.67.900
 
 ## changes to existing functions
 

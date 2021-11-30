@@ -40,11 +40,13 @@ lldf <- function
 (n=Inf,
  envir=.GlobalEnv,
  items=NULL,
+ use_utils_objectsize=TRUE,
  all.names=TRUE,
  ...)
 {
    # light check for pryr package without using require()
-   if (nchar(system.file(package="pryr")) > 0) {
+   if (!use_utils_objectsize &&
+         nchar(system.file(package="pryr")) > 0) {
       osfun <- pryr::object_size;
    } else {
       osfun <- utils::object.size;

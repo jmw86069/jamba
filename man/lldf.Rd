@@ -4,7 +4,14 @@
 \alias{lldf}
 \title{Long listing of R session objects}
 \usage{
-lldf(n = Inf, envir = .GlobalEnv, items = NULL, all.names = TRUE, ...)
+lldf(
+  n = Inf,
+  envir = .GlobalEnv,
+  items = NULL,
+  use_utils_objectsize = TRUE,
+  all.names = TRUE,
+  ...
+)
 }
 \arguments{
 \item{n}{\code{integer} or \code{Inf} indicating how many objects to
