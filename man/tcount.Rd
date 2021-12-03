@@ -79,6 +79,7 @@ Other jam string functions:
 \code{\link{padString}()},
 \code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{sizeAsNum}()},
 \code{\link{tcount2}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}

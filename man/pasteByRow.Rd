@@ -108,6 +108,7 @@ Other jam string functions:
 \code{\link{padInteger}()},
 \code{\link{padString}()},
 \code{\link{pasteByRowOrdered}()},
+\code{\link{sizeAsNum}()},
 \code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},

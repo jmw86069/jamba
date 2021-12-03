@@ -6,10 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jam Base Methods • jamba</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Jam Base Methods">
 <meta property="og:description" content="Jam Base methods.
     plotSmoothScatter: smooth scatter plot with fine detail;
@@ -18,13 +19,14 @@
     jargs: formatted, colored function arguments;
     rbindList: list to data.frame without filling empty cells;
     makeNames, nameVector: uniquely assign names to vectors">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,18 +39,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.56.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.69.900</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -70,8 +66,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jmw86069/jamba">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="http://github.com/jmw86069/jamba/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -87,23 +83,23 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="jamba" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#jamba" class="anchor"></a>jamba</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="jamba">jamba<a class="anchor" aria-label="anchor" href="#jamba"></a>
+</h1></div>
 <p>The goal of jamba is to provide useful custom functions for R data analysis and visualization.</p>
-<div id="package-reference" class="section level2">
-<h2 class="hasAnchor">
-<a href="#package-reference" class="anchor"></a>Package Reference</h2>
+<div class="section level2">
+<h2 id="package-reference">Package Reference<a class="anchor" aria-label="anchor" href="#package-reference"></a>
+</h2>
 <p>A full online function reference is available via the pkgdown documentation:</p>
-<p><a href="https://jmw86069.github.io/jamba">Full jamba command reference</a></p>
+<p><a href="https://jmw86069.github.io/jamba" class="external-link">Full jamba command reference</a></p>
 <p>Functions are categorized, some examples are listed below:</p>
 </div>
-<div id="background" class="section level2">
-<h2 class="hasAnchor">
-<a href="#background" class="anchor"></a>Background</h2>
+<div class="section level2">
+<h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
+</h2>
 <p>The R functions in <code>jamba</code> have been built up over several years, often based upon and citing the relevant discussion from Stackoverflow, R-help, or Bioconductor, along with the principal author(s). Almost every function is some sort of wrapper around existing R functions – designed for specific cases where I can make it faster, more flexible, or customized to make my analysis life easier. Kudos and thanks to the original authors! The R community is built upon the collective greatness of its contributors!</p>
 <p>Most of the functions are designed around workflows for Bioinformatics analyses, where functions need to be efficient when operating over 10,000 to 100,000 elements. (They work really well with millions as well.) Usually the speed gains are obvious with about 100 elements, then scale linearly (or worse) as the number increases. I and others use these functions <em>all the time</em>.</p>
-<p>One example function <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> is a simple wrapper around very useful <code><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html">openxlsx::write.xlsx()</a></code>. Also <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> applies column formatting for things like P-values, fold changes, log2 fold changes, numeric and integer values – and uses color-shading of cells for each type. So many hours saved from hand-editing Excel formats!</p>
+<p>One example function <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> is a simple wrapper around very useful <code><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html" class="external-link">openxlsx::write.xlsx()</a></code>. Also <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> applies column formatting for things like P-values, fold changes, log2 fold changes, numeric and integer values – and uses color-shading of cells for each type. So many hours saved from hand-editing Excel formats!</p>
 <p>Small and large efficiencies are used wherever possible. For example it is faster to operate on unique entries from a 100,000 element list, than it is to perform a function on the full list. In most cases, I have tested numerous available R methods and packages, and settled on the fastest* available at the time. If there is something faster or better, I would <em>love</em> for you to let me/us know!</p>
 <p>The functions in <code>jamba</code> are intended to be convenient wrappers around whatever series of steps it takes to get the job done. My design goal is to “make my own analysis jobs easier” as first priority.</p>
 <ul>
@@ -112,12 +108,12 @@
 </ul>
 <p>Lastly, <code>jamba</code> should motivate me and others to create R packages instead of a random collection of R functions in <code>*.R</code> files.</p>
 </div>
-<div id="example-r-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-r-functions" class="anchor"></a>Example R functions</h2>
-<div id="efficient-alphanumeric-sort" class="section level3">
-<h3 class="hasAnchor">
-<a href="#efficient-alphanumeric-sort" class="anchor"></a>Efficient alphanumeric sort</h3>
+<div class="section level2">
+<h2 id="example-r-functions">Example R functions<a class="anchor" aria-label="anchor" href="#example-r-functions"></a>
+</h2>
+<div class="section level3">
+<h3 id="efficient-alphanumeric-sort">Efficient alphanumeric sort<a class="anchor" aria-label="anchor" href="#efficient-alphanumeric-sort"></a>
+</h3>
 <ul>
 <li>
 <code><a href="reference/mixedSort.html">mixedSort()</a></code> - highly efficient alphanumeric sort, for example chr1, chr2, chr3, chr10, etc.</li>
@@ -128,59 +124,110 @@
 </ul>
 <p>Example:</p>
 <div class="kable-table">
-
-|   | miRNA   | sort\_rank | mixedSort\_rank |
-| :- | :------ | ---------: | --------------: |
-| 2 | ABCA2   |          2 |               1 |
-| 1 | ABCA12  |          1 |               2 |
-| 3 | miR-1   |          3 |               3 |
-| 6 | miR-1a  |          6 |               4 |
-| 7 | miR-1b  |          7 |               5 |
-| 8 | miR-2   |          8 |               6 |
-| 4 | miR-12  |          4 |               7 |
-| 9 | miR-22  |          9 |               8 |
-| 5 | miR-122 |          5 |               9 |
-
+<table class="table">
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">miRNA</th>
+<th align="right">sort_rank</th>
+<th align="right">mixedSort_rank</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">2</td>
+<td align="left">ABCA2</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">ABCA12</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">miR-1</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="left">miR-1a</td>
+<td align="right">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">miR-1b</td>
+<td align="right">7</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="left">miR-2</td>
+<td align="right">8</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">miR-12</td>
+<td align="right">4</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="left">9</td>
+<td align="left">miR-22</td>
+<td align="right">9</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">miR-122</td>
+<td align="right">5</td>
+<td align="right">9</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="base-r-plotting" class="section level3">
-<h3 class="hasAnchor">
-<a href="#base-r-plotting" class="anchor"></a>Base R plotting</h3>
+<div class="section level3">
+<h3 id="base-r-plotting">Base R plotting<a class="anchor" aria-label="anchor" href="#base-r-plotting"></a>
+</h3>
 <p>These functions help with base R plots, in all those little cases when the amazing <code>ggplot2</code> package is not a smooth fit.</p>
 <ul>
 <li>
 <code><a href="reference/nullPlot.html">nullPlot()</a></code> - convenient “blank” base R plot, optionally displays margins</li>
 <li>
-<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> - smooth scatter <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> for point density, enhanced over <code><a href="https://rdrr.io/r/graphics/smoothScatter.html">smoothScatter()</a></code> <img src="reference/figures/README-plotSmoothScatter-1.png"><!-- -->
+<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> - smooth scatter <code><a href="https://rdrr.io/r/graphics/plot.html" class="external-link">plot()</a></code> for point density, enhanced over <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">smoothScatter()</a></code> <img src="reference/figures/README-plotSmoothScatter-1.png"><!-- -->
 </li>
 <li>
 <code><a href="reference/plotPolygonDensity.html">plotPolygonDensity()</a></code> - fast density/histogram plot for vector or matrix <img src="reference/figures/README-plotPolygonDensity-1.png"><!-- -->
 </li>
 <li>
-<code><a href="reference/imageDefault.html">imageDefault()</a></code> - enhanced <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></code> that enables raster output with consistent pixel aspect ratio.</li>
+<code><a href="reference/imageDefault.html">imageDefault()</a></code> - enhanced <code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image()</a></code> that enables raster output with consistent pixel aspect ratio.</li>
 <li>
-<code><a href="reference/imageByColors.html">imageByColors()</a></code> - wrapper to <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></code> for a matrix or data.frame of colors, with optional labels <img src="reference/figures/README-imageByColors-1.png"><!-- -->
+<code><a href="reference/imageByColors.html">imageByColors()</a></code> - wrapper to <code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image()</a></code> for a matrix or data.frame of colors, with optional labels <img src="reference/figures/README-imageByColors-1.png"><!-- -->
 </li>
 <li>
-<code><a href="reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> - log-transformed axis labels, flexible log base, and option for properly adjusted <code><a href="https://rdrr.io/r/base/Log.html">log2(1 + x)</a></code> format.</li>
+<code><a href="reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> - log-transformed axis labels, flexible log base, and option for properly adjusted <code>log2(1 + x)</code> format.</li>
 <li>
 <code><a href="reference/sqrtAxis.html">sqrtAxis()</a></code> - draw a square-root transformed axis, with proper labels.</li>
 <li>
 <code><a href="reference/drawLabels.html">drawLabels()</a></code> - draw square colorized text labels</li>
 <li>
-<code><a href="reference/shadowText.html">shadowText()</a></code> - replacement for <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> that draws shadows or outlines. <img src="reference/figures/README-labels-1.png"><!-- -->
+<code><a href="reference/shadowText.html">shadowText()</a></code> - replacement for <code><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text()</a></code> that draws shadows or outlines. <img src="reference/figures/README-labels-1.png"><!-- -->
 </li>
 <li>
 <code><a href="reference/groupedAxis.html">groupedAxis()</a></code> - grouped axis labels to show regions/ranges</li>
 <li>
-<code><a href="reference/decideMfrow.html">decideMfrow()</a></code> - determine appropriate value for <code><a href="https://rdrr.io/r/graphics/par.html">par("mfrow")</a></code> for multipanel output in base R plotting.</li>
+<code><a href="reference/decideMfrow.html">decideMfrow()</a></code> - determine appropriate value for <code>par("mfrow")</code> for multipanel output in base R plotting.</li>
 <li>
 <code><a href="reference/getPlotAspect.html">getPlotAspect()</a></code> - determine visible plot aspect ratio.</li>
 </ul>
 </div>
-<div id="excel-export" class="section level3">
-<h3 class="hasAnchor">
-<a href="#excel-export" class="anchor"></a>Excel export</h3>
+<div class="section level3">
+<h3 id="excel-export">Excel export<a class="anchor" aria-label="anchor" href="#excel-export"></a>
+</h3>
 <p>Every Bioinformatician/statistician needs to write data to Excel, the <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> function is consistent and makes it look pretty. You can save numerous worksheets in a single Excel file, without having to go back and custom-format everything.</p>
 <ul>
 <li>
@@ -191,9 +238,9 @@
 <code><a href="reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code> - apply conditional colors to Excel</li>
 </ul>
 </div>
-<div id="color" class="section level3">
-<h3 class="hasAnchor">
-<a href="#color" class="anchor"></a>Color</h3>
+<div class="section level3">
+<h3 id="color">Color<a class="anchor" aria-label="anchor" href="#color"></a>
+</h3>
 <p>Everything I do uses color to the utmost limit, especially on R console, and in every R plot.</p>
 <ul>
 <li>
@@ -213,36 +260,36 @@
 </li>
 </ul>
 </div>
-<div id="list" class="section level3">
-<h3 class="hasAnchor">
-<a href="#list" class="anchor"></a>List</h3>
-<p>Cool methods to operate on super-long lists in one call, to avoid looping through the list either with <code>for()</code> loops, <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> or <code>map()</code> functions.</p>
+<div class="section level3">
+<h3 id="list">List<a class="anchor" aria-label="anchor" href="#list"></a>
+</h3>
+<p>Cool methods to operate on super-long lists in one call, to avoid looping through the list either with <code>for()</code> loops, <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> or <code>map()</code> functions.</p>
 <ul>
 <li>
-<code><a href="reference/cPaste.html">cPaste()</a></code> - highly efficient <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> over a large list of vectors</li>
+<code><a href="reference/cPaste.html">cPaste()</a></code> - highly efficient <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code> over a large list of vectors</li>
 <li>
-<code><a href="reference/cPasteS.html">cPasteS()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>.</li>
+<code><a href="reference/cPasteS.html">cPasteS()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
 <li>
-<code><a href="reference/cPasteU.html">cPasteU()</a></code> - as above but using <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>.</li>
+<code><a href="reference/cPasteU.html">cPasteU()</a></code> - as above but using <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
 <li>
-<code><a href="reference/cPasteSU.html">cPasteSU()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>.</li>
+<code><a href="reference/cPasteSU.html">cPasteSU()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
 <li>
-<code><a href="reference/uniques.html">uniques()</a></code> - efficient <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code> over a list of vectors</li>
+<code><a href="reference/uniques.html">uniques()</a></code> - efficient <code><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique()</a></code> over a list of vectors</li>
 <li>
-<code><a href="reference/sclass.html">sclass()</a></code> - runs <code><a href="https://rdrr.io/r/base/class.html">class()</a></code> on a list</li>
+<code><a href="reference/sclass.html">sclass()</a></code> - runs <code><a href="https://rdrr.io/r/base/class.html" class="external-link">class()</a></code> on a list</li>
 <li>
 <code><a href="reference/sdim.html">sdim()</a></code>, <code><a href="reference/ssdim.html">ssdim()</a></code> - dimensions of list objects, or nested list of lists</li>
 <li>
-<code><a href="reference/rbindList.html">rbindList()</a></code> - efficient <code><a href="https://rdrr.io/r/base/do.call.html">do.call(rbind, ...)</a></code> to bind rows into a matrix or data.frame, useful when following <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code>.</li>
+<code><a href="reference/rbindList.html">rbindList()</a></code> - efficient <code>do.call(rbind, ...)</code> to bind rows into a matrix or data.frame, useful when following <code><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit()</a></code>.</li>
 <li>
 <code><a href="reference/mergeAllXY.html">mergeAllXY()</a></code> - merge a list of <code>data.frame</code> objects</li>
 <li>
 <code><a href="reference/rmNULL.html">rmNULL()</a></code> - remove NULL or empty elements from a list, with optional replacement</li>
 </ul>
 </div>
-<div id="names" class="section level3">
-<h3 class="hasAnchor">
-<a href="#names" class="anchor"></a>Names</h3>
+<div class="section level3">
+<h3 id="names">Names<a class="anchor" aria-label="anchor" href="#names"></a>
+</h3>
 <p>We use R names as an additional method to make sure everything is kept in the proper order. Many R functions return results using input names, so it helps to have a really solid naming strategy. For the R functions that remove names – I highly recommend adding them back yourself!</p>
 <ul>
 <li>
@@ -250,12 +297,12 @@
 <li>
 <code><a href="reference/nameVector.html">nameVector()</a></code> - add names to a vector, using its own value, or supplied names</li>
 <li>
-<code><a href="reference/nameVectorN.html">nameVectorN()</a></code> - make named vector using the names of a vector (useful inside <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>) or any function that returns data using names of the input vector.</li>
+<code><a href="reference/nameVectorN.html">nameVectorN()</a></code> - make named vector using the names of a vector (useful inside <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code>) or any function that returns data using names of the input vector.</li>
 </ul>
 </div>
-<div id="dataframematrixtibble" class="section level3">
-<h3 class="hasAnchor">
-<a href="#dataframematrixtibble" class="anchor"></a>data.frame/matrix/tibble</h3>
+<div class="section level3">
+<h3 id="dataframematrixtibble">data.frame/matrix/tibble<a class="anchor" aria-label="anchor" href="#dataframematrixtibble"></a>
+</h3>
 <ul>
 <li>
 <code><a href="reference/pasteByRow.html">pasteByRow()</a></code> - fast, flexible row-paste with delimiters, optionally remove blanks</li>
@@ -271,9 +318,9 @@
 <code><a href="reference/kable_coloring.html">kable_coloring()</a></code> - flexible colorized <code>data.frame</code> output in Rmarkdown.</li>
 </ul>
 </div>
-<div id="string--grep" class="section level3">
-<h3 class="hasAnchor">
-<a href="#string--grep" class="anchor"></a>String / grep</h3>
+<div class="section level3">
+<h3 id="string--grep">String / grep<a class="anchor" aria-label="anchor" href="#string--grep"></a>
+</h3>
 <ul>
 <li>
 <code><a href="reference/gsubOrdered.html">gsubOrdered()</a></code> - gsub that returns ordered factor, maintians the previous factor order</li>
@@ -293,9 +340,9 @@
 <code><a href="reference/padString.html">padString()</a></code>, <code><a href="reference/padInteger.html">padInteger()</a></code> - produce strings from numeric values with consistent leading zeros.</li>
 </ul>
 </div>
-<div id="numeric" class="section level3">
-<h3 class="hasAnchor">
-<a href="#numeric" class="anchor"></a>Numeric</h3>
+<div class="section level3">
+<h3 id="numeric">Numeric<a class="anchor" aria-label="anchor" href="#numeric"></a>
+</h3>
 <ul>
 <li>
 <code><a href="reference/noiseFloor.html">noiseFloor()</a></code> - apply noise floor (and ceiling) with flexible replacement values</li>
@@ -310,48 +357,49 @@
 <li>
 <code><a href="reference/rmInfinite.html">rmInfinite()</a></code> - remove infinite values, with optional replacement.</li>
 <li>
-<code><a href="reference/formatInt.html">formatInt()</a></code> - convenient <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> for integer output, with comma-delimiter by default</li>
+<code><a href="reference/formatInt.html">formatInt()</a></code> - convenient <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> for integer output, with comma-delimiter by default</li>
 </ul>
 </div>
-<div id="practical--helpful" class="section level3">
-<h3 class="hasAnchor">
-<a href="#practical--helpful" class="anchor"></a>Practical / helpful</h3>
+<div class="section level3">
+<h3 id="practical--helpful">Practical / helpful<a class="anchor" aria-label="anchor" href="#practical--helpful"></a>
+</h3>
 <ul>
 <li>
 <code><a href="reference/jargs.html">jargs()</a></code> - pretty function arguments, optional pattern search argument name</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="reference/jargs.html">jargs</a></span>(plotSmoothScatter)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt;                 x = ,</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt;                 y = NULL,</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt;        bandwidthN = 300,</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;    transformation = function( x ) x^0.25,</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;              xlim = NULL,</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;              ylim = NULL,</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;              nbin = 256,</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;          nrpoints = 0,</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;           colramp = c("white", "lightblue", "blue", "orange", "orangered2"),</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;            doTest = FALSE,</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;    fillBackground = TRUE,</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;          naAction = c("remove", "floor0", "floor1"),</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;              xaxt = "s",</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;              yaxt = "s",</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt;               add = FALSE,</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; applyRangeCeiling = TRUE,</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt;         useRaster = TRUE,</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt;           verbose = FALSE,</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt;               ... =</span></span></code></pre></div>
+<!-- end list --><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/jargs.html">jargs</a></span><span class="op">(</span><span class="va">plotSmoothScatter</span><span class="op">)</span>
+<span class="co">#&gt;                 x = ,</span>
+<span class="co">#&gt;                 y = NULL,</span>
+<span class="co">#&gt;        bandwidthN = 300,</span>
+<span class="co">#&gt;    transformation = function( x ) x^0.25,</span>
+<span class="co">#&gt;              xlim = NULL,</span>
+<span class="co">#&gt;              ylim = NULL,</span>
+<span class="co">#&gt;              nbin = 256,</span>
+<span class="co">#&gt;          nrpoints = 0,</span>
+<span class="co">#&gt;           colramp = c("white", "lightblue", "blue", "orange", "orangered2"),</span>
+<span class="co">#&gt;            doTest = FALSE,</span>
+<span class="co">#&gt;    fillBackground = TRUE,</span>
+<span class="co">#&gt;          naAction = c("remove", "floor0", "floor1"),</span>
+<span class="co">#&gt;              xaxt = "s",</span>
+<span class="co">#&gt;              yaxt = "s",</span>
+<span class="co">#&gt;               add = FALSE,</span>
+<span class="co">#&gt; applyRangeCeiling = TRUE,</span>
+<span class="co">#&gt;         useRaster = TRUE,</span>
+<span class="co">#&gt;           verbose = FALSE,</span>
+<span class="co">#&gt;               ... =</span></code></pre></div>
 <ul>
 <li>
 <code><a href="reference/sdim.html">sdim()</a></code>, <code><a href="reference/ssdim.html">ssdim()</a></code> - dimensions of list objects, or nested list of lists</li>
 <li>
 <code><a href="reference/sdima.html">sdima()</a></code> - runs <code><a href="reference/sdim.html">sdim()</a></code> on the attributes of an object.</li>
 <li>
-<code><a href="reference/isTRUEV.html">isTRUEV()</a></code>, <code><a href="reference/isFALSEV.html">isFALSEV()</a></code> - vectorized test for TRUE or FALSE values, since <code><a href="https://rdrr.io/r/base/Logic.html">isTRUE()</a></code> only operates on single values, and does not allow <code>NA</code>.</li>
+<code><a href="reference/isTRUEV.html">isTRUEV()</a></code>, <code><a href="reference/isFALSEV.html">isFALSEV()</a></code> - vectorized test for TRUE or FALSE values, since <code><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE()</a></code> only operates on single values, and does not allow <code>NA</code>.</li>
 </ul>
 </div>
-<div id="r-console" class="section level3">
-<h3 class="hasAnchor">
-<a href="#r-console" class="anchor"></a>R console</h3>
+<div class="section level3">
+<h3 id="r-console">R console<a class="anchor" aria-label="anchor" href="#r-console"></a>
+</h3>
 <ul>
 <li>
 <code><a href="reference/printDebug.html">printDebug()</a></code> - pretty colorized text output using <code>crayon</code> package.</li>
@@ -362,14 +410,14 @@
 </ul>
 </div>
 </div>
-<div id="other-related-jam-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-related-jam-packages" class="anchor"></a>Other related Jam packages</h2>
+<div class="section level2">
+<h2 id="other-related-jam-packages">Other related Jam packages<a class="anchor" aria-label="anchor" href="#other-related-jam-packages"></a>
+</h2>
 <ul>
 <li>
 <code>jamma</code> – MA-plots (also known as “mean-variance”, “Bland-Altman”, or “mean-difference” plots), relies upon <code><a href="reference/plotSmoothScatter.html">jamba::plotSmoothScatter()</a></code>; <code>centerGeneData()</code> to apply flexible row-centering with optional groups and control samples; <code>jammanorm()</code> - normalize data based upon MA-plot output</li>
 <li>
-<code>colorjam</code> – <code><a href="https://rdrr.io/pkg/colorjam/man/rainbowJam.html">colorjam::rainbowJam()</a></code> for scalable categorical colors using alternating luminance and chroma values.</li>
+<code>colorjam</code> – <code><a href="https://rdrr.io/pkg/colorjam/man/rainbowJam.html" class="external-link">colorjam::rainbowJam()</a></code> for scalable categorical colors using alternating luminance and chroma values.</li>
 <li>
 <code>genejam</code> – fast, consistent conversion of gene symbols to the most current gene nomenclature</li>
 <li>
@@ -383,39 +431,44 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/jmw86069/jamba">https://​github.com/​jmw86069/​jamba</a>
-</li>
-<li>Report a bug at <br><a href="http://github.com/jmw86069/jamba/issues">http://​github.com/​jmw86069/​jamba/​issues</a>
-</li>
+<li><a href="http://github.com/jmw86069/jamba/" class="external-link">Browse source code</a></li>
+<li><a href="http://github.com/jmw86069/jamba/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-2" class="external-link">GPL-2</a></li>
 </ul>
 </div>
+
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>James M. Ward <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by James M. Ward.</p>
+  <p></p>
+<p>Developed by James M. Ward.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>
@@ -423,6 +476,8 @@
 
   
 
+
+  
 
   </body>
 </html>

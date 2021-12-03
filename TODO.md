@@ -1,5 +1,11 @@
 ## TODO for jamba
 
+## 02dec2021
+
+* COMPLETE: additional functions to convert to and from abbreviated
+size `asSize()`
+
+
 ## 29nov2021
 
 * `mixedSortDF()` appears to have issues sorting data.frame columns with

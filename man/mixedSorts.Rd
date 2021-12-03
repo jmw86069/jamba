@@ -21,33 +21,36 @@ mixedSorts(
 )
 }
 \arguments{
-\item{x}{input vector}
+\item{x}{\code{vector}}
 
-\item{blanksFirst}{logical whether to order blank entries before entries
+\item{blanksFirst}{\code{logical} whether to order blank entries before entries
 containing a value.}
 
 \item{na.last}{\code{logical} indicating whether to move NA entries at
 the end of the sort.}
 
-\item{keepNegative}{logical whether to keep '-' associated with adjacent
+\item{keepNegative}{\code{logical} whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values.}
 
-\item{keepInfinite}{logical whether to allow "Inf" to be considered
+\item{keepInfinite}{\code{logical} whether to allow "Inf" to be considered
 a numeric infinite value.}
 
-\item{keepDecimal}{logical whether to keep the decimal in numbers,
+\item{keepDecimal}{\code{logical} whether to keep the decimal in numbers,
 sorting as a true number and not as a version number. By default
 keepDecimal=FALSE, which means "v1.200" should be ordered before
 "v1.30". When keepDecimal=TRUE, the numeric sort considers only
 "1.2" and "1.3" and sorts in that order.}
 
-\item{ignore.case}{logical whether to ignore uppercase and lowercase
-characters when defining the sort order.}
+\item{ignore.case}{\code{logical} whether to ignore uppercase and lowercase
+characters when defining the sort order. Note that when \code{x} is
+\code{factor} the factor levels are converted using
+\code{unique(toupper(levels(x)))}, therefore the values in \code{x} will be
+sorted by factor level.}
 
-\item{sortByName}{logical whether to sort the vector x by names(x) instead
+\item{sortByName}{\code{logical} whether to sort the vector x by names(x) instead
 of sorting by x itself.}
 
-\item{verbose}{logical whether to print verbose output.}
+\item{verbose}{\code{logical} whether to print verbose output.}
 
 \item{NAlast}{\code{logical} deprecated in favor of argument \code{na.last}
 for consistency with \code{base::sort()}.}
@@ -137,6 +140,7 @@ Other jam string functions:
 \code{\link{padString}()},
 \code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{sizeAsNum}()},
 \code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},

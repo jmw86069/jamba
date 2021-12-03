@@ -1,3 +1,71 @@
+# jamba version 0.0.69.900
+
+## new functions
+
+* `sizeToNum()` performs the opposite function as `asSize()`, it takes
+an abbreviated size as a character string, and converts to `numeric` value.
+
+## bug fixes
+
+* `mmixedOrder()` was updated to fix a bug when sorting numbers with
+class `"integer64"`, which is defined by `bit64::integer64`.
+These values were produced by `openxlsx::read.xlsx()`
+that contained large integer values, and were previously ignored
+by `mmixedOrder()`.
+The change also fixes a bug in `mixedSortDF()`, however this bug did not
+affect `mixedSort()` and `mixedOrder()`.
+The conditional now tests `is.numeric()` which returns `TRUE` for
+`bit64::integer64` types, and hopefully this logic will work for
+future large numeric types.
+* `mixedSort()` fixed an issue where `ignore.case=TRUE` caused factors
+to be sorted alphanumerically instead of by factor level. The new
+and intended behavior is to sort by the unique uppercase factor levels,
+otherwise maintaining the factor level order.
+* `rbindList()` was updated to change the way `returnDF=TRUE` is
+handled. It now simply calls `data.frame(x, check.names=FALSE)`,
+with no further validation. Previously this option called a function
+`unlistDataFrame()` that did not get ported into `jamba`, and probably
+will not.
+
+
+## changes to existing functions
+
+* `mixedSortDF()` was enhanced to allow row name sort, using these formats:
+`byCols="rownames"` or `byCols="row.names"` or `byCols=c(0)`.
+Reverse row name sort can be accomplished by `byCols="-rownames"` or
+`byCols="-row.names"` or `byCols=c(-0.01)`. When `byCols` contains
+`numeric` values, the sign is taken first so any negative values will
+reverse the sort, then values are rounded to integer values. So `byCols=-0.1`
+will reverse sort by row names, useful when it is more convenient to
+provide `byCols` as a `numeric` vector than a `character` vector.
+
+* `mixedSort()` was refactored to simplify the logic, and to correct
+small issues, for example when `ignore.case=TRUE` and `x` is a factor,
+the previous behavior would call `toupper()` which converts `x` to
+`character`, and which is sorted as such. The new intended behavior is to
+sort by `unique(toupper(levels(x)))` to maintain factor level order as
+defined.
+The new logic defines a transform function for `x`, whose output is
+passed to `mixedOrder()`. For example, when `sortByName=TRUE` the transform
+function passes `names(x)` to `mixedOrder()`. Otherwise, there is only
+one call to `mixedOrder()` and no data is copied during the process,
+which should be reasonably memory-efficient for large sort operations.
+Frankly, it needs one more refactor to push all the logic into `mixedSort()`.
+
+* `mixedSortDF()`, `mixedSort()`, and `mmixedOrder()` had arguments extended
+to represent all arguments in `mixedOrder()`, so the sort customizations
+are properly passed between functions.
+
+
+## File re-organization
+
+Some R functions were moved into separate files for easier management.
+More work should be done over time to reduce the number of
+functions in each file. Some files have 15 to 31 functions!
+
+* `asSize()` was moved from `jamba.R` into `jamba-size.R`.
+* `mixedSort()` functions were moved into `jamba-mixedSort.R`.
+
 # jamba version 0.0.68.900
 
 ## changes to existing functions
