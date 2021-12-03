@@ -1,3 +1,14 @@
+# jamba version 0.0.70.900
+
+## bug fixes
+
+* Not really a bug, but `mmixedOrder()` was apparently enabling
+verbose output by default by using `verbose - 1`, and how did I
+not realize that `if (-1) cat ("yes")` would print `"yes"`? Geez.
+This bug also caused `mixedSort()` and `mixedSortDF()` to print
+extremely verbose output by default.
+
+
 # jamba version 0.0.69.900
 
 Reminder to myself to use `options(pkgdown.internet=FALSE)` when behind VPN.

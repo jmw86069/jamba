@@ -120,13 +120,13 @@ mixedSort <- function
       x[mmixedOrder(
          data.frame(fx(x), fx2(x)),
          #blanksFirst=blanksFirst,
-         na.last=na.last
+         na.last=na.last,
          #keepNegative=keepNegative,
          #keepInfinite=keepInfinite,
          #keepDecimal=keepDecimal,
          #ignore.case=ignore.case,
          #useCaseTiebreak=useCaseTiebreak,
-         #verbose=verbose,
+         verbose=verbose
          )];
    } else {
       x[mixedOrder(fx(x),
@@ -735,7 +735,7 @@ mmixedOrder <- function
             keepNegative=keepNegative,
             keepInfinite=keepInfinite,
             keepDecimal=keepDecimal,
-            verbose=verbose - 1,
+            verbose=verbose,
             ignore.case=ignore.case,
             useCaseTiebreak=useCaseTiebreak,
             ...);
