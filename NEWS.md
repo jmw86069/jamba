@@ -1,5 +1,8 @@
 # jamba version 0.0.69.900
 
+Reminder to myself to use `options(pkgdown.internet=FALSE)` when behind VPN.
+And sometimes when not behind VPN...
+
 ## new functions
 
 * `sizeToNum()` performs the opposite function as `asSize()`, it takes
