@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.69.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.70.900</span>
       </span>
     </div>
 
@@ -154,45 +154,6 @@ otherwise falls back to <code><a href="https://rdrr.io/r/utils/object.size.html"
 <span class="r-in"><span class="va">newenv</span><span class="op">$</span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>;</span>
 <span class="r-in"><span class="va">newenv</span><span class="op">$</span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>A<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, B<span class="op">=</span><span class="fl">11</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="fu">lldf</span><span class="op">(</span>envir<span class="op">=</span><span class="va">newenv</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">mixedOrder(): </span><span style="color: #00AFFF;">Using keepNegative:</span><span style="color: #FF5F00;">FALSE</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">mixedOrder(): </span><span style="color: #00AFFF;">Using keepDecimal:</span><span style="color: #FF5F00;">FALSE</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">delimited:</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1" "2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">mixedOrder(): </span><span style="color: #00AFFF;">useCaseTiebreak col sort.</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">head(delimited):</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   delimited</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">step1m:</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "1" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "2" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">step1mCharacter:</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] NA  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] NA  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">rankCharacter:</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">step1mNumeric:</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">rankNumeric:</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">ncol(rankNumeric):</span><span style="color: #00AFFF;">1</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">mixedOrder(): </span><span style="color: #00AFFF;">rankOverall:</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        rankX</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 2     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">rankOverall:</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     rankX</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">19:34:49</span>) 02Dec2021:  <span style="color: #FF8700;">Returning order() tie-breaks resolved.</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    name      class bytes      size</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> df   df data.frame   944 944 bytes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A     A    integer    96  96 bytes</span>
