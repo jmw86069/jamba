@@ -1335,8 +1335,8 @@ getColorRamp <- function
          colorFunc <- get(col,
             mode="function");
       } else if (length(col) == 1 &&
-            suppressWarnings(suppressPackageStartupMessages(require(RColorBrewer))) &&
-            col %in% rownames(brewer.pal.info)) {
+            check_pkg_installed("RColorBrewer") &&
+            col %in% rownames(RColorBrewer::brewer.pal.info)) {
          #######################################
          ## Brewer Colors
          if (verbose) {
@@ -1354,9 +1354,32 @@ getColorRamp <- function
          }
          colorFunc <- function(n){
             if (n <= brewerN) {
-               brewer.pal(n, col);
+               RColorBrewer::brewer.pal(n, col);
             } else {
-               colorRampPalette(brewer.pal(brewerN, col))(n);
+               colorRampPalette(RColorBrewer::brewer.pal(brewerN, col))(n);
+            }
+         }
+      } else if (length(col) == 1 &&
+            check_pkg_installed("colorjam") &&
+            (col %in% names(colorjam::jam_linear) ||
+            col %in% names(colorjam::jam_divergent)) ) {
+         #######################################
+         ## colorjam gradient
+         if (verbose) {
+            printDebug("getColorRamp(): ",
+               "colorjam color gradient:",
+               paste0(col, "."));
+         }
+         if (col %in% names(colorjam::jam_linear)) {
+            colset <- colorjam::jam_linear[[col]];
+         } else if (col %in% names(colorjam::jam_divergent)) {
+            colset <- colorjam::jam_divergent[[col]];
+         }
+         colorFunc <- function(n){
+            if (n == length(colset)) {
+               colset
+            } else {
+               colorRampPalette(colset)(n);
             }
          }
       } else {

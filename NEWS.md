@@ -1,3 +1,20 @@
+# jamba version 0.0.71.900
+
+## changes to existing functions
+
+* `mixedSortDF()` argument default `useRownames=TRUE` was changed to
+`useRownames=FALSE` to protect against extremely slow sort behavior
+with large `nrow` data, which would previously by default sort all
+rownames even when not required. The new behavior only sorts the
+columns specified, and can enable rownames as a tie-breaker
+with `useRownames=TRUE` or by including `byCols=0`.
+* `getColorRamp()` now accepts gradient names supplied by `colorjam::jam_linear`
+and `colorjam::jam_divergent`, when the `"colorjam"` R package is
+available. The linear gradients differ mainly in subtle ways, emphasizing
+more color saturation in the mid-range values, motivated by their
+use in coverage heatmaps.
+
+
 # jamba version 0.0.70.900
 
 ## bug fixes

@@ -9,7 +9,7 @@ mixedSortDF(
   byCols = seq_len(ncol(df)),
   na.last = TRUE,
   decreasing = NULL,
-  useRownames = TRUE,
+  useRownames = FALSE,
   verbose = FALSE,
   blanksFirst = TRUE,
   keepNegative = FALSE,
