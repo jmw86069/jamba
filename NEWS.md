@@ -1,3 +1,15 @@
+# jamba version 0.0.73.900
+
+## enhancements
+
+* `plotSmoothScatter()` was improperly defining `xlab` and `ylab`
+when supplied with a `data.frame` or `matrix` with colnames.
+The steps now closely match `graphics::plot.default()`.
+* `noiseFloor()` was not checking for `minimum` to be `NULL`,
+though this error has not occurred myself, that step is now
+performed as it would have thrown an error.
+
+
 # jamba version 0.0.72.900
 
 ## bug fixes

@@ -3902,10 +3902,12 @@ noiseFloor <- function
    if (length(x) == 0) {
       return(x);
    }
-   if (adjustNA) {
-      x[is.na(x) | (!is.na(x) & x < minimum)] <- newValue;
-   } else {
-      x[!is.na(x) & x < minimum] <- newValue;
+   if (length(minimum) > 0) {
+      if (adjustNA) {
+         x[is.na(x) | (!is.na(x) & x < minimum)] <- newValue;
+      } else {
+         x[!is.na(x) & x < minimum] <- newValue;
+      }
    }
    if (length(ceiling) > 0) {
       x[!is.na(x) & x > ceiling] <- newCeiling;

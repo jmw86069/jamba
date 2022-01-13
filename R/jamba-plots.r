@@ -143,7 +143,8 @@
 #' x <- plotSmoothScatter(doTest=TRUE);
 #'
 #' # so it can be plotted again with different settings
-#' plotSmoothScatter(x, colramp="magma");
+#' colnames(x) <- c("column_1", "column_2")
+#' plotSmoothScatter(x, colramp="inferno");
 #'
 #' @export
 plotSmoothScatter <- function
@@ -260,18 +261,22 @@ plotSmoothScatter <- function
    }
 
    ## use xy.coords()
-   if (length(xlab) == 0 && !missing(x)) {
-      xlab <- deparse(substitute(x));
-   }
-   if (length(ylab) == 0 && length(y) > 0) {
-      ylab <- deparse(substitute(y));
-   }
+   xlabel <- if (!missing(x))
+      deparse(substitute(x));
+   ylabel <- if (length(y) > 0)
+      deparse(substitute(y));
    xy <- xy.coords(x=x,
       y=y,
-      xlab=xlab,
-      ylab=ylab,
+      xlab=xlabel,
+      ylab=ylabel,
       recycle=TRUE,
       setLab=TRUE);
+   if (length(xlab) == 0) {
+      xlab <- xy$xlab;
+   }
+   if (length(ylab) == 0) {
+      ylab <- xy$ylab;
+   }
    x <- xy$x;
    y <- xy$y;
 

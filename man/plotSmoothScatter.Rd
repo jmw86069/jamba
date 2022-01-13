@@ -191,7 +191,8 @@ are very different.
 x <- plotSmoothScatter(doTest=TRUE);
 
 # so it can be plotted again with different settings
-plotSmoothScatter(x, colramp="magma");
+colnames(x) <- c("column_1", "column_2")
+plotSmoothScatter(x, colramp="inferno");
 
 }
 \seealso{
