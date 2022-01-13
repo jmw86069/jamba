@@ -2,39 +2,46 @@
 % Please edit documentation in R/jamba-string.r
 \name{renameColumn}
 \alias{renameColumn}
-\title{Rename columns in a data.frame or matrix}
+\title{Rename columns in a data.frame, matrix, tibble, or GRanges object}
 \usage{
 renameColumn(x, from, to, verbose = FALSE, ...)
 }
 \arguments{
-\item{x}{data.frame or matrix}
+\item{x}{\code{data.frame}, \code{matrix}, \code{tbl}, or \code{GRanges} equivalent
+object. It will work on any object for which \code{colnames()}
+is defined.}
 
-\item{from}{character vector of colnames expected to be in \code{x}.
+\item{from}{\code{character} vector of colnames expected to be in \code{x}.
 Any values that do not match \code{colnames(x)} are ignored.}
 
-\item{to}{character vector with \code{length(to) == length(from)}
+\item{to}{\code{character} vector with \code{length(to) == length(from)}
 corresponding to the target name for any colnames that
 match \code{from}.}
 }
 \value{
-data.frame (or tibble or DataFrame) with columns \code{from}
-renamed to \code{to} as matched. When \code{colnames(x)} do not match
-values in \code{from} the corresponding values in \code{from} are ignored.
+\code{data.frame} or object equivalent to the input \code{x},
+with columns \code{from} renamed to values in \code{to}. For genomic
+ranges objects such as \code{GRanges} and \code{IRanges}, the colnames
+are updated in \code{IRanges::values(x)}.
 }
 \description{
-Rename columns in a data.frame or matrix
+Rename columns in a data.frame, matrix, tibble, or GRanges object
 }
 \details{
 This function is intended to rename one or more columns in a
-data.frame or matrix. It will gracefully ignore columns
-which do not match, in order to make it possible to call the
-function multiple times without problem. It makes it possible
-to verify that columns are properly named by re-running the
-function as needed.
+\code{data.frame}, \code{matrix}, tibble, or \code{GRanges} related object.
+It will gracefully ignore columns which do not match,
+in order to make it possible to call the
+function again without problem.
 
 This function will also recognize input objects \code{GRanges},
 \code{ucscData}, and \code{IRanges}, which store annotation in \code{DataFrame}
-accessible via \code{values(x)}.
+accessible via \code{IRanges::values()}. Note the \code{IRanges} package
+is required, for its generic function \code{values()}.
+
+The values supplied in \code{to} and \code{from} are converted from \code{factor}
+to \code{character} to avoid coersion by R to \code{integer}, which was
+noted in output prior to jamba version \verb{0.0.72.900}.
 }
 \examples{
 df <- data.frame(A=1:5, B=6:10, C=11:15);

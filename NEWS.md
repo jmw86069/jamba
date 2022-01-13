@@ -1,3 +1,25 @@
+# jamba version 0.0.72.900
+
+## bug fixes
+
+* `renameColumn()` when the `to` values were supplied as `factor` values,
+they were coerced by R into `integer` and therefore lost the character
+string values provided. The workaround is to coerce `to` with `as.character()`
+which is straightforward for processes outside `renameColumn()`, however
+the expected behavior is certainly to maintain the character string,
+so this function has been updated accordingly.
+The situation tends to happen when the column renaming is stored
+inside a `data.frame` and the rename "to" column type `factor` is not
+checked beforehand. It is a rare scenario, but warrants a fix.
+In addition, `renameColumn()` also operates on `GRanges` and related
+genomic ranges objects, and that step requires `IRanges::values()`
+generic function. The `values()` functions were updated to include
+the proper package prefix, in the event those packages had not already
+been loaded.
+This function now explicitly requires `length(from) == length(to)`.
+The help text was updated with more information.
+
+
 # jamba version 0.0.71.900
 
 ## changes to existing functions

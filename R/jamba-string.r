@@ -1773,31 +1773,39 @@ cPasteU <- function
       ...);
 }
 
-#' Rename columns in a data.frame or matrix
+#' Rename columns in a data.frame, matrix, tibble, or GRanges object
 #'
-#' Rename columns in a data.frame or matrix
+#' Rename columns in a data.frame, matrix, tibble, or GRanges object
 #'
 #' This function is intended to rename one or more columns in a
-#' data.frame or matrix. It will gracefully ignore columns
-#' which do not match, in order to make it possible to call the
-#' function multiple times without problem. It makes it possible
-#' to verify that columns are properly named by re-running the
-#' function as needed.
+#' `data.frame`, `matrix`, tibble, or `GRanges` related object.
+#' It will gracefully ignore columns which do not match,
+#' in order to make it possible to call the
+#' function again without problem.
 #'
 #' This function will also recognize input objects `GRanges`,
 #' `ucscData`, and `IRanges`, which store annotation in `DataFrame`
-#' accessible via `values(x)`.
+#' accessible via `IRanges::values()`. Note the `IRanges` package
+#' is required, for its generic function `values()`.
 #'
-#' @return data.frame (or tibble or DataFrame) with columns `from`
-#'    renamed to `to` as matched. When `colnames(x)` do not match
-#'    values in `from` the corresponding values in `from` are ignored.
+#' The values supplied in `to` and `from` are converted from `factor`
+#' to `character` to avoid coersion by R to `integer`, which was
+#' noted in output prior to jamba version `0.0.72.900`.
+#'
+#'
+#' @return `data.frame` or object equivalent to the input `x`,
+#'    with columns `from` renamed to values in `to`. For genomic
+#'    ranges objects such as `GRanges` and `IRanges`, the colnames
+#'    are updated in `IRanges::values(x)`.
 #'
 #' @family jam practical functions
 #'
-#' @param x data.frame or matrix
-#' @param from character vector of colnames expected to be in `x`.
+#' @param x `data.frame`, `matrix`, `tbl`, or `GRanges` equivalent
+#'    object. It will work on any object for which `colnames()`
+#'    is defined.
+#' @param from `character` vector of colnames expected to be in `x`.
 #'    Any values that do not match `colnames(x)` are ignored.
-#' @param to character vector with `length(to) == length(from)`
+#' @param to `character` vector with `length(to) == length(from)`
 #'    corresponding to the target name for any colnames that
 #'    match `from`.
 #'
@@ -1828,21 +1836,38 @@ renameColumn <- function
    ## that are not warranted.  Note that it will also only make changes, thus
    ## if you perform some operation on 'from' to generate 'to' and some entries
    ## do not change, this method will not rename those columns.
+
+   # coerce factor to character to prevent being coerced to integer
+   if ("factor" %in% class(from)) {
+      from <- as.character(from);
+   }
+   if ("factor" %in% class(to)) {
+      to <- as.character(to);
+   }
+   if (length(to) != length(from)) {
+      stop("length(from) must be equal to length(to)");
+   }
+
    if (igrepHas("ucscdata|granges|iranges", class(x))) {
       if (verbose) {
          printDebug("renameColumn(): ",
             "Recognized GRanges input.");
       }
-      renameSet <- which(from %in% colnames(values(x)) & from != to);
-      renameWhich <- match(from[renameSet], colnames(values(x)));
+      if (!check_pkg_installed("IRanges")) {
+         stop(paste(
+            "Input data requires the IRanges Bioconductor package,",
+            "install with BiocManager::install('IRanges')"));
+      }
+      renameSet <- which(from %in% colnames(IRanges::values(x)) & from != to);
+      renameWhich <- match(from[renameSet], colnames(IRanges::values(x)));
       if (verbose) {
          printDebug("renameColumn(): ",
             "Renaming ",
-            format(length(renameWhich), big.mark=","),
+            formatInt(length(renameWhich)),
             " columns.");
       }
       if (length(renameWhich) > 0) {
-         colnames(values(x))[renameWhich] <- to[renameSet];
+         colnames(IRanges::values(x))[renameWhich] <- to[renameSet];
       }
    } else {
       renameSet <- which(from %in% colnames(x) & from != to);
@@ -1850,7 +1875,7 @@ renameColumn <- function
       if (verbose) {
          printDebug("renameColumn(): ",
             "Renaming ",
-            format(length(renameWhich), big.mark=","),
+            formatInt(length(renameWhich)),
             " columns.");
       }
       if (length(renameWhich) > 0) {
