@@ -1,3 +1,16 @@
+# jamba version 0.0.74.900
+
+## new function
+
+* `diff_functions()` is a simple utility function intended to
+compare the text in two functions, motivated while migrating
+functions into R packages, while needing to make changes in
+the old function source, propagating to the new function source.
+Currently the function requires access to commandline tool `"diff"`
+which likely limits this function to linux-like operating systems,
+MS Windows System Linux (WSL), or Cygwin on MS Windows.
+
+
 # jamba version 0.0.73.900
 
 ## enhancements
