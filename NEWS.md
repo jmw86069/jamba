@@ -1,3 +1,18 @@
+# jamba version 0.0.75.900
+
+## new functions
+
+Ported two functions from multienrichjam.
+
+* `heatmap_row_order()`, `heatmap_column_order()` are specifically
+used with Bioconductor package `ComplexHeatmap` heatmaps.
+These functions were enhanced to handle several scenarios:
+presence of absence of `row_groups`, `column_groups`;
+with and without `rownames()`, `colnames()` in the data matrix;
+with and without specific `row_labels`, `column_labels`.
+
+
+
 # jamba version 0.0.74.900
 
 ## new function
