@@ -1,5 +1,16 @@
 # jamba version 0.0.75.900
 
+## bug fixes
+
+* `mixedSortDF()` had a bug when supplied with `matrix` that had
+no `rownames()`, it would fail because the intermediate `data.frame`
+was assigned `rownamesX=rownames(x)` and thus had zero length.
+It now assigns `rownamesX=rmNULL(nullValue=NA, rownames(x))` which
+fills the column with `NA` values.
+
+
+# jamba version 0.0.75.900
+
 ## new functions
 
 Ported two functions from multienrichjam.

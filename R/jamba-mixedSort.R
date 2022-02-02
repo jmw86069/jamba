@@ -1088,7 +1088,9 @@ mixedSortDF <- function
          check.names=FALSE,
          stringsAsFactors=FALSE,
          df,
-         rowNamesX=rownames(df))[, byCols, drop=FALSE],
+         rowNamesX=rmNULL(nullValue=NA,
+            rownames(df))
+         )[, byCols, drop=FALSE],
       decreasing=decreasing,
       na.last=na.last,
       blanksFirst=blanksFirst,
