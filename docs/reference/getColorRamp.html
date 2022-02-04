@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.70.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@ gradient. Where one color is supplied, a gradient is created from
 defaultBaseColor to the supplied color.</p></li>
 <li><p>"character vector length 1"one name matching a known color ramp either
 from <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">RColorBrewer::brewer.pal.info</a></code>, or from the
-<code><a href="https://rdrr.io/pkg/viridisLite/man/viridis.html" class="external-link">viridis::viridis</a></code> package.</p></li>
+<code><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">viridis::viridis</a></code> package.</p></li>
 </ul></dd>
 <dt>n</dt>
 <dd><p>integer number of output colors to return, or NULL if
@@ -235,10 +235,12 @@ case transparency can be added after the fact using <code><a href="alpha2col.htm
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-plt img"><img src="getColorRamp-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sjmgarnier/viridis" class="external-link">viridis</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">   <span class="va">viridisV</span> <span class="op">&lt;-</span> <span class="fu">getColorRamp</span><span class="op">(</span><span class="st">"viridis"</span><span class="op">)</span>;</span>
 <span class="r-in">   <span class="va">colorList</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">colorList</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>viridis<span class="op">=</span><span class="va">viridisV</span><span class="op">)</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="op">}</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>package ‘viridis’ was built under R version 3.6.2</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>package ‘viridisLite’ was built under R version 3.6.2</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># for fun, put a few color ramps onto one plot</span></span>
 <span class="r-in"><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="va">colorList</span>, cexCellnote<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span>;</span>

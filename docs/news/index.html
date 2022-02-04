@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.70.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
       </span>
     </div>
 
@@ -57,6 +57,72 @@
       <small>Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.77.900" id="jamba-version-0077900">jamba version 0.0.77.900<a class="anchor" aria-label="anchor" href="#jamba-version-0077900"></a></h2>
+<div class="section level3">
+<h3 id="updates-to-existing-functions-0-0-77-900">updates to existing functions<a class="anchor" aria-label="anchor" href="#updates-to-existing-functions-0-0-77-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/color2gradient.html">color2gradient()</a></code> new argument default <code>gradientWtFactor=NULL</code>:</p>
+<ul><li>
+<code>gradientWtFactor</code> controls the intensity of the light-to-dark color gradient, where <code>gradientWtFactor &gt;= 1</code> defines a broader range from light-to-dark, and <code>gradientWtFactor &lt; 1</code> defines a more limited light-to-dark. For example, when <code>n=2</code> it there does not need to be as large a difference in brightness for color1 and color2.</li>
+<li>New behavior assigns default <code>gradientWtFactor</code> based upon <code>n</code>.</li>
+</ul></li>
+<li><p><code><a href="../reference/color2gradient.html">color2gradient()</a></code> argument <code>gradientWtFactor</code> can be supplied as a vector, so the value will be applied to each gradient created, in order.</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.76.900" id="jamba-version-0076900">jamba version 0.0.76.900<a class="anchor" aria-label="anchor" href="#jamba-version-0076900"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-76-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-76-900"></a></h3>
+<ul><li>
+<code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> had a bug when supplied with <code>matrix</code> that had no <code><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames()</a></code>, it would fail because the intermediate <code>data.frame</code> was assigned <code>rownamesX=rownames(x)</code> and thus had zero length. It now assigns <code>rownamesX=rmNULL(nullValue=NA, rownames(x))</code> which fills the column with <code>NA</code> values.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.75.900" id="jamba-version-0075900">jamba version 0.0.75.900<a class="anchor" aria-label="anchor" href="#jamba-version-0075900"></a></h2>
+<div class="section level3">
+<h3 id="new-functions-0-0-75-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-75-900"></a></h3>
+<p>Ported two functions from multienrichjam.</p>
+<ul><li>
+<code><a href="../reference/heatmap_row_order.html">heatmap_row_order()</a></code>, <code><a href="../reference/heatmap_column_order.html">heatmap_column_order()</a></code> are specifically used with Bioconductor package <code>ComplexHeatmap</code> heatmaps. These functions were enhanced to handle several scenarios: presence of absence of <code>row_groups</code>, <code>column_groups</code>; with and without <code><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames()</a></code>, <code><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">colnames()</a></code> in the data matrix; with and without specific <code>row_labels</code>, <code>column_labels</code>.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.74.900" id="jamba-version-0074900">jamba version 0.0.74.900<a class="anchor" aria-label="anchor" href="#jamba-version-0074900"></a></h2>
+<div class="section level3">
+<h3 id="new-function-0-0-74-900">new function<a class="anchor" aria-label="anchor" href="#new-function-0-0-74-900"></a></h3>
+<ul><li>
+<code><a href="../reference/diff_functions.html">diff_functions()</a></code> is a simple utility function intended to compare the text in two functions, motivated while migrating functions into R packages, while needing to make changes in the old function source, propagating to the new function source. Currently the function requires access to commandline tool <code>"diff"</code> which likely limits this function to linux-like operating systems, MS Windows System Linux (WSL), or Cygwin on MS Windows.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.73.900" id="jamba-version-0073900">jamba version 0.0.73.900<a class="anchor" aria-label="anchor" href="#jamba-version-0073900"></a></h2>
+<div class="section level3">
+<h3 id="enhancements-0-0-73-900">enhancements<a class="anchor" aria-label="anchor" href="#enhancements-0-0-73-900"></a></h3>
+<ul><li>
+<code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> was improperly defining <code>xlab</code> and <code>ylab</code> when supplied with a <code>data.frame</code> or <code>matrix</code> with colnames. The steps now closely match <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">graphics::plot.default()</a></code>.</li>
+<li>
+<code><a href="../reference/noiseFloor.html">noiseFloor()</a></code> was not checking for <code>minimum</code> to be <code>NULL</code>, though this error has not occurred myself, that step is now performed as it would have thrown an error.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.72.900" id="jamba-version-0072900">jamba version 0.0.72.900<a class="anchor" aria-label="anchor" href="#jamba-version-0072900"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-72-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-72-900"></a></h3>
+<ul><li>
+<code><a href="../reference/renameColumn.html">renameColumn()</a></code> when the <code>to</code> values were supplied as <code>factor</code> values, they were coerced by R into <code>integer</code> and therefore lost the character string values provided. The workaround is to coerce <code>to</code> with <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code> which is straightforward for processes outside <code><a href="../reference/renameColumn.html">renameColumn()</a></code>, however the expected behavior is certainly to maintain the character string, so this function has been updated accordingly. The situation tends to happen when the column renaming is stored inside a <code>data.frame</code> and the rename “to” column type <code>factor</code> is not checked beforehand. It is a rare scenario, but warrants a fix. In addition, <code><a href="../reference/renameColumn.html">renameColumn()</a></code> also operates on <code>GRanges</code> and related genomic ranges objects, and that step requires <code>IRanges::values()</code> generic function. The <code><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">values()</a></code> functions were updated to include the proper package prefix, in the event those packages had not already been loaded. This function now explicitly requires <code>length(from) == length(to)</code>. The help text was updated with more information.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.71.900" id="jamba-version-0071900">jamba version 0.0.71.900<a class="anchor" aria-label="anchor" href="#jamba-version-0071900"></a></h2>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-71-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-71-900"></a></h3>
+<ul><li>
+<code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> argument default <code>useRownames=TRUE</code> was changed to <code>useRownames=FALSE</code> to protect against extremely slow sort behavior with large <code>nrow</code> data, which would previously by default sort all rownames even when not required. The new behavior only sorts the columns specified, and can enable rownames as a tie-breaker with <code>useRownames=TRUE</code> or by including <code>byCols=0</code>.</li>
+<li>
+<code><a href="../reference/getColorRamp.html">getColorRamp()</a></code> now accepts gradient names supplied by <code><a href="https://rdrr.io/pkg/colorjam/man/jam_linear.html" class="external-link">colorjam::jam_linear</a></code> and <code><a href="https://rdrr.io/pkg/colorjam/man/jam_divergent.html" class="external-link">colorjam::jam_divergent</a></code>, when the <code>"colorjam"</code> R package is available. The linear gradients differ mainly in subtle ways, emphasizing more color saturation in the mid-range values, motivated by their use in coverage heatmaps.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.70.900" id="jamba-version-0070900">jamba version 0.0.70.900<a class="anchor" aria-label="anchor" href="#jamba-version-0070900"></a></h2>
 <div class="section level3">

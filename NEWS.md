@@ -1,4 +1,21 @@
-# jamba version 0.0.75.900
+# jamba version 0.0.77.900
+
+## updates to existing functions
+
+* `color2gradient()` new argument default `gradientWtFactor=NULL`:
+
+   * `gradientWtFactor` controls the intensity
+   of the light-to-dark color gradient, where
+   `gradientWtFactor >= 1` defines a broader range from light-to-dark,
+   and `gradientWtFactor < 1` defines a more limited light-to-dark.
+   For example, when `n=2` it there does not need to be as
+   large a difference in brightness for color1 and color2.
+   * New behavior assigns default `gradientWtFactor` based upon `n`.
+
+* `color2gradient()` argument `gradientWtFactor` can be supplied as
+a vector, so the value will be applied to each gradient created, in order.
+
+# jamba version 0.0.76.900
 
 ## bug fixes
 

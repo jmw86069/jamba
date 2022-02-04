@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.70.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
       </span>
     </div>
 
@@ -65,7 +65,8 @@
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">color2gradient</span><span class="op">(</span>
   <span class="va">col</span>,
   n <span class="op">=</span> <span class="cn">NULL</span>,
-  gradientWtFactor <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span>,
+  gradientWtFactor <span class="op">=</span> <span class="cn">NULL</span>,
+  dex <span class="op">=</span> <span class="fl">1</span>,
   reverseGradient <span class="op">=</span> <span class="cn">TRUE</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
@@ -75,17 +76,30 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>col</dt>
-<dd><p>vector of one or more colors, or list of color vectors, or
-vector of repeated colors. If the vector contains unique colors, each
+<dd><p>some type of recognized R color input as:</p><ul><li><p><code>character</code> vector of one or more individual colors, each
 color is expanded into a gradient of length <code>n</code>, where <code>n</code> is
-recycled for each input color. If the vector contains repeated colors,
-they are expanded in place.</p></dd>
+recycled to the number of unique colors. The value <code>n</code> is applied
+in the order the colors appear in <code>col</code>.</p></li>
+<li><p><code>list</code> of color vectors where each vector contains one repeated color</p></li>
+<li><p><code>character</code> vector of repeated colors, where <code>n</code> is defined by
+the number of each color present.</p></li>
+</ul></dd>
 <dt>n</dt>
-<dd><p>integer vector of length one or more, which defines the number
-of colors to return for each gradient.</p></dd>
+<dd><p><code>integer</code> vector of length one or more, which defines the number
+of colors to return for each gradient. When <code>n=0</code> then only duplicated
+colors will be expanded into a gradient.</p></dd>
 <dt>gradientWtFactor</dt>
-<dd><p>numeric fraction representing the amount to expand
-a color toward its maximum brightness and darkness.</p></dd>
+<dd><p><code>numeric</code> fraction representing the amount to expand
+a color toward its maximum brightness and darkness. When
+<code>gradientWtFactor=NULL</code> this value is calculated based upon the
+number of colors requested, and the initial luminance in HCL
+space of the starting color. When multiple values are supplied,
+they are applied in order to each color gradient, and each color
+gradient is applied in the order the colors appear.</p></dd>
+<dt>dex</dt>
+<dd><p><code>numeric</code> value to apply dramatic dark expansion, where:</p><ul><li><p><code>dex &gt; 1</code> will make the gradient more dramatic, values</p></li>
+<li><p><code>dex &lt; 1</code> will make the gradient less dramatic.</p></li>
+</ul></dd>
 <dt>reverseGradient</dt>
 <dd><p>logical whether to return light-to-dark gradient
 (TRUE) or dark-to-light gradient (FALSE).</p></dd>
@@ -153,12 +167,7 @@ color is used to define the color gradient.</p>
 <span class="r-in"><span class="co"># This process is similar to color jittering</span></span>
 <span class="r-in"><span class="va">colors1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span>;</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">colors1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">colors1</span>;</span>
-<span class="r-in"><span class="va">colors2</span> <span class="op">&lt;-</span> <span class="fu">color2gradient</span><span class="op">(</span><span class="va">colors1</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">colors2</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      red_v1      red_v2     blue_v1     blue_v2      red_v3     blue_v3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "#FF5C5CFF" "#E83F3FFF" "#5C5CFFFF" "#2626D1FF" "#D12626FF" "#0000A3FF" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      red_v4      red_v5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "#BA1111FF" "#A30000FF" </span>
+<span class="r-in"><span class="va">colors2</span> <span class="op">&lt;-</span> <span class="fu">color2gradient</span><span class="op">(</span><span class="va">colors1</span>, gradientWtFactor<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>`Input colors`<span class="op">=</span><span class="va">colors1</span>, `Output colors`<span class="op">=</span><span class="va">colors2</span><span class="op">)</span><span class="op">)</span>;</span>
 <span class="r-plt img"><img src="color2gradient-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
@@ -169,6 +178,26 @@ color is used to define the color gradient.</p>
 <span class="r-in"><span class="va">colors2L</span> <span class="op">&lt;-</span> <span class="fu">color2gradient</span><span class="op">(</span><span class="va">colors1L</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="va">colors2L</span><span class="op">)</span>;</span>
 <span class="r-plt img"><img src="color2gradient-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># comparison of fixed gradientWtFactor with dynamic gradientWtFactor</span></span>
+<span class="r-in"><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span class="r-in">   `dynamic\ngradientWtFactor\ndex=1`<span class="op">=</span><span class="fu">color2gradient</span><span class="op">(</span></span>
+<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yellow"</span>, <span class="st">"navy"</span>, <span class="st">"firebrick"</span>, <span class="st">"orange"</span><span class="op">)</span>,</span>
+<span class="r-in">      n<span class="op">=</span><span class="fl">3</span>,</span>
+<span class="r-in">      gradientWtFactor<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span class="r-in">      dex<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span class="r-in">   `dynamic\ngradientWtFactor\ndex=2`<span class="op">=</span><span class="fu">color2gradient</span><span class="op">(</span></span>
+<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yellow"</span>, <span class="st">"navy"</span>, <span class="st">"firebrick"</span>, <span class="st">"orange"</span><span class="op">)</span>,</span>
+<span class="r-in">      n<span class="op">=</span><span class="fl">3</span>,</span>
+<span class="r-in">      gradientWtFactor<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span class="r-in">      dex<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span class="r-in">   `fixed\ngradientWtFactor=2/3`<span class="op">=</span><span class="fu">color2gradient</span><span class="op">(</span></span>
+<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yellow"</span>, <span class="st">"navy"</span>, <span class="st">"firebrick"</span>, <span class="st">"orange"</span><span class="op">)</span>,</span>
+<span class="r-in">      n<span class="op">=</span><span class="fl">3</span>,</span>
+<span class="r-in">      gradientWtFactor<span class="op">=</span><span class="fl">2</span><span class="op">/</span><span class="fl">3</span>,</span>
+<span class="r-in">      dex<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="color2gradient-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

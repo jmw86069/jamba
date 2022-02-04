@@ -7,24 +7,42 @@
 color2gradient(
   col,
   n = NULL,
-  gradientWtFactor = 2/3,
+  gradientWtFactor = NULL,
+  dex = 1,
   reverseGradient = TRUE,
   verbose = FALSE,
   ...
 )
 }
 \arguments{
-\item{col}{vector of one or more colors, or list of color vectors, or
-vector of repeated colors. If the vector contains unique colors, each
+\item{col}{some type of recognized R color input as:
+\itemize{
+\item \code{character} vector of one or more individual colors, each
 color is expanded into a gradient of length \code{n}, where \code{n} is
-recycled for each input color. If the vector contains repeated colors,
-they are expanded in place.}
+recycled to the number of unique colors. The value \code{n} is applied
+in the order the colors appear in \code{col}.
+\item \code{list} of color vectors where each vector contains one repeated color
+\item \code{character} vector of repeated colors, where \code{n} is defined by
+the number of each color present.
+}}
 
-\item{n}{integer vector of length one or more, which defines the number
-of colors to return for each gradient.}
+\item{n}{\code{integer} vector of length one or more, which defines the number
+of colors to return for each gradient. When \code{n=0} then only duplicated
+colors will be expanded into a gradient.}
 
-\item{gradientWtFactor}{numeric fraction representing the amount to expand
-a color toward its maximum brightness and darkness.}
+\item{gradientWtFactor}{\code{numeric} fraction representing the amount to expand
+a color toward its maximum brightness and darkness. When
+\code{gradientWtFactor=NULL} this value is calculated based upon the
+number of colors requested, and the initial luminance in HCL
+space of the starting color. When multiple values are supplied,
+they are applied in order to each color gradient, and each color
+gradient is applied in the order the colors appear.}
+
+\item{dex}{\code{numeric} value to apply dramatic dark expansion, where:
+\itemize{
+\item \code{dex > 1} will make the gradient more dramatic, values
+\item \code{dex < 1} will make the gradient less dramatic.
+}}
 
 \item{reverseGradient}{logical whether to return light-to-dark gradient
 (TRUE) or dark-to-light gradient (FALSE).}
@@ -66,8 +84,7 @@ showColors(xv);
 # This process is similar to color jittering
 colors1 <- c("red","blue")[c(1,1,2,2,1,2,1,1)];
 names(colors1) <- colors1;
-colors2 <- color2gradient(colors1);
-colors2;
+colors2 <- color2gradient(colors1, gradientWtFactor=NULL);
 showColors(list(`Input colors`=colors1, `Output colors`=colors2));
 
 # You can do the same using a list intermediate
@@ -75,6 +92,25 @@ colors1L <- split(colors1, colors1);
 showColors(colors1L);
 colors2L <- color2gradient(colors1L);
 showColors(colors2L);
+
+# comparison of fixed gradientWtFactor with dynamic gradientWtFactor
+showColors(list(
+   `dynamic\ngradientWtFactor\ndex=1`=color2gradient(
+      c("yellow", "navy", "firebrick", "orange"),
+      n=3,
+      gradientWtFactor=NULL,
+      dex=1),
+   `dynamic\ngradientWtFactor\ndex=2`=color2gradient(
+      c("yellow", "navy", "firebrick", "orange"),
+      n=3,
+      gradientWtFactor=NULL,
+      dex=2),
+   `fixed\ngradientWtFactor=2/3`=color2gradient(
+      c("yellow", "navy", "firebrick", "orange"),
+      n=3,
+      gradientWtFactor=2/3,
+      dex=1)
+))
 
 }
 \seealso{

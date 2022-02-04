@@ -103,6 +103,9 @@
     <loc>/reference/deg2rad.html</loc>
   </url>
   <url>
+    <loc>/reference/diff_functions.html</loc>
+  </url>
+  <url>
     <loc>/reference/drawLabels.html</loc>
   </url>
   <url>
@@ -155,6 +158,12 @@
   </url>
   <url>
     <loc>/reference/heads.html</loc>
+  </url>
+  <url>
+    <loc>/reference/heatmap_column_order.html</loc>
+  </url>
+  <url>
+    <loc>/reference/heatmap_row_order.html</loc>
   </url>
   <url>
     <loc>/reference/hsv2col.html</loc>

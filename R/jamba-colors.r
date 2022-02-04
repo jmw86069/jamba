@@ -1574,15 +1574,27 @@ isColor <- function
 #' by \code{n}. If the input list contains multiple values, only the first
 #' color is used to define the color gradient.
 #'
-#' @param col vector of one or more colors, or list of color vectors, or
-#'    vector of repeated colors. If the vector contains unique colors, each
-#'    color is expanded into a gradient of length \code{n}, where \code{n} is
-#'    recycled for each input color. If the vector contains repeated colors,
-#'    they are expanded in place.
-#' @param n integer vector of length one or more, which defines the number
-#'    of colors to return for each gradient.
-#' @param gradientWtFactor numeric fraction representing the amount to expand
-#'    a color toward its maximum brightness and darkness.
+#' @param col some type of recognized R color input as:
+#'    * `character` vector of one or more individual colors, each
+#'    color is expanded into a gradient of length `n`, where `n` is
+#'    recycled to the number of unique colors. The value `n` is applied
+#'    in the order the colors appear in `col`.
+#'    * `list` of color vectors where each vector contains one repeated color
+#'    * `character` vector of repeated colors, where `n` is defined by
+#'    the number of each color present.
+#' @param n `integer` vector of length one or more, which defines the number
+#'    of colors to return for each gradient. When `n=0` then only duplicated
+#'    colors will be expanded into a gradient.
+#' @param gradientWtFactor `numeric` fraction representing the amount to expand
+#'    a color toward its maximum brightness and darkness. When
+#'    `gradientWtFactor=NULL` this value is calculated based upon the
+#'    number of colors requested, and the initial luminance in HCL
+#'    space of the starting color. When multiple values are supplied,
+#'    they are applied in order to each color gradient, and each color
+#'    gradient is applied in the order the colors appear.
+#' @param dex `numeric` value to apply dramatic dark expansion, where:
+#'    * `dex > 1` will make the gradient more dramatic, values
+#'    * `dex < 1` will make the gradient less dramatic.
 #' @param reverseGradient logical whether to return light-to-dark gradient
 #'    (TRUE) or dark-to-light gradient (FALSE).
 #' @param verbose logical whether to print verbose output.
@@ -1602,7 +1614,6 @@ isColor <- function
 #' colors1 <- c("red","blue")[c(1,1,2,2,1,2,1,1)];
 #' names(colors1) <- colors1;
 #' colors2 <- color2gradient(colors1);
-#' colors2;
 #' showColors(list(`Input colors`=colors1, `Output colors`=colors2));
 #'
 #' # You can do the same using a list intermediate
@@ -1611,13 +1622,33 @@ isColor <- function
 #' colors2L <- color2gradient(colors1L);
 #' showColors(colors2L);
 #'
+#' # comparison of fixed gradientWtFactor with dynamic gradientWtFactor
+#' showColors(list(
+#'    `dynamic\ngradientWtFactor\ndex=1`=color2gradient(
+#'       c("yellow", "navy", "firebrick", "orange"),
+#'       n=3,
+#'       gradientWtFactor=NULL,
+#'       dex=1),
+#'    `dynamic\ngradientWtFactor\ndex=2`=color2gradient(
+#'       c("yellow", "navy", "firebrick", "orange"),
+#'       n=3,
+#'       gradientWtFactor=NULL,
+#'       dex=2),
+#'    `fixed\ngradientWtFactor=2/3`=color2gradient(
+#'       c("yellow", "navy", "firebrick", "orange"),
+#'       n=3,
+#'       gradientWtFactor=2/3,
+#'       dex=1)
+#' ))
+#'
 #' @family jam color functions
 #'
 #' @export
 color2gradient <- function
 (col,
  n=NULL,
- gradientWtFactor=2/3,
+ gradientWtFactor=NULL,
+ dex=1,
  reverseGradient=TRUE,
  verbose=FALSE,
  ...)
@@ -1633,7 +1664,9 @@ color2gradient <- function
    sMax <- 1;
    vMin <- 0.1;
    vMax <- 1;
-   wtFactor <- gradientWtFactor;
+   if (length(col) == 0) {
+      return(col)
+   }
 
    ## Expand n to the length of col
    if (!igrepHas("list", class(col))) {
@@ -1654,11 +1687,34 @@ color2gradient <- function
    if (is.null(names(col))) {
       names(col) <- makeNames(rep("col", length(col)));
    }
-   ## If not given n, and if all entries are one color,
-   ## we expand each gradient an equal amount
+
+   # 0.0.77.900: expand gradientWtFactor to length(col)
+   if (length(gradientWtFactor) > 0) {
+      gradientWtFactor <- rep(gradientWtFactor,
+         length.out=length(col));
+      names(gradientWtFactor) <- names(col);
+   }
+   if (length(dex) == 0) {
+      dex <- 1;
+   }
+   dex <- rep(dex,
+      length.out=length(col));
+   names(dex) <- names(col);
+
+   # Determine n:
+   # - when n=0 set to number of observations each color, no expansion
+   # - when n=NULL and all colors are singlets, expand to n=3 by default
+   # - when n=NULL otherwise use number of repeats for each color
+   # - otherwise expand n to length of unique colors
    doExpand <- FALSE;
-   if (is.null(n) && all(lengths(col) == 1)) {
-      n <- 3;
+   if (length(n) == 1 && n == 0) {
+      n <- lengths(col);
+   } else if (length(n) == 0) {
+      if (all(lengths(col) == 1)) {
+         n <- rep(3, length(col));
+      } else {
+         n <- lengths(col);
+      }
    }
    if (all(lengths(col) == 1)) {
       doExpand <- TRUE;
@@ -1669,19 +1725,32 @@ color2gradient <- function
    if (is.null(n)) {
       n <- lengths(col);
    }
-   n <- rep(n, length.out=length(col));
+   n <- rep(n,
+      length.out=length(col));
    names(n) <- names(col);
    if (verbose) {
-      printDebug("color2gradient() running.", c("orange", "lightblue"));
-      printDebug("   col:", c("orange", "lightblue"));
+      printDebug("color2gradient() running.");
+      printDebug("   col:");
       print(head(col, 10));
-      printDebug("     n:", c("orange", "lightblue"));
+      printDebug("     n:");
       print(head(n, 10));
    }
 
    newColorSets <- lapply(nameVectorN(col), function(iName){
       i <- col[[iName]];
-      if (verbose) {
+      wtFactor <- head(gradientWtFactor[[iName]], 1);
+      if (length(wtFactor) == 0 || wtFactor == 0) {
+         # adjust for initial luminance, brighter colors need less wtFactor
+         # dark colors benefit from more wtFactor
+         i_L <- col2hcl(head(i, 1))["L",];
+         wtFactor <- (n[[iName]] - 1) / (i_L / 14 + 2) * sqrt(dex[[iName]]);
+         if (verbose) {
+            jamba::printDebug("color2gradient(): ",
+               "wtFactor: ",
+               paste0("1 / ", round(1 / wtFactor, digits=1)));
+         }
+      }
+      if (verbose > 1) {
          printDebug("i:", c("orange", i));
          print(head(i, 20));
       }
@@ -1690,7 +1759,7 @@ color2gradient <- function
       }
       hsvValues <- col2hsv(i);
       iLen <- n[iName];
-      if (verbose) {
+      if (verbose > 1) {
          printDebug("iLen:", iLen, c("orange", "lightblue"));
       }
       if (iLen == 1) {
