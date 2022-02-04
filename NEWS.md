@@ -1,5 +1,18 @@
 # jamba version 0.0.77.900
 
+## new functions
+
+* `reload_rmarkdown_cache()` will load the cache files stored
+after processing an Rmarkdown `.Rmd` file.
+It is intended to help restore the Rmarkdown data available
+to particular Rmarkdown chunks, or to restore the entire
+session so the data can be used for more analysis or visualization.
+
+   * optionally loads into a specific `environment`
+   * optionally loads until a specific Rmarkdown chunk
+   * optionally loads only a given number of Rmarkdown chunks in order
+
+
 ## updates to existing functions
 
 * `color2gradient()` new argument default `gradientWtFactor=NULL`:

@@ -84,7 +84,7 @@ showColors(xv);
 # This process is similar to color jittering
 colors1 <- c("red","blue")[c(1,1,2,2,1,2,1,1)];
 names(colors1) <- colors1;
-colors2 <- color2gradient(colors1, gradientWtFactor=NULL);
+colors2 <- color2gradient(colors1);
 showColors(list(`Input colors`=colors1, `Output colors`=colors2));
 
 # You can do the same using a list intermediate

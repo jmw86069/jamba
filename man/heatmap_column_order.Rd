@@ -46,6 +46,7 @@ for markdown formatting.
 }
 \seealso{
 Other jam utility functions: 
-\code{\link{heatmap_row_order}()}
+\code{\link{heatmap_row_order}()},
+\code{\link{reload_rmarkdown_cache}()}
 }
 \concept{jam utility functions}
