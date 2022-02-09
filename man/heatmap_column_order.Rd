@@ -44,9 +44,33 @@ case where \code{column_labels}, or \code{column_title} labels cannot be
 coerced to \code{character} values, for example using \code{gridtext}
 for markdown formatting.
 }
-\seealso{
-Other jam utility functions: 
-\code{\link{heatmap_row_order}()},
-\code{\link{reload_rmarkdown_cache}()}
+\examples{
+if (check_pkg_installed("ComplexHeatmap")) {
+   set.seed(123);
+
+   mat <- matrix(rnorm(18 * 24),
+      ncol=24);
+   rownames(mat) <- paste0("row", seq_len(18))
+   colnames(mat) <- paste0("column", seq_len(24))
+
+   # obtaining row order first causes a warning message
+   hm1 <- ComplexHeatmap::Heatmap(mat);
+   heatmap_row_order(hm1)
+   ComplexHeatmap::draw(hm1);
+
+   # best practice is to draw() and store output in an object
+   # to ensure the row orders are absolutely fixed
+   hm2 <- ComplexHeatmap::Heatmap(mat, show_row_names=FALSE);
+   hm2d <- ComplexHeatmap::draw(hm2);
+   heatmap_row_order(hm2d)
+   heatmap_column_order(hm2d)
+
 }
-\concept{jam utility functions}
+
+}
+\seealso{
+Other jam heatmap functions: 
+\code{\link{cell_fun_label}()},
+\code{\link{heatmap_row_order}()}
+}
+\concept{jam heatmap functions}

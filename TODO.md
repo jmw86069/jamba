@@ -24,7 +24,7 @@ classes for each row loaded individually.
 constraints. The idea is to check if the package is installed, and
 optionally if the package version is at least `>= x.y.z`, likely
 using `utils::compareVersion()`.
-* Update `getColorRamp()` to recognize any color ramps supplied by
+* COMPLETE: Update `getColorRamp()` to recognize any color ramps supplied by
 `colorjam` if that package is installed: `jam_linear` and `jam_divergent`.
 
 

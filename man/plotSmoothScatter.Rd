@@ -210,6 +210,7 @@ Other jam plot functions:
 \code{\link{minorLogTicksAxis}()},
 \code{\link{nullPlot}()},
 \code{\link{plotPolygonDensity}()},
+\code{\link{plotRidges}()},
 \code{\link{shadowText}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},

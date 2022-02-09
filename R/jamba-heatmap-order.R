@@ -18,6 +18,12 @@
 #' coerced to `character` values, for example using `gridtext`
 #' for markdown formatting.
 #'
+#' Final note: It is best practice to draw the heatmap first
+#' with `ComplexHeatmap::draw()` then store the output in a new
+#' object. This step creates the definitive clustering and
+#' therefore the row order is absolutely final, not subject
+#' to potential randomness during clustering.
+#'
 #' @return output depends upon the heatmap:
 #'    * When heatmap rows are grouped using `row_split`, and
 #'    when the data matrix contains rownames,
@@ -30,7 +36,7 @@
 #'    is named using the `row_title` labels only when there is
 #'    an equal number of row labels.
 #'
-#' @family jam utility functions
+#' @family jam heatmap functions
 #'
 #' @param hm `Heatmap` or `HeatmapList` object as defined by the
 #'    Bioconductor package via `ComplexHeatmap::Heatmap()`.
@@ -44,13 +50,17 @@
 #'    rownames(mat) <- paste0("row", seq_len(18))
 #'    colnames(mat) <- paste0("column", seq_len(24))
 #'
+#'    # obtaining row order first causes a warning message
 #'    hm1 <- ComplexHeatmap::Heatmap(mat);
 #'    heatmap_row_order(hm1)
 #'    ComplexHeatmap::draw(hm1);
 #'
+#'    # best practice is to draw() and store output in an object
+#'    # to ensure the row orders are absolutely fixed
 #'    hm2 <- ComplexHeatmap::Heatmap(mat, show_row_names=FALSE);
-#'    ComplexHeatmap::draw(hm2);
-#'    heatmap_row_order(hm2)
+#'    hm2d <- ComplexHeatmap::draw(hm2);
+#'    heatmap_row_order(hm2d)
+#'    heatmap_column_order(hm2d)
 #'
 #' }
 #'
@@ -118,10 +128,33 @@ heatmap_row_order <- function
 #'    is named using the `column_title` labels only when there is
 #'    an equal number of column labels.
 #'
-#' @family jam utility functions
+#' @family jam heatmap functions
 #'
 #' @param hm `Heatmap` or `HeatmapList` object as defined by the
 #'    Bioconductor package via `ComplexHeatmap::Heatmap()`.
+#'
+#' @examples
+#' if (check_pkg_installed("ComplexHeatmap")) {
+#'    set.seed(123);
+#'
+#'    mat <- matrix(rnorm(18 * 24),
+#'       ncol=24);
+#'    rownames(mat) <- paste0("row", seq_len(18))
+#'    colnames(mat) <- paste0("column", seq_len(24))
+#'
+#'    # obtaining row order first causes a warning message
+#'    hm1 <- ComplexHeatmap::Heatmap(mat);
+#'    heatmap_row_order(hm1)
+#'    ComplexHeatmap::draw(hm1);
+#'
+#'    # best practice is to draw() and store output in an object
+#'    # to ensure the row orders are absolutely fixed
+#'    hm2 <- ComplexHeatmap::Heatmap(mat, show_row_names=FALSE);
+#'    hm2d <- ComplexHeatmap::draw(hm2);
+#'    heatmap_row_order(hm2d)
+#'    heatmap_column_order(hm2d)
+#'
+#' }
 #'
 #' @export
 heatmap_column_order <- function

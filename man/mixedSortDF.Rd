@@ -147,6 +147,16 @@ x;
 mixedSortDF(x, byCols=c("rownames"));
 mixedSortDF(x, byCols=c("L2", "-rownames"));
 
+# demonstrate sorting a matrix with no rownames
+m <- matrix(c(2, 1, 3, 4), ncol=2);
+mixedSortDF(m, byCols=-2)
+
+# add rownames
+rownames(m) <- c("c", "a");
+mixedSortDF(m, byCols=0)
+mixedSortDF(m, byCols="-rownames")
+mixedSortDF(m, byCols="rownames")
+
 }
 \seealso{
 Other jam sort functions: 

@@ -868,6 +868,16 @@ mmixedOrder <- function
 #' mixedSortDF(x, byCols=c("rownames"));
 #' mixedSortDF(x, byCols=c("L2", "-rownames"));
 #'
+#' # demonstrate sorting a matrix with no rownames
+#' m <- matrix(c(2, 1, 3, 4), ncol=2);
+#' mixedSortDF(m, byCols=-2)
+#'
+#' # add rownames
+#' rownames(m) <- c("c", "a");
+#' mixedSortDF(m, byCols=0)
+#' mixedSortDF(m, byCols="-rownames")
+#' mixedSortDF(m, byCols="rownames")
+#'
 #' @export
 mixedSortDF <- function
 (df,
@@ -888,7 +898,12 @@ mixedSortDF <- function
    ## Purpose is to order a data.frame using mmixedOrder()
    ## byCols is a vector of column numbers, with negative values
    ## referring to columns for decreasing order
-   ##
+
+   # if input has no rows, return without processing
+   if (length(df) == 0 || (length(dim(df) > 1) && dim(df)[1] == 0)) {
+      return(df)
+   }
+
    ## If given a matrix, convert to data.frame so it is treated as a list
    ## in mmixedOrder()
    ##
@@ -906,13 +921,8 @@ mixedSortDF <- function
          length.out=length(byCols));
    }
 
-
    ## Handle character input for byCols
    if (igrepHas("character", class(byCols))) {
-      if (length(colnames(df)) == 0) {
-         ## If given colnames, but colnames(df) is empty, we cannot proceed
-         stop("mixedSortDF(): byCols is supplied as character by colnames(df) is empty.");
-      }
       byMatch <- match(byCols, colnames(df));
 
       ## If any colnames are not matched, check for prefix "-"
@@ -1011,8 +1021,12 @@ mixedSortDF <- function
       byCols[byCols == 0] <- ncol(df) + 1;
    }
 
-   ## Return df if there are no byCols
+   # Return df if there are no byCols
    if (length(byCols) == 0) {
+      if (verbose) {
+         printDebug("mixedSortDF(): ",
+            "No columns available to sort.");
+      }
       return(df);
    }
 
@@ -1087,10 +1101,17 @@ mixedSortDF <- function
       data.frame(
          check.names=FALSE,
          stringsAsFactors=FALSE,
-         df,
-         rowNamesX=rmNULL(nullValue=NA,
-            rownames(df))
-         )[, byCols, drop=FALSE],
+         jamba::rmNULL(c(
+            data.frame(
+               check.names=FALSE,
+               stringsAsFactors=FALSE,
+               df),
+            data.frame(
+               check.names=FALSE,
+               stringsAsFactors=FALSE,
+               rowNamesX=rownames(df)))
+            )
+      )[, byCols, drop=FALSE],
       decreasing=decreasing,
       na.last=na.last,
       blanksFirst=blanksFirst,

@@ -1,3 +1,46 @@
+# jamba version 0.0.78.900
+
+## changes to existing functions
+
+* `mixedSortDF()` was updated:
+
+   * `df` input objects with zero rows are returned directly.
+   * Bug fixed for error thrown for objects with zero rows and no rownames,
+   caused by 0.0.76.900 which inserted `NA` for empty rownames,
+   but caused an error when the `df` had zero rows, since `NA`
+   has length 1 and did not match the number of rows.
+   First, zero-row objects are returned, no need to sort.
+   Second, the section was rewritten to be more robust, now
+   empty rownames are removed prior to calling `mmixedOrder()`.
+   * The function now properly allows sort by character `byCols`
+   for data with no colnames, useful when sorting by `"rownames"`.
+   * Added examples that test and confirm the desired behavior.
+
+## new functions
+
+* `plotRidges()` is analogous to `plotPolygonDensity()` except that it
+uses `ggplot2` and `ggridges` to plot density profiles inside the same panel.
+Particularly good for comparing densities across columns/samples, and
+when there are a large number of samples.
+* `cell_fun_label()` is a wrapper function to add text labels to
+`ComplexHeatmap::Heatmap()`. It is somewhat configurable:
+
+   * It can display a combination of one or numeric or character labels.
+   * Label text color is intended to use a color that contrasts with the
+   color of the heatmap cell itself, using `setTextContrastColor()`.
+   * It can optionally draw an outline to each cell.
+   * Numeric values are optionally abbreviated, for example `1502110`
+   would be displayed `1.5M`.
+   * Text font size can be directly adjusted.
+   * Labels can be rotated inside each cell, useful when cells are tall-skinny.
+
+
+## other minor updates
+
+The packagedown function categories were slightly re-ordered, and
+may be re-grouped in future to help organize functions.
+
+
 # jamba version 0.0.77.900
 
 ## new functions

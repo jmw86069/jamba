@@ -118,6 +118,7 @@ Other jam plot functions:
 \code{\link{imageDefault}()},
 \code{\link{minorLogTicksAxis}()},
 \code{\link{plotPolygonDensity}()},
+\code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
 \code{\link{shadowText}()},
 \code{\link{showColors}()},

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.78.900</span>
       </span>
     </div>
 
@@ -98,10 +98,16 @@ row index values when there are no <code><a href="https://rdrr.io/r/base/colname
 case where <code>row_labels</code>, or <code>row_title</code> labels cannot be
 coerced to <code>character</code> values, for example using <code>gridtext</code>
 for markdown formatting.</p>
+<p>Final note: It is best practice to draw the heatmap first
+with <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">ComplexHeatmap::draw()</a></code> then store the output in a new
+object. This step creates the definitive clustering and
+therefore the row order is absolutely final, not subject
+to potential randomness during clustering.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>Other jam utility functions: 
+    <div class="dont-index"><p>Other jam heatmap functions: 
+<code><a href="cell_fun_label.html">cell_fun_label</a>()</code>,
 <code><a href="heatmap_column_order.html">heatmap_column_order</a>()</code></p></div>
     </div>
     </div>
@@ -116,27 +122,32 @@ for markdown formatting.</p>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"column"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">24</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
+<span class="r-in">   <span class="co"># obtaining row order first causes a warning message</span></span>
 <span class="r-in">   <span class="va">hm1</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span>;</span>
 <span class="r-in">   <span class="fu">heatmap_row_order</span><span class="op">(</span><span class="va">hm1</span><span class="op">)</span></span>
 <span class="r-in">   <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm1</span><span class="op">)</span>;</span>
 <span class="r-in"></span>
+<span class="r-in">   <span class="co"># best practice is to draw() and store output in an object</span></span>
+<span class="r-in">   <span class="co"># to ensure the row orders are absolutely fixed</span></span>
 <span class="r-in">   <span class="va">hm2</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">mat</span>, show_row_names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm2</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu">heatmap_row_order</span><span class="op">(</span><span class="va">hm2</span><span class="op">)</span></span>
+<span class="r-in">   <span class="va">hm2d</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm2</span><span class="op">)</span>;</span>
+<span class="r-in">   <span class="fu">heatmap_row_order</span><span class="op">(</span><span class="va">hm2d</span><span class="op">)</span></span>
+<span class="r-in">   <span class="fu"><a href="heatmap_column_order.html">heatmap_column_order</a></span><span class="op">(</span><span class="va">hm2d</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The heatmap has not been initialized. You might have different results</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> if you repeatedly execute this function, e.g. when row_km/column_km was</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> set. It is more suggested to do as `ht = draw(ht); row_order(ht)`.</span>
 <span class="r-plt img"><img src="heatmap_row_order-1.png" alt="" width="700" height="433"></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The heatmap has not been initialized. You might have different results</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> if you repeatedly execute this function, e.g. when row_km/column_km was</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> set. It is more suggested to do as `ht = draw(ht); row_order(ht)`.</span>
 <span class="r-plt img"><img src="heatmap_row_order-2.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   row16    row2   row12    row7   row17    row9    row8    row1   row18    row5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "row16"  "row2" "row12"  "row7" "row17"  "row9"  "row8"  "row1" "row18"  "row5" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    row4    row3    row6   row11   row14   row15   row13   row10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  "row4"  "row3"  "row6" "row11" "row14" "row15" "row13" "row10" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column15    column1   column17    column6    column9   column23   column14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column15"  "column1" "column17"  "column6"  "column9" "column23" "column14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column10    column4   column11    column7   column18   column12   column21 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column10"  "column4" "column11"  "column7" "column18" "column12" "column21" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column19   column24   column13    column8   column16    column5    column2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column19" "column24" "column13"  "column8" "column16"  "column5"  "column2" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    column3   column22   column20 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "column3" "column22" "column20" </span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

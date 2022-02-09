@@ -2,6 +2,14 @@ template:
   params:
     bootswatch: cosmo
 reference:
+- title: Sort functions
+  desc: Functions based upon alphanumeric sorting
+  contents:
+  - has_concept("jam sort functions")
+- title: Grep functions
+  desc: Convenient grep functions for speed of re-use
+  contents:
+  - has_concept("jam grep functions")
 - title: Plot functions
   desc: Functions that assist with R plotting
   contents:
@@ -22,22 +30,22 @@ reference:
   desc: Functions which manipulate list objects
   contents:
   - has_concept("jam list functions")
-- title: Sort functions
-  desc: Functions based upon alphanumeric sorting
-  contents:
-  - has_concept("jam sort functions")
 - title: Date functions
   desc: Functions which manipulate date objects or strings
   contents:
   - has_concept("jam date functions")
-- title: Grep functions
-  desc: Convenient grep functions for speed of re-use
-  contents:
-  - has_concept("jam grep functions")
 - title: Export functions
   desc: Practical functions for exporting data, e.g. to Excel xlsx
   contents:
   - has_concept("jam export functions")
+- title: Utility functions
+  desc: Functions that enhance utility of other existing functions or packages
+  contents:
+  - has_concept("jam utility functions")
+- title: Heatmap functions
+  desc: Specific enhancements for `ComplexHeatmap::Heatmap()`
+  contents:
+  - has_concept("jam heatmap functions")
 - title: Practical functions
   desc: Practical functions to enhance routine R work, essentially miscellaneous
   contents:

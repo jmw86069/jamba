@@ -70,6 +70,9 @@
     <loc>/reference/cPasteUnique.html</loc>
   </url>
   <url>
+    <loc>/reference/cell_fun_label.html</loc>
+  </url>
+  <url>
     <loc>/reference/checkLightMode.html</loc>
   </url>
   <url>
@@ -289,6 +292,9 @@
     <loc>/reference/plotPolygonDensity.html</loc>
   </url>
   <url>
+    <loc>/reference/plotRidges.html</loc>
+  </url>
+  <url>
     <loc>/reference/plotSmoothScatter.html</loc>
   </url>
   <url>
@@ -311,6 +317,9 @@
   </url>
   <url>
     <loc>/reference/relist_named.html</loc>
+  </url>
+  <url>
+    <loc>/reference/reload_rmarkdown_cache.html</loc>
   </url>
   <url>
     <loc>/reference/renameColumn.html</loc>
