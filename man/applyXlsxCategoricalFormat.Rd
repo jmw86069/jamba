@@ -20,7 +20,9 @@ applyXlsxCategoricalFormat(
 )
 }
 \arguments{
-\item{xlsxFile}{filename pointing to an existing Excel xlsx file.}
+\item{xlsxFile}{\code{character} filename to a file with ".xlsx" extension,
+or \code{Workbook} object defined in the \code{openxlsx} package. When
+\code{xlsxFile} is a \code{Workbook} the output is not saved to a file.}
 
 \item{sheet}{integer index of the worksheet or worksheets.}
 
@@ -52,6 +54,12 @@ the specific cell color, for example the font size and font name.}
 \item{verbose}{logical indicating whether to print verbose output.}
 
 \item{...}{additional arguments are ignored.}
+}
+\value{
+\code{Workbook} object as defined by the \code{openxlsx} package
+is returned invisibly with \code{invisible()}. This \code{Workbook}
+can be used in argument \code{wb} to provide a speed boost when
+saving multiple sheets to the same file.
 }
 \description{
 Add categorical colors to Excel xlsx worksheets

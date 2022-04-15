@@ -44,7 +44,9 @@ applyXlsxConditionalFormat(
 )
 }
 \arguments{
-\item{xlsxFile}{character filename to a file with ".xlsx" extension.}
+\item{xlsxFile}{\code{character} filename to a file with ".xlsx" extension,
+or \code{Workbook} object defined in the \code{openxlsx} package. When
+\code{xlsxFile} is a \code{Workbook} the output is not saved to a file.}
 
 \item{sheet}{integer or character, either the worksheet number, in order
 or character worksheet name. This vector can contain multiple values,
@@ -81,6 +83,12 @@ headers. However, if there are multiple header rows, startRow should be
 be replaced with the new one, or whether a new file will be created.}
 
 \item{...}{additional parameters are ignored.}
+}
+\value{
+\code{Workbook} object as defined by the \code{openxlsx} package
+is returned invisibly with \code{invisible()}. This \code{Workbook}
+can be used in argument \code{wb} to provide a speed boost when
+saving multiple sheets to the same file.
 }
 \description{
 Xlsx Conditional formatting

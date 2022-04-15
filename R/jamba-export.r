@@ -59,10 +59,27 @@
 #'
 #' @family jam export functions
 #'
+#' @return `Workbook` object as defined by the `openxlsx` package
+#'    is returned invisibly with `invisible()`. This `Workbook`
+#'    can be used in argument `wb` to provide a speed boost when
+#'    saving multiple sheets to the same file.
+#'
 #' @param x data.frame to be saved to an Excel xlsx file.
 #' @param file a valid path to save an Excel xlsx file. If the file exists,
 #'    and `append=TRUE` the new data will be added to the existing file with
 #'    the defined `sheetName`.
+#'    * Note when `file=NULL` the output is not saved to a file,
+#'    instead the `Workbook` object is returned by this function.
+#'    The `Workbook` object can be passed as argument `wb` in order
+#'    to add multiple sheets to the same Workbook prior to saving
+#'    them together. This operation is intended to provide a
+#'    substantial improvement in speed.
+#' @param wb `Workbook` object as defined in R package `openxlsx`.
+#'    When this argument is defined, data is not imported from `file`,
+#'    and instead the workbook data is used from `wb`. This option is
+#'    intended to improve speed of writing several sheets to the same
+#'    output file, by preventing the slow read/write steps each time
+#'    a new sheet is added.
 #' @param sheetName character value less with a valid
 #'    Excel xlsx worksheet name. At this time (version 0.0.29.900) the
 #'    sheetName is restricted to 31 characters, with no puntuation except
@@ -111,6 +128,11 @@
 #' @param headerRowMultiplier integer value, the row height of the first
 #'    header row in Excel, as a multiple of subsequent rows. This argument
 #'    is helpful when `wrapHeaders=TRUE` and `autoWidth=TRUE`.
+#' @param colWidths `numeric` width of each column in `x`, recycled
+#'    to the total number of columns required. Note that when
+#'    `keepRownames=TRUE`, the first column will contain `rownames(x)`,
+#'    therefore the length of `colWidths` in that case will be
+#'    `ncol(x) + 1`.
 #' @param keepRownames logical indicating whether to include
 #'    `rownames(x)` in its own column in Excel.
 #' @param verbose logical indicating whether to print verbose output.
@@ -152,7 +174,8 @@
 #' @export
 writeOpenxlsx <- function
 (x,
- file,
+ file=NULL,
+ wb=NULL,
  sheetName="Sheet1",
  append=FALSE,
  headerColors=c("lightskyblue1", "lightskyblue2"),
@@ -202,9 +225,10 @@ writeOpenxlsx <- function
  fontName="Arial",
  fontSize=12,
 
- minWidth=8,
- maxWidth=40,
+ minWidth=getOption("openxlsx.minWidth", 8),
+ maxWidth=getOption("openxlsx.maxWidth", 40),
  autoWidth=TRUE,
+ colWidths=NULL,
 
  wrapCells=FALSE,
  wrapHeaders=TRUE,
@@ -219,19 +243,36 @@ writeOpenxlsx <- function
    if (!suppressPackageStartupMessages(require(openxlsx))) {
       stop("The openxlsx package is required for writeOpenxlsx().");
    }
-   if (append && file.exists(file)) {
-      ## Load the requested file as a workbook
+   if (length(wb) > 0) {
+      if (!"Workbook" %in% class(wb)) {
+         stop("wb must be openxlsx class 'Workbook'");
+      }
       if (verbose) printDebug("writeOpenxlsx():",
-         "loadWorkbook");
-      wb <- openxlsx::loadWorkbook(file);
-   } else {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "createWorkbook");
-      wb <- openxlsx::createWorkbook();
+         "re-use Workbook wb");
+   }
+   if (length(file) == 0) {
+      if (length(wb) == 0) {
+         if (verbose) printDebug("writeOpenxlsx():",
+            "createWorkbook");
+         wb <- openxlsx::createWorkbook();
+      }
+   }
+   if (length(file) > 0 && length(wb) == 0) {
+      if (append && file.exists(file)) {
+         ## Load the requested file as a workbook
+         if (verbose) printDebug("writeOpenxlsx():",
+            "loadWorkbook");
+         wb <- openxlsx::loadWorkbook(file);
+      } else {
+         if (verbose) printDebug("writeOpenxlsx():",
+            "createWorkbook");
+         wb <- openxlsx::createWorkbook();
+      }
    }
    ## Set column widths
-   if (verbose) printDebug("writeOpenxlsx():",
-      "setColWidths");
+   if (verbose) jamba::printDebug("writeOpenxlsx():",
+      "setting options: ",
+      c("openxlsx.minWidth", "openxlsx.maxWidth"));
    options("openxlsx.minWidth"=minWidth,
       "openxlsx.maxWidth"=maxWidth);
 
@@ -534,6 +575,20 @@ writeOpenxlsx <- function
          gridExpand=TRUE);
    }
 
+   ## Apply colWidths
+   if (length(colWidths) > 0) {
+      colWidths <- rep(colWidths,
+         length.out=ncol(x) + keepRownames);
+      if (verbose) {
+         printDebug("writeOpenxlsx():",
+            "set_xlsx_colwidths()");
+      }
+      wb <- set_xlsx_colwidths(wb,
+         sheet=sheetName,
+         cols=seq_len(ncol(x) + keepRownames),
+         widths=colWidths)
+   }
+
    ## Apply freeze panes
    if (freezePaneRow > 1 || freezePaneColumn > 1) {
       if (verbose) {
@@ -567,15 +622,6 @@ writeOpenxlsx <- function
          heights=15*headerRowMultiplier);
    }
 
-   ## Write the .xlsx file here
-   if (verbose) {
-      printDebug("writeOpenxlsx(): ",
-         "saveWorkbook");
-   }
-   openxlsx::saveWorkbook(wb,
-      file,
-      overwrite=TRUE);
-
    ## Optionally apply conditional column formatting
    if (doConditional &&
          length(c(numColumns,
@@ -586,7 +632,7 @@ writeOpenxlsx <- function
       #
       if (verbose) printDebug("writeOpenxlsx():",
          "calling applyXlsxConditionalFormat");
-      applyXlsxConditionalFormat(xlsxFile=file,
+      wb <- applyXlsxConditionalFormat(xlsxFile=wb,
          sheet=sheetName,
          fcColumns=fcColumns + keepRownames,
          lfcColumns=lfcColumns + keepRownames,
@@ -604,6 +650,7 @@ writeOpenxlsx <- function
          ...);
    }
 
+   ## Optionally apply categorical column formatting
    if (doCategorical && !is.null(colorSub)) {
       textColumns <- setdiff(seq_len(ncol(x) + keepRownames),
          c(numColumns,
@@ -620,7 +667,7 @@ writeOpenxlsx <- function
                "applyXlsxCategoricalFormat: ",
                textColumns);
          }
-         applyXlsxCategoricalFormat(xlsxFile=file,
+         wb <- applyXlsxCategoricalFormat(xlsxFile=wb,
             sheet=sheetName,
             rowRange=seq_len(nrow(x))+0,
             colRange=textColumns,
@@ -634,7 +681,7 @@ writeOpenxlsx <- function
          if (verbose) printDebug("writeOpenxlsx(): ",
             "applyXlsxCategoricalFormat to colRange:",
             colRange);
-         applyXlsxCategoricalFormat(xlsxFile=file,
+         wb <- applyXlsxCategoricalFormat(xlsxFile=wb,
             sheet=sheetName,
             rowRange=c(0),
             colRange=colRange + keepRownames,
@@ -645,6 +692,18 @@ writeOpenxlsx <- function
       }
    }
 
+   ## Write the .xlsx file here
+   if (length(file) > 0) {
+      if (verbose) {
+         printDebug("writeOpenxlsx(): ",
+            "saveWorkbook");
+      }
+      openxlsx::saveWorkbook(wb,
+         file,
+         overwrite=TRUE);
+   }
+
+   return(invisible(wb));
 }
 
 
@@ -719,7 +778,14 @@ writeOpenxlsx <- function
 #'
 #' @family jam export functions
 #'
-#' @param xlsxFile character filename to a file with ".xlsx" extension.
+#' @return `Workbook` object as defined by the `openxlsx` package
+#'    is returned invisibly with `invisible()`. This `Workbook`
+#'    can be used in argument `wb` to provide a speed boost when
+#'    saving multiple sheets to the same file.
+#'
+#' @param xlsxFile `character` filename to a file with ".xlsx" extension,
+#'    or `Workbook` object defined in the `openxlsx` package. When
+#'    `xlsxFile` is a `Workbook` the output is not saved to a file.
 #' @param sheet integer or character, either the worksheet number, in order
 #'    or character worksheet name. This vector can contain multiple values,
 #'    which will cause conditional formatting to be applied to each
@@ -814,11 +880,11 @@ applyXlsxConditionalFormat <- function
  pvalueStyle=c("#F77F30","#FDC99B","#EEECE1"),
  pvalueRule=c(0, 0.01, 0.05),
  pvalueType="colourScale",
-##
-verbose=FALSE,
-startRow=2,
-overwrite=TRUE,
-...)
+ ##
+ verbose=FALSE,
+ startRow=2,
+ overwrite=TRUE,
+ ...)
 {
    ## Purpose is to take an xlsx file, and apply conditional formatting
    ## only to the columns as requested
@@ -831,15 +897,21 @@ overwrite=TRUE,
    }
 
    ## Load the requested file as a workbook
-   wb <- openxlsx::loadWorkbook(xlsxFile);
+   if ("Workbook" %in% class(xlsxFile)) {
+      wb <- xlsxFile;
+   } else {
+      wb <- openxlsx::loadWorkbook(xlsxFile);
+   }
 
 
    ## Wrap in a large loop to handle multiple worksheets
    sheets <- sheet;
    for (sheet in sheets) {
 
-      ## Load the data.frame, because it is the only reliable way to count rows
-      df <- openxlsx::read.xlsx(xlsxFile, sheet=sheet);
+      ## Load the data.frame
+      df <- openxlsx::readWorkbook(wb,
+         sheet=sheet,
+         ...);
       nrowDf <- nrow(df) + 1;
 
       ## If grep patterns are supplied, use those to define the colnames
@@ -1017,11 +1089,13 @@ overwrite=TRUE,
    }
 
    ## Save the updated workbook
-   if (!overwrite) {
-      xlsxFile <- gsub("([.]xls[x]*)$", paste0("_", getDate(), "\\1"), xlsxFile);
+   if (!"Workbook" %in% class(xlsxFile)) {
+      if (!overwrite) {
+         xlsxFile <- gsub("([.]xls[x]*)$", paste0("_", getDate(), "\\1"), xlsxFile);
+      }
+      openxlsx::saveWorkbook(wb, xlsxFile, overwrite=TRUE);
    }
-   openxlsx::saveWorkbook(wb, xlsxFile, overwrite=TRUE);
-   invisible(xlsxFile);
+   invisible(wb);
 }
 
 #' Add categorical colors to Excel xlsx worksheets
@@ -1037,7 +1111,14 @@ overwrite=TRUE,
 #'
 #' @family jam export functions
 #'
-#' @param xlsxFile filename pointing to an existing Excel xlsx file.
+#' @return `Workbook` object as defined by the `openxlsx` package
+#'    is returned invisibly with `invisible()`. This `Workbook`
+#'    can be used in argument `wb` to provide a speed boost when
+#'    saving multiple sheets to the same file.
+#'
+#' @param xlsxFile `character` filename to a file with ".xlsx" extension,
+#'    or `Workbook` object defined in the `openxlsx` package. When
+#'    `xlsxFile` is a `Workbook` the output is not saved to a file.
 #' @param sheet integer index of the worksheet or worksheets.
 #' @param rowRange,colRange integer vectors of rows and columns
 #'    to apply categorical colors in the Excel xlsx worksheet.
@@ -1117,7 +1198,11 @@ applyXlsxCategoricalFormat <- function
    retVals <- list();
 
    ## Load the requested file as a workbook
-   wb <- openxlsx::loadWorkbook(xlsxFile);
+   if ("Workbook" %in% class(xlsxFile)) {
+      wb <- xlsxFile;
+   } else {
+      wb <- openxlsx::loadWorkbook(xlsxFile);
+   }
 
    ## colorSub names
    color_names1 <- names(colorSub);
@@ -1134,9 +1219,10 @@ applyXlsxCategoricalFormat <- function
    wb_changed <- FALSE;
    for (sheet in sheets) {
 
-      ## Load the data.frame, because it is the only reliable way to count rows
-      df <- openxlsx::read.xlsx(xlsxFile,
-         sheet=sheet);
+      ## Load the data.frame
+      df <- openxlsx::readWorkbook(wb,
+         sheet=sheet,
+         ...);
       nrowDf <- nrow(df) + 1;
       if (is.null(rowRange)) {
          rowRange <- seq_len(nrow(df));
@@ -1281,17 +1367,18 @@ applyXlsxCategoricalFormat <- function
    }
 
    ## Save the updated workbook
-   if (wb_changed) {
-      if (!overwrite) {
-         xlsxFile <- gsub("([.]xls[x]*)$", paste0("_", getDate(), "\\1"), xlsxFile);
+   if (!"Workbook" %in% class(xlsxFile)) {
+      if (wb_changed) {
+         if (!overwrite) {
+            xlsxFile <- gsub("([.]xls[x]*)$", paste0("_", getDate(), "\\1"), xlsxFile);
+         }
+         if (verbose) {
+            printDebug("Calling openxlsx::saveWorkbook().");
+         }
+         openxlsx::saveWorkbook(wb, xlsxFile, overwrite=TRUE);
       }
-      if (verbose) {
-         printDebug("Calling openxlsx::saveWorkbook().");
-      }
-      openxlsx::saveWorkbook(wb, xlsxFile, overwrite=TRUE);
    }
-   retVals$xlsxFile <- xlsxFile;
-   invisible(retVals);
+   invisible(wb);
 }
 
 #' Set column widths in Xlsx files
@@ -1307,7 +1394,14 @@ applyXlsxCategoricalFormat <- function
 #'
 #' @family jam export functions
 #'
-#' @param xlsxFile `character` path to a file saved as `xlsx` format.
+#' @return `Workbook` object as defined by the `openxlsx` package
+#'    is returned invisibly with `invisible()`. This `Workbook`
+#'    can be used in argument `wb` to provide a speed boost when
+#'    saving multiple sheets to the same file.
+#'
+#' @param xlsxFile `character` filename to a file with ".xlsx" extension,
+#'    or `Workbook` object defined in the `openxlsx` package. When
+#'    `xlsxFile` is a `Workbook` the output is not saved to a file.
 #' @param sheet value passed to `openxlsx::setColWidths()` indicating
 #'    the worksheet to affect. It can either be an `integer` value, or
 #'    the `character` name of a sheet.
@@ -1339,7 +1433,11 @@ set_xlsx_colwidths <- function
  ...)
 {
    ## Load the requested file as a workbook
-   wb <- openxlsx::loadWorkbook(xlsxFile);
+   if ("Workbook" %in% class(xlsxFile)) {
+      wb <- xlsxFile;
+   } else {
+      wb <- openxlsx::loadWorkbook(xlsxFile);
+   }
 
    openxlsx::setColWidths(wb,
       sheet=sheet,
@@ -1348,9 +1446,12 @@ set_xlsx_colwidths <- function
       ...);
 
    ## Save workbook
-   openxlsx::saveWorkbook(wb,
-      xlsxFile,
-      overwrite=TRUE);
+   if (!"Workbook" %in% class(xlsxFile)) {
+      openxlsx::saveWorkbook(wb,
+         xlsxFile,
+         overwrite=TRUE);
+   }
+   invisible(wb);
 }
 
 #' Set row heights in Xlsx files
@@ -1369,7 +1470,14 @@ set_xlsx_colwidths <- function
 #'
 #' @family jam export functions
 #'
-#' @param xlsxFile `character` path to a file saved as `xlsx` format.
+#' @return `Workbook` object as defined by the `openxlsx` package
+#'    is returned invisibly with `invisible()`. This `Workbook`
+#'    can be used in argument `wb` to provide a speed boost when
+#'    saving multiple sheets to the same file.
+#'
+#' @param xlsxFile `character` filename to a file with ".xlsx" extension,
+#'    or `Workbook` object defined in the `openxlsx` package. When
+#'    `xlsxFile` is a `Workbook` the output is not saved to a file.
 #' @param sheet value passed to `openxlsx::setRowHeights()` indicating
 #'    the worksheet to affect. It can either be an `integer` value, or
 #'    the `character` name of a sheet.
@@ -1408,7 +1516,11 @@ set_xlsx_rowheights <- function
  ...)
 {
    ## Load the requested file as a workbook
-   wb <- openxlsx::loadWorkbook(xlsxFile);
+   if ("Workbook" %in% class(xlsxFile)) {
+      wb <- xlsxFile;
+   } else {
+      wb <- openxlsx::loadWorkbook(xlsxFile);
+   }
 
    openxlsx::setRowHeights(wb,
       sheet=sheet,
@@ -1416,9 +1528,12 @@ set_xlsx_rowheights <- function
       heights=heights);
 
    ## Save workbook
-   openxlsx::saveWorkbook(wb,
-      xlsxFile,
-      overwrite=TRUE);
+   if (!"Workbook" %in% class(xlsxFile)) {
+      openxlsx::saveWorkbook(wb,
+         xlsxFile,
+         overwrite=TRUE);
+   }
+   invisible(wb);
 }
 
 

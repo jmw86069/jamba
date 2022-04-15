@@ -6,7 +6,8 @@
 \usage{
 writeOpenxlsx(
   x,
-  file,
+  file = NULL,
+  wb = NULL,
   sheetName = "Sheet1",
   append = FALSE,
   headerColors = c("lightskyblue1", "lightskyblue2"),
@@ -48,9 +49,10 @@ writeOpenxlsx(
   doFilter = TRUE,
   fontName = "Arial",
   fontSize = 12,
-  minWidth = 8,
-  maxWidth = 40,
+  minWidth = getOption("openxlsx.minWidth", 8),
+  maxWidth = getOption("openxlsx.maxWidth", 40),
   autoWidth = TRUE,
+  colWidths = NULL,
   wrapCells = FALSE,
   wrapHeaders = TRUE,
   headerRowMultiplier = 5,
@@ -64,7 +66,22 @@ writeOpenxlsx(
 
 \item{file}{a valid path to save an Excel xlsx file. If the file exists,
 and \code{append=TRUE} the new data will be added to the existing file with
-the defined \code{sheetName}.}
+the defined \code{sheetName}.
+\itemize{
+\item Note when \code{file=NULL} the output is not saved to a file,
+instead the \code{Workbook} object is returned by this function.
+The \code{Workbook} object can be passed as argument \code{wb} in order
+to add multiple sheets to the same Workbook prior to saving
+them together. This operation is intended to provide a
+substantial improvement in speed.
+}}
+
+\item{wb}{\code{Workbook} object as defined in R package \code{openxlsx}.
+When this argument is defined, data is not imported from \code{file},
+and instead the workbook data is used from \code{wb}. This option is
+intended to improve speed of writing several sheets to the same
+output file, by preventing the slow read/write steps each time
+a new sheet is added.}
 
 \item{sheetName}{character value less with a valid
 Excel xlsx worksheet name. At this time (version 0.0.29.900) the
@@ -118,6 +135,12 @@ dependent upon the data content. When \code{autoWidth=FALSE} Excel
 naturally auto-sizes cells to the width of the largest value
 in each column.}
 
+\item{colWidths}{\code{numeric} width of each column in \code{x}, recycled
+to the total number of columns required. Note that when
+\code{keepRownames=TRUE}, the first column will contain \code{rownames(x)},
+therefore the length of \code{colWidths} in that case will be
+\code{ncol(x) + 1}.}
+
 \item{wrapHeaders}{logical indicating whether to enable word wrap
 for column headers, which is helpful when \code{autoWidth=TRUE} since
 it fixed the cell width while allowing the column header to be seen.}
@@ -133,6 +156,12 @@ is helpful when \code{wrapHeaders=TRUE} and \code{autoWidth=TRUE}.}
 
 \item{...}{additional arguments are passed to \code{applyXlsxConditionalFormat()}
 and \code{applyXlsxCategoricalFormat()}.}
+}
+\value{
+\code{Workbook} object as defined by the \code{openxlsx} package
+is returned invisibly with \code{invisible()}. This \code{Workbook}
+can be used in argument \code{wb} to provide a speed boost when
+saving multiple sheets to the same file.
 }
 \description{
 Export a data.frame to Excel xlsx format

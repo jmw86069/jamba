@@ -1,3 +1,25 @@
+# jamba version 0.0.79.900
+
+## changes to existing functions
+
+* `writeOpenxlsx()` changes
+
+   * New argument `wb` to supply an existing `Workbook` object,
+   instead of loading it from a file.
+   * It now returns the `Workbook` object with `invisible(wb)`.
+   * If `file=NULL` then output is not saved.
+   * To save multiple sheets to the same file, it is substantially
+   faster to build up one `Workbook` object, then save that `Workbook`
+   one time at the end.
+   * New argument `colWidths` will apply column widths to the `Workbook`
+   internally, to avoid having to save, read, apply, and save.
+
+
+* `applyXlsxConditionalFormat()`, `applyXlsxCategoricalFormat()`, `set_xlsx_colwidths()`, `set_xlsx_rowheights()`
+
+   * `xlsxFile` can be a filename or `Workbook` object
+   * each function returns `Workbook` invisibly
+
 # jamba version 0.0.78.900
 
 ## changes to existing functions

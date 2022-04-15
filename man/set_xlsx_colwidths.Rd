@@ -13,7 +13,9 @@ set_xlsx_colwidths(
 )
 }
 \arguments{
-\item{xlsxFile}{\code{character} path to a file saved as \code{xlsx} format.}
+\item{xlsxFile}{\code{character} filename to a file with ".xlsx" extension,
+or \code{Workbook} object defined in the \code{openxlsx} package. When
+\code{xlsxFile} is a \code{Workbook} the output is not saved to a file.}
 
 \item{sheet}{value passed to \code{openxlsx::setColWidths()} indicating
 the worksheet to affect. It can either be an \code{integer} value, or
@@ -25,6 +27,12 @@ the \code{character} name of a sheet.}
 defined by \code{cols}.}
 
 \item{...}{additional arguments are passed to \code{openxlsx::setColWidths()}.}
+}
+\value{
+\code{Workbook} object as defined by the \code{openxlsx} package
+is returned invisibly with \code{invisible()}. This \code{Workbook}
+can be used in argument \code{wb} to provide a speed boost when
+saving multiple sheets to the same file.
 }
 \description{
 Set column widths in Xlsx files
