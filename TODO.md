@@ -2,17 +2,18 @@
 
 ## 05may2022
 
-* Consider new function specifically for MAD outlier point filtering,
-instead of hiding this feature inside `rowGroupMeans()`.
+* COMPLETE. Consider new function specifically for MAD outlier point
+filtering, instead of hiding this feature inside `rowGroupMeans()`.
 
    * I am so dumb, there is a function `rowRmMadOutliers()` for this purpose,
    however this function is not grouped, and is instead only per row.
+   * COMPLETE. New function `rowGroupRmOutliers()`.
 
 * Consider moving functions into this package which are currently
 being used in multiple Jam packages:
 
    * `update_function_params()` - jamma multienrichjam
-   * `update_list_elements()` - jamma multienrichjam
+   * `update_list_elements()` - jamma multienrichjam (use `utils::modifyList()`)
    * `find_colname()` - jamma, multienrichjam
 
 ## 19apr2022
