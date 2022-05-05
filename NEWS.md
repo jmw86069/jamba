@@ -1,3 +1,48 @@
+# jamba version 0.0.80.900
+
+## new functions
+
+* `rowGroupRmOutliers()` is a convenience function that calls
+`rowGroupMeans(..., rmOutliers=TRUE, returnType="input")`.
+
+   * new argument `crossGroupMad=TRUE` calcualted the row MAD value
+   using the median MAD per row, using non-NA and non-zero MAD values.
+   See description of changes below.
+
+## changes to existing functions
+
+* Moved `rowGroupMeans()` and `rowRmMadOutliers()` into a specific
+.R file for easier management.
+* `rowGroupMeans()` changes when `rmOutliers=TRUE`:
+
+   * new argument `crossGroupMad=TRUE` will:
+   
+      * calculate each group MAD,
+      * take the median non-zero, non-NA MAD for each row as `rowMadValues`
+      * the median non-zero, non-NA `rowMadValues` is defined as `minDiff`
+      * `rowMadValues` and `minDiff` are passed to `rowRmMadOutliers()`
+      for each group, which therefore applies the same threshold to each
+      group on a row, and with the same `minDiff` difference-from-median
+      required.
+      * These changes ensure that row MAD values are not `0` unless all
+      groups have MAD=0 on the same row.
+      * Also, the default `minDiff` will by default require a point to differ
+      at least more than the median difference observed from median in
+      each row, in each group. If all MAD=0 in all groups and all rows,
+      then `minDiff=0` in which case it likely does not have adverse effect.
+
+* `rowRmMadOutliers()` changes:
+
+   * new argument `rowMadValues` can define the MAD values on each row,
+   useful for setting the per-row MAD across multiple sample
+   groups for example.
+   * new argument `minReps` to require this many non-NA values, only
+   useful when providing `rowMadValues` values, and for rows that
+   have n=2 replicates.
+   * `includeAttributes=TRUE` now includes attribute `"outlierDF"` which
+   is a a `data.frame` with summary information for each row in input `x`.
+
+
 # jamba version 0.0.79.900
 
 ## changes to existing functions

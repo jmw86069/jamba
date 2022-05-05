@@ -1,4 +1,53 @@
-## TODO for jamba
+# TODO for jamba
+
+## 05may2022
+
+* Consider new function specifically for MAD outlier point filtering,
+instead of hiding this feature inside `rowGroupMeans()`.
+
+   * I am so dumb, there is a function `rowRmMadOutliers()` for this purpose,
+   however this function is not grouped, and is instead only per row.
+
+* Consider moving functions into this package which are currently
+being used in multiple Jam packages:
+
+   * `update_function_params()` - jamma multienrichjam
+   * `update_list_elements()` - jamma multienrichjam
+   * `find_colname()` - jamma, multienrichjam
+
+## 19apr2022
+
+* Consider steps required to publish jamba on CRAN. (yike!)
+
+   * Might need to add tests for every function (yike!)
+   * Might need to remove some non-essential functions: `"jamrandom"`, `"jamitall"`?
+
+* `printDebug()` and `printDebugI()` changes:
+
+   * consider detecting "state" when run inside RMarkdown, although
+   currently seems to require the R block options include `results='asis'`
+   to enable color, which also requires `htmlOut=TRUE`.
+   * `htmlOut=TRUE` does not de-colorize before applying the delimiter;
+   also by default should remove comment prefix.
+
+* consider moving all color-related functions into colorjam.
+
+   * `hcl2col()`, `col2hcl()`, `rgb2col()`, `hsv2col()`, `col2hsv()`
+   * check cross-jam-package dependencies, e.g. `jamba::rgb2col()` is in
+   `splicejam`, `colorjam`, and a few R scripts.
+
+* `writeOpenxlsx()` and related functions
+
+   * Enable `startRow` to write data starting on row 2 or row 3 for example.
+   * Add example syntax for saving multi-sheet data to file with one
+   write operation, avoiding read/write for each worksheet.
+
+* Convert `imageToColors()` to `ComplexHeatmap::Heatmap()`
+
+   * or create a variation that uses ComplexHeatmap
+   * requires function to label cells in the center of contiguous range of cells
+   with same color and label
+
 
 ## 02dec2021
 
@@ -8,7 +57,7 @@ size `asSize()`
 
 ## 29nov2021
 
-* `mixedSortDF()` appears to have issues sorting data.frame columns with
+* COMPLETE: `mixedSortDF()` appears to have issues sorting data.frame columns with
 type "integer64". It appears not to sort these columns at all.
 * COMPLETE: `readOpenxlsx()` is throwing errors in edge cases, needs debugging.
 * COMPLETE: `readOpenxlsx()` detect when there is one or more header lines that
@@ -56,13 +105,14 @@ Simple utility function to load a common set of JAM packages
 
 ### 10aug2021
 
-* `writeOpenxlsx()` can be painfully slow with somewhat large
+* COMPLETE: `writeOpenxlsx()` can be painfully slow with somewhat large
 Excel sheets, roughly 20,000 rows and 11 columns.
 
    * The slow step is probably either `applyXlsxConditionalFormat()`,
    or `applyXlsxCategoricalFormat()`. 
    * Whichever step is slowest, it needs to become much faster.
-
+   * Note: Slowness was resolved by converting functions to use
+   Workbook instead of saving/loading/updating/saving.
 
 
 ### 25jul2021
