@@ -27,6 +27,7 @@ rowGroupRmOutliers(
   na.rm = TRUE,
   crossGroupMad = TRUE,
   madFactor = 5,
+  rmOutliers = TRUE,
   returnType = c("input"),
   groupOrder = c("same", "sort"),
   keepNULLlevels = FALSE,
