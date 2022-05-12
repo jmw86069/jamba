@@ -20,6 +20,17 @@
    in each color vector.
    * it was moved to its own R file.
 
+* `pasteByRowsOrdered()`
+
+   * new argument `keepOrder=FALSE`, no change to default behavior.
+   When `keepOrder=TRUE`, any `character` columns are converted to
+   `factor` whose levels are defined by the order of unique existing
+   entries, keeping the order provided in `x`.
+   * new argument `byCols` passed to `mixedSortDF()` to define the order
+   of column sort for factor levels. This argument was previously
+   passed via `...`, but was added as a specific argument to make
+   this connection more apparent.
+
 ## new functions
 
 * `call_fn_ellipsis()` was added.

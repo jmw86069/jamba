@@ -10,6 +10,8 @@ pasteByRowOrdered(
   na.rm = TRUE,
   condenseBlanks = TRUE,
   includeNames = FALSE,
+  keepOrder = FALSE,
+  byCols = seq_len(ncol(x)),
   na.last = TRUE,
   ...
 )
@@ -26,6 +28,22 @@ without including an extra delimiter between columns.}
 
 \item{includeNames}{logical whether to include the colname delimited
 prior to the value, using sepName as the delimiter.}
+
+\item{keepOrder}{\code{logical} indicating whether non-factor columns
+should order factor levels based upon the existing order of
+unique items. This option is intended for \code{data.frame} whose
+columns are already sorted in proper order, but where columns
+are not \code{factor} with appropriate factor levels. Note that
+even when \code{keepOrder=TRUE} all existing \code{factor} columns will
+honor the order of factor levels already present in those
+columns.}
+
+\item{byCols}{\code{integer} or \code{character} passed to \code{mixedSortDF()}.
+This argument defines the order of columns sorted by \code{mixedSortDF()},
+and does not affect the order of columns pasted. Columns are
+always pasted in the same order they appear in \code{x}. This argument
+\code{byCols} was previously passed via \code{...} but is added here
+to make this connection more direct.}
 
 \item{na.last}{\code{logical} passed to \code{base::factor()} to determine whether
 \code{NA} values are first or last in factor level order.}

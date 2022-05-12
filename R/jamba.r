@@ -5104,6 +5104,20 @@ isTRUEV <- function
 #'    without including an extra delimiter between columns.
 #' @param includeNames logical whether to include the colname delimited
 #'    prior to the value, using sepName as the delimiter.
+#' @param keepOrder `logical` indicating whether non-factor columns
+#'    should order factor levels based upon the existing order of
+#'    unique items. This option is intended for `data.frame` whose
+#'    columns are already sorted in proper order, but where columns
+#'    are not `factor` with appropriate factor levels. Note that
+#'    even when `keepOrder=TRUE` all existing `factor` columns will
+#'    honor the order of factor levels already present in those
+#'    columns.
+#' @param byCols `integer` or `character` passed to `mixedSortDF()`.
+#'    This argument defines the order of columns sorted by `mixedSortDF()`,
+#'    and does not affect the order of columns pasted. Columns are
+#'    always pasted in the same order they appear in `x`. This argument
+#'    `byCols` was previously passed via `...` but is added here
+#'    to make this connection more direct.
 #' @param na.last `logical` passed to `base::factor()` to determine whether
 #'    `NA` values are first or last in factor level order.
 #' @param ... additional arguments are passed to `jamba::pasteByRow()`,
@@ -5130,6 +5144,8 @@ pasteByRowOrdered <- function
  na.rm=TRUE,
  condenseBlanks=TRUE,
  includeNames=FALSE,
+ keepOrder=FALSE,
+ byCols=seq_len(ncol(x)),
  na.last=TRUE,
  ...)
 {
@@ -5137,15 +5153,31 @@ pasteByRowOrdered <- function
    ## where applicable, or define the output as a factor with ordered levels,
    ## using mixedSortDF() which does alphanumeric ordering while maintaining
    ## pre-existing factor ordering.
-   xstr <- jamba::pasteByRow(x,
+   xstr <- pasteByRow(x,
       sep=sep,
       na.rm=na.rm,
       condenseBlanks=condenseBlanks,
       includeNames=includeNames,
       ...);
-   xlevels <- jamba::pasteByRow(
+
+   # optionally convert non-factor columns to factor with levels
+   # based upon the order of existing unique values
+   if (length(keepOrder) > 0 && keepOrder) {
+      reorder_cols <- sclass(x) %in% c("character");
+      if (any(reorder_cols)) {
+         for (i in which(reorder_cols)) {
+            x[[i]] <- factor(x[[i]],
+               levels=unique(x[[i]]));
+         }
+      }
+   }
+
+   # calculate level order by the same logic,
+   # except sort columns with mixedSortDF()
+   xlevels <- pasteByRow(
       mixedSortDF(unique(x),
          na.last=na.last,
+         byCols=byCols,
          ...),
       sep=sep,
       na.rm=na.rm,
