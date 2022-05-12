@@ -71,4 +71,8 @@ load the cache chunks in order, until it recognizes that
 chunk name. This option is intended to help restore the R
 data available for a particular Rmarkdown chunk.
 }
+\seealso{
+Other jam utility functions: 
+\code{\link{call_fn_ellipsis}()}
+}
 \concept{jam utility functions}

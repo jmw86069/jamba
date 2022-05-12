@@ -1,3 +1,36 @@
+# jamba version 0.0.81.900
+
+## changes to existing functions
+
+* `showColors()` was updated to accept color `functions` in two forms:
+
+   1. `circlize::colorRamp2()` form, which contains attributes
+   `"colors"` and `"breaks"` that define the underlying color gradient.
+   These colors are converted to hex, named by `"breaks"`, then displayed.
+   2. All other `function` are expected to accept an integer number,
+   and return that many colors, which are named by the integer index,
+   with default length n=7.
+   3. If either above method fail, the output colors are not displayed.
+
+* `showColors()` also updated to handle `par("mar")` properly, and
+to return `NULL` when input is empty, instead of throwing an error.
+Lastly, it was moved to its own R file.
+
+## new functions
+
+* `call_fn_ellipsis()` was added.
+
+   * This function is a wrapper around an internal function call:
+   within a function, calling another function.
+   * The function allows passing named arguments in `...` to a
+   function that does not permit `...` but which may match some
+   argument names in `...`.
+   * `call_fn_ellipsis()` only passes named arguments that are permitted
+   in the subsequent function.
+   * Form before: `some_function_call(x, ...)`
+   * Form after: `call_fn_ellipsis(some_function_call, x, ...)`
+   
+
 # jamba version 0.0.80.900
 
 ## new functions

@@ -1,15 +1,18 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.80.900
+Version: 0.0.81.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
 Description: Jam Base methods.
-    plotSmoothScatter: smooth scatter plot with fine detail;
-    imageDefault: rasterized image plots; imageByColors: data.frame to image;
-    mixedSort: efficient alphanumeric sort;
-    jargs: formatted, colored function arguments;
-    rbindList: list to data.frame without filling empty cells;
-    makeNames, nameVector: uniquely assign names to vectors
+    mixedSort: efficient alphanumeric sort.
+    jargs: formatted, colored function arguments.
+    writeOpenxlsx, readOpenxlsx: quick formatted Excel import/export.
+    plotSmoothScatter: smooth scatter plot with fine detail.
+    plotPolygonDensity, plotRidges: plot one or more densities.
+    imageDefault: rasterized image plots.
+    imageByColors: data.frame to image.
+    rbindList: list to data.frame without filling empty cells.
+    makeNames, nameVector: uniquely assign names to vectors.
 biocViews:
 Depends: R (>= 3.0.0)
 Imports: colorspace,

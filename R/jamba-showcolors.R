@@ -1,0 +1,247 @@
+
+
+#' Show colors from a vector or list
+#'
+#' Show colors from a vector or list
+#'
+#' This function simply displays colors for review, using
+#' `imageByColors()` to display colors and labels across the
+#' plot space.
+#'
+#' When supplied a `list`, each row in `imageByColors()` represents
+#' an entry in the `list`. Nothing fancy.
+#'
+#' @family jam plot functions
+#' @family jam color functions
+#'
+#' @param x one of these input types:
+#'    * `character` vector of colors
+#'    * `function` to produce colors, for example `circlize::colorRamp2()`
+#'    * `list` with any combination of `character` or `function`
+#' @param labelCells `logical` whether to label colors atop the color itself.
+#'    If NULL (default) it will only display labels with 40 or fewer items
+#'    on either axis.
+#' @param transpose `logical` whether to transpose the colors to display
+#'    top-to-bottom, instead of left-to-right.
+#' @param srtCellnote `numeric` angle to rotate text when
+#'    \code{labelCells=TRUE}. When set to NULL, labels are vertical
+#'    srtCellnote=90 when \code{transpose=FALSE} and horizontal
+#'    srtCellnote=0 when \code{transpose=TRUE}.
+#' @param adjustMargins `logical` indicating whether to call
+#'    `adjustAxisLabelMargins()` to adjust the x- and y-axis
+#'    label margins to accomodate the label size.
+#' @param ... additional parameters are passed to `imageByColors()`.
+#'
+#' @return invisible color `matrix` used in `imageByColors()`. When
+#'    the input `x` is empty, or cannot be converted to colors when
+#'    `x` contains a `function`, the output returns `NULL`.
+#'
+#' @examples
+#' x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7));
+#' showColors(x);
+#'
+#' showColors(getColorRamp("Reds"))
+#'
+#' if (suppressPackageStartupMessages(require(RColorBrewer))) {
+#'    y <- lapply(nameVector(RColorBrewer:::namelist), function(i){
+#'       j <- RColorBrewer::brewer.pal(20, i);
+#'       nameVector(j, seq_along(j));
+#'    });
+#'    showColors(y, cexCellnote=0.6, cex.axis=0.7, main="Brewer Colors");
+#' }
+#' if (suppressPackageStartupMessages(require(viridis))) {
+#'    # given one function name it will display discrete colors
+#'    showColors(viridis)
+#'    # a list of functions will show each function output
+#'    showColors(list(viridis=viridis,
+#'       inferno=inferno))
+#'
+#'    # grab the full viridis color map
+#'    z <- rgb2col(viridis.map[,c("R","G","B")]);
+#'    # split the colors into a list
+#'    viridis_names <- c(A="magma",
+#'       B="inferno",
+#'       C="plasma",
+#'       D="viridis",
+#'       E="cividis",
+#'       F="rocket",
+#'       G="mako",
+#'       H="turbo")
+#'    y <- split(z,
+#'       paste0(viridis.map$opt, ": ",
+#'       viridis_names[viridis.map$opt]));
+#'    showColors(y, labelCells=TRUE, xaxt="n", main="viridis.map colors");
+#' }
+#'
+#' @export
+showColors <- function
+(x,
+ labelCells=NULL,
+ transpose=FALSE,
+ srtCellnote=NULL,
+ adjustMargins=TRUE,
+ ...)
+{
+   ## Purpose is to show a vector of colors, or display a list of
+   ## color vectors in a table view
+   ## x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7))
+   if (length(x) == 0) {
+      return(invisible(x));
+   }
+
+   # light wrapper to convert a function to vector of colors
+   fn_to_color <- function(f, n=7, ...) {
+      if (is.function(f)) {
+         # circlize::colorRamp2() output
+         if (all(c("colors", "breaks") %in% names(attributes(f)))) {
+            print("circlize::colorRamp2() format");
+            colorset <- tryCatch({
+               br <- attr(f, "breaks");
+               if (length(br) > 0) {
+                  nameVector(
+                     rgb(attr(f, "colors")),
+                     format(digits=2, br))
+               } else {
+                  attr(f, "colors")
+               }
+            }, error=function(e){
+               NULL;
+            })
+         } else {
+            colorset <- tryCatch({
+               k <- seq_len(n)
+               nameVector(f(n), k)
+            }, error=function(e){
+               NULL;
+            })
+         }
+      } else if (is.character(f)) {
+         colorset <- f
+      } else {
+         colorset <- NULL
+      }
+      print(colorset);
+      colorset
+   }
+
+   if (igrepHas("list", class(x))) {
+      # convert any entries from function to color vector
+      x <- lapply(x, function(i){
+         if (length(i) > 0 && is.function(i)) {
+            fn_to_color(i)
+         } else {
+            i
+         }
+      });
+      xM <- rbindList(x);
+      colnames(xM) <- paste0("item_", padInteger(seq_len(ncol(xM))));
+      if (length(labelCells)==0) {
+         if (max(dim(xM)) > 40) {
+            labelCells <- FALSE;
+         } else {
+            labelCells <- TRUE;
+         }
+      }
+      if (labelCells) {
+         xMnames <- rbindList(lapply(x, function(i){
+            if (is.null(names(i))) {
+               rep("", length(i));
+            } else {
+               names(i);
+            }
+         }));
+         if (length(xMnames) == 0) {
+            xMnames <- xM;
+         } else {
+            colnames(xMnames) <- colnames(xM);
+         }
+      } else {
+         xMnames <- xM;
+         xMnames[] <- "";
+      }
+   } else {
+      if (is.function(x)) {
+         x <- fn_to_color(x);
+         if (length(x) == 0) {
+            return(invisible(x));
+         }
+      }
+      xM <- matrix(x, nrow=1);
+      if (!is.null(names(x))) {
+         colnames(xM) <- names(x);
+      }
+      if (length(labelCells)==0) {
+         if (max(dim(xM)) > 40) {
+            labelCells <- FALSE;
+         } else {
+            labelCells <- TRUE;
+         }
+      }
+      if (labelCells) {
+         if (!is.null(names(x))) {
+            xMnames <- matrix(names(x), nrow=1);
+         } else {
+            xMnames <- xM;
+         }
+      } else {
+         xMnames <- xM;
+         xMnames[] <- "";
+      }
+   }
+
+   if (adjustMargins &&
+         length(colnames(xM)) == 0 &&
+         length(rownames(xM)) == 0) {
+      adjustMargins <- FALSE;
+   }
+   if (transpose) {
+      if (adjustMargins) {
+         opar <- par("mar"=par("mar"));
+         on.exit(par(opar));
+         ## Detect string width to adjust margins
+         adjustAxisLabelMargins(x=rownames(xM),
+            margin=1,
+            ...);
+         adjustAxisLabelMargins(x=colnames(xM),
+            margin=2,
+            ...);
+      }
+      if (length(srtCellnote)==0) {
+         if (nrow(xM) > ncol(xM)) {
+            srtCellnote <- 90;
+         } else {
+            srtCellnote <- 0;
+         }
+      }
+      imageByColors(t(xM),
+         cellnote=t(xMnames),
+         flip="y",
+         srtCellnote=srtCellnote,
+         ...);
+   } else {
+      if (adjustMargins) {
+         opar <- par("mar"=par("mar"));
+         on.exit(par(opar));
+         ## Detect string width to adjust margins
+         adjustAxisLabelMargins(x=colnames(xM),
+            margin=1,
+            ...);
+         adjustAxisLabelMargins(x=rownames(xM),
+            margin=2,
+            ...);
+      }
+      if (is.null(srtCellnote)) {
+         if (nrow(xM) > ncol(xM)) {
+            srtCellnote <- 0;
+         } else {
+            srtCellnote <- 90;
+         }
+      }
+      imageByColors(xM,
+         cellnote=xMnames,
+         flip="y",
+         srtCellnote=srtCellnote,
+         ...);
+   }
+   invisible(xM);
+}
