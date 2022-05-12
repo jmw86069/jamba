@@ -78,11 +78,25 @@ df <- data.frame(A=f[rep(1:3, each=2)],
    B=c(NA, f[3]),
    C=c(NA, NA, f[2]))
 df
-jamba::mixedSortDF(df)
-jamba::mixedSortDF(df, na.last=FALSE)
 
+# note that output is consistent with mixedSortDF()
+jamba::mixedSortDF(df)
 jamba::pasteByRowOrdered(df)
+
+jamba::mixedSortDF(df, na.last=FALSE)
 jamba::pasteByRowOrdered(df, na.last=FALSE)
+
+jamba::mixedSortDF(df, byCols=c(3, 2, 1))
+jamba::pasteByRowOrdered(df, byCols=c(3, 2, 1))
+
+df1 <- data.frame(group=rep(c("Control", "ABC1"), each=6),
+   time=rep(c("Hour2", "Hour10"), each=3),
+   rep=paste0("Rep", 1:3))
+# default will sort each column alphanumerically
+pasteByRowOrdered(df1)
+
+# keepOrder=TRUE will honor existing order of character columns
+pasteByRowOrdered(df1, keepOrder=TRUE)
 
 }
 \seealso{
