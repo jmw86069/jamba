@@ -12,9 +12,13 @@
    with default length n=7.
    3. If either above method fail, the output colors are not displayed.
 
-* `showColors()` also updated to handle `par("mar")` properly, and
-to return `NULL` when input is empty, instead of throwing an error.
-Lastly, it was moved to its own R file.
+* `showColors()` updates:
+
+   * also updated to handle `par("mar")` properly, and
+   to return `NULL` when input is empty, instead of throwing an error.
+   * new argument `makeUnique=TRUE` to display the first unique color
+   in each color vector.
+   * it was moved to its own R file.
 
 ## new functions
 

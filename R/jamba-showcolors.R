@@ -30,6 +30,12 @@
 #' @param adjustMargins `logical` indicating whether to call
 #'    `adjustAxisLabelMargins()` to adjust the x- and y-axis
 #'    label margins to accomodate the label size.
+#' @param makeUnique `logical` indicating whether to display only the first
+#'    unique color. When `x` is supplied as a `list` this operation will
+#'    display the first unique color for each `list` element.
+#'    Also, when `x` is a `list`, just to be fancy, `makeUnique`
+#'    is recycled to `length(x)` so certain list elements can display
+#'    unique values, while others display all values.
 #' @param ... additional parameters are passed to `imageByColors()`.
 #'
 #' @return invisible color `matrix` used in `imageByColors()`. When
@@ -40,7 +46,7 @@
 #' x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7));
 #' showColors(x);
 #'
-#' showColors(getColorRamp("Reds"))
+#' showColors(getColorRamp("firebrick3"))
 #'
 #' if (suppressPackageStartupMessages(require(RColorBrewer))) {
 #'    y <- lapply(nameVector(RColorBrewer:::namelist), function(i){
@@ -73,6 +79,18 @@
 #'    showColors(y, labelCells=TRUE, xaxt="n", main="viridis.map colors");
 #' }
 #'
+#' # demonstrate makeUnique=TRUE
+#' j1 <- getColorRamp("rainbow", n=7);
+#' names(j1) <- seq_along(j1);
+#' j2 <- rep(j1, each=3);
+#' names(j2) <- makeNames(names(j2), suffix="_rep");
+#' j2
+#' showColors(list(
+#'    j1=j1,
+#'    j2=j2,
+#'    j3=j2),
+#'    makeUnique=c(FALSE, FALSE, TRUE))
+#'
 #' @export
 showColors <- function
 (x,
@@ -80,6 +98,7 @@ showColors <- function
  transpose=FALSE,
  srtCellnote=NULL,
  adjustMargins=TRUE,
+ makeUnique=FALSE,
  ...)
 {
    ## Purpose is to show a vector of colors, or display a list of
@@ -94,7 +113,6 @@ showColors <- function
       if (is.function(f)) {
          # circlize::colorRamp2() output
          if (all(c("colors", "breaks") %in% names(attributes(f)))) {
-            print("circlize::colorRamp2() format");
             colorset <- tryCatch({
                br <- attr(f, "breaks");
                if (length(br) > 0) {
@@ -120,7 +138,6 @@ showColors <- function
       } else {
          colorset <- NULL
       }
-      print(colorset);
       colorset
    }
 
@@ -133,6 +150,18 @@ showColors <- function
             i
          }
       });
+      makeUnique <- rep(makeUnique,
+         length.out=length(x));
+      # optionally return only one unique color per list element
+      if (any(makeUnique)) {
+         x[makeUnique] <- lapply(x[makeUnique], function(i){
+            tryCatch({
+               i[!duplicated(i)]
+            }, error=function(e){
+               i
+            })
+         })
+      }
       xM <- rbindList(x);
       colnames(xM) <- paste0("item_", padInteger(seq_len(ncol(xM))));
       if (length(labelCells)==0) {
@@ -160,11 +189,20 @@ showColors <- function
          xMnames[] <- "";
       }
    } else {
+      makeUnique <- head(makeUnique, 1);
       if (is.function(x)) {
          x <- fn_to_color(x);
          if (length(x) == 0) {
             return(invisible(x));
          }
+      }
+      # optionally return only one unique color per list element
+      if (makeUnique) {
+         x <- tryCatch({
+            x[!duplicated(x)]
+         }, error=function(e){
+            x
+         })
       }
       xM <- matrix(x, nrow=1);
       if (!is.null(names(x))) {

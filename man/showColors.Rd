@@ -10,6 +10,7 @@ showColors(
   transpose = FALSE,
   srtCellnote = NULL,
   adjustMargins = TRUE,
+  makeUnique = FALSE,
   ...
 )
 }
@@ -37,6 +38,13 @@ srtCellnote=0 when \code{transpose=TRUE}.}
 \code{adjustAxisLabelMargins()} to adjust the x- and y-axis
 label margins to accomodate the label size.}
 
+\item{makeUnique}{\code{logical} indicating whether to display only the first
+unique color. When \code{x} is supplied as a \code{list} this operation will
+display the first unique color for each \code{list} element.
+Also, when \code{x} is a \code{list}, just to be fancy, \code{makeUnique}
+is recycled to \code{length(x)} so certain list elements can display
+unique values, while others display all values.}
+
 \item{...}{additional parameters are passed to \code{imageByColors()}.}
 }
 \value{
@@ -59,7 +67,7 @@ an entry in the \code{list}. Nothing fancy.
 x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7));
 showColors(x);
 
-showColors(getColorRamp("Reds"))
+showColors(getColorRamp("firebrick3"))
 
 if (suppressPackageStartupMessages(require(RColorBrewer))) {
    y <- lapply(nameVector(RColorBrewer:::namelist), function(i){
@@ -91,6 +99,18 @@ if (suppressPackageStartupMessages(require(viridis))) {
       viridis_names[viridis.map$opt]));
    showColors(y, labelCells=TRUE, xaxt="n", main="viridis.map colors");
 }
+
+# demonstrate makeUnique=TRUE
+j1 <- getColorRamp("rainbow", n=7);
+names(j1) <- seq_along(j1);
+j2 <- rep(j1, each=3);
+names(j2) <- makeNames(names(j2), suffix="_rep");
+j2
+showColors(list(
+   j1=j1,
+   j2=j2,
+   j3=j2),
+   makeUnique=c(FALSE, FALSE, TRUE))
 
 }
 \seealso{
