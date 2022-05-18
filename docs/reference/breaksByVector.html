@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@ for labels that should be positioned between two labels</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>list with the following named elements</p><ul><li><p>"breakPoints"The mid-point coordinate between each break.
+    <p>list with the following named elements:</p><ul><li><p>"breakPoints"The mid-point coordinate between each break.
 These midpoints would be good for drawing dividing lines for
 example.</p></li>
 <li><p>"labelPoints"The ideal point to place a label to represent
@@ -90,6 +90,7 @@ data, except using blank values except where a label should
 be drawn. This output is good for text display.</p></li>
 <li><p>"useLabels"The unique set of labels, without blanks,
 corresponding to the coordinates supplied by labelPoints.</p></li>
+<li><p>"breakLengths"The integer size of each set of labels.</p></li>
 </ul></div>
     <div id="details">
     <h2>Details</h2>
@@ -140,7 +141,7 @@ it may be ideal to label only unique elements in a contiguous set.</p>
 
     <div id="examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span>;</span>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">3</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu">breaksByVector</span><span class="op">(</span><span class="va">b</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="co"># Example showing how labels can be minimized inside a data.frame</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">b</span>,</span>
@@ -163,6 +164,10 @@ it may be ideal to label only unique elements in a contiguous set.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15 E          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16 E         E</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17 E          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 A          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 A         A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 A          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 A          </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Example showing how to reposition text labels</span></span>
 <span class="r-in"><span class="co"># so duplicated labels are displayed in the middle</span></span>

@@ -20,7 +20,7 @@ contrasting grey shade."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -151,12 +151,14 @@ text boxes.</p>
 <code><a href="applyCLrange.html">applyCLrange</a>()</code>,
 <code><a href="col2alpha.html">col2alpha</a>()</code>,
 <code><a href="col2hcl.html">col2hcl</a>()</code>,
+<code><a href="col2hsl.html">col2hsl</a>()</code>,
 <code><a href="col2hsv.html">col2hsv</a>()</code>,
 <code><a href="color2gradient.html">color2gradient</a>()</code>,
 <code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
 <code><a href="fixYellow.html">fixYellow</a>()</code>,
 <code><a href="getColorRamp.html">getColorRamp</a>()</code>,
 <code><a href="hcl2col.html">hcl2col</a>()</code>,
+<code><a href="hsl2col.html">hsl2col</a>()</code>,
 <code><a href="hsv2col.html">hsv2col</a>()</code>,
 <code><a href="isColor.html">isColor</a>()</code>,
 <code><a href="kable_coloring.html">kable_coloring</a>()</code>,
@@ -182,7 +184,7 @@ text boxes.</p>
 <span class="r-plt img"><img src="setTextContrastColor-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="co"># printDebugI() uses setTextContrastColor() for foreground text</span></span>
 <span class="r-in"><span class="fu"><a href="printDebugI.html">printDebugI</a></span><span class="op">(</span><span class="va">color</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">13:36:28</span>) 04Feb2022:  <span style="color: #E4E4E4; background-color: #FF0000;">red</span>,<span style="color: #121212; background-color: #FFFF00;">yellow</span>,<span style="color: #121212; background-color: #D7FFFF;">lightblue</span>,<span style="color: #E4E4E4; background-color: #D75FFF;">darkorchid1</span>,<span style="color: #E4E4E4; background-color: #0000AF;">blue4</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:21</span>) 18May2022:  <span style="color: #E4E4E4; background-color: #FF0000;">red</span>,<span style="color: #121212; background-color: #FFFF00;">yellow</span>,<span style="color: #121212; background-color: #D7FFFF;">lightblue</span>,<span style="color: #E4E4E4; background-color: #D75FFF;">darkorchid1</span>,<span style="color: #E4E4E4; background-color: #0000AF;">blue4</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># demonstrate the effect of alpha transparency</span></span>
 <span class="r-in"><span class="va">colorL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.9</span>, <span class="fl">0.8</span>, <span class="fl">0.6</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>

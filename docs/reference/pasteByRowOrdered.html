@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -68,6 +68,8 @@
   na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
   condenseBlanks <span class="op">=</span> <span class="cn">TRUE</span>,
   includeNames <span class="op">=</span> <span class="cn">FALSE</span>,
+  keepOrder <span class="op">=</span> <span class="cn">FALSE</span>,
+  byCols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>,
   na.last <span class="op">=</span> <span class="cn">TRUE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -87,6 +89,22 @@ without including an extra delimiter between columns.</p></dd>
 <dt>includeNames</dt>
 <dd><p>logical whether to include the colname delimited
 prior to the value, using sepName as the delimiter.</p></dd>
+<dt>keepOrder</dt>
+<dd><p><code>logical</code> indicating whether non-factor columns
+should order factor levels based upon the existing order of
+unique items. This option is intended for <code>data.frame</code> whose
+columns are already sorted in proper order, but where columns
+are not <code>factor</code> with appropriate factor levels. Note that
+even when <code>keepOrder=TRUE</code> all existing <code>factor</code> columns will
+honor the order of factor levels already present in those
+columns.</p></dd>
+<dt>byCols</dt>
+<dd><p><code>integer</code> or <code>character</code> passed to <code><a href="mixedSortDF.html">mixedSortDF()</a></code>.
+This argument defines the order of columns sorted by <code><a href="mixedSortDF.html">mixedSortDF()</a></code>,
+and does not affect the order of columns pasted. Columns are
+always pasted in the same order they appear in <code>x</code>. This argument
+<code>byCols</code> was previously passed via <code>...</code> but is added here
+to make this connection more direct.</p></dd>
 <dt>na.last</dt>
 <dd><p><code>logical</code> passed to <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">base::factor()</a></code> to determine whether
 <code>NA</code> values are first or last in factor level order.</p></dd>
@@ -157,6 +175,8 @@ values in proper numeric order where possible.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 B    C &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 C &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 C    C    B</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># note that output is consistent with mixedSortDF()</span></span>
 <span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="mixedSortDF.html">mixedSortDF</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A    B    C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 A    C &lt;NA&gt;</span>
@@ -165,6 +185,11 @@ values in proper numeric order where possible.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 B &lt;NA&gt;    B</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 C    C    B</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 C &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu">pasteByRowOrdered</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1     2     3     4     5     6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     A   A_C   B_B   B_C     C C_C_B </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: A_C A B_C B_B C_C_B C</span>
+<span class="r-in"></span>
 <span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="mixedSortDF.html">mixedSortDF</a></span><span class="op">(</span><span class="va">df</span>, na.last<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A    B    C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 A &lt;NA&gt; &lt;NA&gt;</span>
@@ -173,15 +198,46 @@ values in proper numeric order where possible.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 B    C &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 C &lt;NA&gt; &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 C    C    B</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu">pasteByRowOrdered</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     1     2     3     4     5     6 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     A   A_C   B_B   B_C     C C_C_B </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: A_C A B_C B_B C_C_B C</span>
 <span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu">pasteByRowOrdered</span><span class="op">(</span><span class="va">df</span>, na.last<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     1     2     3     4     5     6 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     A   A_C   B_B   B_C     C C_C_B </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: A A_C B_B B_C C C_C_B</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="mixedSortDF.html">mixedSortDF</a></span><span class="op">(</span><span class="va">df</span>, byCols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A    B    C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 C    C    B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 B &lt;NA&gt;    B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 A    C &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 B    C &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 A &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 C &lt;NA&gt; &lt;NA&gt;</span>
+<span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu">pasteByRowOrdered</span><span class="op">(</span><span class="va">df</span>, byCols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1     2     3     4     5     6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     A   A_C   B_B   B_C     C C_C_B </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: C_C_B B_B A_C B_C A C</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>group<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"ABC1"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">6</span><span class="op">)</span>,</span>
+<span class="r-in">   time<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hour2"</span>, <span class="st">"Hour10"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span class="r-in">   rep<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Rep"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="co"># default will sort each column alphanumerically</span></span>
+<span class="r-in"><span class="fu">pasteByRowOrdered</span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   3                   4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Control_Hour2_Rep1  Control_Hour2_Rep2  Control_Hour2_Rep3 Control_Hour10_Rep1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   5                   6                   7                   8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Control_Hour10_Rep2 Control_Hour10_Rep3     ABC1_Hour2_Rep1     ABC1_Hour2_Rep2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   9                  10                  11                  12 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ABC1_Hour2_Rep3    ABC1_Hour10_Rep1    ABC1_Hour10_Rep2    ABC1_Hour10_Rep3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Levels: ABC1_Hour10_Rep1 ABC1_Hour10_Rep2 ... Control_Hour2_Rep3</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># keepOrder=TRUE will honor existing order of character columns</span></span>
+<span class="r-in"><span class="fu">pasteByRowOrdered</span><span class="op">(</span><span class="va">df1</span>, keepOrder<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   3                   4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Control_Hour2_Rep1  Control_Hour2_Rep2  Control_Hour2_Rep3 Control_Hour10_Rep1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   5                   6                   7                   8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Control_Hour10_Rep2 Control_Hour10_Rep3     ABC1_Hour2_Rep1     ABC1_Hour2_Rep2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   9                  10                  11                  12 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     ABC1_Hour2_Rep3    ABC1_Hour10_Rep1    ABC1_Hour10_Rep2    ABC1_Hour10_Rep3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Levels: ABC1_Hour10_Rep1 ABC1_Hour10_Rep2 ... Control_Hour2_Rep3</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

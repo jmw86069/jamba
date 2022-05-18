@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -64,7 +64,8 @@
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">writeOpenxlsx</span><span class="op">(</span>
   <span class="va">x</span>,
-  <span class="va">file</span>,
+  file <span class="op">=</span> <span class="cn">NULL</span>,
+  wb <span class="op">=</span> <span class="cn">NULL</span>,
   sheetName <span class="op">=</span> <span class="st">"Sheet1"</span>,
   append <span class="op">=</span> <span class="cn">FALSE</span>,
   headerColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lightskyblue1"</span>, <span class="st">"lightskyblue2"</span><span class="op">)</span>,
@@ -106,9 +107,10 @@
   doFilter <span class="op">=</span> <span class="cn">TRUE</span>,
   fontName <span class="op">=</span> <span class="st">"Arial"</span>,
   fontSize <span class="op">=</span> <span class="fl">12</span>,
-  minWidth <span class="op">=</span> <span class="fl">8</span>,
-  maxWidth <span class="op">=</span> <span class="fl">40</span>,
+  minWidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"openxlsx.minWidth"</span>, <span class="fl">8</span><span class="op">)</span>,
+  maxWidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"openxlsx.maxWidth"</span>, <span class="fl">40</span><span class="op">)</span>,
   autoWidth <span class="op">=</span> <span class="cn">TRUE</span>,
+  colWidths <span class="op">=</span> <span class="cn">NULL</span>,
   wrapCells <span class="op">=</span> <span class="cn">FALSE</span>,
   wrapHeaders <span class="op">=</span> <span class="cn">TRUE</span>,
   headerRowMultiplier <span class="op">=</span> <span class="fl">5</span>,
@@ -125,7 +127,20 @@
 <dt>file</dt>
 <dd><p>a valid path to save an Excel xlsx file. If the file exists,
 and <code>append=TRUE</code> the new data will be added to the existing file with
-the defined <code>sheetName</code>.</p></dd>
+the defined <code>sheetName</code>.</p><ul><li><p>Note when <code>file=NULL</code> the output is not saved to a file,
+instead the <code>Workbook</code> object is returned by this function.
+The <code>Workbook</code> object can be passed as argument <code>wb</code> in order
+to add multiple sheets to the same Workbook prior to saving
+them together. This operation is intended to provide a
+substantial improvement in speed.</p></li>
+</ul></dd>
+<dt>wb</dt>
+<dd><p><code>Workbook</code> object as defined in R package <code>openxlsx</code>.
+When this argument is defined, data is not imported from <code>file</code>,
+and instead the workbook data is used from <code>wb</code>. This option is
+intended to improve speed of writing several sheets to the same
+output file, by preventing the slow read/write steps each time
+a new sheet is added.</p></dd>
 <dt>sheetName</dt>
 <dd><p>character value less with a valid
 Excel xlsx worksheet name. At this time (version 0.0.29.900) the
@@ -178,6 +193,12 @@ used when <code>autoWidth=TRUE</code> to restrict cell widths to this range,
 dependent upon the data content. When <code>autoWidth=FALSE</code> Excel
 naturally auto-sizes cells to the width of the largest value
 in each column.</p></dd>
+<dt>colWidths</dt>
+<dd><p><code>numeric</code> width of each column in <code>x</code>, recycled
+to the total number of columns required. Note that when
+<code>keepRownames=TRUE</code>, the first column will contain <code>rownames(x)</code>,
+therefore the length of <code>colWidths</code> in that case will be
+<code>ncol(x) + 1</code>.</p></dd>
 <dt>wrapHeaders</dt>
 <dd><p>logical indicating whether to enable word wrap
 for column headers, which is helpful when <code>autoWidth=TRUE</code> since
@@ -195,6 +216,12 @@ is helpful when <code>wrapHeaders=TRUE</code> and <code>autoWidth=TRUE</code>.</
 <dd><p>additional arguments are passed to <code><a href="applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code>
 and <code><a href="applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>.</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
+is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code>can be used in argument <code>wb</code> to provide a speed boost when
+saving multiple sheets to the same file.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>This function is a minor but useful customization of the

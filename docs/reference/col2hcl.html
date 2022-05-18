@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@ the colorspace package, and <code><a href="https://colorspace.R-Forge.R-project.
 <code><a href="https://colorspace.R-Forge.R-project.org//reference/polarLUV.html" class="external-link">polarLUV</a></code> functions. It is also used to
 maintain alpha transparency, to enable interconversion via other
 color manipulation functions as well.</p>
-<p>When <code>model="hcl"</code> this function uses <code><a href="https://rdrr.io/pkg/farver/man/decode_colour.html" class="external-link">farver::decode_colour()</a></code>
+<p>When <code>model="hcl"</code> this function uses <code><a href="https://farver.data-imaginist.com/reference/decode_colour.html" class="external-link">farver::decode_colour()</a></code>
 and bypasses <code>colorspace</code>. In future the <code>colorspace</code> dependency
 will likely be removed in favor of using <code>farver</code>. In any event,
 <code>model="hcl"</code> is equivalent to using <code>model="polarLUV"</code> and
@@ -105,12 +105,14 @@ will likely be removed in favor of using <code>farver</code>. In any event,
 <code><a href="alpha2col.html">alpha2col</a>()</code>,
 <code><a href="applyCLrange.html">applyCLrange</a>()</code>,
 <code><a href="col2alpha.html">col2alpha</a>()</code>,
+<code><a href="col2hsl.html">col2hsl</a>()</code>,
 <code><a href="col2hsv.html">col2hsv</a>()</code>,
 <code><a href="color2gradient.html">color2gradient</a>()</code>,
 <code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
 <code><a href="fixYellow.html">fixYellow</a>()</code>,
 <code><a href="getColorRamp.html">getColorRamp</a>()</code>,
 <code><a href="hcl2col.html">hcl2col</a>()</code>,
+<code><a href="hsl2col.html">hsl2col</a>()</code>,
 <code><a href="hsv2col.html">hsv2col</a>()</code>,
 <code><a href="isColor.html">isColor</a>()</code>,
 <code><a href="kable_coloring.html">kable_coloring</a>()</code>,

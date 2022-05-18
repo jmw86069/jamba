@@ -18,7 +18,7 @@ from the very useful openxlsx R package:"><!-- mathjax --><script src="https://c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -76,7 +76,9 @@ from the very useful <code>openxlsx</code> R package:</p>
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>xlsxFile</dt>
-<dd><p><code>character</code> path to a file saved as <code>xlsx</code> format.</p></dd>
+<dd><p><code>character</code> filename to a file with ".xlsx" extension,
+or <code>Workbook</code> object defined in the <code>openxlsx</code> package. When
+<code>xlsxFile</code> is a <code>Workbook</code> the output is not saved to a file.</p></dd>
 <dt>sheet</dt>
 <dd><p>value passed to <code><a href="https://rdrr.io/pkg/openxlsx/man/setRowHeights.html" class="external-link">openxlsx::setRowHeights()</a></code> indicating
 the worksheet to affect. It can either be an <code>integer</code> value, or
@@ -89,6 +91,12 @@ defined by <code>rows</code>.</p></dd>
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="https://rdrr.io/pkg/openxlsx/man/setRowHeights.html" class="external-link">openxlsx::setRowHeights()</a></code>.</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
+is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code>can be used in argument <code>wb</code> to provide a speed boost when
+saving multiple sheets to the same file.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     

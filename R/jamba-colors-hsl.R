@@ -122,18 +122,22 @@ col2hsl <- function
 #'    values are returned in the same order.
 #'
 #' @examples
-#' # Prepare a basic HCL matrix
-#' hclM <- col2hcl(c(red="red",
+#' # See col2hcl() for more extensive examples
+#'
+#' # Prepare a basic HSL matrix
+#' x_colors <- c(red="red",
 #'    blue="blue",
 #'    yellow="yellow",
-#'    orange="#FFAA0066"));
-#' hclM;
+#'    orange="#FFAA0066");
+#' hslM <- col2hsl(x_colors);
+#' hslM;
 #'
 #' # Now convert back to R hex colors
-#' colorV <- hsl2col(hclM);
+#' colorV <- hsl2col(hslM);
 #' colorV;
 #'
-#' showColors(colorV);
+#' showColors(list(x_colors=x_colors,
+#'    colorV=nameVector(colorV)));
 #'
 #' @family jam color functions
 #'

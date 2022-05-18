@@ -70,6 +70,9 @@
     <loc>/reference/cPasteUnique.html</loc>
   </url>
   <url>
+    <loc>/reference/call_fn_ellipsis.html</loc>
+  </url>
+  <url>
     <loc>/reference/cell_fun_label.html</loc>
   </url>
   <url>
@@ -83,6 +86,9 @@
   </url>
   <url>
     <loc>/reference/col2hcl.html</loc>
+  </url>
+  <url>
+    <loc>/reference/col2hsl.html</loc>
   </url>
   <url>
     <loc>/reference/col2hsv.html</loc>
@@ -167,6 +173,9 @@
   </url>
   <url>
     <loc>/reference/heatmap_row_order.html</loc>
+  </url>
+  <url>
+    <loc>/reference/hsl2col.html</loc>
   </url>
   <url>
     <loc>/reference/hsv2col.html</loc>

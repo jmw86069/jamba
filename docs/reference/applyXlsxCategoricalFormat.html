@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -81,7 +81,9 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>xlsxFile</dt>
-<dd><p>filename pointing to an existing Excel xlsx file.</p></dd>
+<dd><p><code>character</code> filename to a file with ".xlsx" extension,
+or <code>Workbook</code> object defined in the <code>openxlsx</code> package. When
+<code>xlsxFile</code> is a <code>Workbook</code> the output is not saved to a file.</p></dd>
 <dt>sheet</dt>
 <dd><p>integer index of the worksheet or worksheets.</p></dd>
 <dt>rowRange, colRange</dt>
@@ -114,6 +116,12 @@ the specific cell color, for example the font size and font name.</p></dd>
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
+is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code>can be used in argument <code>wb</code> to provide a speed boost when
+saving multiple sheets to the same file.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>This function is a convenient wrapper for applying categorical

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.77.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Remove outlier points per row by MAD factor threshold</h1>
-    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba.r" class="external-link"><code>R/jamba.r</code></a></small>
+    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-rowgroupmeans-madoutliers.R" class="external-link"><code>R/jamba-rowgroupmeans-madoutliers.R</code></a></small>
     <div class="hidden name"><code>rowRmMadOutliers.Rd</code></div>
     </div>
 
@@ -67,7 +67,9 @@
   madFactor <span class="op">=</span> <span class="fl">5</span>,
   na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
   minDiff <span class="op">=</span> <span class="fl">0</span>,
+  minReps <span class="op">=</span> <span class="fl">3</span>,
   includeAttributes <span class="op">=</span> <span class="cn">FALSE</span>,
+  rowMadValues <span class="op">=</span> <span class="cn">NULL</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -78,26 +80,44 @@
     <dl><dt>x</dt>
 <dd><p>numeric matrix</p></dd>
 <dt>madFactor</dt>
-<dd><p>numeric value to multiply by each row MAD
-to define the threshold for outlier.</p></dd>
+<dd><p><code>numeric</code> value to multiply by each row MAD
+to define the threshold for outlier detection.</p></dd>
 <dt>na.rm</dt>
-<dd><p>logical indicating whether to ignore NA values
+<dd><p><code>logical</code> indicating whether to ignore NA values
 when calculating the MAD value. It should probably always be
 <code>TRUE</code>, however setting to <code>FALSE</code> will prevent any
 calculations in rows that contain <code>NA</code> values, which could
 be useful.</p></dd>
 <dt>minDiff</dt>
-<dd><p>numeric value indicating the minimum difference
+<dd><p><code>numeric</code> value indicating the minimum difference
 from median to qualify as an outlier. This value protects
 against removing outliers which are already extremely
-close together.</p></dd>
+similar. Consider this example:</p><ul><li><p>Three numeric values: <code>c(10.0001, 10.0002, 10.001)</code>.</p></li>
+<li><p>The third value differs from median by only 0.0008.</p></li>
+<li><p>The third value <code>10.001</code> is 5x MAD factor away from median.</p></li>
+<li><p><code>minDiff = 0.01</code> would require the minimum difference from
+median to be at least 0.01 to be eligible to be an outlier point.</p></li>
+</ul></dd>
+<dt>minReps</dt>
+<dd><p><code>numeric</code> minimum number of non-NA values per row
+for outliers to be filtered on the row. This argument is typically
+only relevant for rows with <code>n=2</code> non-NA values, and when
+<code>rowMadValues</code> is supplied and may define a threshold less than
+half the difference in the two points on the given row.
+Otherwise, n=2 defines each point at exactly 1x MAD from median,
+and would therefore never be considered an outlier.</p></dd>
 <dt>includeAttributes</dt>
-<dd><p>logical indicating whether to return
+<dd><p><code>logical</code> indicating whether to return
 attributes that describe the threshold and type of threshold
 used per row, in addition to the madFactor and minDiff values
 defined.</p></dd>
+<dt>rowMadValues</dt>
+<dd><p><code>numeric</code> optional set of row MAD values to use,
+which is mostly helpful when combining MAD values across multiple
+samples groups on each row of data, where the combined MAD values
+may be more reliable than individual group MAD values.</p></dd>
 <dt>verbose</dt>
-<dd><p>logical indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
 </dl></div>
@@ -105,55 +125,72 @@ defined.</p></dd>
     <h2>Value</h2>
     <p>A numeric matrix is returned, with the same dimensions
 as the input <code>x</code> matrix. Outliers are replaced with <code>NA</code>.
-If <code>includeAttributes=TRUE</code> then four attributes will be
-included as well:</p><dl><dt>attr(x, "rowThresholds")</dt>
-<dd><p>The row difference from
-median threshold used for filtering.</p></dd>
-
-<dt>attr(out, "rowThresholds")</dt>
-<dd><p>When the difference from
-median is above <code>minDiff</code> it returns "madFactor",
-otherwise it returns "minDiff".</p></dd>
-
-<dt>attr(x, "madFactor")</dt>
-<dd><p>The <code>madFactor</code> value used.</p></dd>
-
-<dt>attr(x, "minDiff")</dt>
-<dd><p>The <code>minDiff</code> value used.</p></dd>
-
-
-</dl></div>
+If <code>includeAttributes=TRUE</code> then attributes will be
+included:</p><ul><li><p><code>outlierDF</code> which is a <code>data.frame</code> with colnames</p><ul><li><p>rowMedians: <code>numeric</code> median on each row</p></li>
+<li><p>rowMadValues: <code>numeric</code> MAD for each row</p></li>
+<li><p>rowThresholds: <code>numeric</code> threshold after applying <code>madFactor</code> and
+<code>minDiff</code></p></li>
+<li><p>rowReps: <code>integer</code> number of non-NA values in the input data</p></li>
+<li><p>rowTypes: <code>factor</code> indicating the type of threshold: <code>"madFactor"</code>
+means the row applied the normal <code>MAD * madFactor</code> threshold;
+<code>"minDiff"</code> means the row applied the <code>minDiff</code> threshold which
+was the larger threshold.</p></li>
+</ul></li>
+<li><p><code>minDiff</code> with the <code>numeric</code> value supplied</p></li>
+<li><p><code>madFactor</code> with the <code>numeric</code> MAD factor threshold supplied</p></li>
+<li><p><code>outliersRemoved</code> with the <code>integer</code> total number of new NA values
+produced by the outlier removal process.</p></li>
+</ul></div>
     <div id="details">
     <h2>Details</h2>
     <p>This function applies outlier detection and removal per
-row of the input numeric matrix. It first calculates MAD
-per row, then defines a cutoff threshold by multiplying the
-MAD by the supplied <code>madFactor</code>, and by ensuring the
-threshold is at least as large as <code>minDiff</code>.</p>
-<p>The <code>minDiff</code> parameter affects cases such as 3 replicates,
+row of the input numeric matrix.</p><ul><li><p>It first calculates MAD per row.</p></li>
+<li><p>The MAD threshold cutoff is a multiple of the MAD value,
+defined by <code>madFactor</code>, multiplying the per-row MAD by the
+<code>madFactor</code>.</p></li>
+<li><p>The absolute difference from median is calculated for each
+point.</p></li>
+<li><p>Outlier points are defined:</p><ol><li><p>Points with MAD above the MAD threshold, and</p></li>
+<li><p>Points with difference from median at or above <code>minDiff</code></p></li>
+</ol></li>
+</ul><p>The <code>minDiff</code> parameter affects cases such as 3 replicates,
 where all replicates are well within a known threshold
 indicating low variance, but where two replicates might
-be nearly identical. Consider <code>c(2.0, 2.0, 2.001)</code>. The
-MAD is zero, therefore any difference from median might
-otherwise be considered an outlier. One alternative is
-to define <code>minDiff &lt;- median(rowMads(x))</code> which sets the
-minimum threshold to the median MAD across all rows.
-Such a threshold will only be reasonable if the variance
-across all rows is expected to be similar.</p>
-<p>Note that this function is substantially faster when the
+be nearly identical. Consider:</p><ul><li><p>Three numeric values: <code>c(10.0001, 10.0002, 10.001)</code>.</p></li>
+<li><p>The third value differs from median by only 0.0008.</p></li>
+<li><p>The third value <code>10.001</code> is 5x MAD factor away from median.</p></li>
+<li><p><code>minDiff = 0.01</code> would require the minimum difference from
+median to be at least 0.01 to be eligible to be an outlier point.</p></li>
+</ul><p>One option to define <code>minDiff</code> from the data is to use:
+<code>minDiff &lt;- median(rowMads(x))</code></p>
+<p>In this case, the threshold is defined by the median difference
+from median across all rows.
+This type of threshold will only be reasonable if the variance
+across all rows is expected to be fairly similar.</p>
+<p>This function is substantially faster when the
 <code>matrixStats</code> package is installed, but will use the
-<code>apply(x, 1, mad)</code> format as a last option.</p>
-<p>This function assumes the input data is appropriate for
-the use of MAD as a summary statistic, specifically that
-the numeric values per row are expected to be roughly
-normally distributed, with the occassional presence
-of outlier points. The outlier points are assumed to be
-technical outliers, which are often caused by some
-instrument measurement failure or other upstream
-protocol failure. A threshold of 5xMAD is fairly lenient
-and yet is usually sufficient to identify the most
-egregious outliers. Among technical replicates, often
-2xMAD is more appropriate.</p>
+<code>apply(x, 1, mad)</code> format as a last option.</p><div class="section">
+<h3 id="assumptions">Assumptions<a class="anchor" aria-label="anchor" href="#assumptions"></a></h3>
+
+<ol><li><p>This function assumes the input data is appropriate for
+the use of MAD as a summary statistic.</p></li>
+<li><p>Specifically, numeric values per row are expected to be roughly
+normally distributed.</p></li>
+<li><p>Outlier points are assumed to be present in less than half overall
+non-NA data.</p></li>
+<li><p>Outlier points are assumed to be technical outliers, and therefore
+not the direct result of the experimental measurements being studied.
+Technical outliers are often caused by some instrument measurement,
+methodological failure, or other upstream protocol failure.</p></li>
+</ol><p>The default threshold of 5x MAD factor is a fairly lenient
+criteria, above which the data may even be assumed not to conform
+to most downstream statistical techniques.</p>
+<p>For measurements considered to be more robust, or required to be more
+robust, the threshold 2x MAD is applied. This criteria is usually a
+reasonable expectation of housekeeper gene expression across replicates
+within each sample group.</p>
+</div>
+
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -175,13 +212,63 @@ egregious outliers. Among technical replicates, often
 <span class="r-in"><span class="co">## Define some outlier points</span></span>
 <span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">]</span><span class="op">*</span><span class="fl">5</span> <span class="op">+</span> <span class="fl">50</span>;</span>
 <span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">]</span><span class="op">*</span><span class="fl">5</span> <span class="op">-</span> <span class="fl">100</span>;</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">letters</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>;</span>
+<span class="r-in"></span>
 <span class="r-in"><span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x</span>, madFactor<span class="op">=</span><span class="fl">5</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]       [,4]     [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  7.197622 18.575325        NA 18.9345657 4.660881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  8.849113        NA        NA 12.4892524 8.910125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 17.793542        NA 12.003857  0.1669142 4.869978</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 10.352542  6.565736 10.553414 13.5067795 6.355544</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 10.646439  7.771690  7.220794  7.6360430 6.874804</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        [,1]      [,2]      [,3]       [,4]     [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a  7.197622 18.575325        NA 18.9345657 4.660881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b  8.849113        NA        NA 12.4892524 8.910125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c 17.793542        NA 12.003857  0.1669142 4.869978</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> d 10.352542  6.565736 10.553414 13.5067795 6.355544</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e 10.646439  7.771690  7.220794  7.6360430 6.874804</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x</span>, madFactor<span class="op">=</span><span class="fl">2</span>,</span>
+<span class="r-in">   includeAttributes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="va">x2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        [,1]      [,2]      [,3]       [,4]     [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a  7.197622 18.575325        NA 18.9345657 4.660881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b  8.849113        NA        NA 12.4892524 8.910125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c 17.793542        NA 12.003857  0.1669142 4.869978</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> d 10.352542  6.565736 10.553414 13.5067795 6.355544</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e        NA  7.771690  7.220794  7.6360430 6.874804</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"outlierDF")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rowMedians rowMadValues rowThresholds rowReps  rowTypes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a  18.575325   16.8685827     33.737165       5 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b   8.910125    5.3064136     10.612827       5 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c   4.869978   10.5766897     21.153379       5 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> d  10.352542    4.6764726      9.352945       5 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e   7.636043    0.6156476      1.231295       5 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"minDiff")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"madFactor")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"outliersRemoved")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x2</span>,</span>
+<span class="r-in">   madFactor<span class="op">=</span><span class="fl">2</span>,</span>
+<span class="r-in">   rowMadValues<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x2</span>, <span class="st">"outlierDF"</span><span class="op">)</span><span class="op">$</span><span class="va">rowMadValues</span>,</span>
+<span class="r-in">   includeAttributes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="va">x3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        [,1]      [,2]      [,3]       [,4]     [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a  7.197622 18.575325        NA 18.9345657 4.660881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b  8.849113        NA        NA 12.4892524 8.910125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c 17.793542        NA 12.003857  0.1669142 4.869978</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> d 10.352542  6.565736 10.553414 13.5067795 6.355544</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e        NA  7.771690  7.220794  7.6360430 6.874804</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"outlierDF")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rowMedians rowMadValues rowThresholds rowReps  rowTypes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a  12.886473   16.8685827     33.737165       4 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b   8.910125    5.3064136     10.612827       3 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c   8.436918   10.5766897     21.153379       4 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> d  10.352542    4.6764726      9.352945       5 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e   7.428419    0.6156476      1.231295       4 madFactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"minDiff")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"madFactor")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"outliersRemoved")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

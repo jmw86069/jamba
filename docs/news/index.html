@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.78.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -57,6 +57,127 @@
       <small>Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.82.900" id="jamba-version-0082900">jamba version 0.0.82.900<a class="anchor" aria-label="anchor" href="#jamba-version-0082900"></a></h2>
+<div class="section level3">
+<h3 id="new-functions-0-0-82-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-82-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/col2hsl.html">col2hsl()</a></code> and <code><a href="../reference/hsl2col.html">hsl2col()</a></code> help convert colors to and from HSL color space</p>
+<ul><li>See examples for <code><a href="../reference/col2hsl.html">col2hsl()</a></code> for visual comparison between HCL and HSL</li>
+<li>Note that both functions require the <code>farver</code> package, and may become a formal dependency of <code>jamba</code>.</li>
+<li>The most dramatic selling point for HSL is that values are typically very consistent within Hue, without distortion during interconversion and adjustments. In contrast, HCL “caps” colors at the color gamut for each RGB channel individually, which can have rather dramatic effects on the hue - sometimes fundamentally changing the color hue more than 80 degrees! More commonly, color hues are shifted by HCL conversion in order to represent Chroma and Luminance. Sometimes the result is faithful Chroma and Luminance of a completely different hue, however, which is not ideal. (Note that other color packages such as prismatic have internal functions to detect whether a color is in gamut, so it can pre-adjust the color before conversion in the farver package. Again, not ideal.)</li>
+<li>HSL does have the property that colors with the same “Lightness” are not the same perceived “Luminance” as with HCL. That said, for me this property may be advantageous, as the “yellow” hue for example is rather desolate when the Luminance and Chroma is toned down to comparable levels of blue and purple. Instead, the most saturated color for each hue is seen with <code>S=100</code> and <code>L=50</code>. With HCL, every hue has its own local Luminance values for the maximum Chroma, and the maximum Chroma varies substantially across all hues.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-82-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-82-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/breaksByVector.html">breaksByVector()</a></code> was updated to:</p>
+<ul><li>enforce consistent vector names for each output, changing <code>breakPoints</code> and <code>labelPoints</code> to represent the unique values in the order they appear.</li>
+<li>added <code>breakLengths</code> to the output <code>list</code> for convenience.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/imageByColors.html">imageByColors()</a></code> adjustments</p>
+<ul><li>moved <code>imageByColors</code> into its own R file <code>jamba-imagebycolors.R</code>.</li>
+<li>fixed error with <code>doTest=TRUE</code>, which now returns test data invisibly.</li>
+<li>The <code>cexCellnote</code> input is somewhat confusing and may change in future. To supply cex values for each column or row, use <code>list</code> input for <code>cexCellnote</code>, where each list element represents a column or row, respectively.</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.81.900" id="jamba-version-0081900">jamba version 0.0.81.900<a class="anchor" aria-label="anchor" href="#jamba-version-0081900"></a></h2>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-81-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-81-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/showColors.html">showColors()</a></code> was updated to accept color <code>functions</code> in two forms:</p>
+<ol style="list-style-type: decimal"><li>
+<code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code> form, which contains attributes <code>"colors"</code> and <code>"breaks"</code> that define the underlying color gradient. These colors are converted to hex, named by <code>"breaks"</code>, then displayed.</li>
+<li>All other <code>function</code> are expected to accept an integer number, and return that many colors, which are named by the integer index, with default length n=7.</li>
+<li>If either above method fail, the output colors are not displayed.</li>
+</ol></li>
+<li>
+<p><code><a href="../reference/showColors.html">showColors()</a></code> updates:</p>
+<ul><li>also updated to handle <code>par("mar")</code> properly, and to return <code>NULL</code> when input is empty, instead of throwing an error.</li>
+<li>new argument <code>makeUnique=TRUE</code> to display the first unique color in each color vector.</li>
+<li>it was moved to its own R file.</li>
+</ul></li>
+<li>
+<p><code>pasteByRowsOrdered()</code></p>
+<ul><li>new argument <code>keepOrder=FALSE</code>, no change to default behavior. When <code>keepOrder=TRUE</code>, any <code>character</code> columns are converted to <code>factor</code> whose levels are defined by the order of unique existing entries, keeping the order provided in <code>x</code>.</li>
+<li>new argument <code>byCols</code> passed to <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> to define the order of column sort for factor levels. This argument was previously passed via <code>...</code>, but was added as a specific argument to make this connection more apparent.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-0-0-81-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-81-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/call_fn_ellipsis.html">call_fn_ellipsis()</a></code> was added.</p>
+<ul><li>This function is a wrapper around an internal function call: within a function, calling another function.</li>
+<li>The function allows passing named arguments in <code>...</code> to a function that does not permit <code>...</code> but which may match some argument names in <code>...</code>.</li>
+<li>
+<code><a href="../reference/call_fn_ellipsis.html">call_fn_ellipsis()</a></code> only passes named arguments that are permitted in the subsequent function.</li>
+<li>Form before: <code>some_function_call(x, ...)</code>
+</li>
+<li>Form after: <code>call_fn_ellipsis(some_function_call, x, ...)</code>
+</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.80.900" id="jamba-version-0080900">jamba version 0.0.80.900<a class="anchor" aria-label="anchor" href="#jamba-version-0080900"></a></h2>
+<div class="section level3">
+<h3 id="new-functions-0-0-80-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-80-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/rowGroupMeans.html">rowGroupRmOutliers()</a></code> is a convenience function that calls <code>rowGroupMeans(..., rmOutliers=TRUE, returnType="input")</code>.</p>
+<ul><li>new argument <code>crossGroupMad=TRUE</code> calcualted the row MAD value using the median MAD per row, using non-NA and non-zero MAD values. See description of changes below.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-80-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-80-900"></a></h3>
+<ul><li><p>Moved <code><a href="../reference/rowGroupMeans.html">rowGroupMeans()</a></code> and <code><a href="../reference/rowRmMadOutliers.html">rowRmMadOutliers()</a></code> into a specific .R file for easier management.</p></li>
+<li>
+<p><code><a href="../reference/rowGroupMeans.html">rowGroupMeans()</a></code> changes when <code>rmOutliers=TRUE</code>:</p>
+<ul><li>
+<p>new argument <code>crossGroupMad=TRUE</code> will:</p>
+<ul><li>calculate each group MAD,</li>
+<li>take the median non-zero, non-NA MAD for each row as <code>rowMadValues</code>
+</li>
+<li>the median non-zero, non-NA <code>rowMadValues</code> is defined as <code>minDiff</code>
+</li>
+<li>
+<code>rowMadValues</code> and <code>minDiff</code> are passed to <code><a href="../reference/rowRmMadOutliers.html">rowRmMadOutliers()</a></code> for each group, which therefore applies the same threshold to each group on a row, and with the same <code>minDiff</code> difference-from-median required.</li>
+<li>These changes ensure that row MAD values are not <code>0</code> unless all groups have MAD=0 on the same row.</li>
+<li>Also, the default <code>minDiff</code> will by default require a point to differ at least more than the median difference observed from median in each row, in each group. If all MAD=0 in all groups and all rows, then <code>minDiff=0</code> in which case it likely does not have adverse effect.</li>
+</ul></li>
+</ul></li>
+<li>
+<p><code><a href="../reference/rowRmMadOutliers.html">rowRmMadOutliers()</a></code> changes:</p>
+<ul><li>new argument <code>rowMadValues</code> can define the MAD values on each row, useful for setting the per-row MAD across multiple sample groups for example.</li>
+<li>new argument <code>minReps</code> to require this many non-NA values, only useful when providing <code>rowMadValues</code> values, and for rows that have n=2 replicates.</li>
+<li>
+<code>includeAttributes=TRUE</code> now includes attribute <code>"outlierDF"</code> which is a a <code>data.frame</code> with summary information for each row in input <code>x</code>.</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.79.900" id="jamba-version-0079900">jamba version 0.0.79.900<a class="anchor" aria-label="anchor" href="#jamba-version-0079900"></a></h2>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-79-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-79-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> changes</p>
+<ul><li>New argument <code>wb</code> to supply an existing <code>Workbook</code> object, instead of loading it from a file.</li>
+<li>It now returns the <code>Workbook</code> object with <code>invisible(wb)</code>.</li>
+<li>If <code>file=NULL</code> then output is not saved.</li>
+<li>To save multiple sheets to the same file, it is substantially faster to build up one <code>Workbook</code> object, then save that <code>Workbook</code> one time at the end.</li>
+<li>New argument <code>colWidths</code> will apply column widths to the <code>Workbook</code> internally, to avoid having to save, read, apply, and save.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code>, <code><a href="../reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>, <code><a href="../reference/set_xlsx_colwidths.html">set_xlsx_colwidths()</a></code>, <code><a href="../reference/set_xlsx_rowheights.html">set_xlsx_rowheights()</a></code></p>
+<ul><li>
+<code>xlsxFile</code> can be a filename or <code>Workbook</code> object</li>
+<li>each function returns <code>Workbook</code> invisibly</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.78.900" id="jamba-version-0078900">jamba version 0.0.78.900<a class="anchor" aria-label="anchor" href="#jamba-version-0078900"></a></h2>
 <div class="section level3">

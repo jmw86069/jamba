@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.78.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Show colors from a vector or list</h1>
-    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-plots.r" class="external-link"><code>R/jamba-plots.r</code></a></small>
+    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-showcolors.R" class="external-link"><code>R/jamba-showcolors.R</code></a></small>
     <div class="hidden name"><code>showColors.Rd</code></div>
     </div>
 
@@ -68,6 +68,7 @@
   transpose <span class="op">=</span> <span class="cn">FALSE</span>,
   srtCellnote <span class="op">=</span> <span class="cn">NULL</span>,
   adjustMargins <span class="op">=</span> <span class="cn">TRUE</span>,
+  makeUnique <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
 
@@ -75,35 +76,49 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>vector of colors, or list of color vectors.</p></dd>
+<dd><p>one of these input types:</p><ul><li><p><code>character</code> vector of colors</p></li>
+<li><p><code>function</code> to produce colors, for example <code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code></p></li>
+<li><p><code>list</code> with any combination of <code>character</code> or <code>function</code></p></li>
+</ul></dd>
 <dt>labelCells</dt>
-<dd><p>logical whether to label colors atop the color itself.
+<dd><p><code>logical</code> whether to label colors atop the color itself.
 If NULL (default) it will only display labels with 40 or fewer items
 on either axis.</p></dd>
 <dt>transpose</dt>
-<dd><p>logical whether to transpose the colors to display
+<dd><p><code>logical</code> whether to transpose the colors to display
 top-to-bottom, instead of left-to-right.</p></dd>
 <dt>srtCellnote</dt>
-<dd><p>numerical angle to rotate text when
+<dd><p><code>numeric</code> angle to rotate text when
 <code>labelCells=TRUE</code>. When set to NULL, labels are vertical
 srtCellnote=90 when <code>transpose=FALSE</code> and horizontal
 srtCellnote=0 when <code>transpose=TRUE</code>.</p></dd>
 <dt>adjustMargins</dt>
-<dd><p>logical indicating whether to call
-<code><a href="adjustAxisLabelMargins.html">adjustAxisLabelMargins</a></code> to adjust the x- and y-axis
+<dd><p><code>logical</code> indicating whether to call
+<code><a href="adjustAxisLabelMargins.html">adjustAxisLabelMargins()</a></code> to adjust the x- and y-axis
 label margins to accomodate the label size.</p></dd>
+<dt>makeUnique</dt>
+<dd><p><code>logical</code> indicating whether to display only the first
+unique color. When <code>x</code> is supplied as a <code>list</code> this operation will
+display the first unique color for each <code>list</code> element.
+Also, when <code>x</code> is a <code>list</code>, just to be fancy, <code>makeUnique</code>
+is recycled to <code>length(x)</code> so certain list elements can display
+unique values, while others display all values.</p></dd>
 <dt>...</dt>
-<dd><p>additional parameters are sent to <code><a href="imageByColors.html">imageByColors</a></code>.</p></dd>
+<dd><p>additional parameters are passed to <code><a href="imageByColors.html">imageByColors()</a></code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>invisible color matrix used in <code><a href="imageByColors.html">imageByColors</a></code>.</p>
+    <p>invisible color <code>matrix</code> used in <code><a href="imageByColors.html">imageByColors()</a></code>. When
+the input <code>x</code> is empty, or cannot be converted to colors when
+<code>x</code> contains a <code>function</code>, the output returns <code>NULL</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>This function simply displays colors for review, using
-<code><a href="imageByColors.html">imageByColors</a></code> to display colors and labels across the
+<code><a href="imageByColors.html">imageByColors()</a></code> to display colors and labels across the
 plot space.</p>
+<p>When supplied a <code>list</code>, each row in <code><a href="imageByColors.html">imageByColors()</a></code> represents
+an entry in the <code>list</code>. Nothing fancy.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -130,12 +145,14 @@ plot space.</p>
 <code><a href="applyCLrange.html">applyCLrange</a>()</code>,
 <code><a href="col2alpha.html">col2alpha</a>()</code>,
 <code><a href="col2hcl.html">col2hcl</a>()</code>,
+<code><a href="col2hsl.html">col2hsl</a>()</code>,
 <code><a href="col2hsv.html">col2hsv</a>()</code>,
 <code><a href="color2gradient.html">color2gradient</a>()</code>,
 <code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
 <code><a href="fixYellow.html">fixYellow</a>()</code>,
 <code><a href="getColorRamp.html">getColorRamp</a>()</code>,
 <code><a href="hcl2col.html">hcl2col</a>()</code>,
+<code><a href="hsl2col.html">hsl2col</a>()</code>,
 <code><a href="hsv2col.html">hsv2col</a>()</code>,
 <code><a href="isColor.html">isColor</a>()</code>,
 <code><a href="kable_coloring.html">kable_coloring</a>()</code>,
@@ -156,9 +173,13 @@ plot space.</p>
 <span class="r-in"><span class="fu">showColors</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
 <span class="r-plt img"><img src="showColors-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="fu">showColors</span><span class="op">(</span><span class="fu"><a href="getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"firebrick3"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="showColors-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">   <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fu">RColorBrewer</span><span class="fu">:::</span><span class="va">namelist</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span><span class="fl">20</span>,<span class="va">i</span><span class="op">)</span>;</span>
+<span class="r-in">      <span class="va">j</span> <span class="op">&lt;-</span> <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span><span class="fl">20</span>, <span class="va">i</span><span class="op">)</span>;</span>
+<span class="r-in">      <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="va">j</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">j</span><span class="op">)</span><span class="op">)</span>;</span>
 <span class="r-in">   <span class="op">}</span><span class="op">)</span>;</span>
 <span class="r-in">   <span class="fu">showColors</span><span class="op">(</span><span class="va">y</span>, cexCellnote<span class="op">=</span><span class="fl">0.6</span>, cex.axis<span class="op">=</span><span class="fl">0.7</span>, main<span class="op">=</span><span class="st">"Brewer Colors"</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="op">}</span></span>
@@ -232,21 +253,54 @@ plot space.</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette YlOrRd is 9</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-plt img"><img src="showColors-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">   <span class="co"># Grab the full viridis color map</span></span>
-<span class="r-in">   <span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="rgb2col.html">rgb2col</a></span><span class="op">(</span><span class="va">viridis.map</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>,<span class="st">"G"</span>,<span class="st">"B"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="co"># label the colors using viridis.map$opt</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">viridis.map</span><span class="op">$</span><span class="va">opt</span>;</span>
-<span class="r-in">   <span class="fu">showColors</span><span class="op">(</span><span class="va">z</span>, labelCells<span class="op">=</span><span class="cn">TRUE</span>, xaxt<span class="op">=</span><span class="st">"n"</span>, main<span class="op">=</span><span class="st">"viridis.map colors"</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="co"># or split the colors into a list</span></span>
-<span class="r-in">   <span class="va">zl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">viridis.map</span><span class="op">[</span>,<span class="st">"opt"</span><span class="op">]</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu">showColors</span><span class="op">(</span><span class="va">zl</span>, labelCells<span class="op">=</span><span class="cn">TRUE</span>, srtCellnote<span class="op">=</span><span class="fl">0</span>, xaxt<span class="op">=</span><span class="st">"n"</span>,</span>
-<span class="r-in">      main<span class="op">=</span><span class="st">"Viridis colors as a list"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>package ‘viridis’ was built under R version 3.6.2</span>
 <span class="r-plt img"><img src="showColors-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in">   <span class="co"># given one function name it will display discrete colors</span></span>
+<span class="r-in">   <span class="fu">showColors</span><span class="op">(</span><span class="va">viridis</span><span class="op">)</span></span>
+<span class="r-in">   <span class="co"># a list of functions will show each function output</span></span>
+<span class="r-in">   <span class="fu">showColors</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>viridis<span class="op">=</span><span class="va">viridis</span>,</span>
+<span class="r-in">      inferno<span class="op">=</span><span class="va">inferno</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in">   <span class="co"># grab the full viridis color map</span></span>
+<span class="r-in">   <span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="rgb2col.html">rgb2col</a></span><span class="op">(</span><span class="va">viridis.map</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>,<span class="st">"G"</span>,<span class="st">"B"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>;</span>
+<span class="r-in">   <span class="co"># split the colors into a list</span></span>
+<span class="r-in">   <span class="va">viridis_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A<span class="op">=</span><span class="st">"magma"</span>,</span>
+<span class="r-in">      B<span class="op">=</span><span class="st">"inferno"</span>,</span>
+<span class="r-in">      C<span class="op">=</span><span class="st">"plasma"</span>,</span>
+<span class="r-in">      D<span class="op">=</span><span class="st">"viridis"</span>,</span>
+<span class="r-in">      E<span class="op">=</span><span class="st">"cividis"</span>,</span>
+<span class="r-in">      F<span class="op">=</span><span class="st">"rocket"</span>,</span>
+<span class="r-in">      G<span class="op">=</span><span class="st">"mako"</span>,</span>
+<span class="r-in">      H<span class="op">=</span><span class="st">"turbo"</span><span class="op">)</span></span>
+<span class="r-in">   <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">z</span>,</span>
+<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">viridis.map</span><span class="op">$</span><span class="va">opt</span>, <span class="st">": "</span>,</span>
+<span class="r-in">      <span class="va">viridis_names</span><span class="op">[</span><span class="va">viridis.map</span><span class="op">$</span><span class="va">opt</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>;</span>
+<span class="r-in">   <span class="fu">showColors</span><span class="op">(</span><span class="va">y</span>, labelCells<span class="op">=</span><span class="cn">TRUE</span>, xaxt<span class="op">=</span><span class="st">"n"</span>, main<span class="op">=</span><span class="st">"viridis.map colors"</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="op">}</span></span>
 <span class="r-plt img"><img src="showColors-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="showColors-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="showColors-6.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># demonstrate makeUnique=TRUE</span></span>
+<span class="r-in"><span class="va">j1</span> <span class="op">&lt;-</span> <span class="fu"><a href="getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"rainbow"</span>, n<span class="op">=</span><span class="fl">7</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">j1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">j1</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="va">j2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">j1</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">j2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="makeNames.html">makeNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">j2</span><span class="op">)</span>, suffix<span class="op">=</span><span class="st">"_rep"</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="va">j2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1_rep1      1_rep2      1_rep3      2_rep1      2_rep2      2_rep3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "#FF0000FF" "#FF0000FF" "#FF0000FF" "#EEDD00FF" "#EEDD00FF" "#EEDD00FF" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      3_rep1      3_rep2      3_rep3      4_rep1      4_rep2      4_rep3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "#21FF00FF" "#21FF00FF" "#21FF00FF" "#00FFCCFF" "#00FFCCFF" "#00FFCCFF" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      5_rep1      5_rep2      5_rep3      6_rep1      6_rep2      6_rep3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "#0043FFFF" "#0043FFFF" "#0043FFFF" "#A900FFFF" "#A900FFFF" "#A900FFFF" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      7_rep1      7_rep2      7_rep3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "#FF0066FF" "#FF0066FF" "#FF0066FF" </span>
+<span class="r-in"><span class="fu">showColors</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span class="r-in">   j1<span class="op">=</span><span class="va">j1</span>,</span>
+<span class="r-in">   j2<span class="op">=</span><span class="va">j2</span>,</span>
+<span class="r-in">   j3<span class="op">=</span><span class="va">j2</span><span class="op">)</span>,</span>
+<span class="r-in">   makeUnique<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="showColors-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
