@@ -1,3 +1,52 @@
+# jamba version 0.0.82.900
+
+## new functions
+
+* `col2hsl()` and `hsl2col()` help convert colors to and from HSL color space
+
+   * See examples for `col2hsl()` for visual comparison between HCL and HSL
+   * Note that both functions require the `farver` package, and may become
+   a formal dependency of `jamba`.
+   * The most dramatic selling point for HSL is that values are typically
+   very consistent within Hue, without distortion during interconversion
+   and adjustments. In contrast, HCL "caps" colors at the color gamut
+   for each RGB channel individually, which can have rather dramatic effects
+   on the hue - sometimes fundamentally changing the color hue more than
+   80 degrees! More commonly, color hues are shifted by HCL conversion
+   in order to represent Chroma and Luminance. Sometimes the result is
+   faithful Chroma and Luminance of a completely different hue, however,
+   which is not ideal. (Note that other color packages such as prismatic
+   have internal functions to detect whether a color is in gamut, so
+   it can pre-adjust the color before conversion in the farver package.
+   Again, not ideal.)
+   * HSL does have the property that colors with the same "Lightness"
+   are not the same perceived "Luminance" as with HCL. That said, for
+   me this property may be advantageous, as the "yellow" hue for example
+   is rather desolate when the Luminance and Chroma is toned down to
+   comparable levels of blue and purple. Instead, the most saturated
+   color for each hue is seen with `S=100` and `L=50`. With HCL, every
+   hue has its own local Luminance values for the maximum Chroma, and
+   the maximum Chroma varies substantially across all hues.
+
+
+## changes to existing functions
+
+* `breaksByVector()` was updated to:
+
+   * enforce consistent vector names for each output,
+   changing `breakPoints` and `labelPoints` to represent
+   the unique values in the order they appear.
+   * added `breakLengths` to the output `list` for convenience.
+
+* `imageByColors()` adjustments
+
+   * moved `imageByColors` into its own R file `jamba-imagebycolors.R`.
+   * fixed error with `doTest=TRUE`, which now returns test data invisibly.
+   * The `cexCellnote` input is somewhat confusing and may change in future.
+   To supply cex values for each column or row, use `list` input for
+   `cexCellnote`, where each list element represents a column or row,
+   respectively.
+
 # jamba version 0.0.81.900
 
 ## changes to existing functions

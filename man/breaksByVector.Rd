@@ -18,7 +18,7 @@ for labels that should be positioned between two labels}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-list with the following named elements
+list with the following named elements:
 \itemize{
 \item{"breakPoints"}{The mid-point coordinate between each break.
 These midpoints would be good for drawing dividing lines for
@@ -30,6 +30,7 @@ data, except using blank values except where a label should
 be drawn. This output is good for text display.}
 \item{"useLabels"}{The unique set of labels, without blanks,
 corresponding to the coordinates supplied by labelPoints.}
+\item{"breakLengths"}{The integer size of each set of labels.}
 }
 }
 \description{
@@ -52,7 +53,7 @@ This function is useful for things like adding labels to
 it may be ideal to label only unique elements in a contiguous set.
 }
 \examples{
-b <- rep(LETTERS[1:5], c(2,3,5,4,3));
+b <- rep(LETTERS[c(1:5, 1)], c(2,3,5,4,3,4));
 bb <- breaksByVector(b);
 # Example showing how labels can be minimized inside a data.frame
 data.frame(b,

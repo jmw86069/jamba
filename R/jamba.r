@@ -719,7 +719,7 @@ pasteByRow <- function
 #' it may be ideal to label only unique elements in a contiguous set.
 #'
 #' @return
-#' list with the following named elements
+#' list with the following named elements:
 #'    \itemize{
 #'       \item{"breakPoints"}{The mid-point coordinate between each break.
 #'          These midpoints would be good for drawing dividing lines for
@@ -731,6 +731,7 @@ pasteByRow <- function
 #'          be drawn. This output is good for text display.}
 #'       \item{"useLabels"}{The unique set of labels, without blanks,
 #'          corresponding to the coordinates supplied by labelPoints.}
+#'       \item{"breakLengths"}{The integer size of each set of labels.}
 #'    }
 #'
 #' @family jam string functions
@@ -743,7 +744,7 @@ pasteByRow <- function
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
-#' b <- rep(LETTERS[1:5], c(2,3,5,4,3));
+#' b <- rep(LETTERS[c(1:5, 1)], c(2,3,5,4,3,4));
 #' bb <- breaksByVector(b);
 #' # Example showing how labels can be minimized inside a data.frame
 #' data.frame(b,
@@ -809,19 +810,24 @@ breaksByVector <- function
    ##
    ## Use the base::rle() function instead of IRanges::Rle()
    if (any(class(x) %in% c("factor", "ordered"))) {
-      x <- nameVector(as.character(x), names(x));
+      x <- nameVector(as.character(x),
+         names(x),
+         makeNamesFunc=c);
    }
    xRle <- rle(x);
 
    ## Commented out syntax used by Bioconductor Rle
    #breakPoints <- cumsum(runLength(xRle));
+   xLengths <- xRle$lengths;
    breakPoints <- cumsum(xRle$lengths);
+   useLabels <- xRle$values;
+   names(breakPoints) <- useLabels;
 
    labelPoints <- 0.5 + (c(0, head(breakPoints, -1)) + breakPoints) / 2;
    if (!returnFractions) {
       labelPoints <- trunc(labelPoints);
    }
-   useLabels <- xRle$values;
+   names(labelPoints) <- names(breakPoints);
    if (!is.null(labels) && length(labels) == length(breakPoints)) {
       newLabels <- rep("", length(x));
       newLabels[labelPoints] <- labels;
@@ -833,10 +839,14 @@ breaksByVector <- function
    if (!is.null(names(x))) {
       newLabels <- nameVector(newLabels, names(x));
    }
+
+   # calculate chunk sizes
+
    list(breakPoints=breakPoints,
-        labelPoints=labelPoints,
-        newLabels=newLabels,
-        useLabels=useLabels);
+      labelPoints=labelPoints,
+      newLabels=newLabels,
+      useLabels=useLabels,
+      breakLengths=xLengths);
 }
 
 #' Draw groups axis labels
