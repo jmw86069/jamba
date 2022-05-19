@@ -1,3 +1,25 @@
+# jamba version 0.0.83.900
+
+## changes to existing functions
+
+* `printDebug()` was updated:
+
+   * Argument help text was updated.
+   * Argument `indent` is honored, previously ignored. When `numeric`
+   it defines the number of character spaces `" "` used to indent.
+   * When a color is adjusted to light,dark alternating pattern,
+   `color2gradient()` is called using `dex=1` instead of
+   `gradientWtFactor=1`, which should apply more consistent scaling
+   to light and dark colors.
+   * New argument `dex` used to control intensity of light,dark
+   color adjustment. When `dex=0` no adjustment is performed.
+   * The `bgText` light,dark adjustment now uses `dex` as well,
+   for consistency.
+   * When `doColor=FALSE`, the output enforces conversion of `factor`
+   to `character` when combining multiple values into a string,
+   consistent with `doColor > 0` behavior. Should be minor effect
+   if any.
+
 # jamba version 0.0.82.900
 
 ## new functions

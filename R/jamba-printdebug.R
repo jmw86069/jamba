@@ -16,29 +16,67 @@
 #' The next item in '...' receives the next color from fgText, and so on.
 #' Colors in fgText are recycled to the length of '...'
 #'
-#' @param ... text to be printed to the R console.
-#' @param fgText vector of R compatible colors, or a list of vectors of
-#'    R compatible colors, to define the foreground colors. In the latter
-#'    case, each vector is applied to each list item from '...'
-#' @param bgText vector of R compatible colors, or a list of vectors,
-#'    to define the background color.
-#' @param fgTime character R color to colorize the time
-#' @param timeStamp logical whether to include a time stamp in output
-#' @param comment logical whether to prefix output with '##' as a comment
-#' @param formatNumbers logical whether to format numbers using
-#'    \code{\link[base]{format}} which controls the number of digits displayed.
+#' @param ... `character`, `factor`, `numeric` or compatible atomic vectors
+#'    to be printed to the R console. These arguments are recognized as
+#'    any un-named argument, or any argument whose name does not match the
+#'    named arguments below.
+#' @param fgText one of two formats to define the foreground color for
+#'    elements in `...` being printed. Each element is colored in order,
+#'    and when multiple vector values are contained in one `...` element,
+#'    the color defined in `fgText` is extended.
+#'    The input types recognized:
+#'    * `NULL` when no color is defined, one of two outputs:
+#'       1. When all values in `...` represent colors, these colors are
+#'       used to colorize the output text. When `names()` are present
+#'       they are used as the text labels in place of the vector value.
+#'       2. When not all values in `...` represent colors, the default
+#'       color set is used: `c("darkorange1", "dodgerblue")`.
+#'       3. To disable option 1 above, define a specific value for `fgText`,
+#'       such as `fgText=c("darkorange1", "dodgerblue")`.
+#'
+#'    * `vector` of R compatible colors, recycled to the length of `...`.
+#'    When any element of `...` is a vector with multiple values, the
+#'    corresponding color in `fgText` is shaded slightly lighter and
+#'    darker, then recycled to the vector length, so that adjacent values
+#'    have slightly different color.
+#'    This behavior is controlled by default argument `splitComments=TRUE`.
+#'    * `list` of vectors of R compatible colors, recycled to the length
+#'    of `...`, then applied to each element in `...` in order. When only
+#'    one color is defined, and multiple values are present in the
+#'    corresponding `list` element, the color is shaded slightly lighter
+#'    and darker, then recycled to the vector length, as described above.
+#'    This behavior is controlled by default argument `splitComments=TRUE`.
+#'    When multiple colors are defined for the `list` element, these
+#'    values are recycled to the vector length.
+#'    * **Note**: When `invert=TRUE` the values for `fgText` and `bgText` are
+#'    reversed, and if the resulting `fgText` is `NULL` then its color
+#'    is defined by `setTextContrastColor()` in order to define a contrasting
+#'    text color.
+#' @param bgText `vector` of R colors, or `list` of vectors, used to define
+#'    the background color, using the same approach described for `fgText`.
+#'    Note that `NULL` or `NA` defines the absence of any background color,
+#'    which is default. When `invert=TRUE`, which is default for
+#'    `printDebugI()`, the values for `fgText` and `bgText` are reversed.
+#' @param fgTime `character` R color to colorize the time
+#' @param timeStamp `logical` whether to include a time stamp in output
+#' @param comment `logical` whether to prefix output with '##' as a comment
+#' @param formatNumbers `logical` whether to format numbers using
+#'    `format()` which controls the number of digits displayed, and is
+#'    default. When `formatNumbers=FALSE` sometimes `numeric` values
+#'    that contain `integers` may be represented as `14.0000000001`.
 #' @param trim,digits,nsmall,justify,big.mark,small.mark,zero.print,width
-#'    parameters sent to the \code{\link[base]{format}} function.
-#' @param doColor NULL or logical indicating whether to colorize output. If
-#'    NULL it detects whether the crayon package is available and console
-#'    color is enabled.
-#' @param splitComments logical whether to color each element independently
-#'    without light-dark alternating pattern.
-#' @param collapse character collapse string used to separate list items,
+#'    arguments passed to `format()`.
+#' @param doColor `logical` or `NULL` indicating whether to colorize output.
+#'    When `doColor` is `NULL`, if the `"crayon"` package is available,
+#'    and if crayon detects color is permitted, color is enabled.
+#' @param splitComments `logical` whether to color each element independently
+#'    without light-dark alternating pattern. The intensity of the
+#'    adjustment is controlled by `dex` passed to `color2gradient()`.
+#' @param collapse `character` collapse string used to separate list items,
 #'    by default "" so text separation is expected in the input data.
-#' @param sep character separator used to separate vector elements, when
+#' @param sep `character` separator used to separate vector elements, when
 #'    a list items contains a vector.
-#' @param doReset logical or `NULL`, indicating whether to apply
+#' @param doReset `logical` or `NULL`, indicating whether to apply
 #'    `crayon::reset()` to the delimiter `sep`. When `doReset=TRUE` the
 #'    style on the delimiter is forced to reset, using `crayon::reset()`,
 #'    or to remove pre-existing style with `crayon::strip_style()`. When
@@ -46,45 +84,58 @@
 #'    left as-is; when `doReset=NULL` and `sep` does not contain ANSI escape
 #'    characters, `sep` becomes `crayon::reset(sep)` which forces the style
 #'    to be reset between printed values.
-#' @param detectColors logical whether to detect and potentially try to
+#' @param detectColors `logical` whether to detect and potentially try to
 #'    correct console color capabilities.
-#' @param darkFactor numeric darkness to apply to alternative vector values
-#'    when using alternating light-dark color shading.
-#' @param sFactor numeric color saturation to apply to alternative vector
-#'    values when using alternating light-dark color shading.
-#' @param Crange numeric range of chroma values, ranging
-#'    between 0 and 100. When NULL, default values will be
-#'    assigned to Crange by `setCLranges()`.
-#' @param Lrange numeric range of luminance values, ranging
-#'    between 0 and 100. When NULL, default values will be
-#'    assigned to Lrange by `setCLranges()`.
-#' @param lightMode boolean or NULL, indicating whether the text background
-#'    color is light, thus imposing a maximum brightness for colors displayed.
-#'    It use lightMode if defined by the function caller, otherwise it will
-#'    use options("jam.lightMode") if defined, lastly it will attempt to detect
-#'    whether running inside Rstudio by checking the environment variable
-#'    "RSTUDIO", and if so it will assign lightMode TRUE.
-#' @param removeNA logical whether to remove NA values and not print to
+#' @param dex `numeric` passed to `color2gradient()` to split a color
+#'    into a lighter,darker alternating pattern. Until version 0.0.83.900,
+#'    this process used `gradientWtFactor=1` and was not adjustable.
+#'    Note that when `splitComments=TRUE` the input values in `...`
+#'    are flattened to a single vector, and colors in `fgText` are
+#'    applied directly without adjustment.
+#' @param darkFactor,sFactor `numeric` arguments deprecated.
+#' @param Crange,Lrange `numeric` range of chroma and luminance values
+#'    between 0 and 100. When NULL, default values are assigned
+#'    by `setCLranges()`. The intent is to restrict the range relative
+#'    to the console background color, also controlled by `lightMode`.
+#' @param lightMode `logical` or NULL, indicating whether the text
+#'    background color is light, where `lightMode=TRUE` indicates the
+#'    background is white or light enough to require darker text,
+#'    imposing a maximum brightness for colors displayed.
+#'    When `NULL` it calls `checkLightMode()`, which uses:
+#'    * `getOption("jam.lightMode")` if defined
+#'    * otherwise attempts to detect whether the session is running inside
+#'    RStudio, by checking for environmental variable `"RSTUDIO"`,
+#'    under the assumption that default RStudio uses a light background,
+#'    therefore `lightMode=TRUE`.
+#'    * if steps above fail, it uses `lightMode=FALSE`.
+#'    * to force a specific lightMode for all uses, use options:
+#'    `options(jam.lightMode=TRUE)` or `options(jam.lightMode=FALSE)`.
+#' @param removeNA `logical` whether to remove NA values and not print to
 #'    the console.
-#' @param replaceNULL character or NULL, optionally replace NULL elements
-#'    with non-NULL character value.
-#' @param adjustRgb numeric value adjustment used during the conversion of
+#' @param replaceNULL `character` or NULL, optionally replace NULL elements
+#'    with non-NULL character value, otherwise NULL elements are ignored.
+#' @param adjustRgb `numeric` value adjustment used during the conversion of
 #'    RGB colors to ANSI colors, which is inherently lossy. If not defined,
 #'    it uses the default returned by `setCLranges()` which itself uses
-#'    \code{getOption("jam.adjustRgb")} with default=0. In order to boost
+#'    `getOption("jam.adjustRgb")` with default=0. In order to boost
 #'    color contrast, an alternate value of -0.1 is suggested.
-#' @param byLine logical whether to delimit lists by line instead of
+#' @param byLine `logical` whether to delimit lists by line instead of
 #'    using collapse to combine them onto one line.
-#' @param verbose logical whether to print verbose output
-#' @param indent character optional characters used as a prefix to indent
-#'    output.
-#' @param file passed to \code{cat}, to allow sending output to
-#'    a specified file.
-#' @param append logical whether to append output, relevant only when
-#'    \code{file} specifies a filename.
-#' @param invert logical indicating whether foreground and background
-#'    colors should be switched.
-#' @param htmlOut logical indicating whether to print HTML span
+#' @param verbose `logical` whether to print verbose output
+#' @param indent `character` optional characters used as a prefix to indent
+#'    output. When `numeric` it is rounded to integer, then this many
+#'    character spaces `" "` are concatenated together to define the
+#'    indent width. Note that the `indent` text is not colorized.
+#' @param file argument passed to `cat()` to send output to a file or
+#'    compatible output of `cat()`.
+#' @param append `logical` whether to append output, passed to `cat()`
+#'    when `file` is defined.
+#' @param invert `logical` indicating whether foreground and background
+#'    colors should be switched, as is default for `printDebugI()`.
+#'    Note when the resulting `fgText` is `NULL`, its color is defined
+#'    by `setTextContrastColor()` to define a contrasting text color
+#'    relative to the background color in `bgText`.
+#' @param htmlOut `logical` indicating whether to print HTML span
 #'    output, using format
 #'    `<span style="color:fg;background-color:bg">text</span>`.
 #'    This argument is not yet implemented, more testing is required
@@ -146,6 +197,7 @@ printDebug <- function
  sep=",",
  doReset=NULL,
  detectColors=TRUE,
+ dex=1,
  darkFactor=c(1,1.5),
  sFactor=c(1,1.5),
  lightMode=NULL,
@@ -186,6 +238,10 @@ printDebug <- function
    if (byLine) {
       collapse <- "\n";
    }
+   if (is.numeric(indent)) {
+      indent <- paste0(rep(" ", round(indent)),
+         collapse="");
+   }
 
    ## Determine the type of coloration we can use
    ## by setting up a conditional array to capture various combinations
@@ -196,7 +252,8 @@ printDebug <- function
    if (htmlOut) {
       doColor <- 1;
    } else {
-      hasCrayon <- as.character(suppressWarnings(suppressPackageStartupMessages(require(crayon))));
+      hasCrayon <- check_pkg_installed("crayon")
+      # hasCrayon <- as.character(suppressWarnings(suppressPackageStartupMessages(require(crayon))));
       if (is.null(doColor)) {
          if (hasCrayon %in% "TRUE") {
             doColor <- 2;
@@ -289,8 +346,7 @@ printDebug <- function
          sep=sep,
          doReset=doReset,
          detectColors=detectColors,
-         darkFactor=darkFactor,
-         sFactor=sFactor,
+         dex=dex,
          Lrange=Lrange,
          Crange=Crange,
          removeNA=removeNA,
@@ -388,7 +444,7 @@ printDebug <- function
                         iColor,
                         keepNA=keepNA),
                      length.out=xListSlength[i]);
-               } else {
+               } else if (head(dex, 1) > 0) {
                   if (iL < 70) {
                      ik <- 1;
                   } else if (iL > 90) {
@@ -398,7 +454,10 @@ printDebug <- function
                   }
                   iColor <- rep(
                      c(iColor,
-                        color2gradient(iColor, n=4, gradientWtFactor=1)[ik]),
+                        color2gradient(iColor, n=4, dex=dex)[ik]),
+                     length.out=xListSlength[i]);
+               } else {
+                  iColor <- rep(iColor,
                      length.out=xListSlength[i]);
                }
                if (any(iColor_na)) {
@@ -413,13 +472,36 @@ printDebug <- function
          if (length(bgText) > 0) {
             bgText <- lapply(seq_along(bgText), function(i){
                iColor <- bgText[[i]];
-               if (length(iColor) == 1) {
-                  iColor <- rep(
-                     makeColorDarker(darkFactor=c(darkFactor),
-                        sFactor=c(sFactor),
-                        iColor,
-                        keepNA=keepNA),
+               iColor_na <- is.na(iColor);
+               if (all(iColor_na)) {
+                  iColor <- rep(iColor,
                      length.out=xListSlength[i]);
+               } else if (length(iColor) == 1) {
+                  if (head(dex, 1) > 0) {
+                     if (iL < 70) {
+                        ik <- 1;
+                     } else if (iL > 90) {
+                        ik <- 4;
+                     } else {
+                        ik <- 3;
+                     }
+                     iColor <- rep(
+                        c(iColor,
+                           color2gradient(iColor, n=4, dex=dex)[ik]),
+                        length.out=xListSlength[i]);
+                  } else {
+                     iColor <- rep(iColor,
+                        length.out=xListSlength[i]);
+                  }
+                  if (any(iColor_na)) {
+                     iColor[iColor_na] <- NA;
+                  }
+                  # iColor <- rep(
+                  #    makeColorDarker(darkFactor=c(darkFactor),
+                  #       sFactor=c(sFactor),
+                  #       iColor,
+                  #       keepNA=keepNA),
+                  #    length.out=xListSlength[i]);
                } else {
                   iColor <- rep(iColor,
                      length.out=xListSlength[i]);
@@ -508,7 +590,7 @@ printDebug <- function
             crayon::num_colors(256);
          }
          if (timeStamp) {
-            timeStampValue <- paste(c("(", make_style("bold")(
+            timeStampValue <- paste(c("(", crayon::make_style("bold")(
                make_styles(style=fgTime,
                   bg_style=NA,
                   bg=FALSE,
@@ -541,7 +623,9 @@ printDebug <- function
             new_string;
          }), collapse=collapse);
 
-         printString <- c(timeStampValue, printValue);
+         printString <- c(timeStampValue,
+            indent,
+            printValue);
          if (comment) {
             printString <- c("## ", printString);
          }
@@ -584,7 +668,9 @@ printDebug <- function
             new_string;
          }), collapse=collapse);
 
-         printString <- c(timeStampValue, printValue);
+         printString <- c(timeStampValue,
+            indent,
+            printValue);
          if (comment) {
             printString <- c("## ", printString);
          }
@@ -603,7 +689,17 @@ printDebug <- function
          } else {
             timeStampValue <- "";
          }
-         printString <- c(timeStampValue, paste(x, collapse=collapse));
+         printValue <- paste(sapply(seq_along(x), function(ix){
+            xStr <- x[ix];
+            if (igrepHas("factor", class(xStr))) {
+               xStr <- as.character(xStr);
+            }
+            new_string <- xStr;
+            new_string;
+         }), collapse=collapse);
+         printString <- c(timeStampValue,
+            indent,
+            printValue);
          if (comment) {
             printString <- c("#  ", printString);
          }
