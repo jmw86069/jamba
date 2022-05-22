@@ -54,7 +54,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Process coordinate adjustment presets</h1>
-    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-plots.r" class="external-link"><code>R/jamba-plots.r</code></a></small>
+    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-drawlabels.R" class="external-link"><code>R/jamba-drawlabels.R</code></a></small>
     <div class="hidden name"><code>coordPresets.Rd</code></div>
     </div>
 
@@ -103,9 +103,14 @@ larger labels will be adjusted more than smaller labels.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.frame with colnames <code>x,y,adjX,adjY,preset,adjPreset</code>after adjustment, where the number of rows is determined by the
-longest input argument.</p>
-    </div>
+    <p><code>data.frame</code> after adjustment, where the number of rows
+is determined by the longest input argument, with colnames:</p><ul><li><p>x</p></li>
+<li><p>y</p></li>
+<li><p>adjX</p></li>
+<li><p>adjY</p></li>
+<li><p>preset</p></li>
+<li><p>adjPreset</p></li>
+</ul></div>
     <div id="details">
     <h2>Details</h2>
     <p>This function is intended to be a convenient way to define
@@ -155,23 +160,28 @@ The <code>preset</code> value takes priority over the supplied <code>x,y</code> 
 
     <div id="examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># make sure to prepare the plot region first</span></span>
-<span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># determine coordinates</span></span>
-<span class="r-in"><span class="va">presetV</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"top"</span>,<span class="st">"bottom"</span>,<span class="st">"left"</span>,<span class="st">"right"</span>, <span class="st">"topleft"</span><span class="op">)</span>;</span>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># determine coordinates</span></span>
+<span class="r-in"><span class="va">presetV</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"top"</span>,</span>
+<span class="r-in">   <span class="st">"bottom"</span>,</span>
+<span class="r-in">   <span class="st">"left"</span>,</span>
+<span class="r-in">   <span class="st">"right"</span>,</span>
+<span class="r-in">   <span class="st">"topleft"</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="va">cp1</span> <span class="op">&lt;-</span> <span class="fu">coordPresets</span><span class="op">(</span>preset<span class="op">=</span><span class="va">presetV</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="va">cp1</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      x    y adjX adjY  preset adjPreset</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1.50 2.04  0.5  1.0     top   default</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1.50 0.96  0.5  0.0  bottom   default</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.96 1.50  0.0  0.5    left   default</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2.04 1.50  1.0  0.5   right   default</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.96 2.04  0.0  1.0 topleft   default</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x   y adjX adjY  preset adjPreset</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.5 1.0  0.5  1.0     top   default</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.5 0.0  0.5  0.0  bottom   default</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0 0.5  0.0  0.5    left   default</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1.0 0.5  1.0  0.5   right   default</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.0 1.0  0.0  1.0 topleft   default</span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co"># make sure to prepare the plot region first</span></span>
+<span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">cp1</span><span class="op">$</span><span class="va">x</span>, <span class="va">cp1</span><span class="op">$</span><span class="va">y</span>, pch<span class="op">=</span><span class="fl">20</span>, cex<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span>;</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># unfortunately graphics::text() does not have vectorized adj</span></span>
+<span class="r-in"><span class="co"># so it must iterate each row</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"text() is not vectorized, text is adjacent to edges"</span><span class="op">)</span></span>
 <span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">presetV</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="va">cp1</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">cp1</span><span class="op">$</span><span class="va">y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
 <span class="r-in">      labels<span class="op">=</span><span class="va">presetV</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
@@ -179,13 +189,47 @@ The <code>preset</code> value takes priority over the supplied <code>x,y</code> 
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-plt img"><img src="coordPresets-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co"># drawLabels() will be vectorized for unique adj subsets</span></span>
+<span class="r-in"><span class="co"># and adds a small buffer around text</span></span>
+<span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"drawLabels() is vectorized, includes small buffer"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="drawLabels.html">drawLabels</a></span><span class="op">(</span>txt<span class="op">=</span><span class="va">presetV</span>,</span>
+<span class="r-in">   preset<span class="op">=</span><span class="va">presetV</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="coordPresets-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"drawLabels() can place labels outside plot edges"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="drawLabels.html">drawLabels</a></span><span class="op">(</span>txt<span class="op">=</span><span class="va">presetV</span>,</span>
+<span class="r-in">   preset<span class="op">=</span><span class="va">presetV</span>,</span>
+<span class="r-in">   adjPreset<span class="op">=</span><span class="va">presetV</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="coordPresets-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="co"># drawLabels() is vectorized for example</span></span>
 <span class="r-in"><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">presetV2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"topleft"</span>, <span class="st">"topright"</span>, <span class="st">"bottomleft"</span>, <span class="st">"bottomright"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">cp2</span> <span class="op">&lt;-</span> <span class="fu">coordPresets</span><span class="op">(</span>preset<span class="op">=</span><span class="st">"center"</span>, adjPreset<span class="op">=</span><span class="va">presetV2</span>, adjOffsetX<span class="op">=</span><span class="fl">0.1</span>, adjOffsetY<span class="op">=</span><span class="fl">0.4</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">cp2</span><span class="op">$</span><span class="va">x</span>, <span class="va">cp2</span><span class="op">$</span><span class="va">y</span>, pch<span class="op">=</span><span class="fl">20</span>, cex<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="drawLabels.html">drawLabels</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">cp2</span><span class="op">$</span><span class="va">x</span>, y<span class="op">=</span><span class="va">cp2</span><span class="op">$</span><span class="va">y</span>, adjX<span class="op">=</span><span class="va">cp2</span><span class="op">$</span><span class="va">adjX</span>, adjY<span class="op">=</span><span class="va">cp2</span><span class="op">$</span><span class="va">adjY</span>, txt<span class="op">=</span><span class="va">presetV2</span>, boxCexAdjust<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.15</span>,<span class="fl">1.6</span><span class="op">)</span>, labelCex<span class="op">=</span><span class="fl">1.3</span>, lx<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">4</span><span class="op">)</span>, ly<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="coordPresets-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"Use adjPreset to position labels at a center point"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">presetV2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"topleft"</span>,</span>
+<span class="r-in">   <span class="st">"topright"</span>,</span>
+<span class="r-in">   <span class="st">"bottomleft"</span>,</span>
+<span class="r-in">   <span class="st">"bottomright"</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="va">cp2</span> <span class="op">&lt;-</span> <span class="fu">coordPresets</span><span class="op">(</span>preset<span class="op">=</span><span class="st">"center"</span>,</span>
+<span class="r-in">   adjPreset<span class="op">=</span><span class="va">presetV2</span>,</span>
+<span class="r-in">   adjOffsetX<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span class="r-in">   adjOffsetY<span class="op">=</span><span class="fl">0.4</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">cp2</span><span class="op">$</span><span class="va">x</span>,</span>
+<span class="r-in">   <span class="va">cp2</span><span class="op">$</span><span class="va">y</span>,</span>
+<span class="r-in">   pch<span class="op">=</span><span class="fl">20</span>,</span>
+<span class="r-in">   cex<span class="op">=</span><span class="fl">2</span>,</span>
+<span class="r-in">   col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="fu"><a href="drawLabels.html">drawLabels</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">cp2</span><span class="op">$</span><span class="va">x</span>,</span>
+<span class="r-in">   y<span class="op">=</span><span class="va">cp2</span><span class="op">$</span><span class="va">y</span>,</span>
+<span class="r-in">   adjX<span class="op">=</span><span class="va">cp2</span><span class="op">$</span><span class="va">adjX</span>,</span>
+<span class="r-in">   adjY<span class="op">=</span><span class="va">cp2</span><span class="op">$</span><span class="va">adjY</span>,</span>
+<span class="r-in">   txt<span class="op">=</span><span class="va">presetV2</span>,</span>
+<span class="r-in">   boxCexAdjust<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.15</span>,<span class="fl">1.6</span><span class="op">)</span>,</span>
+<span class="r-in">   labelCex<span class="op">=</span><span class="fl">1.3</span>,</span>
+<span class="r-in">   lx<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">4</span><span class="op">)</span>,</span>
+<span class="r-in">   ly<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="coordPresets-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

@@ -75,6 +75,19 @@
 <ul><li>new argument <code>debug</code> to print the control characters</li>
 <li>new default <code>addEscapes=NULL</code>, where it autodetects whether it is running inside RStudio, setting <code>addEscapes=TRUE</code> if not running inside RStudio. When <code>addEscapes</code> is defined, that setting is honored.</li>
 </ul></li>
+<li>
+<p><code><a href="../reference/drawLabels.html">drawLabels()</a></code></p>
+<ul><li><p>default box color is much lighter, less saturated.</p></li>
+<li>
+<p>new argument <code>panelWidth</code> to size labels to plot panel width, mostly useful for labels at the top or bottom of each plot panel. This argument is intended to be used by the <code>jamma</code> package to place plot panels above each plot, at least the full width of each plot panel.</p>
+<ul><li>
+<code>panelWidth="force"</code> labels always equal full panel width</li>
+<li>
+<code>panelWidth="minimum"</code> labels are at least full name width, or as wide as necessary for the text label</li>
+<li>
+<code>panelWidth="maximum"</code> labels are as large as needed for text label but no wider than the plot panel.</li>
+</ul></li>
+</ul></li>
 </ul></div>
 </div>
     <div class="section level2">

@@ -27,6 +27,21 @@
    running inside RStudio, setting `addEscapes=TRUE` if not running
    inside RStudio. When `addEscapes` is defined, that setting is honored.
 
+* `drawLabels()`
+
+   * default box color is much lighter, less saturated.
+   * new argument `panelWidth` to size labels to plot panel width,
+   mostly useful for labels at the top or bottom of each plot panel.
+   This argument is intended to be used by the `jamma` package to 
+   place plot panels above each plot, at least the full width of
+   each plot panel.
+   
+      * `panelWidth="force"` labels always equal full panel width
+      * `panelWidth="minimum"` labels are at least full name width, or as
+      wide as necessary for the text label
+      * `panelWidth="maximum"` labels are as large as needed for text label
+      but no wider than the plot panel.
+
 # jamba version 0.0.82.900
 
 ## new functions

@@ -1,5 +1,10 @@
 # TODO for jamba
 
+## 22may2022
+
+* COMPLETE: `drawLabels()` option to force at least panel width,
+intended to mimic ggplot facet labels.
+
 ## 05may2022
 
 * COMPLETE. Consider new function specifically for MAD outlier point
