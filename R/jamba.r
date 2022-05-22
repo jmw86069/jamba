@@ -359,7 +359,8 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #' are used to tell readline to ignore an escape sequence when it counts the
 #' number of characters being displayed by the prompt.
 #'
-#' @return invisible character string representing the prompt used.
+#' @return `character` string representing the prompt used, returned
+#'    invisibly.
 #'
 #' @family jam practical functions
 #'
@@ -376,13 +377,19 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #' @param usePid `logical` whether to include the process ID in the prompt.
 #' @param resetPrompt `logical` whether to revert all changes to the prompt
 #'    back to the default R prompt, that is, no color and no projectName.
-#' @param addEscape `logical` indicating whether to wrap color encoding
-#'    inside additional escape sequences. These escape sequences are
-#'    required for many linux-like terminals to enforce correct word-wrap
-#'    by ignoring the color sequences in the character count per line.
-#'    Note this behavior is disabled when `Sys.getenv("RSTUDIO")=="1"`,
-#'    which means the R session is running inside Rstudio.
-#' @param verbose `logical` whether to print verbose output
+#' @param addEscape `logical` or `NULL` indicating whether to wrap color
+#'    encoding ANSI inside additional escape sequences. This change is
+#'    helpful for linux-based (readline-based) R consoles, by telling
+#'    the console not to count ANSI color control characters as visible
+#'    characters when determining word wrapping on the console. Note
+#'    that RStudio does not work well with this setting.
+#'    By default when `addEscape` is `NULL`, it checks whether environmental
+#'    variable `RSTUDIO` equals `"1"` (running inside RStudio) then sets
+#'    addEscape=FALSE; otherwise addEscape=TRUE. In most cases for
+#'    commandline prompts, `addEscape=TRUE` is helpful and not problematic.
+#' @param verbose `logical` whether to print verbose output.
+#' @param debug `logical` indicating whether to print the ANSI control
+#'    character output for the full prompt, for visual review.
 #' @param ... additional parameters are passed to `make_styles()` which is
 #'    only relevant with the argument `useColor=TRUE`.
 #'
@@ -403,7 +410,8 @@ setPrompt <- function
  promptColor="white",
  usePid=TRUE,
  resetPrompt=FALSE,
- addEscape=TRUE,
+ addEscape=NULL,
+ debug=FALSE,
  verbose=FALSE,
  ...)
 {
@@ -424,7 +432,7 @@ setPrompt <- function
    }
    if (length(useColor) > 0 &&
          useColor &&
-         suppressWarnings(suppressPackageStartupMessages(require(crayon)))) {
+         check_pkg_installed("crayon")) {
       useColor <- 1;
    } else {
       useColor <- 0;
@@ -518,10 +526,21 @@ setPrompt <- function
       }
    }
    ## optionally add escape sequences
-   if (useColor && addEscape && !Sys.getenv("RSTUDIO") == "1") {
+   if (length(addEscape) == 0) {
+      if (Sys.getenv("RSTUDIO") %in% "1") {
+         addEscape <- FALSE;
+      } else {
+         addEscape <- TRUE;
+      }
+   }
+   if (useColor && addEscape) {
       promptValue <- gsub("(\033[[0-9;]+[nm]{0,1})",
          "\001\\1\002",
          promptValue);
+   }
+   if (debug) {
+      cat("promptValue:\n");
+      print(promptValue);
    }
 
    if (verbose) {

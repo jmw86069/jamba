@@ -20,6 +20,13 @@
    consistent with `doColor > 0` behavior. Should be minor effect
    if any.
 
+* `setPrompt()` updates:
+
+   * new argument `debug` to print the control characters
+   * new default `addEscapes=NULL`, where it autodetects whether it is
+   running inside RStudio, setting `addEscapes=TRUE` if not running
+   inside RStudio. When `addEscapes` is defined, that setting is honored.
+
 # jamba version 0.0.82.900
 
 ## new functions

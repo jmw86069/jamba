@@ -14,7 +14,8 @@ setPrompt(
   promptColor = "white",
   usePid = TRUE,
   resetPrompt = FALSE,
-  addEscape = TRUE,
+  addEscape = NULL,
+  debug = FALSE,
   verbose = FALSE,
   ...
 )
@@ -38,20 +39,28 @@ R version; \code{PIDcolor} colors the PID when \code{usePid=TRUE}; and
 \item{resetPrompt}{\code{logical} whether to revert all changes to the prompt
 back to the default R prompt, that is, no color and no projectName.}
 
-\item{addEscape}{\code{logical} indicating whether to wrap color encoding
-inside additional escape sequences. These escape sequences are
-required for many linux-like terminals to enforce correct word-wrap
-by ignoring the color sequences in the character count per line.
-Note this behavior is disabled when \code{Sys.getenv("RSTUDIO")=="1"},
-which means the R session is running inside Rstudio.}
+\item{addEscape}{\code{logical} or \code{NULL} indicating whether to wrap color
+encoding ANSI inside additional escape sequences. This change is
+helpful for linux-based (readline-based) R consoles, by telling
+the console not to count ANSI color control characters as visible
+characters when determining word wrapping on the console. Note
+that RStudio does not work well with this setting.
+By default when \code{addEscape} is \code{NULL}, it checks whether environmental
+variable \code{RSTUDIO} equals \code{"1"} (running inside RStudio) then sets
+addEscape=FALSE; otherwise addEscape=TRUE. In most cases for
+commandline prompts, \code{addEscape=TRUE} is helpful and not problematic.}
 
-\item{verbose}{\code{logical} whether to print verbose output}
+\item{debug}{\code{logical} indicating whether to print the ANSI control
+character output for the full prompt, for visual review.}
+
+\item{verbose}{\code{logical} whether to print verbose output.}
 
 \item{...}{additional parameters are passed to \code{make_styles()} which is
 only relevant with the argument \code{useColor=TRUE}.}
 }
 \value{
-invisible character string representing the prompt used.
+\code{character} string representing the prompt used, returned
+invisibly.
 }
 \description{
 set R prompt with project name and R version

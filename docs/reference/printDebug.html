@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.83.900</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>print colorized output to R console</h1>
-    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba.r" class="external-link"><code>R/jamba.r</code></a></small>
+    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-printdebug.R" class="external-link"><code>R/jamba-printdebug.R</code></a></small>
     <div class="hidden name"><code>printDebug.Rd</code></div>
     </div>
 
@@ -84,6 +84,7 @@
   sep <span class="op">=</span> <span class="st">","</span>,
   doReset <span class="op">=</span> <span class="cn">NULL</span>,
   detectColors <span class="op">=</span> <span class="cn">TRUE</span>,
+  dex <span class="op">=</span> <span class="fl">1</span>,
   darkFactor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span>,
   sFactor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span>,
   lightMode <span class="op">=</span> <span class="cn">NULL</span>,
@@ -107,40 +108,77 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>...</dt>
-<dd><p>text to be printed to the R console.</p></dd>
+<dd><p><code>character</code>, <code>factor</code>, <code>numeric</code> or compatible atomic vectors
+to be printed to the R console. These arguments are recognized as
+any un-named argument, or any argument whose name does not match the
+named arguments below.</p></dd>
 <dt>fgText</dt>
-<dd><p>vector of R compatible colors, or a list of vectors of
-R compatible colors, to define the foreground colors. In the latter
-case, each vector is applied to each list item from '...'</p></dd>
+<dd><p>one of two formats to define the foreground color for
+elements in <code>...</code> being printed. Each element is colored in order,
+and when multiple vector values are contained in one <code>...</code> element,
+the color defined in <code>fgText</code> is extended.
+The input types recognized:</p><ul><li><p><code>NULL</code> when no color is defined, one of two outputs:</p><ol><li><p>When all values in <code>...</code> represent colors, these colors are
+used to colorize the output text. When <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code> are present
+they are used as the text labels in place of the vector value.</p></li>
+<li><p>When not all values in <code>...</code> represent colors, the default
+color set is used: <code>c("darkorange1", "dodgerblue")</code>.</p></li>
+<li><p>To disable option 1 above, define a specific value for <code>fgText</code>,
+such as <code>fgText=c("darkorange1", "dodgerblue")</code>.</p></li>
+</ol></li>
+<li><p><code>vector</code> of R compatible colors, recycled to the length of <code>...</code>.
+When any element of <code>...</code> is a vector with multiple values, the
+corresponding color in <code>fgText</code> is shaded slightly lighter and
+darker, then recycled to the vector length, so that adjacent values
+have slightly different color.
+This behavior is controlled by default argument <code>splitComments=TRUE</code>.</p></li>
+<li><p><code>list</code> of vectors of R compatible colors, recycled to the length
+of <code>...</code>, then applied to each element in <code>...</code> in order. When only
+one color is defined, and multiple values are present in the
+corresponding <code>list</code> element, the color is shaded slightly lighter
+and darker, then recycled to the vector length, as described above.
+This behavior is controlled by default argument <code>splitComments=TRUE</code>.
+When multiple colors are defined for the <code>list</code> element, these
+values are recycled to the vector length.</p></li>
+<li><p><strong>Note</strong>: When <code>invert=TRUE</code> the values for <code>fgText</code> and <code>bgText</code> are
+reversed, and if the resulting <code>fgText</code> is <code>NULL</code> then its color
+is defined by <code><a href="setTextContrastColor.html">setTextContrastColor()</a></code> in order to define a contrasting
+text color.</p></li>
+</ul></dd>
 <dt>bgText</dt>
-<dd><p>vector of R compatible colors, or a list of vectors,
-to define the background color.</p></dd>
+<dd><p><code>vector</code> of R colors, or <code>list</code> of vectors, used to define
+the background color, using the same approach described for <code>fgText</code>.
+Note that <code>NULL</code> or <code>NA</code> defines the absence of any background color,
+which is default. When <code>invert=TRUE</code>, which is default for
+<code><a href="printDebugI.html">printDebugI()</a></code>, the values for <code>fgText</code> and <code>bgText</code> are reversed.</p></dd>
 <dt>fgTime</dt>
-<dd><p>character R color to colorize the time</p></dd>
+<dd><p><code>character</code> R color to colorize the time</p></dd>
 <dt>timeStamp</dt>
-<dd><p>logical whether to include a time stamp in output</p></dd>
+<dd><p><code>logical</code> whether to include a time stamp in output</p></dd>
 <dt>comment</dt>
-<dd><p>logical whether to prefix output with '##' as a comment</p></dd>
+<dd><p><code>logical</code> whether to prefix output with '##' as a comment</p></dd>
 <dt>formatNumbers</dt>
-<dd><p>logical whether to format numbers using
-<code><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></code> which controls the number of digits displayed.</p></dd>
+<dd><p><code>logical</code> whether to format numbers using
+<code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> which controls the number of digits displayed, and is
+default. When <code>formatNumbers=FALSE</code> sometimes <code>numeric</code> values
+that contain <code>integers</code> may be represented as <code>14.0000000001</code>.</p></dd>
 <dt>trim, digits, nsmall, justify, big.mark, small.mark, zero.print, width</dt>
-<dd><p>parameters sent to the <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></code> function.</p></dd>
+<dd><p>arguments passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code>.</p></dd>
 <dt>doColor</dt>
-<dd><p>NULL or logical indicating whether to colorize output. If
-NULL it detects whether the crayon package is available and console
-color is enabled.</p></dd>
+<dd><p><code>logical</code> or <code>NULL</code> indicating whether to colorize output.
+When <code>doColor</code> is <code>NULL</code>, if the <code>"crayon"</code> package is available,
+and if crayon detects color is permitted, color is enabled.</p></dd>
 <dt>splitComments</dt>
-<dd><p>logical whether to color each element independently
-without light-dark alternating pattern.</p></dd>
+<dd><p><code>logical</code> whether to color each element independently
+without light-dark alternating pattern. The intensity of the
+adjustment is controlled by <code>dex</code> passed to <code><a href="color2gradient.html">color2gradient()</a></code>.</p></dd>
 <dt>collapse</dt>
-<dd><p>character collapse string used to separate list items,
+<dd><p><code>character</code> collapse string used to separate list items,
 by default "" so text separation is expected in the input data.</p></dd>
 <dt>sep</dt>
-<dd><p>character separator used to separate vector elements, when
+<dd><p><code>character</code> separator used to separate vector elements, when
 a list items contains a vector.</p></dd>
 <dt>doReset</dt>
-<dd><p>logical or <code>NULL</code>, indicating whether to apply
+<dd><p><code>logical</code> or <code>NULL</code>, indicating whether to apply
 <code><a href="https://rdrr.io/pkg/crayon/man/crayon.html" class="external-link">crayon::reset()</a></code> to the delimiter <code>sep</code>. When <code>doReset=TRUE</code> the
 style on the delimiter is forced to reset, using <code><a href="https://rdrr.io/pkg/crayon/man/crayon.html" class="external-link">crayon::reset()</a></code>,
 or to remove pre-existing style with <code><a href="https://rdrr.io/pkg/crayon/man/strip_style.html" class="external-link">crayon::strip_style()</a></code>. When
@@ -149,62 +187,77 @@ left as-is; when <code>doReset=NULL</code> and <code>sep</code> does not contain
 characters, <code>sep</code> becomes <code>crayon::reset(sep)</code> which forces the style
 to be reset between printed values.</p></dd>
 <dt>detectColors</dt>
-<dd><p>logical whether to detect and potentially try to
+<dd><p><code>logical</code> whether to detect and potentially try to
 correct console color capabilities.</p></dd>
-<dt>darkFactor</dt>
-<dd><p>numeric darkness to apply to alternative vector values
-when using alternating light-dark color shading.</p></dd>
-<dt>sFactor</dt>
-<dd><p>numeric color saturation to apply to alternative vector
-values when using alternating light-dark color shading.</p></dd>
+<dt>dex</dt>
+<dd><p><code>numeric</code> passed to <code><a href="color2gradient.html">color2gradient()</a></code> to split a color
+into a lighter,darker alternating pattern. Until version 0.0.83.900,
+this process used <code>gradientWtFactor=1</code> and was not adjustable.
+Note that when <code>splitComments=TRUE</code> the input values in <code>...</code>
+are flattened to a single vector, and colors in <code>fgText</code> are
+applied directly without adjustment.</p></dd>
+<dt>darkFactor, sFactor</dt>
+<dd><p><code>numeric</code> arguments deprecated.</p></dd>
 <dt>lightMode</dt>
-<dd><p>boolean or NULL, indicating whether the text background
-color is light, thus imposing a maximum brightness for colors displayed.
-It use lightMode if defined by the function caller, otherwise it will
-use options("jam.lightMode") if defined, lastly it will attempt to detect
-whether running inside Rstudio by checking the environment variable
-"RSTUDIO", and if so it will assign lightMode TRUE.</p></dd>
-<dt>Crange</dt>
-<dd><p>numeric range of chroma values, ranging
-between 0 and 100. When NULL, default values will be
-assigned to Crange by <code><a href="setCLranges.html">setCLranges()</a></code>.</p></dd>
-<dt>Lrange</dt>
-<dd><p>numeric range of luminance values, ranging
-between 0 and 100. When NULL, default values will be
-assigned to Lrange by <code><a href="setCLranges.html">setCLranges()</a></code>.</p></dd>
+<dd><p><code>logical</code> or NULL, indicating whether the text
+background color is light, where <code>lightMode=TRUE</code> indicates the
+background is white or light enough to require darker text,
+imposing a maximum brightness for colors displayed.
+When <code>NULL</code> it calls <code><a href="checkLightMode.html">checkLightMode()</a></code>, which uses:</p><ul><li><p><code>getOption("jam.lightMode")</code> if defined</p></li>
+<li><p>otherwise attempts to detect whether the session is running inside
+RStudio, by checking for environmental variable <code>"RSTUDIO"</code>,
+under the assumption that default RStudio uses a light background,
+therefore <code>lightMode=TRUE</code>.</p></li>
+<li><p>if steps above fail, it uses <code>lightMode=FALSE</code>.</p></li>
+<li><p>to force a specific lightMode for all uses, use options:
+<code>options(jam.lightMode=TRUE)</code> or <code>options(jam.lightMode=FALSE)</code>.</p></li>
+</ul></dd>
+<dt>Crange, Lrange</dt>
+<dd><p><code>numeric</code> range of chroma and luminance values
+between 0 and 100. When NULL, default values are assigned
+by <code><a href="setCLranges.html">setCLranges()</a></code>. The intent is to restrict the range relative
+to the console background color, also controlled by <code>lightMode</code>.</p></dd>
 <dt>removeNA</dt>
-<dd><p>logical whether to remove NA values and not print to
+<dd><p><code>logical</code> whether to remove NA values and not print to
 the console.</p></dd>
 <dt>replaceNULL</dt>
-<dd><p>character or NULL, optionally replace NULL elements
-with non-NULL character value.</p></dd>
+<dd><p><code>character</code> or NULL, optionally replace NULL elements
+with non-NULL character value, otherwise NULL elements are ignored.</p></dd>
 <dt>adjustRgb</dt>
-<dd><p>numeric value adjustment used during the conversion of
+<dd><p><code>numeric</code> value adjustment used during the conversion of
 RGB colors to ANSI colors, which is inherently lossy. If not defined,
 it uses the default returned by <code><a href="setCLranges.html">setCLranges()</a></code> which itself uses
 <code>getOption("jam.adjustRgb")</code> with default=0. In order to boost
 color contrast, an alternate value of -0.1 is suggested.</p></dd>
 <dt>byLine</dt>
-<dd><p>logical whether to delimit lists by line instead of
+<dd><p><code>logical</code> whether to delimit lists by line instead of
 using collapse to combine them onto one line.</p></dd>
 <dt>verbose</dt>
-<dd><p>logical whether to print verbose output</p></dd>
+<dd><p><code>logical</code> whether to print verbose output</p></dd>
 <dt>indent</dt>
-<dd><p>character optional characters used as a prefix to indent
-output.</p></dd>
+<dd><p><code>character</code> optional characters used as a prefix to indent
+output. When <code>numeric</code> it is rounded to integer, then this many
+character spaces <code>" "</code> are concatenated together to define the
+indent width. Note that the <code>indent</code> text is not colorized.</p></dd>
 <dt>file</dt>
-<dd><p>passed to <code>cat</code>, to allow sending output to
-a specified file.</p></dd>
+<dd><p>argument passed to <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code> to send output to a file or
+compatible output of <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code>.</p></dd>
 <dt>append</dt>
-<dd><p>logical whether to append output, relevant only when
-<code>file</code> specifies a filename.</p></dd>
+<dd><p><code>logical</code> whether to append output, passed to <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code>
+when <code>file</code> is defined.</p></dd>
 <dt>invert</dt>
-<dd><p>logical indicating whether foreground and background
-colors should be switched.</p></dd>
+<dd><p><code>logical</code> indicating whether foreground and background
+colors should be switched, as is default for <code><a href="printDebugI.html">printDebugI()</a></code>.
+Note when the resulting <code>fgText</code> is <code>NULL</code>, its color is defined
+by <code><a href="setTextContrastColor.html">setTextContrastColor()</a></code> to define a contrasting text color
+relative to the background color in <code>bgText</code>.</p></dd>
 <dt>htmlOut</dt>
-<dd><p>logical indicating whether to print HTML span
+<dd><p><code>logical</code> indicating whether to print HTML span
 output, using format
-<code>&lt;span style="color:fg;background-color:bg"&gt;text&lt;/span&gt;</code>.</p></dd>
+<code>&lt;span style="color:fg;background-color:bg"&gt;text&lt;/span&gt;</code>.
+This argument is not yet implemented, more testing is required
+to determine the best mechanism to use for things like RMarkdown
+rendering, and R-shiny app rendering.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -272,23 +325,23 @@ Colors in fgText are recycled to the length of '...'</p>
     <div id="examples">
     <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">printDebug</span><span class="op">(</span><span class="st">"Testing "</span>, <span class="st">"default "</span>, <span class="st">"printDebug()."</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:16</span>) 18May2022:  <span style="color: #FF8700;">Testing </span><span style="color: #00AFFF;">default </span><span style="color: #FF8700;">printDebug().</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:29:37</span>) 22May2022:   <span style="color: #FF8700;">Testing </span><span style="color: #00AFFF;">default </span><span style="color: #FF8700;">printDebug().</span> </span>
 <span class="r-in"><span class="fu">printDebug</span><span class="op">(</span><span class="st">"List of vectors:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:16</span>) 18May2022:  <span style="color: #FF8700;">List of vectors:</span><span style="color: #00AFFF;">one</span>,<span style="color: #87D7FF;">two</span>,<span style="color: #00AFFF;">three</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:29:37</span>) 22May2022:   <span style="color: #FF8700;">List of vectors:</span><span style="color: #00AFFF;">one</span>,<span style="color: #87D7FF;">two</span>,<span style="color: #00AFFF;">three</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># By default, there is no space between separate elements in `...`</span></span>
 <span class="r-in"><span class="fu">printDebug</span><span class="op">(</span><span class="st">"List of vectors:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span><span class="op">)</span>,</span>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"four"</span>, <span class="st">"five"</span>, <span class="st">"six"</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:16</span>) 18May2022:  <span style="color: #FF8700;">List of vectors:</span><span style="color: #00AFFF;">one</span>,<span style="color: #87D7FF;">two</span>,<span style="color: #00AFFF;">three</span><span style="color: #FF8700;">four</span>,<span style="color: #FFAF5F;">five</span>,<span style="color: #FF8700;">six</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:29:37</span>) 22May2022:   <span style="color: #FF8700;">List of vectors:</span><span style="color: #00AFFF;">one</span>,<span style="color: #87D7FF;">two</span>,<span style="color: #00AFFF;">three</span><span style="color: #FF8700;">four</span>,<span style="color: #FFAF5F;">five</span>,<span style="color: #FF8700;">six</span> </span>
 <span class="r-in"><span class="co"># To add a space " " between elements, use collapse</span></span>
 <span class="r-in"><span class="fu">printDebug</span><span class="op">(</span><span class="st">"List of vectors:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span><span class="op">)</span>,</span>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"four"</span>, <span class="st">"five"</span>, <span class="st">"six"</span><span class="op">)</span>, collapse<span class="op">=</span><span class="st">" "</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:16</span>) 18May2022:  <span style="color: #FF8700;">List of vectors:</span> <span style="color: #00AFFF;">one</span>, <span style="color: #87D7FF;">two</span>, <span style="color: #00AFFF;">three</span> <span style="color: #FF8700;">four</span>, <span style="color: #FFAF5F;">five</span>, <span style="color: #FF8700;">six</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:29:37</span>) 22May2022:   <span style="color: #FF8700;">List of vectors:</span> <span style="color: #00AFFF;">one</span>, <span style="color: #87D7FF;">two</span>, <span style="color: #00AFFF;">three</span> <span style="color: #FF8700;">four</span>, <span style="color: #FFAF5F;">five</span>, <span style="color: #FF8700;">six</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># slightly different style, one entry per line, indented:</span></span>
 <span class="r-in"><span class="fu">printDebug</span><span class="op">(</span><span class="st">"List of vectors:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span><span class="op">)</span>,</span>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"four"</span>, <span class="st">"five"</span>, <span class="st">"six"</span><span class="op">)</span>, collapse<span class="op">=</span><span class="st">"\n   "</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:16</span>) 18May2022:  <span style="color: #FF8700;">List of vectors:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:29:37</span>) 22May2022:   <span style="color: #FF8700;">List of vectors:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #00AFFF;">one</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #87D7FF;">two</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #00AFFF;">three</span></span>
@@ -299,17 +352,17 @@ Colors in fgText are recycled to the length of '...'</p>
 <span class="r-in"><span class="co"># when a vector entirely contains recognized colors,</span></span>
 <span class="r-in"><span class="co"># the colors are used in the output</span></span>
 <span class="r-in"><span class="fu">printDebug</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"yellow"</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:16</span>) 18May2022:  <span style="color: #FF0000;">red</span>,<span style="color: #0000FF;">blue</span>,<span style="color: #D7AF00;">yellow</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:29:37</span>) 22May2022:      <span style="color: #FF0000;">red</span>,<span style="color: #0000FF;">blue</span>,<span style="color: #D7AF00;">yellow</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># When the vector contains colors, the names are used as the label</span></span>
 <span class="r-in"><span class="va">color_vector</span> <span class="op">&lt;-</span> <span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>,<span class="st">"orange"</span><span class="op">)</span>,</span>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"group_A"</span>, <span class="st">"group_B"</span>, <span class="st">"group_C"</span>, <span class="st">"group_D"</span><span class="op">)</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="fu">printDebug</span><span class="op">(</span><span class="va">color_vector</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:16</span>) 18May2022:  <span style="color: #FF0000;">group_A</span>,<span style="color: #0000FF;">group_B</span>,<span style="color: #00D700;">group_C</span>,<span style="color: #FFAF00;">group_D</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:29:37</span>) 22May2022:      <span style="color: #FF0000;">group_A</span>,<span style="color: #0000FF;">group_B</span>,<span style="color: #00D700;">group_C</span>,<span style="color: #FFAF00;">group_D</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Remember the sister function that inverses the colors</span></span>
 <span class="r-in"><span class="fu"><a href="printDebugI.html">printDebugI</a></span><span class="op">(</span><span class="va">color_vector</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">17:48:16</span>) 18May2022:  <span style="color: #E4E4E4; background-color: #FF0000;">group_A</span>,<span style="color: #E4E4E4; background-color: #0000FF;">group_B</span>,<span style="color: #121212; background-color: #00FF00;">group_C</span>,<span style="color: #121212; background-color: #FFAF00;">group_D</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:29:37</span>) 22May2022:      <span style="color: #E4E4E4; background-color: #FF0000;">group_A</span>,<span style="color: #E4E4E4; background-color: #0000FF;">group_B</span>,<span style="color: #121212; background-color: #00FF00;">group_C</span>,<span style="color: #121212; background-color: #FFAF00;">group_D</span> </span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

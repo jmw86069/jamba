@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.82.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.83.900</span>
       </span>
     </div>
 
@@ -72,7 +72,8 @@
   promptColor <span class="op">=</span> <span class="st">"white"</span>,
   usePid <span class="op">=</span> <span class="cn">TRUE</span>,
   resetPrompt <span class="op">=</span> <span class="cn">FALSE</span>,
-  addEscape <span class="op">=</span> <span class="cn">TRUE</span>,
+  addEscape <span class="op">=</span> <span class="cn">NULL</span>,
+  debug <span class="op">=</span> <span class="cn">FALSE</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -99,21 +100,29 @@ R version; <code>PIDcolor</code> colors the PID when <code>usePid=TRUE</code>; a
 <dd><p><code>logical</code> whether to revert all changes to the prompt
 back to the default R prompt, that is, no color and no projectName.</p></dd>
 <dt>addEscape</dt>
-<dd><p><code>logical</code> indicating whether to wrap color encoding
-inside additional escape sequences. These escape sequences are
-required for many linux-like terminals to enforce correct word-wrap
-by ignoring the color sequences in the character count per line.
-Note this behavior is disabled when <code>Sys.getenv("RSTUDIO")=="1"</code>,
-which means the R session is running inside Rstudio.</p></dd>
+<dd><p><code>logical</code> or <code>NULL</code> indicating whether to wrap color
+encoding ANSI inside additional escape sequences. This change is
+helpful for linux-based (readline-based) R consoles, by telling
+the console not to count ANSI color control characters as visible
+characters when determining word wrapping on the console. Note
+that RStudio does not work well with this setting.
+By default when <code>addEscape</code> is <code>NULL</code>, it checks whether environmental
+variable <code>RSTUDIO</code> equals <code>"1"</code> (running inside RStudio) then sets
+addEscape=FALSE; otherwise addEscape=TRUE. In most cases for
+commandline prompts, <code>addEscape=TRUE</code> is helpful and not problematic.</p></dd>
+<dt>debug</dt>
+<dd><p><code>logical</code> indicating whether to print the ANSI control
+character output for the full prompt, for visual review.</p></dd>
 <dt>verbose</dt>
-<dd><p><code>logical</code> whether to print verbose output</p></dd>
+<dd><p><code>logical</code> whether to print verbose output.</p></dd>
 <dt>...</dt>
 <dd><p>additional parameters are passed to <code><a href="make_styles.html">make_styles()</a></code> which is
 only relevant with the argument <code>useColor=TRUE</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>invisible character string representing the prompt used.</p>
+    <p><code>character</code> string representing the prompt used, returned
+invisibly.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
