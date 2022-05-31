@@ -1,5 +1,27 @@
 # TODO for jamba
 
+## 25may2022
+
+* Check `cell_fun_label`:
+
+   * COMPLETE: It is possible to increase speed by skipping blank cells? (Yes.)
+
+
+## 23may2022
+
+* Allow list of colors/color functions as input to `writeOpenxlsx()`.
+
+   * `platjam::design2colors()` soon to be migrated into `colorjam::design2colors()`
+   * `design2colors()` outputs a `list` of named color vectors, and
+   for `numeric` columns it returns color `function` defined by
+   `circlize::colorRamp2()`. Not sure how well a custom color `function`
+   will work in Excel, other than pre-defining cell color for each
+   individual cell, which seems sub-optimal.
+   * The main benefit would be that a color `list` can be matched to
+   `colnames(x)`, and applied only to columns known to benefit from
+   color assignment. Also, colors can be uniquely assigned by each
+   column.
+
 ## 22may2022
 
 * COMPLETE: `drawLabels()` option to force at least panel width,

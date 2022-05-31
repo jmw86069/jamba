@@ -174,6 +174,10 @@
 #' # Remember the sister function that inverses the colors
 #' printDebugI(color_vector);
 #'
+#' printDebug(1:10, fgText="blue", dex=2);
+#' printDebug(1:10, bgText="blue", dex=2);
+#' printDebug(1:10, fgText="orange", dex=2);
+#'
 #' @export
 printDebug <- function
 (...,
@@ -197,7 +201,7 @@ printDebug <- function
  sep=",",
  doReset=NULL,
  detectColors=TRUE,
- dex=1,
+ dex=2,
  darkFactor=c(1,1.5),
  sFactor=c(1,1.5),
  lightMode=NULL,
@@ -445,16 +449,20 @@ printDebug <- function
                         keepNA=keepNA),
                      length.out=xListSlength[i]);
                } else if (head(dex, 1) > 0) {
-                  if (iL < 70) {
-                     ik <- 1;
-                  } else if (iL > 90) {
-                     ik <- 4;
-                  } else {
-                     ik <- 3;
-                  }
+                  # if (iL < 70) {
+                  #    ik <- 1;
+                  # } else if (iL > 90) {
+                  #    ik <- 4;
+                  # } else {
+                  #    ik <- 3;
+                  # }
+                  # iColor <- rep(
+                  #    c(iColor,
+                  #       color2gradient(iColor, n=4, dex=dex)[ik]),
+                  #    length.out=xListSlength[i]);
                   iColor <- rep(
-                     c(iColor,
-                        color2gradient(iColor, n=4, dex=dex)[ik]),
+                     color_dither(iColor,
+                        min_contrast=1.1 + dex/10),
                      length.out=xListSlength[i]);
                } else {
                   iColor <- rep(iColor,
@@ -477,17 +485,22 @@ printDebug <- function
                   iColor <- rep(iColor,
                      length.out=xListSlength[i]);
                } else if (length(iColor) == 1) {
+                  iL <- col2hcl(iColor)["L",];
                   if (head(dex, 1) > 0) {
-                     if (iL < 70) {
-                        ik <- 1;
-                     } else if (iL > 90) {
-                        ik <- 4;
-                     } else {
-                        ik <- 3;
-                     }
+                     # if (iL < 70) {
+                     #    ik <- 1;
+                     # } else if (iL > 90) {
+                     #    ik <- 4;
+                     # } else {
+                     #    ik <- 3;
+                     # }
+                     # iColor <- rep(
+                     #    c(iColor,
+                     #       color2gradient(iColor, n=4, dex=dex)[ik]),
+                     #    length.out=xListSlength[i]);
                      iColor <- rep(
-                        c(iColor,
-                           color2gradient(iColor, n=4, dex=dex)[ik]),
+                        color_dither(iColor,
+                           min_contrast=1.1 + dex / 10),
                         length.out=xListSlength[i]);
                   } else {
                      iColor <- rep(iColor,

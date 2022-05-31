@@ -55,6 +55,7 @@ Other jam practical functions:
 \code{\link{checkLightMode}()},
 \code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
+\code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{fileInfo}()},
 \code{\link{fixYellowHue}()},

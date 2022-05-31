@@ -158,7 +158,14 @@ cell_fun_label <- function
                col=jamba::setTextContrastColor(cell_color),
                fill=NA))
       }
-      if (cex > 0){
+      # blank cell_label
+      # has no character length, or
+      # is NA
+      # contains no characters except " ", \t, \n, \r
+      cell_label_isblank <- (nchar(cell_label) %in% 0 ||
+            is.na(cell_label) ||
+            !grepl("[^ \t\n\r]+", cell_label))
+      if (!cell_label_isblank && cex > 0) {
          #fontsize <- (10 * cex) - floor(log10(cell_value)) * 1.3;
          fontsize <- (10 * cex);
          grid::grid.text(cell_label,

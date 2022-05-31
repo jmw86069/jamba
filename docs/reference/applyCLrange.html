@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.83.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.84.900</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@ range boundary itself. "expand" will rescale all values so the
 range is equal to <code>Crange</code>.</p></dd>
 <dt>fixup</dt>
 <dd><p><code>logical</code> passed to <code><a href="hcl2col.html">hcl2col()</a></code> and subsequently
-to <code><a href="https://colorspace.R-Forge.R-project.org//reference/hex.html" class="external-link">colorspace::hex()</a></code> when converting colors outside the color
+to <code><a href="https://colorspace.R-Forge.R-project.org/reference/hex.html" class="external-link">colorspace::hex()</a></code> when converting colors outside the color
 gamut (visible range.) When <code>fixup</code> is <code>NULL</code>, the <code><a href="hcl2col.html">hcl2col()</a></code>
 method applies its own aggressive technique to restrict the color
 range.</p></dd>
@@ -137,7 +137,7 @@ compared to supplying a vector of colors. One color is simply
 restricted to the <code>Crange</code> and <code>Lrange</code>. However, a vector of colors
 is scaled within the ranges so that relative <code>C</code> and <code>L</code> values
 are maintained, for visual comparison.</p>
-<p>The C and L values are defined by <code><a href="https://colorspace.R-Forge.R-project.org//reference/polarLUV.html" class="external-link">colorspace::polarLUV()</a></code>, where C is
+<p>The C and L values are defined by <code><a href="https://colorspace.R-Forge.R-project.org/reference/polarLUV.html" class="external-link">colorspace::polarLUV()</a></code>, where C is
 typically restricted to <code>0..100</code> and L is typically <code>0..100</code>. For some
 colors, values above 100 are allowed.</p>
 <p>Values are restricted to the given numeric range using one of three
@@ -170,6 +170,7 @@ is still required to have a hue H, it is important not to increase
 <code><a href="checkLightMode.html">checkLightMode</a>()</code>,
 <code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
 <code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
+<code><a href="color_dither.html">color_dither</a>()</code>,
 <code><a href="diff_functions.html">diff_functions</a>()</code>,
 <code><a href="exp2signed.html">exp2signed</a>()</code>,
 <code><a href="fileInfo.html">fileInfo</a>()</code>,
@@ -249,7 +250,7 @@ is still required to have a hue H, it is important not to increase
 <span class="r-in">   `lightMode=FALSE, individual`<span class="op">=</span><span class="va">cl_dark_ind</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="applyCLrange-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="printDebug.html">printDebug</a></span><span class="op">(</span><span class="va">cl</span>, lightMode<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">18:41:13</span>) 22May2022:      <span style="color: #FF0000;">red</span>,<span style="color: #0000FF;">blue</span>,<span style="color: #0000AF;">navy</span>,<span style="color: #D7AF00;">yellow</span>,<span style="color: #FFAF00;">orange</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">18:36:42</span>) 31May2022:      <span style="color: #FF0000;">red</span>,<span style="color: #0000FF;">blue</span>,<span style="color: #0000AF;">navy</span>,<span style="color: #D7AF00;">yellow</span>,<span style="color: #FFAF00;">orange</span> </span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

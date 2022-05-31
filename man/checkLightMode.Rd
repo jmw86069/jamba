@@ -38,6 +38,7 @@ Other jam practical functions:
 \code{\link{breakDensity}()},
 \code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
+\code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fileInfo}()},

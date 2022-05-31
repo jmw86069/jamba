@@ -1,3 +1,28 @@
+# jamba version 0.0.84.900
+
+## bug fixes
+
+* `printDebug()` bug fixed:
+
+   * Occurred when `bgText` had length=1, or any element in the `list`
+   had length=1.
+   * Improperly tried to determine how to make alternating light/dark
+   color without first checking the luminance of the color in this
+   scenario.
+
+## new functions
+
+* `color_dither()` simply takes one color, and returns two colors that
+differ by a minimum contrast, with the same hue. Not coincidentally
+it substitutes into the `printDebug()` function.
+
+## changes to existing functions
+
+* `cell_fun_label()` was updated to skip cells with no text, vastly improving
+rendering speed for heatmaps that contain a large proportion of blank
+labels.
+
+
 # jamba version 0.0.83.900
 
 ## changes to existing functions

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.83.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.84.900</span>
       </span>
     </div>
 
@@ -58,6 +58,25 @@
 
 <div id="todo-for-jamba" class="section level1">
 
+<div class="section level2">
+<h2 id="25may2022">25may2022<a class="anchor" aria-label="anchor" href="#25may2022"></a></h2>
+<ul><li>
+<p>Check <code>cell_fun_label</code>:</p>
+<ul><li>COMPLETE: It is possible to increase speed by skipping blank cells? (Yes.)</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="23may2022">23may2022<a class="anchor" aria-label="anchor" href="#23may2022"></a></h2>
+<ul><li>
+<p>Allow list of colors/color functions as input to <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>.</p>
+<ul><li>
+<code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code> soon to be migrated into <code>colorjam::design2colors()</code>
+</li>
+<li>
+<code>design2colors()</code> outputs a <code>list</code> of named color vectors, and for <code>numeric</code> columns it returns color <code>function</code> defined by <code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code>. Not sure how well a custom color <code>function</code> will work in Excel, other than pre-defining cell color for each individual cell, which seems sub-optimal.</li>
+<li>The main benefit would be that a color <code>list</code> can be matched to <code>colnames(x)</code>, and applied only to columns known to benefit from color assignment. Also, colors can be uniquely assigned by each column.</li>
+</ul></li>
+</ul></div>
 <div class="section level2">
 <h2 id="22may2022">22may2022<a class="anchor" aria-label="anchor" href="#22may2022"></a></h2>
 <ul><li>COMPLETE: <code><a href="reference/drawLabels.html">drawLabels()</a></code> option to force at least panel width, intended to mimic ggplot facet labels.</li>
@@ -289,7 +308,7 @@
 <ol style="list-style-type: decimal"><li>
 <code>plotSmoothScatterG()</code> a new function which would create a smooth scatter plot like <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> except that it will also allow coloring points by group. The previous closest estimate was the ability to overlay contours of different colors, however the transparency of each layer is not effective, the last color layer drawn becomes the dominant color. This function essentially creates a layer for each color, then blends them into one collective layer. Each layer should probably be a <code>weight</code> applied to each layer of colors, in order to avoid blending the paleness become dominant. The point color will be determined by the weighted color blend, the intensity of the color as a gradient starting from background color will be determined by the sum of the weights, relative to the rest of the plot.</li>
 </ol><p>Required secondary functions:</p>
-<ul><li>Weighted color blending function. Must blend yellow and blue to make green, not grey (my own requirement). See <code>"jonclayden/shades"</code>, or <code><a href="https://colorspace.R-Forge.R-project.org//reference/mixcolor.html" class="external-link">colorspace::mixcolor()</a></code> though it only works with 2 colors.</li>
+<ul><li>Weighted color blending function. Must blend yellow and blue to make green, not grey (my own requirement). See <code>"jonclayden/shades"</code>, or <code><a href="https://colorspace.R-Forge.R-project.org/reference/mixcolor.html" class="external-link">colorspace::mixcolor()</a></code> though it only works with 2 colors.</li>
 <li>Weighted gradient color assignment, such that given any color, and a weight from 0 to 1, returns a single color representing the color at that position along the gradient from background to foreground color.</li>
 </ul><p>Commentary: Does any one color space blend <code>red + yellow = orange</code> and <code>blue + yellow = green</code>? Maybe <code>polarLUV</code>. Others either blend <code>blue + yellow</code> into <code>grey</code> or <code>purple</code> … makes zero sense (to me).</p>
 <ol start="2" style="list-style-type: decimal"><li><p><code><a href="reference/printDebug.html">printDebug()</a></code> option for HTML or Rmarkdown-friendly output. Note this feature seems to work when producing HTML output from Rmarkdown.</p></li>

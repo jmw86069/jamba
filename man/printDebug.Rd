@@ -26,7 +26,7 @@ printDebug(
   sep = ",",
   doReset = NULL,
   detectColors = TRUE,
-  dex = 1,
+  dex = 2,
   darkFactor = c(1, 1.5),
   sFactor = c(1, 1.5),
   lightMode = NULL,
@@ -252,6 +252,10 @@ printDebug(color_vector);
 # Remember the sister function that inverses the colors
 printDebugI(color_vector);
 
+printDebug(1:10, fgText="blue", dex=2);
+printDebug(1:10, bgText="blue", dex=2);
+printDebug(1:10, fgText="orange", dex=2);
+
 }
 \seealso{
 Other jam practical functions: 
@@ -260,6 +264,7 @@ Other jam practical functions:
 \code{\link{checkLightMode}()},
 \code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
+\code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fileInfo}()},
