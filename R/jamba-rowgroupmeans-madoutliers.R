@@ -181,11 +181,11 @@ rowGroupMeans <- function
    minDiff <- NULL;
    if (rmOutliers && length(madFactor) > 0 && crossGroupMad) {
       if (check_pkg_installed("matrixStats")) {
-         rowStatsFunc <- function(x, ...){
+         mad_rowStatsFunc <- function(x, ...){
             matrixStats::rowMads(x,
                na.rm=TRUE)}
       } else {
-         rowStatsFunc <- function(x, ...){
+         mad_rowStatsFunc <- function(x, ...){
             apply(x, 1, function(i){
                mad(i,
                   na.rm=TRUE)})
@@ -201,7 +201,7 @@ rowGroupMeans <- function
       x_mads <- rowGroupMeans(x=x,
          groups=groups,
          returnType="output",
-         rowStatsFunc=rowStatsFunc);
+         rowStatsFunc=mad_rowStatsFunc);
       x_mads[x_mads == 0] <- NA;
       # take median of each row group MAD value
       rowMadValues <- rowMedians(x_mads,
@@ -269,14 +269,16 @@ rowGroupMeans <- function
    }
 
    ## Return the replicate count as an attribute
-   try({
-      nReps <- nameVector(rmNA(naValue=0,
-         tcount(groups)[colnames(x2)]),
-         colnames(x2));
-      nRepsLabel <- nameVector(paste0("n=", nReps), colnames(x2));
-      attr(x2, "n") <- nReps;
-      attr(x2, "nLabel") <- nRepsLabel;
-   });
+   if ("output" %in% returnType) {
+      try({
+         nReps <- nameVector(rmNA(naValue=0,
+            tcount(groups)[colnames(x2)]),
+            colnames(x2));
+         nRepsLabel <- nameVector(paste0("n=", nReps), colnames(x2));
+         attr(x2, "n") <- nReps;
+         attr(x2, "nLabel") <- nRepsLabel;
+      });
+   }
 
    return(x2);
 }

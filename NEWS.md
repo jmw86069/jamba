@@ -1,3 +1,15 @@
+# jamba version 0.0.85.900
+
+## bug fixes
+
+* `rowGroupMeans()` argument `rmOutliers=TRUE` along with `crossGroupMad=TRUE`
+incorrectly caused the `rowStatsFunc` to be redefined. This bug was fixed.
+Also, when `returnType="output"` it no longer returns the attributes
+`"n"` and `"nLabel"` which are intended to represent the number of
+non-NA replicates per group, and this information is not relevant
+to the input data.
+
+
 # jamba version 0.0.84.900
 
 ## bug fixes

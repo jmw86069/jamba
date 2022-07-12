@@ -1,5 +1,17 @@
 # TODO for jamba
 
+## 07jul2022
+
+* `rmNA()` should work properly on data.frame and matrix objects,
+returning the same object back, with the relevant values replaced
+with `naValue` as relevant.
+
+## 17jun2022
+
+* add `log2fold_axis()` convenience function
+* `plotSmoothScatter()` argument `transFactor` is not used by default,
+the argument `transformation` should by default use `transFactor`.
+
 ## 25may2022
 
 * Check `cell_fun_label`:
