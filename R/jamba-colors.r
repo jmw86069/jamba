@@ -740,7 +740,7 @@ rgb2col <- function
    ## maxColorValue is the highest color value, by default 1, but can be
    ## set to 255 to handle 8-bit colors.
 
-   if (length(red) == 0 || is.na(red)) {
+   if (length(red) == 0 || all(is.na(red))) {
       return(red);
    }
    if (length(green) == 0 && length(blue) == 0) {

@@ -1,3 +1,38 @@
+# jamba version 0.0.86.900
+
+## bug fixes
+
+* A warning was being issued from `rgb2col()` by checking if input
+argument `red` was empty `length(red)==0`, or NA `is.na(red)`. However,
+when `red` has `length(red)>1` the second check for NA results in a
+logical vector of `TRUE/FALSE`, only the first of which is used in the
+if statement. New versions of R invoke a warning, but future versions
+will eventually cause an error. Nonetheless the code was updated to
+check for all entries in `red` like this: `all(is.na(red))`.
+
+## changes to existing functions
+
+* `printDebug()` several arguments use `getOption()`:
+
+   * `jam.htmlOut`, `jam.comment` are `logical` and intended for usage
+   inside Rmarkdown documents, to customize the output.
+   * other arguments `jam.file`, `jam.append`, `jam.invert`,
+   `jam.formatNumbers`, `jam.trim`, `jam.big.mark`, `jam.small.mark`
+   * `htmlOut=TRUE` now properly includes `"<br/>"` to force a line break
+   after the output.
+
+* `mixedSorts()` uses iterative `mixedSort()` when there are different
+classes contained in `x`, otherwise `factor` values are converted to
+`integer` strings.
+* `mixedSort()` was re-defining `factor` levels using the order of unique
+values, instead of the original `levels`. It was changed to use `levels`.
+* `mixedSort()`, `mixedOrder()`, `mixedSorts()` new argument.
+
+   * New argument `honorFactor=FALSE` keeps previous legacy behavior, which
+   is to perform alphanumeric sort on `character` values even in `factor`
+   columns. However, now this behavior can be changed.
+
+
 # jamba version 0.0.85.900
 
 ## bug fixes

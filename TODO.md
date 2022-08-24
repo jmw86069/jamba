@@ -1,5 +1,62 @@
 # TODO for jamba
 
+## 26jul2022
+
+* `adjustAxisLabelMargins()`
+
+   * It should operate much like `par()`, by returning the `par()`
+   values that were changed, so they can be changed back.
+   * Should be an option so it defines `on.exit(par(opar))` to
+   revert the margin values that it re-defines during its operation.
+
+## 20jul2022
+
+* `kable_coloring()` chokes when `colorSub` uses color names,
+they just need to be converted to hex format beforehand.
+* `cell_fun_label()`
+
+   * arguments `prefix` and `suffix` are indexed by the list `m` and
+   not by `show` which is confusing. Consider applying `prefix` and `suffix`
+   in order to each entry in `show`.
+
+* `cPasteU()` and `uniques()` appears slow in some situations
+
+   * Apparently for small length vectors <1000, `lapply(x, unique)` is
+   much faster than BioC methods with `unique(CharacterList(x))`
+   * `unique(FactorList(x))` is extremely slow for large vectors
+   * unclear whether `cPaste()` should ever handle `factor` without
+   converting to `character` - all data should be `character` upfront,
+   which may speed all downstream steps.
+
+* `mixedSorts()` does not handle mixed `list` with `character` and `factor`
+
+   * Easiest option that works*: when input is all the same `class`
+   proceed with the optimization step currently used,
+   otherwise revert to `lapply(x, mixedSort)` which is markedly slower,
+   but more consistent with expected behavior.
+
+* `mixedSort()` and `mixedSorts()` are inconsistent handling `factor`
+
+   * `mixedSort()` should have option to honor `factor` order, consistent
+   with `mixedSorts()`
+   * `mixedSorts()` should handle mix of `character` and `factor` and return
+   a `list` with the same classes as the input `list`.
+   * suggest new argument `honorFactor=FALSE` default for `mixedSort()` to
+   keep previous behavior without affecting dependencies
+   * suggest new argument `honorFactor=TRUE` default for `mixedSorts()` to
+   keep previous behavior without affecting dependencies
+
+## 18jul2022
+
+* COMPLETE: `printDebug()` updates
+
+   * Situation: In Rmarkdown, when the R block uses `results='asis'`,
+   see [RMarkdown Guide#generate-multiple-tables-from-a-for-loop](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html#generate-multiple-tables-from-a-for-loop)).
+   The output from `printDebug()` should be configurable for that format,
+   maybe with some global option, so that all internal functions
+   that call `printDebug()` will be affected the same way without having
+   to pass an option through each child function in a process.
+
 ## 07jul2022
 
 * `rmNA()` should work properly on data.frame and matrix objects,

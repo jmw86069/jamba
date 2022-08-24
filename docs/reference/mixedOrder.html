@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.84.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -75,6 +75,7 @@
   useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,
   returnDebug <span class="op">=</span> <span class="cn">FALSE</span>,
   returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"order"</span>, <span class="st">"rank"</span><span class="op">)</span>,
+  honorFactor <span class="op">=</span> <span class="cn">FALSE</span>,
   NAlast <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
 
@@ -124,9 +125,22 @@ characters when defining the sort order.</p></dd>
 <dt>useCaseTiebreak</dt>
 <dd><p><code>logical</code> indicating whether to break ties
 when <code>ignore.case=TRUE</code>, using mixed case as a tiebreaker.</p></dd>
-<dt>sortByName</dt>
-<dd><p><code>logical</code> whether to sort the vector x by names(x) instead
-of sorting by x itself.</p></dd>
+<dt>returnDebug</dt>
+<dd><p><code>logical</code> indicating whether to include
+additional debug info as attributes.</p></dd>
+<dt>returnType</dt>
+<dd><p><code>character</code> string to define the return type:</p><ul><li><p>"order": returns <code>integer</code> order, equivalent to <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code></p></li>
+<li><p>"rank": returns <code>integer</code> rank, equivalent to <code><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank()</a></code></p></li>
+</ul></dd>
+<dt>honorFactor</dt>
+<dd><p><code>logical</code> indicating whether to honor the
+order of <code>levels</code> if the input <code>x</code> is a <code>factor</code>. The default
+<code>honorFactor=FALSE</code> is to maintain consistent legacy behavior.
+The purpose of this function is to enable alphanumeric sorting,
+which is not the purpose of sorting by factor levels.</p></dd>
+<dt>NAlast</dt>
+<dd><p><code>logical</code> DEPRECATED in favor of <code>na.last</code> for
+consistency with other base R functions.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -282,7 +296,8 @@ that proved to be so useful it ultimately inspired this function.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+1.9000.9000.9000.</p>
 </div>
 
       </footer></div>

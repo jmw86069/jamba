@@ -10,6 +10,7 @@ uniques(
   incomparables = FALSE,
   useBioc = TRUE,
   useSimpleBioc = FALSE,
+  xclass = NULL,
   ...
 )
 }

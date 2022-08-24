@@ -17,6 +17,7 @@ mixedOrder(
   useCaseTiebreak = TRUE,
   returnDebug = FALSE,
   returnType = c("order", "rank"),
+  honorFactor = FALSE,
   NAlast = TRUE
 )
 }
@@ -64,8 +65,23 @@ characters when defining the sort order.}
 \item{useCaseTiebreak}{\code{logical} indicating whether to break ties
 when \code{ignore.case=TRUE}, using mixed case as a tiebreaker.}
 
-\item{sortByName}{\code{logical} whether to sort the vector x by names(x) instead
-of sorting by x itself.}
+\item{returnDebug}{\code{logical} indicating whether to include
+additional debug info as attributes.}
+
+\item{returnType}{\code{character} string to define the return type:
+\itemize{
+\item "order": returns \code{integer} order, equivalent to \code{order()}
+\item "rank": returns \code{integer} rank, equivalent to \code{rank()}
+}}
+
+\item{honorFactor}{\code{logical} indicating whether to honor the
+order of \code{levels} if the input \code{x} is a \code{factor}. The default
+\code{honorFactor=FALSE} is to maintain consistent legacy behavior.
+The purpose of this function is to enable alphanumeric sorting,
+which is not the purpose of sorting by factor levels.}
+
+\item{NAlast}{\code{logical} DEPRECATED in favor of \code{na.last} for
+consistency with other base R functions.}
 }
 \value{
 \code{integer} vector of orders derived from x,

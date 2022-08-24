@@ -12,10 +12,13 @@ mixedSorts(
   keepInfinite = TRUE,
   keepDecimal = FALSE,
   ignore.case = TRUE,
+  useCaseTiebreak = TRUE,
   sortByName = FALSE,
   na.rm = FALSE,
   verbose = FALSE,
   NAlast = TRUE,
+  honorFactor = TRUE,
+  xclass = NULL,
   debug = FALSE,
   ...
 )
@@ -47,6 +50,9 @@ characters when defining the sort order. Note that when \code{x} is
 \code{unique(toupper(levels(x)))}, therefore the values in \code{x} will be
 sorted by factor level.}
 
+\item{useCaseTiebreak}{\code{logical} indicating whether to break ties
+when \code{ignore.case=TRUE}, using mixed case as a tiebreaker.}
+
 \item{sortByName}{\code{logical} whether to sort the vector x by names(x) instead
 of sorting by x itself.}
 
@@ -54,6 +60,10 @@ of sorting by x itself.}
 
 \item{NAlast}{\code{logical} deprecated in favor of argument \code{na.last}
 for consistency with \code{base::sort()}.}
+
+\item{xclass}{\code{character} vector of classes in \code{x}, used for slight
+optimization to re-use this vector if it has already been
+defined for \code{x}. When \code{NULL} it is created within this function.}
 
 \item{...}{additional parameters are sent to \code{\link{mixedOrder}}.}
 }
@@ -68,7 +78,19 @@ splits back into list form.
 In the event the input is a nested list of lists, only the first
 level of list structure is maintained in the output data. For
 more information, see \code{rlengths()} which calculates the recursive
-nested list sizes.
+nested list sizes. An exception is when the data contained in \code{x}
+represents multiple classes, see below.
+
+When data in \code{x} represents multiple classes, for example \code{character}
+and \code{factor}, the mechanism is slightly different and not as well-
+optimized for large length \code{x}. The method uses
+\code{rapply(x, how="replace", mixedSort)} which recursively, and iteratively,
+calls \code{mixedSort()} on each vector, and therefore returns data in the
+same nested \code{list} structure as provided in \code{x}.
+
+When data in \code{x} represents only one class, data is \code{unlist()} to one
+large vector, which is sorted with \code{mixedSort()}, then split back into
+\code{list} structure representing \code{x} input.
 }
 \examples{
 # set up an example list of mixed alpha-numeric strings

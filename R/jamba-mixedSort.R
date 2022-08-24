@@ -71,6 +71,7 @@ mixedSort <- function
  ignore.case=TRUE,
  useCaseTiebreak=TRUE,
  sortByName=FALSE,
+ honorFactor=FALSE,
  verbose=FALSE,
  NAlast=TRUE,
  ...)
@@ -109,7 +110,7 @@ mixedSort <- function
          if (is.factor(x)) {
             fx <- function(x){
                factor(toupper(x),
-                  levels=unique(toupper(x)))
+                  levels=toupper(levels(x)))
             }
          } else if (!is.numeric(x)) {
             fx <- function(x){toupper(x)}
@@ -229,8 +230,18 @@ mixedSort <- function
 #'    characters when defining the sort order.
 #' @param useCaseTiebreak `logical` indicating whether to break ties
 #'    when `ignore.case=TRUE`, using mixed case as a tiebreaker.
-#' @param sortByName `logical` whether to sort the vector x by names(x) instead
-#'    of sorting by x itself.
+#' @param returnType `character` string to define the return type:
+#'    * "order": returns `integer` order, equivalent to `order()`
+#'    * "rank": returns `integer` rank, equivalent to `rank()`
+#' @param returnDebug `logical` indicating whether to include
+#'    additional debug info as attributes.
+#' @param honorFactor `logical` indicating whether to honor the
+#'    order of `levels` if the input `x` is a `factor`. The default
+#'    `honorFactor=FALSE` is to maintain consistent legacy behavior.
+#'    The purpose of this function is to enable alphanumeric sorting,
+#'    which is not the purpose of sorting by factor levels.
+#' @param NAlast `logical` DEPRECATED in favor of `na.last` for
+#'    consistency with other base R functions.
 #' @param verbose `logical` whether to print verbose output.
 #' @param ... additional parameters are sent to `mixedOrder()`.
 #'
@@ -284,6 +295,7 @@ mixedOrder <- function
  useCaseTiebreak=TRUE,
  returnDebug=FALSE,
  returnType=c("order", "rank"),
+ honorFactor=FALSE,
  NAlast=TRUE)
 {
    ## Purpose is to customize the mixedorder() function from
@@ -309,7 +321,8 @@ mixedOrder <- function
    } else if (length(x) == 1) {
       return(1);
    }
-   if (is.numeric(x)) {
+   if (is.numeric(x) ||
+         (is.factor(x) && TRUE %in% honorFactor)) {
       if (returnType %in% "order") {
          return(order(x));
       } else {
@@ -675,6 +688,7 @@ mmixedOrder <- function
  useCaseTiebreak=TRUE,
  sortByName=FALSE,
  NAlast=TRUE,
+ honorFactor=FALSE,
  verbose=FALSE,
  matrixAsDF=TRUE)
 {
@@ -737,6 +751,7 @@ mmixedOrder <- function
             keepDecimal=keepDecimal,
             verbose=verbose,
             ignore.case=ignore.case,
+            honorFactor=honorFactor,
             useCaseTiebreak=useCaseTiebreak,
             ...);
          x2uof <- factor(i,
@@ -893,6 +908,7 @@ mixedSortDF <- function
  ignore.case=TRUE,
  useCaseTiebreak=TRUE,
  sortByName=FALSE,
+ honorFactor=FALSE,
  ...)
 {
    ## Purpose is to order a data.frame using mmixedOrder()
@@ -1120,6 +1136,7 @@ mixedSortDF <- function
       keepDecimal=keepDecimal,
       ignore.case=ignore.case,
       useCaseTiebreak=useCaseTiebreak,
+      honorFactor=honorFactor,
       ...);
 
    if (igrepHas("matrix|data.frame", class(df))) {

@@ -16,6 +16,7 @@ mmixedOrder(
   useCaseTiebreak = TRUE,
   sortByName = FALSE,
   NAlast = TRUE,
+  honorFactor = FALSE,
   verbose = FALSE,
   matrixAsDF = TRUE
 )

@@ -14,6 +14,7 @@ mixedSort(
   ignore.case = TRUE,
   useCaseTiebreak = TRUE,
   sortByName = FALSE,
+  honorFactor = FALSE,
   verbose = FALSE,
   NAlast = TRUE,
   ...

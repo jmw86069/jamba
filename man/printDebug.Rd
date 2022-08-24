@@ -10,14 +10,14 @@ printDebug(
   bgText = NULL,
   fgTime = "cyan",
   timeStamp = TRUE,
-  comment = TRUE,
-  formatNumbers = TRUE,
-  trim = TRUE,
+  comment = getOption("jam.comment", TRUE),
+  formatNumbers = getOption("jam.formatNumbers", TRUE),
+  trim = getOption("jam.trim", TRUE),
   digits = NULL,
   nsmall = 0L,
   justify = "left",
-  big.mark = "",
-  small.mark = "",
+  big.mark = getOption("jam.big.mark", ""),
+  small.mark = getOption("jam.small.mark", ""),
   zero.print = NULL,
   width = NULL,
   doColor = NULL,
@@ -39,10 +39,10 @@ printDebug(
   verbose = FALSE,
   indent = "",
   keepNA = TRUE,
-  file = "",
-  append = TRUE,
-  invert = FALSE,
-  htmlOut = FALSE,
+  file = getOption("jam.file", ""),
+  append = getOption("jam.append", TRUE),
+  invert = getOption("jam.invert", FALSE),
+  htmlOut = getOption("jam.htmlOut", FALSE),
   x
 )
 }
@@ -224,6 +224,19 @@ and bgText (background.), applied to each item in '...'. When an item in
 and dark from that base color, to give visual indication of each element.
 The next item in '...' receives the next color from fgText, and so on.
 Colors in fgText are recycled to the length of '...'
+
+For use inside Rmarkdown \code{.Rmd} documents, current recommendation is
+to define the R output with \code{results='asis'} like this:\preformatted{\\`\\`\\`\{r block_name, results='asis'\}
+# some R code here
+\\`\\`\\`
+}
+
+Then define a global option to turn off the comment prefix in
+\code{printDebug()}: \code{options("jam.comment"=FALSE)}
+
+For colorized text, it may require \code{"html_output"} rendering of the
+\code{.Rmd} Rmarkdown file, as well as this option to enable HTML formatting
+by \code{printDebug()}: \code{options("jam.htmlOut"=TRUE)}.
 }
 \examples{
 printDebug("Testing ", "default ", "printDebug().");

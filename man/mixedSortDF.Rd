@@ -18,6 +18,7 @@ mixedSortDF(
   ignore.case = TRUE,
   useCaseTiebreak = TRUE,
   sortByName = FALSE,
+  honorFactor = FALSE,
   ...
 )
 }

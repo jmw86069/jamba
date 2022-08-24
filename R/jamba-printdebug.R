@@ -16,6 +16,22 @@
 #' The next item in '...' receives the next color from fgText, and so on.
 #' Colors in fgText are recycled to the length of '...'
 #'
+#' For use inside Rmarkdown `.Rmd` documents, current recommendation is
+#' to define the R output with `results='asis'` like this:
+#'
+#' ```
+#' \`\`\`{r block_name, results='asis'}
+#' # some R code here
+#' \`\`\`
+#' ```
+#'
+#' Then define a global option to turn off the comment prefix in
+#' `printDebug()`: `options("jam.comment"=FALSE)`
+#'
+#' For colorized text, it may require `"html_output"` rendering of the
+#' `.Rmd` Rmarkdown file, as well as this option to enable HTML formatting
+#' by `printDebug()`: `options("jam.htmlOut"=TRUE)`.
+#'
 #' @param ... `character`, `factor`, `numeric` or compatible atomic vectors
 #'    to be printed to the R console. These arguments are recognized as
 #'    any un-named argument, or any argument whose name does not match the
@@ -185,14 +201,14 @@ printDebug <- function
  bgText=NULL,
  fgTime="cyan",
  timeStamp=TRUE,
- comment=TRUE,
- formatNumbers=TRUE,
- trim=TRUE,
+ comment=getOption("jam.comment", TRUE),
+ formatNumbers=getOption("jam.formatNumbers", TRUE),
+ trim=getOption("jam.trim", TRUE),
  digits=NULL,
  nsmall=0L,
  justify="left",
- big.mark="",
- small.mark="",
+ big.mark=getOption("jam.big.mark", ""),
+ small.mark=getOption("jam.small.mark", ""),
  zero.print=NULL,
  width=NULL,
  doColor=NULL,
@@ -214,10 +230,10 @@ printDebug <- function
  verbose=FALSE,
  indent="",
  keepNA=TRUE,
- file="",
- append=TRUE,
- invert=FALSE,
- htmlOut=FALSE,
+ file=getOption("jam.file", ""),
+ append=getOption("jam.append", TRUE),
+ invert=getOption("jam.invert", FALSE),
+ htmlOut=getOption("jam.htmlOut", FALSE),
  x)
 {
    ## Purpose is to wrapper a print() function with optional time-date stamp
@@ -656,6 +672,7 @@ printDebug <- function
                make_html_styles(style=fgTime,
                   bg_style=NA,
                   bg=FALSE,
+                  lightMode=lightMode,
                   Lrange=Lrange,
                   Crange=Crange,
                   verbose=verbose>1,
@@ -675,6 +692,7 @@ printDebug <- function
                bg=FALSE,
                text=xStr,
                verbose=verbose>1,
+               lightMode=lightMode,
                Lrange=Lrange,
                Crange=Crange,
                adjustRgb=adjustRgb);
@@ -687,7 +705,8 @@ printDebug <- function
          if (comment) {
             printString <- c("## ", printString);
          }
-         cat(printString, "\n",
+         # Note addition of <br> for newline
+         cat(paste0(printString, "<br/>\n"),
             file=file,
             append=append);
       } else {

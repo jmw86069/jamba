@@ -1265,6 +1265,7 @@ uniques <- function
  incomparables=FALSE,
  useBioc=TRUE,
  useSimpleBioc=FALSE,
+ xclass=NULL,
  ...)
 {
    ## Purpose is to take a list of vectors and return unique members
@@ -1272,13 +1273,15 @@ uniques <- function
    ##
    ## keepNames=TRUE will keep the first name for the each duplicated entry
    if (useBioc || useSimpleBioc) {
-      if (!suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
+      # if (!suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
+      if (!check_pkg_installed("S4Vectors")) {
          useSimpleBioc <- FALSE;
          useBioc <- FALSE;
       }
    }
    if (useBioc) {
-      if (!suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
+      # if (!suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
+      if (!check_pkg_installed("IRanges")) {
          useBioc <- FALSE;
       }
    }
@@ -1288,39 +1291,50 @@ uniques <- function
       ## which reverted to SimpleList for simple list input
       ## and SimpleList does not have the amazing optimization
       as.list(
-         unique(List(x),
+         unique(S4Vectors::List(x),
             incomparables=incomparables,
             ...));
    } else if (useBioc) {
       ## Pro tip: use specific class to invoke optimized functions
       ## otherwise they revert to base lapply(x, unique)
-      xclasses <- sclass(x);
+      if (length(xclass) == 0) {
+         xclass <- sclass(x);
+      }
+      if (is.list(xclass)) {
+         xclass <- cPaste(xclass,
+            checkClass=FALSE,
+            useBioc=useBioc,
+            ...)
+      }
+      if (any(grepl(",", xclass))) {
+         xclass <- gsub(",.*$", "", xclass);
+      }
       xlist <- list();
-      xclassesu <- unique(xclasses);
-      for (xclass in xclassesu) {
-         xclassidx <- which(xclasses %in% xclass);
-         if ("character" %in% xclass) {
-            xlist[xclassidx] <- as.list(unique(CharacterList(x[xclassidx]),
+      xclassesu <- unique(xclass);
+      for (xclassu in xclassesu) {
+         xclassidx <- which(xclass %in% xclassu);
+         if ("character" %in% xclassu) {
+            xlist[xclassidx] <- as.list(unique(IRanges::CharacterList(x[xclassidx]),
                incomparables=incomparables))
-         } else if ("factor" %in% xclass) {
-            xlist[xclassidx] <- as.list(unique(FactorList(x[xclassidx]),
+         } else if ("factor" %in% xclassu) {
+            xlist[xclassidx] <- as.list(unique(IRanges::FactorList(x[xclassidx]),
                incomparables=incomparables))
-         } else if ("integer" %in% xclass) {
-            xlist[xclassidx] <- as.list(unique(IntegerList(x[xclassidx]),
+         } else if ("integer" %in% xclassu) {
+            xlist[xclassidx] <- as.list(unique(IRanges::IntegerList(x[xclassidx]),
                incomparables=incomparables))
-         } else if ("logical" %in% xclass) {
-            xlist[xclassidx] <- as.list(unique(LogicalList(x[xclassidx]),
+         } else if ("logical" %in% xclassu) {
+            xlist[xclassidx] <- as.list(unique(IRanges::LogicalList(x[xclassidx]),
                incomparables=incomparables))
-         } else if ("raw" %in% xclass) {
-            xlist[xclassidx] <- as.list(unique(RawList(x[xclassidx]),
+         } else if ("raw" %in% xclassu) {
+            xlist[xclassidx] <- as.list(unique(IRanges::RawList(x[xclassidx]),
                incomparables=incomparables))
-         } else if ("Rle" %in% xclass) {
-            xlist[xclassidx] <- as.list(unique(RleList(x[xclassidx]),
+         } else if ("Rle" %in% xclassu) {
+            xlist[xclassidx] <- as.list(unique(IRanges::RleList(x[xclassidx]),
                incomparables=incomparables))
-         } else if ("complex" %in% xclass) {
-            xlist[xclassidx] <- as.list(unique(ComplexList(x[xclassidx]),
+         } else if ("complex" %in% xclassu) {
+            xlist[xclassidx] <- as.list(unique(IRanges::ComplexList(x[xclassidx]),
                incomparables=incomparables))
-         } else if ("GRanges" %in% xclass) {
+         } else if ("GRanges" %in% xclassu) {
             xlist[xclassidx] <- lapply(unique(GenomicRanges::GRangesList(x[xclassidx])), function(gr){gr});
          } else {
             xlist[xclassidx] <- lapply(x[xclassidx], unique);
@@ -1515,97 +1529,108 @@ cPaste <- function
    if (makeUnique) {
       x <- uniques(x,
          useBioc=useBioc,
+         xclass=xclass,
          ...);
    }
 
-   ## Handle potential mix of factor and non-factor
-   if (any(grepl("factor", xclass))) {
-      if (any(!grepl("factor", xclass))) {
-         # x contains mix of factor and non-factor
-         if (verbose) {
-            printDebug("cPaste(): ",
-               "mix of factor and non-factor");
-         }
-         if (doSort && keepFactors) {
+   ## Optionally sort vectors
+   if (doSort) {
+      x <- mixedSorts(x,
+         xclass=xclass,
+         ...);
+   }
+
+   ## Legacy processing below
+   if (FALSE) {
+      ## Handle potential mix of factor and non-factor
+      if (any(grepl("factor", xclass))) {
+         if (any(!grepl("factor", xclass))) {
+            # x contains mix of factor and non-factor
             if (verbose) {
                printDebug("cPaste(): ",
-                  "converting non-factor to factor with mixedSort()");
+                  "mix of factor and non-factor");
             }
-            # if sorting we must convert non-factor to factor using mixedSort
-            xnonfactor <- which(!grepl("factor", xclass));
-            xnonfactorlevels <- mixedSort(unique(unlist(x[xnonfactor])));
-            ## carefully split using factor split so empty entries are not lost
-            x[xnonfactor] <- split(
-               factor(unlist(x[xnonfactor]),
-                  levels=xnonfactorlevels),
-               factor(
-                  rep(xnonfactor, lengths(x[xnonfactor])),
-                  levels=xnonfactor)
-               );
+            if (doSort && keepFactors) {
+               if (verbose) {
+                  printDebug("cPaste(): ",
+                     "converting non-factor to factor with mixedSort()");
+               }
+               # if sorting we must convert non-factor to factor using mixedSort
+               xnonfactor <- which(!grepl("factor", xclass));
+               xnonfactorlevels <- mixedSort(unique(unlist(x[xnonfactor])));
+               ## carefully split using factor split so empty entries are not lost
+               x[xnonfactor] <- split(
+                  factor(unlist(x[xnonfactor]),
+                     levels=xnonfactorlevels),
+                  factor(
+                     rep(xnonfactor, lengths(x[xnonfactor])),
+                     levels=xnonfactor)
+                  );
+            } else {
+               if (verbose) {
+                  printDebug("cPaste(): ",
+                     "converting factor to character");
+               }
+               # if not sorting, or not keeping factor levels
+               # convert factor to character
+               xisfactor <- which(grepl("factor", xclass));
+               x[xisfactor] <- lapply(x[xisfactor], as.character);
+            }
          } else {
+            # all values are factors
             if (verbose) {
                printDebug("cPaste(): ",
-                  "converting factor to character");
+                  "all values are factor");
             }
-            # if not sorting, or not keeping factor levels
-            # convert factor to character
-            xisfactor <- which(grepl("factor", xclass));
-            x[xisfactor] <- lapply(x[xisfactor], as.character);
          }
       } else {
-         # all values are factors
+         # no values are factors, leave as-is
          if (verbose) {
             printDebug("cPaste(): ",
-               "all values are factor");
+               "no values are factor");
          }
       }
-   } else {
-      # no values are factors, leave as-is
-      if (verbose) {
-         printDebug("cPaste(): ",
-            "no values are factor");
+      xu <- unlist(x);
+      if (igrepHas("factor", class(xu)) && doSort && !keepFactors) {
+         # if sorting AND if xu is factor AND we do not want to keep factor levels
+         # then convert to character
+         if (verbose) {
+            printDebug("cPaste(): ",
+               "converting factor to character to drop factor levels during sort");
+         }
+         xu <- as.character(xu);
       }
-   }
-   xu <- unlist(x);
-   if (igrepHas("factor", class(xu)) && doSort && !keepFactors) {
-      # if sorting AND if xu is factor AND we do not want to keep factor levels
-      # then convert to character
-      if (verbose) {
-         printDebug("cPaste(): ",
-            "converting factor to character to drop factor levels during sort");
+
+      ## We define a vector of names as a factor, so the
+      ## order of the factor levels will maintain the
+      ## original order of input data during the
+      ## split() which occurs later.
+      ## Using a factor also preserves empty levels,
+      ## in the case that NA values are removed.
+      xn <- factor(rep(names(x), rlengths(x)),
+         levels=names(x));
+      if (doSort && length(xu) > 1) {
+         if (igrepHas("factor", class(xu))) {
+            xuOrder <- order(xu, ...);
+         } else {
+            xuOrder <- mixedOrder(xu, ...);
+         }
+         xu <- xu[xuOrder];
+         xn <- xn[xuOrder];
       }
-      xu <- as.character(xu);
-   }
 
-   ## We define a vector of names as a factor, so the
-   ## order of the factor levels will maintain the
-   ## original order of input data during the
-   ## split() which occurs later.
-   ## Using a factor also preserves empty levels,
-   ## in the case that NA values are removed.
-   xn <- factor(rep(names(x), rlengths(x)),
-      levels=names(x));
-   if (doSort && length(xu) > 1) {
-      if (igrepHas("factor", class(xu))) {
-         xuOrder <- order(xu, ...);
-      } else {
-         xuOrder <- mixedOrder(xu, ...);
+      ## Optionally remove NA values
+      if (na.rm && length(xu) > 0 && any(is.na(xu))) {
+         whichNotNA <- which(!is.na(xu));
+         xu <- xu[whichNotNA];
+         xn <- xn[whichNotNA];
       }
-      xu <- xu[xuOrder];
-      xn <- xn[xuOrder];
-   }
 
-   ## Optionally remove NA values
-   if (na.rm && length(xu) > 0 && any(is.na(xu))) {
-      whichNotNA <- which(!is.na(xu));
-      xu <- xu[whichNotNA];
-      xn <- xn[whichNotNA];
+      ## split() using a factor keeps the data in original order
+      x <- split(
+         as.character(unname(xu)),
+         xn);
    }
-
-   ## split() using a factor keeps the data in original order
-   x <- split(
-      as.character(unname(xu)),
-      xn);
 
    if (useBioc) {
       ## Note: The explicit conversion to class CharacterList is required
@@ -1613,6 +1638,13 @@ cPaste <- function
       ## na.rm=FALSE. Specifically, unstrsplit() requires all elements in
       ## the list to be "character" class, and a single NA is class "logical"
       ## and causes an error.
+
+      # if "factor" and non-factor classes are present, convert them to one class
+      if (any(grepl("factor", ignore.case=TRUE, xclass)) &&
+            length(unique(xclass)) > 1) {
+         xfactor <- grepl("factor", ignore.case=TRUE, xclass);
+         x[xfactor] <- lapply(x[xfactor], as.character);
+      }
       xNew <- S4Vectors::unstrsplit(
          IRanges::CharacterList(x),
          sep=sep);
@@ -2139,13 +2171,28 @@ jam_rapply <- function
 #' In the event the input is a nested list of lists, only the first
 #' level of list structure is maintained in the output data. For
 #' more information, see `rlengths()` which calculates the recursive
-#' nested list sizes.
+#' nested list sizes. An exception is when the data contained in `x`
+#' represents multiple classes, see below.
+#'
+#' When data in `x` represents multiple classes, for example `character`
+#' and `factor`, the mechanism is slightly different and not as well-
+#' optimized for large length `x`. The method uses
+#' `rapply(x, how="replace", mixedSort)` which recursively, and iteratively,
+#' calls `mixedSort()` on each vector, and therefore returns data in the
+#' same nested `list` structure as provided in `x`.
+#'
+#' When data in `x` represents only one class, data is `unlist()` to one
+#' large vector, which is sorted with `mixedSort()`, then split back into
+#' `list` structure representing `x` input.
 #'
 #' @family jam sort functions
 #' @family jam string functions
 #' @family jam list functions
 #'
 #' @inheritParams mixedSort
+#' @param xclass `character` vector of classes in `x`, used for slight
+#'    optimization to re-use this vector if it has already been
+#'    defined for `x`. When `NULL` it is created within this function.
 #'
 #' @examples
 #' # set up an example list of mixed alpha-numeric strings
@@ -2196,22 +2243,42 @@ mixedSorts <- function
  keepInfinite=TRUE,
  keepDecimal=FALSE,
  ignore.case=TRUE,
+ useCaseTiebreak=TRUE,
  sortByName=FALSE,
  na.rm=FALSE,
  verbose=FALSE,
  NAlast=TRUE,
+ honorFactor=TRUE,
+ xclass=NULL,
  debug=FALSE,
  ...)
 {
    ## Purpose is to take a list of vectors and run mixedSort() efficiently
    ##
    xNames <- names(x);
-   xclass <- unique(rapply(x, class, how="unlist"));
+   if (length(xclass) == 0) {
+      xclass <- unique(rapply(x, class, how="unlist"));
+   }
    xu <- unlist(x);
    if (length(names(x)) == 0) {
       names(x) <- seq_along(x);
    } else {
       names(x) <- makeNames(names(x));
+   }
+   if (FALSE %in% sortByName && length(xclass) > 1) {
+      xnew <- rapply(x, how="replace", function(i){
+         mixedSort(i,
+            blanksFirst=blanksFirst,
+            na.last=na.last,
+            keepNegative=keepNegative,
+            keepInfinite=keepInfinite,
+            keepDecimal=keepDecimal,
+            ignore.case=ignore.case,
+            useCaseTiebreak=useCaseTiebreak,
+            honorFactor=honorFactor,
+            ...)
+      });
+      return(xnew);
    }
    ## vector names
    xun <- unname(jam_rapply(x, names));
@@ -2244,7 +2311,8 @@ mixedSorts <- function
    } else {
       xu_use <- xu;
    }
-   if ("factor" %in% class(xu_use)) {
+   # print("xu_use:");print(xu_use);
+   if (honorFactor %in% TRUE && "factor" %in% class(xu_use)) {
       xuOrder <- order(xu_use,
          na.last=na.last);
    } else {
@@ -2255,6 +2323,8 @@ mixedSorts <- function
          keepInfinite=keepInfinite,
          keepDecimal=keepDecimal,
          ignore.case=ignore.case,
+         useCaseTiebreak=useCaseTiebreak,
+         honorFactor=honorFactor,
          ...);
    }
    xu <- xu[xuOrder];
