@@ -53,6 +53,7 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},

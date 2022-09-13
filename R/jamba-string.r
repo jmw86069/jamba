@@ -1081,16 +1081,17 @@ rmNULL <- function
 #' @param x vector input
 #' @param naValue NULL or single replacement value for NA entries. If NULL,
 #'    then NA entries are removed from the result.
-#' @param rmNULL logical whether to replace NULL entries with `nullValue`
+#' @param rmNULL `logical` whether to replace NULL entries with `nullValue`
 #' @param nullValue NULL or single replacement value for NULL entries. If NULL,
 #'    then NULL entries are removed from the result.
-#' @param rmInfinite logical whether to replace Infinite values with
+#' @param rmInfinite `logical` whether to replace Infinite values with
 #'    infiniteValue
 #' @param infiniteValue value to use when rmInfinite==TRUE to replace
 #'    entries which are Inf or -Inf.
-#' @param rmNAnames logical whether to remove entries which have NA as the
+#' @param rmNAnames `logical` whether to remove entries which have NA as the
 #'    name, regardless whether the entry itself is NA.
-#' @param verbose logical whether to print verbose output
+#' @param verbose `logical` whether to print verbose output
+#' @param ... additional arguments are ignored.
 #'
 #' @export
 rmNA <- function
@@ -1122,6 +1123,19 @@ rmNA <- function
       }
       return(x);
    }
+
+   # No change for now, version 0.0.87.900
+   # Call rmNAs() when input x is list?
+   # if (is.list(x)) {
+   #    return(rmNAs(x,
+   #       naValue=naValue,
+   #       rmNULL=rmNULL,
+   #       nullValue=nullValue,
+   #       rmInfinite=rmInfinite,
+   #       infiniteValue=infiniteValue,
+   #       rmNAnames=rmNAnames,
+   #       verbose=verbose));
+   # }
 
    if (!class(x) %in% "list" && rmInfinite && any(is.infinite(x))) {
       x <- rmInfinite(x,
@@ -1405,6 +1419,8 @@ uniques <- function
 #'    to use [S4Vectors::unstrsplit()] when the Bioconductor package
 #'    `S4Vectors` is installed, otherwise it will use a much less
 #'    efficient [mapply()] operation.
+#' @param useLegacy `logical` indicating whether to enable to previous
+#'    legacy process used by `cPaste()`.
 #' @param ... additional arguments are passed to `mixedOrder()` when
 #'    `doSort=TRUE`.
 #'
@@ -1477,6 +1493,7 @@ cPaste <- function
  keepFactors=FALSE,
  checkClass=TRUE,
  useBioc=TRUE,
+ useLegacy=FALSE,
  verbose=FALSE,
  ...)
 {
@@ -1541,7 +1558,7 @@ cPaste <- function
    }
 
    ## Legacy processing below
-   if (FALSE) {
+   if (useLegacy) {
       ## Handle potential mix of factor and non-factor
       if (any(grepl("factor", xclass))) {
          if (any(!grepl("factor", xclass))) {
@@ -1630,6 +1647,12 @@ cPaste <- function
       x <- split(
          as.character(unname(xu)),
          xn);
+   }
+
+   # specifically enforce na.rm=TRUE
+   if (length(na.rm) > 0 && TRUE %in% na.rm) {
+      x <- rmNAs(x,
+         naValue=NULL);
    }
 
    if (useBioc) {

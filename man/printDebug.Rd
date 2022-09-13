@@ -302,6 +302,7 @@ Other jam practical functions:
 \code{\link{printDebugI}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},

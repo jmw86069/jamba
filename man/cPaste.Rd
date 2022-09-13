@@ -13,6 +13,7 @@ cPaste(
   keepFactors = FALSE,
   checkClass = TRUE,
   useBioc = TRUE,
+  useLegacy = FALSE,
   verbose = FALSE,
   ...
 )
@@ -44,6 +45,9 @@ factor levels, and non-factors will be ordered using
 to use \code{\link[S4Vectors:character-utils]{S4Vectors::unstrsplit()}} when the Bioconductor package
 \code{S4Vectors} is installed, otherwise it will use a much less
 efficient \code{\link[=mapply]{mapply()}} operation.}
+
+\item{useLegacy}{\code{logical} indicating whether to enable to previous
+legacy process used by \code{cPaste()}.}
 
 \item{...}{additional arguments are passed to \code{mixedOrder()} when
 \code{doSort=TRUE}.}

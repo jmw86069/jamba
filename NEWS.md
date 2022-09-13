@@ -1,3 +1,27 @@
+# jamba version 0.0.87.900
+
+## bug fixes
+
+* `cPaste()` was not properly enforcing `na.rm=TRUE`, which caused
+`NA` values to be converted into `"NA"`. The bug also affected
+`cPasteS()`, `cPasteU()`, and `cPasteSU()`, along with dependent
+functions in the `genejam` package.
+
+   * `cPaste()` now calls `rmNAs()` when `na.rm=TRUE`, to remove `NA` values
+   in relatively efficient manner across the input list `x`.
+   * `cPaste()` new argument `useLegacy` will optionally enable the previous
+   code, which was optimized for `list` that contain vectors with identical
+   classes throughout. It had the limitation that it did not preserve factor
+   level order, and sometimes converted factor to `character` in mixed `list`.
+
+## new function
+
+* `rmNAs()` is an extension of `rmNA()` applied to `list` input. It
+is intended to be slightly faster than iterating each `list` element,
+however for now it iterates every element that contains an `NA` value,
+in order to preserve the class of each vector.
+
+
 # jamba version 0.0.86.900
 
 ## bug fixes

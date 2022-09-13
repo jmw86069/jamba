@@ -1,5 +1,13 @@
 # TODO for jamba
 
+## 01sep2022
+
+* `readOpenxlsx()`
+
+   * add option not to include colnames, equivalent of `colNames=FALSE`.
+   This option will skip the step that loads colnames separately.
+   * debug argument `rows`
+
 ## 26jul2022
 
 * `adjustAxisLabelMargins()`

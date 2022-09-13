@@ -88,6 +88,7 @@ Other jam practical functions:
 \code{\link{printDebugI}()},
 \code{\link{printDebug}()},
 \code{\link{rmInfinite}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
