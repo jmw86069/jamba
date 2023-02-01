@@ -60,6 +60,19 @@
 #' sort(x);
 #' mixedSort(x);
 #'
+#' # test honorFactor
+#' mixedSort(factor(c("Cnot9", "Cnot8", "Cnot10")))
+#' mixedSort(factor(c("Cnot9", "Cnot8", "Cnot10")), honorFactor=TRUE)
+#'
+#' # test ignore.case
+#' mixedSort(factor(c("Cnot9", "Cnot8", "CNOT9", "Cnot10")))
+#' mixedSort(factor(c("CNOT9", "Cnot8", "Cnot9", "Cnot10")))
+#' mixedSort(factor(c("Cnot9", "Cnot8", "CNOT9", "Cnot10")), ignore.case=FALSE)
+#' mixedSort(factor(c("Cnot9", "Cnot8", "CNOT9", "Cnot10")), ignore.case=TRUE)
+#'
+#' mixedSort(factor(c("Cnot9", "Cnot8", "CNOT9", "Cnot10")), useCaseTiebreak=TRUE)
+#' mixedSort(factor(c("CNOT9", "Cnot8", "Cnot9", "Cnot10")), useCaseTiebreak=FALSE)
+#'
 #' @export
 mixedSort <- function
 (x,
@@ -106,14 +119,18 @@ mixedSort <- function
    } else {
       fx <- function(x){c(x)}
       fx2 <- function(x){c(x)}
-      if (ignore.case) {
-         if (is.factor(x)) {
+      if (TRUE %in% ignore.case) {
+         if (TRUE %in% honorFactor && is.factor(x)) {
             fx <- function(x){
                factor(toupper(x),
                   levels=toupper(levels(x)))
             }
          } else if (!is.numeric(x)) {
             fx <- function(x){toupper(x)}
+         }
+      } else {
+         if (!TRUE %in% honorFactor && is.factor(x)) {
+            fx <- function(x){as.character(x)}
          }
       }
    }
@@ -280,6 +297,12 @@ mixedSort <- function
 #' ## which puts "-Inf14" at the very beginning.
 #' x[mixedOrder(x, blanksFirst=FALSE, keepInfinite=TRUE, keepNegative=TRUE)]
 #'
+#' # test factor level order
+#' factor1 <- factor(c("Cnot9", "Cnot8", "Cnot10"))
+#' sort(factor1)
+#' mixedSort(factor1)
+#' factor1[mixedOrder(factor1)]
+#' factor1[mixedOrder(factor1, honorFactor=TRUE)]
 #'
 #' @export
 mixedOrder <- function
@@ -675,6 +698,19 @@ mixedOrder <- function
 #'
 #' @family jam string functions
 #'
+#' @examples
+#' # test factor level order
+#' factor1 <- factor(c("Cnot9", "Cnot8", "Cnot10"))
+#' sort(factor1)
+#' mixedSort(factor1)
+#' factor1[mixedOrder(factor1)]
+#' factor1[mixedOrder(factor1, honorFactor=FALSE)]
+#' factor1[mixedOrder(factor1, honorFactor=TRUE)]
+#'
+#' factor1[mmixedOrder(list(factor1))]
+#' factor1[mmixedOrder(list(factor1), honorFactor=FALSE)]
+#' factor1[mmixedOrder(list(factor1), honorFactor=TRUE)]
+#'
 #' @export
 mmixedOrder <- function
 (...,
@@ -688,7 +724,7 @@ mmixedOrder <- function
  useCaseTiebreak=TRUE,
  sortByName=FALSE,
  NAlast=TRUE,
- honorFactor=FALSE,
+ honorFactor=TRUE,
  verbose=FALSE,
  matrixAsDF=TRUE)
 {
@@ -739,7 +775,9 @@ mmixedOrder <- function
             iSign);
       }
       if (is.numeric(i) ||
-            any(class(i) %in% c("numeric", "factor", "ordered"))) {
+         any(class(i) %in% c("numeric")) ||
+         (any(class(i) %in% c("factor", "ordered") &&
+               TRUE %in% honorFactor))) {
          as.numeric(i) * iSign;
       } else {
          x2u <- unique(i);
@@ -893,6 +931,8 @@ mmixedOrder <- function
 #' mixedSortDF(m, byCols="-rownames")
 #' mixedSortDF(m, byCols="rownames")
 #'
+#' mixedSortDF(data.frame(factor1=factor(c("Cnot9", "Cnot8", "Cnot10"))), honorFactor=FALSE)
+#'
 #' @export
 mixedSortDF <- function
 (df,
@@ -908,7 +948,7 @@ mixedSortDF <- function
  ignore.case=TRUE,
  useCaseTiebreak=TRUE,
  sortByName=FALSE,
- honorFactor=FALSE,
+ honorFactor=TRUE,
  ...)
 {
    ## Purpose is to order a data.frame using mmixedOrder()

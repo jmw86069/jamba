@@ -7,13 +7,13 @@
 plotSmoothScatter(
   x,
   y = NULL,
-  bandwidthN = NULL,
   bwpi = 50,
-  nbin = NULL,
   binpi = 50,
+  bandwidthN = NULL,
+  nbin = NULL,
   expand = c(0.04, 0.04),
   transFactor = 0.25,
-  transformation = function(x) x^0.25,
+  transformation = function(x) x^transFactor,
   xlim = NULL,
   ylim = NULL,
   xlab = NULL,
@@ -39,17 +39,24 @@ plotSmoothScatter(
 \item{y}{numeric vector, or if data is supplied via x as a matrix, y
 is NULL.}
 
-\item{bandwidthN}{integer number of bandwidth steps to use across the
+\item{bwpi}{\code{numeric} value indicating the bandwidth "per inch"
+to scale the bandwidth based upon visual space available.
+This argument is used to define \code{bandwidthN}, however \code{bwpi}
+is only used when \code{bandwidthN=NULL}.
+The bandwidth is used to define the 2-dimensional point density.}
+
+\item{binpi}{\code{numeric} value indicating the number of bins "per inch",
+to scale based upon visual space available.
+This argument is used to define \code{nbin}, however \code{binpi}
+is only used when \code{nbin=NULL}.}
+
+\item{bandwidthN}{\code{integer} number of bandwidth steps to use across the
 visible plot window. Note that this bandwidth differs from default
 \code{graphics::smoothScatter()} in that it uses the visible
 plot window instead of the data range, so if the plot window is not
 sufficiently similar to the data range, the resulting smoothed
 density will not be visibly distorted. This parameter also permits
 display of higher (or lower) level of detail.}
-
-\item{bwpi}{\code{numeric} value indicating the desired bandwidth "per inch"
-which effectively scales the bandwidth based upon relative visual
-space available. Note that \code{bwpi} is only used when \code{bandwidthN=NULL}.}
 
 \item{nbin}{\code{integer} number of bins to use when converting the kernel
 density result (which uses bandwidthN above) into a usable image.
@@ -60,15 +67,11 @@ plot panel; and \code{nbin=32} will create 32 visible pixels, with
 lower detail which may be suitable for multi-panel plots.
 To use a variable number of bins, try \code{binpi}.}
 
-\item{binpi}{\code{numeric} value indicating the desired number of bins
-as used by \code{nbin}, but scaled \code{"per inch"} of plot space so
-smaller plot panels will still only display a reasonably consistent
-number of visible pixels.}
-
 \item{expand}{\code{numeric} value indicating the fraction of the x-axis
-and y-axis range to add to create an expanded range. The default
-\code{expand=c(0.04, 0.04)} mimics the R base plot default which adds
-4 percent, 2 percent to each side of the visible range.}
+and y-axis ranges to add to create an expanded range,
+used when \code{add=FALSE}. The default \code{expand=c(0.04, 0.04)} mimics
+the R base plot default which adds 4 percent total, therefore 2 percent
+to each side of the visible range.}
 
 \item{transFactor}{\code{numeric} value used by the default \code{transformation}
 function, which effectively scales the density of points to
@@ -84,21 +87,24 @@ supplied, it will not use \code{transFactor} unless specified.}
 
 \item{ylim}{\code{numeric} y-axis range, or \code{NULL} to use the data range.}
 
-\item{nrpoints}{\code{integer} number of outlier datapoints to display,
-as defined by the hidden but very useful
-\code{grDevices:::.smoothScatterCalcDensity()}.
-The base \code{graphics::smoothScatter()} default is \code{nrpoints=100},
-perhaps intended to overcome the default over-smoothing
-of data which results in large areas not displaying density. This
-default is \code{nrpoints=0}, since the new default \code{bandwidthN} parameter
-typically already indicates these points.}
+\item{xlab, ylab}{\code{character} labels for x- and y-axis, respectively.}
 
-\item{colramp}{one of several inputs recognized by
-\code{getColorRamp()}: a \code{character} vector with multiple colors;
-a single \code{character} color used to create a color gradient;
-a \code{character} name of a known color gradient from \code{RColorBrewer}
-or \code{viridis}; or a \code{function} that itself produces vector of colors,
-in the form \verb{function(n)} where \code{n} defines the number of colors.}
+\item{nrpoints}{\code{integer} number of outlier datapoints to display,
+as defined by \code{graphics::smoothScatter()}, however the default here
+is \code{nrpoints=0} to avoid additional clutter in the output,
+and because the default arguments \code{bwpi}, \code{binpi} usually indicate all
+individual points.}
+
+\item{colramp}{any input recognized by \code{getColorRamp()}:
+\itemize{
+\item \code{character} vector with multiple colors
+\item \code{character} string length 1, with valid R color used to create
+a linear color gradient
+\item \code{character} name of a known color gradient from \code{RColorBrewer}
+or \code{viridis}
+\item \code{function} that itself produces vector of colors,
+in the form \verb{function(n)} where \code{n} defines the number of colors.
+}}
 
 \item{col}{\code{character} string with R color used when \code{nrpoints} is
 non-zero, this color defines the color of those points.}
@@ -111,9 +117,11 @@ background of the plot panel with the first color in \code{colramp}.
 The default \code{fillBackground=TRUE} is useful since the plot panel
 may be slightly wider than the range of data being displayed, and
 when the first color in \code{colramp} is not the same as the plot device
-background color. Run a test using
+background color.
+Run a test using:
 \code{plotSmoothScatter(doTest=TRUE, fillBackground=FALSE, colramp="viridis")}
-and compare with \code{plotSmoothScatter(doTest=TRUE, colramp="viridis")}.}
+and compare with:
+\code{plotSmoothScatter(doTest=TRUE, colramp="viridis")}}
 
 \item{naAction}{\code{character} string indicating how to handle NA values,
 typically when x is NA and y is not NA, or vice versa. valid values:
@@ -129,10 +137,10 @@ was plotting gene fold changes from two experiments, where the two
 experiments may not have measured the same genes.}
 
 \item{xaxt}{\code{character} value compatible with par(xaxt), used to control
-the x-axis range, similar to its use in plot(...) generic functions.}
+the x-axis range, similar to its use in \code{plot()} generic functions.}
 
 \item{yaxt}{\code{character} value compatible with par(yaxt), used to control
-the y-axis range, similar to its use in plot(...) generic functions.}
+the y-axis range, similar to its use in \code{plot()} generic functions.}
 
 \item{add}{\code{logical} whether to add to an existing active R plot, or create
 a new plot window.}
@@ -155,11 +163,14 @@ would obscure these points.}
 }}
 
 \item{useRaster}{\code{logical} indicating whether to produce plots using the
-`graphics::rasterImage() function which produces a plot
+\code{graphics::rasterImage()} function which produces a plot
 raster image offline then scales this image to visible plot space.
-This technique is two benefits: it produces substantially faster
-plot output, with substantially fewer plot objects which results
-in much smaller file sizes when saving in PDF or SVG format.}
+This technique has two benefits:
+\enumerate{
+\item It produces substantially faster plot output.
+\item Output contains substantially fewer plot objects, which results
+in much smaller file sizes when saving in PDF or SVG format.
+}}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output.}
 
@@ -194,10 +205,10 @@ x <- plotSmoothScatter(doTest=TRUE);
 colnames(x) <- c("column_1", "column_2")
 plotSmoothScatter(x, colramp="inferno");
 
+plotPolygonDensity(x);
+
 }
 \seealso{
-\code{smoothScatterJam()},\code{graphics::smoothScatter()}
-
 Other jam plot functions: 
 \code{\link{adjustAxisLabelMargins}()},
 \code{\link{coordPresets}()},

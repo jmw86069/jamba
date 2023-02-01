@@ -34,45 +34,39 @@ Functions are categorized, some examples are listed below:
 
 ## Background
 
-The R functions in `jamba` have been built up over several years, often
-based upon and citing the relevant discussion from Stackoverflow,
-R-help, or Bioconductor, along with the principal author(s).
-Almost every function is some sort of wrapper around existing R
-functions -- designed for specific cases where I can make it faster,
-more flexible, or customized to make my analysis life easier.
-Kudos and thanks to the original authors! The R community is built
+The R functions in `jamba` have been built up, used, tested, revised
+over several years. They are immediately useful for day-to-day work,
+and efficient and robust enough for production pipelines.
+
+Many were inspired by discussion from Stackoverflow, R-help, or
+Bioconductor, with citations thanking principal author(s).
+Many thanks to the original authors! The R community is built
 upon the collective greatness of its contributors!
 
 Most of the functions are designed around workflows for Bioinformatics
 analyses, where functions need to be efficient when operating over
-10,000 to 100,000 elements. (They work really well with millions as well.)
+10,000 to 100,000 elements. (They work quite well with millions as well.)
 Usually the speed gains are obvious with about 100 elements, then
 scale linearly (or worse) as the number increases. I and others
 use these functions *all the time*.
 
 One example function `writeOpenxlsx()` is a simple wrapper around
-very useful `openxlsx::write.xlsx()`. Also `writeOpenxlsx()`
-applies column formatting
-for things like P-values, fold changes, log2 fold changes, numeric
-and integer values -- and uses color-shading of cells for each type.
-So many hours saved from hand-editing Excel formats!
+very useful `openxlsx::write.xlsx()`, which also applies column formatting
+for column types: P-values, fold changes, log2 fold changes, numeric,
+and integer values. Columns use conditional Excel formatting to
+apply color-shading to cells for each type.
 
-Small and large efficiencies are used wherever possible. For example
-it is faster to operate on unique entries from a 100,000 element list,
-than it is to perform a function on the full list.
-In most cases, I have tested numerous available R methods and packages,
-and settled on the fastest* available at the time. If there is something
-faster or better, I would *love* for you to let me/us know!
+Similarly, `readOpenxlsx()` is a wrapper function to `openxlsx::read.xlsx()`
+which reads each worksheet and returns a `list` of `data.frame` objects.
+It can detect multi-row column headers, for which it returns combined
+column names. It also applies equivalent of `check.names=FALSE` so
+column names are returned without change.
 
-The functions in `jamba` are intended to be convenient wrappers
-around whatever series of steps it takes to get the job done. My 
-design goal is to "make my own analysis jobs easier" as first priority.
+Small and large efficiencies are used wherever possible.
+The `mixedSort()` functions are based upon `gtools::mixedsort()`,
+with additional optimizations for speed and custom needs. It sorts
+chromosome names, gene names, micro-RNA names, etc.
 
-* If I don't find it useful, nobody else will.
-* And even if nobody else finds it useful, at least I do!
-
-Lastly, `jamba` should motivate me and others to create R packages
-instead of a random collection of R functions in `*.R` files.
 
 ## Example R functions
 
@@ -178,7 +172,7 @@ colors.
 
 ### Color
 
-Everything I do uses color to the utmost limit, especially on R console,
+Almost everything uses color somewhere, especially on R console,
 and in every R plot.
 
 * `getColorRamp()` - flexible to create or retrieve color gradients

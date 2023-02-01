@@ -73,7 +73,7 @@ asSize <- function
       sizeUnits <- paste0(c("", "kilo", "Mega", "Giga", "Tera", "Peta"),
          unitType);
    }
-   if (class(x) %in% c("object_size")) {
+   if ("object_size" %in% class(x)) {
       x <- as.numeric(x);
    }
    xUnits <- rep("", length(x));
@@ -179,7 +179,7 @@ sizeAsNum <- function
 {
    ## This function essentially reverses asSize()
    ## and prints a numeric value based upon an abbreviated size
-   if (class(x) %in% c("object_size")) {
+   if ("object_size" %in% class(x)) {
       x <- as.numeric(x);
    }
    if (is.numeric(x)) {

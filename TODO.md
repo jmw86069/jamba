@@ -1,5 +1,101 @@
 # TODO for jamba
 
+## 10jan2023
+
+* `kable_coloring()`
+
+   * Categorical colors are assigned with `colorSub`, but should also
+   be compatible with `color_list` output from `platjam::design2colors()`
+   (soon to be moved into `colorjam`).
+   * It should apply color to `row.names` when they are displayed.
+
+## 28nov2022
+
+* `jargs()`
+
+   * it fails when functions follow the troubled paradigm for generics, e.g.:
+
+      ```R
+      some_func <- function(object, ...){
+         .local <- function(object, arg1, arg2, arg3);
+         .local(object, ...)
+      }
+      ```
+   
+   * Design idea: Figure out a way to "sniff" out these arguments.
+   * Eval the function body, look for function named `.local`
+   * It will fail for functions that call `UseMethod("mean")`, which
+   requires the object class in order to search generics using the form
+   `function.class1()`,  where `class1` is the first `"character"`
+   value from `class(object)`. Optionally, `jargs_internal()` could
+   have argument `class` or `object` to guide it to the appropriate
+   method based upon the `class` or `class(object)`.
+   * Driving example: `ComplexHeatmap::draw()`
+   
+      * can be found with `names(findMethods("draw"))`, for class `"Heatmap"`,
+      `"HeatmapAnnotation"`, and several others.
+      * `args(findMethods("draw")$Heatmap)` will show `function(object, ...)`
+      * however the function body defines `.local` as a `function`
+
+
+## 14nov2022
+
+* `jargs()` is janky for some functions, for example arguments that
+begin with parentheses. Other non-standard formatting has previously
+caused problems, but examples like embedded functions appear to work fine.
+
+   * Example that works: `jamses::heatmap_se()` argument
+   `cluster_rows=function(x, ...){ amap::hcluster(x, ...) }`.
+   Actually, this one fails to insert a comma between internal function
+   arguments. Sigh.
+   * Example that fails: `multienrichjam::layout_with_qfr()` argument
+   `repulse.rad=(igraph::vcount(g)^repulse)`
+   * Design idea: write a test routine that calls `jamba::jargs()` on
+   all functions in a package, captures text output, then searches
+   for any argument that spans multiple lines. Then print a visual summary
+   to check for potential problems.
+
+## 19oct2022
+
+* `readOpenxlsx()` throws an error when column headers do not align
+with subsequent data. Insert filler column headers.
+
+   * Easiest workaround is change default to `check_header=FALSE`
+   * The `check_header=TRUE` logic should change, the intent is to
+   detect when one row of additional header is above column headers,
+   usually seen with lower ncol, however sometimes real data has
+   fewer ncol because the last column(s) contain empty cells.
+
+## 14oct2022
+
+* `renameColumn()` should accept `integer` values for `from` to indicate
+column indexes. The driving use case is a matrix that lacks colnames,
+`renameColumn(x, from=1:4, to=letters[1:4])`. Internally convert
+`integer` or `numeric` values in `from` to `colnames(x)` or when
+`length(colnames(x)) == 0` assign `colnames(x) <- seq_len(ncol(x))`,,
+then convert `from <- as.character(from)`.
+
+
+## 04oct2022
+
+* `jargs()`
+
+   * Option for multiple columns, for those functions with many arguments.
+   Requires some estimate of the number of console columns, or user-defined.
+
+* `jamsplom()`
+
+   * new custom function that I still use often outside the Jam package
+   context, useful enough to be added to jamba for convenience.
+   It's as useful as `plotPolygoDensity()`, `plotSmoothScatter()`,
+   `plotRidges()`, somewhat combined.
+
+## 27sep2022
+
+* `mixedSortDF()` does not work with time class such as `"POSIXct"`,
+although `mixedSort()` does work. Coersion with `as.numeric()` should
+suffice as a workaround.
+
 ## 01sep2022
 
 * `readOpenxlsx()`

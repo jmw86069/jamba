@@ -49,7 +49,8 @@
 #' showColors(getColorRamp("firebrick3"))
 #'
 #' if (suppressPackageStartupMessages(require(RColorBrewer))) {
-#'    y <- lapply(nameVector(RColorBrewer:::namelist), function(i){
+#'    RColorBrewer_namelist <- rownames(RColorBrewer::brewer.pal.info);
+#'    y <- lapply(nameVector(RColorBrewer_namelist), function(i){
 #'       j <- RColorBrewer::brewer.pal(20, i);
 #'       nameVector(j, seq_along(j));
 #'    });

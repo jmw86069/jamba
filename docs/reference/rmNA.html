@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -83,21 +83,23 @@
 <dd><p>NULL or single replacement value for NA entries. If NULL,
 then NA entries are removed from the result.</p></dd>
 <dt>rmNULL</dt>
-<dd><p>logical whether to replace NULL entries with <code>nullValue</code></p></dd>
+<dd><p><code>logical</code> whether to replace NULL entries with <code>nullValue</code></p></dd>
 <dt>nullValue</dt>
 <dd><p>NULL or single replacement value for NULL entries. If NULL,
 then NULL entries are removed from the result.</p></dd>
 <dt>rmInfinite</dt>
-<dd><p>logical whether to replace Infinite values with
+<dd><p><code>logical</code> whether to replace Infinite values with
 infiniteValue</p></dd>
 <dt>infiniteValue</dt>
 <dd><p>value to use when rmInfinite==TRUE to replace
 entries which are Inf or -Inf.</p></dd>
 <dt>rmNAnames</dt>
-<dd><p>logical whether to remove entries which have NA as the
+<dd><p><code>logical</code> whether to remove entries which have NA as the
 name, regardless whether the entry itself is NA.</p></dd>
 <dt>verbose</dt>
-<dd><p>logical whether to print verbose output</p></dd>
+<dd><p><code>logical</code> whether to print verbose output</p></dd>
+<dt>...</dt>
+<dd><p>additional arguments are ignored.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -112,7 +114,6 @@ but optionally replacing NA and Infinite values with fixed values.</p>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other jam practical functions: 
-<code><a href="applyCLrange.html">applyCLrange</a>()</code>,
 <code><a href="breakDensity.html">breakDensity</a>()</code>,
 <code><a href="checkLightMode.html">checkLightMode</a>()</code>,
 <code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
@@ -121,7 +122,6 @@ but optionally replacing NA and Infinite values with fixed values.</p>
 <code><a href="diff_functions.html">diff_functions</a>()</code>,
 <code><a href="exp2signed.html">exp2signed</a>()</code>,
 <code><a href="fileInfo.html">fileInfo</a>()</code>,
-<code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
 <code><a href="fixYellow.html">fixYellow</a>()</code>,
 <code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
 <code><a href="handleArgsText.html">handleArgsText</a>()</code>,
@@ -143,11 +143,11 @@ but optionally replacing NA and Infinite values with fixed values.</p>
 <code><a href="printDebug.html">printDebug</a>()</code>,
 <code><a href="renameColumn.html">renameColumn</a>()</code>,
 <code><a href="rmInfinite.html">rmInfinite</a>()</code>,
+<code><a href="rmNAs.html">rmNAs</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
 <code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setCLranges.html">setCLranges</a>()</code>,
 <code><a href="setPrompt.html">setPrompt</a>()</code>,
 <code><a href="ssdima.html">ssdima</a>()</code>,
 <code><a href="ssdim.html">ssdim</a>()</code></p></div>

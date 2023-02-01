@@ -1576,7 +1576,14 @@ set_xlsx_rowheights <- function
 #'    When header rows are detected, the values are assigned to column
 #'    `dimnames` of the `data.frame`.
 #' @param check_header_n `integer` number of rows to test for header rows,
-#'    only used when `check_header=TRUE`.
+#'    only used when `check_header=TRUE`. This step is intended when
+#'    the top row(s) contain fewer columns with headers, above actual
+#'    column headers, for example the first row `c("Sample", "", "", "Lane", "")`,
+#'    and the second row `c("Name", "Type", "Label", "Name", "Type")`.
+#'    In this case the desired output is
+#'    `"Sample_Name","Sample_Type","Sample_Label","Lane_Name","Lane_Type")`.
+#'    This option default is `FALSE` due to the number of exceptions
+#'    seen in real data.
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are passed to `openxlsx::read.xlsx()`.
 #'
@@ -1587,7 +1594,7 @@ readOpenxlsx <- function
  startRow=1,
  rows=NULL,
  check.names=FALSE,
- check_header=TRUE,
+ check_header=FALSE,
  check_header_n=10,
  verbose=FALSE,
  ...)
@@ -1636,7 +1643,7 @@ readOpenxlsx <- function
       # optionally check for header rows
       header_v <- NULL;
       header_df <- NULL;
-      if (length(check_header) > 0 && check_header) {
+      if (length(check_header) > 0 && TRUE %in% check_header) {
          test_ncol <- integer(0);
          test_classes <- list();
          test_data_rows <- list();

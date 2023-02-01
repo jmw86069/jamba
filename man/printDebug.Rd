@@ -7,6 +7,7 @@
 printDebug(
   ...,
   fgText = NULL,
+  fgDefault = c("darkorange1", "dodgerblue"),
   bgText = NULL,
   fgTime = "cyan",
   timeStamp = TRUE,
@@ -29,7 +30,7 @@ printDebug(
   dex = 2,
   darkFactor = c(1, 1.5),
   sFactor = c(1, 1.5),
-  lightMode = NULL,
+  lightMode = checkLightMode(),
   Crange = getOption("jam.Crange"),
   Lrange = getOption("jam.Lrange"),
   removeNA = FALSE,
@@ -214,16 +215,42 @@ print colorized output to R console
 \details{
 This function prints colorized output to the R console, with some
 rules for colorizing the output to help visually distinguish items.
-Its output also by default begins with comment '#' characters, a
-datetimestamp, so it the output is copied back into the R console it
-will not cause a new command to be run.
 
-The colorization uses a vector or list of colors for fgText (foreground)
-and bgText (background.), applied to each item in '...'. When an item in
-'...' is a vector, each vector element is colored alternating light
-and dark from that base color, to give visual indication of each element.
-The next item in '...' receives the next color from fgText, and so on.
-Colors in fgText are recycled to the length of '...'
+The main intent is to use this function to print pretty debug messages,
+because color helps identify.
+
+By default, output has the following configurable properties:
+\itemize{
+\item each line begins with a comment '#' characters
+with argument \code{comment=TRUE} or \code{options("jam.comment"=TRUE)} so that
+the output can be copied and pasted and without causing new commands
+to be run.
+\item each line includes time and date stamp (\code{timeStamp=TRUE})
+\item each line formats \code{numeric} values (\code{formatNumbers=TRUE} or
+\code{options("jam.formatNumbers"=TRUE)})
+\item each \code{list} is printed with its own foreground color (\code{fgText})
+and background color (\code{bgText}), recycled to accommodate all \code{list}
+arguments to be printed; within each list, the color brightness
+is adjusted for slightly lighter and darker color to delineate
+each item in the vector. The lightness effect is used to help
+visualize multiple values.
+}
+
+Additional convenience rules:
+\itemize{
+\item For convenience, when the last \code{...} argument is a \code{character} vector
+of colors, it is assumed to be \code{fgText}.
+\item When the only entry in \code{...} is a \code{character} vector of R colors,
+the names are printed using the color vector for \code{fgText}, or if no
+names exist the colors are printed using the color vector for \code{fgText}.
+\item For \code{printDebugI()} or \code{invert=TRUE}, colors typically assigned to
+\code{fgText} are instead assigned to \code{bgText}.
+\item For very specific color assignments, \code{fgText} and/or \code{bgText} can be
+defined as a \code{list} of \code{character} vectors of R colors, in which case
+the \code{list} overall is recycled to the length \code{...} to be printed,
+and within each vector of \code{...} printed the corresponding color vector
+is recycled to the length of that vector.
+}
 
 For use inside Rmarkdown \code{.Rmd} documents, current recommendation is
 to define the R output with \code{results='asis'} like this:\preformatted{\\`\\`\\`\{r block_name, results='asis'\}
@@ -272,7 +299,6 @@ printDebug(1:10, fgText="orange", dex=2);
 }
 \seealso{
 Other jam practical functions: 
-\code{\link{applyCLrange}()},
 \code{\link{breakDensity}()},
 \code{\link{checkLightMode}()},
 \code{\link{check_pkg_installed}()},
@@ -281,7 +307,6 @@ Other jam practical functions:
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fileInfo}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
@@ -308,7 +333,6 @@ Other jam practical functions:
 \code{\link{sclass}()},
 \code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setCLranges}()},
 \code{\link{setPrompt}()},
 \code{\link{ssdima}()},
 \code{\link{ssdim}()}

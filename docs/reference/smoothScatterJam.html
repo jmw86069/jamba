@@ -18,7 +18,7 @@ plotSmoothScatter()."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -69,8 +69,7 @@ plotSmoothScatter()."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/
   y <span class="op">=</span> <span class="cn">NULL</span>,
   nbin <span class="op">=</span> <span class="fl">256</span>,
   <span class="va">bandwidth</span>,
-  colramp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#FFFFFF"</span>, <span class="st">"#6BAED6"</span>, <span class="st">"#9ECAE1"</span>, <span class="st">"#2171B5"</span>, <span class="st">"#4292C6"</span>,
-    <span class="st">"#08306B"</span>, <span class="st">"#08519C"</span>, <span class="st">"#C6DBEF"</span>, <span class="st">"#DEEBF7"</span>, <span class="st">"#F7FBFF"</span><span class="op">)</span><span class="op">)</span>,
+  colramp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"lightblue"</span>, <span class="st">"blue"</span>, <span class="st">"orange"</span>, <span class="st">"orangered2"</span><span class="op">)</span><span class="op">)</span>,
   nrpoints <span class="op">=</span> <span class="fl">100</span>,
   pch <span class="op">=</span> <span class="st">"."</span>,
   cex <span class="op">=</span> <span class="fl">1</span>,
@@ -106,21 +105,26 @@ For example, nbin=123 is the default used by
 <code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code> function default is higher (256).</p></dd>
 <dt>bandwidth</dt>
 <dd><p><code>numeric</code> vector used to define the y- and x-axis
-bandwidths, respectively, for the hidden but very useful
-<code>grDevices:::.smoothScatterCalcDensity()</code>
-function, which calculates the underlying 2-dimensional kernel
-density of data points. This parameter is also why the
-wrapper function <code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code> was created, in
-order to avoid ever having to define this parameter directly.</p></dd>
+bandwidths, respectively, passed to <code><a href="https://rdrr.io/pkg/KernSmooth/man/bkde2D.html" class="external-link">KernSmooth::bkde2D()</a></code>,
+which calculates the underlying 2-dimensional kernel density.
+The <code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code> function was motivated by never wanting
+to define this number directly, instead auto-calculation suitable
+values.</p></dd>
+<dt>colramp</dt>
+<dd><p><code>function</code> that takes one <code>numeric</code> argument and returns
+that integer number of colors, by default 256.</p></dd>
 <dt>nrpoints</dt>
 <dd><p><code>integer</code> number of outlier datapoints to display,
-as defined by the hidden but very useful
-<code>grDevices:::.smoothScatterCalcDensity()</code>
-function. The base <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">graphics::smoothScatter()</a></code> function
-plots 100 such points, perhaps to overcome the default over-smoothing
-of data which results in large areas not displaying density. The
-default here is zero, since the new default bandwidthN parameter
-typically already indicates these points.</p></dd>
+as defined by <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">graphics::smoothScatter()</a></code>, however the default here
+is <code>nrpoints=0</code> to avoid additional clutter in the output,
+and because the default argument <code>bandwidthN</code> usually indicates all
+individual points.</p></dd>
+<dt>pch</dt>
+<dd><p>point shape used when <code>nrpoints&gt;0</code>.</p></dd>
+<dt>cex</dt>
+<dd><p><code>numeric</code> point size expansion factor used when <code>nrpoints&gt;0</code>.</p></dd>
+<dt>col</dt>
+<dd><p><code>character</code> R color used when <code>nrpoints&gt;0</code>.</p></dd>
 <dt>transformation</dt>
 <dd><p><code>function</code> which converts point density to a number,
 typically related to square root or cube root transformation.</p></dd>
@@ -138,7 +142,7 @@ information atop the image plot, for example contours, labels, etc.</p></dd>
 <dt>ylim</dt>
 <dd><p><code>numeric</code> y-axis range for the plot</p></dd>
 <dt>add</dt>
-<dd><p>logical whether to add to an existing active R plot, or create
+<dd><p><code>logical</code> whether to add to an existing active R plot, or create
 a new plot window.</p></dd>
 <dt>xaxs</dt>
 <dd><p><code>character</code> value compatible with <code>par("xaxs")</code>, mainly useful
@@ -166,6 +170,9 @@ If NULL, it determines whether to produce a raster image within the
 using <code>getOption("preferRaster", FALSE)</code> to determine among
 other things, whether the user prefers raster images, and if the
 <code><a href="https://rdrr.io/r/grDevices/dev.capabilities.html" class="external-link">dev.capabilities()</a></code> supports raster.</p></dd>
+<dt>...</dt>
+<dd><p>additional arguments are passed to <code><a href="imageDefault.html">imageDefault()</a></code> and
+optionally to <code>plotPlotHook()</code> when supplied.</p></dd>
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -178,10 +185,7 @@ settings for pixel size and density bandwidth.</p>
 Instead, this function calls <code><a href="imageDefault.html">imageDefault()</a></code> which is required
 in order to utilize custom raster image scaling, particularly important
 when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
-10 units, but the y-axis spans 10,000 units. The bulk of this function
-and its parameters are simply copied from
-<code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">smoothScatter()</a></code> for consistency with the parent
-function, with due credit and respect to its authors.</p>
+10 units, but the y-axis spans 10,000 units.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>

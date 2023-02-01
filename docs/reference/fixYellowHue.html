@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fix yellow color hue</h1>
-    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba.r" class="external-link"><code>R/jamba.r</code></a></small>
+    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-clrange.R" class="external-link"><code>R/jamba-clrange.R</code></a></small>
     <div class="hidden name"><code>fixYellowHue.Rd</code></div>
     </div>
 
@@ -86,7 +86,8 @@ within the range <code>Hrange</code>. If NULL, <code>HCL</code> is return unchan
     <h2>Value</h2>
     <p>returns the input <code>HCL</code> data where rowname <code>"H"</code> has hue values
 adjusted accordingly. In the event <code>HCL</code>, <code>Hrange</code>, or <code>Hshift</code> have
-length 0, the original <code>HCL</code> is returned.</p>
+length 0, the original <code>HCL</code> is returned. If input data does not
+meet the expected format, the input <code>HCL</code> is returned unchanged.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -100,47 +101,7 @@ any of the values <code>HCL</code>, <code>Hrange</code>, or <code>Hshift</code> 
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>Other jam practical functions: 
-<code><a href="applyCLrange.html">applyCLrange</a>()</code>,
-<code><a href="breakDensity.html">breakDensity</a>()</code>,
-<code><a href="checkLightMode.html">checkLightMode</a>()</code>,
-<code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
-<code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
-<code><a href="color_dither.html">color_dither</a>()</code>,
-<code><a href="diff_functions.html">diff_functions</a>()</code>,
-<code><a href="exp2signed.html">exp2signed</a>()</code>,
-<code><a href="fileInfo.html">fileInfo</a>()</code>,
-<code><a href="fixYellow.html">fixYellow</a>()</code>,
-<code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
-<code><a href="handleArgsText.html">handleArgsText</a>()</code>,
-<code><a href="heads.html">heads</a>()</code>,
-<code><a href="isFALSEV.html">isFALSEV</a>()</code>,
-<code><a href="isTRUEV.html">isTRUEV</a>()</code>,
-<code><a href="jamba.html">jamba</a></code>,
-<code><a href="jargs.html">jargs</a>()</code>,
-<code><a href="kable_coloring.html">kable_coloring</a>()</code>,
-<code><a href="lldf.html">lldf</a>()</code>,
-<code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="make_html_styles.html">make_html_styles</a>()</code>,
-<code><a href="make_styles.html">make_styles</a>()</code>,
-<code><a href="match_unique.html">match_unique</a>()</code>,
-<code><a href="mergeAllXY.html">mergeAllXY</a>()</code>,
-<code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
-<code><a href="newestFile.html">newestFile</a>()</code>,
-<code><a href="printDebugI.html">printDebugI</a>()</code>,
-<code><a href="printDebug.html">printDebug</a>()</code>,
-<code><a href="renameColumn.html">renameColumn</a>()</code>,
-<code><a href="rmInfinite.html">rmInfinite</a>()</code>,
-<code><a href="rmNA.html">rmNA</a>()</code>,
-<code><a href="rmNULL.html">rmNULL</a>()</code>,
-<code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
-<code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setCLranges.html">setCLranges</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p>
-<p>Other jam color functions: 
+    <div class="dont-index"><p>Other jam color functions: 
 <code><a href="alpha2col.html">alpha2col</a>()</code>,
 <code><a href="applyCLrange.html">applyCLrange</a>()</code>,
 <code><a href="col2alpha.html">col2alpha</a>()</code>,

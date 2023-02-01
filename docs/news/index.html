@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -57,6 +57,157 @@
       <small>Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.88.900" id="jamba-version-0088900">jamba version 0.0.88.900<a class="anchor" aria-label="anchor" href="#jamba-version-0088900"></a></h2>
+<p>Began prep for eventual CRAN release.</p>
+<ul><li>added <code>ComplexHeatmap</code> to Suggests.</li>
+<li>edited <code><a href="../reference/heatmap_row_order.html">heatmap_row_order()</a></code> and
+<code><a href="../reference/heatmap_column_order.html">heatmap_column_order()</a></code> to check for ComplexHeatmap.</li>
+</ul><div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-88-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-88-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/readOpenxlsx.html">readOpenxlsx()</a></code></p>
+<ul><li>New default <code>check_header=FALSE</code> to sidestep issues with
+column headers that do not align with subsequent data.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/formatInt.html">formatInt()</a></code>, <code><a href="../reference/rmNA.html">rmNA()</a></code>,
+<code><a href="../reference/asSize.html">asSize()</a></code>, <code><a href="../reference/sizeAsNum.html">sizeAsNum()</a></code>,
+<code><a href="../reference/imageByColors.html">imageByColors()</a></code></p>
+<ul><li>updated to improve how it checks <code>class(x)</code>, to allow
+multiple values.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/mixedSort.html">mixedSort()</a></code>, <code><a href="../reference/mixedOrder.html">mixedOrder()</a></code> default
+<code>honorFactor=FALSE</code> in vector context.</p>
+<ul><li>For someone mixedSorting a vector, they expect mixedSorted
+output.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code>, <code><a href="../reference/mmixedOrder.html">mmixedOrder()</a></code> default
+<code>honorFactor=TRUE</code> in <code>data.frame</code> or
+<code>list</code> context.</p>
+<ul><li>For someone mixedSorting a <code>data.frame</code>, they expect
+mixedSorted <code>character</code> columns, and sorted factor levels.
+For someone mmixedOrdering a <code>list</code>, they expect
+<code>character</code> vectors to be mixedSorted and factors to be
+sorted by level.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-88-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-88-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/mixedSort.html">mixedSort()</a></code>, <code><a href="../reference/mixedOrder.html">mixedOrder()</a></code>.
+<code><a href="../reference/mmixedOrder.html">mmixedOrder()</a></code>, <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code></p>
+<ul><li>
+<p><strong>gasp</strong> These core functions were ignoring
+<code>honorFactor=FALSE</code> and were instead always keeping factor
+level order without imposing its own sort order.</p>
+<ul><li><p>The intent was to use <code>honorFactor=FALSE</code>, which was
+supposed to be consistent with previous versions of jamba. However,
+other dependent Jam functions became somewhat reliant on unintended
+behavior which represents <code>honorFactor=TRUE</code>. This behavior
+is most important for uses of <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> which is
+expected to honor factor level order by default. This expectation
+enables other assumptions about the order of values. That said, specific
+errors have been rare or non-existent thus far.</p></li>
+<li><p>A “problem” arises only in R versions before R-4.0.0, where
+default R-3.6.1 <code>options(stringsAsFactors=TRUE)</code> causes
+<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> to convert <code>character</code> to
+<code>factor</code>. During the conversion, factor level order is
+defined using vanilla <code><a href="https://rdrr.io/pkg/BiocGenerics/man/sort.html" class="external-link">sort()</a></code>. Therefore, using
+<code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> appears to use vanilla sort order by honoring
+the factor level order, but only in cases where the
+<code>data.frame</code> was created by a method that did not override
+<code>options(stringsAsFactors=TRUE)</code> for consistency. So the use
+of <code>honorFactor=TRUE</code> by <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> causes an
+edge case of inconsistent order for some <code>data.frame</code>
+objects, dependent upon the value of
+<code>getOption("stringsAsFactors")</code>.</p></li>
+<li>
+<p>The resolution to above issues:</p>
+<ul><li>
+<code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> should continue to do what is expected,
+which in my opinion is to honor factor order by default; and</li>
+<li>other functions which carelessly enable
+<code>stringsAsFactors=TRUE</code> to wreack havoc should themselves be
+fixed. “Check yourself, before you wreck yourself.” I shouldn’t have
+said that.</li>
+</ul></li>
+</ul></li>
+<li>
+<p>So the resolution overall is to have different defaults for
+<code>honorFactor</code>, even though it seems improper. I argue that it
+is proper:</p>
+<ol style="list-style-type: decimal"><li>
+<code>mixedSort(..., honorFactor=FALSE)</code> because someone
+calling <code><a href="../reference/mixedSort.html">mixedSort()</a></code> is doing so for the benefit of
+mixedSort behavior, otherwise they can call <code><a href="https://rdrr.io/pkg/BiocGenerics/man/sort.html" class="external-link">sort()</a></code> on a
+<code>factor</code> and get the same result as
+<code>mixedSort(..., honorFactor=TRUE)</code>. Therefore I think
+<code>honorFactor=FALSE</code> is expected for a vector.</li>
+<li>
+<code>mixedSortDF(..., honorFactor=TRUE)</code> because someone
+calling <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> is doing so for the benefit of
+sorting <code>character</code> columns using <code><a href="../reference/mixedSort.html">mixedSort()</a></code>
+logic, otherwise their <code>factor</code> columns are assumed to have
+carefully (let’s hope) constructed factor <code>levels</code>. And since
+those factor <code>levels</code> are so dear to the analyst, their order
+will be maintained when sorting a multi-column <code>data.frame</code>.
+(Or equivalent tibble, DataFrame, etc.) Therefore I think
+<code>honorFactor=TRUE</code> is expected for a
+<code>data.frame</code>.</li>
+<li>
+<code>mixedOrder(..., honorFactor=FALSE)</code>, due to vector
+context.</li>
+<li>
+<code>mixedSorts(..., honorFactor=TRUE)</code>, due to list
+context.</li>
+<li>
+<code>mmixedOrder(..., honorFactor=TRUE)</code>, due to list
+context.</li>
+</ol></li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-0-0-88-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-88-900"></a></h3>
+<ul><li><code>jam_calc_density()</code></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.87.900" id="jamba-version-0087900">jamba version 0.0.87.900<a class="anchor" aria-label="anchor" href="#jamba-version-0087900"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-87-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-87-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/cPaste.html">cPaste()</a></code> was not properly enforcing
+<code>na.rm=TRUE</code>, which caused <code>NA</code> values to be
+converted into <code>"NA"</code>. The bug also affected
+<code><a href="../reference/cPasteS.html">cPasteS()</a></code>, <code><a href="../reference/cPasteU.html">cPasteU()</a></code>, and
+<code><a href="../reference/cPasteSU.html">cPasteSU()</a></code>, along with dependent functions in the
+<code>genejam</code> package.</p>
+<ul><li>
+<code><a href="../reference/cPaste.html">cPaste()</a></code> now calls <code><a href="../reference/rmNAs.html">rmNAs()</a></code> when
+<code>na.rm=TRUE</code>, to remove <code>NA</code> values in relatively
+efficient manner across the input list <code>x</code>.</li>
+<li>
+<code><a href="../reference/cPaste.html">cPaste()</a></code> new argument <code>useLegacy</code> will
+optionally enable the previous code, which was optimized for
+<code>list</code> that contain vectors with identical classes
+throughout. It had the limitation that it did not preserve factor level
+order, and sometimes converted factor to <code>character</code> in mixed
+<code>list</code>.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-function-0-0-87-900">new function<a class="anchor" aria-label="anchor" href="#new-function-0-0-87-900"></a></h3>
+<ul><li>
+<code><a href="../reference/rmNAs.html">rmNAs()</a></code> is an extension of <code><a href="../reference/rmNA.html">rmNA()</a></code> applied
+to <code>list</code> input. It is intended to be slightly faster than
+iterating each <code>list</code> element, however for now it iterates
+every element that contains an <code>NA</code> value, in order to
+preserve the class of each vector.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.86.900" id="jamba-version-0086900">jamba version 0.0.86.900<a class="anchor" aria-label="anchor" href="#jamba-version-0086900"></a></h2>
 <div class="section level3">

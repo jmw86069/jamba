@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>check lightMode for light background color</h1>
-    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba.r" class="external-link"><code>R/jamba.r</code></a></small>
+    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-clrange.R" class="external-link"><code>R/jamba-clrange.R</code></a></small>
     <div class="hidden name"><code>checkLightMode.Rd</code></div>
     </div>
 
@@ -89,7 +89,6 @@ to the relevant R script.</p>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other jam practical functions: 
-<code><a href="applyCLrange.html">applyCLrange</a>()</code>,
 <code><a href="breakDensity.html">breakDensity</a>()</code>,
 <code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
 <code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
@@ -97,7 +96,6 @@ to the relevant R script.</p>
 <code><a href="diff_functions.html">diff_functions</a>()</code>,
 <code><a href="exp2signed.html">exp2signed</a>()</code>,
 <code><a href="fileInfo.html">fileInfo</a>()</code>,
-<code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
 <code><a href="fixYellow.html">fixYellow</a>()</code>,
 <code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
 <code><a href="handleArgsText.html">handleArgsText</a>()</code>,
@@ -119,12 +117,12 @@ to the relevant R script.</p>
 <code><a href="printDebug.html">printDebug</a>()</code>,
 <code><a href="renameColumn.html">renameColumn</a>()</code>,
 <code><a href="rmInfinite.html">rmInfinite</a>()</code>,
+<code><a href="rmNAs.html">rmNAs</a>()</code>,
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
 <code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setCLranges.html">setCLranges</a>()</code>,
 <code><a href="setPrompt.html">setPrompt</a>()</code>,
 <code><a href="ssdima.html">ssdima</a>()</code>,
 <code><a href="ssdim.html">ssdim</a>()</code></p></div>
@@ -134,7 +132,7 @@ to the relevant R script.</p>
     <div id="examples">
     <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">checkLightMode</span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span class="fu">checkLightMode</span><span class="op">(</span><span class="op">)</span>;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"></span>

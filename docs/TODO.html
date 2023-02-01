@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -58,6 +58,140 @@
 
 <div id="todo-for-jamba" class="section level1">
 
+<div class="section level2">
+<h2 id="10jan2023">10jan2023<a class="anchor" aria-label="anchor" href="#10jan2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code></p>
+<ul><li>Categorical colors are assigned with <code>colorSub</code>, but
+should also be compatible with <code>color_list</code> output from
+<code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code> (soon to be moved into
+<code>colorjam</code>).</li>
+<li>It should apply color to <code>row.names</code> when they are
+displayed.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="28nov2022">28nov2022<a class="anchor" aria-label="anchor" href="#28nov2022"></a></h2>
+<ul><li>
+<p><code><a href="reference/jargs.html">jargs()</a></code></p>
+<ul><li>
+<p>it fails when functions follow the troubled paradigm for
+generics, e.g.:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>some_func <span class="ot">&lt;-</span> <span class="cf">function</span>(object, ...){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   .local <span class="ot">&lt;-</span> <span class="cf">function</span>(object, arg1, arg2, arg3);</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">.local</span>(object, ...)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</li>
+<li><p>Design idea: Figure out a way to “sniff” out these
+arguments.</p></li>
+<li><p>Eval the function body, look for function named
+<code>.local</code></p></li>
+<li><p>It will fail for functions that call
+<code>UseMethod("mean")</code>, which requires the object class in order
+to search generics using the form <code>function.class1()</code>, where
+<code>class1</code> is the first <code>"character"</code> value from
+<code>class(object)</code>. Optionally, <code>jargs_internal()</code>
+could have argument <code>class</code> or <code>object</code> to guide
+it to the appropriate method based upon the <code>class</code> or
+<code>class(object)</code>.</p></li>
+<li>
+<p>Driving example: <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">ComplexHeatmap::draw()</a></code></p>
+<ul><li>can be found with <code>names(findMethods("draw"))</code>, for class
+<code>"Heatmap"</code>, <code>"HeatmapAnnotation"</code>, and several
+others.</li>
+<li>
+<code>args(findMethods("draw")$Heatmap)</code> will show
+<code>function(object, ...)</code>
+</li>
+<li>however the function body defines <code>.local</code> as a
+<code>function</code>
+</li>
+</ul></li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="14nov2022">14nov2022<a class="anchor" aria-label="anchor" href="#14nov2022"></a></h2>
+<ul><li>
+<p><code><a href="reference/jargs.html">jargs()</a></code> is janky for some functions, for example
+arguments that begin with parentheses. Other non-standard formatting has
+previously caused problems, but examples like embedded functions appear
+to work fine.</p>
+<ul><li>Example that works: <code><a href="https://rdrr.io/pkg/jamses/man/heatmap_se.html" class="external-link">jamses::heatmap_se()</a></code> argument
+<code>cluster_rows=function(x, ...){ amap::hcluster(x, ...) }</code>.
+Actually, this one fails to insert a comma between internal function
+arguments. Sigh.</li>
+<li>Example that fails: <code><a href="https://rdrr.io/pkg/multienrichjam/man/layout_with_qfr.html" class="external-link">multienrichjam::layout_with_qfr()</a></code>
+argument <code>repulse.rad=(igraph::vcount(g)^repulse)</code>
+</li>
+<li>Design idea: write a test routine that calls
+<code><a href="reference/jargs.html">jamba::jargs()</a></code> on all functions in a package, captures text
+output, then searches for any argument that spans multiple lines. Then
+print a visual summary to check for potential problems.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="19oct2022">19oct2022<a class="anchor" aria-label="anchor" href="#19oct2022"></a></h2>
+<ul><li>
+<p><code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code> throws an error when column headers
+do not align with subsequent data. Insert filler column headers.</p>
+<ul><li>Easiest workaround is change default to
+<code>check_header=FALSE</code>
+</li>
+<li>The <code>check_header=TRUE</code> logic should change, the intent
+is to detect when one row of additional header is above column headers,
+usually seen with lower ncol, however sometimes real data has fewer ncol
+because the last column(s) contain empty cells.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="14oct2022">14oct2022<a class="anchor" aria-label="anchor" href="#14oct2022"></a></h2>
+<ul><li>
+<code><a href="reference/renameColumn.html">renameColumn()</a></code> should accept <code>integer</code>
+values for <code>from</code> to indicate column indexes. The driving use
+case is a matrix that lacks colnames,
+<code>renameColumn(x, from=1:4, to=letters[1:4])</code>. Internally
+convert <code>integer</code> or <code>numeric</code> values in
+<code>from</code> to <code>colnames(x)</code> or when
+<code>length(colnames(x)) == 0</code> assign
+<code>colnames(x) &lt;- seq_len(ncol(x))</code>,, then convert
+<code>from &lt;- as.character(from)</code>.</li>
+</ul></div>
+<div class="section level2">
+<h2 id="04oct2022">04oct2022<a class="anchor" aria-label="anchor" href="#04oct2022"></a></h2>
+<ul><li>
+<p><code><a href="reference/jargs.html">jargs()</a></code></p>
+<ul><li>Option for multiple columns, for those functions with many
+arguments. Requires some estimate of the number of console columns, or
+user-defined.</li>
+</ul></li>
+<li>
+<p><code>jamsplom()</code></p>
+<ul><li>new custom function that I still use often outside the Jam package
+context, useful enough to be added to jamba for convenience. It’s as
+useful as <code>plotPolygoDensity()</code>,
+<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>, <code><a href="reference/plotRidges.html">plotRidges()</a></code>, somewhat
+combined.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="27sep2022">27sep2022<a class="anchor" aria-label="anchor" href="#27sep2022"></a></h2>
+<ul><li>
+<code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> does not work with time class such as
+<code>"POSIXct"</code>, although <code><a href="reference/mixedSort.html">mixedSort()</a></code> does work.
+Coersion with <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric()</a></code> should suffice as a
+workaround.</li>
+</ul></div>
+<div class="section level2">
+<h2 id="01sep2022">01sep2022<a class="anchor" aria-label="anchor" href="#01sep2022"></a></h2>
+<ul><li>
+<p><code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code></p>
+<ul><li>add option not to include colnames, equivalent of
+<code>colNames=FALSE</code>. This option will skip the step that loads
+colnames separately.</li>
+<li>debug argument <code>rows</code>
+</li>
+</ul></li>
+</ul></div>
 <div class="section level2">
 <h2 id="26jul2022">26jul2022<a class="anchor" aria-label="anchor" href="#26jul2022"></a></h2>
 <ul><li>

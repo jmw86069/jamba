@@ -8,14 +8,13 @@ plotPolygonDensity(
   x,
   doHistogram = TRUE,
   doPolygon = TRUE,
-  barCol = "#00337799",
   col = NULL,
-  histBorder = makeColorDarker(barCol, darkFactor = 1.5),
-  colAlphas = c(0.8, 0.6, 0.9),
-  hueShift = -0.1,
-  darkFactors = c(-1.3, 1, 3),
+  barCol = "#00337799",
   polyCol = "#00449977",
   polyBorder = makeColorDarker(polyCol),
+  histBorder = makeColorDarker(barCol, darkFactor = 1.5),
+  colAlphas = c(0.8, 0.6, 0.9),
+  darkFactors = c(-1.3, 1, 3),
   lwd = 2,
   las = 2,
   u5.bias = 0,
@@ -33,9 +32,10 @@ plotPolygonDensity(
   main = "Histogram distribution",
   xaxs = "i",
   yaxs = "i",
+  xlab = "",
+  ylab = "",
   log = NULL,
   xScale = c("default", "log10", "sqrt"),
-  logFloorMethod = c("detect", "+1", "floor1", "none"),
   usePanels = TRUE,
   useOnePanel = FALSE,
   ablineV = NULL,
@@ -48,84 +48,159 @@ plotPolygonDensity(
   add = FALSE,
   ylimQuantile = 0.99,
   ylim = NULL,
+  xlim = NULL,
   highlightPoints = NULL,
-  highlightCol = "yellow",
+  highlightCol = "gold",
   verbose = FALSE,
   ...
 )
 }
 \arguments{
-\item{x}{numeric vector, or numeric matrix.}
+\item{x}{\code{numeric} vector, or \code{numeric} matrix. When a matrix is
+provided, each column in the matrix is used as its own data source.}
 
-\item{doHistogram}{logical indicating whether to plot histogram bars.}
+\item{doHistogram}{\code{logical} indicating whether to plot histogram bars.}
 
-\item{doPolygon}{logical indicating whether to plot the density polygon.}
+\item{doPolygon}{\code{logical} indicating whether to plot the density polygon.}
 
-\item{barCol, polyCol, polyBorder, histBorder}{colors used when \code{col} is
-not supplied. They define colors for the histogram bars, polygon
-fill, polygon border, and histogram bar border, respectively.}
+\item{col}{\code{character} color, or when \code{x} is supplied as a matrix,
+a vector of colors is applied to across plot panels.
+Note that \code{col} will override all colors defined for \code{barCol}, \code{polyCol},
+\code{histBorder}, \code{polyBorder}.}
 
-\item{col}{color or vector of colors to apply to plot panels.}
+\item{barCol, polyCol, polyBorder, histBorder}{\code{character} colors used
+when \code{col} is not supplied.
+They define colors for the histogram bars, polygon fill,
+polygon border, and histogram bar border, respectively.}
 
-\item{u5.bias, pretty.n}{parameters sent to \code{base::pretty()} for axis
-label positioning.}
+\item{colAlphas}{\code{numeric} vector with length 3, indicating the alpha
+transparency to use for histogram bar fill, polygon density fill,
+and border color, respectively.
+Alpha transparency should be scaled between 0 (fully transparent)
+and 1 (fully opaque).
+These alpha transparency values are applied to each color in \code{col}
+when \code{col} is defined.}
 
-\item{bw}{text bandwidth name, used in the density calculation, sent
-to \code{jamba::breakDensity()}. By default \code{stats::density()} calls a
-very smooth density kernel, which obscures finer details. By default,
+\item{darkFactors}{\code{numeric} used to adjust colors when \code{col} is defined.
+Values are applied to histogram bar fill, polygon density fill,
+and border color, respectively, by calling \code{makeColorDarker()}.}
+
+\item{lwd}{\code{numeric} line width.}
+
+\item{las}{\code{integer} used to define axis label orientation.}
+
+\item{u5.bias, pretty.n}{\code{numeric} arguments passed to to \code{base::pretty()}
+to define pretty axis label positions.}
+
+\item{bw}{\code{character} string of the bandwidth name to use in the
+density calculation, passed to \code{jamba::breakDensity()}.
+By default \code{stats::density()} calls a very smooth density kernel,
+which obscures finer details, so the default in
 \code{jamba::breakDensity()} uses a more detailed kernel.}
 
-\item{breaks}{numeric breaks sent to \code{hist} to define the number of
-histogram bars.}
+\item{breaks}{\code{numeric} breaks sent to \code{hist} to define the number of
+histogram bars. It can be in the form of a single \code{integer} number
+of equidistant breaks, or a \code{numeric} vector with specific break
+positions, but remember to include a starting value lower the the
+lowest value in \code{x}, and an ending value higher than the highest
+value in \code{x}. Passed to \code{breakDensity()}.}
 
-\item{densityBreaksFactor}{numeric factor controlling the level of
-detail in the density, sent to \code{jamba::breakDensity()}.}
+\item{width}{\code{numeric} passed to \code{breakDensity()}.}
 
-\item{log}{character vector, optionally containing "x" and/or "y" to
-apply the appropriate transformation. If "x" then it sets
-\code{xScale="log10"}.}
+\item{densityBreaksFactor}{\code{numeric} scaling factor to control
+the level of detail in the density, passed to \code{breakDensity()}.}
 
-\item{xScale}{character string defining the x-axis transformation:
-"default" applies no transform; "log10" applies a log10 transform;
-"sqrt" applies a sqrt transform.}
+\item{axisFunc}{\code{function} optionally used in place of \code{axis()} to define
+axis labels.}
 
-\item{usePanels}{logical indicating whether to separate
+\item{bty}{\code{character} string used to define the plot box shape,
+see \code{box()}.}
+
+\item{cex.axis}{\code{numeric} scalar to adjust axis label font size.}
+
+\item{doPar}{\code{logical} indicating whether to apply \code{par()}, specifically
+when \code{x} is supplied as a multi-column matrix. When \code{doPar=FALSE},
+no panels nor margin adjustments are made at all.}
+
+\item{heightFactor}{\code{numeric} value indicating the height of the y-axis
+plot scale to use when scaling the histogram and polygon density
+within each plot panel.}
+
+\item{weightFactor}{\code{numeric} passed to \code{breakDensity()}.}
+
+\item{main}{\code{character} title to display above the plot, used only when
+\code{x} is supplied as a single \code{numeric} vector. Otherwise each plot
+title uses the relevant \code{colnames(x)} value.}
+
+\item{xaxs, yaxs}{\code{character} string indicating the type of x-axis and
+y-axis to render, see \code{par()}.}
+
+\item{xlab, ylab}{\code{character} labels for x-axis and y-axis, respectively.}
+
+\item{log}{\code{character} vector, optionally containing \code{"x"} and/or \code{"y"} to
+to indicate which axes are log-transformed. If \code{"x" \%in\% log}
+then it sets \code{xScale="log10"}, both methods are equivalent in
+defining the log-transformation of the x-axis.}
+
+\item{xScale}{\code{character} string to define the x-axis transformation:
+\itemize{
+\item \code{"default"} applies no transform;
+\item \code{"log10"} applies a log10 transform, specifically \code{log10(x + 1)}
+\item \code{"sqrt"} applies a sqrt transform.
+}}
+
+\item{usePanels}{\code{logical} indicating whether to separate
 the density plots into panels when \code{x} contains multiple columns.
 When \code{useOnePanel=FALSE} the panels will be defined so that all
 columns will fit on one page.}
 
-\item{useOnePanel}{logical indicating whether to define multiple panels
+\item{useOnePanel}{\code{logical} indicating whether to define multiple panels
 on one page. Therefore \code{useOnePanel=TRUE} will create multiple
 pages with one panel on each page, which may work well for
 output in multi-page PDF files.}
 
-\item{ablineV, ablineH}{abline vertical and horizontal positions,
-respectively. These values are mostly helpful in multi-panel plots,
-since they draw consistent lines on each panel.}
+\item{ablineV, ablineH}{\code{numeric} vector representing abline
+vertical and horizontal positions, respectively.
+These values are mostly helpful in multi-panel plots,
+to draw consistent reference lines on each panel.}
 
-\item{removeNA}{logical indicating whether to remove NA values
+\item{ablineVlty, ablineHlty}{\code{numeric} or \code{character} indicating the
+line type to use for \code{ablineV} and \code{ablineH}, respectively.}
+
+\item{removeNA}{\code{logical} indicating whether to remove NA values
 prior to running histogram and density calculations. Presence
 of NA values generally causes both functions to fail.}
 
-\item{ylimQuantile}{numeric value between 0 and 1, indicating the
+\item{add}{\code{logical} indicating whether to add the plot to an existing
+visualization.}
+
+\item{ylimQuantile}{\code{numeric} value between 0 and 1, indicating the
 quantile value of the density \code{y} values to use for the ylim. This
 threshold is only applied when \code{ylim} is NULL.}
 
-\item{ylim, xlim}{numeric y-axis and x-axis ranges, respectively. When NULL,
-the x-axis range is determined for each plot panel.}
+\item{ylim, xlim}{\code{numeric} y-axis and x-axis ranges, respectively.
+When either is \code{NULL}, the axis range is determined independently
+for each plot panel. Either value can be supplied as a \code{list}
+to control the numeric range for each individual plot, relevant
+only when \code{x} is supplied as a multi-column matrix.}
 
-\item{highlightPoints}{optional vector with either integer
-values to indicate row numbers, or character values matching
-\code{rownames(x)} or \code{names(x)} if \code{x} is a numeric vector.
+\item{highlightPoints}{\code{character} vector of optional rownames,
+or \code{integer} values with row indices, for rows to be highlighted.
 When \code{x} is supplied as a \code{matrix}, \code{highlightPoints} can
-be a list of vectors, referring to each column in \code{x}.}
+be supplied as a \code{list} of vectors, referring to each column in \code{x}.
+When rows are highlighted, the plot is drawn with all points,
+then the highlighted points are drawn again over the histogram bars,
+and polygon density, as relevant.}
 
-\item{highlightCol}{character vector of highlight colors to
+\item{highlightCol}{\code{character} vector of colors to
 use to fill the histogram when \code{highlightPoints} is supplied.
 Multiple values are recycled one per column in \code{x},
-as needed.}
+if \code{x} is supplied as a multi-column matrix.}
 
-\item{verbose}{logical indicating whether to print verbose output.}
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
+
+\item{...}{additional arguments are passed to relevant internal
+functions.}
 }
 \description{
 Plot distribution and histogram overlay
@@ -160,6 +235,7 @@ with \code{polyCol}.
 }
 \examples{
 # basic density plot
+set.seed(123);
 x <- rnorm(2000);
 plotPolygonDensity(x, main="basic polygon density plot");
 
@@ -174,10 +250,11 @@ plotPolygonDensity(10^(3+rnorm(2000)), log="x",
    main="log-scaled x-axis");
 
 # highlighted points
+set.seed(123);
 plotPolygonDensity(x,
-   highlightPoints=which(x > 1),
+   highlightPoints=sample(which(abs(x) > 1), size=200),
    breaks=40,
-   main="breaks=20");
+   main="breaks=40");
 
 }
 \seealso{

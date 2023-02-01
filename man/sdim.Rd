@@ -64,7 +64,6 @@ sdim(L);
 }
 \seealso{
 Other jam practical functions: 
-\code{\link{applyCLrange}()},
 \code{\link{breakDensity}()},
 \code{\link{checkLightMode}()},
 \code{\link{check_pkg_installed}()},
@@ -73,7 +72,6 @@ Other jam practical functions:
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fileInfo}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
@@ -100,7 +98,6 @@ Other jam practical functions:
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdima}()},
-\code{\link{setCLranges}()},
 \code{\link{setPrompt}()},
 \code{\link{ssdima}()},
 \code{\link{ssdim}()}

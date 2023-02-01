@@ -6,6 +6,22 @@
 \usage{
 mergeAllXY(...)
 }
+\arguments{
+\item{...}{arguments are handled as described:
+\itemize{
+\item named arguments are passed through to \code{base::merge.data.frame()},
+with the exception of \code{all.x} and \code{all.y} which are both defined
+\code{all.x=TRUE} and \code{all.y=TRUE}.
+and all other arguments are assumed
+to be \code{data.frame} or equivalent, and are merged in order they
+appear as arguments. The order of these \code{data.frame} objects
+should not affect the output content, but will affect the row
+and column order of the resulting \code{data.frame}.
+}}
+}
+\value{
+\code{data.frame} after iterative calls to \code{base::merge.data.frame()}.
+}
 \description{
 Merge list of data.frames retaining all rows
 }
@@ -15,9 +31,70 @@ except that it allows more than two data.frame objects,
 and applies default arguments \code{all.x=TRUE} and \code{all.y=TRUE}
 for each merge operation to ensure that all rows are kept.
 }
+\examples{
+df1 <- data.frame(City=c("New York", "Los Angeles", "San Francisco"),
+   State=c("New York", "California", "California"))
+df2 <- data.frame(Team=c("Yankees", "Mets", "Giants", "Dodgers"),
+   City=c("New York", "New York", "San Francisco", "Los Angeles"))
+df3 <- data.frame(State=c("New York", "California"),
+   `State Population`=c(39.24e9, 8.468e9),
+   check.names=FALSE)
+mergeAllXY(df1, df3, df2)
+
+df4 <- data.frame(check.names=FALSE,
+   CellLine=rep(c("ul3", "dH1A", "dH1B"), each=2),
+   Treatment=c("Vehicle", "Dex"))
+df4$CellLine <- factor(df4$CellLine,
+   levels=c("ul3", "dH1A", "dH1B"))
+df4$Treatment <- factor(df4$Treatment,
+   levels=c("Vehicle", "Dex"))
+df5 <- data.frame(
+   Treatment=rep(c("Vehicle", "Dex"), each=3),
+   Time=c("0h", "12h", "24h"))
+df6 <- data.frame(check.names=FALSE,
+   CellLine=c("ul3", "dH1A", "dH1B"),
+   Type=c("Control", "KO", "KO"))
+mergeAllXY(df4, df5, df6)
+
+# note the factor order is maintained
+mergeAllXY(df4, df5, df6)$CellLine
+mergeAllXY(df4, df5)$Treatment
+
+# merge "all" can append rows to a data.frame
+df4b <- data.frame(check.names=FALSE,
+   CellLine=rep("dH1C", 2),
+   Treatment=c("Vehicle", "Dex"))
+mergeAllXY(df4, df4b)
+
+# factor order is maintained, new levels are appended
+mergeAllXY(df4, df4b)$CellLine
+
+# merge proceeds except shows missing data
+mergeAllXY(df4, df4b, df5, df6)
+
+# note that appending rows is tricky, the following is incorrect
+df6b <- data.frame(check.names=FALSE,
+   CellLine="dH1C",
+   Type="KO")
+mergeAllXY(df4, df4b, df5, df6, df6b)
+
+# but it can be resolved by merging df6 and df6b
+mergeAllXY(df4, df4b, df5, mergeAllXY(df6, df6b))
+
+# it may be easier to recognize by sorting with mixedSortDF()
+mixedSortDF(honorFactor=TRUE,
+   mergeAllXY(df4, df4b, df5, mergeAllXY(df6, df6b)))
+
+# again, factor order is maintained
+mergeAllXY(df4, df4b, df5, sort=FALSE, mergeAllXY(df6, df6b))$CellLine
+
+# the result can be sorted properly
+mixedSortDF(honorFactor=TRUE,
+   mergeAllXY(df4, df4b, df5, mergeAllXY(df6, df6b)))
+
+}
 \seealso{
 Other jam practical functions: 
-\code{\link{applyCLrange}()},
 \code{\link{breakDensity}()},
 \code{\link{checkLightMode}()},
 \code{\link{check_pkg_installed}()},
@@ -26,7 +103,6 @@ Other jam practical functions:
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fileInfo}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
@@ -53,7 +129,6 @@ Other jam practical functions:
 \code{\link{sclass}()},
 \code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setCLranges}()},
 \code{\link{setPrompt}()},
 \code{\link{ssdima}()},
 \code{\link{ssdim}()}

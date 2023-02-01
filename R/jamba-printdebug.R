@@ -5,16 +5,38 @@
 #'
 #' This function prints colorized output to the R console, with some
 #' rules for colorizing the output to help visually distinguish items.
-#' Its output also by default begins with comment '#' characters, a
-#' datetimestamp, so it the output is copied back into the R console it
-#' will not cause a new command to be run.
 #'
-#' The colorization uses a vector or list of colors for fgText (foreground)
-#' and bgText (background.), applied to each item in '...'. When an item in
-#' '...' is a vector, each vector element is colored alternating light
-#' and dark from that base color, to give visual indication of each element.
-#' The next item in '...' receives the next color from fgText, and so on.
-#' Colors in fgText are recycled to the length of '...'
+#' The main intent is to use this function to print pretty debug messages,
+#' because color helps identify.
+#'
+#' By default, output has the following configurable properties:
+#' * each line begins with a comment '#' characters
+#' with argument `comment=TRUE` or `options("jam.comment"=TRUE)` so that
+#' the output can be copied and pasted and without causing new commands
+#' to be run.
+#' * each line includes time and date stamp (`timeStamp=TRUE`)
+#' * each line formats `numeric` values (`formatNumbers=TRUE` or
+#' `options("jam.formatNumbers"=TRUE)`)
+#' * each `list` is printed with its own foreground color (`fgText`)
+#' and background color (`bgText`), recycled to accommodate all `list`
+#' arguments to be printed; within each list, the color brightness
+#' is adjusted for slightly lighter and darker color to delineate
+#' each item in the vector. The lightness effect is used to help
+#' visualize multiple values.
+#'
+#' Additional convenience rules:
+#' * For convenience, when the last `...` argument is a `character` vector
+#' of colors, it is assumed to be `fgText`.
+#' * When the only entry in `...` is a `character` vector of R colors,
+#' the names are printed using the color vector for `fgText`, or if no
+#' names exist the colors are printed using the color vector for `fgText`.
+#' * For `printDebugI()` or `invert=TRUE`, colors typically assigned to
+#' `fgText` are instead assigned to `bgText`.
+#' * For very specific color assignments, `fgText` and/or `bgText` can be
+#' defined as a `list` of `character` vectors of R colors, in which case
+#' the `list` overall is recycled to the length `...` to be printed,
+#' and within each vector of `...` printed the corresponding color vector
+#' is recycled to the length of that vector.
 #'
 #' For use inside Rmarkdown `.Rmd` documents, current recommendation is
 #' to define the R output with `results='asis'` like this:
@@ -198,6 +220,7 @@
 printDebug <- function
 (...,
  fgText=NULL,#c("orange", "lightblue"),
+ fgDefault=c("darkorange1", "dodgerblue"),
  bgText=NULL,
  fgTime="cyan",
  timeStamp=TRUE,
@@ -220,7 +243,7 @@ printDebug <- function
  dex=2,
  darkFactor=c(1,1.5),
  sFactor=c(1,1.5),
- lightMode=NULL,
+ lightMode=checkLightMode(),
  Crange=getOption("jam.Crange"),
  Lrange=getOption("jam.Lrange"),
  removeNA=FALSE,
@@ -284,15 +307,21 @@ printDebug <- function
    }
 
    ## Check lightMode, whether the background color is light or not
-   CLranges <- setCLranges(lightMode=lightMode,
-      Crange=Crange,
-      Lrange=Lrange,
-      adjustRgb=adjustRgb);
-   if (length(adjustRgb) == 0) {
+   if (length(lightMode) == 0 && length(Crange) > 0 && length(Lrange) > 0) {
+      # use them as-is
+      if (length(adjustRgb) == 0) {
+         adjustRgb <- CLranges$adjustRgb;
+      }
+   } else {
+      CLranges <- setCLranges(lightMode=lightMode,
+         Crange=Crange,
+         Lrange=Lrange,
+         adjustRgb=adjustRgb,
+         setOptions="FALSE");
       adjustRgb <- CLranges$adjustRgb;
+      Crange <- CLranges$Crange;
+      Lrange <- CLranges$Lrange;
    }
-   Crange <- CLranges$Crange;
-   Lrange <- CLranges$Lrange;
 
    if (length(darkFactor) <= 1) {
       darkFactor <- c(1, darkFactor);
@@ -307,19 +336,29 @@ printDebug <- function
    ## Determine if the color values have been defined
    if (length(fgText) == 0) {
       fgTextBase <- tail(rmNULL(xList), 1);
-      if (igrepHas("list", class(fgTextBase[[1]]))) {
-         fgTextBase <- unlist(fgTextBase, recursive=FALSE);
+      if (length(names(fgTextBase)) > 0) {
+         fgTextBaseIsColor <- FALSE;
+      } else {
+         if (igrepHas("list", class(fgTextBase[[1]]))) {
+            fgTextBase <- unlist(fgTextBase, recursive=FALSE);
+         }
+         if (!is.list(fgTextBase[[1]])) {
+            # it may contain colors and NA, but must contain at least one color
+            fgTextBaseIsColor <- all(sapply(fgTextBase, function(i){
+               icolor <- isColor(i)
+               (length(rmNA(i)) > 0 && all(icolor[!is.na(i)]))
+            }));
+         } else {
+            fgTextBaseIsColor <- FALSE;
+         }
       }
-      fgTextBaseIsColor <- sapply(fgTextBase, function(i){
-         all(rmNA(isColor(i)));
-      });
       if (fgTextBaseIsColor) {
          fgText <- fgTextBase;
          fgText <- unlist(fgText, recursive=FALSE);
          xList <- head(rmNULL(xList), -1);
       } else {
          if (length(bgText) == 0) {
-            fgText <- c("darkorange1", "dodgerblue");
+            fgText <- fgDefault;
          } else {
             fgText <- c(NA);
          }
@@ -367,6 +406,7 @@ printDebug <- function
          doReset=doReset,
          detectColors=detectColors,
          dex=dex,
+         lightMode=NULL,
          Lrange=Lrange,
          Crange=Crange,
          removeNA=removeNA,
@@ -452,30 +492,7 @@ printDebug <- function
                ## If the color is dark, make the off-color lighter,
                ## if the color is bright, make the off-color darker
                iL <- col2hcl(iColor)["L",];
-               if (1 == 2) {
-                  if (iL < 70) {
-                     useDarkFactor <- darkFactor * -1;
-                  } else {
-                     useDarkFactor <- darkFactor;
-                  }
-                  iColor <- rep(
-                     makeColorDarker(darkFactor=useDarkFactor,
-                        sFactor=c(sFactor),
-                        iColor,
-                        keepNA=keepNA),
-                     length.out=xListSlength[i]);
-               } else if (head(dex, 1) > 0) {
-                  # if (iL < 70) {
-                  #    ik <- 1;
-                  # } else if (iL > 90) {
-                  #    ik <- 4;
-                  # } else {
-                  #    ik <- 3;
-                  # }
-                  # iColor <- rep(
-                  #    c(iColor,
-                  #       color2gradient(iColor, n=4, dex=dex)[ik]),
-                  #    length.out=xListSlength[i]);
+               if (head(dex, 1) > 0) {
                   iColor <- rep(
                      color_dither(iColor,
                         min_contrast=1.1 + dex/10),
@@ -503,17 +520,6 @@ printDebug <- function
                } else if (length(iColor) == 1) {
                   iL <- col2hcl(iColor)["L",];
                   if (head(dex, 1) > 0) {
-                     # if (iL < 70) {
-                     #    ik <- 1;
-                     # } else if (iL > 90) {
-                     #    ik <- 4;
-                     # } else {
-                     #    ik <- 3;
-                     # }
-                     # iColor <- rep(
-                     #    c(iColor,
-                     #       color2gradient(iColor, n=4, dex=dex)[ik]),
-                     #    length.out=xListSlength[i]);
                      iColor <- rep(
                         color_dither(iColor,
                            min_contrast=1.1 + dex / 10),
@@ -525,12 +531,6 @@ printDebug <- function
                   if (any(iColor_na)) {
                      iColor[iColor_na] <- NA;
                   }
-                  # iColor <- rep(
-                  #    makeColorDarker(darkFactor=c(darkFactor),
-                  #       sFactor=c(sFactor),
-                  #       iColor,
-                  #       keepNA=keepNA),
-                  #    length.out=xListSlength[i]);
                } else {
                   iColor <- rep(iColor,
                      length.out=xListSlength[i]);
@@ -675,6 +675,7 @@ printDebug <- function
                   lightMode=lightMode,
                   Lrange=Lrange,
                   Crange=Crange,
+                  setOptions="FALSE",
                   verbose=verbose>1,
                   text=format(Sys.time(), "%H:%M:%S")),
                ") ", format(Sys.time(), "%d%b%Y"), ": "), collapse="");
@@ -695,6 +696,7 @@ printDebug <- function
                lightMode=lightMode,
                Lrange=Lrange,
                Crange=Crange,
+               setOptions="FALSE",
                adjustRgb=adjustRgb);
             new_string;
          }), collapse=collapse);

@@ -11,7 +11,7 @@ imageDefault(
   zlim = range(z[is.finite(z)]),
   xlim = range(x),
   ylim = range(y),
-  col = heat.colors(12),
+  col = grDevices::hcl.colors(12, "YlOrRd", rev = TRUE),
   add = FALSE,
   xaxs = "i",
   yaxs = "i",
@@ -127,7 +127,7 @@ known in the default \code{\link[graphics]{image}} function as \code{oldstyle=TR
 For consistency, \code{imageDefault} will only accept \code{oldstyle=TRUE}.
 }
 \examples{
-plotSmoothScatter(doTest=TRUE)
+ps <- plotSmoothScatter(doTest=TRUE)
 
 }
 \seealso{

@@ -91,6 +91,19 @@ x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
 sort(x);
 mixedSort(x);
 
+# test honorFactor
+mixedSort(factor(c("Cnot9", "Cnot8", "Cnot10")))
+mixedSort(factor(c("Cnot9", "Cnot8", "Cnot10")), honorFactor=TRUE)
+
+# test ignore.case
+mixedSort(factor(c("Cnot9", "Cnot8", "CNOT9", "Cnot10")))
+mixedSort(factor(c("CNOT9", "Cnot8", "Cnot9", "Cnot10")))
+mixedSort(factor(c("Cnot9", "Cnot8", "CNOT9", "Cnot10")), ignore.case=FALSE)
+mixedSort(factor(c("Cnot9", "Cnot8", "CNOT9", "Cnot10")), ignore.case=TRUE)
+
+mixedSort(factor(c("Cnot9", "Cnot8", "CNOT9", "Cnot10")), useCaseTiebreak=TRUE)
+mixedSort(factor(c("CNOT9", "Cnot8", "Cnot9", "Cnot10")), useCaseTiebreak=FALSE)
+
 }
 \seealso{
 Other jam sort functions: 

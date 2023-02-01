@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -66,14 +66,13 @@
   <span class="va">x</span>,
   doHistogram <span class="op">=</span> <span class="cn">TRUE</span>,
   doPolygon <span class="op">=</span> <span class="cn">TRUE</span>,
-  barCol <span class="op">=</span> <span class="st">"#00337799"</span>,
   col <span class="op">=</span> <span class="cn">NULL</span>,
-  histBorder <span class="op">=</span> <span class="fu"><a href="makeColorDarker.html">makeColorDarker</a></span><span class="op">(</span><span class="va">barCol</span>, darkFactor <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span>,
-  colAlphas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span><span class="op">)</span>,
-  hueShift <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>,
-  darkFactors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.3</span>, <span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>,
+  barCol <span class="op">=</span> <span class="st">"#00337799"</span>,
   polyCol <span class="op">=</span> <span class="st">"#00449977"</span>,
   polyBorder <span class="op">=</span> <span class="fu"><a href="makeColorDarker.html">makeColorDarker</a></span><span class="op">(</span><span class="va">polyCol</span><span class="op">)</span>,
+  histBorder <span class="op">=</span> <span class="fu"><a href="makeColorDarker.html">makeColorDarker</a></span><span class="op">(</span><span class="va">barCol</span>, darkFactor <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span>,
+  colAlphas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span><span class="op">)</span>,
+  darkFactors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.3</span>, <span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>,
   lwd <span class="op">=</span> <span class="fl">2</span>,
   las <span class="op">=</span> <span class="fl">2</span>,
   u5.bias <span class="op">=</span> <span class="fl">0</span>,
@@ -91,9 +90,10 @@
   main <span class="op">=</span> <span class="st">"Histogram distribution"</span>,
   xaxs <span class="op">=</span> <span class="st">"i"</span>,
   yaxs <span class="op">=</span> <span class="st">"i"</span>,
+  xlab <span class="op">=</span> <span class="st">""</span>,
+  ylab <span class="op">=</span> <span class="st">""</span>,
   log <span class="op">=</span> <span class="cn">NULL</span>,
   xScale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"log10"</span>, <span class="st">"sqrt"</span><span class="op">)</span>,
-  logFloorMethod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"detect"</span>, <span class="st">"+1"</span>, <span class="st">"floor1"</span>, <span class="st">"none"</span><span class="op">)</span>,
   usePanels <span class="op">=</span> <span class="cn">TRUE</span>,
   useOnePanel <span class="op">=</span> <span class="cn">FALSE</span>,
   ablineV <span class="op">=</span> <span class="cn">NULL</span>,
@@ -106,8 +106,9 @@
   add <span class="op">=</span> <span class="cn">FALSE</span>,
   ylimQuantile <span class="op">=</span> <span class="fl">0.99</span>,
   ylim <span class="op">=</span> <span class="cn">NULL</span>,
+  xlim <span class="op">=</span> <span class="cn">NULL</span>,
   highlightPoints <span class="op">=</span> <span class="cn">NULL</span>,
-  highlightCol <span class="op">=</span> <span class="st">"yellow"</span>,
+  highlightCol <span class="op">=</span> <span class="st">"gold"</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -116,77 +117,149 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>numeric vector, or numeric matrix.</p></dd>
+<dd><p><code>numeric</code> vector, or <code>numeric</code> matrix. When a matrix is
+provided, each column in the matrix is used as its own data source.</p></dd>
 <dt>doHistogram</dt>
-<dd><p>logical indicating whether to plot histogram bars.</p></dd>
+<dd><p><code>logical</code> indicating whether to plot histogram bars.</p></dd>
 <dt>doPolygon</dt>
-<dd><p>logical indicating whether to plot the density polygon.</p></dd>
-<dt>barCol, polyCol, polyBorder, histBorder</dt>
-<dd><p>colors used when <code>col</code> is
-not supplied. They define colors for the histogram bars, polygon
-fill, polygon border, and histogram bar border, respectively.</p></dd>
+<dd><p><code>logical</code> indicating whether to plot the density polygon.</p></dd>
 <dt>col</dt>
-<dd><p>color or vector of colors to apply to plot panels.</p></dd>
+<dd><p><code>character</code> color, or when <code>x</code> is supplied as a matrix,
+a vector of colors is applied to across plot panels.
+Note that <code>col</code> will override all colors defined for <code>barCol</code>, <code>polyCol</code>,
+<code>histBorder</code>, <code>polyBorder</code>.</p></dd>
+<dt>barCol, polyCol, polyBorder, histBorder</dt>
+<dd><p><code>character</code> colors used
+when <code>col</code> is not supplied.
+They define colors for the histogram bars, polygon fill,
+polygon border, and histogram bar border, respectively.</p></dd>
+<dt>colAlphas</dt>
+<dd><p><code>numeric</code> vector with length 3, indicating the alpha
+transparency to use for histogram bar fill, polygon density fill,
+and border color, respectively.
+Alpha transparency should be scaled between 0 (fully transparent)
+and 1 (fully opaque).
+These alpha transparency values are applied to each color in <code>col</code>
+when <code>col</code> is defined.</p></dd>
+<dt>darkFactors</dt>
+<dd><p><code>numeric</code> used to adjust colors when <code>col</code> is defined.
+Values are applied to histogram bar fill, polygon density fill,
+and border color, respectively, by calling <code><a href="makeColorDarker.html">makeColorDarker()</a></code>.</p></dd>
+<dt>lwd</dt>
+<dd><p><code>numeric</code> line width.</p></dd>
+<dt>las</dt>
+<dd><p><code>integer</code> used to define axis label orientation.</p></dd>
 <dt>u5.bias, pretty.n</dt>
-<dd><p>parameters sent to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">base::pretty()</a></code> for axis
-label positioning.</p></dd>
+<dd><p><code>numeric</code> arguments passed to to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">base::pretty()</a></code>
+to define pretty axis label positions.</p></dd>
 <dt>bw</dt>
-<dd><p>text bandwidth name, used in the density calculation, sent
-to <code><a href="breakDensity.html">jamba::breakDensity()</a></code>. By default <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">stats::density()</a></code> calls a
-very smooth density kernel, which obscures finer details. By default,
+<dd><p><code>character</code> string of the bandwidth name to use in the
+density calculation, passed to <code><a href="breakDensity.html">jamba::breakDensity()</a></code>.
+By default <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">stats::density()</a></code> calls a very smooth density kernel,
+which obscures finer details, so the default in
 <code><a href="breakDensity.html">jamba::breakDensity()</a></code> uses a more detailed kernel.</p></dd>
 <dt>breaks</dt>
-<dd><p>numeric breaks sent to <code>hist</code> to define the number of
-histogram bars.</p></dd>
+<dd><p><code>numeric</code> breaks sent to <code>hist</code> to define the number of
+histogram bars. It can be in the form of a single <code>integer</code> number
+of equidistant breaks, or a <code>numeric</code> vector with specific break
+positions, but remember to include a starting value lower the the
+lowest value in <code>x</code>, and an ending value higher than the highest
+value in <code>x</code>. Passed to <code><a href="breakDensity.html">breakDensity()</a></code>.</p></dd>
+<dt>width</dt>
+<dd><p><code>numeric</code> passed to <code><a href="breakDensity.html">breakDensity()</a></code>.</p></dd>
 <dt>densityBreaksFactor</dt>
-<dd><p>numeric factor controlling the level of
-detail in the density, sent to <code><a href="breakDensity.html">jamba::breakDensity()</a></code>.</p></dd>
+<dd><p><code>numeric</code> scaling factor to control
+the level of detail in the density, passed to <code><a href="breakDensity.html">breakDensity()</a></code>.</p></dd>
+<dt>axisFunc</dt>
+<dd><p><code>function</code> optionally used in place of <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis()</a></code> to define
+axis labels.</p></dd>
+<dt>bty</dt>
+<dd><p><code>character</code> string used to define the plot box shape,
+see <code><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box()</a></code>.</p></dd>
+<dt>cex.axis</dt>
+<dd><p><code>numeric</code> scalar to adjust axis label font size.</p></dd>
+<dt>doPar</dt>
+<dd><p><code>logical</code> indicating whether to apply <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code>, specifically
+when <code>x</code> is supplied as a multi-column matrix. When <code>doPar=FALSE</code>,
+no panels nor margin adjustments are made at all.</p></dd>
+<dt>heightFactor</dt>
+<dd><p><code>numeric</code> value indicating the height of the y-axis
+plot scale to use when scaling the histogram and polygon density
+within each plot panel.</p></dd>
+<dt>weightFactor</dt>
+<dd><p><code>numeric</code> passed to <code><a href="breakDensity.html">breakDensity()</a></code>.</p></dd>
+<dt>main</dt>
+<dd><p><code>character</code> title to display above the plot, used only when
+<code>x</code> is supplied as a single <code>numeric</code> vector. Otherwise each plot
+title uses the relevant <code>colnames(x)</code> value.</p></dd>
+<dt>xaxs, yaxs</dt>
+<dd><p><code>character</code> string indicating the type of x-axis and
+y-axis to render, see <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code>.</p></dd>
+<dt>xlab, ylab</dt>
+<dd><p><code>character</code> labels for x-axis and y-axis, respectively.</p></dd>
 <dt>log</dt>
-<dd><p>character vector, optionally containing "x" and/or "y" to
-apply the appropriate transformation. If "x" then it sets
-<code>xScale="log10"</code>.</p></dd>
+<dd><p><code>character</code> vector, optionally containing <code>"x"</code> and/or <code>"y"</code> to
+to indicate which axes are log-transformed. If <code>"x" %in% log</code>
+then it sets <code>xScale="log10"</code>, both methods are equivalent in
+defining the log-transformation of the x-axis.</p></dd>
 <dt>xScale</dt>
-<dd><p>character string defining the x-axis transformation:
-"default" applies no transform; "log10" applies a log10 transform;
-"sqrt" applies a sqrt transform.</p></dd>
+<dd><p><code>character</code> string to define the x-axis transformation:</p><ul><li><p><code>"default"</code> applies no transform;</p></li>
+<li><p><code>"log10"</code> applies a log10 transform, specifically <code>log10(x + 1)</code></p></li>
+<li><p><code>"sqrt"</code> applies a sqrt transform.</p></li>
+</ul></dd>
 <dt>usePanels</dt>
-<dd><p>logical indicating whether to separate
+<dd><p><code>logical</code> indicating whether to separate
 the density plots into panels when <code>x</code> contains multiple columns.
 When <code>useOnePanel=FALSE</code> the panels will be defined so that all
 columns will fit on one page.</p></dd>
 <dt>useOnePanel</dt>
-<dd><p>logical indicating whether to define multiple panels
+<dd><p><code>logical</code> indicating whether to define multiple panels
 on one page. Therefore <code>useOnePanel=TRUE</code> will create multiple
 pages with one panel on each page, which may work well for
 output in multi-page PDF files.</p></dd>
 <dt>ablineV, ablineH</dt>
-<dd><p>abline vertical and horizontal positions,
-respectively. These values are mostly helpful in multi-panel plots,
-since they draw consistent lines on each panel.</p></dd>
+<dd><p><code>numeric</code> vector representing abline
+vertical and horizontal positions, respectively.
+These values are mostly helpful in multi-panel plots,
+to draw consistent reference lines on each panel.</p></dd>
+<dt>ablineVlty, ablineHlty</dt>
+<dd><p><code>numeric</code> or <code>character</code> indicating the
+line type to use for <code>ablineV</code> and <code>ablineH</code>, respectively.</p></dd>
 <dt>removeNA</dt>
-<dd><p>logical indicating whether to remove NA values
+<dd><p><code>logical</code> indicating whether to remove NA values
 prior to running histogram and density calculations. Presence
 of NA values generally causes both functions to fail.</p></dd>
+<dt>add</dt>
+<dd><p><code>logical</code> indicating whether to add the plot to an existing
+visualization.</p></dd>
 <dt>ylimQuantile</dt>
-<dd><p>numeric value between 0 and 1, indicating the
+<dd><p><code>numeric</code> value between 0 and 1, indicating the
 quantile value of the density <code>y</code> values to use for the ylim. This
 threshold is only applied when <code>ylim</code> is NULL.</p></dd>
 <dt>ylim, xlim</dt>
-<dd><p>numeric y-axis and x-axis ranges, respectively. When NULL,
-the x-axis range is determined for each plot panel.</p></dd>
+<dd><p><code>numeric</code> y-axis and x-axis ranges, respectively.
+When either is <code>NULL</code>, the axis range is determined independently
+for each plot panel. Either value can be supplied as a <code>list</code>
+to control the numeric range for each individual plot, relevant
+only when <code>x</code> is supplied as a multi-column matrix.</p></dd>
 <dt>highlightPoints</dt>
-<dd><p>optional vector with either integer
-values to indicate row numbers, or character values matching
-<code>rownames(x)</code> or <code>names(x)</code> if <code>x</code> is a numeric vector.
+<dd><p><code>character</code> vector of optional rownames,
+or <code>integer</code> values with row indices, for rows to be highlighted.
 When <code>x</code> is supplied as a <code>matrix</code>, <code>highlightPoints</code> can
-be a list of vectors, referring to each column in <code>x</code>.</p></dd>
+be supplied as a <code>list</code> of vectors, referring to each column in <code>x</code>.
+When rows are highlighted, the plot is drawn with all points,
+then the highlighted points are drawn again over the histogram bars,
+and polygon density, as relevant.</p></dd>
 <dt>highlightCol</dt>
-<dd><p>character vector of highlight colors to
+<dd><p><code>character</code> vector of colors to
 use to fill the histogram when <code>highlightPoints</code> is supplied.
 Multiple values are recycled one per column in <code>x</code>,
-as needed.</p></dd>
+if <code>x</code> is supplied as a multi-column matrix.</p></dd>
 <dt>verbose</dt>
-<dd><p>logical indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+<dt>...</dt>
+<dd><p>additional arguments are passed to relevant internal
+functions.</p></dd>
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -238,6 +311,7 @@ with <code>polyCol</code>.</p>
     <div id="examples">
     <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># basic density plot</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="fu">plotPolygonDensity</span><span class="op">(</span><span class="va">x</span>, main<span class="op">=</span><span class="st">"basic polygon density plot"</span><span class="op">)</span>;</span>
 <span class="r-plt img"><img src="plotPolygonDensity-1.png" alt="" width="700" height="433"></span>
@@ -255,10 +329,11 @@ with <code>polyCol</code>.</p>
 <span class="r-plt img"><img src="plotPolygonDensity-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># highlighted points</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
 <span class="r-in"><span class="fu">plotPolygonDensity</span><span class="op">(</span><span class="va">x</span>,</span>
-<span class="r-in">   highlightPoints<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span class="r-in">   highlightPoints<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">200</span><span class="op">)</span>,</span>
 <span class="r-in">   breaks<span class="op">=</span><span class="fl">40</span>,</span>
-<span class="r-in">   main<span class="op">=</span><span class="st">"breaks=20"</span><span class="op">)</span>;</span>
+<span class="r-in">   main<span class="op">=</span><span class="st">"breaks=40"</span><span class="op">)</span>;</span>
 <span class="r-plt img"><img src="plotPolygonDensity-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 </code></pre></div>

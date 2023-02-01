@@ -30,16 +30,22 @@
 #' @param x numeric vector, or data matrix with two or  more columns.
 #' @param y numeric vector, or if data is supplied via x as a matrix, y
 #'    is NULL.
-#' @param bandwidthN integer number of bandwidth steps to use across the
+#' @param bwpi `numeric` value indicating the bandwidth "per inch"
+#'    to scale the bandwidth based upon visual space available.
+#'    This argument is used to define `bandwidthN`, however `bwpi`
+#'    is only used when `bandwidthN=NULL`.
+#'    The bandwidth is used to define the 2-dimensional point density.
+#' @param binpi `numeric` value indicating the number of bins "per inch",
+#'    to scale based upon visual space available.
+#'    This argument is used to define `nbin`, however `binpi`
+#'    is only used when `nbin=NULL`.
+#' @param bandwidthN `integer` number of bandwidth steps to use across the
 #'    visible plot window. Note that this bandwidth differs from default
 #'    `graphics::smoothScatter()` in that it uses the visible
 #'    plot window instead of the data range, so if the plot window is not
 #'    sufficiently similar to the data range, the resulting smoothed
 #'    density will not be visibly distorted. This parameter also permits
 #'    display of higher (or lower) level of detail.
-#' @param bwpi `numeric` value indicating the desired bandwidth "per inch"
-#'    which effectively scales the bandwidth based upon relative visual
-#'    space available. Note that `bwpi` is only used when `bandwidthN=NULL`.
 #' @param nbin `integer` number of bins to use when converting the kernel
 #'    density result (which uses bandwidthN above) into a usable image.
 #'    This setting is effectively the resolution of rendering the
@@ -48,14 +54,11 @@
 #'    plot panel; and `nbin=32` will create 32 visible pixels, with
 #'    lower detail which may be suitable for multi-panel plots.
 #'    To use a variable number of bins, try `binpi`.
-#' @param binpi `numeric` value indicating the desired number of bins
-#'    as used by `nbin`, but scaled `"per inch"` of plot space so
-#'    smaller plot panels will still only display a reasonably consistent
-#'    number of visible pixels.
 #' @param expand `numeric` value indicating the fraction of the x-axis
-#'    and y-axis range to add to create an expanded range. The default
-#'    `expand=c(0.04, 0.04)` mimics the R base plot default which adds
-#'    4 percent, 2 percent to each side of the visible range.
+#'    and y-axis ranges to add to create an expanded range,
+#'    used when `add=FALSE`. The default `expand=c(0.04, 0.04)` mimics
+#'    the R base plot default which adds 4 percent total, therefore 2 percent
+#'    to each side of the visible range.
 #' @param transFactor `numeric` value used by the default `transformation`
 #'    function, which effectively scales the density of points to
 #'    a reasonable visible distribution. This argument is a convenience
@@ -66,19 +69,19 @@
 #'    supplied, it will not use `transFactor` unless specified.
 #' @param xlim `numeric` x-axis range, or `NULL` to use the data range.
 #' @param ylim `numeric` y-axis range, or `NULL` to use the data range.
+#' @param xlab,ylab `character` labels for x- and y-axis, respectively.
 #' @param nrpoints `integer` number of outlier datapoints to display,
-#'    as defined by the hidden but very useful
-#'    `grDevices:::.smoothScatterCalcDensity()`.
-#'    The base `graphics::smoothScatter()` default is `nrpoints=100`,
-#'    perhaps intended to overcome the default over-smoothing
-#'    of data which results in large areas not displaying density. This
-#'    default is `nrpoints=0`, since the new default `bandwidthN` parameter
-#'    typically already indicates these points.
-#' @param colramp one of several inputs recognized by
-#'    `getColorRamp()`: a `character` vector with multiple colors;
-#'    a single `character` color used to create a color gradient;
-#'    a `character` name of a known color gradient from `RColorBrewer`
-#'    or `viridis`; or a `function` that itself produces vector of colors,
+#'    as defined by `graphics::smoothScatter()`, however the default here
+#'    is `nrpoints=0` to avoid additional clutter in the output,
+#'    and because the default arguments `bwpi`, `binpi` usually indicate all
+#'    individual points.
+#' @param colramp any input recognized by `getColorRamp()`:
+#'    * `character` vector with multiple colors
+#'    * `character` string length 1, with valid R color used to create
+#'    a linear color gradient
+#'    * `character` name of a known color gradient from `RColorBrewer`
+#'    or `viridis`
+#'    * `function` that itself produces vector of colors,
 #'    in the form `function(n)` where `n` defines the number of colors.
 #' @param col `character` string with R color used when `nrpoints` is
 #'    non-zero, this color defines the color of those points.
@@ -89,9 +92,11 @@
 #'    The default `fillBackground=TRUE` is useful since the plot panel
 #'    may be slightly wider than the range of data being displayed, and
 #'    when the first color in `colramp` is not the same as the plot device
-#'    background color. Run a test using
+#'    background color.
+#'    Run a test using:
 #'    `plotSmoothScatter(doTest=TRUE, fillBackground=FALSE, colramp="viridis")`
-#'    and compare with `plotSmoothScatter(doTest=TRUE, colramp="viridis")`.
+#'    and compare with:
+#'    `plotSmoothScatter(doTest=TRUE, colramp="viridis")`
 #' @param naAction `character` string indicating how to handle NA values,
 #'    typically when x is NA and y is not NA, or vice versa. valid values:
 #'    \describe{
@@ -105,9 +110,9 @@
 #'    was plotting gene fold changes from two experiments, where the two
 #'    experiments may not have measured the same genes.
 #' @param xaxt `character` value compatible with par(xaxt), used to control
-#'    the x-axis range, similar to its use in plot(...) generic functions.
+#'    the x-axis range, similar to its use in `plot()` generic functions.
 #' @param yaxt `character` value compatible with par(yaxt), used to control
-#'    the y-axis range, similar to its use in plot(...) generic functions.
+#'    the y-axis range, similar to its use in `plot()` generic functions.
 #' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
 #' @param applyRangeCeiling `logical` indicating how to handle points outside
@@ -127,16 +132,15 @@
 #'       would obscure these points.}
 #'    }
 #' @param useRaster `logical` indicating whether to produce plots using the
-#'    `graphics::rasterImage() function which produces a plot
+#'    `graphics::rasterImage()` function which produces a plot
 #'    raster image offline then scales this image to visible plot space.
-#'    This technique is two benefits: it produces substantially faster
-#'    plot output, with substantially fewer plot objects which results
+#'    This technique has two benefits:
+#'    1. It produces substantially faster plot output.
+#'    2. Output contains substantially fewer plot objects, which results
 #'    in much smaller file sizes when saving in PDF or SVG format.
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are passed to called functions,
 #'    including `getColorRamp()`, `nullPlot()`, `smoothScatterJam()`.
-#'
-#' @seealso `smoothScatterJam()`,`graphics::smoothScatter()`
 #'
 #' @examples
 #' # doTest=TRUE invisibly returns the test data
@@ -146,17 +150,19 @@
 #' colnames(x) <- c("column_1", "column_2")
 #' plotSmoothScatter(x, colramp="inferno");
 #'
+#' plotPolygonDensity(x);
+#'
 #' @export
 plotSmoothScatter <- function
 (x,
  y=NULL,
- bandwidthN=NULL,
  bwpi=50,
- nbin=NULL,
  binpi=50,
+ bandwidthN=NULL,
+ nbin=NULL,
  expand=c(0.04, 0.04),
  transFactor=0.25,
- transformation=function(x)x^0.25,
+ transformation=function(x)x^transFactor,
  xlim=NULL,
  ylim=NULL,
  xlab=NULL,
@@ -249,7 +255,7 @@ plotSmoothScatter <- function
          fillBackground=fillBackground,
          main="plotSmoothScatter (using colramp blues9)",
          ...);
-      plotSmoothScatter(x2,
+      xy <- plotSmoothScatter(x2,
          colramp=colramp,
          bwpi=bwpi * 1.5,
          bandwidthN=bandwidthN * 1.5,
@@ -369,7 +375,8 @@ plotSmoothScatter <- function
       if (length(bwpi) == 0) {
          bwpi <- 30;
       }
-      bandwidthXY <- c(diff(xlim4) / (par("pin")[1] * bwpi),
+      bandwidthXY <- c(
+         diff(xlim4) / (par("pin")[1] * bwpi),
          diff(ylim4) / (par("pin")[2] * bwpi));
    }
    if (length(nbin) == 0) {
@@ -387,7 +394,7 @@ plotSmoothScatter <- function
       jamba::printDebug("nbin: ", nbin);
    }
 
-   smoothScatterJam(x=x,
+   ssj <- smoothScatterJam(x=x,
       y=y,
       add=TRUE,
       transformation=transformation,
@@ -405,6 +412,7 @@ plotSmoothScatter <- function
       useRaster=useRaster,
       ...);
 
+   return(invisible(ssj));
    invisible(list(x=x,
       y=y,
       transformation=transformation,
@@ -436,10 +444,7 @@ plotSmoothScatter <- function
 #' Instead, this function calls `imageDefault()` which is required
 #' in order to utilize custom raster image scaling, particularly important
 #' when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
-#' 10 units, but the y-axis spans 10,000 units. The bulk of this function
-#' and its parameters are simply copied from
-#' `smoothScatter()` for consistency with the parent
-#' function, with due credit and respect to its authors.
+#' 10 units, but the y-axis spans 10,000 units.
 #'
 #' @family jam plot functions
 #'
@@ -452,20 +457,21 @@ plotSmoothScatter <- function
 #'    `graphics::smoothScatter()`, however the
 #'    `plotSmoothScatter()` function default is higher (256).
 #' @param bandwidth `numeric` vector used to define the y- and x-axis
-#'    bandwidths, respectively, for the hidden but very useful
-#'    `grDevices:::.smoothScatterCalcDensity()`
-#'    function, which calculates the underlying 2-dimensional kernel
-#'    density of data points. This parameter is also why the
-#'    wrapper function `plotSmoothScatter()` was created, in
-#'    order to avoid ever having to define this parameter directly.
+#'    bandwidths, respectively, passed to `KernSmooth::bkde2D()`,
+#'    which calculates the underlying 2-dimensional kernel density.
+#'    The `plotSmoothScatter()` function was motivated by never wanting
+#'    to define this number directly, instead auto-calculation suitable
+#'    values.
+#' @param colramp `function` that takes one `numeric` argument and returns
+#'    that integer number of colors, by default 256.
 #' @param nrpoints `integer` number of outlier datapoints to display,
-#'    as defined by the hidden but very useful
-#'    `grDevices:::.smoothScatterCalcDensity()`
-#'    function. The base `graphics::smoothScatter()` function
-#'    plots 100 such points, perhaps to overcome the default over-smoothing
-#'    of data which results in large areas not displaying density. The
-#'    default here is zero, since the new default bandwidthN parameter
-#'    typically already indicates these points.
+#'    as defined by `graphics::smoothScatter()`, however the default here
+#'    is `nrpoints=0` to avoid additional clutter in the output,
+#'    and because the default argument `bandwidthN` usually indicates all
+#'    individual points.
+#' @param pch point shape used when `nrpoints>0`.
+#' @param cex `numeric` point size expansion factor used when `nrpoints>0`.
+#' @param col `character` R color used when `nrpoints>0`.
 #' @param transformation `function` which converts point density to a number,
 #'    typically related to square root or cube root transformation.
 #' @param postPlotHook is `NULL` for no post-plot hook, or a `function` which
@@ -476,7 +482,7 @@ plotSmoothScatter <- function
 #' @param ylab `character` y-axis label
 #' @param xlim `numeric` x-axis range for the plot
 #' @param ylim `numeric` y-axis range for the plot
-#' @param add logical whether to add to an existing active R plot, or create
+#' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
 #' @param xaxs `character` value compatible with `par("xaxs")`, mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
@@ -499,6 +505,8 @@ plotSmoothScatter <- function
 #'    using `getOption("preferRaster", FALSE)` to determine among
 #'    other things, whether the user prefers raster images, and if the
 #'    `dev.capabilities()` supports raster.
+#' @param ... additional arguments are passed to `imageDefault()` and
+#'    optionally to `plotPlotHook()` when supplied.
 #'
 #' @seealso `graphics::smoothScatter()`
 #'
@@ -508,8 +516,11 @@ smoothScatterJam <- function
  y=NULL,
  nbin=256,
  bandwidth,
- colramp=colorRampPalette(c("#FFFFFF","#6BAED6","#9ECAE1",
-    "#2171B5","#4292C6","#08306B","#08519C","#C6DBEF","#DEEBF7","#F7FBFF")),
+ colramp=colorRampPalette(c("white",
+    "lightblue",
+    "blue",
+    "orange",
+    "orangered2")),
  nrpoints=100,
  pch=".",
  cex=1,
@@ -572,16 +583,47 @@ smoothScatterJam <- function
    } else {
       ylim <- range(x[, 2]);
    }
-   map <- grDevices:::.smoothScatterCalcDensity(x, nbin, bandwidth);
+
+   # calculate point density
+   map <- jamCalcDensity(x=x,
+      nbin=nbin,
+      bandwidth=bandwidth);
    xm <- map$x1;
    ym <- map$x2;
    dens <- map$fhat;
    dens[] <- transformation(dens);
-   imageDefault(xm, ym, z=dens, col=colramp(256), xlab=xlab, add=add,
-      ylab=ylab, xlim=xlim, ylim=ylim, xaxs=xaxs, yaxs=yaxs, xaxt=xaxt, yaxt=yaxt,
-      useRaster=useRaster, ...);
-   imageL <- list(xm=xm, ym=ym, z=dens, col=colramp(256), xlab=xlab, add=add,
-      ylab=ylab, xlim=xlim, ylim=ylim, xaxs=xaxs, yaxs=yaxs, xaxt=xaxt, yaxt=yaxt);
+
+   # initialize the plot
+   imageDefault(xm,
+      ym,
+      z=dens,
+      col=colramp(256),
+      xlab=xlab,
+      add=add,
+      ylab=ylab,
+      xlim=xlim,
+      ylim=ylim,
+      xaxs=xaxs,
+      yaxs=yaxs,
+      xaxt=xaxt,
+      yaxt=yaxt,
+      useRaster=useRaster,
+      ...);
+
+   # create list with data used
+   imageL <- list(xm=xm,
+      ym=ym,
+      z=dens,
+      col=colramp(256),
+      xlab=xlab,
+      add=add,
+      ylab=ylab,
+      xlim=xlim,
+      ylim=ylim,
+      xaxs=xaxs,
+      yaxs=yaxs,
+      xaxt=xaxt,
+      yaxt=yaxt);
    if (length(postPlotHook) > 0) {
       if (igrepHas("function", class(postPlotHook))) {
          postPlotHook(...);
@@ -596,7 +638,10 @@ smoothScatterJam <- function
       ixm <- 1L + as.integer((nx - 1) * (x[, 1] - xm[1])/(xm[nx] - xm[1]));
       iym <- 1L + as.integer((ny - 1) * (x[, 2] - ym[1])/(ym[ny] - ym[1]));
       sel <- order(dens[cbind(ixm, iym)])[seq_len(nrpoints)];
-      points(x[sel,], pch=pch, cex=cex, col=col);
+      points(x[sel,, drop=FALSE],
+         pch=pch,
+         cex=cex,
+         col=col);
    }
    invisible(imageL);
 }
@@ -985,7 +1030,7 @@ usrBox <- function
 #' @seealso \code{\link[graphics]{image}}
 #'
 #' @examples
-#' plotSmoothScatter(doTest=TRUE)
+#' ps <- plotSmoothScatter(doTest=TRUE)
 #'
 #' @export
 imageDefault <- function
@@ -995,7 +1040,7 @@ imageDefault <- function
  zlim=range(z[is.finite(z)]),
  xlim=range(x),
  ylim=range(y),
- col=heat.colors(12),
+ col=grDevices::hcl.colors(12, "YlOrRd",  rev=TRUE),
  add=FALSE,
  xaxs="i",
  yaxs="i",
@@ -1043,19 +1088,6 @@ imageDefault <- function
    if (!is.null(rasterTarget)) {
       rasterTarget <- rep(rasterTarget, length.out=2);
    }
-   if (length(minRasterMultiple) == 0) {
-      if (!is.null(rasterTarget)) {
-         minRasterMultiple <- c(ceiling(rasterTarget[1]/ncol(z)),
-            ceiling(rasterTarget[2]/nrow(z)));
-      } else {
-         minRasterMultiple <- c(1,1);
-      }
-   } else {
-      minRasterMultiple <- rep(minRasterMultiple, length.out=2);
-   }
-   if (verbose) {
-      printDebug("minRasterMultiple:", minRasterMultiple);
-   }
    if (!is.null(maxRatioFix)) {
       maxRatioFix <- rep(maxRatioFix, length.out=2);
    }
@@ -1076,6 +1108,8 @@ imageDefault <- function
             }
             z <- x;
             x <- seq.int(0, 1, length.out=nrow(z));
+            # 14dec2022
+            y <- seq.int(0, 1, length.out=ncol(z));
          }
          if (missing(xlab)) {
             xlab <- "";
@@ -1088,8 +1122,8 @@ imageDefault <- function
       }
    } else if (is.list(x)) {
       if (verbose) {
-         printDebug("imageDefault(): ",
-            c("!missing(z),","is.list(x)"));
+         jamba::printDebug("imageDefault(): ",
+            c("!missing(z)","is.list(x)"));
       }
       xn <- deparse(substitute(x))
       if (missing(xlab)) {
@@ -1103,7 +1137,7 @@ imageDefault <- function
    } else {
       if (verbose) {
          printDebug("imageDefault(): ",
-            c("!missing(z),","!is.list(x)"));
+            c("!missing(z)","!is.list(x)"));
       }
       if (missing(xlab))
          if (missing(x)) {
@@ -1155,6 +1189,19 @@ imageDefault <- function
          y[-length(y)] + dy,
          y[length(y)] + dy[length(y) - 1]
       );
+      if (verbose) {
+         printDebug("imageDefault(): ",
+            "redefined y using diff(y)/2",
+            ", length(y):",
+            length(y));
+      }
+   } else {
+      if (verbose) {
+         printDebug("imageDefault(): ",
+            "did not redefine y using diff(y)/2",
+            ", length(y):",
+            length(y));
+      }
    }
    if (missing(breaks)) {
       nc <- length(col);
@@ -1182,13 +1229,11 @@ imageDefault <- function
       if (any(!is.finite(breaks))) {
          stop("breaks must all be finite");
       }
-      if (R.version["major"] < 3) {
-         zi <- .C("bincode", as.double(z), length(z), as.double(breaks),
-            length(breaks), code=integer(length(z)), (TRUE),
-            (TRUE), nok=TRUE, NAOK=TRUE, DUP=FALSE, PACKAGE="base")$code - 1;
-      } else {
-         zi <- .bincode(z, breaks, TRUE, TRUE) - 1L;
-      }
+      # remove check for R version < 3
+      zi <- .bincode(x=z,
+         breaks=breaks,
+         right=TRUE,
+         include.lowest=TRUE) - 1L;
    }
    if (igrepHas("y", flip)) {
       ylim <- rev(ylim);
@@ -1227,15 +1272,28 @@ imageDefault <- function
    if (length(x) != nrow(z) + 1 || length(y) != ncol(z) + 1) {
       stop("dimensions of z are not length(x)(-1) times length(y)(-1)");
    }
+   if (length(minRasterMultiple) == 0) {
+      if (!is.null(rasterTarget)) {
+         minRasterMultiple <- c(ceiling(rasterTarget[1]/ncol(z)),
+            ceiling(rasterTarget[2]/nrow(z)));
+      } else {
+         minRasterMultiple <- c(1, 1);
+      }
+   } else {
+      minRasterMultiple <- rep(minRasterMultiple, length.out=2);
+   }
+   if (verbose) {
+      printDebug("minRasterMultiple:", minRasterMultiple);
+   }
    check_irregular <- function(x, y) {
       dx <- diff(x);
       dy <- diff(y);
       (
          length(dx) &&
-         !isTRUE(all.equal(dx, rep(dx[1], length(dx))))
+            !isTRUE(all.equal(dx, rep(dx[1], length(dx))))
       ) || (
          length(dy) &&
-         !isTRUE(all.equal(dy, rep(dy[1], length(dy))))
+            !isTRUE(all.equal(dy, rep(dy[1], length(dy))))
       );
    }
    if (is.null(useRaster)) {
@@ -1263,7 +1321,6 @@ imageDefault <- function
       ##
       ## First we'll only handle when there is more than 2:1 ratio. Everything
       ## else is close enough not to bother
-      #if (class(x) %in% c("matrix")) {
       if (verbose) {
          printDebug("imageDefault(): ",
             "dim(z): ", dim(z));
@@ -1360,6 +1417,11 @@ imageDefault <- function
          newRows <- rep(1:(length(y)-1), each=dupRowX);
          yNrowSeq <- seq(from=0.5, to=(length(y)-1)+0.5,
             length.out=length(newRows)+1);
+         ## 14dec2022 modify so the y range is same as before
+         # yNrowSeq <- normScale(yNrowSeq,
+         #    from=min(y),
+         #    to=max(y));
+
          newRowBreaks <- breaksByVector(newRows);
          newRowLabels <- newRowBreaks$newLabels;
          dim(zi) <- dim(z);
@@ -1382,13 +1444,36 @@ imageDefault <- function
       zc <- col[zi + 1L];
       dim(zc) <- dim(z);
       zc <- t(zc)[ncol(zc):1L, , drop=FALSE];
-      rasterImage(as.raster(zc), min(x), min(y), max(x), max(y),
+      rasterImage(image=as.raster(zc),
+         xleft=min(x),
+         ybottom=min(y),
+         xright=max(x),
+         ytop=max(y),
          interpolate=interpolate);
-      #invisible(zc);
-      invisible(list(zc=zc, x=x, y=y, zi=zi, col=col));
+      return(invisible(list(
+         x=x,
+         y=y,
+         zi=zi,
+         col=col,
+         zc=zc)))
    } else {
-      .External.graphics(graphics:::C_image, x, y, zi, col);
-      invisible(list(x=x, y=y, zi=zi, col=col));
+      # call image.default() and let it render non-rasterized output
+      graphics::image.default(x=x,
+         y=y,
+         z=zi,
+         col=col,
+         add=TRUE,
+         breaks=breaks,
+         oldstyle=oldstyle,
+         useRaster=FALSE,
+         ...)
+      # .External.graphics(graphics:::C_image, x, y, zi, col);
+      return(invisible(list(
+         x=x,
+         y=y,
+         zi=zi,
+         col=col,
+         zc=NULL)))
    }
 }
 
@@ -1762,61 +1847,117 @@ adjustAxisLabelMargins <- function
 #'
 #' @family jam plot functions
 #'
-#' @param x numeric vector, or numeric matrix.
-#' @param doHistogram logical indicating whether to plot histogram bars.
-#' @param doPolygon logical indicating whether to plot the density polygon.
-#' @param col color or vector of colors to apply to plot panels.
-#' @param barCol,polyCol,polyBorder,histBorder colors used when `col` is
-#'    not supplied. They define colors for the histogram bars, polygon
-#'    fill, polygon border, and histogram bar border, respectively.
-#' @param breaks numeric breaks sent to `hist` to define the number of
-#'    histogram bars.
-#' @param u5.bias,pretty.n parameters sent to `base::pretty()` for axis
-#'    label positioning.
-#' @param bw text bandwidth name, used in the density calculation, sent
-#'    to `jamba::breakDensity()`. By default `stats::density()` calls a
-#'    very smooth density kernel, which obscures finer details. By default,
+#' @param x `numeric` vector, or `numeric` matrix. When a matrix is
+#'    provided, each column in the matrix is used as its own data source.
+#' @param doHistogram `logical` indicating whether to plot histogram bars.
+#' @param doPolygon `logical` indicating whether to plot the density polygon.
+#' @param col `character` color, or when `x` is supplied as a matrix,
+#'    a vector of colors is applied to across plot panels.
+#'    Note that `col` will override all colors defined for `barCol`, `polyCol`,
+#'    `histBorder`, `polyBorder`.
+#' @param barCol,polyCol,polyBorder,histBorder `character` colors used
+#'    when `col` is not supplied.
+#'    They define colors for the histogram bars, polygon fill,
+#'    polygon border, and histogram bar border, respectively.
+#' @param colAlphas `numeric` vector with length 3, indicating the alpha
+#'    transparency to use for histogram bar fill, polygon density fill,
+#'    and border color, respectively.
+#'    Alpha transparency should be scaled between 0 (fully transparent)
+#'    and 1 (fully opaque).
+#'    These alpha transparency values are applied to each color in `col`
+#'    when `col` is defined.
+#' @param darkFactors `numeric` used to adjust colors when `col` is defined.
+#'    Values are applied to histogram bar fill, polygon density fill,
+#'    and border color, respectively, by calling `makeColorDarker()`.
+#' @param lwd `numeric` line width.
+#' @param las `integer` used to define axis label orientation.
+#' @param u5.bias,pretty.n `numeric` arguments passed to to `base::pretty()`
+#'    to define pretty axis label positions.
+#' @param bw `character` string of the bandwidth name to use in the
+#'    density calculation, passed to `jamba::breakDensity()`.
+#'    By default `stats::density()` calls a very smooth density kernel,
+#'    which obscures finer details, so the default in
 #'    `jamba::breakDensity()` uses a more detailed kernel.
-#' @param densityBreaksFactor numeric factor controlling the level of
-#'    detail in the density, sent to `jamba::breakDensity()`.
-#' @param xScale character string defining the x-axis transformation:
-#'    "default" applies no transform; "log10" applies a log10 transform;
-#'    "sqrt" applies a sqrt transform.
-#' @param log character vector, optionally containing "x" and/or "y" to
-#'    apply the appropriate transformation. If "x" then it sets
-#'    `xScale="log10"`.
-#' @param usePanels logical indicating whether to separate
+#' @param breaks `numeric` breaks sent to `hist` to define the number of
+#'    histogram bars. It can be in the form of a single `integer` number
+#'    of equidistant breaks, or a `numeric` vector with specific break
+#'    positions, but remember to include a starting value lower the the
+#'    lowest value in `x`, and an ending value higher than the highest
+#'    value in `x`. Passed to `breakDensity()`.
+#' @param width `numeric` passed to `breakDensity()`.
+#' @param densityBreaksFactor `numeric` scaling factor to control
+#'    the level of detail in the density, passed to `breakDensity()`.
+#' @param axisFunc `function` optionally used in place of `axis()` to define
+#'    axis labels.
+#' @param bty `character` string used to define the plot box shape,
+#'    see `box()`.
+#' @param cex.axis `numeric` scalar to adjust axis label font size.
+#' @param doPar `logical` indicating whether to apply `par()`, specifically
+#'    when `x` is supplied as a multi-column matrix. When `doPar=FALSE`,
+#'    no panels nor margin adjustments are made at all.
+#' @param heightFactor `numeric` value indicating the height of the y-axis
+#'    plot scale to use when scaling the histogram and polygon density
+#'    within each plot panel.
+#' @param weightFactor `numeric` passed to `breakDensity()`.
+#' @param main `character` title to display above the plot, used only when
+#'    `x` is supplied as a single `numeric` vector. Otherwise each plot
+#'    title uses the relevant `colnames(x)` value.
+#' @param xaxs,yaxs `character` string indicating the type of x-axis and
+#'    y-axis to render, see `par()`.
+#' @param xlab,ylab `character` labels for x-axis and y-axis, respectively.
+#' @param log `character` vector, optionally containing `"x"` and/or `"y"` to
+#'    to indicate which axes are log-transformed. If `"x" %in% log`
+#'    then it sets `xScale="log10"`, both methods are equivalent in
+#'    defining the log-transformation of the x-axis.
+#' @param xScale `character` string to define the x-axis transformation:
+#'    * `"default"` applies no transform;
+#'    * `"log10"` applies a log10 transform, specifically `log10(x + 1)`
+#'    * `"sqrt"` applies a sqrt transform.
+#' @param usePanels `logical` indicating whether to separate
 #'    the density plots into panels when `x` contains multiple columns.
 #'    When `useOnePanel=FALSE` the panels will be defined so that all
 #'    columns will fit on one page.
-#' @param useOnePanel logical indicating whether to define multiple panels
+#' @param useOnePanel `logical` indicating whether to define multiple panels
 #'    on one page. Therefore `useOnePanel=TRUE` will create multiple
 #'    pages with one panel on each page, which may work well for
 #'    output in multi-page PDF files.
-#' @param ylimQuantile numeric value between 0 and 1, indicating the
-#'    quantile value of the density `y` values to use for the ylim. This
-#'    threshold is only applied when `ylim` is NULL.
-#' @param ylim,xlim numeric y-axis and x-axis ranges, respectively. When NULL,
-#'    the x-axis range is determined for each plot panel.
-#' @param removeNA logical indicating whether to remove NA values
+#' @param ablineV,ablineH `numeric` vector representing abline
+#'    vertical and horizontal positions, respectively.
+#'    These values are mostly helpful in multi-panel plots,
+#'    to draw consistent reference lines on each panel.
+#' @param ablineVlty,ablineHlty `numeric` or `character` indicating the
+#'    line type to use for `ablineV` and `ablineH`, respectively.
+#' @param removeNA `logical` indicating whether to remove NA values
 #'    prior to running histogram and density calculations. Presence
 #'    of NA values generally causes both functions to fail.
-#' @param ablineV,ablineH abline vertical and horizontal positions,
-#'    respectively. These values are mostly helpful in multi-panel plots,
-#'    since they draw consistent lines on each panel.
-#' @param highlightPoints optional vector with either integer
-#'    values to indicate row numbers, or character values matching
-#'    `rownames(x)` or `names(x)` if `x` is a numeric vector.
+#' @param add `logical` indicating whether to add the plot to an existing
+#'    visualization.
+#' @param ylimQuantile `numeric` value between 0 and 1, indicating the
+#'    quantile value of the density `y` values to use for the ylim. This
+#'    threshold is only applied when `ylim` is NULL.
+#' @param ylim,xlim `numeric` y-axis and x-axis ranges, respectively.
+#'    When either is `NULL`, the axis range is determined independently
+#'    for each plot panel. Either value can be supplied as a `list`
+#'    to control the numeric range for each individual plot, relevant
+#'    only when `x` is supplied as a multi-column matrix.
+#' @param highlightPoints `character` vector of optional rownames,
+#'    or `integer` values with row indices, for rows to be highlighted.
 #'    When `x` is supplied as a `matrix`, `highlightPoints` can
-#'    be a list of vectors, referring to each column in `x`.
-#' @param highlightCol character vector of highlight colors to
+#'    be supplied as a `list` of vectors, referring to each column in `x`.
+#'    When rows are highlighted, the plot is drawn with all points,
+#'    then the highlighted points are drawn again over the histogram bars,
+#'    and polygon density, as relevant.
+#' @param highlightCol `character` vector of colors to
 #'    use to fill the histogram when `highlightPoints` is supplied.
 #'    Multiple values are recycled one per column in `x`,
-#'    as needed.
-#' @param verbose logical indicating whether to print verbose output.
+#'    if `x` is supplied as a multi-column matrix.
+#' @param verbose `logical` indicating whether to print verbose output.
+#' @param ... additional arguments are passed to relevant internal
+#'    functions.
 #'
 #' @examples
 #' # basic density plot
+#' set.seed(123);
 #' x <- rnorm(2000);
 #' plotPolygonDensity(x, main="basic polygon density plot");
 #'
@@ -1831,24 +1972,24 @@ adjustAxisLabelMargins <- function
 #'    main="log-scaled x-axis");
 #'
 #' # highlighted points
+#' set.seed(123);
 #' plotPolygonDensity(x,
-#'    highlightPoints=which(x > 1),
+#'    highlightPoints=sample(which(abs(x) > 1), size=200),
 #'    breaks=40,
-#'    main="breaks=20");
+#'    main="breaks=40");
 #'
 #' @export
 plotPolygonDensity <- function
 (x,
  doHistogram=TRUE,
  doPolygon=TRUE,
- barCol="#00337799",
  col=NULL,
- histBorder=makeColorDarker(barCol, darkFactor=1.5),
- colAlphas=c(0.8,0.6,0.9),
- hueShift=-0.1,
- darkFactors=c(-1.3, 1, 3),
+ barCol="#00337799",
  polyCol="#00449977",
  polyBorder=makeColorDarker(polyCol),
+ histBorder=makeColorDarker(barCol, darkFactor=1.5),
+ colAlphas=c(0.8,0.6,0.9),
+ darkFactors=c(-1.3, 1, 3),
  lwd=2,
  las=2,
  u5.bias=0,
@@ -1866,9 +2007,10 @@ plotPolygonDensity <- function
  main="Histogram distribution",
  xaxs="i",
  yaxs="i",
+ xlab="",
+ ylab="",
  log=NULL,
  xScale=c("default","log10","sqrt"),
- logFloorMethod=c("detect", "+1", "floor1", "none"),
  usePanels=TRUE,
  useOnePanel=FALSE,
  ablineV=NULL,
@@ -1881,8 +2023,9 @@ plotPolygonDensity <- function
  add=FALSE,
  ylimQuantile=0.99,
  ylim=NULL,
+ xlim=NULL,
  highlightPoints=NULL,
- highlightCol="yellow",
+ highlightCol="gold",
  verbose=FALSE,
  ...)
 {
@@ -1931,7 +2074,7 @@ plotPolygonDensity <- function
       if (length(barCol) == ncol(x)) {
          panelColors <- barCol;
       } else {
-         if (suppressWarnings(suppressPackageStartupMessages(require(colorjam)))) {
+         if (check_pkg_installed("colorjam")) {
             panelColors <- colorjam::rainbowJam(ncol(x));
          } else {
             panelColors <- sample(unvigrep("gr[ae]y|white|black|[34]$", colors()),
@@ -1951,7 +2094,7 @@ plotPolygonDensity <- function
             highlightPoints <- rep(highlightPoints, length.out=ncol(x));
          }
          if (length(highlightCol) == 0) {
-            highlightCol <- "yellow";
+            highlightCol <- "gold";
          }
          highlightCol <- rep(highlightCol, length.out=ncol(x));
       }
@@ -1960,7 +2103,26 @@ plotPolygonDensity <- function
       #hx <- hist(x, breaks=breaks, plot=FALSE, ...);
       #breaks <- hx$breaks;
       ## Iterate each column
-      d1 <- lapply(nameVector(1:ncol(x), colnames(x)), function(i){
+      # recycle xlim if present
+      if (length(xlim) > 0) {
+         if (!is.list(xlim)) {
+            xlim <- list(range(xlim, na.rm=TRUE));
+         }
+         xlim <- rep(xlim, length.out=ncol(x));
+      } else {
+         xlim <- NULL
+      }
+      # recycle ylim if present
+      if (length(ylim) > 0) {
+         if (!is.list(ylim)) {
+            ylim <- list(range(ylim, na.rm=TRUE));
+         }
+         ylim <- rep(ylim, length.out=ncol(x));
+      } else {
+         ylim <- NULL
+      }
+
+      d1 <- lapply(nameVector(seq_len(ncol(x)), colnames(x)), function(i){
          if (useOnePanel) {
             add <- (i > 1);
             mainTitle <- "";
@@ -2001,7 +2163,6 @@ plotPolygonDensity <- function
             yaxs=yaxs,
             log=log,
             xScale=xScale,
-            logFloorMethod=logFloorMethod,
             verbose=verbose,
             ablineV=ablineV,
             ablineVcol=ablineVcol,
@@ -2010,7 +2171,8 @@ plotPolygonDensity <- function
             ablineHcol=ablineHcol,
             ablineHlty=ablineHlty,
             ylimQuantile=ylimQuantile,
-            ylim=ylim,
+            ylim=ylim[[i]],
+            xlim=xlim[[i]],
             highlightPoints=highlightPoints[[i]],
             highlightCol=highlightCol[[i]],
             ...);
@@ -2043,7 +2205,7 @@ plotPolygonDensity <- function
       if (barCol %in% formals(plotPolygonDensity)$barCol &&
             polyCol %in% formals(plotPolygonDensity)$polyCol &&
             length(col) > 0) {
-         barCol <- makeColorDarker(changeHue(col, hueShift=hueShift),
+         barCol <- makeColorDarker(col,
             fixAlpha=colAlphas[1],
             darkFactor=darkFactors[1]);
          polyCol <- makeColorDarker(col,
@@ -2075,7 +2237,8 @@ plotPolygonDensity <- function
             x <- rmNA(x);
          }
          if (add) {
-            hx <- hist(x,
+            hx <- call_fn_ellipsis(hist.default,
+               x=x,
                breaks=breaks,
                col=barCol,
                main=main,
@@ -2083,13 +2246,16 @@ plotPolygonDensity <- function
                xaxt="n",
                yaxt="n",
                las=las,
+               # xlab="",
                ylab="",
                cex.axis=cex.axis*0.8,
                add=add,
                ...);
          } else {
-            hx <- hist(x,
+            hx <- call_fn_ellipsis(hist.default,
+               x=x,
                breaks=breaks,
+               # xlab=xlab,
                #col=barCol,
                #main=main,
                #border=histBorder,
@@ -2101,13 +2267,16 @@ plotPolygonDensity <- function
                plot=FALSE,
                ...);
             ## Optionally define the y-axis scale
-            if (is.null(ylim) &&
-               !is.null(ylimQuantile) &&
+            if (length(ylim) == 0 &&
+               length(ylimQuantile) > 0 &&
                ylimQuantile < 1 &&
                ylimQuantile > 0 &&
                max(hx$counts) > 0) {
                ylim <- c(0,
                   quantile(hx$counts, c(ylimQuantile)));
+            }
+            if (length(xlim) == 0) {
+               xlim <- range(hx$breaks, na.rm=TRUE);
             }
             plot(hx,
                col=barCol,
@@ -2115,10 +2284,12 @@ plotPolygonDensity <- function
                border=histBorder,
                xaxt="n",
                las=las,
-               ylab="",
+               ylab=ylab,
+               xlab=xlab,
                cex.axis=cex.axis*0.8,
                add=add,
                ylim=ylim,
+               xlim=xlim,
                ...);
          }
 
@@ -2265,7 +2436,11 @@ plotPolygonDensity <- function
          }
       }
       if (doPolygon) {
-         polygon(dx, col=polyCol, border=polyBorder, lwd=lwd, ...);
+         polygon(dx,
+            col=polyCol,
+            border=polyBorder,
+            lwd=lwd,
+            ...);
       }
 
       ## Optionally plot highlightPoints
@@ -2275,7 +2450,8 @@ plotPolygonDensity <- function
                printDebug("plotPolygonDensity(): ",
                   "Plotting highlightPoints.");
             }
-            hxh <- hist(x[highlightPoints],
+            hxh <- call_fn_ellipsis(hist.default,
+               x=x[highlightPoints],
                breaks=hx$breaks,
                col=highlightCol,
                main="",
@@ -2283,7 +2459,7 @@ plotPolygonDensity <- function
                xaxt="n",
                yaxt="n",
                ylab="",
-               xlab="",
+               # xlab="",
                add=TRUE,
                ...);
          }

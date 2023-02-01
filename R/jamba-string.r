@@ -1137,7 +1137,7 @@ rmNA <- function
    #       verbose=verbose));
    # }
 
-   if (!class(x) %in% "list" && rmInfinite && any(is.infinite(x))) {
+   if (!"list" %in% class(x) && rmInfinite && any(is.infinite(x))) {
       x <- rmInfinite(x,
          infiniteValue=infiniteValue);
    }
@@ -2068,7 +2068,7 @@ formatInt <- function
          scientific=scientific,
          ...);
    }
-   if (class(x) %in% c("matrix")) {
+   if ("matrix" %in% class(x)) {
       y <- matrix(data=y,
          nrow=nrow(x),
          ncol=ncol(x),

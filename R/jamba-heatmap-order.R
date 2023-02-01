@@ -68,7 +68,29 @@
 heatmap_row_order <- function
 (hm)
 {
-   ##
+   # TODO:
+   # 1. Consider making this function work without calling ComplexHeatmap:
+   #
+   #   However, it will only work if the heatmap is already "prepared",
+   #   which is defined by ComplexHeatmap::draw() or ComplexHeatmap::prepare().
+   #
+   #   For input "Heatmap" the telltale sign is hm@row_order_list is not empty.
+   #   For input  "HeatmapList" the sign is hm@ht_list, then choose the first
+   #   entry with class "Heatmap", then check for example if
+   #   hm@ht_list[[1]]@row_order_list is empty.
+   #
+
+   # validate input class and ComplexHeatmap package
+   if (!any(c("Heatmap", "HeatmapList") %in% class(hm))) {
+      stop(paste(
+         "Input hm must be class 'Heatmap' or 'HeatmapList',",
+         "from the ComplexHeatmap Bioconductor package."));
+   }
+   if (!check_pkg_installed("ComplexHeatmap")) {
+      stop(paste("This function requires the ComplexHeatmap Bioconductor package.",
+         "Install with \"BiocManager::install('ComplexHeatmap')\".",
+         "BiocManageer can be installed with with \"install.packages('BiocManager')\"."));
+   }
    if ("HeatmapList" %in% class(hm)) {
       hm <- hm@ht_list[[1]];
    }
@@ -161,6 +183,17 @@ heatmap_column_order <- function
 (hm)
 {
    ##
+   # validate input class and ComplexHeatmap package
+   if (!any(c("Heatmap", "HeatmapList") %in% class(hm))) {
+      stop(paste(
+         "Input hm must be class 'Heatmap' or 'HeatmapList',",
+         "from the ComplexHeatmap Bioconductor package."));
+   }
+   if (!check_pkg_installed("ComplexHeatmap")) {
+      stop(paste("This function requires the ComplexHeatmap Bioconductor package.",
+         "Install with \"BiocManager::install('ComplexHeatmap')\".",
+         "BiocManageer can be installed with with \"install.packages('BiocManager')\"."));
+   }
    if ("HeatmapList" %in% class(hm)) {
       hm <- hm@ht_list[[1]];
    }

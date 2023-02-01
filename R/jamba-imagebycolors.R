@@ -206,7 +206,7 @@ imageByColors <- function
    ##
    cellnoteX <- NULL;
    srtCellnoteDF <- NULL;
-   if (class(x) %in% c("data.frame")) {
+   if ("data.frame" %in% class(x)) {
       x <- as.matrix(x);
    }
    xNcolSeq <- 1:ncol(x);

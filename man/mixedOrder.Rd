@@ -165,6 +165,12 @@ x[mixedOrder(x, blanksFirst=FALSE, keepInfinite=TRUE)]
 ## which puts "-Inf14" at the very beginning.
 x[mixedOrder(x, blanksFirst=FALSE, keepInfinite=TRUE, keepNegative=TRUE)]
 
+# test factor level order
+factor1 <- factor(c("Cnot9", "Cnot8", "Cnot10"))
+sort(factor1)
+mixedSort(factor1)
+factor1[mixedOrder(factor1)]
+factor1[mixedOrder(factor1, honorFactor=TRUE)]
 
 }
 \seealso{

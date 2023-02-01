@@ -16,7 +16,7 @@ mmixedOrder(
   useCaseTiebreak = TRUE,
   sortByName = FALSE,
   NAlast = TRUE,
-  honorFactor = FALSE,
+  honorFactor = TRUE,
   verbose = FALSE,
   matrixAsDF = TRUE
 )
@@ -64,6 +64,20 @@ in order to sort a \code{data.frame} properly by column.
 
 See \code{mixedOrder()} and \code{mixedSort()} for a better
 description of how the sort order logic operates.
+}
+\examples{
+# test factor level order
+factor1 <- factor(c("Cnot9", "Cnot8", "Cnot10"))
+sort(factor1)
+mixedSort(factor1)
+factor1[mixedOrder(factor1)]
+factor1[mixedOrder(factor1, honorFactor=FALSE)]
+factor1[mixedOrder(factor1, honorFactor=TRUE)]
+
+factor1[mmixedOrder(list(factor1))]
+factor1[mmixedOrder(list(factor1), honorFactor=FALSE)]
+factor1[mmixedOrder(list(factor1), honorFactor=TRUE)]
+
 }
 \seealso{
 Other jam sort functions: 

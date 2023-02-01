@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
   ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,
   useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,
   sortByName <span class="op">=</span> <span class="cn">FALSE</span>,
-  honorFactor <span class="op">=</span> <span class="cn">FALSE</span>,
+  honorFactor <span class="op">=</span> <span class="cn">TRUE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
 
@@ -321,6 +321,12 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a    1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c    2    3</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>factor1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   factor1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Cnot8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Cnot9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Cnot10</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

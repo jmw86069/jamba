@@ -9,8 +9,7 @@ smoothScatterJam(
   y = NULL,
   nbin = 256,
   bandwidth,
-  colramp = colorRampPalette(c("#FFFFFF", "#6BAED6", "#9ECAE1", "#2171B5", "#4292C6",
-    "#08306B", "#08519C", "#C6DBEF", "#DEEBF7", "#F7FBFF")),
+  colramp = colorRampPalette(c("white", "lightblue", "blue", "orange", "orangered2")),
   nrpoints = 100,
   pch = ".",
   cex = 1,
@@ -43,21 +42,26 @@ For example, nbin=123 is the default used by
 \code{plotSmoothScatter()} function default is higher (256).}
 
 \item{bandwidth}{\code{numeric} vector used to define the y- and x-axis
-bandwidths, respectively, for the hidden but very useful
-\code{grDevices:::.smoothScatterCalcDensity()}
-function, which calculates the underlying 2-dimensional kernel
-density of data points. This parameter is also why the
-wrapper function \code{plotSmoothScatter()} was created, in
-order to avoid ever having to define this parameter directly.}
+bandwidths, respectively, passed to \code{KernSmooth::bkde2D()},
+which calculates the underlying 2-dimensional kernel density.
+The \code{plotSmoothScatter()} function was motivated by never wanting
+to define this number directly, instead auto-calculation suitable
+values.}
+
+\item{colramp}{\code{function} that takes one \code{numeric} argument and returns
+that integer number of colors, by default 256.}
 
 \item{nrpoints}{\code{integer} number of outlier datapoints to display,
-as defined by the hidden but very useful
-\code{grDevices:::.smoothScatterCalcDensity()}
-function. The base \code{graphics::smoothScatter()} function
-plots 100 such points, perhaps to overcome the default over-smoothing
-of data which results in large areas not displaying density. The
-default here is zero, since the new default bandwidthN parameter
-typically already indicates these points.}
+as defined by \code{graphics::smoothScatter()}, however the default here
+is \code{nrpoints=0} to avoid additional clutter in the output,
+and because the default argument \code{bandwidthN} usually indicates all
+individual points.}
+
+\item{pch}{point shape used when \code{nrpoints>0}.}
+
+\item{cex}{\code{numeric} point size expansion factor used when \code{nrpoints>0}.}
+
+\item{col}{\code{character} R color used when \code{nrpoints>0}.}
 
 \item{transformation}{\code{function} which converts point density to a number,
 typically related to square root or cube root transformation.}
@@ -75,7 +79,7 @@ information atop the image plot, for example contours, labels, etc.}
 
 \item{ylim}{\code{numeric} y-axis range for the plot}
 
-\item{add}{logical whether to add to an existing active R plot, or create
+\item{add}{\code{logical} whether to add to an existing active R plot, or create
 a new plot window.}
 
 \item{xaxs}{\code{character} value compatible with \code{par("xaxs")}, mainly useful
@@ -103,6 +107,9 @@ If NULL, it determines whether to produce a raster image within the
 using \code{getOption("preferRaster", FALSE)} to determine among
 other things, whether the user prefers raster images, and if the
 \code{dev.capabilities()} supports raster.}
+
+\item{...}{additional arguments are passed to \code{imageDefault()} and
+optionally to \code{plotPlotHook()} when supplied.}
 }
 \description{
 Produce smooth scatter plot, a helper function called by
@@ -119,10 +126,7 @@ This function is only necessary in order to override the
 Instead, this function calls \code{imageDefault()} which is required
 in order to utilize custom raster image scaling, particularly important
 when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
-10 units, but the y-axis spans 10,000 units. The bulk of this function
-and its parameters are simply copied from
-\code{smoothScatter()} for consistency with the parent
-function, with due credit and respect to its authors.
+10 units, but the y-axis spans 10,000 units.
 }
 \seealso{
 \code{graphics::smoothScatter()}

@@ -50,3 +50,7 @@ reference:
   desc: Practical functions to enhance routine R work, essentially miscellaneous
   contents:
   - has_concept("jam practical functions")
+- title: Internal functions
+  desc: Functions typically for internal use by other Jam functions
+  contents:
+  - has_concept("jam internal functions")

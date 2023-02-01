@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@
   startRow <span class="op">=</span> <span class="fl">1</span>,
   rows <span class="op">=</span> <span class="cn">NULL</span>,
   check.names <span class="op">=</span> <span class="cn">FALSE</span>,
-  check_header <span class="op">=</span> <span class="cn">TRUE</span>,
+  check_header <span class="op">=</span> <span class="cn">FALSE</span>,
   check_header_n <span class="op">=</span> <span class="fl">10</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
@@ -108,7 +108,14 @@ When header rows are detected, the values are assigned to column
 <code>dimnames</code> of the <code>data.frame</code>.</p></dd>
 <dt>check_header_n</dt>
 <dd><p><code>integer</code> number of rows to test for header rows,
-only used when <code>check_header=TRUE</code>.</p></dd>
+only used when <code>check_header=TRUE</code>. This step is intended when
+the top row(s) contain fewer columns with headers, above actual
+column headers, for example the first row <code>c("Sample", "", "", "Lane", "")</code>,
+and the second row <code>c("Name", "Type", "Label", "Name", "Type")</code>.
+In this case the desired output is
+<code>"Sample_Name","Sample_Type","Sample_Label","Lane_Name","Lane_Type")</code>.
+This option default is <code>FALSE</code> due to the number of exceptions
+seen in real data.</p></dd>
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
 <dt>...</dt>

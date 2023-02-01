@@ -18,7 +18,7 @@ with optional offset for proper labeling of log2(1+x)."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -225,18 +225,15 @@ off by setting <code>symmetricZero=FALSE</code>.</p>
 <span class="r-in"><span class="fu"><a href="plotPolygonDensity.html">plotPolygonDensity</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, breaks<span class="op">=</span><span class="fl">100</span>, log<span class="op">=</span><span class="st">"x"</span>,</span>
 <span class="r-in">   main<span class="op">=</span><span class="st">"plotPolygonDensity() uses minorLogTicksAxis()"</span>,</span>
 <span class="r-in">   xlab<span class="op">=</span><span class="st">"x (log-scaled)"</span><span class="op">)</span>;</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument ‘xlab’ is not made use of</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>In density.default(x, width = width, weight = weightFactor, ...) :</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>  extra argument ‘xlab’ will be disregarded</span>
 <span class="r-plt img"><img src="minorLogTicksAxis-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="plotPolygonDensity.html">plotPolygonDensity</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span>, breaks<span class="op">=</span><span class="fl">100</span>,</span>
 <span class="r-in">   main<span class="op">=</span><span class="st">"manually called minorLogTicksAxis(logBase=2)"</span>,</span>
 <span class="r-in">   xaxt<span class="op">=</span><span class="st">"n"</span>,</span>
 <span class="r-in">   xlab<span class="op">=</span><span class="st">"x (log-scaled)"</span><span class="op">)</span>;</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>arguments ‘xlab’, ‘...’ are not made use of</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument ‘...’ is not made use of</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>In density.default(x, width = width, weight = weightFactor, ...) :</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>  extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>  extra argument ‘xaxt’ will be disregarded</span>
 <span class="r-in"><span class="fu">minorLogTicksAxis</span><span class="op">(</span><span class="fl">1</span>, offset<span class="op">=</span><span class="fl">1</span>, logBase<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
 <span class="r-plt img"><img src="minorLogTicksAxis-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
@@ -244,9 +241,9 @@ off by setting <code>symmetricZero=FALSE</code>.</p>
 <span class="r-in">   main<span class="op">=</span><span class="st">"manually called minorLogTicksAxis(logBase=10)"</span>,</span>
 <span class="r-in">   xaxt<span class="op">=</span><span class="st">"n"</span>,</span>
 <span class="r-in">   xlab<span class="op">=</span><span class="st">"x (log-scaled)"</span><span class="op">)</span>;</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>arguments ‘xlab’, ‘...’ are not made use of</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument ‘...’ is not made use of</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>In density.default(x, width = width, weight = weightFactor, ...) :</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>  extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>  extra argument ‘xaxt’ will be disregarded</span>
 <span class="r-in"><span class="fu">minorLogTicksAxis</span><span class="op">(</span><span class="fl">1</span>, offset<span class="op">=</span><span class="fl">1</span>, logBase<span class="op">=</span><span class="fl">10</span><span class="op">)</span>;</span>
 <span class="r-plt img"><img src="minorLogTicksAxis-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
@@ -254,9 +251,9 @@ off by setting <code>symmetricZero=FALSE</code>.</p>
 <span class="r-in">   main<span class="op">=</span><span class="st">"using 'minorWhich=2:9'"</span>,</span>
 <span class="r-in">   xaxt<span class="op">=</span><span class="st">"n"</span>,</span>
 <span class="r-in">   xlab<span class="op">=</span><span class="st">"x (log-scaled)"</span><span class="op">)</span>;</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>arguments ‘xlab’, ‘...’ are not made use of</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument ‘...’ is not made use of</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>In density.default(x, width = width, weight = weightFactor, ...) :</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>  extra arguments ‘xaxt’, ‘xlab’ will be disregarded</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>  extra argument ‘xaxt’ will be disregarded</span>
 <span class="r-in"><span class="fu">minorLogTicksAxis</span><span class="op">(</span><span class="fl">1</span>, offset<span class="op">=</span><span class="fl">1</span>, logBase<span class="op">=</span><span class="fl">10</span>,</span>
 <span class="r-in">   minorWhich<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>;</span>
 <span class="r-plt img"><img src="minorLogTicksAxis-5.png" alt="" width="700" height="433"></span>

@@ -25,6 +25,9 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/prep_CRAN_release_dec2022.html</loc>
+  </url>
+  <url>
     <loc>/reference/adjustAxisLabelMargins.html</loc>
   </url>
   <url>
@@ -211,6 +214,9 @@
     <loc>/reference/isTRUEV.html</loc>
   </url>
   <url>
+    <loc>/reference/jamCalcDensity.html</loc>
+  </url>
+  <url>
     <loc>/reference/jam_rapply.html</loc>
   </url>
   <url>
@@ -347,6 +353,9 @@
   </url>
   <url>
     <loc>/reference/rmNA.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rmNAs.html</loc>
   </url>
   <url>
     <loc>/reference/rmNULL.html</loc>

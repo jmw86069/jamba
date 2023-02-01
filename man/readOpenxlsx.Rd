@@ -10,7 +10,7 @@ readOpenxlsx(
   startRow = 1,
   rows = NULL,
   check.names = FALSE,
-  check_header = TRUE,
+  check_header = FALSE,
   check_header_n = 10,
   verbose = FALSE,
   ...
@@ -47,7 +47,14 @@ When header rows are detected, the values are assigned to column
 \code{dimnames} of the \code{data.frame}.}
 
 \item{check_header_n}{\code{integer} number of rows to test for header rows,
-only used when \code{check_header=TRUE}.}
+only used when \code{check_header=TRUE}. This step is intended when
+the top row(s) contain fewer columns with headers, above actual
+column headers, for example the first row \code{c("Sample", "", "", "Lane", "")},
+and the second row \code{c("Name", "Type", "Label", "Name", "Type")}.
+In this case the desired output is
+\verb{"Sample_Name","Sample_Type","Sample_Label","Lane_Name","Lane_Type")}.
+This option default is \code{FALSE} due to the number of exceptions
+seen in real data.}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output.}
 

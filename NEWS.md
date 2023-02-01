@@ -1,3 +1,94 @@
+# jamba version 0.0.88.900
+
+Began prep for eventual CRAN release.
+
+* added `ComplexHeatmap` to Suggests.
+* edited `heatmap_row_order()` and `heatmap_column_order()` to check
+for ComplexHeatmap.
+
+## changes to existing functions
+
+* `readOpenxlsx()`
+
+   * New default `check_header=FALSE` to sidestep issues with
+   column headers that do not align with subsequent data.
+
+* `formatInt()`, `rmNA()`, `asSize()`, `sizeAsNum()`, `imageByColors()`
+
+   * updated to improve how it checks `class(x)`, to allow multiple values.
+
+* `mixedSort()`, `mixedOrder()` default `honorFactor=FALSE` in vector context.
+
+   * For someone mixedSorting a vector, they expect mixedSorted output.
+
+* `mixedSortDF()`, `mmixedOrder()` default `honorFactor=TRUE` in `data.frame`
+or `list` context.
+
+   * For someone mixedSorting a `data.frame`, they expect
+   mixedSorted `character` columns, and sorted factor levels. For someone
+   mmixedOrdering a `list`, they expect `character` vectors to be mixedSorted
+   and factors to be sorted by level.
+
+## bug fixes
+
+* `mixedSort()`, `mixedOrder()`. `mmixedOrder()`, `mixedSortDF()`
+
+   * **gasp** These core functions were ignoring `honorFactor=FALSE` and
+   were instead always keeping factor level order without imposing its own
+   sort order.
+   
+      * The intent was to use `honorFactor=FALSE`, which was supposed to be
+      consistent with previous versions of jamba.
+      However, other dependent Jam functions became somewhat reliant
+      on unintended behavior which represents `honorFactor=TRUE`.
+      This behavior is most important for uses of `mixedSortDF()`
+      which is expected to honor factor level order by default.
+      This expectation enables other assumptions about the order
+      of values. That said, specific errors have been rare or non-existent
+      thus far.
+      * A "problem" arises only in R versions before R-4.0.0, where default
+      R-3.6.1 `options(stringsAsFactors=TRUE)` causes `data.frame()` to convert
+      `character` to `factor`. During the conversion, factor level order
+      is defined using vanilla `sort()`. Therefore, using `mixedSortDF()`
+      appears to use vanilla sort order by honoring the factor level order,
+      but only in cases where the `data.frame` was created by a method
+      that did not override `options(stringsAsFactors=TRUE)` for consistency.
+      So the use of `honorFactor=TRUE` by `mixedSortDF()` causes an edge
+      case of inconsistent order for some `data.frame` objects,
+      dependent upon the value of `getOption("stringsAsFactors")`.
+      * The resolution to above issues:
+      
+         * `mixedSortDF()` should continue to do what is expected,
+         which in my opinion is to honor factor order by default; and
+         * other functions which carelessly enable `stringsAsFactors=TRUE` to
+         wreack havoc should themselves be fixed.
+         "Check yourself, before you wreck yourself."
+         I shouldn't have said that.
+   
+   * So the resolution overall is to have different defaults for `honorFactor`,
+   even though it seems improper. I argue that it is proper:
+   
+      1. `mixedSort(..., honorFactor=FALSE)` because someone calling
+      `mixedSort()` is doing so for the benefit of mixedSort behavior,
+      otherwise they can call `sort()` on a `factor` and get the same
+      result as `mixedSort(..., honorFactor=TRUE)`.
+      Therefore I think `honorFactor=FALSE` is expected for a vector.
+      2. `mixedSortDF(..., honorFactor=TRUE)` because someone calling
+      `mixedSortDF()` is doing so for the benefit of sorting `character`
+      columns using `mixedSort()` logic, otherwise their `factor` columns 
+      are assumed to have carefully (let's hope) constructed factor `levels`.
+      And since those factor `levels` are so dear to the analyst, their
+      order will be maintained when sorting a multi-column `data.frame`.
+      (Or equivalent tibble, DataFrame, etc.)
+      Therefore I think `honorFactor=TRUE` is expected for a `data.frame`.
+      3. `mixedOrder(..., honorFactor=FALSE)`, due to vector context.
+      4. `mixedSorts(..., honorFactor=TRUE)`, due to list context.
+      5. `mmixedOrder(..., honorFactor=TRUE)`, due to list context.
+
+## new functions
+
+* `jam_calc_density()`
+
 # jamba version 0.0.87.900
 
 ## bug fixes

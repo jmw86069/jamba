@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -192,6 +192,35 @@ which does the work of defining a proper order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-12"  "miR-122" "miR-1a"  "miR-1b"  "miR-2"  </span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-12"  "miR-122" "miR-1a"  "miR-1b"  "miR-2"  </span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># test honorFactor</span></span>
+<span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
+<span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># test ignore.case</span></span>
+<span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"CNOT9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  CNOT9  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
+<span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNOT9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  CNOT9  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
+<span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"CNOT9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, ignore.case<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] CNOT9  Cnot8  Cnot9  Cnot10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
+<span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"CNOT9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  CNOT9  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"CNOT9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, useCaseTiebreak<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  CNOT9  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
+<span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNOT9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, useCaseTiebreak<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  CNOT9  Cnot9  Cnot10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

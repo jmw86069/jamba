@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -107,7 +107,6 @@ R functions.</p>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other jam practical functions: 
-<code><a href="applyCLrange.html">applyCLrange</a>()</code>,
 <code><a href="breakDensity.html">breakDensity</a>()</code>,
 <code><a href="checkLightMode.html">checkLightMode</a>()</code>,
 <code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
@@ -115,7 +114,6 @@ R functions.</p>
 <code><a href="color_dither.html">color_dither</a>()</code>,
 <code><a href="exp2signed.html">exp2signed</a>()</code>,
 <code><a href="fileInfo.html">fileInfo</a>()</code>,
-<code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
 <code><a href="fixYellow.html">fixYellow</a>()</code>,
 <code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
 <code><a href="handleArgsText.html">handleArgsText</a>()</code>,
@@ -137,12 +135,12 @@ R functions.</p>
 <code><a href="printDebug.html">printDebug</a>()</code>,
 <code><a href="renameColumn.html">renameColumn</a>()</code>,
 <code><a href="rmInfinite.html">rmInfinite</a>()</code>,
+<code><a href="rmNAs.html">rmNAs</a>()</code>,
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
 <code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setCLranges.html">setCLranges</a>()</code>,
 <code><a href="setPrompt.html">setPrompt</a>()</code>,
 <code><a href="ssdima.html">ssdima</a>()</code>,
 <code><a href="ssdim.html">ssdim</a>()</code></p></div>
@@ -152,11 +150,11 @@ R functions.</p>
     <div id="examples">
     <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">diff_functions</span><span class="op">(</span><span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span>, <span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/agrep.html" class="external-link">agrepl</a></span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">13:42:26</span>) 24Aug2022:   <span style="color: #FF8700;">f1_name: </span><span style="color: #00AFFF;">base..grepl</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">13:42:26</span>) 24Aug2022:   <span style="color: #FF8700;">f1_file: </span><span style="color: #00AFFF;">/var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//Rtmp5KhzJi/base..grepl.R</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">13:42:26</span>) 24Aug2022:   <span style="color: #FF8700;">f2_name: </span><span style="color: #00AFFF;">base..agrepl</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">13:42:26</span>) 24Aug2022:   <span style="color: #FF8700;">f2_file: </span><span style="color: #00AFFF;">/var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//Rtmp5KhzJi/base..agrepl.R</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "diff -W 80 -y /var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//Rtmp5KhzJi/base..grepl.R /var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//Rtmp5KhzJi/base..agrepl.R"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">17:57:29</span>) 01Feb2023:   <span style="color: #FF8700;">f1_name: </span><span style="color: #00AFFF;">base..grepl</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">17:57:29</span>) 01Feb2023:   <span style="color: #FF8700;">f1_file: </span><span style="color: #00AFFF;">/var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//RtmpMbtZXF/base..grepl.R</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">17:57:29</span>) 01Feb2023:   <span style="color: #FF8700;">f2_name: </span><span style="color: #00AFFF;">base..agrepl</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">17:57:29</span>) 01Feb2023:   <span style="color: #FF8700;">f2_file: </span><span style="color: #00AFFF;">/var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//RtmpMbtZXF/base..agrepl.R</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "diff -W 80 -y /var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//RtmpMbtZXF/base..grepl.R /var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//RtmpMbtZXF/base..agrepl.R"</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

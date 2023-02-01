@@ -18,7 +18,7 @@ delimited by default with a comma."><!-- mathjax --><script src="https://cdnjs.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.86.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
       </span>
     </div>
 
@@ -73,6 +73,7 @@ delimited by default with a comma.</p>
   keepFactors <span class="op">=</span> <span class="cn">FALSE</span>,
   checkClass <span class="op">=</span> <span class="cn">TRUE</span>,
   useBioc <span class="op">=</span> <span class="cn">TRUE</span>,
+  useLegacy <span class="op">=</span> <span class="cn">FALSE</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -107,6 +108,9 @@ factor levels, and non-factors will be ordered using
 to use <code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html" class="external-link">S4Vectors::unstrsplit()</a></code> when the Bioconductor package
 <code>S4Vectors</code> is installed, otherwise it will use a much less
 efficient <code><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply()</a></code> operation.</p></dd>
+<dt>useLegacy</dt>
+<dd><p><code>logical</code> indicating whether to enable to previous
+legacy process used by <code>cPaste()</code>.</p></dd>
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="mixedOrder.html">mixedOrder()</a></code> when
 <code>doSort=TRUE</code>.</p></dd>

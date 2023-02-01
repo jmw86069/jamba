@@ -18,7 +18,7 @@ mixedSortDF(
   ignore.case = TRUE,
   useCaseTiebreak = TRUE,
   sortByName = FALSE,
-  honorFactor = FALSE,
+  honorFactor = TRUE,
   ...
 )
 }
@@ -157,6 +157,8 @@ rownames(m) <- c("c", "a");
 mixedSortDF(m, byCols=0)
 mixedSortDF(m, byCols="-rownames")
 mixedSortDF(m, byCols="rownames")
+
+mixedSortDF(data.frame(factor1=factor(c("Cnot9", "Cnot8", "Cnot10"))), honorFactor=FALSE)
 
 }
 \seealso{
