@@ -7,18 +7,19 @@
 mixedOrder(
   x,
   ...,
-  na.last = NAlast,
   blanksFirst = TRUE,
+  na.last = NAlast,
   keepNegative = FALSE,
   keepInfinite = FALSE,
   keepDecimal = FALSE,
-  verbose = FALSE,
   ignore.case = TRUE,
   useCaseTiebreak = TRUE,
+  honorFactor = FALSE,
   returnDebug = FALSE,
   returnType = c("order", "rank"),
-  honorFactor = FALSE,
-  NAlast = TRUE
+  NAlast = TRUE,
+  verbose = FALSE,
+  debug = FALSE
 )
 }
 \arguments{
@@ -26,13 +27,13 @@ mixedOrder(
 
 \item{...}{additional parameters are sent to \code{mixedOrder()}.}
 
+\item{blanksFirst}{\code{logical} whether to order blank entries before entries
+containing a value.}
+
 \item{na.last}{\code{logical} whether to move NA entries to the end of the sort.
 When \code{na.last=TRUE} then \code{NA} values will always be last, even following
 blanks and infinite values. When \code{na.last=FALSE} then \code{NA} values
 will always be first, even before blanks and negative infinite values.}
-
-\item{blanksFirst}{\code{logical} whether to order blank entries before entries
-containing a value.}
 
 \item{keepNegative}{\code{logical} whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values. Note that
@@ -57,13 +58,17 @@ algorithms.}
 sorting as a true number and not as a version number. By default
 \verb{keepDecimal=FALSE``, which means "v1.200" will be ordered after "v1.30", since it considers }"1.200"\verb{effectively as}1\code{and}200\verb{, and }"1.30"\verb{effectively as}1\code{and}30\verb{. When }keepDecimal=TRUE\verb{, the numeric sort orders }"v1.200"\code{before}"v1.30"`.}
 
-\item{verbose}{\code{logical} whether to print verbose output.}
-
 \item{ignore.case}{\code{logical} whether to ignore uppercase and lowercase
 characters when defining the sort order.}
 
 \item{useCaseTiebreak}{\code{logical} indicating whether to break ties
 when \code{ignore.case=TRUE}, using mixed case as a tiebreaker.}
+
+\item{honorFactor}{\code{logical} indicating whether to honor the
+order of \code{levels} if the input \code{x} is a \code{factor}. The default
+\code{honorFactor=FALSE} is to maintain consistent legacy behavior.
+The purpose of this function is to enable alphanumeric sorting,
+which is not the purpose of sorting by factor levels.}
 
 \item{returnDebug}{\code{logical} indicating whether to include
 additional debug info as attributes.}
@@ -74,14 +79,13 @@ additional debug info as attributes.}
 \item "rank": returns \code{integer} rank, equivalent to \code{rank()}
 }}
 
-\item{honorFactor}{\code{logical} indicating whether to honor the
-order of \code{levels} if the input \code{x} is a \code{factor}. The default
-\code{honorFactor=FALSE} is to maintain consistent legacy behavior.
-The purpose of this function is to enable alphanumeric sorting,
-which is not the purpose of sorting by factor levels.}
-
 \item{NAlast}{\code{logical} DEPRECATED in favor of \code{na.last} for
 consistency with other base R functions.}
+
+\item{verbose}{\code{logical} whether to print verbose output.}
+
+\item{debug}{\code{logical} indicating whether to return intermediate data
+useful only for debugging purposes.}
 }
 \value{
 \code{integer} vector of orders derived from x,

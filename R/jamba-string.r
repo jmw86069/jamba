@@ -1421,6 +1421,8 @@ uniques <- function
 #'    efficient [mapply()] operation.
 #' @param useLegacy `logical` indicating whether to enable to previous
 #'    legacy process used by `cPaste()`.
+#' @param honorFactor `logical` passed to `mixedSorts()`, as a named
+#'    placeholder used to convey the same function as `keepFactors`.
 #' @param ... additional arguments are passed to `mixedOrder()` when
 #'    `doSort=TRUE`.
 #'
@@ -1494,6 +1496,7 @@ cPaste <- function
  checkClass=TRUE,
  useBioc=TRUE,
  useLegacy=FALSE,
+ honorFactor=keepFactors,
  verbose=FALSE,
  ...)
 {
@@ -1554,6 +1557,7 @@ cPaste <- function
    if (doSort) {
       x <- mixedSorts(x,
          xclass=xclass,
+         honorFactor=honorFactor,
          ...);
    }
 
@@ -1662,6 +1666,10 @@ cPaste <- function
       ## the list to be "character" class, and a single NA is class "logical"
       ## and causes an error.
 
+      if (verbose) {
+         printDebug("cPaste(): ",
+            "Using Bioc unstrsplit().")
+      }
       # if "factor" and non-factor classes are present, convert them to one class
       if (any(grepl("factor", ignore.case=TRUE, xclass)) &&
             length(unique(xclass)) > 1) {
@@ -1672,6 +1680,10 @@ cPaste <- function
          IRanges::CharacterList(x),
          sep=sep);
    } else {
+      if (verbose) {
+         printDebug("cPaste(): ",
+            "Using mapply().")
+      }
       xNew <- mapply(paste,
          x,
          collapse=sep);
@@ -2227,12 +2239,31 @@ jam_rapply <- function
 #' xL;
 #'
 #' # now run mixedSorts(xL)
-#' # Notice "e5" is sorted before "e28"
+#' # Notice "e6" is sorted before "e30"
 #' mixedSorts(xL)
 #'
 #' # for fun, compare to lapply(xL, sort)
-#' # Notice "e5" is sorted after "e28"
+#' # Notice "e6" is sorted after "e30"
 #' lapply(xL, sort)
+#'
+#' # test super-long list
+#' xL10k <- rep(xL, length.out=10000);
+#' names(xL10k) <- as.character(seq_along(xL10k));
+#' print(head(mixedSorts(xL10k), 10))
+#'
+#' # Now make some list vectors into factors
+#' xF <- xL;
+#' xF$c <- factor(xL$c)
+#' # for fun, reverse the levels
+#' xF$c <- factor(xF$c,
+#'    levels=rev(levels(xF$c)))
+#' xF
+#' mixedSorts(xF)
+#'
+#' # test super-long list
+#' xF10k <- rep(xF, length.out=10000);
+#' names(xF10k) <- as.character(seq_along(xF10k));
+#' print(head(mixedSorts(xF10k), 10))
 #'
 #' # Make a nested list
 #' set.seed(1);
@@ -2245,8 +2276,24 @@ jam_rapply <- function
 #' )
 #' l1;
 #' # The output is a nested list with the same structure
-#' mixedSorts(l1);
-#' mixedSorts(l1, sortByName=TRUE);
+#' mixedSorts(l1, verbose=TRUE);
+#' mixedSorts(l1, sortByName=TRUE, verbose=TRUE);
+#'
+#' # Make a nested list with two sub-lists
+#' set.seed(1);
+#' l2 <- list(
+#'    A=list(
+#'       E=sample(nameVector(11:13, rev(letters[11:13])))
+#'    ),
+#'    B=list(
+#'       C=sample(nameVector(4:8, rev(LETTERS[4:8]))),
+#'       D=sample(nameVector(LETTERS[2:5], rev(LETTERS[2:5])))
+#'    )
+#' )
+#' l2;
+#' # The output is a nested list with the same structure
+#' mixedSorts(l2);
+#' mixedSorts(l2, sortByName=TRUE);
 #'
 #' # when one entry is missing
 #' L0 <- list(A=3:1,
@@ -2280,39 +2327,114 @@ mixedSorts <- function
    ##
    xNames <- names(x);
    if (length(xclass) == 0) {
-      xclass <- unique(rapply(x, class, how="unlist"));
+      xclass <- rapply(x, class, how="unlist");
    }
-   xu <- unlist(x);
+   xclassu <- unique(xclass);
+   if (!TRUE %in% honorFactor &&
+         any(c("factor") %in% xclass)) {
+      xclass[xclass %in% "factor"] <- "character"
+   }
+   xclass <- unique(xclass);
+
    if (length(names(x)) == 0) {
       names(x) <- seq_along(x);
    } else {
-      names(x) <- makeNames(names(x));
+      if (any(duplicated(names(x)))) {
+         names(x) <- makeNames(names(x));
+      }
    }
-   if (FALSE %in% sortByName && length(xclass) > 1) {
-      xnew <- rapply(x, how="replace", function(i){
-         mixedSort(i,
-            blanksFirst=blanksFirst,
-            na.last=na.last,
-            keepNegative=keepNegative,
-            keepInfinite=keepInfinite,
-            keepDecimal=keepDecimal,
-            ignore.case=ignore.case,
-            useCaseTiebreak=useCaseTiebreak,
-            honorFactor=honorFactor,
-            ...)
-      });
-      return(xnew);
+
+   # check for nested list
+   x_has_list <- any(sapply(x, function(i){"list" %in% class(i)}));
+
+   # if (!TRUE %in% sortByName && length(xclass) > 1) {
+   if (length(xclass) > 1) {
+      # slight optimization
+      # split simple (non-nested) list into subsets by class
+      # then run each class in bulk/optimized mode
+      # then reassign
+      if (!x_has_list) {
+         #
+         if (verbose) {
+            printDebug("mixedSorts(): ",
+               "Performing sort for each class subtype.");
+         }
+         xclass_sets <- cPaste(lapply(x, class));
+         for (xclass_set in unique(xclass_sets)) {
+            if (verbose) {
+               printDebug("mixedSorts(): ",
+                  indent=6,
+                  "Class subtype: ", xclass_set);
+            }
+            k <- which(xclass_sets %in% xclass_set);
+            x[k] <- mixedSorts(x[k],
+               blanksFirst=blanksFirst,
+               na.last=na.last,
+               keepNegative=keepNegative,
+               keepInfinite=keepInfinite,
+               keepDecimal=keepDecimal,
+               ignore.case=ignore.case,
+               useCaseTiebreak=useCaseTiebreak,
+               sortByName=sortByName,
+               na.rm=na.rm,
+               xclass=xclass_sets[k],
+               honorFactor=honorFactor,
+               ...)
+         }
+         return(x);
+      } else {
+         # iterate nested list individually
+         if (verbose) {
+            printDebug("mixedSorts(): ",
+               "Performing rapply() mixedSort() for each nested sublist.");
+         }
+         xnew <- rapply(x, how="replace", function(i){
+            mixedSort(i,
+               blanksFirst=blanksFirst,
+               na.last=na.last,
+               keepNegative=keepNegative,
+               keepInfinite=keepInfinite,
+               keepDecimal=keepDecimal,
+               ignore.case=ignore.case,
+               useCaseTiebreak=useCaseTiebreak,
+               sortByName=sortByName,
+               honorFactor=honorFactor,
+               ...)
+         });
+         return(xnew);
+      }
    }
+   # at this point xclass only has one value
+   # unless sortByName=TRUE
+   if (verbose) {
+      printDebug("mixedSorts(): ",
+         "Sorting list containing a single class.");
+   }
+
+   ## unlist values
+   if (length(xclassu) > 1 &&
+      "factor" %in% xclassu) {
+      # when factor is included, it is converted to character at this step
+      if (verbose) {
+         printDebug("mixedSorts(): ",
+            "Condensing factor sublist to character.");
+      }
+      xu <- unlist(rapply(x, how="unlist", function(i){
+         if ("factor" %in% class(i)) {
+            as.character(i)
+         } else {
+            i
+         }
+      }));
+   } else {
+      xu <- unlist(x);
+   }
+
    ## vector names
    xun <- unname(jam_rapply(x, names));
-   if (length(xun) < length(xu)) {
-      if (sortByName) {
-         stop("Cannot sort by name because not all vectors have names.");
-      }
-      xun <- NULL;
-   }
-   if (length(xclass) > 1) {
-      xu <- as.character(xu);
+   if (TRUE %in% sortByName &&
+      length(xun) < length(xu)) {
+      stop("Cannot sort by name because not all vectors have names.");
    }
 
    ## We define a vector of names as a factor, so the
@@ -2329,13 +2451,21 @@ mixedSorts <- function
    #xn <- factor(rep(names(x), rlengths(x)),
    #   levels=names(x));
 
-   if (sortByName) {
+   if (TRUE %in% sortByName) {
+      if (verbose) {
+         printDebug("mixedSorts(): ",
+            "Performing sortByName.");
+      }
       xu_use <- xun;
    } else {
       xu_use <- xu;
    }
    # print("xu_use:");print(xu_use);
    if (honorFactor %in% TRUE && "factor" %in% class(xu_use)) {
+      if (verbose) {
+         printDebug("mixedSorts(): ",
+            "Ordering by factor levels.");
+      }
       xuOrder <- order(xu_use,
          na.last=na.last);
    } else {
@@ -2358,8 +2488,11 @@ mixedSorts <- function
    }
 
    ## Optionally remove NA values
-   if (na.rm && any(is.na(xu_use))) {
-      printDebug("Removing NA values");
+   if (TRUE %in% na.rm && any(is.na(xu_use))) {
+      if (verbose) {
+         printDebug("mixedSorts(): ",
+            "Removing NA values.");
+      }
       whichNotNA <- which(!is.na(xu_use));
       xu <- xu[whichNotNA];
       xn <- xn[whichNotNA];
@@ -2367,7 +2500,12 @@ mixedSorts <- function
          xun <- xun[whichNotNA];
       }
       xu_use <- xu_use[whichNotNA];
-      if (any("list" %in% sapply(x, class))) {
+      # shrink input x so it still works with relist() below
+      if (any(x_has_list)) {
+         if (verbose) {
+            printDebug("mixedSorts(): ",
+               "Removing NA values from nested input list.");
+         }
          x <- jam_rapply(x, function(i){i[!is.na(i)]}, "list")
       }
    }
@@ -2386,13 +2524,28 @@ mixedSorts <- function
          x=x)
       );
    }
-   if (any("list" %in% sapply(x, class))) {
+   if (x_has_list) {
+      if (verbose) {
+         printDebug("mixedSorts(): ",
+            "Re-creating nested list structure.");
+         printDebug("mixedSorts(): ",
+            "xu:");
+         print(xu)
+         printDebug("mixedSorts(): ",
+            "xn:");
+         print(xn)
+      }
+      # xu_ordered <- unlist(unname(split(xu, xn)))
       xu_ordered <- unlist(unname(split(xu, xn)))
       xnew <- relist_named(xu_ordered, x);
       if (length(xnew) == length(xNames)) {
          names(xnew) <- xNames;
       }
    } else {
+      if (verbose) {
+         printDebug("mixedSorts(): ",
+            "Re-creating list structure.");
+      }
       xnew <- split(xu, xn);
       names(xnew) <- xNames;
    }

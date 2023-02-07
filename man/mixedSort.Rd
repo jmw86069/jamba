@@ -13,8 +13,8 @@ mixedSort(
   keepDecimal = FALSE,
   ignore.case = TRUE,
   useCaseTiebreak = TRUE,
-  sortByName = FALSE,
   honorFactor = FALSE,
+  sortByName = FALSE,
   verbose = FALSE,
   NAlast = TRUE,
   ...
@@ -68,23 +68,53 @@ for consistency with \code{base::sort()}.}
 sort alphanumeric values keeping numeric values in proper order
 }
 \details{
-This function is a refactor of the \code{gtools::mixedsort}
-function from the \code{gtools} package. It was extended to make it faster,
-and to handle special cases slightly differently. It was driven by some
-need to sort gene symbols, and miRNA symbols in numeric order, for example:
+This function is a refactor of \code{gtools::mixedsort()}, a clever bit of
+R coding from the \code{gtools} package. It was extended to make it slightly
+faster, and to handle special cases slightly differently.
+It was driven by the need to sort gene symbols, miRNA symbols, chromosome
+names, all with proper numeric order, for example:
+
 \describe{
 \item{test set:}{miR-12,miR-1,miR-122,miR-1b,mir-1a}
 \item{\code{gtools::mixedsort}:}{miR-122,miR-12,miR-1,miR-1a,mir-1b}
 \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-12,miR-122}
 }
+
 The function does not by default recognize negative numbers as negative,
-instead it treats '-' as a delimiter, unless keepNegative=TRUE.
+instead it treats '-' as a delimiter, unless \code{keepNegative=TRUE}.
 
 This function also attempts to maintain '.' as part of a decimal number,
 which can be problematic when sorting IP addresses, for example.
 
-This function is really just a wrapper function for \code{\link{mixedOrder}}
-which does the work of defining a proper order.
+This function is really just a wrapper function for \code{mixedOrder()},
+which does the work of defining the appropriate order.
+
+The sort logic is roughly as follows:
+\itemize{
+\item Split each term into alternating chunks containing \code{character}
+or \code{numeric} substrings, split across columns in a matrix.
+\item Apply appropriate \code{ignore.case} logic to the character substrings,
+effectively applying \code{toupper()} on substrings
+\item Define rank order of character substrings in each matrix column,
+maintaining ties to be resolved in subsequent columns.
+\item Convert \code{character} to \code{numeric} ranks via \code{factor} intermediate,
+defined higher than the highest \code{numeric} substring value.
+\item When \code{ignore.case=TRUE} and \code{useCaseTiebreak=TRUE}, an additional
+tiebreaker column is defined using the \code{character} substring values
+without applying \code{toupper()}.
+\item A final tiebreaker column is the input string itself, with \code{toupper()}
+applied when \code{ignore.case=TRUE}.
+\item Apply order across all substring columns.
+}
+
+Therefore, some expected behaviors:
+\itemize{
+\item When \code{ignore.case=TRUE} and \code{useCaseTiebreak=TRUE} (default for both)
+the input data is ordered without regard to case, then the tiebreaker
+applies case-specific sort criteria to the final product. This logic
+is very close to default \code{sort()} except for the handling of internal
+\code{numeric} values inside each string.
+}
 }
 \examples{
 x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");

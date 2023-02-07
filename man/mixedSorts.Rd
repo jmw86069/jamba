@@ -102,12 +102,31 @@ xL <- split(x, rep(letters[1:5], c(6,7,5,4,4)));
 xL;
 
 # now run mixedSorts(xL)
-# Notice "e5" is sorted before "e28"
+# Notice "e6" is sorted before "e30"
 mixedSorts(xL)
 
 # for fun, compare to lapply(xL, sort)
-# Notice "e5" is sorted after "e28"
+# Notice "e6" is sorted after "e30"
 lapply(xL, sort)
+
+# test super-long list
+xL10k <- rep(xL, length.out=10000);
+names(xL10k) <- as.character(seq_along(xL10k));
+print(head(mixedSorts(xL10k), 10))
+
+# Now make some list vectors into factors
+xF <- xL;
+xF$c <- factor(xL$c)
+# for fun, reverse the levels
+xF$c <- factor(xF$c,
+   levels=rev(levels(xF$c)))
+xF
+mixedSorts(xF)
+
+# test super-long list
+xF10k <- rep(xF, length.out=10000);
+names(xF10k) <- as.character(seq_along(xF10k));
+print(head(mixedSorts(xF10k), 10))
 
 # Make a nested list
 set.seed(1);
@@ -120,8 +139,24 @@ l1 <- list(
 )
 l1;
 # The output is a nested list with the same structure
-mixedSorts(l1);
-mixedSorts(l1, sortByName=TRUE);
+mixedSorts(l1, verbose=TRUE);
+mixedSorts(l1, sortByName=TRUE, verbose=TRUE);
+
+# Make a nested list with two sub-lists
+set.seed(1);
+l2 <- list(
+   A=list(
+      E=sample(nameVector(11:13, rev(letters[11:13])))
+   ),
+   B=list(
+      C=sample(nameVector(4:8, rev(LETTERS[4:8]))),
+      D=sample(nameVector(LETTERS[2:5], rev(LETTERS[2:5])))
+   )
+)
+l2;
+# The output is a nested list with the same structure
+mixedSorts(l2);
+mixedSorts(l2, sortByName=TRUE);
 
 # when one entry is missing
 L0 <- list(A=3:1,

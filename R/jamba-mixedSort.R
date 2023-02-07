@@ -3,23 +3,51 @@
 #'
 #' sort alphanumeric values keeping numeric values in proper order
 #'
-#' This function is a refactor of the \code{gtools::mixedsort}
-#' function from the \code{gtools} package. It was extended to make it faster,
-#' and to handle special cases slightly differently. It was driven by some
-#' need to sort gene symbols, and miRNA symbols in numeric order, for example:
+#' This function is a refactor of `gtools::mixedsort()`, a clever bit of
+#' R coding from the `gtools` package. It was extended to make it slightly
+#' faster, and to handle special cases slightly differently.
+#' It was driven by the need to sort gene symbols, miRNA symbols, chromosome
+#' names, all with proper numeric order, for example:
+#'
 #' \describe{
 #'    \item{test set:}{miR-12,miR-1,miR-122,miR-1b,mir-1a}
 #'    \item{\code{gtools::mixedsort}:}{miR-122,miR-12,miR-1,miR-1a,mir-1b}
 #'    \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-12,miR-122}
 #' }
+#'
 #' The function does not by default recognize negative numbers as negative,
-#' instead it treats '-' as a delimiter, unless keepNegative=TRUE.
+#' instead it treats '-' as a delimiter, unless `keepNegative=TRUE`.
 #'
 #' This function also attempts to maintain '.' as part of a decimal number,
 #' which can be problematic when sorting IP addresses, for example.
 #'
-#' This function is really just a wrapper function for \code{\link{mixedOrder}}
-#' which does the work of defining a proper order.
+#' This function is really just a wrapper function for `mixedOrder()`,
+#' which does the work of defining the appropriate order.
+#'
+#' The sort logic is roughly as follows:
+#'
+#' * Split each term into alternating chunks containing `character`
+#' or `numeric` substrings, split across columns in a matrix.
+#' * Apply appropriate `ignore.case` logic to the character substrings,
+#' effectively applying `toupper()` on substrings
+#' * Define rank order of character substrings in each matrix column,
+#' maintaining ties to be resolved in subsequent columns.
+#' * Convert `character` to `numeric` ranks via `factor` intermediate,
+#' defined higher than the highest `numeric` substring value.
+#' * When `ignore.case=TRUE` and `useCaseTiebreak=TRUE`, an additional
+#' tiebreaker column is defined using the `character` substring values
+#' without applying `toupper()`.
+#' * A final tiebreaker column is the input string itself, with `toupper()`
+#' applied when `ignore.case=TRUE`.
+#' * Apply order across all substring columns.
+#'
+#' Therefore, some expected behaviors:
+#'
+#' * When `ignore.case=TRUE` and `useCaseTiebreak=TRUE` (default for both)
+#' the input data is ordered without regard to case, then the tiebreaker
+#' applies case-specific sort criteria to the final product. This logic
+#' is very close to default `sort()` except for the handling of internal
+#' `numeric` values inside each string.
 #'
 #' @return `vector` of values from argument `x`, ordered by
 #'    `mixedOrder()`. The output class should match `class(x)`.
@@ -83,8 +111,8 @@ mixedSort <- function
  keepDecimal=FALSE,
  ignore.case=TRUE,
  useCaseTiebreak=TRUE,
- sortByName=FALSE,
  honorFactor=FALSE,
+ sortByName=FALSE,
  verbose=FALSE,
  NAlast=TRUE,
  ...)
@@ -106,58 +134,29 @@ mixedSort <- function
    }
    ignore.case <- c(ignore.case, TRUE);
    ignore.case <- head(ignore.case, 1);
-   useCaseTiebreak <- c(useCaseTiebreak, TRUE);
-   useCaseTiebreak <- head(useCaseTiebreak, 1);
-   sortByName <- c(sortByName, TRUE);
-   sortByName <- head(sortByName, 1);
-   if (sortByName) {
-      fx <- function(x){names(x)}
-      fx2 <- function(x){names(x)}
-      if (ignore.case) {
-         fx <- function(x){toupper(names(x))}
+   useCaseTiebreak <- head(c(useCaseTiebreak, TRUE), 1);
+   sortByName <- head(c(sortByName, TRUE), 1);
+   if (TRUE %in% sortByName) {
+      if (length(names(x)) == 0) {
+         warning("sortByName=TRUE but names(x) is empty. Returning x unchanged.");
+         return(x);
       }
+      fx <- function(x){names(x)}
    } else {
       fx <- function(x){c(x)}
-      fx2 <- function(x){c(x)}
-      if (TRUE %in% ignore.case) {
-         if (TRUE %in% honorFactor && is.factor(x)) {
-            fx <- function(x){
-               factor(toupper(x),
-                  levels=toupper(levels(x)))
-            }
-         } else if (!is.numeric(x)) {
-            fx <- function(x){toupper(x)}
-         }
-      } else {
-         if (!TRUE %in% honorFactor && is.factor(x)) {
-            fx <- function(x){as.character(x)}
-         }
-      }
    }
-   if (ignore.case && useCaseTiebreak) {
-      x[mmixedOrder(
-         data.frame(fx(x), fx2(x)),
-         #blanksFirst=blanksFirst,
-         na.last=na.last,
-         #keepNegative=keepNegative,
-         #keepInfinite=keepInfinite,
-         #keepDecimal=keepDecimal,
-         #ignore.case=ignore.case,
-         #useCaseTiebreak=useCaseTiebreak,
-         verbose=verbose
-         )];
-   } else {
-      x[mixedOrder(fx(x),
-         blanksFirst=blanksFirst,
-         na.last=na.last,
-         keepNegative=keepNegative,
-         keepInfinite=keepInfinite,
-         keepDecimal=keepDecimal,
-         ignore.case=ignore.case,
-         useCaseTiebreak=useCaseTiebreak,
-         verbose=verbose,
-         ...)];
-   }
+   x[mixedOrder(fx(x),
+      blanksFirst=blanksFirst,
+      na.last=na.last,
+      keepNegative=keepNegative,
+      keepInfinite=keepInfinite,
+      keepDecimal=keepDecimal,
+      ignore.case=ignore.case,
+      useCaseTiebreak=useCaseTiebreak,
+      honorFactor=honorFactor,
+      verbose=verbose,
+      returnType="order",
+      ...)];
 }
 
 #' order alphanumeric values keeping numeric values in proper order
@@ -261,6 +260,8 @@ mixedSort <- function
 #'    consistency with other base R functions.
 #' @param verbose `logical` whether to print verbose output.
 #' @param ... additional parameters are sent to `mixedOrder()`.
+#' @param debug `logical` indicating whether to return intermediate data
+#'    useful only for debugging purposes.
 #'
 #' @examples
 #' x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
@@ -308,18 +309,19 @@ mixedSort <- function
 mixedOrder <- function
 (x,
  ...,
- na.last=NAlast,
  blanksFirst=TRUE,
+ na.last=NAlast,
  keepNegative=FALSE,
  keepInfinite=FALSE,
  keepDecimal=FALSE,
- verbose=FALSE,
  ignore.case=TRUE,
  useCaseTiebreak=TRUE,
+ honorFactor=FALSE,
  returnDebug=FALSE,
  returnType=c("order", "rank"),
- honorFactor=FALSE,
- NAlast=TRUE)
+ NAlast=TRUE,
+ verbose=FALSE,
+ debug=FALSE)
 {
    ## Purpose is to customize the mixedorder() function from
    ## the gtools package, mainly because it is painfully slow
@@ -346,6 +348,10 @@ mixedOrder <- function
    }
    if (is.numeric(x) ||
          (is.factor(x) && TRUE %in% honorFactor)) {
+      if (TRUE %in% ignore.case && is.factor(x)) {
+         x <- factor(toupper(x),
+            levels=unique(toupper(levels(x))))
+      }
       if (returnType %in% "order") {
          return(order(x));
       } else {
@@ -361,7 +367,7 @@ mixedOrder <- function
    which_nas <- which(is.na(x));
    which_blanks <- grep("^[-+ \t]*$", x);
 
-   if (keepNegative) {
+   if (TRUE %in% keepNegative) {
       if (verbose) {
          printDebug("mixedOrder(): ",
             "Using keepNegative:", "TRUE",
@@ -393,7 +399,7 @@ mixedOrder <- function
             "Using keepNegative:", "FALSE",
             fgText=c("darkorange1","dodgerblue","orangered"));
       }
-      if (keepDecimal) {
+      if (TRUE %in% keepDecimal) {
          if (verbose) {
             printDebug("mixedOrder(): ",
                "Using keepDecimal:", "TRUE",
@@ -458,6 +464,11 @@ mixedOrder <- function
       print(delimited);
    }
 
+   # Optionally return intermediate debug data
+   if (TRUE %in% debug) {
+      return(list(delimited=delimited, delim=delim))
+   }
+
    ## Split delimited strings into columns, one row per entry
    step1m <- rbindList(
       rmNULL(strsplit(delimited, delim),
@@ -468,7 +479,7 @@ mixedOrder <- function
       data=suppressWarnings(as.numeric(step1m)));
 
    ## Optionally convert "Inf" from infinite back to character value
-   if (!keepInfinite && any(is.infinite(step1mNumeric))) {
+   if (!TRUE %in% keepInfinite && any(is.infinite(step1mNumeric))) {
       if (verbose > 1) {
          printDebug("mixedOrder(): ",
             "Using keepInfinite:", "FALSE",
@@ -494,14 +505,14 @@ mixedOrder <- function
    }
    ## Exception to converting Inf is with keepBlanks, na.last
    if (any(which_blanks)) {
-      if (blanksFirst) {
+      if (TRUE %in% blanksFirst) {
          step1mNumeric[which_blanks,1] <- -Inf;
       } else {
          step1mNumeric[which_blanks, ncol(step1mNumeric)] <- Inf;
       }
    }
    if (any(which_nas)) {
-      if (na.last) {
+      if (TRUE %in% na.last) {
          step1mNumeric[which_nas, ncol(step1mNumeric)] <- Inf;
       } else {
          step1mNumeric[which_nas,1] <- -Inf;
@@ -514,18 +525,45 @@ mixedOrder <- function
    step1mCharacter[!is.na(step1mNumeric)] <- NA;
 
    ## New method, hopefully faster
-   if (ignore.case) {
-      if (useCaseTiebreak) {
-         rankCharacter <- apply(step1mCharacter, 2, function(i){
+   # Current issue: each column performs its own tiebreak with useCaseTiebreak
+   # instead of performing tiebreak after all columns.
+   rankCharacterTiebreak <- NULL;
+   if (TRUE %in% ignore.case) {
+      # first perform rank with logic for ignore.case=TRUE
+      rankCharacter <- apply(step1mCharacter, 2, function(i){
+         if (verbose) {
+            printDebug("mixedOrder(): ",
+               "ignore.case col sort.");
+         }
+         iRank <- as.numeric(factor(toupper(i)));
+         if (verbose > 1) {
+            printDebug(head(iRank, 20));
+         }
+         iRank;
+      });
+      # then optionally perform rank with logic for ignore.case=FALSE
+      if (TRUE %in% useCaseTiebreak) {
+         rankCharacterTiebreak <- apply(step1mCharacter, 2, function(i){
             if (verbose) {
                printDebug("mixedOrder(): ",
                   "useCaseTiebreak col sort.");
             }
-            iOrder <- do.call(order, list(as.numeric(factor(toupper(i))),
-               as.numeric(factor(i))));
-            i2 <- i[iOrder];
-            iRank1 <- match(i, unique(i2));
-            return(iRank1);
+            # same rank without toupper()
+            iRank <- as.numeric(factor(i));
+            if (verbose > 1) {
+               printDebug(head(iRank, 20));
+            }
+            return(iRank);
+            # code below applied tiebreak on each column,
+            # which is incorrect
+            # iOrder <- do.call(order,
+            #    list(
+            #       as.numeric(factor(toupper(i))),
+            #       as.numeric(factor(i))
+            #    ));
+            # i2 <- i[iOrder];
+            # iRank1 <- match(i, unique(i2));
+            # return(iRank1);
          });
       } else {
          rankCharacter <- apply(step1mCharacter, 2, function(i){
@@ -566,11 +604,15 @@ mixedOrder <- function
       print(head(step1mCharacter, 20));
       printDebug("rankCharacter:");
       print(head(rankCharacter, 20));
+      if (length(rankCharacterTiebreak) > 0) {
+         printDebug("rankCharacterTiebreak:");
+         print(head(rankCharacterTiebreak, 20));
+      }
       printDebug("step1mNumeric:");
       print(head(step1mNumeric, 20));
       printDebug("rankNumeric:");
       print(head(rankNumeric, 20));
-      printDebug("ncol(rankNumeric):", ncol(rankNumeric));
+      # printDebug("ncol(rankNumeric):", ncol(rankNumeric));
    }
 
    ## Make character ranks higher than any existing numerical ranks
@@ -578,7 +620,9 @@ mixedOrder <- function
    ## some cells are NA here since they had a numeric value
    rankOverall <- rankCharacter + 1 + max(rankNumeric, na.rm=TRUE);
    ## Fill NA cells with the numeric rank
-   rankOverall[is.na(rankOverall)] <- rankNumeric[is.na(rankOverall)];
+   if (any(is.na(rankOverall))) {
+      rankOverall[is.na(rankOverall)] <- rankNumeric[is.na(rankOverall)];
+   }
    ## If keeping infinite values, make their rank the highest
    if (any(which_inf_pos)) {
       ## Add the highest current rank, keeping the original order
@@ -592,39 +636,41 @@ mixedOrder <- function
    }
 
    ## Backfill blanks or NA
-   if (any(which_blanks) && !blanksFirst) {
-      rankOverall[which_blanks, 1] <- Inf;
+   if (any(which_blanks)) {
+      if (!TRUE %in% blanksFirst) {
+         rankOverall[which_blanks, 1] <- Inf;
+      } else if (TRUE %in% blanksFirst) {
+         rankOverall[which_blanks, 1] <- -Inf;
+      }
    }
-   if (any(which_blanks) && blanksFirst) {
-      rankOverall[which_blanks, 1] <- -Inf;
+   if (any(which_nas)) {
+      if (TRUE %in% na.last) {
+         rankOverall[which_nas, 1] <- Inf;
+      } else if (!TRUE %in% na.last) {
+         rankOverall[which_nas, 1] <- -Inf;
+      }
    }
-   if (any(which_nas) && na.last) {
-      rankOverall[which_nas, 1] <- Inf;
-   }
-   if (any(which_nas) && !na.last) {
-      rankOverall[which_nas, 1] <- -Inf;
+
+   # useCaseTiebreak
+   if (length(rankCharacterTiebreak) > 0) {
+      rankOverall <- cbind(rankOverall,
+         rankCharacterTiebreak);
    }
 
    ## Rank initial string as a tiebreaker
-   rankX <- rank(x,
-      na.last=na.last);
+   if (TRUE %in% ignore.case) {
+      rankX <- rank(toupper(x),
+         na.last=na.last);
+   } else {
+      rankX <- rank(x,
+         na.last=na.last);
+   }
    rankOverall <- cbind(rankOverall, rankX);
 
-   if (verbose) {
-      printDebug("mixedOrder(): ",
-         "rankOverall:");
-      print(head(rankOverall, 40));
-   }
-   ## TODO: add tiebreak using the original string
-   #printDebug("dim(rankOverall):", dim(rankOverall));
-   #rankOverall <- cbind(rankOverall, rank(x, ties.method="first"));
-   #printDebug("head(x,10):", head(x,10));
-   #printDebug("dim(rankOverall):", dim(rankOverall));
-
-   if (verbose) {
+   if (TRUE %in% verbose) {
       printDebug("rankOverall:");
-      rownames(rankOverall) <- makeNames(x);
-      print(head(rankOverall, 40));
+      rownames(rankOverall) <- makeNames(x, suffix=".");
+      print(head(rankOverall, 20));
    }
 
    ## Return the order(), which always gives unique values,
@@ -646,7 +692,7 @@ mixedOrder <- function
       ## combining ranks across multiple columns
       retVal <- match(x, x[iOrder]);
    }
-   if (returnDebug) {
+   if (TRUE %in% returnDebug) {
       attr(retVal, "mixedSortNcol") <- ncol(rankNumeric);
       attr(retVal, "rankOverall") <- rankOverall;
    }

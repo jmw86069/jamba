@@ -14,6 +14,7 @@ cPaste(
   checkClass = TRUE,
   useBioc = TRUE,
   useLegacy = FALSE,
+  honorFactor = keepFactors,
   verbose = FALSE,
   ...
 )
@@ -48,6 +49,9 @@ efficient \code{\link[=mapply]{mapply()}} operation.}
 
 \item{useLegacy}{\code{logical} indicating whether to enable to previous
 legacy process used by \code{cPaste()}.}
+
+\item{honorFactor}{\code{logical} passed to \code{mixedSorts()}, as a named
+placeholder used to convey the same function as \code{keepFactors}.}
 
 \item{...}{additional arguments are passed to \code{mixedOrder()} when
 \code{doSort=TRUE}.}

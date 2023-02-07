@@ -1,5 +1,26 @@
 # TODO for jamba
 
+## 06feb2023
+
+* `mixedSorts()` optimization
+
+   * DONE: when `honorFactor=FALSE` all class `"factor"` should be considered
+   `"character"`, minimizing effects of handling `factor` and `character`
+   data independently.
+   * Handle other edge cases with mixed class, and nested or simple list.
+
+* `reload_rmarkdown_cache()` should check subdirectory "./html/" if initial reload fails.
+For some reason some RMarkdown output imposes an additional subdirectory "html" for html output.
+For that matter, this function may need to check subdirectories and by default use the first
+one found (without a dot prefix like ".git").
+
+## 04feb2023
+
+* run some performance profiling of core functions:
+
+   * `mixedSort()` and related functions
+   * `cPaste()` and related functions
+
 ## 10jan2023
 
 * `kable_coloring()`

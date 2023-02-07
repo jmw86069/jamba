@@ -1,3 +1,53 @@
+# jamba version 0.0.89.900
+
+## bug fixes
+
+* `mixedSort()` and `mixedOrder()` used similar but non-identical
+logic when applying `ignore.case=TRUE` and `useCaseTiebreak=TRUE`.
+
+   * Code and logic were consolidated into `mixedOrder()` (as it should
+   have been), and the logic was corrected to fix weird edge cases
+   of internal capitalization within a mixed character/numeric string.
+   * Logic essentially sorts without regard to case, then applies
+   a tiebreaker using case at the end. This is similar logic used by
+   default `sort()`, though I admit it feels weird. Default `sort()`
+   returns `c("aardvark", "Aardvark", "abacus", "Abacus")`.
+   * Code consolidation should speed `mixedSort()` by almost two-fold
+   for default settings, avoiding almost duplicating the same sort
+   logic just to apply the case-sensitive tiebreaker. I mentioned that
+   time hit in previous NEWS.
+
+* `mixedSorts()`
+
+   * Optimized to handle mixed-class, and nested or simple list.
+   * When the input `list` contains multiple classes
+   
+      * previous behavior was to iterate the `list` otherwise class
+      conversions (which help optimization) cause problems with `factor` and
+      `character` types. For some reason, when calling `unlist(x)` and `x`
+      contains `factor` and `character`, the output is converted to
+      `character` (which is fine), however `factor` values are converted to
+      `integer` then `character` strings of the integer values.
+      * New behavior is to call `mixedSorts()` on subsets of `x` with the
+      same class, so each subset is run with single-class optimization.
+      Now instead of scaling with `length(x)` it scales with `length(class(x))`,
+      obviously much faster.
+   
+   * When input `list` is nested, and content is all the same class, it
+   runs `mixedSorts()` on all data en masse as is optimal.
+   * When input `list` is nested, and content has different classes, each
+   subset is sorted within its class, so `list` is sorted within its own
+   subgroup. For inconsistently nested `list` structure, various branches
+   will be sorted together, which is slightly unoptimal, but it does
+   maintain the input class of each atomic vector.
+   * All classes are maintained, without coersion to `character`.
+
+* `cPaste()`
+
+   * Now passes `honorFactor=keepFactors` when calling `mixedSorts()`,
+   which should provide a notable speed boost, in addition to 
+   optimizations to `mixedSorts()` already described.
+
 # jamba version 0.0.88.900
 
 Began prep for eventual CRAN release.
