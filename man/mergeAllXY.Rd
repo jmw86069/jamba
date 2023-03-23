@@ -117,6 +117,7 @@ Other jam practical functions:
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
 \code{\link{match_unique}()},
+\code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
 \code{\link{printDebugI}()},

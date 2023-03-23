@@ -1,3 +1,47 @@
+# jamba version 0.0.90.900
+
+* Added MIT license.
+* Added testthat unit testing.
+
+## new functions
+
+* `middle()`
+
+   * Similar to `head()` and `tail()`, except it shows the middle. Actually
+   by default it shows evenly spaced entries from beginning, middle, and end.
+
+## bug fixes
+
+* `mixedSorts()`, `cPasteS()`, `cPasteSU()`
+
+   * Fixed error when one or more entries were `NULL`, output now
+   retains `NULL` without error.
+   * Added tests to cover behavior with NULL entries, including retaining
+   proper names or absence of `names(x)` for input data.
+
+## changes to existing functions
+
+* `getColorRamp()`
+
+   * accepts `function` input from `circlize::colorRamp2()`
+   * accepts `character` function name with optional package prefix.
+
+* `coordPresets()`, `drawLabels()`
+
+   * new argument `preset_type` to position labels either at the plot
+   frame (default), or `preset_type="figure"` will position labels
+   relative to the margin around each figure.
+
+* `nullPlot()`
+
+   * new argument `marginUnit` to specify whether to display margin units
+   in lines `marginUnit="lines"` (default) or inches `marginUnit="inches"`.
+   * Margin and Outer Margin are both printed in summary four-value form,
+   and along each side. Outer margin values are hidden when zero.
+   * Outer margin dotted dark green line has width=3 to make it distinct
+   from the margin dotted line with width=1.
+
+
 # jamba version 0.0.89.900
 
 ## bug fixes

@@ -721,6 +721,8 @@ nullPlot <- function
  fill="#FFFF9966",
  doAxes=FALSE,
  doMargins=TRUE,
+ marginUnit=c("lines",
+    "inches"),
  plotAreaTitle="Plot Area",
  plotSrt=0,
  plotNumPrefix="",
@@ -754,6 +756,9 @@ nullPlot <- function
    ##
    ## showMarginsOnly=TRUE will not create a new plot, but
    ## instead just annotates margins on the existing plot
+
+   # validate arguments
+   marginUnit <- match.arg(marginUnit);
 
    if (showMarginsOnly) {
       parUsr <- par("usr");
@@ -802,22 +807,43 @@ nullPlot <- function
 
       ## Print margins
       if (doMargins) {
-         Margins <- capture.output(par()$mar);
-         Margins <- substr(Margins, 5, nchar(Margins));
-         MarginsN <- as.numeric(unlist(strsplit(Margins, "[ ]+")));
+         if ("lines" %in% marginUnit) {
+            # lines
+            Margins <- par("mar");
+            MarginTerm <- "mar";
+            OMargins <- par("oma");
+            OMarginTerm <- "oma";
+         } else {
+            # inches
+            Margins <- par("mai");
+            MarginTerm <- "mai";
+            OMargins <- par("omi");
+            OMarginTerm <- "omi";
+         }
+         MarginsN <- Margins;
+         # Margins <- substr(Margins, 5, nchar(Margins));
+         # MarginsN <- as.numeric(unlist(strsplit(Margins, "[ ]+")));
          MarginsV <- format(MarginsN,
             nsmall=0,
             scientific=FALSE,
-            digits=2);
-         Margins <- paste0("  mar=c(", paste(MarginsV, collapse=","), ")",
+            digits=3);
+         OMarginsV <- format(OMargins,
+            nsmall=0,
+            scientific=FALSE,
+            digits=3);
+         MarginsText <- paste0("  ", MarginTerm,
+            "=c(", paste(MarginsV, collapse=", "), ")",
+            plotNumPrefix);
+         OMarginsText <- paste0("  ", OMarginTerm,
+            "=c(", paste(OMarginsV, collapse=", "), ")",
             plotNumPrefix);
          if (plotSrt == 90) {
             plotLas <- 2;
          } else {
             plotLas <- 1;
          }
-         if (par("mar")[3] == 0) {
-            mtext(Margins,
+         if (MarginsN[3] < 1) {
+            mtext(paste0("Margin", MarginsText),
                NORTH<-3,
                line=-1,
                cex=0.7,
@@ -825,8 +851,8 @@ nullPlot <- function
                las=plotLas,
                adj=plotLas-1);
          } else {
-            mtext(Margins,
-               NORTH<-3,
+            mtext(paste0("Margin", MarginsText),
+               SOUTH<-3,
                line=1,
                cex=0.7,
                col="navy",
@@ -834,28 +860,38 @@ nullPlot <- function
                adj=plotLas-1);
          }
 
-         box("inner", lty="dotted", col="darkgreen");
-         if (any(par("oma") > 0)) {
-            mtext("Outer Margin Area",
-               SOUTH<-1,
-               line=0.4,
-               adj=1.0,
-               cex=1.5,
-               col="darkgreen",
-               outer=TRUE,
-               las=plotLas);
+         box("inner", lty="dotted", col="darkgreen", lwd=3);
+         if (any(OMargins > 0)) {
+            if (OMargins[1] >= 1) {
+               mtext(paste0("Outer Margin Area", OMarginsText),
+                  SOUTH<-1,
+                  line=0,
+                  adj=1.0,
+                  cex=0.7,
+                  col="darkgreen",
+                  outer=TRUE,
+                  las=plotLas);
+            } else {
+               mtext(paste0("Outer Margin Area", OMarginsText),
+                  SOUTH<-1,
+                  line=-1,
+                  adj=1.0,
+                  cex=0.7,
+                  col="darkgreen",
+                  outer=TRUE,
+                  las=plotLas);
+            }
          }
          box("outer", lty="solid", col="darkgreen");
 
          ## Text: vector of strings in mtext call
          lapply(1:4, function(i){
-            if (par("mar")[i] > 0) {
+            if (MarginsV[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
                par("las"=newLas);
-               mtext(paste0("mar[", i, "]",
+               mtext(paste0(MarginTerm, "[", i, "]",
                      plotNumPrefix, "=",
-                     format(digits=2, nsmall=0, scientific=FALSE,
-                        par("mar")[i])),
+                     MarginsV[i]),
                   side=i,
                   line=0.4,
                   cex=0.6,
@@ -866,15 +902,16 @@ nullPlot <- function
          });
          par("las"=1);
          lapply(1:4, function(i){
-            if (par("oma")[i] > 0) {
+            if (OMarginsV[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
                par("las"=newLas);
                mtext(paste0("oma[", i, "]",
                      plotNumPrefix, "=",
-                     format(digits=2, nsmall=0, scientific=FALSE,
-                        par("oma")[i])),
+                     OMarginsV[i]),
                   i,
-                  line=0.4,
+                  adj=0.5,
+                  padj=0,
+                  line=-0.1,
                   cex=0.6,
                   col="navy",
                   outer=TRUE,

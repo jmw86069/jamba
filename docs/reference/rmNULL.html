@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
       </span>
     </div>
 
@@ -109,6 +109,7 @@ optionally replacing it with another value</p>
 <code><a href="make_styles.html">make_styles</a>()</code>,
 <code><a href="match_unique.html">match_unique</a>()</code>,
 <code><a href="mergeAllXY.html">mergeAllXY</a>()</code>,
+<code><a href="middle.html">middle</a>()</code>,
 <code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
 <code><a href="newestFile.html">newestFile</a>()</code>,
 <code><a href="printDebugI.html">printDebugI</a>()</code>,
@@ -126,6 +127,29 @@ optionally replacing it with another value</p>
     </div>
     </div>
 
+    <div id="examples">
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, B<span class="op">=</span><span class="cn">NULL</span>, C<span class="op">=</span><span class="va">letters</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">16</span><span class="op">]</span><span class="op">)</span>;</span>
+<span class="r-in"><span class="fu">rmNULL</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k" "l" "m" "n" "o" "p"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">rmNULL</span><span class="op">(</span><span class="va">x</span>, nullValue<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k" "l" "m" "n" "o" "p"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

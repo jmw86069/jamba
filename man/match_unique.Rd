@@ -43,6 +43,7 @@ Other jam practical functions:
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
 \code{\link{mergeAllXY}()},
+\code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
 \code{\link{printDebugI}()},

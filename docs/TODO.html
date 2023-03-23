@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
       </span>
     </div>
 
@@ -58,6 +58,55 @@
 
 <div id="todo-for-jamba" class="section level1">
 
+<div class="section level2">
+<h2 id="22mar2023">22mar2023<a class="anchor" aria-label="anchor" href="#22mar2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/imageByColors.html">imageByColors()</a></code></p>
+<ul><li>
+<code>adjustMargins=TRUE</code> does not reset margins after
+plotting. It may be desirable, so other features can be added, but
+causes problems when running a series of plots.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="27feb2023">27feb2023<a class="anchor" aria-label="anchor" href="#27feb2023"></a></h2>
+<ul><li>
+<p>consider new color function: <code>is_color_ramp()</code></p>
+<ul><li>simple function that performs the same test in
+<code><a href="reference/getColorRamp.html">getColorRamp()</a></code> just to validate that an input
+<code>character</code> string is a possible color ramp.</li>
+<li>potential argument to require the <code>character</code> string to
+be a specific named color ramp, and not a single color which could be
+converted into a color ramp.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="06feb2023">06feb2023<a class="anchor" aria-label="anchor" href="#06feb2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/mixedSorts.html">mixedSorts()</a></code> optimization</p>
+<ul><li>DONE: when <code>honorFactor=FALSE</code> all class
+<code>"factor"</code> should be considered <code>"character"</code>,
+minimizing effects of handling <code>factor</code> and
+<code>character</code> data independently.</li>
+<li>Handle other edge cases with mixed class, and nested or simple
+list.</li>
+</ul></li>
+<li><p><code><a href="reference/reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code> should check subdirectory
+“./html/” if initial reload fails. For some reason some RMarkdown output
+imposes an additional subdirectory “html” for html output. For that
+matter, this function may need to check subdirectories and by default
+use the first one found (without a dot prefix like “.git”).</p></li>
+</ul></div>
+<div class="section level2">
+<h2 id="04feb2023">04feb2023<a class="anchor" aria-label="anchor" href="#04feb2023"></a></h2>
+<ul><li>
+<p>run some performance profiling of core functions:</p>
+<ul><li>
+<code><a href="reference/mixedSort.html">mixedSort()</a></code> and related functions</li>
+<li>
+<code><a href="reference/cPaste.html">cPaste()</a></code> and related functions</li>
+</ul></li>
+</ul></div>
 <div class="section level2">
 <h2 id="10jan2023">10jan2023<a class="anchor" aria-label="anchor" href="#10jan2023"></a></h2>
 <ul><li>

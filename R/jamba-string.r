@@ -42,8 +42,11 @@
 #'
 #' @export
 igrepHas <- function
-(pattern, x=NULL, ignore.case=TRUE,
- minCount=1, naToBlank=FALSE,
+(pattern,
+ x=NULL,
+ ignore.case=TRUE,
+ minCount=1,
+ naToBlank=FALSE,
  ...)
 {
    ## Purpose is a quick check for greppable substring, for if() statements
@@ -455,41 +458,51 @@ proigrep <- function
 #'
 #' rbind a list of vectors into matrix or data.frame
 #'
-#' The purpose of this function is to emulate do.call(rbind, x) on a list
+#' The purpose of this function is to emulate `do.call(rbind, x)` on a list
 #' of vectors, while specifically handling when there are different
-#' numbers of entries per vector. Instead of repeating the values to fill the
-#' number of resulting columns, this function fills cells with blank fields.
-#' In extensive timings tests at the time this function was created, this
-#' method was notably faster than alternatives. That is, it runs
-#' \code{do.call(rbind, x)} then subsequent steps to replace values with
-#' blank entries was notably faster than other alternatives.
+#' numbers of entries per vector. The output `matrix` number of columns
+#' will be the longest vector (or largest number of columns) in the
+#' input list `x`.
 #'
-#' @return
-#' By default a matrix, or if returnDF=TRUE the object is coerced to a
-#' data.frame. The rownames by default are derived from the list names,
-#' but the colnames are not derived from the vector names.
+#' Instead of recycling values in each row to fill the target number
+#' of columns, this function fills cells with blank fields,
+#' with default argument `fixBlanks=TRUE`.
 #'
-#' @param x input list of vectors.
-#' @param emptyValue character value to use to represent missing values,
+#' In extensive timings tests at the time this function was created,
+#' this technique was notably faster than alternatives.
+#' It runs  `do.call(rbind, x)` then subsequently replaces recycled values
+#' with blank entries, in a manner that is notably faster than
+#' alternative approaches such as pre-processing the input data.
+#'
+#' @return `matrix` unless `returnDF=TRUE` in which the output is coerced
+#'    to a `data.frame`.
+#'    The rownames by default are derived from the list names,
+#'    but the colnames are not derived from the vector names.
+#'    If input `x` contains `data.frame` or `matrix` objects, the output
+#'    will retain those values.
+#'
+#' @param x `list` of atomic `vector`, `matrix`, or `data.frame`
+#'    objects.
+#' @param emptyValue `character` value to use to represent missing values,
 #'    whenever a blank cell is introduced into the resulting matrix
 #' @param nullValue optional value used to replace NULL entries in
 #'    the input list, useful especially when the data was produced
 #'    by `strsplit()` with `""`. Use `nullValue=""` to replace `NULL`
 #'    with `""` and preserve the original list length. Otherwise when
 #'    `nullValue=NULL` any empty entries will be silently dropped.
-#' @param keepListNames logical whether to use list names as rownames
+#' @param keepListNames `logical` whether to use list names as rownames
 #'    in the resulting matrix or data.frame.
-#' @param newColnames NULL or character vector of colnames to use for the
+#' @param newColnames NULL or `character` vector of colnames to use for the
 #'    resulting matrix or data.frame.
-#' @param newRownames NULL or character vector of rownames to use for the
+#' @param newRownames NULL or `character` vector of rownames to use for the
 #'    resulting matrix or data.frame. If supplied, this value overrides the
 #'    keepListNames=TRUE use of list names as rownames.
-#' @param fixBlanks logical whether to use blank values instead of repeating
+#' @param fixBlanks `logical` whether to use blank values instead of repeating
 #'    each vector to the length of the maximum vector length when filling
 #'    each row of the matrix or data.frame.
-#' @param returnDF logical whether to return a data.frame, by default FALSE,
+#' @param returnDF `logical` whether to return a data.frame, by default FALSE,
 #'    a matrix is returned.
-#' @param verbose logical whether to print verbose output during processing.
+#' @param verbose `logical` whether to print verbose output during processing.
 #'
 #' @examples
 #' L <- list(a=LETTERS[1:4], b=letters[1:3]);
@@ -1042,6 +1055,11 @@ nameVectorN <- function
 #'
 #' @param x list or other object which may contain NULL.
 #'
+#' @examples
+#' x <- list(A=1:6, B=NULL, C=letters[11:16]);
+#' rmNULL(x)
+#' rmNULL(x, nullValue=NA)
+#'
 #' @export
 rmNULL <- function
 (x, nullValue=NULL,
@@ -1399,30 +1417,33 @@ uniques <- function
 #' @return character vector with the same names and in the same order
 #'    as the input list `x`.
 #'
-#' @param x input list of vectors
-#' @param sep character delimiter used to paste multiple values together
-#' @param doSort boolean indicating whether to sort each vector
+#' @param x input `list` of vectors
+#' @param sep `character` delimiter used to paste multiple values together
+#' @param doSort `logical` indicating whether to sort each vector
 #'    using [mixedOrder()].
-#' @param makeUnique boolean indicating whether to make each vector in
+#' @param makeUnique `logical` indicating whether to make each vector in
 #'    the input list unique before pasting its values together.
 #' @param na.rm boolean indicating whether to remove NA values from
 #'    each vector in the input list. When `na.rm` is `TRUE` and a
 #'    list element contains only `NA` values, the resulting string
 #'    will be `""`.
-#' @param keepFactors logical indicating whether to preserve factors,
-#'    keeping factor level order when `doSort=TRUE`. When
-#'    `keepFactors=TRUE`, if any list element is a factor, all elements
+#' @param keepFactors `logical` only used when `useLegacy=TRUE` and
+#'    `doSort=TRUE`; indicating whether to preserve factors,
+#'    keeping factor level order. When
+#'    `keepFactors=TRUE`, if any list element is a `factor`, all elements
 #'    are converted to factors. Note that this step combines overall
 #'    factor levels, and non-factors will be ordered using
 #'    `base::order()` instead of `jamba::mixedOrder()` (for now.)
-#' @param useBioc boolean indicating whether this function should try
-#'    to use [S4Vectors::unstrsplit()] when the Bioconductor package
-#'    `S4Vectors` is installed, otherwise it will use a much less
-#'    efficient [mapply()] operation.
+#' @param useBioc `logical` indicating whether this function should try
+#'    to use `S4Vectors::unstrsplit()` when the Bioconductor package
+#'    `S4Vectors` is installed, otherwise it will use a less
+#'    efficient `mapply()` operation.
 #' @param useLegacy `logical` indicating whether to enable to previous
 #'    legacy process used by `cPaste()`.
-#' @param honorFactor `logical` passed to `mixedSorts()`, as a named
-#'    placeholder used to convey the same function as `keepFactors`.
+#' @param honorFactor `logical` passed to `mixedSorts()`, whether any
+#'    `factor` vector should be sorted in factor level order.
+#'    When `honorFactor=FALSE` then even `factor` vectors are sorted
+#'    as if they were `character` vectors, ignoring the factor levels.
 #' @param ... additional arguments are passed to `mixedOrder()` when
 #'    `doSort=TRUE`.
 #'
@@ -1496,7 +1517,7 @@ cPaste <- function
  checkClass=TRUE,
  useBioc=TRUE,
  useLegacy=FALSE,
- honorFactor=keepFactors,
+ honorFactor=TRUE,
  verbose=FALSE,
  ...)
 {
@@ -2228,6 +2249,9 @@ jam_rapply <- function
 #' @param xclass `character` vector of classes in `x`, used for slight
 #'    optimization to re-use this vector if it has already been
 #'    defined for `x`. When `NULL` it is created within this function.
+#' @param indent `numeric` used only when `verbose=TRUE` to determine
+#'    the number of spaces indented for verbose output, passed to
+#'    `printDebug()`.
 #'
 #' @examples
 #' # set up an example list of mixed alpha-numeric strings
@@ -2320,14 +2344,32 @@ mixedSorts <- function
  NAlast=TRUE,
  honorFactor=TRUE,
  xclass=NULL,
+ indent=0,
  debug=FALSE,
  ...)
 {
    ## Purpose is to take a list of vectors and run mixedSort() efficiently
    ##
+   # if empty then return without change
+   if (length(x) == 0) {
+      return(x)
+   }
+   # if entirely empty then return without change
+   if (all(lengths(x) == 0)) {
+      return(x)
+   }
    xNames <- names(x);
+
+   # recursive class() because rapply drops NULL entries
+   rclass <- function(x){
+      if (is.list(x)) {
+         return(lapply(x, rclass))
+      }
+      return(class(x))
+   }
    if (length(xclass) == 0) {
-      xclass <- rapply(x, class, how="unlist");
+      # xclass <- rapply(x, class, how="unlist");
+      xclass <- unlist(rclass(x))
    }
    xclassu <- unique(xclass);
    if (!TRUE %in% honorFactor &&
@@ -2357,35 +2399,48 @@ mixedSorts <- function
          #
          if (verbose) {
             printDebug("mixedSorts(): ",
+               indent=indent,
                "Performing sort for each class subtype.");
          }
          xclass_sets <- cPaste(lapply(x, class));
          for (xclass_set in unique(xclass_sets)) {
             if (verbose) {
                printDebug("mixedSorts(): ",
-                  indent=6,
+                  indent=indent + 3,
                   "Class subtype: ", xclass_set);
             }
             k <- which(xclass_sets %in% xclass_set);
-            x[k] <- mixedSorts(x[k],
-               blanksFirst=blanksFirst,
-               na.last=na.last,
-               keepNegative=keepNegative,
-               keepInfinite=keepInfinite,
-               keepDecimal=keepDecimal,
-               ignore.case=ignore.case,
-               useCaseTiebreak=useCaseTiebreak,
-               sortByName=sortByName,
-               na.rm=na.rm,
-               xclass=xclass_sets[k],
-               honorFactor=honorFactor,
-               ...)
+            if ("NULL" %in% xclass_set) {
+               if (verbose) {
+                  printDebug("mixedSorts(): ",
+                     indent=indent + 6,
+                     "Skipping NULL class subtype: ", xclass_set);
+               }
+            } else {
+               x[k] <- mixedSorts(x[k],
+                  blanksFirst=blanksFirst,
+                  na.last=na.last,
+                  keepNegative=keepNegative,
+                  keepInfinite=keepInfinite,
+                  keepDecimal=keepDecimal,
+                  ignore.case=ignore.case,
+                  useCaseTiebreak=useCaseTiebreak,
+                  sortByName=sortByName,
+                  na.rm=na.rm,
+                  xclass=xclass_sets[k],
+                  honorFactor=honorFactor,
+                  indent=indent + 12,
+                  verbose=verbose,
+                  ...)
+            }
          }
+         names(x) <- xNames;
          return(x);
       } else {
          # iterate nested list individually
          if (verbose) {
             printDebug("mixedSorts(): ",
+               indent=indent,
                "Performing rapply() mixedSort() for each nested sublist.");
          }
          xnew <- rapply(x, how="replace", function(i){
@@ -2401,6 +2456,7 @@ mixedSorts <- function
                honorFactor=honorFactor,
                ...)
          });
+         names(xnew) <- xNames;
          return(xnew);
       }
    }
@@ -2408,6 +2464,7 @@ mixedSorts <- function
    # unless sortByName=TRUE
    if (verbose) {
       printDebug("mixedSorts(): ",
+         indent=indent,
          "Sorting list containing a single class.");
    }
 
@@ -2417,6 +2474,7 @@ mixedSorts <- function
       # when factor is included, it is converted to character at this step
       if (verbose) {
          printDebug("mixedSorts(): ",
+            indent=indent,
             "Condensing factor sublist to character.");
       }
       xu <- unlist(rapply(x, how="unlist", function(i){
@@ -2454,6 +2512,7 @@ mixedSorts <- function
    if (TRUE %in% sortByName) {
       if (verbose) {
          printDebug("mixedSorts(): ",
+            indent=indent,
             "Performing sortByName.");
       }
       xu_use <- xun;
@@ -2464,6 +2523,7 @@ mixedSorts <- function
    if (honorFactor %in% TRUE && "factor" %in% class(xu_use)) {
       if (verbose) {
          printDebug("mixedSorts(): ",
+            indent=indent,
             "Ordering by factor levels.");
       }
       xuOrder <- order(xu_use,
@@ -2491,6 +2551,7 @@ mixedSorts <- function
    if (TRUE %in% na.rm && any(is.na(xu_use))) {
       if (verbose) {
          printDebug("mixedSorts(): ",
+            indent=indent,
             "Removing NA values.");
       }
       whichNotNA <- which(!is.na(xu_use));
@@ -2504,6 +2565,7 @@ mixedSorts <- function
       if (any(x_has_list)) {
          if (verbose) {
             printDebug("mixedSorts(): ",
+               indent=indent,
                "Removing NA values from nested input list.");
          }
          x <- jam_rapply(x, function(i){i[!is.na(i)]}, "list")
@@ -2527,11 +2589,14 @@ mixedSorts <- function
    if (x_has_list) {
       if (verbose) {
          printDebug("mixedSorts(): ",
+            indent=indent,
             "Re-creating nested list structure.");
          printDebug("mixedSorts(): ",
+            indent=indent,
             "xu:");
          print(xu)
          printDebug("mixedSorts(): ",
+            indent=indent,
             "xn:");
          print(xn)
       }
@@ -2544,6 +2609,7 @@ mixedSorts <- function
    } else {
       if (verbose) {
          printDebug("mixedSorts(): ",
+            indent=indent,
             "Re-creating list structure.");
       }
       xnew <- split(xu, xn);

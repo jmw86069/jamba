@@ -1201,38 +1201,50 @@ makeColorDarker <- function
 #' input color vector. Most color ramps have no transparency, in which
 #' case transparency can be added after the fact using `alpha2col()`.
 #'
-#' @param col accepts
-#'    \itemize{
-#'       \item{"character vector"}{one or more colors used to define a color
-#'          gradient. Where one color is supplied, a gradient is created from
-#'          defaultBaseColor to the supplied color.}
-#'       \item{"character vector length 1"}{one name matching a known color ramp either
-#'          from `RColorBrewer::brewer.pal.info`, or from the
-#'          `viridis::viridis` package.}
-#'    }
-#' @param n integer number of output colors to return, or NULL if
+#' @param col one of the following:
+#'    * `character` vector of two or more R colors. A color gradient
+#'    will be defined using these colors in order with `colorRampPalette()`.
+#'    * `character` vector length=1 with one R color.
+#'    A color gradient is defined from `defaultBaseColor` to `col`
+#'    using `colorRampPalette()`.
+#'    * `character` vector length=1, with one recognized color ramp name:
+#'    any color palette from `rownames(RColorBrewer::brewer.pal.info())`;
+#'    any color palette function name from `viridis`;
+#'    any color palette from `colorjam::jam_linear()` or
+#'    `colorjam::jam_divergent()`.
+#'    * `character` vector length=1, with one color function name,
+#'    for example `col="rainbow_hcl"`. Input is equivalent to supplying
+#'    one color `function`, see below.
+#'    * `function` whose first argument expects `integer` number of colors
+#'    to return, for example `col=viridis::viridis` defines the function
+#'    itself as input.
+#'    * `function` derived from `circlize::colorRamp2()`,  recognized
+#'    by having attribute names `"breaks"` and `"colors"`. Note that
+#'    only the colors are used for the individual color values, not the
+#'    break points.
+#' @param n `integer` number of output colors to return, or NULL if
 #'    the output should be a color function in the form `function(n)`
 #'    which returns `n` colors.
-#' @param trimRamp integer vector, expanded to length=2 as needed,
+#' @param trimRamp `integer` vector, expanded to length=2 as needed,
 #'    which defines the number of colors to trim from the beginning
 #'    and end of the color vector, respectively. When `reverseRamp=TRUE`,
 #'    the colors are reversed before the trimming is applied.
 #'    If the two `trimRamp` values are not identical, symmetric divergent
 #'    color scales will no longer be symmetric.
-#' @param gradientN integer number of colors to expand gradient colors
+#' @param gradientN `integer` number of colors to expand gradient colors
 #'    prior to trimming colors.
-#' @param defaultBaseColor character vector indicating a color from which to
+#' @param defaultBaseColor `character` vector indicating a color from which to
 #'    begin a color gradient, only used when col is a single color.
-#' @param reverseRamp logical indicating whether to reverse the resulting
+#' @param reverseRamp `logical` indicating whether to reverse the resulting
 #'    color ramp. This value is ignored when a single value is supplied for
 #'    col, and where "_r" or "_rev" is detected as a substring at the end
 #'    of the character value.
-#' @param alpha logical indicating whether to honor alpha transparency
+#' @param alpha `logical` indicating whether to honor alpha transparency
 #'    whenever `colorRampPalette` is called. If colors contain
 #'    no alpha transparency, this setting has no effect, otherwise the
 #'    alpha value is applied by `grDevices::colorRampPalette()` using
 #'    a linear gradient between each color.
-#' @param gradientWtFactor numeric value used to expand single color
+#' @param gradientWtFactor `numeric` value used to expand single color
 #'    input to a gradient, using `color2gradient()`, prior to making
 #'    a full gradient to the `defaultBaseColor`.
 #' @param lens,divergent arguments sent to `warpRamp()` to
@@ -1242,7 +1254,8 @@ makeColorDarker <- function
 #'    negative values expanding colors near baseline; `divergent`
 #'    is a logical indicating whether the middle color is considered
 #'    the baseline.
-#' @param verbose logical whether to print verbose output
+#' @param verbose `logical` whether to print verbose output
+#' @param ... additional arguments are ignored.
 #'
 #' @examples
 #' # get a gradient using red4
@@ -1319,13 +1332,22 @@ getColorRamp <- function
    }
 
    if (igrepHas("character", class(col))) {
+      viridis_colors <- c(
+         "cividis",
+         "viridis",
+         "inferno",
+         "magma",
+         "mako",
+         "plasma",
+         "rocket",
+         "turbo")
       if (length(col) == 1 &&
-            col %in% c("viridis","inferno","plasma","magma","cividis")) {
+            col %in% viridis_colors) {
          #######################################
          ## Viridis package color handling
          if (!suppressWarnings(suppressPackageStartupMessages(require(viridisLite)))) {
-            stop(paste0("The viridisLite package is required for color ramps:",
-               " cividis,inferno,magma,plasma,viridis"));
+            stop(paste0("The viridisLite package is required for color ramps: ",
+               cPaste(viridis_colors, sep=", ")));
          }
          if (verbose) {
             printDebug("getColorRamp(): ",
@@ -1412,12 +1434,30 @@ getColorRamp <- function
                printDebug("getColorRamp(): ",
                   "checking color function name input.");
             }
-            colorFunc <- tryCatch({
-               get(col, mode="function");
-            }, error=function(e){
-               printDebug("Error:", e, fgText=c("red", "orange"));
-               NULL;
-            });
+            # retrieve based upon format
+            if (igrepHas("::", col)) {
+               # package::function prefix is evaluated
+               colorFunc <- tryCatch({
+                  eval(str2lang(col))
+               }, error=function(e){
+                  printDebug("Error:", e,
+                     sep=" ", collapse=" ",
+                     fgText=c("red", "orange"));
+                  print(e);
+                  NULL;
+               });
+            } else {
+               # string is tested with get()
+               colorFunc <- tryCatch({
+                  get(col,
+                     mode="function");
+               }, error=function(e){
+                  printDebug("Error:", e,
+                     sep=" ", collapse=" ",
+                     fgText=c("red", "orange"));
+                  NULL;
+               });
+            }
             ## If not a function, we stop here
             if (length(colorFunc) == 0) {
                stop(paste0("The supplied color could not be used to create",
@@ -1426,11 +1466,18 @@ getColorRamp <- function
          }
       }
    } else if (is.function(col)) {
-      if (verbose) {
-         printDebug("getColorRamp(): ",
-            "color function input.");
+      if (all(c("colors", "breaks") %in% names(attributes(col)))) {
+         # circlize::colorRamp2() color function
+         # convert to colorRampPalette color function
+         colorFunc <- colorRampPalette(rgb2col(attr(col, "colors")))
+      } else {
+         # color function with N argument
+         if (verbose) {
+            printDebug("getColorRamp(): ",
+               "color function input.");
+         }
+         colorFunc <- col;
       }
-      colorFunc <- col;
    } else {
       if (verbose) {
          printDebug("getColorRamp(): ",
@@ -1439,8 +1486,8 @@ getColorRamp <- function
       colorFunc <- colorRampPalette(col, alpha=alpha);
    }
 
-   ########################
-   ## Get color ramp
+   #############################################
+   ## use colorFunc to define the color ramp
    if (lens != 0 && length(divergent) == 0) {
       divergent <- FALSE;
    }

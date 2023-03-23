@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
       </span>
     </div>
 
@@ -57,6 +57,120 @@
       <small>Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.90.900" id="jamba-version-0090900">jamba version 0.0.90.900<a class="anchor" aria-label="anchor" href="#jamba-version-0090900"></a></h2>
+<ul><li>Added MIT license.</li>
+<li>Added testthat unit testing.</li>
+</ul><div class="section level3">
+<h3 id="new-functions-0-0-90-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-90-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/middle.html">middle()</a></code></p>
+<ul><li>Similar to <code><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head()</a></code> and <code><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">tail()</a></code>, except it
+shows the middle. Actually by default it shows evenly spaced entries
+from beginning, middle, and end.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-90-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-90-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/mixedSorts.html">mixedSorts()</a></code></p>
+<ul><li>Fixed error when one or more entries were <code>NULL</code>, output
+now retains <code>NULL</code> without error.</li>
+<li>Added tests to cover behavior with NULL entries, including retaining
+proper names or absence of <code>names(x)</code> for input data.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-90-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-90-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/getColorRamp.html">getColorRamp()</a></code></p>
+<ul><li>accepts <code>function</code> input from
+<code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code>
+</li>
+<li>accepts <code>character</code> function name with optional package
+prefix.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/coordPresets.html">coordPresets()</a></code>, <code><a href="../reference/drawLabels.html">drawLabels()</a></code></p>
+<ul><li>new argument <code>preset_type</code> to position labels either at
+the plot frame (default), or <code>preset_type="figure"</code> will
+position labels relative to the margin around each figure.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/nullPlot.html">nullPlot()</a></code></p>
+<ul><li>new argument <code>marginUnit</code> to specify whether to display
+margin units in lines <code>marginUnit="lines"</code> (default) or
+inches <code>marginUnit="inches"</code>.</li>
+<li>Margin and Outer Margin are both printed in summary four-value form,
+and along each side. Outer margin values are hidden when zero.</li>
+<li>Outer margin dotted dark green line has width=3 to make it distinct
+from the margin dotted line with width=1.</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.89.900" id="jamba-version-0089900">jamba version 0.0.89.900<a class="anchor" aria-label="anchor" href="#jamba-version-0089900"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-89-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-89-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/mixedSort.html">mixedSort()</a></code> and <code><a href="../reference/mixedOrder.html">mixedOrder()</a></code> used
+similar but non-identical logic when applying
+<code>ignore.case=TRUE</code> and <code>useCaseTiebreak=TRUE</code>.</p>
+<ul><li>Code and logic were consolidated into <code><a href="../reference/mixedOrder.html">mixedOrder()</a></code> (as
+it should have been), and the logic was corrected to fix weird edge
+cases of internal capitalization within a mixed character/numeric
+string.</li>
+<li>Logic essentially sorts without regard to case, then applies a
+tiebreaker using case at the end. This is similar logic used by default
+<code><a href="https://rdrr.io/pkg/BiocGenerics/man/sort.html" class="external-link">sort()</a></code>, though I admit it feels weird. Default
+<code><a href="https://rdrr.io/pkg/BiocGenerics/man/sort.html" class="external-link">sort()</a></code> returns
+<code>c("aardvark", "Aardvark", "abacus", "Abacus")</code>.</li>
+<li>Code consolidation should speed <code><a href="../reference/mixedSort.html">mixedSort()</a></code> by almost
+two-fold for default settings, avoiding almost duplicating the same sort
+logic just to apply the case-sensitive tiebreaker. I mentioned that time
+hit in previous NEWS.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/mixedSorts.html">mixedSorts()</a></code></p>
+<ul><li><p>Optimized to handle mixed-class, and nested or simple
+list.</p></li>
+<li>
+<p>When the input <code>list</code> contains multiple classes</p>
+<ul><li>previous behavior was to iterate the <code>list</code> otherwise
+class conversions (which help optimization) cause problems with
+<code>factor</code> and <code>character</code> types. For some reason,
+when calling <code>unlist(x)</code> and <code>x</code> contains
+<code>factor</code> and <code>character</code>, the output is converted
+to <code>character</code> (which is fine), however <code>factor</code>
+values are converted to <code>integer</code> then <code>character</code>
+strings of the integer values.</li>
+<li>New behavior is to call <code><a href="../reference/mixedSorts.html">mixedSorts()</a></code> on subsets of
+<code>x</code> with the same class, so each subset is run with
+single-class optimization. Now instead of scaling with
+<code>length(x)</code> it scales with <code>length(class(x))</code>,
+obviously much faster.</li>
+</ul></li>
+<li><p>When input <code>list</code> is nested, and content is all the
+same class, it runs <code><a href="../reference/mixedSorts.html">mixedSorts()</a></code> on all data en masse as is
+optimal.</p></li>
+<li><p>When input <code>list</code> is nested, and content has different
+classes, each subset is sorted within its class, so <code>list</code> is
+sorted within its own subgroup. For inconsistently nested
+<code>list</code> structure, various branches will be sorted together,
+which is slightly unoptimal, but it does maintain the input class of
+each atomic vector.</p></li>
+<li><p>All classes are maintained, without coersion to
+<code>character</code>.</p></li>
+</ul></li>
+<li>
+<p><code><a href="../reference/cPaste.html">cPaste()</a></code></p>
+<ul><li>Now passes <code>honorFactor=keepFactors</code> when calling
+<code><a href="../reference/mixedSorts.html">mixedSorts()</a></code>, which should provide a notable speed boost,
+in addition to optimizations to <code><a href="../reference/mixedSorts.html">mixedSorts()</a></code> already
+described.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.88.900" id="jamba-version-0088900">jamba version 0.0.88.900<a class="anchor" aria-label="anchor" href="#jamba-version-0088900"></a></h2>
 <p>Began prep for eventual CRAN release.</p>

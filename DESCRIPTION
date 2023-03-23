@@ -1,6 +1,6 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.89.900
+Version: 0.0.90.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
 Description: Jam Base methods.
@@ -20,7 +20,8 @@ Imports: colorspace,
     farver,
     colorspace,
     grDevices
-Suggests: knitr,
+Suggests: 
+    knitr,
     rmarkdown,
     RColorBrewer,
     viridisLite,
@@ -28,8 +29,9 @@ Suggests: knitr,
     matrixStats,
     S4Vectors,
     openxlsx,
-    ComplexHeatmap
-License: GPL-2
+    ComplexHeatmap,
+    testthat (>= 3.0.0)
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: http://github.com/jmw86069/jamba
@@ -37,3 +39,4 @@ BugReports: http://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Config/testthat/edition: 3

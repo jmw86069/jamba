@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
       </span>
     </div>
 
@@ -79,9 +79,10 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>input list of vectors.</p></dd>
+<dd><p><code>list</code> of atomic <code>vector</code>, <code>matrix</code>, or <code>data.frame</code>
+objects.</p></dd>
 <dt>emptyValue</dt>
-<dd><p>character value to use to represent missing values,
+<dd><p><code>character</code> value to use to represent missing values,
 whenever a blank cell is introduced into the resulting matrix</p></dd>
 <dt>nullValue</dt>
 <dd><p>optional value used to replace NULL entries in
@@ -90,41 +91,49 @@ by <code><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">st
 with <code>""</code> and preserve the original list length. Otherwise when
 <code>nullValue=NULL</code> any empty entries will be silently dropped.</p></dd>
 <dt>keepListNames</dt>
-<dd><p>logical whether to use list names as rownames
+<dd><p><code>logical</code> whether to use list names as rownames
 in the resulting matrix or data.frame.</p></dd>
 <dt>newColnames</dt>
-<dd><p>NULL or character vector of colnames to use for the
+<dd><p>NULL or <code>character</code> vector of colnames to use for the
 resulting matrix or data.frame.</p></dd>
 <dt>newRownames</dt>
-<dd><p>NULL or character vector of rownames to use for the
+<dd><p>NULL or <code>character</code> vector of rownames to use for the
 resulting matrix or data.frame. If supplied, this value overrides the
 keepListNames=TRUE use of list names as rownames.</p></dd>
 <dt>fixBlanks</dt>
-<dd><p>logical whether to use blank values instead of repeating
+<dd><p><code>logical</code> whether to use blank values instead of repeating
 each vector to the length of the maximum vector length when filling
 each row of the matrix or data.frame.</p></dd>
 <dt>returnDF</dt>
-<dd><p>logical whether to return a data.frame, by default FALSE,
+<dd><p><code>logical</code> whether to return a data.frame, by default FALSE,
 a matrix is returned.</p></dd>
 <dt>verbose</dt>
-<dd><p>logical whether to print verbose output during processing.</p></dd>
+<dd><p><code>logical</code> whether to print verbose output during processing.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>By default a matrix, or if returnDF=TRUE the object is coerced to a
-data.frame. The rownames by default are derived from the list names,
-but the colnames are not derived from the vector names.</p>
+    <p><code>matrix</code> unless <code>returnDF=TRUE</code> in which the output is coerced
+to a <code>data.frame</code>.
+The rownames by default are derived from the list names,
+but the colnames are not derived from the vector names.
+If input <code>x</code> contains <code>data.frame</code> or <code>matrix</code> objects, the output
+will retain those values.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>The purpose of this function is to emulate do.call(rbind, x) on a list
+    <p>The purpose of this function is to emulate <code>do.call(rbind, x)</code> on a list
 of vectors, while specifically handling when there are different
-numbers of entries per vector. Instead of repeating the values to fill the
-number of resulting columns, this function fills cells with blank fields.
-In extensive timings tests at the time this function was created, this
-method was notably faster than alternatives. That is, it runs
-<code>do.call(rbind, x)</code> then subsequent steps to replace values with
-blank entries was notably faster than other alternatives.</p>
+numbers of entries per vector. The output <code>matrix</code> number of columns
+will be the longest vector (or largest number of columns) in the
+input list <code>x</code>.</p>
+<p>Instead of recycling values in each row to fill the target number
+of columns, this function fills cells with blank fields,
+with default argument <code>fixBlanks=TRUE</code>.</p>
+<p>In extensive timings tests at the time this function was created,
+this technique was notably faster than alternatives.
+It runs  <code>do.call(rbind, x)</code> then subsequently replaces recycled values
+with blank entries, in a manner that is notably faster than
+alternative approaches such as pre-processing the input data.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>

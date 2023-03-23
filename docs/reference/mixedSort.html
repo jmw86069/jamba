@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
       </span>
     </div>
 
@@ -71,8 +71,8 @@
   keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,
   ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,
   useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,
-  sortByName <span class="op">=</span> <span class="cn">FALSE</span>,
   honorFactor <span class="op">=</span> <span class="cn">FALSE</span>,
+  sortByName <span class="op">=</span> <span class="cn">FALSE</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>,
   NAlast <span class="op">=</span> <span class="cn">TRUE</span>,
   <span class="va">...</span>
@@ -128,10 +128,12 @@ for consistency with <code><a href="https://rdrr.io/r/base/sort.html" class="ext
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>This function is a refactor of the <code><a href="https://rdrr.io/pkg/gtools/man/mixedsort.html" class="external-link">gtools::mixedsort</a></code>
-function from the <code>gtools</code> package. It was extended to make it faster,
-and to handle special cases slightly differently. It was driven by some
-need to sort gene symbols, and miRNA symbols in numeric order, for example:</p><dl><dt>test set:</dt>
+    <p>This function is a refactor of <code><a href="https://rdrr.io/pkg/gtools/man/mixedsort.html" class="external-link">gtools::mixedsort()</a></code>, a clever bit of
+R coding from the <code>gtools</code> package. It was extended to make it slightly
+faster, and to handle special cases slightly differently.
+It was driven by the need to sort gene symbols, miRNA symbols, chromosome
+names, all with proper numeric order, for example:</p>
+<dl><dt>test set:</dt>
 <dd><p>miR-12,miR-1,miR-122,miR-1b,mir-1a</p></dd>
 
 <dt><code><a href="https://rdrr.io/pkg/gtools/man/mixedsort.html" class="external-link">gtools::mixedsort</a></code>:</dt>
@@ -142,12 +144,31 @@ need to sort gene symbols, and miRNA symbols in numeric order, for example:</p><
 
 
 </dl><p>The function does not by default recognize negative numbers as negative,
-instead it treats '-' as a delimiter, unless keepNegative=TRUE.</p>
+instead it treats '-' as a delimiter, unless <code>keepNegative=TRUE</code>.</p>
 <p>This function also attempts to maintain '.' as part of a decimal number,
 which can be problematic when sorting IP addresses, for example.</p>
-<p>This function is really just a wrapper function for <code><a href="mixedOrder.html">mixedOrder</a></code>
-which does the work of defining a proper order.</p>
-    </div>
+<p>This function is really just a wrapper function for <code><a href="mixedOrder.html">mixedOrder()</a></code>,
+which does the work of defining the appropriate order.</p>
+<p>The sort logic is roughly as follows:</p><ul><li><p>Split each term into alternating chunks containing <code>character</code>
+or <code>numeric</code> substrings, split across columns in a matrix.</p></li>
+<li><p>Apply appropriate <code>ignore.case</code> logic to the character substrings,
+effectively applying <code><a href="https://rdrr.io/r/base/chartr.html" class="external-link">toupper()</a></code> on substrings</p></li>
+<li><p>Define rank order of character substrings in each matrix column,
+maintaining ties to be resolved in subsequent columns.</p></li>
+<li><p>Convert <code>character</code> to <code>numeric</code> ranks via <code>factor</code> intermediate,
+defined higher than the highest <code>numeric</code> substring value.</p></li>
+<li><p>When <code>ignore.case=TRUE</code> and <code>useCaseTiebreak=TRUE</code>, an additional
+tiebreaker column is defined using the <code>character</code> substring values
+without applying <code><a href="https://rdrr.io/r/base/chartr.html" class="external-link">toupper()</a></code>.</p></li>
+<li><p>A final tiebreaker column is the input string itself, with <code><a href="https://rdrr.io/r/base/chartr.html" class="external-link">toupper()</a></code>
+applied when <code>ignore.case=TRUE</code>.</p></li>
+<li><p>Apply order across all substring columns.</p></li>
+</ul><p>Therefore, some expected behaviors:</p><ul><li><p>When <code>ignore.case=TRUE</code> and <code>useCaseTiebreak=TRUE</code> (default for both)
+the input data is ordered without regard to case, then the tiebreaker
+applies case-specific sort criteria to the final product. This logic
+is very close to default <code><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort()</a></code> except for the handling of internal
+<code>numeric</code> values inside each string.</p></li>
+</ul></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other jam sort functions: 
@@ -191,11 +212,11 @@ which does the work of defining a proper order.</p>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-12"  "miR-122" "miR-1a"  "miR-1b"  "miR-2"  </span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-12"  "miR-122" "miR-1a"  "miR-1b"  "miR-2"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-1a"  "miR-1b"  "miR-2"   "miR-12"  "miR-122"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># test honorFactor</span></span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
@@ -203,20 +224,20 @@ which does the work of defining a proper order.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># test ignore.case</span></span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"CNOT9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  CNOT9  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  CNOT9  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNOT9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  CNOT9  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  CNOT9  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"CNOT9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, ignore.case<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] CNOT9  Cnot8  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"CNOT9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  CNOT9  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  CNOT9  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"CNOT9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, useCaseTiebreak<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  CNOT9  Cnot9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  CNOT9  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: CNOT9 Cnot10 Cnot8 Cnot9</span>
 <span class="r-in"><span class="fu">mixedSort</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNOT9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot9"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span>, useCaseTiebreak<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  CNOT9  Cnot9  Cnot10</span>

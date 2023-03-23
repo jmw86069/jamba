@@ -167,6 +167,7 @@ Other jam practical functions:
 \code{\link{make_styles}()},
 \code{\link{match_unique}()},
 \code{\link{mergeAllXY}()},
+\code{\link{middle}()},
 \code{\link{newestFile}()},
 \code{\link{printDebugI}()},
 \code{\link{printDebug}()},

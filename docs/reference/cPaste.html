@@ -18,7 +18,7 @@ delimited by default with a comma."><!-- mathjax --><script src="https://cdnjs.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
       </span>
     </div>
 
@@ -74,6 +74,7 @@ delimited by default with a comma.</p>
   checkClass <span class="op">=</span> <span class="cn">TRUE</span>,
   useBioc <span class="op">=</span> <span class="cn">TRUE</span>,
   useLegacy <span class="op">=</span> <span class="cn">FALSE</span>,
+  honorFactor <span class="op">=</span> <span class="va">keepFactors</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -111,6 +112,9 @@ efficient <code><a href="https://rdrr.io/r/base/mapply.html" class="external-lin
 <dt>useLegacy</dt>
 <dd><p><code>logical</code> indicating whether to enable to previous
 legacy process used by <code>cPaste()</code>.</p></dd>
+<dt>honorFactor</dt>
+<dd><p><code>logical</code> passed to <code><a href="mixedSorts.html">mixedSorts()</a></code>, as a named
+placeholder used to convey the same function as <code>keepFactors</code>.</p></dd>
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="mixedOrder.html">mixedOrder()</a></code> when
 <code>doSort=TRUE</code>.</p></dd>
@@ -278,17 +282,17 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 <span class="r-in"><span class="co"># by default keepFactors=FALSE, which means factors are sorted as characters</span></span>
 <span class="r-in"><span class="fu"><a href="cPasteS.html">cPasteS</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   entryA                   entryB                   entryC </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "miR-112,miR-112,miR-12"                "B,B,A,A"              "A,B,B,C,C" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "miR-12,miR-112,miR-112"                "B,B,A,A"              "B,B,A,C,C" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                entryNULL </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                       "" </span>
 <span class="r-in"><span class="fu"><a href="cPasteSU.html">cPasteSU</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           entryA           entryB           entryC        entryNULL </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "miR-112,miR-12"            "B,A"          "B,A,C"               "" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "miR-12,miR-112"            "B,A"          "B,A,C"               "" </span>
 <span class="r-in"><span class="co"># keepFactors=TRUE will keep unique factor levels in the order they appear</span></span>
 <span class="r-in"><span class="co"># this is the same behavior as unlist(L[c(2,3)]) on a list of factors</span></span>
 <span class="r-in"><span class="fu"><a href="cPasteSU.html">cPasteSU</a></span><span class="op">(</span><span class="va">L</span>, keepFactors<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           entryA           entryB           entryC        entryNULL </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "miR-112,miR-12"            "B,A"          "B,A,C"               "" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "miR-12,miR-112"            "B,A"          "B,A,C"               "" </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">L</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "B" "A" "C"</span>
 <span class="r-in"></span>

@@ -143,7 +143,7 @@ mixedSort <- function
       }
       fx <- function(x){names(x)}
    } else {
-      fx <- function(x){c(x)}
+      fx <- function(x){x}
    }
    x[mixedOrder(fx(x),
       blanksFirst=blanksFirst,
@@ -1203,7 +1203,7 @@ mixedSortDF <- function
       data.frame(
          check.names=FALSE,
          stringsAsFactors=FALSE,
-         jamba::rmNULL(c(
+         rmNULL(c(
             data.frame(
                check.names=FALSE,
                stringsAsFactors=FALSE,

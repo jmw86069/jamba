@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
       </span>
     </div>
 
@@ -81,43 +81,57 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>col</dt>
-<dd><p>accepts</p><ul><li><p>"character vector"one or more colors used to define a color
-gradient. Where one color is supplied, a gradient is created from
-defaultBaseColor to the supplied color.</p></li>
-<li><p>"character vector length 1"one name matching a known color ramp either
-from <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">RColorBrewer::brewer.pal.info</a></code>, or from the
-<code><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">viridis::viridis</a></code> package.</p></li>
+<dd><p>one of the following:</p><ul><li><p><code>character</code> vector of two or more R colors. A color gradient
+will be defined using these colors in order with <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>.</p></li>
+<li><p><code>character</code> vector length=1 with one R color.
+A color gradient is defined from <code>defaultBaseColor</code> to <code>col</code>
+using <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>.</p></li>
+<li><p><code>character</code> vector length=1, with one recognized color ramp name:
+any color palette from <code>rownames(RColorBrewer::brewer.pal.info())</code>;
+any color palette function name from <code>viridis</code>;
+any color palette from <code><a href="https://rdrr.io/pkg/colorjam/man/jam_linear.html" class="external-link">colorjam::jam_linear()</a></code> or
+<code><a href="https://rdrr.io/pkg/colorjam/man/jam_divergent.html" class="external-link">colorjam::jam_divergent()</a></code>.</p></li>
+<li><p><code>character</code> vector length=1, with one color function name,
+for example <code>col="rainbow_hcl"</code>. Input is equivalent to supplying
+one color <code>function</code>, see below.</p></li>
+<li><p><code>function</code> whose first argument expects <code>integer</code> number of colors
+to return, for example <code>col=viridis::viridis</code> defines the function
+itself as input.</p></li>
+<li><p><code>function</code> derived from <code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code>,  recognized
+by having attribute names <code>"breaks"</code> and <code>"colors"</code>. Note that
+only the colors are used for the individual color values, not the
+break points.</p></li>
 </ul></dd>
 <dt>n</dt>
-<dd><p>integer number of output colors to return, or NULL if
+<dd><p><code>integer</code> number of output colors to return, or NULL if
 the output should be a color function in the form <code>function(n)</code>
 which returns <code>n</code> colors.</p></dd>
 <dt>trimRamp</dt>
-<dd><p>integer vector, expanded to length=2 as needed,
+<dd><p><code>integer</code> vector, expanded to length=2 as needed,
 which defines the number of colors to trim from the beginning
 and end of the color vector, respectively. When <code>reverseRamp=TRUE</code>,
 the colors are reversed before the trimming is applied.
 If the two <code>trimRamp</code> values are not identical, symmetric divergent
 color scales will no longer be symmetric.</p></dd>
 <dt>gradientN</dt>
-<dd><p>integer number of colors to expand gradient colors
+<dd><p><code>integer</code> number of colors to expand gradient colors
 prior to trimming colors.</p></dd>
 <dt>defaultBaseColor</dt>
-<dd><p>character vector indicating a color from which to
+<dd><p><code>character</code> vector indicating a color from which to
 begin a color gradient, only used when col is a single color.</p></dd>
 <dt>reverseRamp</dt>
-<dd><p>logical indicating whether to reverse the resulting
+<dd><p><code>logical</code> indicating whether to reverse the resulting
 color ramp. This value is ignored when a single value is supplied for
 col, and where "_r" or "_rev" is detected as a substring at the end
 of the character value.</p></dd>
 <dt>alpha</dt>
-<dd><p>logical indicating whether to honor alpha transparency
+<dd><p><code>logical</code> indicating whether to honor alpha transparency
 whenever <code>colorRampPalette</code> is called. If colors contain
 no alpha transparency, this setting has no effect, otherwise the
 alpha value is applied by <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">grDevices::colorRampPalette()</a></code> using
 a linear gradient between each color.</p></dd>
 <dt>gradientWtFactor</dt>
-<dd><p>numeric value used to expand single color
+<dd><p><code>numeric</code> value used to expand single color
 input to a gradient, using <code><a href="color2gradient.html">color2gradient()</a></code>, prior to making
 a full gradient to the <code>defaultBaseColor</code>.</p></dd>
 <dt>lens, divergent</dt>
@@ -129,7 +143,9 @@ negative values expanding colors near baseline; <code>divergent</code>
 is a logical indicating whether the middle color is considered
 the baseline.</p></dd>
 <dt>verbose</dt>
-<dd><p>logical whether to print verbose output</p></dd>
+<dd><p><code>logical</code> whether to print verbose output</p></dd>
+<dt>...</dt>
+<dd><p>additional arguments are ignored.</p></dd>
 </dl></div>
     <div id="details">
     <h2>Details</h2>

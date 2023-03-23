@@ -166,6 +166,7 @@ drawLabels <- function
  xpd=NA,
  preset="default",
  adjPreset="default",
+ preset_type="plot",
  adjX=0.5,
  adjY=0.5,
  panelWidth="default",
@@ -216,6 +217,7 @@ drawLabels <- function
             x=x,
             y=y,
             adjPreset=adjPreset,
+            preset_type=preset_type,
             adjX=adjX,
             adjY=adjY,
             verbose=verbose);
@@ -578,6 +580,12 @@ drawLabels <- function
 #'    place a label farther away from center. Note these units are
 #'    relative to the text label size, when used with `graphics::text()`,
 #'    larger labels will be adjusted more than smaller labels.
+#' @param preset_type `character` string indicating the reference point
+#'    for the preset boundaries:
+#'    * `"plot"` uses the plot border.
+#'    * `"margin"` uses the margin border. Note that the margin used
+#'    is the inner margin around the plot figure, not the outer margin
+#'    which may be applied around multi-panel plot figures.
 #' @param verbose logical indicating whether to print verbose output.
 #' @param ... additional arguments are ignored.
 #'
@@ -643,6 +651,20 @@ drawLabels <- function
 #'    lx=rep(1.5, 4),
 #'    ly=rep(1.5, 4))
 #'
+#' # demonstrate margin coordinates
+#' par("oma"=c(1, 1, 1, 1));
+#' nullPlot(xlim=c(0, 1), ylim=c(1, 5));
+#' cpxy <- coordPresets(rep(c("top", "bottom", "left", "right"), each=2),
+#'    preset_type=rep(c("plot", "figure"), 4));
+#' drawLabels(preset=c("top", "top"),
+#'    txt=c("top label relative to figure",
+#'       "top label relative to plot"),
+#'    preset_type=c("figure", "plot"))
+#' points(cpxy$x, cpxy$y, cex=2,
+#'    col="red4", bg="red1", xpd=NA,
+#'    pch=rep(c(21, 23), 4))
+#' par("oma"=c(0, 0, 0, 0));
+#'
 #' @export
 coordPresets <- function
 (preset="default",
@@ -653,6 +675,7 @@ coordPresets <- function
  adjY=0.5,
  adjOffsetX=0,
  adjOffsetY=0,
+ preset_type=c("plot"),
  verbose=FALSE,
  ...)
 {
@@ -664,6 +687,11 @@ coordPresets <- function
    ## When adjPreset="default" it uses opposite orientation
    ## of "preset", otherwise position is defined by adjPreset
    ## for top, bottom, left, right, center
+   if (length(preset_type) == 0) {
+      preset_type <- NA;
+   }
+   preset_type[!preset_type %in% c("plot", "figure")] <- NA;
+
    n <- max(lengths(list(
       x,
       y,
@@ -681,6 +709,7 @@ coordPresets <- function
    }
    x <- rep(x, length.out=n);
    y <- rep(y, length.out=n);
+   preset_type <- rep(preset_type, length.out=n)
 
    ## Verify preset is valid
    presetValid <- c("default",
@@ -756,6 +785,31 @@ coordPresets <- function
          ifelse(grepl("bottom", adjPreset), 1+adjOffsetY,
             ifelse(grepl("center|left|right", adjPreset), 0.5,
                adjY))));
+
+   # optionally adjust to figure margin
+   # when preset_type="figure" and preset is directional for the same entry
+   if (any("figure" %in% preset_type &
+         any(c("left", "right", "top", "bottom") %in% preset))) {
+      # plot range in in ches
+      parpin <- par("pin")
+      # plot margin in inches
+      parmai <- par("mai");
+      # x coord range per inch
+      xcoord_inch <- diff(parUsr[1:2]) / parpin[1];
+      # y coordinate range
+      ycoord_inch <- diff(parUsr[3:4]) / parpin[2];
+      # adjust x for "left" or "right"
+      x <- ifelse(preset_type %in% "figure" & preset %in% "left",
+         x - xcoord_inch * parmai[2],
+         ifelse(preset_type %in% "figure" & preset %in% "right",
+            x + xcoord_inch * parmai[4], x))
+      # adjust y for "top" or "bottom"
+      y <- ifelse(preset_type %in% "figure" & preset %in% "bottom",
+         y - ycoord_inch * parmai[1],
+         ifelse(preset_type %in% "figure" & preset %in% "top",
+            y + ycoord_inch * parmai[3], y))
+   }
+
    return(data.frame(x=x,
       y=y,
       adjX=adjX,

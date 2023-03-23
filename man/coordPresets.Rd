@@ -13,6 +13,7 @@ coordPresets(
   adjY = 0.5,
   adjOffsetX = 0,
   adjOffsetY = 0,
+  preset_type = c("plot"),
   verbose = FALSE,
   ...
 )
@@ -35,6 +36,15 @@ value to the \verb{adjX,adjY} values, where positive values would
 place a label farther away from center. Note these units are
 relative to the text label size, when used with \code{graphics::text()},
 larger labels will be adjusted more than smaller labels.}
+
+\item{preset_type}{\code{character} string indicating the reference point
+for the preset boundaries:
+\itemize{
+\item \code{"plot"} uses the plot border.
+\item \code{"margin"} uses the margin border. Note that the margin used
+is the inner margin around the plot figure, not the outer margin
+which may be applied around multi-panel plot figures.
+}}
 
 \item{verbose}{logical indicating whether to print verbose output.}
 
@@ -144,6 +154,20 @@ drawLabels(x=cp2$x,
    labelCex=1.3,
    lx=rep(1.5, 4),
    ly=rep(1.5, 4))
+
+# demonstrate margin coordinates
+par("oma"=c(1, 1, 1, 1));
+nullPlot(xlim=c(0, 1), ylim=c(1, 5));
+cpxy <- coordPresets(rep(c("top", "bottom", "left", "right"), each=2),
+   preset_type=rep(c("plot", "figure"), 4));
+drawLabels(preset=c("top", "top"),
+   txt=c("top label relative to figure",
+      "top label relative to plot"),
+   preset_type=c("figure", "plot"))
+points(cpxy$x, cpxy$y, cex=2,
+   col="red4", bg="red1", xpd=NA,
+   pch=rep(c(21, 23), 4))
+par("oma"=c(0, 0, 0, 0));
 
 }
 \seealso{

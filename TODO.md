@@ -1,5 +1,24 @@
 # TODO for jamba
 
+## 22mar2023
+
+* `imageByColors()`
+
+   * `adjustMargins=TRUE` does not reset margins after plotting.
+   It may be desirable, so other features can be added, but causes
+   problems when running a series of plots.
+
+## 27feb2023
+
+* consider new color function: `is_color_ramp()`
+
+   * simple function that performs the same test in `getColorRamp()`
+   just to validate that an input `character` string is a possible color
+   ramp.
+   * potential argument to require the `character` string to be a specific
+   named color ramp, and not a single color which could be converted
+   into a color ramp.
+
 ## 06feb2023
 
 * `mixedSorts()` optimization

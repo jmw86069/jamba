@@ -18,9 +18,10 @@ rbindList(
 )
 }
 \arguments{
-\item{x}{input list of vectors.}
+\item{x}{\code{list} of atomic \code{vector}, \code{matrix}, or \code{data.frame}
+objects.}
 
-\item{emptyValue}{character value to use to represent missing values,
+\item{emptyValue}{\code{character} value to use to represent missing values,
 whenever a blank cell is introduced into the resulting matrix}
 
 \item{nullValue}{optional value used to replace NULL entries in
@@ -29,42 +30,52 @@ by \code{strsplit()} with \code{""}. Use \code{nullValue=""} to replace \code{NU
 with \code{""} and preserve the original list length. Otherwise when
 \code{nullValue=NULL} any empty entries will be silently dropped.}
 
-\item{keepListNames}{logical whether to use list names as rownames
+\item{keepListNames}{\code{logical} whether to use list names as rownames
 in the resulting matrix or data.frame.}
 
-\item{newColnames}{NULL or character vector of colnames to use for the
+\item{newColnames}{NULL or \code{character} vector of colnames to use for the
 resulting matrix or data.frame.}
 
-\item{newRownames}{NULL or character vector of rownames to use for the
+\item{newRownames}{NULL or \code{character} vector of rownames to use for the
 resulting matrix or data.frame. If supplied, this value overrides the
 keepListNames=TRUE use of list names as rownames.}
 
-\item{fixBlanks}{logical whether to use blank values instead of repeating
+\item{fixBlanks}{\code{logical} whether to use blank values instead of repeating
 each vector to the length of the maximum vector length when filling
 each row of the matrix or data.frame.}
 
-\item{returnDF}{logical whether to return a data.frame, by default FALSE,
+\item{returnDF}{\code{logical} whether to return a data.frame, by default FALSE,
 a matrix is returned.}
 
-\item{verbose}{logical whether to print verbose output during processing.}
+\item{verbose}{\code{logical} whether to print verbose output during processing.}
 }
 \value{
-By default a matrix, or if returnDF=TRUE the object is coerced to a
-data.frame. The rownames by default are derived from the list names,
+\code{matrix} unless \code{returnDF=TRUE} in which the output is coerced
+to a \code{data.frame}.
+The rownames by default are derived from the list names,
 but the colnames are not derived from the vector names.
+If input \code{x} contains \code{data.frame} or \code{matrix} objects, the output
+will retain those values.
 }
 \description{
 rbind a list of vectors into matrix or data.frame
 }
 \details{
-The purpose of this function is to emulate do.call(rbind, x) on a list
+The purpose of this function is to emulate \code{do.call(rbind, x)} on a list
 of vectors, while specifically handling when there are different
-numbers of entries per vector. Instead of repeating the values to fill the
-number of resulting columns, this function fills cells with blank fields.
-In extensive timings tests at the time this function was created, this
-method was notably faster than alternatives. That is, it runs
-\code{do.call(rbind, x)} then subsequent steps to replace values with
-blank entries was notably faster than other alternatives.
+numbers of entries per vector. The output \code{matrix} number of columns
+will be the longest vector (or largest number of columns) in the
+input list \code{x}.
+
+Instead of recycling values in each row to fill the target number
+of columns, this function fills cells with blank fields,
+with default argument \code{fixBlanks=TRUE}.
+
+In extensive timings tests at the time this function was created,
+this technique was notably faster than alternatives.
+It runs  \code{do.call(rbind, x)} then subsequently replaces recycled values
+with blank entries, in a manner that is notably faster than
+alternative approaches such as pre-processing the input data.
 }
 \examples{
 L <- list(a=LETTERS[1:4], b=letters[1:3]);

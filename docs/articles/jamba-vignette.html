@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.88.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
                         <h4 data-toc-skip class="author">James M.
 Ward</h4>
             
-            <h4 data-toc-skip class="date">2023-02-01</h4>
+            <h4 data-toc-skip class="date">2023-03-23</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/vignettes/jamba-vignette.Rmd" class="external-link"><code>vignettes/jamba-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>jamba-vignette.Rmd</code></div>
@@ -409,8 +409,8 @@ be negative by default, but this behavior can be controlled.</p>
 <p>For example “miR-2” should sort before “miR-11”, and after
 “miR-1”.</p>
 <pre><code> sort gtools_mixedsort mixedSort</code></pre>
-<p>1 miR-1 miR-122 miR-1 2 miR-12 miR-12 miR-12 3 miR-122 miR-2 miR-122
-4 miR-1a miR-1 miR-1a 5 miR-1b miR-1a miR-1b 6 miR-2 miR-1b miR-2</p>
+<p>1 miR-1 miR-122 miR-1 2 miR-12 miR-12 miR-1a 3 miR-122 miR-2 miR-1b 4
+miR-1a miR-1 miR-2 5 miR-1b miR-1a miR-12 6 miR-2 miR-1b miR-122</p>
 <p>Note: it took roughly 12 seconds to sort 43,000 gene symbols using
 <code><a href="https://rdrr.io/pkg/gtools/man/mixedsort.html" class="external-link">gtools::mixedsort()</a></code>, and roughly 0.5 seconds using
 <code><a href="../reference/mixedSort.html">mixedSort()</a></code>.</p>

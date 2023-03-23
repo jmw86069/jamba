@@ -23,6 +23,12 @@ remove NULL entries from list
 This function is a simple helper function to remove NULL from a list,
 optionally replacing it with another value
 }
+\examples{
+x <- list(A=1:6, B=NULL, C=letters[11:16]);
+rmNULL(x)
+rmNULL(x, nullValue=NA)
+
+}
 \seealso{
 Other jam practical functions: 
 \code{\link{breakDensity}()},
@@ -48,6 +54,7 @@ Other jam practical functions:
 \code{\link{make_styles}()},
 \code{\link{match_unique}()},
 \code{\link{mergeAllXY}()},
+\code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
 \code{\link{printDebugI}()},

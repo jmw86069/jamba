@@ -27,6 +27,7 @@ drawLabels(
   xpd = NA,
   preset = "default",
   adjPreset = "default",
+  preset_type = "plot",
   adjX = 0.5,
   adjY = 0.5,
   panelWidth = "default",

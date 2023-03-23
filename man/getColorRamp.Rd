@@ -20,45 +20,59 @@ getColorRamp(
 )
 }
 \arguments{
-\item{col}{accepts
+\item{col}{one of the following:
 \itemize{
-\item{"character vector"}{one or more colors used to define a color
-gradient. Where one color is supplied, a gradient is created from
-defaultBaseColor to the supplied color.}
-\item{"character vector length 1"}{one name matching a known color ramp either
-from \code{RColorBrewer::brewer.pal.info}, or from the
-\code{viridis::viridis} package.}
+\item \code{character} vector of two or more R colors. A color gradient
+will be defined using these colors in order with \code{colorRampPalette()}.
+\item \code{character} vector length=1 with one R color.
+A color gradient is defined from \code{defaultBaseColor} to \code{col}
+using \code{colorRampPalette()}.
+\item \code{character} vector length=1, with one recognized color ramp name:
+any color palette from \code{rownames(RColorBrewer::brewer.pal.info())};
+any color palette function name from \code{viridis};
+any color palette from \code{colorjam::jam_linear()} or
+\code{colorjam::jam_divergent()}.
+\item \code{character} vector length=1, with one color function name,
+for example \code{col="rainbow_hcl"}. Input is equivalent to supplying
+one color \code{function}, see below.
+\item \code{function} whose first argument expects \code{integer} number of colors
+to return, for example \code{col=viridis::viridis} defines the function
+itself as input.
+\item \code{function} derived from \code{circlize::colorRamp2()},  recognized
+by having attribute names \code{"breaks"} and \code{"colors"}. Note that
+only the colors are used for the individual color values, not the
+break points.
 }}
 
-\item{n}{integer number of output colors to return, or NULL if
+\item{n}{\code{integer} number of output colors to return, or NULL if
 the output should be a color function in the form \verb{function(n)}
 which returns \code{n} colors.}
 
-\item{trimRamp}{integer vector, expanded to length=2 as needed,
+\item{trimRamp}{\code{integer} vector, expanded to length=2 as needed,
 which defines the number of colors to trim from the beginning
 and end of the color vector, respectively. When \code{reverseRamp=TRUE},
 the colors are reversed before the trimming is applied.
 If the two \code{trimRamp} values are not identical, symmetric divergent
 color scales will no longer be symmetric.}
 
-\item{gradientN}{integer number of colors to expand gradient colors
+\item{gradientN}{\code{integer} number of colors to expand gradient colors
 prior to trimming colors.}
 
-\item{defaultBaseColor}{character vector indicating a color from which to
+\item{defaultBaseColor}{\code{character} vector indicating a color from which to
 begin a color gradient, only used when col is a single color.}
 
-\item{reverseRamp}{logical indicating whether to reverse the resulting
+\item{reverseRamp}{\code{logical} indicating whether to reverse the resulting
 color ramp. This value is ignored when a single value is supplied for
 col, and where "_r" or "_rev" is detected as a substring at the end
 of the character value.}
 
-\item{alpha}{logical indicating whether to honor alpha transparency
+\item{alpha}{\code{logical} indicating whether to honor alpha transparency
 whenever \code{colorRampPalette} is called. If colors contain
 no alpha transparency, this setting has no effect, otherwise the
 alpha value is applied by \code{grDevices::colorRampPalette()} using
 a linear gradient between each color.}
 
-\item{gradientWtFactor}{numeric value used to expand single color
+\item{gradientWtFactor}{\code{numeric} value used to expand single color
 input to a gradient, using \code{color2gradient()}, prior to making
 a full gradient to the \code{defaultBaseColor}.}
 
@@ -70,7 +84,9 @@ negative values expanding colors near baseline; \code{divergent}
 is a logical indicating whether the middle color is considered
 the baseline.}
 
-\item{verbose}{logical whether to print verbose output}
+\item{verbose}{\code{logical} whether to print verbose output}
+
+\item{...}{additional arguments are ignored.}
 }
 \description{
 get color ramp by name, color, or function

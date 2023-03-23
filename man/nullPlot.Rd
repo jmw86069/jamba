@@ -18,6 +18,7 @@ nullPlot(
   fill = "#FFFF9966",
   doAxes = FALSE,
   doMargins = TRUE,
+  marginUnit = c("lines", "inches"),
   plotAreaTitle = "Plot Area",
   plotSrt = 0,
   plotNumPrefix = "",
