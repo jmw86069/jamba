@@ -23,18 +23,24 @@ setPrompt(
 \arguments{
 \item{projectName}{\code{character} string representing the active project.}
 
-\item{useColor}{logical whether to define a color prompt if the
+\item{useColor}{\code{logical} whether to define a color prompt if the
 \code{crayon} package is installed.}
 
-\item{projectColor, bracketColor, Rcolors, PIDcolor, promptColor}{colors
-used when \code{useColor==TRUE} and the \code{crayon} package
-is installed: \code{projectColor} colors the project name; \code{bracketColor}
-colors the curly brackets around the project; \code{Rcolors} can be
-a vector of 3 colors, colorizing "R", the "-" divider, and the
-R version; \code{PIDcolor} colors the PID when \code{usePid=TRUE}; and
-\code{promptColor} colors the \code{">"} at the end of the prompt.}
+\item{projectColor, bracketColor, Rcolors, PIDcolor, promptColor}{\code{character}
+colors used when \code{useColor==TRUE} and the \code{crayon} package
+is installed:
+\itemize{
+\item \code{projectColor} colors the project name;
+\item \code{bracketColor} colors the curly brackets around the project;
+\item \code{Rcolors} can be a vector of 3 colors, colorizing "R",
+the "-" divider, and the R version;
+\item \code{PIDcolor} colors the PID when \code{usePid=TRUE}; and
+\item \code{promptColor} colors the \code{">"} at the end of the prompt.
+}}
 
-\item{usePid}{\code{logical} whether to include the process ID in the prompt.}
+\item{usePid}{\code{logical} whether to include the process ID in the prompt.
+Including the PID is helpful for the rare occasion when a process is
+hung and needs to be stopped directly.}
 
 \item{resetPrompt}{\code{logical} whether to revert all changes to the prompt
 back to the default R prompt, that is, no color and no projectName.}
@@ -45,10 +51,15 @@ helpful for linux-based (readline-based) R consoles, by telling
 the console not to count ANSI color control characters as visible
 characters when determining word wrapping on the console. Note
 that RStudio does not work well with this setting.
+If you find that the word-wrap is incorrect in the R console, try
+\code{addEscape=TRUE}. Apparently most versions of RStudio will already
+adjust (and prevent) colorizing the prompt during editing, presumably
+to sidestep the problem of calculating the correct character length.
 By default when \code{addEscape} is \code{NULL}, it checks whether environmental
 variable \code{RSTUDIO} equals \code{"1"} (running inside RStudio) then sets
-addEscape=FALSE; otherwise addEscape=TRUE. In most cases for
-commandline prompts, \code{addEscape=TRUE} is helpful and not problematic.}
+\code{addEscape=FALSE}; otherwise it defines \code{addEscape=TRUE}.
+In most cases for commandline prompts, \code{addEscape=TRUE} is helpful
+and not problematic.}
 
 \item{debug}{\code{logical} indicating whether to print the ANSI control
 character output for the full prompt, for visual review.}
@@ -151,9 +162,6 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
-\code{\link{sdim}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{sdim}()}
 }
 \concept{jam practical functions}

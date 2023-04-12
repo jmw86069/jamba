@@ -7,21 +7,21 @@
 padInteger(x, padCharacter = "0", useNchar = NULL, ...)
 }
 \arguments{
-\item{x}{input integer, numeric, or character vector. In reality, only
-nchar(x) is used to determine padding.}
+\item{x}{\code{integer}, \code{numeric}, or \code{character} vector. In reality, only
+\code{nchar(x)} is required to determine padding.}
 
-\item{padCharacter}{character with nchar(padCharacter)==1, used to pad
+\item{padCharacter}{\code{character} with nchar(padCharacter)==1, used to pad
 each digit as a prefix.}
 
-\item{useNchar}{NULL or integer number of digits used, or if the maximum
-nchar(x) is higher, that number of digits is used. Note useNchar is
+\item{useNchar}{\code{NULL} or \code{integer} number of digits used, or if the maximum
+\code{nchar(x)} is higher, that number of digits is used. Note \code{useNchar} is
 mostly useful when all numbers are less than 10, but the desired output
 is to have a fixed number of digits 2 or higher.}
 
 \item{...}{additional parameters are ignored.}
 }
 \value{
-character vector of length(x).
+\code{character} vector of length(x).
 }
 \description{
 prefix integers with leading zeros
@@ -55,7 +55,6 @@ Other jam string functions:
 \code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
 \code{\link{sizeAsNum}()},
-\code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}

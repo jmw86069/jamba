@@ -66,7 +66,6 @@ Other jam string functions:
 \code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
 \code{\link{sizeAsNum}()},
-\code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}

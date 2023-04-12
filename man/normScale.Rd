@@ -16,27 +16,30 @@ normScale(
 )
 }
 \arguments{
-\item{x}{numeric vector.}
+\item{x}{\code{numeric} vector.}
 
-\item{from}{the minimum numeric value to re-scale the input numeric vector.}
+\item{from}{the minimum \code{numeric} value to re-scale the input numeric vector.}
 
-\item{to}{the maximum numeric value to re-scale the input numeric vector.}
+\item{to}{the maximum \code{numeric} value to re-scale the input numeric vector.}
 
-\item{low}{numeric value defining the low end of the input numeric range,
+\item{low}{\code{numeric} value defining the low end of the input numeric range,
 intended when input values might not contain the entire numeric
 range to be re-scaled.}
 
-\item{high}{numeric value defining the high end of the input numeric range,
+\item{high}{\code{numeric} value defining the high end of the input numeric range,
 intended when input values might not contain the entire numeric
 range to be re-scaled.}
 
-\item{naValue}{optional numeric value used to replace \code{NA}, usually by
+\item{naValue}{optional \code{numeric} value used to replace \code{NA}, usually by
 replacing \code{NA} with zero.}
 
-\item{singletMethod}{character value describing how to handle singlet
+\item{singletMethod}{\code{character} value describing how to handle singlet
 input values, for example how to scale the number 5 by itself.
-If "mean" then it uses the average of \code{from} and \code{to}, "min" uses
-the \code{from} value, and "max" uses the \code{to} value.}
+\itemize{
+\item "mean" then it uses the average of \code{from} and \code{to},
+\item "min" uses the \code{from} value, and
+\item "max" uses the \code{to} value.
+}}
 
 \item{...}{additional parameters are ignored.}
 }

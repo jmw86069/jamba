@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba.r
 \name{groupedAxis}
 \alias{groupedAxis}
-\title{Draw groups axis labels}
+\title{Draw grouped axis labels}
 \usage{
 groupedAxis(
   side = 1,
@@ -16,6 +16,43 @@ groupedAxis(
   abline_col = "grey40",
   ...
 )
+}
+\arguments{
+\item{side}{\code{integer} indicating the axis side, passed to \code{axis()}.
+1=bottom, 2=left, 3=top, 4=right.}
+
+\item{x}{\code{character} vector of axis labels}
+
+\item{group_style}{\code{character} string indicating the style of label:
+\itemize{
+\item \code{"partial_grouped"} - uses square bracket to bound 2+ repeated entries,
+and single line tick mark for non-repeated entries.
+\item \code{"grouped"} - uses square bracket to bound each set of repeated entries
+including non-repeated entries.
+\item \code{"centered"} - only labels the center of each group of repeated entries
+with no bracket bounding the entries.
+}}
+
+\item{las}{\code{integer} indicating whether labels should be perpendicular,
+see \code{par("las")}.}
+
+\item{returnFractions}{\code{logical} passed to \code{breaksByVector()} to calculate
+label positions. Set \code{returnFractions=FALSE} and all labels will only
+appear at integer locations on the axis.}
+
+\item{nudge}{\code{numeric} adjustment for labels away from the plot border.}
+
+\item{do_abline}{\code{logical} indicating whether to draw \code{abline()} lines
+inside the plot to indicate the exact breakpoints between each group
+of labels.}
+
+\item{abline_lty}{line type compatible with \code{par("lty")}, used when
+\code{do_abline=TRUE}.}
+
+\item{abline_col}{\code{character} color used when \code{do_abline=TRUE}.}
+
+\item{...}{additional arguments are passed to \code{breaksByVector()}, and/or to
+\code{axis()}.}
 }
 \description{
 Draw grouped axis labels given a character vector.
@@ -36,13 +73,13 @@ nullPlot(doBoxes=FALSE,
 
 groupedAxis(1, b);
 groupedAxis(2, b, group_style="grouped");
+groupedAxis(2, b, group_style="centered");
 groupedAxis(3, b2, do_abline=TRUE);
 groupedAxis(4, b2, group_style="grouped");
 mtext(side=1, "group_style='partial_grouped'", line=2, las=0);
 mtext(side=2, "group_style='grouped'", line=2, las=0);
 mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
 mtext(side=4, "group_style='grouped'", line=2, las=0);
-
 
 }
 \seealso{

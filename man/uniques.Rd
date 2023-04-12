@@ -92,7 +92,6 @@ Other jam string functions:
 \code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
 \code{\link{sizeAsNum}()},
-\code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()}
 
@@ -111,10 +110,7 @@ Other jam list functions:
 \code{\link{relist_named}()},
 \code{\link{rlengths}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()},
 \code{\link{unnestList}()}
 }
 \concept{jam list functions}

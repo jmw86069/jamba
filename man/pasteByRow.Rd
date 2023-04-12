@@ -17,45 +17,50 @@ pasteByRow(
 )
 }
 \arguments{
-\item{x}{data.frame, matrix, or tibble}
+\item{x}{\code{data.frame} or comparable object such as \code{matrix} or \code{tibble}.}
 
-\item{sep}{character separator to use between columns}
+\item{sep}{\code{character} string separator to use between columns.}
 
-\item{na.rm}{logical whether to remove NA values, or include them as "NA"}
+\item{na.rm}{\code{logical} whether to remove NA values, or include them
+as \code{"NA"} strings.}
 
-\item{condenseBlanks}{logical whether to condense blank or empty values
+\item{condenseBlanks}{\code{logical} whether to condense blank or empty values
 without including an extra delimiter between columns.}
 
-\item{includeNames}{logical whether to include the colname delimited
+\item{includeNames}{\code{logical} whether to include the colname delimited
 prior to the value, using sepName as the delimiter.}
 
-\item{sepName}{character, only relevant when includeNames=TRUE, this value
-becomes the delimiter.}
+\item{sepName}{\code{character} string relevant when \code{includeNames=TRUE},
+this value becomes the delimiter between name:value.}
 
-\item{blankGrep}{character grep string used to recognize blank entries,
-by default any field containing no text, or only spaces, is considered
-a blank entry.}
+\item{blankGrep}{\code{character} string used as regular expression pattern in
+\code{grep()} to recognize blank entries;
+by default any field containing no text, or only whitespace,
+is considered a blank entry.}
 
-\item{verbose}{logical whether to print verbose output.}
+\item{verbose}{\code{logical} whether to print verbose output.}
 
 \item{...}{additional arguments are ignored.}
 }
 \value{
-character vector of length \code{nrow(x)}.
+\code{character} vector of length \code{nrow(x)}.
 }
 \description{
 Paste data.frame rows into a character vector, optionally removing
 empty fields in order to avoid delimiters being duplicated.
 }
 \details{
-This function is intended to paste data.frame (or matrix, or tibble) values
-for each row of data. It differs from using apply(x, 2, paste) in that it
-handles factors without converting to integer factor level numbers. It
-also by default removes blank or empty fields, preventing the delimiter
-from being included multiple times, per the condenseBlanks parameter.
-Lastly, it is notably faster than apply, by means of running paste() on
+This function is intended to paste \code{data.frame} (or \code{matrix}, or \code{tibble})
+values for each row of data.
+It differs from using \code{apply(x, 2, paste)}:
+\itemize{
+\item it handles factors without converting to integer factor level numbers.
+\item it also by default removes blank or empty fields, preventing the delimiter
+from being included multiple times, per the \code{condenseBlanks} argument.
+\item it is notably faster than apply, by means of running \code{paste()} on
 each column of data, making the output vectorized, and scaling rather
-well for large data.frames.
+well for large \code{data.frame} objects.
+}
 
 The output can also include name:value pairs, which can make the output
 data more self-describing in some circumstances. That said, the most basic
@@ -109,7 +114,6 @@ Other jam string functions:
 \code{\link{padString}()},
 \code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
-\code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}

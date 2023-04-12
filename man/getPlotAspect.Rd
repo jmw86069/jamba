@@ -13,7 +13,7 @@ getPlotAspect(
 )
 }
 \arguments{
-\item{type}{character type of aspect ratio to calculate.
+\item{type}{\code{character} type of aspect ratio to calculate.
 \describe{
 \item{"coords"}{calculates plot coordinate aspect ratio, which
 is helpful for creating proper circular shapes, for example,
@@ -28,7 +28,7 @@ complete graphical device, i.e. the full space including all
 panels, margins, and plot areas.}
 }}
 
-\item{parUsr, parPin, parDin}{numeric values equivalent to their
+\item{parUsr, parPin, parDin}{\code{numeric} values equivalent to their
 respective \code{par()} output, from \code{par("usr")},
 \code{par("pin")}, and \code{par("din")}. Values can be
 supplied directly, which among other things, prevents opening a
@@ -39,8 +39,8 @@ which may not be desired on a headless R server.}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-the plot aspect ratio for a plot device, of the requested
-type, see the \code{type} parameter.
+\code{numeric} plot aspect ratio for a plot device, of the requested
+type, see the \code{type} argument.
 }
 \description{
 Get aspect ratio for coordinates, plot, or device

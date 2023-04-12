@@ -15,26 +15,26 @@ noiseFloor(
 )
 }
 \arguments{
-\item{x}{numeric vector or matrix}
+\item{x}{\code{numeric} vector or matrix}
 
-\item{minimum}{numeric floor value}
+\item{minimum}{\code{numeric} floor value}
 
-\item{newValue}{numeric, by default the same as the floor value. Sometimes
+\item{newValue}{\code{numeric}, by default the same as the floor value. Sometimes
 it can be useful to define a different value, one example is to define
-values as NA, or another distinct number away from the floor.}
+values as \code{NA}, or another distinct number away from the floor.}
 
-\item{adjustNA}{logical whether to change NA values to the newValue.}
+\item{adjustNA}{\code{logical} whether to change \code{NA} values to the \code{newValue.}}
 
-\item{ceiling}{numeric value, optionally a ceiling. If defined, then values
-above the ceiling value are set to newCeiling.}
+\item{ceiling}{\code{numeric} value, optionally a ceiling. If defined, then values
+above the ceiling value are set to \code{newCeiling.}}
 
-\item{newCeiling}{numeric value when ceiling is defined, values above the
-ceiling are set to this numeric value.}
+\item{newCeiling}{\code{numeric} value when ceiling is defined, values above the
+ceiling are set to this \code{numeric} value.}
 
 \item{...}{additional parameters are ignored.}
 }
 \value{
-A numeric vector or matrix, matching the input type \code{x} where numeric
+A \code{numeric} vector or \code{matrix}, matching the input type \code{x} where numeric
 values are fixed to the \code{minimum} and \code{ceiling} values as defined
 by \code{newValue} and \code{newCeiling}, respectively.
 }

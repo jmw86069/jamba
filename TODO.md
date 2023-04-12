@@ -1,5 +1,17 @@
 # TODO for jamba
 
+# 23mar2023
+
+* `kable_coloring()`
+
+   * Enable passing `sample_color_list` to colorize columns
+   * Allow coloring `numeric` columns, perhaps through `sample_color_list`?
+   * It should apply color to `row.names` when they are displayed.
+   (Taken from 10jan2023 TODO item.)
+   * Use bold font by default for row names.
+   * Consider handling `matrix` input by using a color gradient to
+   colorize `numeric` values.
+
 ## 22mar2023
 
 * `imageByColors()`

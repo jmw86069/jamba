@@ -4,15 +4,19 @@
 \alias{getDate}
 \title{get simple date string}
 \usage{
-getDate(t = Sys.time(), trim = TRUE, ...)
+getDate(t = Sys.time(), trim = TRUE, dateFormat = "\%d\%b\%Y", ...)
 }
 \arguments{
-\item{t}{current time, by default the output of \code{\link[base]{Sys.time}}.}
+\item{t}{current time in an appropriate class such as \code{"POSIXct"}
+or \code{"POSIXt"}. The default is output of \code{Sys.time()}.}
 
-\item{trim}{logical whether to trim the output of \code{\link[base]{format}}
-in the event that multiple values are sent for \code{\link[base]{t}}.}
+\item{trim}{\code{logical} whether to trim the output of \code{format()}
+in the event that multiple values are sent for argument \code{t}.}
 
-\item{...}{additional parameters sent to \code{\link[base]{format}}}
+\item{dateFormat}{\code{character} string representing the recognized date
+format, by default \code{"DDmmmYYYY"}, which recognizes \code{"23aug2007"}.}
+
+\item{...}{additional parameters sent to \code{format()}.}
 }
 \value{
 character vector with simplified date string
@@ -22,7 +26,7 @@ get simple date string in the format DDmonYYYY such as 17jul2018.
 }
 \details{
 Gets the current date in a simplified text string. Use
-\code{\link{asDate}} to convert back to Date object.
+\code{asDate()} to convert back to Date object.
 }
 \examples{
 getDate();

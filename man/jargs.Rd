@@ -21,47 +21,58 @@ jargs(
 )
 }
 \arguments{
-\item{x}{function or character name of a function.}
+\item{x}{\code{function} or character name of a function.}
 
-\item{grepString}{NULL, logical, or character grep string used to filter
-names of function parameters. If logical, it is assumed to be
-sortVars, and indicates whether to sort the parameter names.}
+\item{grepString}{\code{NULL}, \code{logical}, or \code{character} grep regular expression
+pattern used to filter function arguments by name. Very useful to
+search a function for arguments with a substring \code{"row"}.
+\itemize{
+\item If \code{logical}, it is assumed to be sortVars, and indicates whether
+to sort the parameter names.
+\item if \code{character} it will subset the function arguments by name matching
+this regular expression pattern.
+}}
 
-\item{sortVars}{logical whether to sort the function parameter names.}
+\item{sortVars}{\code{logical} whether to sort the function parameter names.
+\itemize{
+\item \code{sortVars=FALSE} returns arguments in the order they appear in the
+function definition.
+\item \code{sortVars=TRUE} returns arguments sorted alphabetically.
+}}
 
-\item{asList}{logical whether to display one entry per line (TRUE), or
-display results as a data.frame.}
+\item{asList}{\code{logical} whether to display one entry per line (default), or
+display results as a \code{data.frame}.}
 
-\item{useColor}{logical whether to display results in color, if the crayon
+\item{useColor}{\code{logical} whether to display results in color, if the crayon
 package is available, and terminal console is capable.}
 
-\item{lightMode}{boolean or NULL, indicating whether the text background
+\item{lightMode}{\code{logical} or \code{NULL}, indicating whether the text background
 color is light, thus imposing a maximum brightness for colors displayed.
 It use lightMode if defined by the function caller, otherwise it will
-use options("jam.lightMode") if defined, lastly it will attempt to detect
-whether running inside Rstudio by checking the environment variable
+use \code{getOption("jam.lightMode")} if defined, lastly it will attempt to
+detect whether running inside Rstudio by checking the environment variable
 "RSTUDIO", and if so it will assume lightMode==TRUE.}
 
-\item{Crange}{numeric range of chroma values, ranging
+\item{Crange}{\code{numeric} range of chroma values, ranging
 between 0 and 100. When NULL, default values will be
 assigned to Crange by \code{setCLranges()}.}
 
-\item{Lrange}{numeric range of luminance values, ranging
+\item{Lrange}{\code{numeric} range of luminance values, ranging
 between 0 and 100. When NULL, default values will be
 assigned to Lrange by \code{setCLranges()}.}
 
-\item{adjustRgb}{numeric value adjustment used during the conversion of
+\item{adjustRgb}{\code{numeric} value adjustment used during the conversion of
 RGB colors to ANSI colors, which is inherently lossy. If not defined,
 it uses the default returned by \code{setCLranges()} which itself uses
 \code{getOption("jam.adjustRgb")} with default=0. In order to boost
 color contrast, an alternate value of -0.1 is suggested.}
 
-\item{useCollapseBase}{character string used to combine multiple parameter
+\item{useCollapseBase}{\code{character} string used to combine multiple parameter
 values.}
 
-\item{verbose}{logical whether to print verbose output.}
+\item{verbose}{\code{logical} whether to print verbose output.}
 
-\item{debug}{integer value, greater than 0 will cause debug-type verbose
+\item{debug}{\code{integer} value, greater than 0 will cause debug-type verbose
 output, useful because parameters are hard!}
 }
 \description{
@@ -72,17 +83,31 @@ This function displays R function arguments, organized with one argument
 per line, and colorized using the \code{crayon} package if
 installed.
 
-It has an optional subset ability, using \code{grepString} which filters
-argument names by pattern matching. This feature is intended to help find
-the parameter name using a substring, which is particularly helpful for
-R functions which contain numerous parameters, and which have not obscured
-them by use of generic function wrapper. Generic functions very often
-contain no useful parameters, making it difficult to discover required
-parameters without reading the function documentation from the proper
-dispatched function and calling package.
+Output is nicely spaced to help visual alignment of argument names
+and argument values.
 
-It also by default sorts parameters by name, to make it easier to find
-from among many parameters.
+Output can be filtered by \code{character} pattern. For example the
+function \code{ComplexHeatmap::Heatmap()} is amazing, and offers numerous
+arguments. To find arguments relevant to dendrograms, use \code{"dend"}:
+
+\code{jargs(ComplexHeatmap::Heatmap, "dend")}
+
+NOTE: This function has edge case issues displaying complex function
+argument values such as nested lists and custom functions.
+In that case the argument name is printed as usual, and the argument value
+is displayed as a partial snippet of the default argument value.
+
+Generic functions very often contain no useful parameters,
+making it difficult to discover required
+parameters without reading the function documentation from the proper
+dispatched function and calling package. In that case,
+try using \code{jargs(functionname.default)} for example compare:
+
+\code{jargs(barplot)}
+
+to:
+
+\code{jargs(barplot.default)}
 }
 \examples{
 args(jargs)
@@ -127,10 +152,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 }
 \concept{jam practical functions}

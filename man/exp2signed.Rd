@@ -7,15 +7,15 @@
 exp2signed(x, offset = 1, base = 2, ...)
 }
 \arguments{
-\item{x}{numeric vector}
+\item{x}{\code{numeric} vector}
 
-\item{base}{numeric value indicating the logarithmic base used.
+\item{base}{\code{numeric} value indicating the logarithmic base used.
 For example \code{base=2} indicates values were transformed using
 \code{log2()}.}
 
 \item{...}{additional arguments are ignored.}
 
-\item{numeric}{offset, subtracted from exponentiated values
+\item{numeric}{\code{offset}, subtracted from exponentiated values
 prior to multiplying by the \code{sign(x)}.}
 }
 \value{
@@ -79,10 +79,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 }
 \concept{jam practical functions}

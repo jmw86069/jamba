@@ -7,18 +7,18 @@
 breaksByVector(x, labels = NULL, returnFractions = FALSE, ...)
 }
 \arguments{
-\item{x}{vector of labels}
+\item{x}{\code{character} vector of labels}
 
-\item{labels}{character vector of custom labels to represent the items
+\item{labels}{\code{character} vector of custom labels to represent the items
 in x}
 
-\item{returnFractions}{logical whether to return fractional coordinates
+\item{returnFractions}{\code{logical} whether to return fractional coordinates
 for labels that should be positioned between two labels}
 
 \item{...}{additional parameters are ignored.}
 }
 \value{
-list with the following named elements:
+\code{list} with the following named elements:
 \itemize{
 \item{"breakPoints"}{The mid-point coordinate between each break.
 These midpoints would be good for drawing dividing lines for
@@ -49,7 +49,7 @@ two consecutive items, the fractional coordinate can be used to place the
 label between the two items.
 
 This function is useful for things like adding labels to
-\code{imageDefault} color image map of sample groupings, where
+\code{imageDefault()} color image map of sample groupings, where
 it may be ideal to label only unique elements in a contiguous set.
 }
 \examples{
@@ -122,7 +122,6 @@ Other jam string functions:
 \code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
 \code{\link{sizeAsNum}()},
-\code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}

@@ -14,22 +14,22 @@ grepls(
 )
 }
 \arguments{
-\item{x}{grep pattern}
+\item{x}{\code{character} string used as a grep pattern}
 
-\item{where}{character string compatible with \code{base::ls()} or if
+\item{where}{\code{character} string compatible with \code{base::ls()} or if
 installed, \code{AnnotationDbi::ls()}. A special value \code{"all"} will
 search all environments on the search path \code{base::search()}
 in order.}
 
-\item{ignore.case}{logical indicating whether the pattern match
+\item{ignore.case}{\code{logical} indicating whether the pattern match
 is case-insensitive.}
 
-\item{searchNames}{logical indicating whether names should also
+\item{searchNames}{\code{logical} indicating whether names should also
 be searched, which is only relevant for \code{AnnDb} objects,
 for example \code{org.Mm.egSYMBOL2EG} from the \code{org.Mm.eg.db}
 Bioconductor package.}
 
-\item{verbose}{logical indicating whether to print verbose output.}
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
 
 \item{...}{additional parameters are ignored.}
 }

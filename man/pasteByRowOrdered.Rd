@@ -17,16 +17,16 @@ pasteByRowOrdered(
 )
 }
 \arguments{
-\item{x}{data.frame}
+\item{x}{\code{data.frame}}
 
-\item{sep}{character separator to use between columns}
+\item{sep}{\code{character} separator to use between columns}
 
-\item{na.rm}{logical whether to remove NA values, or include them as "NA"}
+\item{na.rm}{\code{logical} whether to remove NA values, or include them as "NA"}
 
-\item{condenseBlanks}{logical whether to condense blank or empty values
+\item{condenseBlanks}{\code{logical} whether to condense blank or empty values
 without including an extra delimiter between columns.}
 
-\item{includeNames}{logical whether to include the colname delimited
+\item{includeNames}{\code{logical} whether to include the colname delimited
 prior to the value, using sepName as the delimiter.}
 
 \item{keepOrder}{\code{logical} indicating whether non-factor columns
@@ -123,7 +123,6 @@ Other jam string functions:
 \code{\link{padString}()},
 \code{\link{pasteByRow}()},
 \code{\link{sizeAsNum}()},
-\code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}

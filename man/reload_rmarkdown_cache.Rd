@@ -9,7 +9,8 @@ reload_rmarkdown_cache(
   maxnum = 1000,
   max_cache_name = NULL,
   envir = globalenv(),
-  file_sort = c("ctime", "mtime"),
+  file_sort = c("globals", "objects", "ctime", "mtime"),
+  preferred_load_types = c("lazyLoad", "load"),
   dryrun = FALSE,
   verbose = TRUE,
   ...
@@ -32,21 +33,40 @@ processing.}
 \item{envir}{\code{environment} where cache data will be loaded.}
 
 \item{file_sort}{\code{character} string indicating how to sort cache files
-to place them in proper order for re-loading. Note that
-file modification time \code{mtime} may incorrectly sort files
-that were modified after the initial processing of the
-Rmarkdown file.
+to place them in proper order for re-loading. The default is to use
+one RMarkdown cache index file, which should accurately reflect only
+RMarkdown chunks present in the .Rmd file during rendering, and
+in the order they appear in that file.
+Using \code{"mtime"} or \code{"ctime"} below will sort files by the modification
+or creation time, respectively, and is less accurate, but often
+sufficient for most purposes. It would only be advised if for
+some reason the \code{"__globals"} or \code{"__objects"} files are not present.
 \itemize{
+\item \code{"globals"} uses the \code{"__globals"} file in the cache directory.
+\item \code{"objects"} uses the \code{"__objects"} file in the cache directory.
 \item \code{ctime} sorts by file creation time, default
 \item \code{mtime} sorts by file modification time
+}}
+
+\item{preferred_load_types}{\code{character} string indicating the preferred
+load mechanism to use. By default it will use \code{lazyLoad()} if \code{.rdx/.rdb}
+files are present, otherwise it falls back to using \code{load()} for \code{.RData}
+files.
+Remove \code{"lazyLoad"} to prevent lazy-loading of cached objects.
+\itemize{
+\item \code{"lazyLoad"} will try to use \code{lazyLoad()} to load \code{.rdx/.rdb} files
+\item \code{"load"} will try to use \code{load()} to load \code{.RData} files
 }}
 
 \item{dryrun}{\code{logical} indicating whether to perform a dry-run,
 which prints messages but does not process the data.}
 
-\item{verbose}{\code{logical} indicating whether to print verbose output.}
+\item{verbose}{\code{logical} indicating whether to print verbose output.
+Note that this variable is not passed along to \code{load()}, since it
+is inconsistent with \code{lazyLoad()}.}
 
-\item{...}{additional arguments are passed to \code{lazyLoad()}.}
+\item{...}{additional arguments are passed to \code{lazyLoad()} or \code{load()}
+as relevant to the method used to re-load the cache object data.}
 }
 \value{
 this function does not return data, but instead is called

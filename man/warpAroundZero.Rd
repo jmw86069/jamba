@@ -7,20 +7,20 @@
 warpAroundZero(x, lens = 5, baseline = 0, xCeiling = NULL, ...)
 }
 \arguments{
-\item{x}{numeric vector}
+\item{x}{\code{numeric} vector}
 
-\item{lens}{numeric value which defines the lens factor,
+\item{lens}{\code{numeric} value which defines the lens factor,
 where \code{lens > 0} will compress values near zero, and
 \code{lens < 0} will expand values near zero and compress
 values near the maximum value. If \code{lens == 0} the
 numeric values are not changed.}
 
-\item{baseline}{numeric value describing the baseline, for example
+\item{baseline}{\code{numeric} value describing the baseline, for example
 when the central value is non-zero. The baseline is subtracted
 from \code{x}, the warp is applied, then the baseline is added to
 the result.}
 
-\item{xCeiling}{numeric maximum value used for the color warp range,
+\item{xCeiling}{\code{numeric} maximum value used for the color warp range,
 useful for consistency. When \code{xCeiling} is not supplied, the
 maximum difference from \code{baseline} is used. When \code{xCeiling} is
 defined, and \code{baseline} is non-zero, the effective value used

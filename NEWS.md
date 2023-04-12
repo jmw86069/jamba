@@ -1,3 +1,48 @@
+# jamba version 0.0.91.900
+
+## bug fixes on R-4.2.3
+
+* Fixed errors caused by `if(class(x) %in% x)` since `class(x)` can
+have >1 value, an error on R-4 and only a warning on R-3.
+
+   * notably `imageByColors()` and `handleArgsText()` which called iteratively
+   by the argument-printing utility `jargs()`.
+
+* `reload_rmarkdown_cache()`
+
+   * When using `cache.lazy=FALSE` the cache files did not save `.rdx` and
+   `.rdb` files, causing this function to fail. In that case the `.RData`
+   files can be loaded but not using `lazyLoad()` so they are loaded
+   directly into the environment `envir`. See changes below.
+
+## changes to existing functions
+
+* `reload_rmarkdown_cache()`
+
+   * new argument options: `file_sort=c("globals", "objects")` which
+   defines the file order by default to use the order they appear in
+   the RMarkdown index files `"__globals"` or `"__objects"`. Both files
+   should be present, and should be identical, but the option is there
+   to choose one or the other.
+   * Using globals is the new default, as it is more reliable than
+   using file creation time:
+   
+      * the RMarkdown chunks can be re-ordered, which would cause the
+      cache file creation to be out of order from the RMarkdown document
+      * also chunks can be removed, and because cache files are not forcibly
+      removed in that case, the new mechanism prevents loading un-necessary
+      cache files which may corrupt the final environment.
+   
+   * new argument: `preferred_load_types=c("lazyLoad", "load")` to help
+   limit the mechanism used to load cache objects. When `.rdx/.rdb` files
+   exists, the default is to use `lazyLoad()`. When they do not exist,
+   `.RData` files typically always exist, and can be loaded with `load()`.
+   The option now exists to prevent `lazyLoad()` and to use `load()`
+   instead. Subtle difference in how R objects are stored and re-used.
+
+* numerous functions had argument help text updated for clarity.
+* `sdim()`, `ssdim()`, `sdima()`, `ssdima()` help docs were combined.
+
 # jamba version 0.0.90.900
 
 * Added MIT license.

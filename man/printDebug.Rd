@@ -253,10 +253,12 @@ is recycled to the length of that vector.
 }
 
 For use inside Rmarkdown \code{.Rmd} documents, current recommendation is
-to define the R output with \code{results='asis'} like this:\preformatted{\\`\\`\\`\{r block_name, results='asis'\}
+to define the R output with \code{results='asis'} like this:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\\`\\`\\`\{r block_name, results='asis'\}
 # some R code here
 \\`\\`\\`
-}
+}\if{html}{\out{</div>}}
 
 Then define a global option to turn off the comment prefix in
 \code{printDebug()}: \code{options("jam.comment"=FALSE)}
@@ -332,10 +334,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 }
 \concept{jam practical functions}

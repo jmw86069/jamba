@@ -7,12 +7,12 @@
 log2signed(x, offset = 1, base = 2, ...)
 }
 \arguments{
-\item{x}{numeric vector}
+\item{x}{\code{numeric} vector}
 
-\item{offset}{numeric value added to the absolute values
+\item{offset}{\code{numeric} value added to the absolute values
 of \code{x} prior to applying the log transformation.}
 
-\item{base}{numeric value indicating the logarithmic base,
+\item{base}{\code{numeric} value indicating the logarithmic base,
 by default \code{2} in order to apply \code{base::log2()}.}
 
 \item{...}{additional arguments are ignored.}
@@ -87,10 +87,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 }
 \concept{jam practical functions}

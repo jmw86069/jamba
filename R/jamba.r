@@ -81,12 +81,12 @@ NULL
 #'
 #' file information in data.frame format
 #'
-#' This function is a minor extension to \code{file.info} in that it
+#' This function is a minor extension to `file.info()` in that it
 #' adds the filename as a proper colname, and "size" which contains a text
 #' file size.
 #'
-#' @return data.frame with file information, including "filename" and "size"
-#' as additional colnames as compared to \code{file.info} output.
+#' @return `data.frame` with file information, including "filename" and "size"
+#'    as additional colnames as compared to `file.info()` output.
 #'
 #' @param fileList character vector with one or more file paths.
 #'
@@ -94,29 +94,31 @@ NULL
 #'
 #' @export
 fileInfo <- function
-(fileList, #doColsHead=TRUE,
+(fileList,
  ...)
 {
-   ## Purpose is to wrapper file.info() so it returns a pretty tabular summary for one or more files
-   ## One cool pattern to follow is to list files contained within a package:
-   ## colsHead(file.info(list.files(path=find.package("mirna20cdf"), full.names=TRUE)))
+   # Purpose is to wrapper file.info() so it returns a pretty tabular
+   # summary for one or more files.
+   # One cool pattern to follow is to list files contained within a package:
+   # colsHead(fileInfo(list.files(path=find.package("jamba"), full.names=TRUE)))
    fileList <- path.expand(fileList);
    fi1 <- file.info(fileList, ...);
-   fi1[,"size"] <- asSize(fi1[,"size"]);
-   fi1 <- data.frame(check.names=FALSE, stringsAsFactors=FALSE,
-      "filename"=rownames(fi1), fi1);
-   hiCols <- igrep("filename|size", colnames(fi1));
-   maxFileWidth <- max(nchar(fi1[,1]));
 
-   ## Left-justify the text by right-padding with spaces before calling colsHead()
-   ## making it easier to read
-   fi1[,1] <- as.character(sapply(fi1[,1], function(i){
-      paste(c(i, rep(" ", maxFileWidth-nchar(i))), collapse="");
-   }));
-   fi1[,1] <- padString(fi1[,1], justify="right");
-   #if (doColsHead) {
-   #   colsHead(fi1, rows=10, maxRows=100, hiCols=hiCols);
-   #}
+   # convert size to readable label
+   fi1[,"size"] <- asSize(fi1[,"size"]);
+
+   fi1 <- data.frame(
+      check.names=FALSE,
+      stringsAsFactors=FALSE,
+      "filename"=rownames(fi1),
+      fi1);
+
+   # Left-justify the text by right-padding with spaces
+   # making it easier to read
+   fi1$filename <- format(
+      fi1$filename,
+      justify="left")
+
    return(fi1);
 }
 
@@ -128,23 +130,25 @@ fileInfo <- function
 #' a consistent number of digits, which is helpful when sorting values
 #' as character strings.
 #'
-#' @return character vector of length(x).
+#' @return `character` vector of length(x).
 #'
 #' @family jam string functions
 #'
-#' @param x input integer, numeric, or character vector. In reality, only
-#'    nchar(x) is used to determine padding.
-#' @param padCharacter character with nchar(padCharacter)==1, used to pad
+#' @param x `integer`, `numeric`, or `character` vector. In reality, only
+#'    `nchar(x)` is required to determine padding.
+#' @param padCharacter `character` with nchar(padCharacter)==1, used to pad
 #'    each digit as a prefix.
-#' @param useNchar NULL or integer number of digits used, or if the maximum
-#'    nchar(x) is higher, that number of digits is used. Note useNchar is
+#' @param useNchar `NULL` or `integer` number of digits used, or if the maximum
+#'    `nchar(x)` is higher, that number of digits is used. Note `useNchar` is
 #'    mostly useful when all numbers are less than 10, but the desired output
 #'    is to have a fixed number of digits 2 or higher.
 #' @param ... additional parameters are ignored.
 #'
 #' @export
 padInteger <- function
-(x, padCharacter="0", useNchar=NULL,
+(x,
+ padCharacter="0",
+ useNchar=NULL,
  ...)
 {
    ## Purpose is to pad integer numbers so they contain the same number of
@@ -166,17 +170,17 @@ padInteger <- function
 #'
 #' pad a character string to a fixed length
 #'
-#' @return character vector of length(x)
+#' @return `character` vector of length(x)
 #'
 #' @family jam string functions
 #'
-#' @param x character vector
-#' @param stringLength integer length for the resulting character strings
-#'    in \code{x}. By default, all strings are padded to the length of the
+#' @param x `character` vector
+#' @param stringLength `integer` length for the resulting character strings
+#'    in `x`. By default, all strings are padded to the length of the
 #'    longest entry, however stringLength can be defined to impose strict
 #'    number of characters for all entries.
-#' @param padCharacter single character used for padding.
-#' @param justify character value with "left", "right", "center" to indicate
+#' @param padCharacter `character` string with nchar=1 used for padding.
+#' @param justify `character` string with "left", "right", "center" to indicate
 #'    alignment of the resulting text string.
 #' @param ... additional parameters are ignored.
 #'
@@ -186,7 +190,9 @@ padInteger <- function
 #'
 #' @export
 padString <- function
-(x, stringLength=max(nchar(x)), padCharacter=" ",
+(x,
+ stringLength=max(nchar(x)),
+ padCharacter=" ",
  justify="left",
  ...)
 {
@@ -229,12 +235,12 @@ padString <- function
 #' @return integer value with the number of calendar days before the
 #'    current date, or the `nowDate` if supplied.
 #'
-#' @param testDate character date recognized by \code{\link{asDate}},
+#' @param testDate `character` date recognized by `asDate()`,
 #'    representing the test date.
-#' @param nowDate character date recognized by \code{\link{asDate}},
+#' @param nowDate `character` date recognized by `asDate()`,
 #'    representing the reference date, by default the current day.
-#' @param units character indicating the units, as used by
-#'    \code{\link[base]{difftime}}.
+#' @param units `character` indicating the units, as used by
+#'    `difftime()`.
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
@@ -263,9 +269,9 @@ dateToDaysOld <- function
 #'
 #' @return Date object
 #'
-#' @param getDateValues character date, in format recognized by dateFormat
-#' @param dateFormat character string representing the recognized date format,
-#'    by default DDmmmYYYY, for example 23aug2007.
+#' @param getDateValues `character` date, in format recognized by dateFormat
+#' @param dateFormat `character` string representing the recognized date
+#'    format, by default `"DDmmmYYYY"`, which recognizes `"23aug2007"`.
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
@@ -291,26 +297,37 @@ asDate <- function
 #' get simple date string in the format DDmonYYYY such as 17jul2018.
 #'
 #' Gets the current date in a simplified text string. Use
-#' \code{\link{asDate}} to convert back to Date object.
+#' `asDate()` to convert back to Date object.
 #'
 #' @return character vector with simplified date string
 #'
 #' @family jam date functions
 #'
-#' @param t current time, by default the output of \code{\link[base]{Sys.time}}.
-#' @param trim logical whether to trim the output of \code{\link[base]{format}}
-#'    in the event that multiple values are sent for \code{\link[base]{t}}.
-#' @param ... additional parameters sent to \code{\link[base]{format}}
+#' @param t current time in an appropriate class such as `"POSIXct"`
+#'    or `"POSIXt"`. The default is output of `Sys.time()`.
+#' @param trim `logical` whether to trim the output of `format()`
+#'    in the event that multiple values are sent for argument `t`.
+#' @param dateFormat `character` string representing the recognized date
+#'    format, by default `"DDmmmYYYY"`, which recognizes `"23aug2007"`.
+#' @param ... additional parameters sent to `format()`.
 #'
 #' @examples
 #' getDate();
 #'
 #' @export
-getDate <- function(t=Sys.time(),trim=TRUE,...)
+getDate <- function
+(t=Sys.time(),
+ trim=TRUE,
+ dateFormat="%d%b%Y",
+ ...)
 {
    ## Purpose is to define a data in the format
    ## 05may2011 (DDmmmYYYY)
-   tolower(format(t, "%d%b%Y",trim=trim,...));
+   tolower(
+      format(t,
+         dateFormat,
+         trim=trim,
+         ...));
 }
 
 #' set R prompt with project name and R version
@@ -365,16 +382,20 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #' @family jam practical functions
 #'
 #' @param projectName `character` string representing the active project.
-#' @param useColor logical whether to define a color prompt if the
+#' @param useColor `logical` whether to define a color prompt if the
 #'    `crayon` package is installed.
-#' @param projectColor,bracketColor,Rcolors,PIDcolor,promptColor colors
-#'    used when `useColor==TRUE` and the `crayon` package
-#'    is installed: `projectColor` colors the project name; `bracketColor`
-#'    colors the curly brackets around the project; `Rcolors` can be
-#'    a vector of 3 colors, colorizing "R", the "-" divider, and the
-#'    R version; `PIDcolor` colors the PID when `usePid=TRUE`; and
-#'    `promptColor` colors the `">"` at the end of the prompt.
+#' @param projectColor,bracketColor,Rcolors,PIDcolor,promptColor `character`
+#'    colors used when `useColor==TRUE` and the `crayon` package
+#'    is installed:
+#'    * `projectColor` colors the project name;
+#'    * `bracketColor` colors the curly brackets around the project;
+#'    * `Rcolors` can be a vector of 3 colors, colorizing "R",
+#'    the "-" divider, and the R version;
+#'    * `PIDcolor` colors the PID when `usePid=TRUE`; and
+#'    * `promptColor` colors the `">"` at the end of the prompt.
 #' @param usePid `logical` whether to include the process ID in the prompt.
+#'    Including the PID is helpful for the rare occasion when a process is
+#'    hung and needs to be stopped directly.
 #' @param resetPrompt `logical` whether to revert all changes to the prompt
 #'    back to the default R prompt, that is, no color and no projectName.
 #' @param addEscape `logical` or `NULL` indicating whether to wrap color
@@ -383,10 +404,15 @@ getDate <- function(t=Sys.time(),trim=TRUE,...)
 #'    the console not to count ANSI color control characters as visible
 #'    characters when determining word wrapping on the console. Note
 #'    that RStudio does not work well with this setting.
+#'    If you find that the word-wrap is incorrect in the R console, try
+#'    `addEscape=TRUE`. Apparently most versions of RStudio will already
+#'    adjust (and prevent) colorizing the prompt during editing, presumably
+#'    to sidestep the problem of calculating the correct character length.
 #'    By default when `addEscape` is `NULL`, it checks whether environmental
 #'    variable `RSTUDIO` equals `"1"` (running inside RStudio) then sets
-#'    addEscape=FALSE; otherwise addEscape=TRUE. In most cases for
-#'    commandline prompts, `addEscape=TRUE` is helpful and not problematic.
+#'    `addEscape=FALSE`; otherwise it defines `addEscape=TRUE`.
+#'    In most cases for commandline prompts, `addEscape=TRUE` is helpful
+#'    and not problematic.
 #' @param verbose `logical` whether to print verbose output.
 #' @param debug `logical` indicating whether to print the ANSI control
 #'    character output for the full prompt, for visual review.
@@ -557,36 +583,40 @@ setPrompt <- function
 #' Paste data.frame rows into a character vector, optionally removing
 #' empty fields in order to avoid delimiters being duplicated.
 #'
-#' This function is intended to paste data.frame (or matrix, or tibble) values
-#' for each row of data. It differs from using apply(x, 2, paste) in that it
-#' handles factors without converting to integer factor level numbers. It
-#' also by default removes blank or empty fields, preventing the delimiter
-#' from being included multiple times, per the condenseBlanks parameter.
-#' Lastly, it is notably faster than apply, by means of running paste() on
+#' This function is intended to paste `data.frame` (or `matrix`, or `tibble`)
+#' values for each row of data.
+#' It differs from using `apply(x, 2, paste)`:
+#'
+#' * it handles factors without converting to integer factor level numbers.
+#' * it also by default removes blank or empty fields, preventing the delimiter
+#' from being included multiple times, per the `condenseBlanks` argument.
+#' * it is notably faster than apply, by means of running `paste()` on
 #' each column of data, making the output vectorized, and scaling rather
-#' well for large data.frames.
+#' well for large `data.frame` objects.
 #'
 #' The output can also include name:value pairs, which can make the output
 #' data more self-describing in some circumstances. That said, the most basic
 #' usefulness of this function is to create row labels.
 #'
-#' @return character vector of length \code{nrow(x)}.
+#' @return `character` vector of length `nrow(x)`.
 #'
 #' @family jam string functions
 #'
-#' @param x data.frame, matrix, or tibble
-#' @param sep character separator to use between columns
-#' @param na.rm logical whether to remove NA values, or include them as "NA"
-#' @param condenseBlanks logical whether to condense blank or empty values
+#' @param x `data.frame` or comparable object such as `matrix` or `tibble`.
+#' @param sep `character` string separator to use between columns.
+#' @param na.rm `logical` whether to remove NA values, or include them
+#'    as `"NA"` strings.
+#' @param condenseBlanks `logical` whether to condense blank or empty values
 #'    without including an extra delimiter between columns.
-#' @param includeNames logical whether to include the colname delimited
+#' @param includeNames `logical` whether to include the colname delimited
 #'    prior to the value, using sepName as the delimiter.
-#' @param sepName character, only relevant when includeNames=TRUE, this value
-#'    becomes the delimiter.
-#' @param blankGrep character grep string used to recognize blank entries,
-#'    by default any field containing no text, or only spaces, is considered
-#'    a blank entry.
-#' @param verbose logical whether to print verbose output.
+#' @param sepName `character` string relevant when `includeNames=TRUE`,
+#'    this value becomes the delimiter between name:value.
+#' @param blankGrep `character` string used as regular expression pattern in
+#'    `grep()` to recognize blank entries;
+#'    by default any field containing no text, or only whitespace,
+#'    is considered a blank entry.
+#' @param verbose `logical` whether to print verbose output.
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
@@ -734,11 +764,11 @@ pasteByRow <- function
 #' label between the two items.
 #'
 #' This function is useful for things like adding labels to
-#' \code{imageDefault} color image map of sample groupings, where
+#' `imageDefault()` color image map of sample groupings, where
 #' it may be ideal to label only unique elements in a contiguous set.
 #'
 #' @return
-#' list with the following named elements:
+#' `list` with the following named elements:
 #'    \itemize{
 #'       \item{"breakPoints"}{The mid-point coordinate between each break.
 #'          These midpoints would be good for drawing dividing lines for
@@ -755,10 +785,10 @@ pasteByRow <- function
 #'
 #' @family jam string functions
 #'
-#' @param x vector of labels
-#' @param labels character vector of custom labels to represent the items
+#' @param x `character` vector of labels
+#' @param labels `character` vector of custom labels to represent the items
 #'    in x
-#' @param returnFractions logical whether to return fractional coordinates
+#' @param returnFractions `logical` whether to return fractional coordinates
 #'    for labels that should be positioned between two labels
 #' @param ... additional parameters are ignored.
 #'
@@ -868,7 +898,7 @@ breaksByVector <- function
       breakLengths=xLengths);
 }
 
-#' Draw groups axis labels
+#' Draw grouped axis labels
 #'
 #' Draw grouped axis labels given a character vector.
 #'
@@ -889,6 +919,7 @@ breaksByVector <- function
 #'
 #' groupedAxis(1, b);
 #' groupedAxis(2, b, group_style="grouped");
+#' groupedAxis(2, b, group_style="centered");
 #' groupedAxis(3, b2, do_abline=TRUE);
 #' groupedAxis(4, b2, group_style="grouped");
 #' mtext(side=1, "group_style='partial_grouped'", line=2, las=0);
@@ -896,6 +927,30 @@ breaksByVector <- function
 #' mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
 #' mtext(side=4, "group_style='grouped'", line=2, las=0);
 #'
+#' @param side `integer` indicating the axis side, passed to `axis()`.
+#'    1=bottom, 2=left, 3=top, 4=right.
+#' @param x `character` vector of axis labels
+#' @param group_style `character` string indicating the style of label:
+#'    * `"partial_grouped"` - uses square bracket to bound 2+ repeated entries,
+#'    and single line tick mark for non-repeated entries.
+#'    * `"grouped"` - uses square bracket to bound each set of repeated entries
+#'    including non-repeated entries.
+#'    * `"centered"` - only labels the center of each group of repeated entries
+#'    with no bracket bounding the entries.
+#' @param las `integer` indicating whether labels should be perpendicular,
+#'    see `par("las")`.
+#' @param returnFractions `logical` passed to `breaksByVector()` to calculate
+#'    label positions. Set `returnFractions=FALSE` and all labels will only
+#'    appear at integer locations on the axis.
+#' @param nudge `numeric` adjustment for labels away from the plot border.
+#' @param do_abline `logical` indicating whether to draw `abline()` lines
+#'    inside the plot to indicate the exact breakpoints between each group
+#'    of labels.
+#' @param abline_lty line type compatible with `par("lty")`, used when
+#'    `do_abline=TRUE`.
+#' @param abline_col `character` color used when `do_abline=TRUE`.
+#' @param ... additional arguments are passed to `breaksByVector()`, and/or to
+#'    `axis()`.
 #'
 #' @export
 groupedAxis <- function
@@ -979,28 +1034,28 @@ groupedAxis <- function
 #'
 #' convert column number to Excel column name
 #'
-#' The purpose is to convert a numerical column number into a valid Excel
-#' column name, using LETTERS starting at A.
+#' The purpose is to convert an `integer` column number into a valid Excel
+#' column name, using `LETTERS` starting at A.
 #' This function implements an arbitrary number of digits, which may or
 #' may not be compatible with each version of Excel.  18,278 columns
 #' would be the maximum for three digits, "A" through "ZZZ".
 #'
 #' This function is useful when referencing Excel columns via another
-#' interface such as via openxlsx. It is also used by \code{makeNames}
-#' when the numberStyle="letters", in order to provide letter suffix values.
+#' interface such as via openxlsx. It is also used by `makeNames()`
+#' when the `numberStyle="letters"`, in order to provide letter suffix values.
 #'
-#' One can somewhat manipulate the allowed column names via the useLetters
-#' parameter, which by default uses the entire 26-letter Western alphabet.
+#' One can somewhat manipulate the allowed column names via the `useLetters`
+#' argument, which by default uses the entire 26-letter Western alphabet.
 #'
-#' @return character vector with length(x)
+#' @return `character` vector with length(x)
 #'
 #' @family jam practical functions
 #'
-#' @param x integer vector
-#' @param useLetters character vector of single-digit characters to use as
+#' @param x `integer` vector
+#' @param useLetters `character` vector of single-digit characters to use as
 #'    digits in the resulting column name. Note that these characters can
 #'    be of almost any length, with any content.
-#' @param zeroVal character single-digit to be used whenever x==0, or as a
+#' @param zeroVal `character` single-digit to be used whenever `x==0`, or as a
 #'    prefix for negative values. In theory there should be no negative
 #'    input values, but this basic mechanism is used to handle the possibility.
 #'
@@ -1009,7 +1064,9 @@ groupedAxis <- function
 #'
 #' @export
 colNum2excelName <- function
-(x, useLetters=LETTERS, zeroVal="a",
+(x,
+ useLetters=LETTERS,
+ zeroVal="a",
  ...)
 {
    ## Purpose is to convert a numerical column number into Excel name.
@@ -1066,22 +1123,22 @@ colNum2excelName <- function
 #' Decide plot panel rows, columns for par(mfrow)
 #'
 #' This function returns the recommended rows and columns of panels
-#' to be used in \code{par("mfrow")} with R base plotting. It attempts
+#' to be used in `par("mfrow")` with R base plotting. It attempts
 #' to use the device size and plot aspect ratio to keep panels roughly
 #' square. For example, a short-wide device would have more columns of panels
 #' than rows; a tall-thin device would have more rows than columns.
 #'
-#' The \code{doTest=TRUE} parameter will create \code{n} number of
+#' The `doTest=TRUE` argument will create `n` number of
 #' panels with the recommended layout, as a visual example.
 #'
-#' @return numeric vector length=2, with the recommended number of plot
+#' @return `numeric` vector length=2, with the recommended number of plot
 #'    rows and columns, respectively. It is intended to be used directly
-#'    in this form: \code{par("mfrow"=decideMfrow(n=5))}
+#'    in this form: `par("mfrow"=decideMfrow(n=5))`
 #'
 #' @family jam plot functions
 #'
-#' @param n integer number of plot panels
-#' @param method character string indicating the type of layout to favor.
+#' @param n `integer` number of plot panels
+#' @param method `character` string indicating the type of layout to favor.
 #'    \describe{
 #'       \item{"aspect"}{uses the device size and aspect ratio of the plot to try
 #'          to maintain roughly square plot panels.}
@@ -1090,7 +1147,7 @@ colNum2excelName <- function
 #'       \item{"tall"}{tries to keep the columns and rows similar, erring on
 #'          the side of more rows than columns.}
 #'    }
-#' @param doTest logical whether to provide a visual test. Note that
+#' @param doTest `logical` whether to provide a visual test. Note that
 #'    \code{n} is required as the number of plot panels requested.
 #' @param ... additional parameters are ignored.
 #'
@@ -1107,7 +1164,8 @@ colNum2excelName <- function
 #'
 #' @export
 decideMfrow <- function
-(n, method=c("aspect", "wide", "tall"),
+(n,
+ method=c("aspect", "wide", "tall"),
  doTest=FALSE,
  ...)
 {
@@ -1141,12 +1199,12 @@ decideMfrow <- function
 #'
 #' Get aspect ratio for coordinates, plot, or device
 #'
-#' @return the plot aspect ratio for a plot device, of the requested
-#' type, see the \code{type} parameter.
+#' @return `numeric` plot aspect ratio for a plot device, of the requested
+#' type, see the `type` argument.
 #'
 #' @family jam plot functions
 #'
-#' @param type character type of aspect ratio to calculate.
+#' @param type `character` type of aspect ratio to calculate.
 #'    \describe{
 #'       \item{"coords"}{calculates plot coordinate aspect ratio, which
 #'          is helpful for creating proper circular shapes, for example,
@@ -1160,12 +1218,12 @@ decideMfrow <- function
 #'          complete graphical device, i.e. the full space including all
 #'          panels, margins, and plot areas.}
 #'    }
-#' @param parUsr,parPin,parDin numeric values equivalent to their
-#'    respective \code{par()} output, from \code{par("usr")},
-#'    \code{par("pin")}, and \code{par("din")}. Values can be
+#' @param parUsr,parPin,parDin `numeric` values equivalent to their
+#'    respective `par()` output, from `par("usr")`,
+#'    `par("pin")`, and `par("din")`. Values can be
 #'    supplied directly, which among other things, prevents opening a
 #'    graphical device if one is not already opened. Any call to
-#'    \code{par()} will otherwise cause a graphic device to be opened,
+#'    `par()` will otherwise cause a graphic device to be opened,
 #'    which may not be desired on a headless R server.
 #' @param ... additional parameters are ignored.
 #'
@@ -1184,7 +1242,9 @@ decideMfrow <- function
 #' @export
 getPlotAspect <- function
 (type=c("coords", "plot", "device"),
- parUsr=par("usr"), parPin=par("pin"), parDin=par("din"),
+ parUsr=par("usr"),
+ parPin=par("pin"),
+ parDin=par("din"),
  ...)
 {
    ## Purpose is to get the plot aspect ratio, given an open
@@ -1239,17 +1299,18 @@ getPlotAspect <- function
 #' highly replicated, while the rest are present only once or twice on the
 #' array.
 #'
-#' @return integer vector of counts, named by the unique input
+#' @return `integer` vector of counts, named by the unique input
 #'    values in `x`.
 #'
 #' @family jam string functions
 #'
-#' @param x vector input to use when calculating frequencies.
-#' @param doSort logical whether to sort results decreasing by frequency.
-#' @param minCount optional integer minimum frequency, any results with
+#' @param x `character`, `numeric`, `factor` vector input to use when
+#'    calculating frequencies.
+#' @param doSort `logical` whether to sort results decreasing by frequency.
+#' @param minCount optional `integer` minimum frequency, any results with
 #'    fewer counts observed will be omitted from results.
-#' @param maxCount optional integer maximum frequency for returned results.
-#' @param nameSortFunc function used to sort results after sorting by
+#' @param maxCount optional `integer` maximum frequency for returned results.
+#' @param nameSortFunc `function` used to sort results after sorting by
 #'    frequency. For example, one might use `mixedSort()`. If
 #'    `nameSortFunc=NULL` then no name sort will be applied.
 #' @param ... additional parameters are ignored.
@@ -1307,27 +1368,13 @@ tcount <- function
 #' This function is a simple customization of `tcount()`
 #' with `minCount=2` so it only reports frequencies of `2` or higher.
 #'
-#' @return integer vector of counts, named by the unique input
+#' @return `integer` vector of counts, named by the unique input
 #'    values in `x`, by default limited to entries with frequency
 #'    `2` or higher.
 #'
 #' @family jam string functions
 #'
-#' @param x vector input to use when calculating frequencies.
-#' @param doSort logical whether to sort results decreasing by frequency.
-#' @param minCount optional integer minimum frequency, any results with
-#'    fewer counts observed will be omitted from results. Note the default
-#'    for `tcount2()` is `minCount=2`.
-#' @param maxCount optional integer maximum frequency for returned results.
-#' @param nameSortFunc function used to sort results after sorting by
-#'    frequency. For example, one might use `mixedSort()`. If
-#'    `nameSortFunc=NULL` then no name sort will be applied.
-#' @param ... additional parameters are ignored.
-#'
-#' @examples
-#' testVector <- rep(c("one", "two", "three", "four"), c(1:4));
-#' tcount(testVector);
-#' tcount2(testVector);
+#' @rdname tcount
 #'
 #' @export
 tcount2 <- function
@@ -1338,36 +1385,13 @@ tcount2 <- function
  nameSortFunc=sort,
  ...)
 {
-   ## Purpose is similar to table(), except this is just a quick way to return counts of each element,
-   ## sorted by the counts in decreasing order. tcount(x)[1] is a quick way to see if any element is
-   ## present more than once.
-   ##
-   ## minCount will filter results to those having at least that high a count
-
-   ## Note we detect factor class in reverse, since ordered factors have two class values
-   ## and would otherwise fail to be detected if we use class(x) %in% "factor"
-   if (c("factor") %in% class(x)) {
-      x <- as.character(x);
-   }
-   #x1 <- tapply(x, x, length);
-   x1 <- table(x);
-   x1 <- nameVector(as.vector(x1), names(x1), makeNamesFunc=c);
-
-   ## Filter before sort, for potential speed gain
-   if (!is.null(minCount)) {
-      x1 <- x1[x1 >= minCount];
-   }
-   if (!is.null(maxCount)) {
-      x1 <- x1[x1 <= maxCount];
-   }
-
-   if (doSort) {
-      if (!is.null(nameSortFunc)) {
-         x1 <- x1[match(nameSortFunc(names(x1)), names(x1))];
-      }
-      x1 <- sort(x1, decreasing=TRUE);
-   }
-   return(x1);
+   x1 <- tcount(x=x,
+      minCount=minCount,
+      doSort=doSort,
+      maxCount=maxCount,
+      nameSortFunc=nameSortFunc,
+      ...)
+   return(x1)
 }
 
 #' vectorized make_styles for crayon output
@@ -1375,11 +1399,11 @@ tcount2 <- function
 #' vectorized make_styles for crayon output
 #'
 #' This function is essentially a vectorized version of
-#' \code{\link[crayon]{make_style}} in order to style a vector of
+#' `crayon::make_style()` in order to style a vector of
 #' character strings with a vector of foreground and background styles.
 #'
 #' @return
-#' Vector with the same length as `text` input vector, where
+#' `character` vector with the same length as `text` input vector, where
 #' entries are surrounded by the relevant encoding consistent with
 #' the `style` defined at input. In short, a character vector as input,
 #' a colorized character vector as output.
@@ -1387,56 +1411,59 @@ tcount2 <- function
 #' @family jam practical functions
 #' @family jam color functions
 #'
-#' @param style vector of one or more styles. When NULL or NA,
+#' @param style `character` vector of one or more styles. When `NULL` or `NA`,
 #'    no style is applied, except when `bg_style` is supplied
-#'    and is neither NA nor NULL, in which case entries with
+#'    and is neither `NA` nor `NULL`, in which case entries with
 #'    a `bg_style` and no `style` will use `setTextContrastColor()`
 #'    to define a contrasting `style`.
-#' @param text vector of one or more character values
-#' @param bg logical indicating whether the `style` should be
+#' @param text `character` vector (or coerced to `character`) of one or
+#'    more values,.
+#' @param bg `logical` indicating whether the `style` should be
 #'    applied to the background instead of foreground. This argument
 #'    is ignored when `bg_style` is supplied.
-#' @param bg_style NULL or a vector of one or more background styles.
-#'    When this argument is not NULL, it applies both the foreground
+#' @param bg_style `NULL` or a `character` vector of one or more background
+#'    styles. When this argument is not NULL, it applies both the foreground
 #'    `style` and background `bg_style` together, and therefore ignores
 #'    `Crange` and `Lrange` settings.
-#' @param colors integer number of colors allowed for console output
-#' @param satCutoff numeric cutoff for color saturation, below which a color
-#'    is considered "grey" and the ANSI greyscale color set is used.
-#' @param Cgrey numeric chroma (C) value, which defines grey colors at or
+#' @param colors `integer` number of colors allowed for console output.
+#' @param satCutoff `numeric` cutoff for color saturation, below which a color
+#'    is considered grey and the ANSI greyscale color set is used.
+#' @param Cgrey `numeric` chroma (C) value, which defines grey colors at or
 #'    below this chroma. Any colors at or below the grey cutoff will have
 #'    use ANSI greyscale coloring. To disable, set `Cgrey=-1`.
-#' @param lightMode boolean indicating whether the background color
+#' @param lightMode `logical` indicating whether the background color
 #'    is light (TRUE is bright), or dark (FALSE is dark.) By default
 #'    it calls `checkLightMode()` which queries `getOption("lightMode")`.
-#' @param Crange numeric range of chroma values, ranging
+#' @param Crange `numeric` range of chroma values, ranging
 #'    between 0 and 100. When NULL, default values will be
 #'    assigned to Crange. When supplied, range(Crange) is used.
-#' @param Lrange numeric range of luminance values, ranging
+#' @param Lrange `numeric` range of luminance values, ranging
 #'    between 0 and 100. When NULL, default values will be
 #'    assigned to Lrange. When supplied, range(Lrange) is used.
-#' @param adjustRgb numeric value adjustment used during the conversion of
+#' @param adjustRgb `numeric` value adjustment used during the conversion of
 #'    RGB colors to ANSI colors, which is inherently lossy. If not defined,
 #'    it uses the default returned by `setCLranges()` which itself uses
-#'    \code{getOption("jam.adjustRgb")} with default=0. In order to boost
+#'    `getOption("jam.adjustRgb")` with default=0. In order to boost
 #'    color contrast, an alternate value of -0.1 is suggested.
-#' @param adjustPower numeric adjustment power factor
-#' @param fixYellow boolean indicating whether to "fix" the darkening of
+#' @param adjustPower `numeric` adjustment power factor
+#' @param fixYellow `logical` indicating whether to "fix" the darkening of
 #'    yellow, which otherwise turns to green. Instead, since JAM can,
 #'    JAM will make the yellow slightly more golden before darkening. This
 #'    change only affects color hues between 80 and 90. This argument is
 #'    passed to `applyCLrange()`.
-#' @param colorTransparent color used to substitute for "transparent" which
-#'    a valid R color, but not a valid color for the crayon package.
-#' @param alphaPower numeric value, used to adjust the RGB values for alpha
+#' @param colorTransparent `character` color used to substitute for
+#'    "transparent" which a valid R color, but not a valid color for
+#'    the crayon package.
+#' @param alphaPower `numeric` value, used to adjust the RGB values for alpha
 #'    values less than 255, by raising the ratio to 1/alphaPower, which takes
 #'    the ratio of square roots.  alphaPower=100 for minimal adjustment.
-#' @param setOptions character or logical whether to update `Crange` and `Lrange`
-#'    options during the subsequent call to `setCLranges()`. By default,
-#'    `"ifnull"` will update only options which were previously `NULL`;
-#'    `"FALSE"` prevents modifying the global options; `"TRUE"` will
-#'    update these options with the current values.
-#' @param verbose logical whether to print verbose output
+#' @param setOptions `character` or `logical` whether to update
+#'    `Crange` and `Lrange` options during the subsequent call to
+#'    `setCLranges()`. By default,
+#'    * `"ifnull"` will update only options which were previously `NULL`;
+#'    * `"FALSE"` prevents modifying the global options;
+#'    * `"TRUE"` will update these options with the current values.
+#' @param verbose `logical` indicating whether to print verbose output
 #' @param ... additional parameters are ignored
 #'
 #'
@@ -1812,53 +1839,74 @@ make_styles <- function
 #' Show R function arguments jam-style
 #'
 #' This function displays R function arguments, organized with one argument
-#' per line, and colorized using the \code{crayon} package if
+#' per line, and colorized using the `crayon` package if
 #' installed.
 #'
-#' It has an optional subset ability, using \code{grepString} which filters
-#' argument names by pattern matching. This feature is intended to help find
-#' the parameter name using a substring, which is particularly helpful for
-#' R functions which contain numerous parameters, and which have not obscured
-#' them by use of generic function wrapper. Generic functions very often
-#' contain no useful parameters, making it difficult to discover required
-#' parameters without reading the function documentation from the proper
-#' dispatched function and calling package.
+#' Output is nicely spaced to help visual alignment of argument names
+#' and argument values.
 #'
-#' It also by default sorts parameters by name, to make it easier to find
-#' from among many parameters.
+#' Output can be filtered by `character` pattern. For example the
+#' function `ComplexHeatmap::Heatmap()` is amazing, and offers numerous
+#' arguments. To find arguments relevant to dendrograms, use `"dend"`:
+#'
+#' `jargs(ComplexHeatmap::Heatmap, "dend")`
+#'
+#' NOTE: This function has edge case issues displaying complex function
+#' argument values such as nested lists and custom functions.
+#' In that case the argument name is printed as usual, and the argument value
+#' is displayed as a partial snippet of the default argument value.
+#'
+#' Generic functions very often contain no useful parameters,
+#' making it difficult to discover required
+#' parameters without reading the function documentation from the proper
+#' dispatched function and calling package. In that case,
+#' try using `jargs(functionname.default)` for example compare:
+#'
+#' `jargs(barplot)`
+#'
+#' to:
+#'
+#' `jargs(barplot.default)`
 #'
 #' @family jam practical functions
 #'
-#' @param x function or character name of a function.
-#' @param grepString NULL, logical, or character grep string used to filter
-#'    names of function parameters. If logical, it is assumed to be
-#'    sortVars, and indicates whether to sort the parameter names.
-#' @param sortVars logical whether to sort the function parameter names.
-#' @param asList logical whether to display one entry per line (TRUE), or
-#'    display results as a data.frame.
-#' @param useColor logical whether to display results in color, if the crayon
+#' @param x `function` or character name of a function.
+#' @param grepString `NULL`, `logical`, or `character` grep regular expression
+#'    pattern used to filter function arguments by name. Very useful to
+#'    search a function for arguments with a substring `"row"`.
+#'    * If `logical`, it is assumed to be sortVars, and indicates whether
+#'    to sort the parameter names.
+#'    * if `character` it will subset the function arguments by name matching
+#'    this regular expression pattern.
+#' @param sortVars `logical` whether to sort the function parameter names.
+#'    * `sortVars=FALSE` returns arguments in the order they appear in the
+#'    function definition.
+#'    * `sortVars=TRUE` returns arguments sorted alphabetically.
+#' @param asList `logical` whether to display one entry per line (default), or
+#'    display results as a `data.frame`.
+#' @param useColor `logical` whether to display results in color, if the crayon
 #'    package is available, and terminal console is capable.
-#' @param lightMode boolean or NULL, indicating whether the text background
+#' @param lightMode `logical` or `NULL`, indicating whether the text background
 #'    color is light, thus imposing a maximum brightness for colors displayed.
 #'    It use lightMode if defined by the function caller, otherwise it will
-#'    use options("jam.lightMode") if defined, lastly it will attempt to detect
-#'    whether running inside Rstudio by checking the environment variable
+#'    use `getOption("jam.lightMode")` if defined, lastly it will attempt to
+#'    detect whether running inside Rstudio by checking the environment variable
 #'    "RSTUDIO", and if so it will assume lightMode==TRUE.
-#' @param Crange numeric range of chroma values, ranging
+#' @param Crange `numeric` range of chroma values, ranging
 #'    between 0 and 100. When NULL, default values will be
 #'    assigned to Crange by `setCLranges()`.
-#' @param Lrange numeric range of luminance values, ranging
+#' @param Lrange `numeric` range of luminance values, ranging
 #'    between 0 and 100. When NULL, default values will be
 #'    assigned to Lrange by `setCLranges()`.
-#' @param adjustRgb numeric value adjustment used during the conversion of
+#' @param adjustRgb `numeric` value adjustment used during the conversion of
 #'    RGB colors to ANSI colors, which is inherently lossy. If not defined,
 #'    it uses the default returned by `setCLranges()` which itself uses
 #'    \code{getOption("jam.adjustRgb")} with default=0. In order to boost
 #'    color contrast, an alternate value of -0.1 is suggested.
-#' @param useCollapseBase character string used to combine multiple parameter
+#' @param useCollapseBase `character` string used to combine multiple parameter
 #'    values.
-#' @param verbose logical whether to print verbose output.
-#' @param debug integer value, greater than 0 will cause debug-type verbose
+#' @param verbose `logical` whether to print verbose output.
+#' @param debug `integer` value, greater than 0 will cause debug-type verbose
 #'    output, useful because parameters are hard!
 #'
 #' @examples
@@ -2008,10 +2056,24 @@ jargs <- function
 #' Handles a list or list of lists, converting to human-readable text format
 #'
 #' This function is a rare non-exported function intended to be called by
-#' \code{jargs()}, but separated in order to help isolate the logical
+#' `jargs()`, but separated in order to help isolate the logical
 #' steps required.
 #'
 #' @family jam practical functions
+#'
+#' @inherit jargs
+#' @param argTextA object passed by `jargs()` when iteratively parsing
+#'    function argument values.
+#' @param name `character` name of the argument.
+#' @param col1,col2,colT,colF,colNULL `character` colors used as defaults
+#'    for first and second arguments, TRUE, FALSE, NULL, respectively.
+#' @param indent `character` string used as a prefix in output to help
+#'    apply text indent.
+#' @param useCollapseList `character` string inserted between multiple values
+#'    to split list entries across multiple lines.
+#' @param useCollapseBase `character` string used to separate multiple
+#'    values in a vector which is not split across multiple lines.
+#' @param level `integer` indicating the level of depth in iterative parsing.
 #'
 handleArgsText <- function
 (argTextA,
@@ -2042,7 +2104,7 @@ handleArgsText <- function
    if (level == 20) {
       useCollapseBase <- useCollapseList;
    }
-   if (class(argTextA) %in% "name") {
+   if ("name" %in% class(argTextA)) {
       deTextA <- deparse(argTextA);
    } else {
       deTextA <- deparse(argTextA[[1]]);
@@ -2077,7 +2139,7 @@ handleArgsText <- function
          sep="\n      ",
          Crange=Crange,Lrange=Lrange,adjustRgb=adjustRgb);
    }
-   if (class(argTextA) %in% c("pairlist","call")) {
+   if (any(c("pairlist","call") %in% class(argTextA))) {
       ##
       ## Class is "call"
       ##
@@ -2177,7 +2239,7 @@ handleArgsText <- function
                length(whichMid),
                Crange=Crange,Lrange=Lrange,adjustRgb=adjustRgb);
          }
-         if (class(argTextA) %in% "pairlist" &&
+         if ("pairlist" %in% class(argTextA) &&
                length(whichMid) > 0 &&
                all(isColor(as.character(argTextA[whichMid])))) {
             ############################################
@@ -2206,7 +2268,7 @@ handleArgsText <- function
                   debug=debug,
                   verbose=verbose);
             });
-         } else if (class(argTextA) %in% "pairlist" &&
+         } else if ("pairlist" %in% class(argTextA) &&
                length(whichMid) > 0 &&
                all(is.numeric(argTextA[whichMid]))) {
             ############################################
@@ -2260,7 +2322,7 @@ handleArgsText <- function
                   fgText=c("lightgreen","orange"),
                   Crange=Crange,Lrange=Lrange,adjustRgb=adjustRgb);
             }
-            if (class(argTextA) %in% "pairlist") {
+            if ("pairlist" %in% class(argTextA)) {
                whichMid <- seq_along(argTextA);
                whichEnds <- setdiff(whichEnds, whichMid);
                if (verbose) {
@@ -2288,7 +2350,7 @@ handleArgsText <- function
                      fgText=c("lightsalmon", "yellow"),
                      Crange=Crange,Lrange=Lrange,adjustRgb=adjustRgb);
                }
-               if (class(argTextA) %in% "pairlist") {
+               if ("pairlist" %in% class(argTextA)) {
                   j <- argTextA[j1];
                } else {
                   j <- argTextA[[j1]];
@@ -2438,7 +2500,7 @@ handleArgsText <- function
          deTextA[whichEnds] <- as.character(deTextA[whichEnds]);
       }
       aText <- paste(i, paste(deTextA, collapse=" "), sep=" = ");
-   } else if (class(argTextA) %in% "logical") {
+   } else if ("logical" %in% class(argTextA)) {
       ##
       ## Class is logical, we colorize TRUE and FALSE
       ##
@@ -2667,22 +2729,22 @@ handleArgsText <- function
 #' of numeric values from the floor for illustrative purposes.
 #'
 #' @return
-#' A numeric vector or matrix, matching the input type `x` where numeric
+#' A `numeric` vector or `matrix`, matching the input type `x` where numeric
 #' values are fixed to the `minimum` and `ceiling` values as defined
 #' by `newValue` and `newCeiling`, respectively.
 #'
 #' @family jam numeric functions
 #'
-#' @param x numeric vector or matrix
-#' @param minimum numeric floor value
-#' @param newValue numeric, by default the same as the floor value. Sometimes
+#' @param x `numeric` vector or matrix
+#' @param minimum `numeric` floor value
+#' @param newValue `numeric`, by default the same as the floor value. Sometimes
 #'    it can be useful to define a different value, one example is to define
-#'    values as NA, or another distinct number away from the floor.
-#' @param adjustNA logical whether to change NA values to the newValue.
-#' @param ceiling numeric value, optionally a ceiling. If defined, then values
-#'    above the ceiling value are set to newCeiling.
-#' @param newCeiling numeric value when ceiling is defined, values above the
-#'    ceiling are set to this numeric value.
+#'    values as `NA`, or another distinct number away from the floor.
+#' @param adjustNA `logical` whether to change `NA` values to the `newValue.`
+#' @param ceiling `numeric` value, optionally a ceiling. If defined, then values
+#'    above the ceiling value are set to `newCeiling.`
+#' @param newCeiling `numeric` value when ceiling is defined, values above the
+#'    ceiling are set to this `numeric` value.
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
@@ -2744,7 +2806,7 @@ noiseFloor <- function
 #' This function simply converts radians which range from zero to pi*2,
 #' into degrees which range from 0 to 360.
 #'
-#' @param x numerical vector, expected to be radian values between zero
+#' @param x `numeric` vector, expected to be radian values between zero
 #'    and pi*2.
 #' @param ... other parameters are ignored.
 #'
@@ -2768,7 +2830,7 @@ rad2deg <- function
 #' This function simply converts degrees which range from 0 to 360,
 #' into radians which range from zero to pi*2.
 #'
-#' @param x numerical vector, expected to be degree values between zero
+#' @param x `numeric` vector, expected to be degree values between zero
 #'    and 360.
 #' @param ... other parameters are ignored.
 #'
@@ -2787,27 +2849,55 @@ deg2rad <- function
 
 #' print dimensions of list object elements
 #'
-#' print dimensions of list object elements, such as a list of data.frames
+#' @description
+#' `sdim()`  prints the name and dimensions of `list` object elements,
+#' such as a `list` of `data.frame`
 #'
-#' This function prints the dimensions of a list of objects, usually a list
-#' of data.frames, but extended to handle more complicated lists, including
-#' even S4 object slotNames().
+#' `ssdim()` prints the name and dimensions of nested elements of `list`
+#' objects, for example a `list` of `list` objects that each contain
+#' other objects.
+#'
+#' `sdima()` prints the name and dimensions of object `attributes(x)`.
+#' It is useful for summarizing the `attributes()` of an object.
+#'
+#' `ssdima()` prints the name and dimensions of nested elements of `list`
+#' object `attributes()`, for example a `list` of `list` objects that each
+#' contain other objects. It is useful for comparing attributes across `list`
+#' elements.
+#'
+#' This function prints the dimensions of a list of objects, usually a `list`
+#' of `data.frame` objects, but extended to handle more complicated lists,
+#' including even S4 object `slotNames()`.
 #'
 #' Over time, more object types will be made compatible with this function.
-#' Currently, igraph objects will print the number of nodes and edges, but
+#' Currently, `igraph` objects will print the number of nodes and edges, but
 #' requires the igraph package to be installed.
 #'
-#' @param x an S3 object inheriting from class "list", or an S4 object.
-#' @param includeClass boolean indicating whether to print the class of
+#' @param x one of several recognized object classes:
+#'    * an S3 object inheriting from class `"list"`, including a nested list of
+#'    lists or simple list
+#'    * an S3 atomic object, which returns only the length
+#'    * a single multi-dimensional object such as `data.frame`, `matrix`,
+#'    `array`, `tibble`, or similar, which returns only its dimensions.
+#'    * an `S4` object in which case it used `slotNames(x)`
+#'    to traverse the object structure
+#'    * an `"environment"` object, in which case `ls(envir=x)` is
+#'    used to traverse the object structure.
+#'    * When the object is `S4` that inherits `"List"` from the
+#'    `S4Vectors` package, it will attempt to use the proper subset
+#'    functions from `S4Vectors` via `names(x)`, but that process only works
+#'    properly if the `S4Vectors` package is previously loaded,
+#'    otherwise it reverts to using `slotNames(x)`.
+#' @param includeClass `logical` indicating whether to print the class of
 #'    each element in the input \code{x} object. Note that for S4 objects,
 #'    each element will be the object returned for each of \code{slotNames(x)}.
-#' @param doFormat boolean indicating whether to format the dimensions using
+#' @param doFormat `logical` indicating whether to format the dimensions using
 #'    \code{format(...,big.mark=",")}, which is mainly useful for extremely
 #'    large dimensions. This parameter should probably become more broadly
 #'    useful and respectful for different locales.
-#' @param big.mark character value used when \code{doFormat=TRUE}, used in the
-#'    call to \code{format(...,big.mark)}.
-#' @param verbose logical whether to print verbose output
+#' @param big.mark `character` value used when `doFormat=TRUE`, used in the
+#'    call to `format(...,big.mark)`.
+#' @param verbose `logical` whether to print verbose output
 #' @param ... additional parameters are ignored.
 #'
 #' @return `data.frame` where each row indicates the dimensions of
@@ -2827,7 +2917,19 @@ deg2rad <- function
 #' L <- list(LETTERS=LETTERS,
 #'    letters=letters,
 #'    lettersDF=data.frame(LETTERS, letters));
-#' sdim(L);
+#' sdim(L)
+#'
+#' LL <- list(L=L, A=list(1:10))
+#' sdim(LL)
+#' ssdim(LL)
+#'
+#' m <- matrix(1:9,
+#'    ncol=3,
+#'    dimnames=list(
+#'       Rows=letters[1:3],
+#'       Columns=LETTERS[1:3]));
+#' sdima(m);
+#' ssdima(m);
 #'
 #' @export
 sdim <- function
@@ -2987,7 +3089,8 @@ sdim <- function
                " to list(x)");
             printDebug("x_is_table:", x_is_table);
             printDebug("is.vector(x):", is.vector(x));
-            printDebug("igrepHas('list', class(x)):", igrepHas("list", class(x)));
+            printDebug("igrepHas('list', class(x)):",
+               igrepHas("list", class(x)));
             printDebug("is.list(x):", is.list(x));
          }
          x <- list(x);
@@ -3023,29 +3126,7 @@ sdim <- function
    return(sd1);
 }
 
-#' print dimensions of object attributes
-#'
-#' print dimensions of object attributes
-#'
-#' This function is a shallow wrapper around `sdim()`
-#' except that it operates on `attributes(x)`
-#' instead of `x` itself.
-#'
-#' @return `data.frame` which
-#'    describes the dimensions of the objects in
-#'    `attributes(x)`.
-#'
-#' @family jam practical functions
-#' @family jam list functions
-#'
-#' @examples
-#' m <- matrix(1:9,
-#'    ncol=3,
-#'    dimnames=list(
-#'       Rows=letters[1:3],
-#'       Columns=LETTERS[1:3]));
-#' sdima(m);
-#' ssdima(m);
+#' @rdname sdim
 #'
 #' @export
 sdima <- function
@@ -3065,29 +3146,11 @@ sdima <- function
       ...);
 }
 
-#' print nested dimensions of object attributes
-#'
-#' print nested dimensions of object attributes
-#'
-#' This function is a shallow wrapper around `ssdim()`
-#' except that it operates on `attributes(x)`
-#' instead of `x` itself.
+#' @rdname sdim
 #'
 #' @return `list` of `data.frame` each of which
 #'    describes the dimensions of the objects in
 #'    `attributes(x)`.
-#'
-#' @family jam practical functions
-#' @family jam list functions
-#'
-#' @examples
-#' m <- matrix(1:9,
-#'    ncol=3,
-#'    dimnames=list(
-#'       Rows=letters[1:3],
-#'       Columns=LETTERS[1:3]));
-#' sdima(m);
-#' ssdima(m);
 #'
 #' @export
 ssdima <- function
@@ -3107,81 +3170,19 @@ ssdima <- function
       ...);
 }
 
-#' print dimensions of nested list objects
-#'
-#' print dimensions of list nested objects, such as a list of lists
-#'
-#' This function iteratively calls \code{sdim(x)} on each list element,
-#' which can be helpful for some more complicated object formats. In future,
-#' the intent is to recurse through a nested list structure, but currently
-#' this process only recurses two steps. Attempts to recurse deeper sometimes
-#' results in printing much more detail than originally intended.
-#'
-#' @param x one of several recognized object classes: an S3
-#'    object inheriting from class `"list"`, including a nested list of
-#'    lists or simple list;
-#'    an `S4` object in which case it used `slotNames(x)`
-#'    to traverse the object structure;
-#'    an `"environment"` object, in which case `ls(envir=x)` is
-#'    used to traverse the object structure. When the object is
-#'    `S4` that inherits `"List"` from the `S4Vectors` package,
-#'    it will attempt to use the proper subset functions from
-#'    `S4Vectors` via `names(x)`, but that process only works
-#'    properly if the `S4Vectors` package is previously loaded,
-#'    otherwise it reverts to using `slotNames(x)`.
-#' @param includeClass boolean passed to `sdim()`,
-#'    indicating whether to print the class of
-#'    each element in the input `x` object. Note that for S4 objects,
-#'    each element will be the object returned for each of `slotNames(x)`.
-#' @param doFormat boolean passed to `sdim()`,
-#'    indicating whether to format the dimensions using
-#'    `format(...,big.mark=",")`, which is mainly useful for extremely
-#'    large dimensions. This parameter should probably become more broadly
-#'    useful and respectful for different locales.
-#' @param big.mark character passed to `sdim()`,
-#'    value used when `doFormat=TRUE`, used in the
-#'    call to `format(...,big.mark)`.
-#' @param verbose logical whether to print verbose output
-#' @param ... additional parameters are ignored.
+#' @rdname sdim
 #'
 #' @return `list` of `data.frame`, each row indicates the dimensions of
-#'    each element in the input list. When `includeClass` is `TRUE` it
+#'    each element in the input list.
+#'    When `includeClass` is `TRUE` it
 #'    will include a column `class` which indicates the class of each
-#'    list element. When the input list contains arrays with more than
+#'    list element.
+#'    When the input `list` contains arrays with more than
 #'    two dimensions, the first two dimensions are named `"rows"` and
 #'    `"columns"` with additional dimensions named `"dim3"` and so on.
-#'    Any list element with fewer than that many dimensions will only have
+#'    Any `list` element with fewer than that many dimensions will only have
 #'    values populated to the relevant dimensions, for example a character
 #'    vector will only populate the length.
-#'
-#' @family jam practical functions
-#' @family jam list functions
-#'
-#' @examples
-#' ## Simple list
-#' L <- list(LETTERS=LETTERS,
-#'    letters=letters,
-#'    lettersDF=data.frame(LETTERS, letters));
-#' sdim(L);
-#'
-#' ## list of lists
-#' L2 <- list(List1=L,
-#'    List2=rev(L));
-#' ## first level of detail
-#' sdim(L2);
-#' ## second level of detail
-#' ssdim(L2);
-#'
-#' ## Perform the same steps using an environment
-#' E1 <- new.env();
-#' assign("L", envir=E1, value=L);
-#' sdim(E1);
-#' ssdim(E1);
-#'
-#' assign("L2", envir=E1, value=L2);
-#' ssdim(E1);
-#'
-#' rm(E1);
 #'
 #' @export
 ssdim <- function
@@ -3260,7 +3261,8 @@ ssdim <- function
       }
    } else if (!any(c("list", "environment") %in% unlist(sclass(x)))) {
       ## No recognizable list structure
-      if (is.vector(x) || igrepHas("data.*frame|tibble|matrix|ranges$", class(x))) {
+      if (is.vector(x) ||
+            igrepHas("data.*frame|tibble|matrix|ranges$", class(x))) {
          if (verbose) {
             printDebug("ssdim(): ",
                "Handling vector/data.frame/tibble/ranges.");
@@ -3327,10 +3329,10 @@ ssdim <- function
 #' For more more information about a list-like object, including
 #' the lengths/dimensions of the elements, see `sdim()` or `ssdim()`.
 #'
-#' @return character vector with the class of each list element, or
+#' @return `character` vector with the class of each list element, or
 #' column name, depending upon the input `class(x)`.
 #'
-#' @param x an S3 object inheriting from class "list", or an S4 object.
+#' @param x an S3 object inheriting from class `list`, or an S4 object.
 #' @param ... additional parameters are ignored.
 #'
 #' @family jam practical functions
@@ -3406,21 +3408,22 @@ sclass <- function
 #' However, if `low` or `high` are defined, then x will be scaled
 #' relative to that range.
 #'
-#' @param x numeric vector.
-#' @param from the minimum numeric value to re-scale the input numeric vector.
-#' @param to the maximum numeric value to re-scale the input numeric vector.
-#' @param low numeric value defining the low end of the input numeric range,
+#' @param x `numeric` vector.
+#' @param from the minimum `numeric` value to re-scale the input numeric vector.
+#' @param to the maximum `numeric` value to re-scale the input numeric vector.
+#' @param low `numeric` value defining the low end of the input numeric range,
 #'    intended when input values might not contain the entire numeric
 #'    range to be re-scaled.
-#' @param high numeric value defining the high end of the input numeric range,
+#' @param high `numeric` value defining the high end of the input numeric range,
 #'    intended when input values might not contain the entire numeric
 #'    range to be re-scaled.
-#' @param naValue optional numeric value used to replace `NA`, usually by
+#' @param naValue optional `numeric` value used to replace `NA`, usually by
 #'    replacing `NA` with zero.
-#' @param singletMethod character value describing how to handle singlet
+#' @param singletMethod `character` value describing how to handle singlet
 #'    input values, for example how to scale the number 5 by itself.
-#'    If "mean" then it uses the average of `from` and `to`, "min" uses
-#'    the `from` value, and "max" uses the `to` value.
+#'    * "mean" then it uses the average of `from` and `to`,
+#'    * "min" uses the `from` value, and
+#'    * "max" uses the `to` value.
 #' @param ... additional parameters are ignored.
 #'
 #' @family jam numeric functions
@@ -3516,17 +3519,17 @@ normScale <- function
 #' which can cause extreme values to dominate the color scale.
 #' Further, a linear application of colors is not always appropriate.
 #'
-#' @param x numeric vector
-#' @param lens numeric value which defines the lens factor,
+#' @param x `numeric` vector
+#' @param lens `numeric` value which defines the lens factor,
 #'    where `lens > 0` will compress values near zero, and
 #'    `lens < 0` will expand values near zero and compress
 #'    values near the maximum value. If `lens == 0` the
 #'    numeric values are not changed.
-#' @param baseline numeric value describing the baseline, for example
+#' @param baseline `numeric` value describing the baseline, for example
 #'    when the central value is non-zero. The baseline is subtracted
 #'    from `x`, the warp is applied, then the baseline is added to
 #'    the result.
-#' @param xCeiling numeric maximum value used for the color warp range,
+#' @param xCeiling `numeric` maximum value used for the color warp range,
 #'    useful for consistency. When `xCeiling` is not supplied, the
 #'    maximum difference from `baseline` is used. When `xCeiling` is
 #'    defined, and `baseline` is non-zero, the effective value used
@@ -3617,13 +3620,14 @@ warpAroundZero <- function
 #' of each list element after running `base::unlist()`.
 #'
 #' @return
-#' By default, when `doSum is NULL`, it returns an integer vector
+#' * When `doSum is NULL` (default) it returns an `integer` vector
 #' with length `length(x)` and names `names(x)`,
 #' whose values are the total number of elements in each item in
-#' `x` after running `base::unlist()`. When `doSum=="TRUE"`, it
-#' returns the single total length of all elements in `x`. When
-#' `doSum=="FALSE"`, it returns the full structure of `x` with the
-#' length of each element.
+#' `x` after running `base::unlist()`.
+#' * When `doSum=="TRUE"`, it returns the single `integer` length of
+#' all elements in `x`.
+#' * When `doSum=="FALSE"`, it returns the full structure of `x` with the
+#' `integer` length of each element.
 #'
 #' The parameter `doSum` is intended for internal use, during
 #' recursive calls of `rlengths()` to itself. When `doSum is NULL` or
@@ -3631,8 +3635,8 @@ warpAroundZero <- function
 #'
 #' @family jam list functions
 #'
-#' @param x list or vector
-#' @param doSum logical indicating whether to return the overall sum
+#' @param x `list` or vector
+#' @param doSum `logical` indicating whether to return the overall sum
 #'    of lengths. When `NULL` it will return the aggregate length of
 #'    each list element in `x`. When `FALSE` it will return the same
 #'    list structure of x, with the length of each. When `TRUE` it will
@@ -3696,18 +3700,18 @@ rlengths <- function
 #' It is helpful when trying to find an object using a
 #' substring, for example `grepls("statshits")`.
 #'
-#' @param x grep pattern
-#' @param where character string compatible with `base::ls()` or if
+#' @param x `character` string used as a grep pattern
+#' @param where `character` string compatible with `base::ls()` or if
 #'    installed, `AnnotationDbi::ls()`. A special value `"all"` will
 #'    search all environments on the search path `base::search()`
 #'    in order.
-#' @param ignore.case logical indicating whether the pattern match
+#' @param ignore.case `logical` indicating whether the pattern match
 #'    is case-insensitive.
-#' @param searchNames logical indicating whether names should also
+#' @param searchNames `logical` indicating whether names should also
 #'    be searched, which is only relevant for `AnnDb` objects,
 #'    for example `org.Mm.egSYMBOL2EG` from the `org.Mm.eg.db`
 #'    Bioconductor package.
-#' @param verbose logical indicating whether to print verbose output.
+#' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional parameters are ignored.
 #'
 #' @return
@@ -3808,12 +3812,12 @@ grepls <- function
 #' This function returns the newest file, defined by the most
 #' recently modified time obtained from `base::file.info()`.
 #'
-#' @param x character vector of files, specifying file path where
+#' @param x `character` vector of files, specifying file path where
 #'    required.
-#' @param timecol character value from the output of `base::file.info()`
+#' @param timecol `character` value from the output of `base::file.info()`
 #'    indicating the time column used to order files. By default `"mtime"`
 #'    refers to the time the file was last modified.
-#' @param n integer number of files to return, in order of the most
+#' @param n `integer` number of files to return, in order of the most
 #'    recent to the least recent. By default `n=1` returns only the one
 #'    newest file.
 #' @param ... additional parameters are ignored.
@@ -3919,12 +3923,12 @@ isTRUEV <- function
 #' which itself performs alphanumeric sort in order to keep
 #' values in proper numeric order where possible.
 #'
-#' @param x data.frame
-#' @param sep character separator to use between columns
-#' @param na.rm logical whether to remove NA values, or include them as "NA"
-#' @param condenseBlanks logical whether to condense blank or empty values
+#' @param x `data.frame`
+#' @param sep `character` separator to use between columns
+#' @param na.rm `logical` whether to remove NA values, or include them as "NA"
+#' @param condenseBlanks `logical` whether to condense blank or empty values
 #'    without including an extra delimiter between columns.
-#' @param includeNames logical whether to include the colname delimited
+#' @param includeNames `logical` whether to include the colname delimited
 #'    prior to the value, using sepName as the delimiter.
 #' @param keepOrder `logical` indicating whether non-factor columns
 #'    should order factor levels based upon the existing order of
@@ -4391,10 +4395,10 @@ unnestList <- function
 #'
 #' @return numeric vector of log-transformed magnitudes.
 #'
-#' @param x numeric vector
-#' @param offset numeric value added to the absolute values
+#' @param x `numeric` vector
+#' @param offset `numeric` value added to the absolute values
 #'    of `x` prior to applying the log transformation.
-#' @param base numeric value indicating the logarithmic base,
+#' @param base `numeric` value indicating the logarithmic base,
 #'    by default `2` in order to apply `base::log2()`.
 #' @param ... additional arguments are ignored.
 #'
@@ -4457,10 +4461,10 @@ log2signed <- function
 #'
 #' @return numeric vector of exponentiated values.
 #'
-#' @param x numeric vector
-#' @param numeric offset, subtracted from exponentiated values
+#' @param x `numeric` vector
+#' @param numeric `offset`, subtracted from exponentiated values
 #'    prior to multiplying by the `sign(x)`.
-#' @param base numeric value indicating the logarithmic base used.
+#' @param base `numeric` value indicating the logarithmic base used.
 #'    For example `base=2` indicates values were transformed using
 #'    `log2()`.
 #' @param ... additional arguments are ignored.

@@ -7,9 +7,9 @@
 rlengths(x, doSum = NULL, ...)
 }
 \arguments{
-\item{x}{list or vector}
+\item{x}{\code{list} or vector}
 
-\item{doSum}{logical indicating whether to return the overall sum
+\item{doSum}{\code{logical} indicating whether to return the overall sum
 of lengths. When \code{NULL} it will return the aggregate length of
 each list element in \code{x}. When \code{FALSE} it will return the same
 list structure of x, with the length of each. When \code{TRUE} it will
@@ -18,13 +18,16 @@ return the total length of all elements in \code{x} as one value.}
 \item{...}{additional parameters are ignored}
 }
 \value{
-By default, when \verb{doSum is NULL}, it returns an integer vector
+\itemize{
+\item When \verb{doSum is NULL} (default) it returns an \code{integer} vector
 with length \code{length(x)} and names \code{names(x)},
 whose values are the total number of elements in each item in
-\code{x} after running \code{base::unlist()}. When \code{doSum=="TRUE"}, it
-returns the single total length of all elements in \code{x}. When
-\code{doSum=="FALSE"}, it returns the full structure of \code{x} with the
-length of each element.
+\code{x} after running \code{base::unlist()}.
+\item When \code{doSum=="TRUE"}, it returns the single \code{integer} length of
+all elements in \code{x}.
+\item When \code{doSum=="FALSE"}, it returns the full structure of \code{x} with the
+\code{integer} length of each element.
+}
 
 The parameter \code{doSum} is intended for internal use, during
 recursive calls of \code{rlengths()} to itself. When \verb{doSum is NULL} or
@@ -67,10 +70,7 @@ Other jam list functions:
 \code{\link{rbindList}()},
 \code{\link{relist_named}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()},
 \code{\link{uniques}()},
 \code{\link{unnestList}()}
 }

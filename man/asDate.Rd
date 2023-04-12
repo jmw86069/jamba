@@ -7,10 +7,10 @@
 asDate(getDateValues, dateFormat = "\%d\%b\%Y", ...)
 }
 \arguments{
-\item{getDateValues}{character date, in format recognized by dateFormat}
+\item{getDateValues}{\code{character} date, in format recognized by dateFormat}
 
-\item{dateFormat}{character string representing the recognized date format,
-by default DDmmmYYYY, for example 23aug2007.}
+\item{dateFormat}{\code{character} string representing the recognized date
+format, by default \code{"DDmmmYYYY"}, which recognizes \code{"23aug2007"}.}
 
 \item{...}{additional parameters are ignored.}
 }

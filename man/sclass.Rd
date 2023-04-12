@@ -7,12 +7,12 @@
 sclass(x, ...)
 }
 \arguments{
-\item{x}{an S3 object inheriting from class "list", or an S4 object.}
+\item{x}{an S3 object inheriting from class \code{list}, or an S4 object.}
 
 \item{...}{additional parameters are ignored.}
 }
 \value{
-character vector with the class of each list element, or
+\code{character} vector with the class of each list element, or
 column name, depending upon the input \code{class(x)}.
 }
 \description{
@@ -79,11 +79,8 @@ Other jam practical functions:
 \code{\link{rmNAs}()},
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 
 Other jam list functions: 
 \code{\link{cPasteSU}()},
@@ -99,10 +96,7 @@ Other jam list functions:
 \code{\link{rbindList}()},
 \code{\link{relist_named}()},
 \code{\link{rlengths}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()},
 \code{\link{uniques}()},
 \code{\link{unnestList}()}
 }

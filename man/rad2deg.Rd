@@ -7,7 +7,7 @@
 rad2deg(x, ...)
 }
 \arguments{
-\item{x}{numerical vector, expected to be radian values between zero
+\item{x}{\code{numeric} vector, expected to be radian values between zero
 and pi*2.}
 
 \item{...}{other parameters are ignored.}

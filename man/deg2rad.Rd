@@ -7,7 +7,7 @@
 deg2rad(x, ...)
 }
 \arguments{
-\item{x}{numerical vector, expected to be degree values between zero
+\item{x}{\code{numeric} vector, expected to be degree values between zero
 and 360.}
 
 \item{...}{other parameters are ignored.}

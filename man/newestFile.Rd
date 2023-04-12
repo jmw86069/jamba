@@ -7,14 +7,14 @@
 newestFile(x, timecol = "mtime", n = 1, ...)
 }
 \arguments{
-\item{x}{character vector of files, specifying file path where
+\item{x}{\code{character} vector of files, specifying file path where
 required.}
 
-\item{timecol}{character value from the output of \code{base::file.info()}
+\item{timecol}{\code{character} value from the output of \code{base::file.info()}
 indicating the time column used to order files. By default \code{"mtime"}
 refers to the time the file was last modified.}
 
-\item{n}{integer number of files to return, in order of the most
+\item{n}{\code{integer} number of files to return, in order of the most
 recent to the least recent. By default \code{n=1} returns only the one
 newest file.}
 
@@ -71,10 +71,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 }
 \concept{jam practical functions}

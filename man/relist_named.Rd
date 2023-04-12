@@ -52,10 +52,7 @@ Other jam list functions:
 \code{\link{rbindList}()},
 \code{\link{rlengths}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()},
 \code{\link{uniques}()},
 \code{\link{unnestList}()}
 }

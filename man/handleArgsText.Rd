@@ -26,6 +26,55 @@ handleArgsText(
   ...
 )
 }
+\arguments{
+\item{argTextA}{object passed by \code{jargs()} when iteratively parsing
+function argument values.}
+
+\item{name}{\code{character} name of the argument.}
+
+\item{col1, col2, colT, colF, colNULL}{\code{character} colors used as defaults
+for first and second arguments, TRUE, FALSE, NULL, respectively.}
+
+\item{lightMode}{\code{logical} or \code{NULL}, indicating whether the text background
+color is light, thus imposing a maximum brightness for colors displayed.
+It use lightMode if defined by the function caller, otherwise it will
+use \code{getOption("jam.lightMode")} if defined, lastly it will attempt to
+detect whether running inside Rstudio by checking the environment variable
+"RSTUDIO", and if so it will assume lightMode==TRUE.}
+
+\item{Crange}{\code{numeric} range of chroma values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Crange by \code{setCLranges()}.}
+
+\item{Lrange}{\code{numeric} range of luminance values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Lrange by \code{setCLranges()}.}
+
+\item{adjustRgb}{\code{numeric} value adjustment used during the conversion of
+RGB colors to ANSI colors, which is inherently lossy. If not defined,
+it uses the default returned by \code{setCLranges()} which itself uses
+\code{getOption("jam.adjustRgb")} with default=0. In order to boost
+color contrast, an alternate value of -0.1 is suggested.}
+
+\item{indent}{\code{character} string used as a prefix in output to help
+apply text indent.}
+
+\item{useCollapseList}{\code{character} string inserted between multiple values
+to split list entries across multiple lines.}
+
+\item{useCollapseBase}{\code{character} string used to separate multiple
+values in a vector which is not split across multiple lines.}
+
+\item{level}{\code{integer} indicating the level of depth in iterative parsing.}
+
+\item{debug}{\code{integer} value, greater than 0 will cause debug-type verbose
+output, useful because parameters are hard!}
+
+\item{useColor}{\code{logical} whether to display results in color, if the crayon
+package is available, and terminal console is capable.}
+
+\item{verbose}{\code{logical} whether to print verbose output.}
+}
 \description{
 Handles a list or list of lists, converting to human-readable text format
 }
@@ -33,6 +82,14 @@ Handles a list or list of lists, converting to human-readable text format
 This function is a rare non-exported function intended to be called by
 \code{jargs()}, but separated in order to help isolate the logical
 steps required.
+}
+\examples{
+args(jargs)
+jargs(jargs)
+
+# retrieve parameters involving notes from imageByColors
+jargs(imageByColors, "note")
+
 }
 \seealso{
 Other jam practical functions: 
@@ -69,10 +126,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 }
 \concept{jam practical functions}

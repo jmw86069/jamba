@@ -76,11 +76,8 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 
 Other jam list functions: 
 \code{\link{cPasteSU}()},
@@ -96,10 +93,7 @@ Other jam list functions:
 \code{\link{relist_named}()},
 \code{\link{rlengths}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()},
 \code{\link{uniques}()},
 \code{\link{unnestList}()}
 }

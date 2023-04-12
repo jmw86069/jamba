@@ -7,14 +7,14 @@
 dateToDaysOld(testDate, nowDate = Sys.Date(), units = "days", ...)
 }
 \arguments{
-\item{testDate}{character date recognized by \code{\link{asDate}},
+\item{testDate}{\code{character} date recognized by \code{asDate()},
 representing the test date.}
 
-\item{nowDate}{character date recognized by \code{\link{asDate}},
+\item{nowDate}{\code{character} date recognized by \code{asDate()},
 representing the reference date, by default the current day.}
 
-\item{units}{character indicating the units, as used by
-\code{\link[base]{difftime}}.}
+\item{units}{\code{character} indicating the units, as used by
+\code{difftime()}.}
 
 \item{...}{additional parameters are ignored.}
 }

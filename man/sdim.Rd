@@ -2,6 +2,9 @@
 % Please edit documentation in R/jamba.r
 \name{sdim}
 \alias{sdim}
+\alias{sdima}
+\alias{ssdima}
+\alias{ssdim}
 \title{print dimensions of list object elements}
 \usage{
 sdim(
@@ -12,23 +15,66 @@ sdim(
   verbose = FALSE,
   ...
 )
+
+sdima(
+  x,
+  includeClass = TRUE,
+  doFormat = FALSE,
+  big.mark = ",",
+  verbose = FALSE,
+  ...
+)
+
+ssdima(
+  x,
+  includeClass = TRUE,
+  doFormat = FALSE,
+  big.mark = ",",
+  verbose = FALSE,
+  ...
+)
+
+ssdim(
+  x,
+  includeClass = TRUE,
+  doFormat = FALSE,
+  big.mark = ",",
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
-\item{x}{an S3 object inheriting from class "list", or an S4 object.}
+\item{x}{one of several recognized object classes:
+\itemize{
+\item an S3 object inheriting from class \code{"list"}, including a nested list of
+lists or simple list
+\item an S3 atomic object, which returns only the length
+\item a single multi-dimensional object such as \code{data.frame}, \code{matrix},
+\code{array}, \code{tibble}, or similar, which returns only its dimensions.
+\item an \code{S4} object in which case it used \code{slotNames(x)}
+to traverse the object structure
+\item an \code{"environment"} object, in which case \code{ls(envir=x)} is
+used to traverse the object structure.
+\item When the object is \code{S4} that inherits \code{"List"} from the
+\code{S4Vectors} package, it will attempt to use the proper subset
+functions from \code{S4Vectors} via \code{names(x)}, but that process only works
+properly if the \code{S4Vectors} package is previously loaded,
+otherwise it reverts to using \code{slotNames(x)}.
+}}
 
-\item{includeClass}{boolean indicating whether to print the class of
+\item{includeClass}{\code{logical} indicating whether to print the class of
 each element in the input \code{x} object. Note that for S4 objects,
 each element will be the object returned for each of \code{slotNames(x)}.}
 
-\item{doFormat}{boolean indicating whether to format the dimensions using
+\item{doFormat}{\code{logical} indicating whether to format the dimensions using
 \code{format(...,big.mark=",")}, which is mainly useful for extremely
 large dimensions. This parameter should probably become more broadly
 useful and respectful for different locales.}
 
-\item{big.mark}{character value used when \code{doFormat=TRUE}, used in the
+\item{big.mark}{\code{character} value used when \code{doFormat=TRUE}, used in the
 call to \code{format(...,big.mark)}.}
 
-\item{verbose}{logical whether to print verbose output}
+\item{verbose}{\code{logical} whether to print verbose output}
 
 \item{...}{additional parameters are ignored.}
 }
@@ -42,24 +88,64 @@ two dimensions, the first two dimensions are named \code{"rows"} and
 Any list element with fewer than that many dimensions will only have
 values populated to the relevant dimensions, for example a character
 vector will only populate the length.
+
+\code{list} of \code{data.frame} each of which
+describes the dimensions of the objects in
+\code{attributes(x)}.
+
+\code{list} of \code{data.frame}, each row indicates the dimensions of
+each element in the input list.
+When \code{includeClass} is \code{TRUE} it
+will include a column \code{class} which indicates the class of each
+list element.
+When the input \code{list} contains arrays with more than
+two dimensions, the first two dimensions are named \code{"rows"} and
+\code{"columns"} with additional dimensions named \code{"dim3"} and so on.
+Any \code{list} element with fewer than that many dimensions will only have
+values populated to the relevant dimensions, for example a character
+vector will only populate the length.
 }
 \description{
-print dimensions of list object elements, such as a list of data.frames
-}
-\details{
-This function prints the dimensions of a list of objects, usually a list
-of data.frames, but extended to handle more complicated lists, including
-even S4 object slotNames().
+\code{sdim()}  prints the name and dimensions of \code{list} object elements,
+such as a \code{list} of \code{data.frame}
+
+\code{ssdim()} prints the name and dimensions of nested elements of \code{list}
+objects, for example a \code{list} of \code{list} objects that each contain
+other objects.
+
+\code{sdima()} prints the name and dimensions of object \code{attributes(x)}.
+It is useful for summarizing the \code{attributes()} of an object.
+
+\code{ssdima()} prints the name and dimensions of nested elements of \code{list}
+object \code{attributes()}, for example a \code{list} of \code{list} objects that each
+contain other objects. It is useful for comparing attributes across \code{list}
+elements.
+
+This function prints the dimensions of a list of objects, usually a \code{list}
+of \code{data.frame} objects, but extended to handle more complicated lists,
+including even S4 object \code{slotNames()}.
 
 Over time, more object types will be made compatible with this function.
-Currently, igraph objects will print the number of nodes and edges, but
+Currently, \code{igraph} objects will print the number of nodes and edges, but
 requires the igraph package to be installed.
 }
 \examples{
 L <- list(LETTERS=LETTERS,
    letters=letters,
    lettersDF=data.frame(LETTERS, letters));
-sdim(L);
+sdim(L)
+
+LL <- list(L=L, A=list(1:10))
+sdim(LL)
+ssdim(LL)
+
+m <- matrix(1:9,
+   ncol=3,
+   dimnames=list(
+      Rows=letters[1:3],
+      Columns=LETTERS[1:3]));
+sdima(m);
+ssdima(m);
 
 }
 \seealso{
@@ -98,10 +184,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 
 Other jam list functions: 
 \code{\link{cPasteSU}()},
@@ -118,9 +201,6 @@ Other jam list functions:
 \code{\link{relist_named}()},
 \code{\link{rlengths}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()},
 \code{\link{uniques}()},
 \code{\link{unnestList}()}
 }

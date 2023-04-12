@@ -7,35 +7,35 @@
 colNum2excelName(x, useLetters = LETTERS, zeroVal = "a", ...)
 }
 \arguments{
-\item{x}{integer vector}
+\item{x}{\code{integer} vector}
 
-\item{useLetters}{character vector of single-digit characters to use as
+\item{useLetters}{\code{character} vector of single-digit characters to use as
 digits in the resulting column name. Note that these characters can
 be of almost any length, with any content.}
 
-\item{zeroVal}{character single-digit to be used whenever x==0, or as a
+\item{zeroVal}{\code{character} single-digit to be used whenever \code{x==0}, or as a
 prefix for negative values. In theory there should be no negative
 input values, but this basic mechanism is used to handle the possibility.}
 }
 \value{
-character vector with length(x)
+\code{character} vector with length(x)
 }
 \description{
 convert column number to Excel column name
 }
 \details{
-The purpose is to convert a numerical column number into a valid Excel
-column name, using LETTERS starting at A.
+The purpose is to convert an \code{integer} column number into a valid Excel
+column name, using \code{LETTERS} starting at A.
 This function implements an arbitrary number of digits, which may or
 may not be compatible with each version of Excel.  18,278 columns
 would be the maximum for three digits, "A" through "ZZZ".
 
 This function is useful when referencing Excel columns via another
-interface such as via openxlsx. It is also used by \code{makeNames}
-when the numberStyle="letters", in order to provide letter suffix values.
+interface such as via openxlsx. It is also used by \code{makeNames()}
+when the \code{numberStyle="letters"}, in order to provide letter suffix values.
 
-One can somewhat manipulate the allowed column names via the useLetters
-parameter, which by default uses the entire 26-letter Western alphabet.
+One can somewhat manipulate the allowed column names via the \code{useLetters}
+argument, which by default uses the entire 26-letter Western alphabet.
 }
 \examples{
 colNum2excelName(1:30)
@@ -76,10 +76,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 }
 \concept{jam practical functions}

@@ -35,16 +35,32 @@
 #'    processing.
 #' @param envir `environment` where cache data will be loaded.
 #' @param file_sort `character` string indicating how to sort cache files
-#'    to place them in proper order for re-loading. Note that
-#'    file modification time `mtime` may incorrectly sort files
-#'    that were modified after the initial processing of the
-#'    Rmarkdown file.
+#'    to place them in proper order for re-loading. The default is to use
+#'    one RMarkdown cache index file, which should accurately reflect only
+#'    RMarkdown chunks present in the .Rmd file during rendering, and
+#'    in the order they appear in that file.
+#'    Using `"mtime"` or `"ctime"` below will sort files by the modification
+#'    or creation time, respectively, and is less accurate, but often
+#'    sufficient for most purposes. It would only be advised if for
+#'    some reason the `"__globals"` or `"__objects"` files are not present.
+#'    * `"globals"` uses the `"__globals"` file in the cache directory.
+#'    * `"objects"` uses the `"__objects"` file in the cache directory.
 #'    * `ctime` sorts by file creation time, default
 #'    * `mtime` sorts by file modification time
+#' @param preferred_load_types `character` string indicating the preferred
+#'    load mechanism to use. By default it will use `lazyLoad()` if `.rdx/.rdb`
+#'    files are present, otherwise it falls back to using `load()` for `.RData`
+#'    files.
+#'    Remove `"lazyLoad"` to prevent lazy-loading of cached objects.
+#'    * `"lazyLoad"` will try to use `lazyLoad()` to load `.rdx/.rdb` files
+#'    * `"load"` will try to use `load()` to load `.RData` files
 #' @param dryrun `logical` indicating whether to perform a dry-run,
 #'    which prints messages but does not process the data.
 #' @param verbose `logical` indicating whether to print verbose output.
-#' @param ... additional arguments are passed to `lazyLoad()`.
+#'    Note that this variable is not passed along to `load()`, since it
+#'    is inconsistent with `lazyLoad()`.
+#' @param ... additional arguments are passed to `lazyLoad()` or `load()`
+#'    as relevant to the method used to re-load the cache object data.
 #'
 #' @export
 reload_rmarkdown_cache <- function
@@ -52,31 +68,81 @@ reload_rmarkdown_cache <- function
  maxnum=1000,
  max_cache_name=NULL,
  envir=globalenv(),
- file_sort=c("ctime", "mtime"),
+ file_sort=c(
+    "globals",
+    "objects",
+    "ctime",
+    "mtime"),
+ preferred_load_types=c("lazyLoad",
+    "load"),
  dryrun=FALSE,
  verbose=TRUE,
  ...)
 {
    file_sort <- match.arg(file_sort);
+   preferred_load_types <- match.arg(preferred_load_types,
+      several.ok=TRUE);
 
    # load .rdx files
    rdx_files <- list.files(path=dir,
       pattern="[.]rdx$",
       full.names=TRUE)
+   rd_type <- "rdx";
+   if ("load" %in% head(preferred_load_types, 1) ||
+         (length(rdx_files) == 0 &&
+          "load" %in% preferred_load_types)) {
+      # attempt to load RData files
+      rdx_files <- list.files(path=dir,
+         pattern="[.]rdata$",
+         ignore.case=TRUE,
+         full.names=TRUE)
+      rd_type <- "rdata";
+   }
    if (length(rdx_files) == 0) {
-      stop("No .rdx files found in directory.");
+      stop(paste0("No .", rd_type, " files found in directory."));
    }
 
    # order by file create time by default
-   rdx_df <- file.info(rdx_files);
-   rdx_df <- rdx_df[order(rdx_df[[file_sort]]), , drop=FALSE];
+   if (any(c("ctime", "mtime") %in% file_sort)) {
+      rdx_df <- file.info(rdx_files);
+      rdx_df <- rdx_df[order(rdx_df[[file_sort]]), , drop=FALSE];
+   } else {
+      if ("globals" %in% file_sort) {
+         globals_file <- file.path(dir, "__globals");
+         if (!file.exists(globals_file)) {
+            stop(paste0("File does not exist: '", globals_file, "'"))
+         }
+         globals_lines <- readLines(globals_file)
+         globals_names <- sapply(strsplit(globals_lines, "\t"), head, 1)
+         globals_pattern <- paste0(globals_names,
+            "_[a-z0-9A-Z]+[.](RData|rdx)$")
+         rdx_files <- provigrep(globals_pattern, rdx_files)
+      } else if ("objects" %in% file_sort) {
+         objects_file <- file.path(dir, "__objects");
+         if (!file.exists(objects_file)) {
+            stop(paste0("File does not exist: '", objects_file, "'"))
+         }
+         objects_lines <- readLines(objects_file)
+         objects_names <- sapply(strsplit(objects_lines, "\t"), head, 1)
+         objects_pattern <- paste0(objects_names,
+            "_[a-z0-9A-Z]+[.](RData|rdx)$")
+         rdx_files <- provigrep(objects_pattern, rdx_files)
+      } else {
+         stop(paste0("Un-implemented file_sort: '", file_sort, "'"))
+      }
+      rdx_df <- file.info(rdx_files);
+   }
 
    # prepare rdx_names in order
-   rdx_names <- gsub("[.]rdx$", "", rownames(rdx_df));
+   rdx_names <- gsub("[.](RData|rdx)$",
+      "",
+      ignore.case=TRUE,
+      rownames(rdx_df));
+   rdx_df$rdx_names <- rdx_names;
 
    # create user-friendly names
    rdx_labels <- basename(rdx_names);
-   rdx_labels <- gsub("_[a-z0-9]{24,}",
+   rdx_labels <- gsub("_[a-z0-9]{24,}$",
       "",
       rdx_labels);
    names(rdx_labels) <- rdx_names;
@@ -111,6 +177,7 @@ reload_rmarkdown_cache <- function
    }
 
    cache_num <- 0;
+   ll_objects <- list();
    for (rdx_name in rdx_names) {
       cache_num <- cache_num + 1;
       if (verbose) {
@@ -131,10 +198,19 @@ reload_rmarkdown_cache <- function
             sep="");
       }
       if (!dryrun) {
-         ll <- lazyLoad(filebase=rdx_name,
-            envir=envir,
-            ...);
+         if ("rdx" %in% rd_type) {
+            ll <- lazyLoad(filebase=rdx_name,
+               envir=envir,
+               ...);
+         } else if ("rdata" %in% rd_type) {
+            rd_file <- rownames(subset(rdx_df, rdx_names %in% rdx_name))
+            ll <- load(file=rd_file,
+               envir=envir,
+               ...);
+         }
+         ll_objects[[rdx_name]] <- ll;
       }
    }
+   return(invisible(ll_objects))
 }
 

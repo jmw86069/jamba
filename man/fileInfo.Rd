@@ -10,14 +10,14 @@ fileInfo(fileList, ...)
 \item{fileList}{character vector with one or more file paths.}
 }
 \value{
-data.frame with file information, including "filename" and "size"
-as additional colnames as compared to \code{file.info} output.
+\code{data.frame} with file information, including "filename" and "size"
+as additional colnames as compared to \code{file.info()} output.
 }
 \description{
 file information in data.frame format
 }
 \details{
-This function is a minor extension to \code{file.info} in that it
+This function is a minor extension to \code{file.info()} in that it
 adds the filename as a proper colname, and "size" which contains a text
 file size.
 }
@@ -56,10 +56,7 @@ Other jam practical functions:
 \code{\link{rmNA}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{setPrompt}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()}
+\code{\link{setPrompt}()}
 }
 \concept{jam practical functions}

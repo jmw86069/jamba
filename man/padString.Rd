@@ -13,22 +13,22 @@ padString(
 )
 }
 \arguments{
-\item{x}{character vector}
+\item{x}{\code{character} vector}
 
-\item{stringLength}{integer length for the resulting character strings
+\item{stringLength}{\code{integer} length for the resulting character strings
 in \code{x}. By default, all strings are padded to the length of the
 longest entry, however stringLength can be defined to impose strict
 number of characters for all entries.}
 
-\item{padCharacter}{single character used for padding.}
+\item{padCharacter}{\code{character} string with nchar=1 used for padding.}
 
-\item{justify}{character value with "left", "right", "center" to indicate
+\item{justify}{\code{character} string with "left", "right", "center" to indicate
 alignment of the resulting text string.}
 
 \item{...}{additional parameters are ignored.}
 }
 \value{
-character vector of length(x)
+\code{character} vector of length(x)
 }
 \description{
 pad a character string to a fixed length
@@ -62,7 +62,6 @@ Other jam string functions:
 \code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
 \code{\link{sizeAsNum}()},
-\code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}

@@ -263,7 +263,7 @@ imageByColors <- function
    }
    ## Optionally add labels to the cells
    if (!is.null(cellnote)) {
-      if (class(cellnote) %in% c("data.frame")) {
+      if ("data.frame" %in% class(cellnote)) {
          cellnote <- as.matrix(cellnote);
       } else if (is.atomic(cellnote)) {
          cellnote <- matrix(data=cellnote,

@@ -14,20 +14,20 @@ cPaste(
   checkClass = TRUE,
   useBioc = TRUE,
   useLegacy = FALSE,
-  honorFactor = keepFactors,
+  honorFactor = TRUE,
   verbose = FALSE,
   ...
 )
 }
 \arguments{
-\item{x}{input list of vectors}
+\item{x}{input \code{list} of vectors}
 
-\item{sep}{character delimiter used to paste multiple values together}
+\item{sep}{\code{character} delimiter used to paste multiple values together}
 
-\item{doSort}{boolean indicating whether to sort each vector
+\item{doSort}{\code{logical} indicating whether to sort each vector
 using \code{\link[=mixedOrder]{mixedOrder()}}.}
 
-\item{makeUnique}{boolean indicating whether to make each vector in
+\item{makeUnique}{\code{logical} indicating whether to make each vector in
 the input list unique before pasting its values together.}
 
 \item{na.rm}{boolean indicating whether to remove NA values from
@@ -35,23 +35,26 @@ each vector in the input list. When \code{na.rm} is \code{TRUE} and a
 list element contains only \code{NA} values, the resulting string
 will be \code{""}.}
 
-\item{keepFactors}{logical indicating whether to preserve factors,
-keeping factor level order when \code{doSort=TRUE}. When
-\code{keepFactors=TRUE}, if any list element is a factor, all elements
+\item{keepFactors}{\code{logical} only used when \code{useLegacy=TRUE} and
+\code{doSort=TRUE}; indicating whether to preserve factors,
+keeping factor level order. When
+\code{keepFactors=TRUE}, if any list element is a \code{factor}, all elements
 are converted to factors. Note that this step combines overall
 factor levels, and non-factors will be ordered using
 \code{base::order()} instead of \code{jamba::mixedOrder()} (for now.)}
 
-\item{useBioc}{boolean indicating whether this function should try
-to use \code{\link[S4Vectors:character-utils]{S4Vectors::unstrsplit()}} when the Bioconductor package
-\code{S4Vectors} is installed, otherwise it will use a much less
-efficient \code{\link[=mapply]{mapply()}} operation.}
+\item{useBioc}{\code{logical} indicating whether this function should try
+to use \code{S4Vectors::unstrsplit()} when the Bioconductor package
+\code{S4Vectors} is installed, otherwise it will use a less
+efficient \code{mapply()} operation.}
 
 \item{useLegacy}{\code{logical} indicating whether to enable to previous
 legacy process used by \code{cPaste()}.}
 
-\item{honorFactor}{\code{logical} passed to \code{mixedSorts()}, as a named
-placeholder used to convey the same function as \code{keepFactors}.}
+\item{honorFactor}{\code{logical} passed to \code{mixedSorts()}, whether any
+\code{factor} vector should be sorted in factor level order.
+When \code{honorFactor=FALSE} then even \code{factor} vectors are sorted
+as if they were \code{character} vectors, ignoring the factor levels.}
 
 \item{...}{additional arguments are passed to \code{mixedOrder()} when
 \code{doSort=TRUE}.}
@@ -155,7 +158,6 @@ Other jam string functions:
 \code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
 \code{\link{sizeAsNum}()},
-\code{\link{tcount2}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}
@@ -174,10 +176,7 @@ Other jam list functions:
 \code{\link{relist_named}()},
 \code{\link{rlengths}()},
 \code{\link{sclass}()},
-\code{\link{sdima}()},
 \code{\link{sdim}()},
-\code{\link{ssdima}()},
-\code{\link{ssdim}()},
 \code{\link{uniques}()},
 \code{\link{unnestList}()}
 }
