@@ -64,10 +64,10 @@
 #'    can be used in argument `wb` to provide a speed boost when
 #'    saving multiple sheets to the same file.
 #'
-#' @param x data.frame to be saved to an Excel xlsx file.
-#' @param file a valid path to save an Excel xlsx file. If the file exists,
-#'    and `append=TRUE` the new data will be added to the existing file with
-#'    the defined `sheetName`.
+#' @param x `data.frame` to be saved to an Excel xlsx file.
+#' @param file `character` valid path to save an Excel xlsx file. If the file
+#'    exists, and `append=TRUE` the new data will be added to the existing
+#'    file withthe defined `sheetName`.
 #'    * Note when `file=NULL` the output is not saved to a file,
 #'    instead the `Workbook` object is returned by this function.
 #'    The `Workbook` object can be passed as argument `wb` in order
@@ -80,7 +80,7 @@
 #'    intended to improve speed of writing several sheets to the same
 #'    output file, by preventing the slow read/write steps each time
 #'    a new sheet is added.
-#' @param sheetName character value less with a valid
+#' @param sheetName `character` value less with a valid
 #'    Excel xlsx worksheet name. At this time (version 0.0.29.900) the
 #'    sheetName is restricted to 31 characters, with no puntuation except
 #'    "-" and "_".
@@ -89,55 +89,95 @@
 #'    colors. As of version 0.0.29.900, colors must use Excel-valid
 #'    color names.
 #' @param highlightColumns,numColumns,fcColumns,lfcColumns,hitColumns,intColumns,pvalueColumns
-#'    integer vector referring the column number in the input data.frame `x`
-#'    to define as each column type, as relevant.
+#'    `integer` vector referring the column number in the input `data.frame`
+#'    `x` to define as each column type, as relevant.
 #' @param numFormat,fcFormat,lfcFormat,hitFormat,intFormat,pvalueFormat
-#'    character string with valid Excel cell formatting, for example
-#'    "#,##0.00" defines a column to use comma-delimited numbers above
+#'    `character` string with valid Excel cell formatting, for example
+#'    `"#,##0.00"` defines a column to use comma-delimited numbers above
 #'    one thousand, and display two decimal places in all numeric cells.
-#' @param numRule,fcRule,lfcRule,hitRule,intRule,pvalueRule numeric vector
+#'    See `[https://support.microsoft.com]` topic
+#'    `"Excel Create and apply a custom number format."` or
+#'    `"Excel Number format codes"` for more details. Some examples below:
+#'    * `"#,##0"` : display only integer values, using comma as delimiter
+#'    for every thousands place.
+#'    The number `2142.12` would be represented: `"2,142"`
+#'    * `"###0.0"` : display numeric values rounded to the `0.1` place,
+#'    using no comma delimiter for values above one thousand.
+#'    The number `2142.12` would be represented: `"2142.1"`
+#'    * `"[>0.01]0.00#;0.00E+00"` : this rule is a conditional format,
+#'    values above `0.01` are represented as numbers rounded to the
+#'    thousandths position `0.001`; values below `0.01` are represented
+#'    with scientific notation with three digits.
+#'    The number `0.1256` would be represented: `"0.126"`
+#'    The number `0.001256` would be represented: `"1.26E-03"`
+#'    * `"[Red]#,###.00_);[Blue](#,###.00);[Black]0.00_)"` : this format applies
+#'    to positive values, negative values, and zero, in order delimited
+#'    by semicolons. Positive values are colored red.
+#'    The string `"_)"` adds whitespace (defined by `"_"`)
+#'    equale to the width of the character `")"` to the end
+#'    of positive values.
+#'    Negative values are surrounded by parentheses `"()"`
+#'    and are colored blue.
+#'    Values equal to zero are represented with two trailing digits,
+#'    and whitespace (`"_"`) equal to width `")"`.
+#'    The whitespace at the end of positive values and zero are used
+#'    to align all values at the same decimal position.
+#' @param numRule,fcRule,lfcRule,hitRule,intRule,pvalueRule `numeric` vector
 #'    `length=3` indicating the breakpoints for Excel to apply conditional
 #'    color formatting, using the corresponding style.
-#' @param numStyle,fcStyle,lfcStyle,intStyle,hitStyle,pvalueStyle character
+#'    Note that all conditional formatting applied by this function uses
+#'    the `"3-Color Scale"`, therefore there should be three values,
+#'    and three corresponding colors in the corresponding Style arguments.
+#' @param numStyle,fcStyle,lfcStyle,intStyle,hitStyle,pvalueStyle `character`
 #'    vector `length=3` containing three valid R colors. Note that alpha
 #'    transparency will be removed prior to use in Excel, as required.
-#' @param doConditional logical indicating whether to apply conditional
+#'    Note that all conditional formatting applied by this function uses
+#'    the `"3-Color Scale"`, therefore there should be three colors,
+#'    which match three values in the corresponding Rule arguments.
+#' @param doConditional `logical` indicating whether to apply conditional
 #'    formatting of cells, with this function only the background cell
 #'    color (and contrasting text color) is affected.
-#' @param doCategorical logical indicating whether to apply categorical
+#' @param doCategorical `logical` indicating whether to apply categorical
 #'    color formatting, of only the background cell colors and contrasting
 #'    text color. This argument requires `colorSub` be defined.
-#' @param colorSub character vector of R colors, whose names refer to
+#' @param colorSub `character` vector of R colors, whose names refer to
 #'    cell values in the input `x` data.frame.
-#' @param freezePaneColumn,freezePaneRow integer value of the row or
+#' @param freezePaneColumn,freezePaneRow `integer` value of the row or
 #'    column before which the Excel "freeze panes" is applied.
-#' @param doFilter logical indicating whether to enable column
+#'    Note that these values are adjusted relative by `startRow` and
+#'    `startCol` in the Excel worksheet, so that the values are applied
+#'    relative to the `data.frame` argument `x`.
+#' @param doFilter `logical` indicating whether to enable column
 #'    filtering by default.
-#' @param fontName,fontSize default font configuration, containing
-#'    a valid Excel font name, and a font size in Excel point units,
-#'    respectively.
-#' @param minWidth,maxWidth,autoWidth numeric minimum, maximum size
+#' @param fontName `character` default font configuration, containing
+#'    a valid Excel font name.
+#' @param fontSize `numeric` default font size in Excel point units.
+#' @param minWidth,maxWidth,autoWidth `numeric` minimum, maximum size
 #'    for each Excel cell, in character units as defined by Excel,
-#'    used when `autoWidth=TRUE` to restrict cell widths to this range,
-#'    dependent upon the data content. When `autoWidth=FALSE` Excel
-#'    naturally auto-sizes cells to the width of the largest value
-#'    in each column.
-#' @param wrapHeaders logical indicating whether to enable word wrap
+#'    used when `autoWidth=TRUE` to restrict cell widths to this range.
+#'    Note that the argument `colWidths` is generally preferred, if the
+#'    numeric widths can be reasonable calculated or anticipated upfront.
+#'    When `autoWidth=FALSE` Excel typically auto-sizes cells to the width
+#'    of the largest value in each column, which may not be ideal when
+#'    values are extremely large.
+#' @param wrapHeaders `logical` indicating whether to enable word wrap
 #'    for column headers, which is helpful when `autoWidth=TRUE` since
 #'    it fixed the cell width while allowing the column header to be seen.
-#' @param headerRowMultiplier integer value, the row height of the first
-#'    header row in Excel, as a multiple of subsequent rows. This argument
+#' @param headerRowMultiplier `numeric` value to define the row height of
+#'    the first header row in Excel. This value is defined as a multiple
+#'    of subsequent rows, and should usually represent the maximum number
+#'    of lines after word-wrapping, as relevant. This argument
 #'    is helpful when `wrapHeaders=TRUE` and `autoWidth=TRUE`.
 #' @param colWidths `numeric` width of each column in `x`, recycled
 #'    to the total number of columns required. Note that when
 #'    `keepRownames=TRUE`, the first column will contain `rownames(x)`,
 #'    therefore the length of `colWidths` in that case will be
 #'    `ncol(x) + 1`.
-#' @param keepRownames logical indicating whether to include
+#' @param keepRownames `logical` indicating whether to include
 #'    `rownames(x)` in its own column in Excel.
-#' @param verbose logical indicating whether to print verbose output.
+#' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are passed to `applyXlsxConditionalFormat()`
-#'    and `applyXlsxCategoricalFormat()`.
+#'    and `applyXlsxCategoricalFormat()` as relevant.
 #'
 #' @examples
 #' # set up a test data.frame
@@ -177,6 +217,8 @@ writeOpenxlsx <- function
  file=NULL,
  wb=NULL,
  sheetName="Sheet1",
+ startRow=1,
+ startCol=1,
  append=FALSE,
  headerColors=c("lightskyblue1", "lightskyblue2"),
  columnColors=c("aliceblue", "azure2"),
@@ -218,7 +260,7 @@ writeOpenxlsx <- function
  doCategorical=TRUE,
  colorSub=NULL,
 
- freezePaneColumn=1,
+ freezePaneColumn=0,
  freezePaneRow=2,
  doFilter=TRUE,
 
@@ -287,7 +329,10 @@ writeOpenxlsx <- function
    openxlsx::writeDataTable(wb,
       x=x,
       sheet=sheetName,
+      startRow=startRow,
+      startCol=startCol,
       rowNames=keepRownames,
+      withFilter=doFilter,
       bandedRows=FALSE,
       bandedCols=FALSE);
 
@@ -307,13 +352,14 @@ writeOpenxlsx <- function
    openxlsx::addStyle(wb,
       sheet=sheetName,
       style=borderStyle,
-      cols=seq_len(ncol(x) + keepRownames),
-      rows=seq_len(nrow(x)+1),
+      cols=seq_len(ncol(x) + keepRownames) + (startCol - 1),
+      rows=seq_len(nrow(x) + 1) + (startRow - 1),
       stack=TRUE,
       gridExpand=TRUE);
 
    ## Wrap text and set text alignment for header row
-   wrapTextStyle <- openxlsx::createStyle(wrapText=TRUE,
+   wrapTextStyle <- openxlsx::createStyle(
+      wrapText=TRUE,
       valign="top");
    if (wrapHeaders) {
       if (verbose) printDebug("writeOpenxlsx():",
@@ -321,31 +367,10 @@ writeOpenxlsx <- function
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=wrapTextStyle,
-         cols=seq_len(ncol(x) + keepRownames),
-         rows=1,
+         cols=seq_len(ncol(x) + keepRownames) + (startCol - 1),
+         rows=startRow,
          stack=TRUE,
          gridExpand=TRUE);
-   }
-
-   ## Set column widths
-   if (autoWidth) {
-      if (verbose) {
-         printDebug("writeOpenxlsx():",
-            "autoWidth=TRUE");
-      }
-      openxlsx::setColWidths(wb,
-         sheetName,
-         cols=seq_len(ncol(x) + keepRownames),
-         widths=rep(c("auto"), length.out=ncol(x) + keepRownames));
-   } else {
-      if (verbose) {
-         printDebug("writeOpenxlsx():",
-            "autoWidth=FALSE");
-      }
-      openxlsx::setColWidths(wb,
-         sheetName,
-         cols=seq_len(ncol(x) + keepRownames),
-         widths=rep(minWidth, length.out=ncol(x) + keepRownames));
    }
 
    ## Make sure colors are in hex format
@@ -370,8 +395,9 @@ writeOpenxlsx <- function
    }
 
    ## Style basic non-highlightColumns A and B
-   basicColumns <- setdiff(seq_len(ncol(x) + keepRownames),
-      highlightColumns + keepRownames);
+   basicColumns <- setdiff(
+      seq_len(ncol(x) + keepRownames) + (startCol - 1),
+      highlightColumns + keepRownames + (startCol - 1));
    if (length(basicColumns) > 0) {
       ## Header styles
       basicAHStyle <- openxlsx::createStyle(#bgFill=head(headerColors, 1),
@@ -395,19 +421,23 @@ writeOpenxlsx <- function
       basicColumnsB <- basicColumns[basicColumns %% 2 == 0];
       if (verbose) printDebug("writeOpenxlsx():",
          "basicStyles");
+      if (verbose) printDebug("writeOpenxlsx():",
+         "basicColumnsA:", basicColumnsA);
+      if (verbose) printDebug("writeOpenxlsx():",
+         "basicColumnsB:", basicColumnsB);
       if (length(basicColumnsA) > 0) {
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=basicAHStyle,
             cols=basicColumnsA,
-            rows=1,
+            rows=startRow,
             stack=TRUE,
             gridExpand=TRUE);
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=basicACStyle,
             cols=basicColumnsA,
-            rows=seq_len(nrow(x))+1,
+            rows=seq_len(nrow(x)) + startRow,
             stack=TRUE,
             gridExpand=TRUE);
       }
@@ -416,14 +446,14 @@ writeOpenxlsx <- function
             sheet=sheetName,
             style=basicBHStyle,
             cols=basicColumnsB,
-            rows=1,
+            rows=startRow,
             stack=TRUE,
             gridExpand=TRUE);
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=basicBCStyle,
             cols=basicColumnsB,
-            rows=seq_len(nrow(x))+1,
+            rows=seq_len(nrow(x)) + startRow,
             stack=TRUE,
             gridExpand=TRUE);
       }
@@ -438,37 +468,41 @@ writeOpenxlsx <- function
          valign="top",
          wrapText=wrapHeaders,
          fgFill=head(highlightHeaderColors, 1),
-         textDecoration="bold", fontColour="navy");
+         textDecoration="bold",
+         fontColour="navy");
       highBHStyle <- openxlsx::createStyle(#bgFill=tail(highlightHeaderColors, 1),
          valign="top",
          wrapText=wrapHeaders,
          fgFill=tail(highlightHeaderColors, 1),
-         textDecoration="bold", fontColour="navy");
+         textDecoration="bold",
+         fontColour="navy");
       highACStyle <- openxlsx::createStyle(#bgFill=head(highlightColors, 1),
          valign="top",
          wrapText=wrapCells,
          fgFill=head(highlightColors, 1),
-         textDecoration="bold", fontColour="navy");
+         textDecoration="bold",
+         fontColour="navy");
       highBCStyle <- openxlsx::createStyle(#bgFill=tail(highlightColors, 1),
          valign="top",
          wrapText=wrapCells,
          fgFill=tail(highlightColors, 1),
-         textDecoration="bold", fontColour="navy");
+         textDecoration="bold",
+         fontColour="navy");
       highlightColumnsA <- highlightColumns[highlightColumns %% 2 == 1];
       highlightColumnsB <- highlightColumns[highlightColumns %% 2 == 0];
       if (length(highlightColumnsA) > 0) {
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=highAHStyle,
-            cols=highlightColumnsA + keepRownames,
-            rows=1,
+            cols=highlightColumnsA + keepRownames + (startCol - 1),
+            rows=startRow,
             stack=TRUE,
             gridExpand=TRUE);
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=highACStyle,
-            cols=highlightColumnsA + keepRownames,
-            rows=seq_len(nrow(x))+1,
+            cols=highlightColumnsA + keepRownames + (startCol - 1),
+            rows=seq_len(nrow(x)) + startRow,
             stack=TRUE,
             gridExpand=TRUE);
       }
@@ -476,15 +510,15 @@ writeOpenxlsx <- function
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=highBHStyle,
-            cols=highlightColumnsB + keepRownames,
-            rows=1,
+            cols=highlightColumnsB + keepRownames + (startCol - 1),
+            rows=startRow,
             stack=TRUE,
             gridExpand=TRUE);
          openxlsx::addStyle(wb,
             sheet=sheetName,
             style=highBCStyle,
-            cols=highlightColumnsB + keepRownames,
-            rows=seq_len(nrow(x))+1,
+            cols=highlightColumnsB + keepRownames + (startCol - 1),
+            rows=seq_len(nrow(x)) + startRow,
             stack=TRUE,
             gridExpand=TRUE);
       }
@@ -498,8 +532,8 @@ writeOpenxlsx <- function
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=intStyle1,
-         cols=intColumns,
-         rows=seq_len(nrow(x))+1,
+         cols=intColumns + keepRownames + (startCol - 1),
+         rows=seq_len(nrow(x)) + startRow,
          stack=TRUE,
          gridExpand=TRUE);
    }
@@ -512,8 +546,8 @@ writeOpenxlsx <- function
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=numStyle1,
-         cols=numColumns,
-         rows=seq_len(nrow(x))+1,
+         cols=numColumns + keepRownames + (startCol - 1),
+         rows=seq_len(nrow(x)) + startRow,
          stack=TRUE,
          gridExpand=TRUE);
    }
@@ -526,8 +560,8 @@ writeOpenxlsx <- function
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=fcStyle1,
-         cols=fcColumns + keepRownames,
-         rows=seq_len(nrow(x))+1,
+         cols=fcColumns + keepRownames + (startCol - 1),
+         rows=seq_len(nrow(x)) + startRow,
          stack=TRUE,
          gridExpand=TRUE);
    }
@@ -540,8 +574,8 @@ writeOpenxlsx <- function
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=lfcStyle1,
-         cols=lfcColumns + keepRownames,
-         rows=seq_len(nrow(x))+1,
+         cols=lfcColumns + keepRownames + (startCol - 1),
+         rows=seq_len(nrow(x)) + startRow,
          stack=TRUE,
          gridExpand=TRUE);
    }
@@ -554,8 +588,8 @@ writeOpenxlsx <- function
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=hitStyle1,
-         cols=hitColumns + keepRownames,
-         rows=seq_len(nrow(x))+1,
+         cols=hitColumns + keepRownames + (startCol - 1),
+         rows=seq_len(nrow(x)) + startRow,
          stack=TRUE,
          gridExpand=TRUE);
    }
@@ -569,48 +603,95 @@ writeOpenxlsx <- function
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=pvalueStyle1,
-         cols=pvalueColumns + keepRownames,
-         rows=seq_len(nrow(x))+1,
+         cols=pvalueColumns + keepRownames + (startCol - 1),
+         rows=seq_len(nrow(x)) + startRow,
          stack=TRUE,
          gridExpand=TRUE);
    }
 
-   ## Apply colWidths
-   if (length(colWidths) > 0) {
+   ## Set column widths
+   if (TRUE %in% autoWidth && length(colWidths) == 0) {
+      if (verbose) {
+         printDebug("writeOpenxlsx():",
+            "autoWidth=TRUE");
+      }
+      openxlsx::setColWidths(wb,
+         sheetName,
+         cols=seq_len(ncol(x) + keepRownames) + (startCol - 1),
+         widths=rep(c("auto"), length.out=ncol(x) + keepRownames));
+   } else if (length(colWidths) > 0) {
       colWidths <- rep(colWidths,
          length.out=ncol(x) + keepRownames);
       if (verbose) {
          printDebug("writeOpenxlsx():",
-            "set_xlsx_colwidths()");
+            "set_xlsx_colwidths():",
+            head(colWidths, 50));
       }
       wb <- set_xlsx_colwidths(wb,
          sheet=sheetName,
-         cols=seq_len(ncol(x) + keepRownames),
+         cols=seq_len(ncol(x) + keepRownames) + (startCol - 1),
          widths=colWidths)
+   } else {
+      # without autoWidth=TRUE, and no colWidths,
+      # set minWidth and nothing else
+      if (verbose) {
+         printDebug("writeOpenxlsx():",
+            "autoWidth=", "FALSE", ", using minWidth=",
+            minWidth);
+      }
+      openxlsx::setColWidths(wb,
+         sheetName,
+         cols=seq_len(ncol(x) + keepRownames) + (startCol - 1),
+         widths=rep(minWidth, length.out=ncol(x) + keepRownames));
    }
 
    ## Apply freeze panes
-   if (freezePaneRow > 1 || freezePaneColumn > 1) {
+   freezePaneRow <- head(freezePaneRow, 1);
+   freezePaneColumn <- head(freezePaneColumn, 1);
+   if (freezePaneRow >= 1 || freezePaneColumn >= 1) {
+      if (freezePaneRow == 0) {
+         firstActiveRow <- NULL;
+      } else {
+         firstActiveRow <- freezePaneRow + (startRow - 1)
+      }
+      if (freezePaneColumn == 0) {
+         firstActiveCol <- NULL;
+      } else {
+         firstActiveCol <- freezePaneColumn + keepRownames + (startCol - 1)
+      }
       if (verbose) {
+         desc_row <- "";
+         if (length(firstActiveRow) > 0 &&
+               !any(firstActiveRow == freezePaneRow)) {
+            desc_row <- c("(applied to:", firstActiveRow, ")");
+         }
+         desc_col <- "";
+         if (length(firstActiveCol) > 0 &&
+            !any(firstActiveCol == freezePaneColumn)) {
+            desc_col <- c("(applied to:", firstActiveCol, ")");
+         }
          printDebug("writeOpenxlsx():",
             "Applying freezePaneRow:", freezePaneRow,
-            ", freezePaneColumn:", freezePaneColumn);
+            desc_row,
+            ";", " freezePaneColumn:", freezePaneColumn,
+            desc_col,
+            sep="")
       }
       openxlsx::freezePane(wb,
          sheetName,
-         firstActiveRow=freezePaneRow,
-         firstActiveCol=freezePaneColumn + keepRownames);
+         firstActiveRow=firstActiveRow,
+         firstActiveCol=firstActiveCol);
    }
 
    ## Add header filter
-   if (doFilter && 1 == 2) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying addFilter");
-      openxlsx::addFilter(wb,
-         sheetName,
-         rows=1,
-         cols=seq_len(ncol(x) + keepRownames));
-   }
+   # if (doFilter && 1 == 2) {
+   #    if (verbose) printDebug("writeOpenxlsx():",
+   #       "Applying addFilter");
+   #    openxlsx::addFilter(wb,
+   #       sheetName,
+   #       rows=startRow,
+   #       cols=seq_len(ncol(x) + keepRownames) + (startCol - 1));
+   # }
 
    ## Adjust header row height
    if (headerRowMultiplier > 1) {
@@ -618,8 +699,8 @@ writeOpenxlsx <- function
          "Applying headerRowMultiplier");
       openxlsx::setRowHeights(wb,
          sheetName,
-         rows=1,
-         heights=15*headerRowMultiplier);
+         rows=startRow,
+         heights=15 * headerRowMultiplier);
    }
 
    ## Optionally apply conditional column formatting
@@ -631,15 +712,16 @@ writeOpenxlsx <- function
             hitColumns)) > 0) {
       #
       if (verbose) printDebug("writeOpenxlsx():",
-         "calling applyXlsxConditionalFormat");
+         "calling applyXlsxConditionalFormat, startRow:", startRow+1);
       wb <- applyXlsxConditionalFormat(xlsxFile=wb,
          sheet=sheetName,
-         fcColumns=fcColumns + keepRownames,
-         lfcColumns=lfcColumns + keepRownames,
-         numColumns=numColumns + keepRownames,
-         intColumns=intColumns + keepRownames,
-         hitColumns=hitColumns + keepRownames,
-         pvalueColumns=pvalueColumns + keepRownames,
+         startRow=startRow + 1,
+         fcColumns=fcColumns + keepRownames + (startCol - 1),
+         lfcColumns=lfcColumns + keepRownames + (startCol - 1),
+         numColumns=numColumns + keepRownames + (startCol - 1),
+         intColumns=intColumns + keepRownames + (startCol - 1),
+         hitColumns=hitColumns + keepRownames + (startCol - 1),
+         pvalueColumns=pvalueColumns + keepRownames + (startCol - 1),
          fcStyle=fcStyle, fcRule=fcRule,
          lfcStyle=lfcStyle, lfcRule=lfcRule,
          hitStyle=hitStyle, hitRule=hitRule,
@@ -652,24 +734,29 @@ writeOpenxlsx <- function
 
    ## Optionally apply categorical column formatting
    if (doCategorical && !is.null(colorSub)) {
-      textColumns <- setdiff(seq_len(ncol(x) + keepRownames),
+      textColumns <- setdiff(
+         seq_len(ncol(x) + keepRownames) + (startCol - 1),
          c(numColumns,
             fcColumns,
             lfcColumns,
             intColumns,
             hitColumns,
-            pvalueColumns) + keepRownames);
+            pvalueColumns) + keepRownames + (startCol - 1));
       ## Apply categorical colors to text columns
       if (length(textColumns) > 0) {
          #
          if (verbose) {
             printDebug("writeOpenxlsx():",
-               "applyXlsxCategoricalFormat: ",
-               textColumns);
+               "applyXlsxCategoricalFormat textColumns:",
+               textColumns,
+               ", startRow:", startRow + 1,
+               ", rowRange:", seq_len(nrow(x)));
          }
          wb <- applyXlsxCategoricalFormat(xlsxFile=wb,
             sheet=sheetName,
-            rowRange=seq_len(nrow(x))+0,
+            rowRange=seq_len(nrow(x)) + (startRow),
+            # startRow=startRow + 1,
+            # rowRange=startRow,
             colRange=textColumns,
             colorSub=colorSub,
             wrapText=wrapCells,
@@ -680,11 +767,11 @@ writeOpenxlsx <- function
          colRange <- which(colnames(x) %in% names(colorSub));
          if (verbose) printDebug("writeOpenxlsx(): ",
             "applyXlsxCategoricalFormat to colRange:",
-            colRange);
+            colRange + keepRownames + (startCol - 1));
          wb <- applyXlsxCategoricalFormat(xlsxFile=wb,
             sheet=sheetName,
-            rowRange=c(0),
-            colRange=colRange + keepRownames,
+            rowRange=startRow,
+            colRange=colRange + keepRownames + (startCol - 1),
             colorSub=colorSub,
             wrapText=wrapCells,
             verbose=verbose,
@@ -909,8 +996,16 @@ applyXlsxConditionalFormat <- function
    for (sheet in sheets) {
 
       ## Load the data.frame
+      colNames <- TRUE;
+      startRowLoad <- startRow - 1;
+      if (startRow == 1) {
+         startRowLoad <- 1;
+         colNames <- FALSE;
+      }
       df <- openxlsx::readWorkbook(wb,
          sheet=sheet,
+         startRow=startRowLoad,
+         colNames=colNames,
          ...);
       nrowDf <- nrow(df) + 1;
 
@@ -983,6 +1078,9 @@ applyXlsxConditionalFormat <- function
          }
       }
 
+      # define sequence of rows to apply conditional formatting
+      rows_seq <- seq_len(nrowDf) + (startRow - 1);
+
       ###############################################
       ## Apply fold change conditional formatting
       if (!is.null(fcColumns1)) {
@@ -994,7 +1092,7 @@ applyXlsxConditionalFormat <- function
             openxlsx::conditionalFormatting(wb,
                sheet=sheet,
                cols=fcColumn,
-               rows=startRow:nrowDf,
+               rows=rows_seq,
                style=fcStyle,
                rule=fcRule,
                type=fcType);
@@ -1011,7 +1109,7 @@ applyXlsxConditionalFormat <- function
             openxlsx::conditionalFormatting(wb,
                sheet=sheet,
                cols=lfcColumn,
-               rows=startRow:nrowDf,
+               rows=rows_seq,
                style=lfcStyle,
                rule=lfcRule,
                type=lfcType);
@@ -1028,7 +1126,7 @@ applyXlsxConditionalFormat <- function
             openxlsx::conditionalFormatting(wb,
                sheet=sheet,
                cols=hitColumn,
-               rows=startRow:nrowDf,
+               rows=rows_seq,
                style=hitStyle,
                rule=hitRule,
                type=hitType);
@@ -1045,7 +1143,7 @@ applyXlsxConditionalFormat <- function
             openxlsx::conditionalFormatting(wb,
                sheet=sheet,
                cols=intColumn,
-               rows=startRow:nrowDf,
+               rows=rows_seq,
                style=intStyle,
                rule=intRule,
                type=intType);
@@ -1062,7 +1160,7 @@ applyXlsxConditionalFormat <- function
             openxlsx::conditionalFormatting(wb,
                sheet=sheet,
                cols=numColumn,
-               rows=startRow:nrowDf,
+               rows=rows_seq,
                style=numStyle,
                rule=numRule,
                type=numType);
@@ -1079,7 +1177,7 @@ applyXlsxConditionalFormat <- function
             openxlsx::conditionalFormatting(wb,
                sheet=sheet,
                cols=pvalueColumn,
-               rows=startRow:nrowDf,
+               rows=rows_seq,
                style=pvalueStyle,
                rule=pvalueRule,
                type=pvalueType);
@@ -1119,26 +1217,26 @@ applyXlsxConditionalFormat <- function
 #' @param xlsxFile `character` filename to a file with ".xlsx" extension,
 #'    or `Workbook` object defined in the `openxlsx` package. When
 #'    `xlsxFile` is a `Workbook` the output is not saved to a file.
-#' @param sheet integer index of the worksheet or worksheets.
-#' @param rowRange,colRange integer vectors of rows and columns
+#' @param sheet `integer` index of the worksheet or worksheets.
+#' @param rowRange,colRange `integer` vectors of rows and columns
 #'    to apply categorical colors in the Excel xlsx worksheet.
-#' @param colorSub named character vector of valid R colors, whose
+#' @param colorSub named `character` vector of valid R colors, whose
 #'    names correspond to values in the worksheet cells.
-#' @param colorSubText optional character vector of colors, whose
+#' @param colorSubText optional `character` vector of colors, whose
 #'    names correspond to values in the worksheet cells. In
 #'    absence of a specific text color, `jamba::setTextContrastColor()`
 #'    is used to define a contrasting text color to be visible on
 #'    the colored background.
-#' @param trimCatNames logical whether to trim whitespace and punctuation
+#' @param trimCatNames `logical` whether to trim whitespace and punctuation
 #'    from `colorSub` and from Excel cell fields before matching colors
 #'    to Excel values.
-#' @param overwrite logical indicating whether new cell color styles
+#' @param overwrite `logical` indicating whether new cell color styles
 #'    should be forced overwrite of previous cell styles.
-#' @param wrapText logical indicating whether to wrap text.
-#' @param stack logical indicating whether new color rules should be
+#' @param wrapText `logical` indicating whether to wrap text.
+#' @param stack `logical` indicating whether new color rules should be
 #'    applied above existing styles, many of whose styles may not affect
 #'    the specific cell color, for example the font size and font name.
-#' @param verbose logical indicating whether to print verbose output.
+#' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
@@ -1217,12 +1315,30 @@ applyXlsxCategoricalFormat <- function
    ## Wrap in a large loop to handle multiple worksheets
    sheets <- sheet;
    wb_changed <- FALSE;
+   if (verbose) printDebug("applyXlsxCategoricalFormat(): ",
+      "rowRange:", rowRange, ", colRange:", colRange);
    for (sheet in sheets) {
 
       ## Load the data.frame
+      ## Load the data.frame
+      colNames <- FALSE;
       df <- openxlsx::readWorkbook(wb,
          sheet=sheet,
+         cols=colRange,
+         rows=rowRange,
+         skipEmptyCols=TRUE,
+         skipEmptyRows=FALSE,
+         colNames=FALSE,
          ...);
+      # df <- openxlsx::readWorkbook(wb,
+      #    sheet=sheet,
+      #    skipEmptyCols=FALSE,
+      #    ...);
+      if (verbose) {
+         printDebug("applyXlsxCategoricalFormat(): ",
+            "head(df, 50):");
+         print(head(df, 50));
+      }
       nrowDf <- nrow(df) + 1;
       if (is.null(rowRange)) {
          rowRange <- seq_len(nrow(df));
@@ -1236,10 +1352,11 @@ applyXlsxCategoricalFormat <- function
          printDebug("head(colRange):", head(colRange));
          if (length(colRange) > 10) printDebug("tail(colRange):", tail(colRange));
       }
-      rangeM <- rbind(colnames(df)[colRange],
-         as.matrix(df[,colRange,drop=FALSE]))[rowRange+1,,drop=FALSE];
+      rangeM <- as.matrix(df);
+      # rangeM <- rbind(colnames(df)[colRange],
+      #    as.matrix(df[,colRange,drop=FALSE]))[rowRange+1,,drop=FALSE];
       colnames(rangeM) <- colRange;
-      rownames(rangeM) <- rowRange+1;
+      rownames(rangeM) <- rowRange;
       ## Allow colorizing NA entries
       if (any(is.na(rangeM))) {
          rangeM[is.na(rangeM)] <- "NA";
@@ -1294,7 +1411,7 @@ applyXlsxCategoricalFormat <- function
             printDebug("   completed colorSubFound");
          }
          rangeMatch <- rangeM;
-         rangeMatch[1:nrow(rangeMatch),1:ncol(rangeMatch)] <- "";
+         rangeMatch[seq_len(nrow(rangeMatch)), seq_len(ncol(rangeMatch))] <- "";
          for (i in colorSubFound) {
             isMatched <- (
                rangeM %in% color_names1[i] |
@@ -1550,6 +1667,18 @@ set_xlsx_rowheights <- function
 #' By default this function returns every `sheet` for a given
 #' `xlsx` file.
 #'
+#' Some useful details:
+#'
+#' * Empty columns are not skipped during loading, which means a worksheet
+#' whose data starts at column 3 will be returned with two empty columns,
+#' followed by data from that worksheet. Similarly, any empty columns
+#' in the middle of the data in that worksheet will be included in the
+#' output.
+#' * When both `startRow` and `rows` are applied, `rows` takes priority
+#' and will be used instead of `startRows`. In fact `startRows` will be
+#' defined `startRows <- min(rows)` for each relevant worksheet. However,
+#' for each worksheet either argument can be `NULL`.
+#'
 #' @family jam export functions
 #'
 #' @param xlsx `character` path to an Excel file in `xlsx` format,
@@ -1592,7 +1721,9 @@ readOpenxlsx <- function
 (xlsx,
  sheet=NULL,
  startRow=1,
+ startCol=1,
  rows=NULL,
+ cols=NULL,
  check.names=FALSE,
  check_header=FALSE,
  check_header_n=10,
@@ -1617,6 +1748,10 @@ readOpenxlsx <- function
    if (length(startRow) < length(sheet)) {
       startRow <- rep(startRow, length.out=length(sheet));
    }
+   # recycle startCol to length(sheet)
+   if (length(startCol) < length(sheet)) {
+      startCol <- rep(startCol, length.out=length(sheet));
+   }
    # recycle rows to length(sheet)
    if (length(rows) == 0) {
       rows <- list(NULL);
@@ -1638,7 +1773,29 @@ readOpenxlsx <- function
             i);
       }
       irows <- rows[[j]];
-      istartRow <- startRow[[j]];
+      icols <- cols[[j]];
+      istartRow <- head(startRow[[j]], 1)
+      istartCol <- head(startCol[[j]], 1);
+
+      # Adjustment when both startRow and rows are defined
+      if (length(istartRow) > 0 && length(irows) > 0) {
+         istartRow <- min(irows);
+      }
+      if (length(istartRow) == 0) {
+         istartRow <- 1;
+      }
+      if (length(istartCol) > 0 && length(icols) > 0) {
+         istartCol <- min(icols);
+      }
+      if (length(istartCol) == 0) {
+         istartCol <- 1;
+      }
+      if (verbose) {
+         printDebug(#"readOpenxlsx(): ",
+            indent=3,
+            "rows:", irows, ", cols:", icols,
+            ", startRow:", istartRow, ", startCol:", istartCol)
+      }
 
       # optionally check for header rows
       header_v <- NULL;
@@ -1655,11 +1812,34 @@ readOpenxlsx <- function
             test_rows <- seq_len(check_header_n);
          }
          for (irow in test_rows) {
+            if (verbose) {
+               printDebug(indent=3,
+                  "check_header rows:", irow, ", cols:", cols);
+            }
             df <- openxlsx::read.xlsx(xlsxFile=xlsx,
                sheet=i,
                skipEmptyCols=FALSE,
                rows=irow,
+               cols=icols,
                colNames=FALSE);
+
+            if (length(df) > 0 && istartCol > 1) {
+               if (ncol(df) < istartCol) {
+                  df <- NULL;
+               } else {
+                  col_seq <- seq(from=istartCol, to=ncol(df))
+                  df <- df[, col_seq, drop=FALSE];
+               }
+            }
+            if (length(df) > 0) {
+               test_ncol[irow] <- ncol(df)
+               test_data_rows[[irow]] <- df;
+               test_classes[[irow]] <- sclass(df)
+            } else {
+               test_ncol[irow] <- NA;
+               test_data_rows[[irow]] <- NULL;
+               test_classes[[irow]] <- NULL;
+            }
             if (length(df) == 0) {
                test_ncol[irow] <- NA;
                test_data_rows[[irow]] <- NULL;
@@ -1721,12 +1901,27 @@ readOpenxlsx <- function
       }
 
       # load into data.frame
-      idf <- openxlsx::read.xlsx(xlsxFile=xlsx,
+      idf <- call_fn_ellipsis(openxlsx::read.xlsx,
+         xlsxFile=xlsx,
          sheet=i,
          skipEmptyCols=FALSE,
          startRow=istartRow,
          rows=irows,
+         cols=icols,
          ...);
+      # apply optional startCol
+      if (istartCol > 1) {
+         if (ncol(idf) < istartCol) {
+            idf <- NULL;
+         } else {
+            col_seq <- seq(from=istartCol, to=ncol(idf))
+            idf <- idf[, col_seq, drop=FALSE];
+         }
+      }
+
+      # When check.names=FALSE, manually load the header ourselves.
+      # Note that openxlsx always applies check.names=TRUE, causing
+      # column headers to become mangled.
       if (length(check.names) > 0 && !check.names) {
          if (length(irows) > 0) {
             if (length(istartRow) > 0) {
@@ -1750,10 +1945,22 @@ readOpenxlsx <- function
             startRow=k,
             rows=k,
             colNames=FALSE);
+         # apply optional startCol
+         if (istartCol > 1) {
+            if (ncol(iheader) < istartCol) {
+               iheader <- NULL;
+            } else {
+               col_seq <- seq(from=istartCol, to=ncol(iheader))
+               iheader <- iheader[, col_seq, drop=FALSE];
+            }
+         }
+         # apply the header to the loaded data.frame
          colnames(idf) <- unname(unlist(iheader[1,]));
       }
       if (length(header_v) > 0) {
          names(dimnames(idf)) <- c("rows", header_v);
+      }
+      if (length(header_df) > 0) {
          attr(idf, "header") <- header_df;
       }
       idf;

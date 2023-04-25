@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,53 +62,69 @@
     <p>ComplexHeatmap cell function to label heatmap cells</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">cell_fun_label</span><span class="op">(</span>
-  <span class="va">m</span>,
-  prefix <span class="op">=</span> <span class="st">""</span>,
-  suffix <span class="op">=</span> <span class="st">""</span>,
-  cex <span class="op">=</span> <span class="fl">1</span>,
-  col_hm <span class="op">=</span> <span class="cn">NULL</span>,
-  outline <span class="op">=</span> <span class="cn">FALSE</span>,
-  abbrev <span class="op">=</span> <span class="cn">FALSE</span>,
-  show <span class="op">=</span> <span class="cn">NULL</span>,
-  rot <span class="op">=</span> <span class="fl">0</span>,
-  sep <span class="op">=</span> <span class="st">"\n"</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cell_fun_label</span><span class="op">(</span></span>
+<span>  <span class="va">m</span>,</span>
+<span>  prefix <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  suffix <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  cex <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  col_hm <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  outline <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  abbrev <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rot <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">"\n"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>m</dt>
 <dd><p><code>numeric</code> matrix or <code>list</code> of <code>matrix</code> objects. The
 first <code>matrix</code> object must be <code>numeric</code> and compatible
 with the color function <code>col_hm</code>.</p></dd>
+
+
 <dt>prefix, suffix</dt>
 <dd><p><code>character</code> vectors that define a prefix and
 suffix for each value in <code>m</code> for each cell.</p></dd>
+
+
 <dt>cex</dt>
 <dd><p><code>numeric</code> adjustment for the fontsize used for each label,
 which is multiplied by the default <code>fontsize=10</code> to determine
 the fontsize.</p></dd>
+
+
 <dt>col_hm</dt>
 <dd><p><code>function</code> as returned by <code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code> which
 should be the same function used to create the heatmap</p></dd>
+
+
 <dt>outline</dt>
 <dd><p><code>logical</code> indicating whether to draw an outline around
 each heatmap cell</p></dd>
+
+
 <dt>abbrev</dt>
 <dd><p><code>logical</code> indicating whether numeric values should
 be abbreviated using <code>jamba::asSize(..., kiloSize=1000)</code> which
 effectively reduces large numbers to <code>k</code> for thousands, <code>M</code> for
 millions (M for Mega), <code>G</code> for billions (G for Giga), etc.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output,
 specifically printing label information for position <code>(1, 1)</code>.
 This output will only be seen when rendering or building the
 Heatmap object.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -139,44 +155,43 @@ requires a slightly different method.</p>
 <code><a href="heatmap_column_order.html">heatmap_column_order</a>()</code>,
 <code><a href="heatmap_row_order.html">heatmap_row_order</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Examples require ComplexHeatmap Bioconductor/github package</span></span>
-<span class="r-in"><span class="co"># github:jokergoo/ComplexHeatmap</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="check_pkg_installed.html">check_pkg_installed</a></span><span class="op">(</span><span class="st">"ComplexHeatmap"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">16</span><span class="op">)</span><span class="op">*</span><span class="fl">2</span>, ncol<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">col_hm</span> <span class="op">&lt;-</span> <span class="fu">circlize</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">colorRamp2</a></span><span class="op">(</span>breaks<span class="op">=</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span>,</span>
-<span class="r-in">   colors<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"navy"</span>, <span class="st">"dodgerblue"</span>, <span class="st">"white"</span>, <span class="st">"tomato"</span>, <span class="st">"red4"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the heatmap can be created in one step</span></span>
-<span class="r-in"><span class="va">hm</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">m</span>,</span>
-<span class="r-in">   col<span class="op">=</span><span class="va">col_hm</span>,</span>
-<span class="r-in">   heatmap_legend_param<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">      color_bar<span class="op">=</span><span class="st">"discrete"</span>,</span>
-<span class="r-in">      border<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span class="r-in">      at<span class="op">=</span><span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>,</span>
-<span class="r-in">   cell_fun<span class="op">=</span><span class="fu">cell_fun_label</span><span class="op">(</span><span class="va">m</span>,</span>
-<span class="r-in">      col_hm<span class="op">=</span><span class="va">col_hm</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the cell label function can be created first</span></span>
-<span class="r-in"><span class="va">cell_fun</span> <span class="op">&lt;-</span> <span class="fu">cell_fun_label</span><span class="op">(</span><span class="va">m</span>,</span>
-<span class="r-in">   outline<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span class="r-in">   cex<span class="op">=</span><span class="fl">1.5</span>,</span>
-<span class="r-in">   col_hm<span class="op">=</span><span class="va">col_hm</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">hm2</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">m</span>,</span>
-<span class="r-in">   col<span class="op">=</span><span class="va">col_hm</span>,</span>
-<span class="r-in">   cell_fun<span class="op">=</span><span class="va">cell_fun</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm2</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Examples require ComplexHeatmap Bioconductor/github package</span></span></span>
+<span class="r-in"><span><span class="co"># github:jokergoo/ComplexHeatmap</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="check_pkg_installed.html">check_pkg_installed</a></span><span class="op">(</span><span class="st">"ComplexHeatmap"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">16</span><span class="op">)</span><span class="op">*</span><span class="fl">2</span>, ncol<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">col_hm</span> <span class="op">&lt;-</span> <span class="fu">circlize</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">colorRamp2</a></span><span class="op">(</span>breaks<span class="op">=</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>   colors<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"navy"</span>, <span class="st">"dodgerblue"</span>, <span class="st">"white"</span>, <span class="st">"tomato"</span>, <span class="st">"red4"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the heatmap can be created in one step</span></span></span>
+<span class="r-in"><span><span class="va">hm</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">m</span>,</span></span>
+<span class="r-in"><span>   col<span class="op">=</span><span class="va">col_hm</span>,</span></span>
+<span class="r-in"><span>   heatmap_legend_param<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      color_bar<span class="op">=</span><span class="st">"discrete"</span>,</span></span>
+<span class="r-in"><span>      border<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>      at<span class="op">=</span><span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   cell_fun<span class="op">=</span><span class="fu">cell_fun_label</span><span class="op">(</span><span class="va">m</span>,</span></span>
+<span class="r-in"><span>      col_hm<span class="op">=</span><span class="va">col_hm</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the cell label function can be created first</span></span></span>
+<span class="r-in"><span><span class="va">cell_fun</span> <span class="op">&lt;-</span> <span class="fu">cell_fun_label</span><span class="op">(</span><span class="va">m</span>,</span></span>
+<span class="r-in"><span>   outline<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>   cex<span class="op">=</span><span class="fl">1.5</span>,</span></span>
+<span class="r-in"><span>   col_hm<span class="op">=</span><span class="va">col_hm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">hm2</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">m</span>,</span></span>
+<span class="r-in"><span>   col<span class="op">=</span><span class="va">col_hm</span>,</span></span>
+<span class="r-in"><span>   cell_fun<span class="op">=</span><span class="va">cell_fun</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="cell_fun_label-1.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="cell_fun_label-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -191,8 +206,7 @@ requires a slightly different method.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -1,3 +1,50 @@
+# jamba version 0.0.92.900
+
+## bug fixes
+
+* `showColors()`
+
+   * error was thrown when trying to display `circlize::colorRamp2()`
+   color function, a recently updated version of `circlize` now stores
+   colors internally as R hex colors, instead of previous versions which
+   stored `numeric` matrix of r,g,b color values.
+   * The function was updated to detect whether colors defined for color
+   breaks in `circlize::colorRamp2()` data are `numeric` matrix of r,g,b
+   values, or `character` vector of R colors. It should therefore be robust
+   to earlier or newer versions of `circlize:: colorRamp2()` color functions.
+
+## changes to existing functions
+
+* `showColors()`
+
+   * new argument `doPlot=TRUE` which allows disabling the graphical output,
+   mainly motivated by the desire to create unit tests.
+   
+* `writeOpenxlsx()`
+
+   * New arguments `startRow`, `startCol` to define starting row and
+   column, repectively, for a new worksheet.
+   * Argument `doFilter=FALSE` was being ignored, since the default worksheet
+   created by `openxlsx::writeDataTable()` already enabled column filtering
+   by default. This argument is applied properly now.
+   * Column widths are now applied in one section of code, after the various
+   column formatting options, which may improve column width "auto" when
+   formatting changes the visible width of values in each column.
+   * Help docs were updated and formatted for better markdown style.
+
+* `readOpenxlsx()`
+
+   * new arguments `startCol` consistent with the same argument in
+   `writeOpenxlsx()`, and `cols` used to specify an exact vector of columns.
+   The arguments allow loading data starting at a specific column or
+   for specific columns in each Excel worksheet.
+   * Added simple unit tests.
+
+* Added simple unit tests to verify that a `data.frame` saved by
+`writeOpenxlsx()` and re-loaded by `readOpenxlsx()`, optionally using
+`startRow` and `startCol`, will reproduce the identical input `data.frame`.
+
+
 # jamba version 0.0.91.900
 
 ## bug fixes on R-4.2.3

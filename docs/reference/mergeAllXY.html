@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,9 +62,10 @@
     <p>Merge list of data.frames retaining all rows</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>...</dt>
@@ -77,10 +78,13 @@ appear as arguments. The order of these <code>data.frame</code> objects
 should not affect the output content, but will affect the row
 and column order of the resulting <code>data.frame</code>.</p></li>
 </ul></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>data.frame</code> after iterative calls to <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">base::merge.data.frame()</a></code>.</p>
+    
+
+<p><code>data.frame</code> after iterative calls to <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">base::merge.data.frame()</a></code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -125,11 +129,8 @@ for each merge operation to ensure that all rows are kept.</p>
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p>
 <p>Other jam list functions: 
 <code><a href="cPasteSU.html">cPasteSU</a>()</code>,
 <code><a href="cPasteS.html">cPasteS</a>()</code>,
@@ -144,45 +145,41 @@ for each merge operation to ensure that all rows are kept.</p>
 <code><a href="relist_named.html">relist_named</a>()</code>,
 <code><a href="rlengths.html">rlengths</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code>,
 <code><a href="unnestList.html">unnestList</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>City<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New York"</span>, <span class="st">"Los Angeles"</span>, <span class="st">"San Francisco"</span><span class="op">)</span>,</span>
-<span class="r-in">   State<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New York"</span>, <span class="st">"California"</span>, <span class="st">"California"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Team<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Yankees"</span>, <span class="st">"Mets"</span>, <span class="st">"Giants"</span>, <span class="st">"Dodgers"</span><span class="op">)</span>,</span>
-<span class="r-in">   City<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New York"</span>, <span class="st">"New York"</span>, <span class="st">"San Francisco"</span>, <span class="st">"Los Angeles"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>State<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New York"</span>, <span class="st">"California"</span><span class="op">)</span>,</span>
-<span class="r-in">   `State Population`<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">39.24e9</span>, <span class="fl">8.468e9</span><span class="op">)</span>,</span>
-<span class="r-in">   check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df3</span>, <span class="va">df2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>City<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New York"</span>, <span class="st">"Los Angeles"</span>, <span class="st">"San Francisco"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   State<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New York"</span>, <span class="st">"California"</span>, <span class="st">"California"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Team<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Yankees"</span>, <span class="st">"Mets"</span>, <span class="st">"Giants"</span>, <span class="st">"Dodgers"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   City<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New York"</span>, <span class="st">"New York"</span>, <span class="st">"San Francisco"</span>, <span class="st">"Los Angeles"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>State<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"New York"</span>, <span class="st">"California"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   `State Population`<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">39.24e9</span>, <span class="fl">8.468e9</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df3</span>, <span class="va">df2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            City      State State Population    Team</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   Los Angeles California        8.468e+09 Dodgers</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      New York   New York        3.924e+10 Yankees</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3      New York   New York        3.924e+10    Mets</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 San Francisco California        8.468e+09  Giants</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">df4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>check.names<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span class="r-in">   CellLine<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ul3"</span>, <span class="st">"dH1A"</span>, <span class="st">"dH1B"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,</span>
-<span class="r-in">   Treatment<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df4</span><span class="op">$</span><span class="va">CellLine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df4</span><span class="op">$</span><span class="va">CellLine</span>,</span>
-<span class="r-in">   levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ul3"</span>, <span class="st">"dH1A"</span>, <span class="st">"dH1B"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df4</span><span class="op">$</span><span class="va">Treatment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df4</span><span class="op">$</span><span class="va">Treatment</span>,</span>
-<span class="r-in">   levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">   Treatment<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span>,</span>
-<span class="r-in">   Time<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0h"</span>, <span class="st">"12h"</span>, <span class="st">"24h"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>check.names<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span class="r-in">   CellLine<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ul3"</span>, <span class="st">"dH1A"</span>, <span class="st">"dH1B"</span><span class="op">)</span>,</span>
-<span class="r-in">   Type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"KO"</span>, <span class="st">"KO"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df5</span>, <span class="va">df6</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">df4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>check.names<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>   CellLine<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ul3"</span>, <span class="st">"dH1A"</span>, <span class="st">"dH1B"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   Treatment<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df4</span><span class="op">$</span><span class="va">CellLine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df4</span><span class="op">$</span><span class="va">CellLine</span>,</span></span>
+<span class="r-in"><span>   levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ul3"</span>, <span class="st">"dH1A"</span>, <span class="st">"dH1B"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df4</span><span class="op">$</span><span class="va">Treatment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df4</span><span class="op">$</span><span class="va">Treatment</span>,</span></span>
+<span class="r-in"><span>   levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   Treatment<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   Time<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0h"</span>, <span class="st">"12h"</span>, <span class="st">"24h"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>check.names<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>   CellLine<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ul3"</span>, <span class="st">"dH1A"</span>, <span class="st">"dH1B"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   Type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"KO"</span>, <span class="st">"KO"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df5</span>, <span class="va">df6</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    CellLine Treatment Time    Type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      dH1A       Dex  12h      KO</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      dH1A       Dex   0h      KO</span>
@@ -202,22 +199,22 @@ for each merge operation to ensure that all rows are kept.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16      ul3   Vehicle  24h Control</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17      ul3   Vehicle   0h Control</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18      ul3   Vehicle  12h Control</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># note the factor order is maintained</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df5</span>, <span class="va">df6</span><span class="op">)</span><span class="op">$</span><span class="va">CellLine</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># note the factor order is maintained</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df5</span>, <span class="va">df6</span><span class="op">)</span><span class="op">$</span><span class="va">CellLine</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] dH1A dH1A dH1A dH1A dH1A dH1A dH1B dH1B dH1B dH1B dH1B dH1B ul3  ul3  ul3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] ul3  ul3  ul3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: ul3 dH1A dH1B</span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df5</span><span class="op">)</span><span class="op">$</span><span class="va">Treatment</span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df5</span><span class="op">)</span><span class="op">$</span><span class="va">Treatment</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] Dex     Dex     Dex     Dex     Dex     Dex     Dex     Dex     Dex    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10] Vehicle Vehicle Vehicle Vehicle Vehicle Vehicle Vehicle Vehicle Vehicle</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Vehicle Dex</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># merge "all" can append rows to a data.frame</span></span>
-<span class="r-in"><span class="va">df4b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>check.names<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span class="r-in">   CellLine<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"dH1C"</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span class="r-in">   Treatment<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># merge "all" can append rows to a data.frame</span></span></span>
+<span class="r-in"><span><span class="va">df4b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>check.names<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>   CellLine<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"dH1C"</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   Treatment<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   CellLine Treatment</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      ul3   Vehicle</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      ul3       Dex</span>
@@ -227,14 +224,14 @@ for each merge operation to ensure that all rows are kept.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6     dH1B       Dex</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7     dH1C   Vehicle</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8     dH1C       Dex</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># factor order is maintained, new levels are appended</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span><span class="op">)</span><span class="op">$</span><span class="va">CellLine</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># factor order is maintained, new levels are appended</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span><span class="op">)</span><span class="op">$</span><span class="va">CellLine</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] ul3  ul3  dH1A dH1A dH1B dH1B dH1C dH1C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: ul3 dH1A dH1B dH1C</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># merge proceeds except shows missing data</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="va">df6</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># merge proceeds except shows missing data</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="va">df6</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    CellLine Treatment Time    Type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       ul3       Dex   0h Control</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       ul3   Vehicle   0h Control</span>
@@ -260,12 +257,12 @@ for each merge operation to ensure that all rows are kept.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22     dH1C   Vehicle   0h    &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23     dH1C   Vehicle  12h    &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24     dH1C   Vehicle  24h    &lt;NA&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># note that appending rows is tricky, the following is incorrect</span></span>
-<span class="r-in"><span class="va">df6b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>check.names<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span class="r-in">   CellLine<span class="op">=</span><span class="st">"dH1C"</span>,</span>
-<span class="r-in">   Type<span class="op">=</span><span class="st">"KO"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># note that appending rows is tricky, the following is incorrect</span></span></span>
+<span class="r-in"><span><span class="va">df6b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>check.names<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>   CellLine<span class="op">=</span><span class="st">"dH1C"</span>,</span></span>
+<span class="r-in"><span>   Type<span class="op">=</span><span class="st">"KO"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    CellLine    Type Treatment Time</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       ul3 Control       Dex   0h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       ul3 Control   Vehicle   0h</span>
@@ -292,9 +289,9 @@ for each merge operation to ensure that all rows are kept.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23     dH1C    &lt;NA&gt;   Vehicle   0h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24     dH1C    &lt;NA&gt;   Vehicle  12h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25     dH1C    &lt;NA&gt;   Vehicle  24h</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># but it can be resolved by merging df6 and df6b</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># but it can be resolved by merging df6 and df6b</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    CellLine Treatment Time    Type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      dH1A       Dex   0h      KO</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      dH1A   Vehicle   0h      KO</span>
@@ -320,10 +317,10 @@ for each merge operation to ensure that all rows are kept.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22      ul3   Vehicle   0h Control</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23      ul3   Vehicle  12h Control</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24      ul3   Vehicle  24h Control</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># it may be easier to recognize by sorting with mixedSortDF()</span></span>
-<span class="r-in"><span class="fu"><a href="mixedSortDF.html">mixedSortDF</a></span><span class="op">(</span>honorFactor<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span class="r-in">   <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># it may be easier to recognize by sorting with mixedSortDF()</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mixedSortDF.html">mixedSortDF</a></span><span class="op">(</span>honorFactor<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>   <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    CellLine Treatment Time    Type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22      ul3   Vehicle   0h Control</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23      ul3   Vehicle  12h Control</span>
@@ -349,16 +346,16 @@ for each merge operation to ensure that all rows are kept.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13     dH1C       Dex   0h      KO</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14     dH1C       Dex  12h      KO</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15     dH1C       Dex  24h      KO</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># again, factor order is maintained</span></span>
-<span class="r-in"><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, sort<span class="op">=</span><span class="cn">FALSE</span>, <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">CellLine</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># again, factor order is maintained</span></span></span>
+<span class="r-in"><span><span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, sort<span class="op">=</span><span class="cn">FALSE</span>, <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">CellLine</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] ul3  ul3  ul3  ul3  ul3  ul3  dH1A dH1A dH1A dH1A dH1A dH1A dH1B dH1B dH1B</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] dH1B dH1B dH1B dH1C dH1C dH1C dH1C dH1C dH1C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: ul3 dH1A dH1B dH1C</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the result can be sorted properly</span></span>
-<span class="r-in"><span class="fu"><a href="mixedSortDF.html">mixedSortDF</a></span><span class="op">(</span>honorFactor<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span class="r-in">   <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the result can be sorted properly</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mixedSortDF.html">mixedSortDF</a></span><span class="op">(</span>honorFactor<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>   <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df4</span>, <span class="va">df4b</span>, <span class="va">df5</span>, <span class="fu">mergeAllXY</span><span class="op">(</span><span class="va">df6</span>, <span class="va">df6b</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    CellLine Treatment Time    Type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22      ul3   Vehicle   0h Control</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23      ul3   Vehicle  12h Control</span>
@@ -384,7 +381,7 @@ for each merge operation to ensure that all rows are kept.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13     dH1C       Dex   0h      KO</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14     dH1C       Dex  12h      KO</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15     dH1C       Dex  24h      KO</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -399,8 +396,7 @@ for each merge operation to ensure that all rows are kept.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

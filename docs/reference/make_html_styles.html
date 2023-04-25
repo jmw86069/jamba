@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,26 +62,27 @@
     <p>vectorized make_styles for html span output</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">make_html_styles</span><span class="op">(</span>
-  style <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">text</span>,
-  bg <span class="op">=</span> <span class="cn">FALSE</span>,
-  bg_style <span class="op">=</span> <span class="cn">NULL</span>,
-  grey <span class="op">=</span> <span class="cn">FALSE</span>,
-  Cgrey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Cgrey"</span><span class="op">)</span>,
-  lightMode <span class="op">=</span> <span class="cn">NULL</span>,
-  Crange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Crange"</span><span class="op">)</span>,
-  Lrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Lrange"</span><span class="op">)</span>,
-  adjustRgb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.adjustRgb"</span><span class="op">)</span>,
-  adjustPower <span class="op">=</span> <span class="fl">1.5</span>,
-  fixYellow <span class="op">=</span> <span class="cn">TRUE</span>,
-  alphaPower <span class="op">=</span> <span class="fl">2</span>,
-  setOptions <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_html_styles</span><span class="op">(</span></span>
+<span>  style <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">text</span>,</span>
+<span>  bg <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  bg_style <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  Cgrey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Cgrey"</span><span class="op">)</span>,</span>
+<span>  lightMode <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  Crange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Crange"</span><span class="op">)</span>,</span>
+<span>  Lrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Lrange"</span><span class="op">)</span>,</span>
+<span>  adjustRgb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.adjustRgb"</span><span class="op">)</span>,</span>
+<span>  adjustPower <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  fixYellow <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  alphaPower <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  setOptions <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="details">
     <h2>Details</h2>
     <p>Note this function is experimental.</p>
@@ -122,11 +123,8 @@
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p>
 <p>Other jam color functions: 
 <code><a href="alpha2col.html">alpha2col</a>()</code>,
 <code><a href="applyCLrange.html">applyCLrange</a>()</code>,
@@ -152,7 +150,6 @@
 <code><a href="unalpha.html">unalpha</a>()</code>,
 <code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
     </div>
-    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -166,8 +163,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

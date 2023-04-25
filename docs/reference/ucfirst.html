@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,22 +62,30 @@
     <p>Uppercase the first letter in each word</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">ucfirst</span><span class="op">(</span><span class="va">x</span>, lowercaseAll <span class="op">=</span> <span class="cn">FALSE</span>, firstWordOnly <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ucfirst</span><span class="op">(</span><span class="va">x</span>, lowercaseAll <span class="op">=</span> <span class="cn">FALSE</span>, firstWordOnly <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>character vector.</p></dd>
+
+
 <dt>lowercaseAll</dt>
 <dd><p>logical indicating whether to force all letters
 to lowercase before applying uppercase to the first letter.</p></dd>
+
+
 <dt>firstWordOnly</dt>
 <dd><p>logical indicating whether to apply the
 uppercase only to the first word in each string. Note that it
 still applies the logic to every entry in the input vector <code>x</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -113,28 +121,26 @@ of words.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"TESTING_ALL_UPPERCASE_INPUT"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"TESTING_ALL_UPPERCASE_INPUT"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TESTING_ALL_UPPERCASE_INPUT"</span>
-<span class="r-in"><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"TESTING_ALL_UPPERCASE_INPUT"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"TESTING_ALL_UPPERCASE_INPUT"</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Testing_All_Uppercase_Input"</span>
-<span class="r-in"><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"TESTING_ALL_UPPERCASE_INPUT"</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"TESTING_ALL_UPPERCASE_INPUT"</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Testing_all_uppercase_input"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"testing mixedCase upperAndLower case input"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"testing mixedCase upperAndLower case input"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Testing MixedCase UpperAndLower Case Input"</span>
-<span class="r-in"><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"testing mixedCase upperAndLower case input"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"testing mixedCase upperAndLower case input"</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Testing Mixedcase Upperandlower Case Input"</span>
-<span class="r-in"><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"testing mixedCase upperAndLower case input"</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">ucfirst</span><span class="op">(</span><span class="st">"testing mixedCase upperAndLower case input"</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Testing mixedcase upperandlower case input"</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -149,8 +155,7 @@ of words.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

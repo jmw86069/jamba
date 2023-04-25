@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,29 +62,108 @@
     <p>Handles a list or list of lists, converting to human-readable text format</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">handleArgsText</span><span class="op">(</span>
-  <span class="va">argTextA</span>,
-  name <span class="op">=</span> <span class="st">""</span>,
-  col1 <span class="op">=</span> <span class="st">"mediumpurple2"</span>,
-  col2 <span class="op">=</span> <span class="st">"mediumaquamarine"</span>,
-  colT <span class="op">=</span> <span class="st">"dodgerblue3"</span>,
-  colF <span class="op">=</span> <span class="st">"red1"</span>,
-  colNULL <span class="op">=</span> <span class="st">"grey60"</span>,
-  lightMode <span class="op">=</span> <span class="cn">NULL</span>,
-  Crange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Crange"</span><span class="op">)</span>,
-  Lrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Lrange"</span><span class="op">)</span>,
-  adjustRgb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.adjustRgb"</span><span class="op">)</span>,
-  indent <span class="op">=</span> <span class="st">""</span>,
-  useCollapseList <span class="op">=</span> <span class="st">",\n      "</span>,
-  useCollapseBase <span class="op">=</span> <span class="st">", "</span>,
-  level <span class="op">=</span> <span class="fl">1</span>,
-  debug <span class="op">=</span> <span class="fl">0</span>,
-  useColor <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">handleArgsText</span><span class="op">(</span></span>
+<span>  <span class="va">argTextA</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  col1 <span class="op">=</span> <span class="st">"mediumpurple2"</span>,</span>
+<span>  col2 <span class="op">=</span> <span class="st">"mediumaquamarine"</span>,</span>
+<span>  colT <span class="op">=</span> <span class="st">"dodgerblue3"</span>,</span>
+<span>  colF <span class="op">=</span> <span class="st">"red1"</span>,</span>
+<span>  colNULL <span class="op">=</span> <span class="st">"grey60"</span>,</span>
+<span>  lightMode <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  Crange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Crange"</span><span class="op">)</span>,</span>
+<span>  Lrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Lrange"</span><span class="op">)</span>,</span>
+<span>  adjustRgb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.adjustRgb"</span><span class="op">)</span>,</span>
+<span>  indent <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  useCollapseList <span class="op">=</span> <span class="st">",\n      "</span>,</span>
+<span>  useCollapseBase <span class="op">=</span> <span class="st">", "</span>,</span>
+<span>  level <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  debug <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  useColor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>argTextA</dt>
+<dd><p>object passed by <code><a href="jargs.html">jargs()</a></code> when iteratively parsing
+function argument values.</p></dd>
+
+
+<dt>name</dt>
+<dd><p><code>character</code> name of the argument.</p></dd>
+
+
+<dt>col1, col2, colT, colF, colNULL</dt>
+<dd><p><code>character</code> colors used as defaults
+for first and second arguments, TRUE, FALSE, NULL, respectively.</p></dd>
+
+
+<dt>lightMode</dt>
+<dd><p><code>logical</code> or <code>NULL</code>, indicating whether the text background
+color is light, thus imposing a maximum brightness for colors displayed.
+It use lightMode if defined by the function caller, otherwise it will
+use <code>getOption("jam.lightMode")</code> if defined, lastly it will attempt to
+detect whether running inside Rstudio by checking the environment variable
+"RSTUDIO", and if so it will assume lightMode==TRUE.</p></dd>
+
+
+<dt>Crange</dt>
+<dd><p><code>numeric</code> range of chroma values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Crange by <code><a href="setCLranges.html">setCLranges()</a></code>.</p></dd>
+
+
+<dt>Lrange</dt>
+<dd><p><code>numeric</code> range of luminance values, ranging
+between 0 and 100. When NULL, default values will be
+assigned to Lrange by <code><a href="setCLranges.html">setCLranges()</a></code>.</p></dd>
+
+
+<dt>adjustRgb</dt>
+<dd><p><code>numeric</code> value adjustment used during the conversion of
+RGB colors to ANSI colors, which is inherently lossy. If not defined,
+it uses the default returned by <code><a href="setCLranges.html">setCLranges()</a></code> which itself uses
+<code>getOption("jam.adjustRgb")</code> with default=0. In order to boost
+color contrast, an alternate value of -0.1 is suggested.</p></dd>
+
+
+<dt>indent</dt>
+<dd><p><code>character</code> string used as a prefix in output to help
+apply text indent.</p></dd>
+
+
+<dt>useCollapseList</dt>
+<dd><p><code>character</code> string inserted between multiple values
+to split list entries across multiple lines.</p></dd>
+
+
+<dt>useCollapseBase</dt>
+<dd><p><code>character</code> string used to separate multiple
+values in a vector which is not split across multiple lines.</p></dd>
+
+
+<dt>level</dt>
+<dd><p><code>integer</code> indicating the level of depth in iterative parsing.</p></dd>
+
+
+<dt>debug</dt>
+<dd><p><code>integer</code> value, greater than 0 will cause debug-type verbose
+output, useful because parameters are hard!</p></dd>
+
+
+<dt>useColor</dt>
+<dd><p><code>logical</code> whether to display results in color, if the crayon
+package is available, and terminal console is capable.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p><code>logical</code> whether to print verbose output.</p></dd>
+
+</dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>This function is a rare non-exported function intended to be called by
@@ -127,14 +206,43 @@ steps required.</p>
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p></div>
-    </div>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (x, grepString = NULL, sortVars = FALSE, asList = TRUE, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     useColor = TRUE, lightMode = NULL, Crange = getOption("jam.Crange"), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Lrange = getOption("jam.Lrange"), adjustRgb = getOption("jam.adjustRgb"), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     useCollapseBase = ", ", verbose = FALSE, debug = 0, ...) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-in"><span><span class="fu"><a href="jargs.html">jargs</a></span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               x = ,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      grepString = <span style="color: #949494;">NULL</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        sortVars = <span style="color: #FF0000;">FALSE</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          asList = <span style="color: #0087D7;">TRUE</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        useColor = <span style="color: #0087D7;">TRUE</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       lightMode = <span style="color: #949494;">NULL</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Crange = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.Crange"</span>),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Lrange = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.Lrange"</span>),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       adjustRgb = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.adjustRgb"</span>),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> useCollapseBase = <span style="color: #AF87FF;">", "</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         verbose = <span style="color: #FF0000;">FALSE</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           debug = <span style="color: #AF87FF;">0</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             ... = </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># retrieve parameters involving notes from imageByColors</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="jargs.html">jargs</a></span><span class="op">(</span><span class="va">imageByColors</span>, <span class="st">"note"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       cellnote = <span style="color: #949494;">NULL</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    cexCellnote = <span style="color: #AF87FF;">1</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    srtCellnote = <span style="color: #AF87FF;">0</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   fontCellnote = <span style="color: #AF87FF;">1</span>,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> groupCellnotes = <span style="color: #0087D7;">TRUE</span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -147,8 +255,7 @@ steps required.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

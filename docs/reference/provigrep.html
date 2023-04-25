@@ -18,7 +18,7 @@ case-insensitive grep for a vector of patterns"><!-- mathjax --><script src="htt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -64,28 +64,33 @@ case-insensitive grep for a vector of patterns"><!-- mathjax --><script src="htt
 <p>case-insensitive grep for a vector of patterns</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">provigrep</span><span class="op">(</span>
-  <span class="va">patterns</span>,
-  <span class="va">x</span>,
-  maxValues <span class="op">=</span> <span class="cn">NULL</span>,
-  sortFunc <span class="op">=</span> <span class="va">c</span>,
-  rev <span class="op">=</span> <span class="cn">FALSE</span>,
-  returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vector"</span>, <span class="st">"list"</span><span class="op">)</span>,
-  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,
-  value <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">provigrep</span><span class="op">(</span></span>
+<span>  <span class="va">patterns</span>,</span>
+<span>  <span class="va">x</span>,</span>
+<span>  maxValues <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sortFunc <span class="op">=</span> <span class="va">c</span>,</span>
+<span>  rev <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vector"</span>, <span class="st">"list"</span><span class="op">)</span>,</span>
+<span>  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  value <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">proigrep</span><span class="op">(</span><span class="va">...</span>, value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-<span class="fu">proigrep</span><span class="op">(</span><span class="va">...</span>, value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>patterns</dt>
 <dd><p><code>character</code> vector of regular expression patterns,
 ultimately passed to <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">base::grep()</a></code>.</p></dd>
+
+
 <dt>x</dt>
 <dd><p><code>character</code> vector that is the subject of <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">base::grep()</a></code>.</p></dd>
+
+
 <dt>maxValues</dt>
 <dd><p><code>integer</code> or NULL, the maximum matching entries to
 return per grep pattern. Note that each grep pattern may match multiple
@@ -94,28 +99,41 @@ items returned by one grep pattern may allow an item to be matched
 by subsequent patterns, see examples. This argument is most commonly
 used with <code>maxValues=1</code> which returns only the first matching entry
 per pattern.</p></dd>
+
+
 <dt>sortFunc</dt>
 <dd><p><code>function</code> or NULL, used to sort entries within each set of
 matching entries. Use NULL to avoid sorting entries.</p></dd>
+
+
 <dt>rev</dt>
 <dd><p><code>logical</code> whether to reverse the order of matching entries. Use
 TRUE if you would like entries matching the patterns to be placed last,
 and entries not matching the grep patterns to be placed first. This
 technique is effective at placing "noise names" at the end of a long
 vector, for example.</p></dd>
+
+
 <dt>returnType</dt>
 <dd><p><code>character</code> indicating whether to return a vector or list.
 A list will be in order of the grep patterns, using empty elements to
 indicate when no entries matched each pattern. This output is useful
 when you would like to know which patterns matched specific entries.</p></dd>
+
+
 <dt>ignore.case</dt>
 <dd><p><code>logical</code> parameter sent to <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">base::grep()</a></code>, TRUE
 runs in case-insensitive mode, as by default.</p></dd>
+
+
 <dt>value</dt>
 <dd><p><code>logical</code> indicating whether to return the matched value,
 or when <code>value=FALSE</code> the index position is returned.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="vigrep.html">vigrep()</a></code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -146,18 +164,17 @@ listed first.</p>
 <code><a href="vgrep.html">vgrep</a>()</code>,
 <code><a href="vigrep.html">vigrep</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># a rather comical example</span></span>
-<span class="r-in"><span class="co"># set up a test set with labels containing several substrings</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">testTerms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"robot"</span>,<span class="st">"tree"</span>,<span class="st">"dog"</span>,<span class="st">"mailbox"</span>,<span class="st">"pizza"</span>,<span class="st">"noob"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">testWords</span> <span class="op">&lt;-</span> <span class="fu"><a href="pasteByRow.html">pasteByRow</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/combn.html" class="external-link">combn</a></span><span class="op">(</span><span class="va">testTerms</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># now pull out entries matching substrings in order</span></span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pizza"</span>, <span class="st">"dog"</span>, <span class="st">"noob"</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">testWords</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># a rather comical example</span></span></span>
+<span class="r-in"><span><span class="co"># set up a test set with labels containing several substrings</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">testTerms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"robot"</span>,<span class="st">"tree"</span>,<span class="st">"dog"</span>,<span class="st">"mailbox"</span>,<span class="st">"pizza"</span>,<span class="st">"noob"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">testWords</span> <span class="op">&lt;-</span> <span class="fu"><a href="pasteByRow.html">pasteByRow</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/combn.html" class="external-link">combn</a></span><span class="op">(</span><span class="va">testTerms</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># now pull out entries matching substrings in order</span></span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pizza"</span>, <span class="st">"dog"</span>, <span class="st">"noob"</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">testWords</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     3                     6                     8 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    "robot_tree_pizza"     "robot_dog_pizza" "robot_mailbox_pizza" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    10                    12                    14 </span>
@@ -172,8 +189,8 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    "dog_mailbox_noob"     "robot_tree_noob"  "robot_mailbox_noob" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    15                     2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   "tree_mailbox_noob"  "robot_tree_mailbox" </span>
-<span class="r-in"><span class="co"># more detail about the sort order is shown with returnType="list"</span></span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pizza"</span>, <span class="st">"dog"</span>, <span class="st">"noob"</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">testWords</span>, returnType<span class="op">=</span><span class="st">"list"</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="co"># more detail about the sort order is shown with returnType="list"</span></span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pizza"</span>, <span class="st">"dog"</span>, <span class="st">"noob"</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">testWords</span>, returnType<span class="op">=</span><span class="st">"list"</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pizza</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     3                     6                     8 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    "robot_tree_pizza"     "robot_dog_pizza" "robot_mailbox_pizza" </span>
@@ -198,8 +215,8 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "robot_tree_mailbox" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># rev=TRUE will reverse the order of the list</span></span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pizza"</span>, <span class="st">"dog"</span>, <span class="st">"noob"</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">testWords</span>, returnType<span class="op">=</span><span class="st">"list"</span>, rev<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="co"># rev=TRUE will reverse the order of the list</span></span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pizza"</span>, <span class="st">"dog"</span>, <span class="st">"noob"</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">testWords</span>, returnType<span class="op">=</span><span class="st">"list"</span>, rev<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "robot_tree_mailbox" </span>
@@ -224,7 +241,7 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    20 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  "mailbox_pizza_noob" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pizza"</span>, <span class="st">"dog"</span>, <span class="st">"noob"</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">testWords</span>, rev<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pizza"</span>, <span class="st">"dog"</span>, <span class="st">"noob"</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">testWords</span>, rev<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     2                     4                     9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  "robot_tree_mailbox"     "robot_tree_noob"  "robot_mailbox_noob" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    15                     1                     5 </span>
@@ -239,20 +256,20 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  "tree_mailbox_pizza"     "tree_pizza_noob"   "dog_mailbox_pizza" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    19                    20 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      "dog_pizza_noob"  "mailbox_pizza_noob" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># another example showing ordering of duplicated entries</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">x</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># another example showing ordering of duplicated entries</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">x</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "d3" "c5" "d1" "a4" "b2" "c3" "b5" "d1" "c4" "d2"</span>
-<span class="r-in"><span class="co"># sort by letter</span></span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># sort by letter</span></span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a4" "b2" "b5" "c5" "c3" "c4" "d3" "d1" "d1" "d2"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># show more detail about how the sort is performed</span></span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">x</span>, returnType<span class="op">=</span><span class="st">"list"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># show more detail about how the sort is performed</span></span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">x</span>, returnType<span class="op">=</span><span class="st">"list"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a4"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -265,10 +282,10 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "d3" "d1" "d1" "d2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># rev=TRUE will reverse the order of pattern matching</span></span>
-<span class="r-in"><span class="co"># which is most useful when "." is the last pattern:</span></span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">x</span>, returnType<span class="op">=</span><span class="st">"list"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># rev=TRUE will reverse the order of pattern matching</span></span></span>
+<span class="r-in"><span><span class="co"># which is most useful when "." is the last pattern:</span></span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">x</span>, returnType<span class="op">=</span><span class="st">"list"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a4"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -281,7 +298,7 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "d3" "d1" "d1" "d2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">x</span>, returnType<span class="op">=</span><span class="st">"list"</span>, rev<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="st">"."</span><span class="op">)</span>, <span class="va">x</span>, returnType<span class="op">=</span><span class="st">"list"</span>, rev<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "d3" "d1" "d1" "d2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -294,10 +311,10 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a4"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># example demonstrating maxValues</span></span>
-<span class="r-in"><span class="co"># return in list format</span></span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ABCD]"</span>, <span class="st">"[CDEF]"</span>, <span class="st">"[FGHI]"</span><span class="op">)</span>, <span class="va">LETTERS</span>, returnType<span class="op">=</span><span class="st">"list"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># example demonstrating maxValues</span></span></span>
+<span class="r-in"><span><span class="co"># return in list format</span></span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ABCD]"</span>, <span class="st">"[CDEF]"</span>, <span class="st">"[FGHI]"</span><span class="op">)</span>, <span class="va">LETTERS</span>, returnType<span class="op">=</span><span class="st">"list"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`[ABCD]`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A" "B" "C" "D"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -307,9 +324,9 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`[FGHI]`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "G" "H" "I"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># maxValues=1</span></span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ABCD]"</span>, <span class="st">"[CDEF]"</span>, <span class="st">"[FGHI]"</span><span class="op">)</span>, <span class="va">LETTERS</span>, returnType<span class="op">=</span><span class="st">"list"</span>, maxValues<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># maxValues=1</span></span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ABCD]"</span>, <span class="st">"[CDEF]"</span>, <span class="st">"[FGHI]"</span><span class="op">)</span>, <span class="va">LETTERS</span>, returnType<span class="op">=</span><span class="st">"list"</span>, maxValues<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`[ABCD]`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -319,7 +336,7 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`[FGHI]`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "F"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ABCD]"</span>, <span class="st">"[CDEF]"</span>, <span class="st">"[FGHI]"</span><span class="op">)</span>, <span class="va">LETTERS</span>, returnType<span class="op">=</span><span class="st">"list"</span>, maxValues<span class="op">=</span><span class="fl">1</span>, value<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">provigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ABCD]"</span>, <span class="st">"[CDEF]"</span>, <span class="st">"[FGHI]"</span><span class="op">)</span>, <span class="va">LETTERS</span>, returnType<span class="op">=</span><span class="st">"list"</span>, maxValues<span class="op">=</span><span class="fl">1</span>, value<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`[ABCD]`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -329,9 +346,9 @@ listed first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`[FGHI]`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">proigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ABCD]"</span>, <span class="st">"[CDEF]"</span>, <span class="st">"[FGHI]"</span><span class="op">)</span>, <span class="va">LETTERS</span>, maxValues<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">proigrep</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ABCD]"</span>, <span class="st">"[CDEF]"</span>, <span class="st">"[FGHI]"</span><span class="op">)</span>, <span class="va">LETTERS</span>, maxValues<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 3 6</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -346,8 +363,7 @@ listed first.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,36 +62,43 @@
     <p>order alphanumeric values from a list</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">mmixedOrder</span><span class="op">(</span>
-  <span class="va">...</span>,
-  decreasing <span class="op">=</span> <span class="cn">FALSE</span>,
-  blanksFirst <span class="op">=</span> <span class="cn">TRUE</span>,
-  na.last <span class="op">=</span> <span class="va">NAlast</span>,
-  keepNegative <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepInfinite <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,
-  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,
-  useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,
-  sortByName <span class="op">=</span> <span class="cn">FALSE</span>,
-  NAlast <span class="op">=</span> <span class="cn">TRUE</span>,
-  honorFactor <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  matrixAsDF <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mmixedOrder</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  decreasing <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  blanksFirst <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.last <span class="op">=</span> <span class="va">NAlast</span>,</span>
+<span>  keepNegative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepInfinite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sortByName <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  NAlast <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  honorFactor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  matrixAsDF <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>...</dt>
 <dd><p>arguments treated as a <code>list</code> of vectors to be ordered in
 proper order, based upon the mechanism by <code><a href="https://rdrr.io/r/base/order.html" class="external-link">base::order()</a></code>, and
 as such <code>data.frame</code> is equivalent to a <code>list</code>.</p></dd>
+
+
 <dt>blanksFirst, na.last, keepNegative, keepInfinite, keepDecimal, ignore.case, useCaseTiebreak, sortByName</dt>
 <dd><p>arguments passed to <code><a href="mixedOrder.html">mixedOrder()</a></code>, except <code>sortByName</code> which is not
 passed along.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output,
 passed as <code>verbose - 1</code> to <code><a href="mixedOrder.html">mixedOrder()</a></code>.</p></dd>
+
+
 <dt>matrixAsDF</dt>
 <dd><p><code>logical</code> if <code>...</code> supplies only one matrix object,
 then <code>matrixAsDF=TRUE</code> will cause it to be converted to a <code>data.frame</code>,
@@ -99,10 +106,13 @@ then coerce to a <code>list</code> before processing.
 By default, in the event only one matrix object is supplied,
 this conversion is performed, in order to define a sort order based upon
 each column in order, consistent with behavior of <code>data.frame</code> input.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>integer vector of row orders</p>
+    
+
+<p>integer vector of row orders</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -152,7 +162,6 @@ description of how the sort order logic operates.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p>
@@ -179,43 +188,41 @@ description of how the sort order logic operates.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># test factor level order</span></span>
-<span class="r-in"><span class="va">factor1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># test factor level order</span></span></span>
+<span class="r-in"><span><span class="va">factor1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="fu"><a href="mixedSort.html">mixedSort</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="mixedSort.html">mixedSort</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="va">factor1</span><span class="op">[</span><span class="fu"><a href="mixedOrder.html">mixedOrder</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span><span class="va">factor1</span><span class="op">[</span><span class="fu"><a href="mixedOrder.html">mixedOrder</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="va">factor1</span><span class="op">[</span><span class="fu"><a href="mixedOrder.html">mixedOrder</a></span><span class="op">(</span><span class="va">factor1</span>, honorFactor<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span><span class="va">factor1</span><span class="op">[</span><span class="fu"><a href="mixedOrder.html">mixedOrder</a></span><span class="op">(</span><span class="va">factor1</span>, honorFactor<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="va">factor1</span><span class="op">[</span><span class="fu"><a href="mixedOrder.html">mixedOrder</a></span><span class="op">(</span><span class="va">factor1</span>, honorFactor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span><span class="va">factor1</span><span class="op">[</span><span class="fu"><a href="mixedOrder.html">mixedOrder</a></span><span class="op">(</span><span class="va">factor1</span>, honorFactor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">factor1</span><span class="op">[</span><span class="fu">mmixedOrder</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">factor1</span><span class="op">[</span><span class="fu">mmixedOrder</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="va">factor1</span><span class="op">[</span><span class="fu">mmixedOrder</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span><span class="va">factor1</span><span class="op">[</span><span class="fu">mmixedOrder</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="va">factor1</span><span class="op">[</span><span class="fu">mmixedOrder</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span><span class="va">factor1</span><span class="op">[</span><span class="fu">mmixedOrder</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -230,8 +237,7 @@ description of how the sort order logic operates.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

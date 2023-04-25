@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,19 +62,20 @@
     <p>Get aspect ratio for coordinates, plot, or device</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">getPlotAspect</span><span class="op">(</span>
-  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"coords"</span>, <span class="st">"plot"</span>, <span class="st">"device"</span><span class="op">)</span>,
-  parUsr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span>,
-  parPin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"pin"</span><span class="op">)</span>,
-  parDin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"din"</span><span class="op">)</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getPlotAspect</span><span class="op">(</span></span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"coords"</span>, <span class="st">"plot"</span>, <span class="st">"device"</span><span class="op">)</span>,</span>
+<span>  parUsr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span>,</span>
+<span>  parPin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"pin"</span><span class="op">)</span>,</span>
+<span>  parDin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"din"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>type</dt>
-<dd><p>character type of aspect ratio to calculate.</p><dl><dt>"coords"</dt>
+<dd><p><code>character</code> type of aspect ratio to calculate.</p><dl><dt>"coords"</dt>
 <dd><p>calculates plot coordinate aspect ratio, which
 is helpful for creating proper circular shapes, for example,
 where the x-axis and y-axis ranges are very different. Note
@@ -93,21 +94,28 @@ panels, margins, and plot areas.</p></dd>
 
 
 </dl></dd>
+
+
 <dt>parUsr, parPin, parDin</dt>
-<dd><p>numeric values equivalent to their
+<dd><p><code>numeric</code> values equivalent to their
 respective <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> output, from <code>par("usr")</code>,
 <code>par("pin")</code>, and <code>par("din")</code>. Values can be
 supplied directly, which among other things, prevents opening a
 graphical device if one is not already opened. Any call to
 <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> will otherwise cause a graphic device to be opened,
 which may not be desired on a headless R server.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>the plot aspect ratio for a plot device, of the requested
-type, see the <code>type</code> parameter.</p>
+    
+
+<p><code>numeric</code> plot aspect ratio for a plot device, of the requested
+type, see the <code>type</code> argument.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -130,25 +138,24 @@ type, see the <code>type</code> parameter.</p>
 <code><a href="sqrtAxis.html">sqrtAxis</a>()</code>,
 <code><a href="usrBox.html">usrBox</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Plot"</span>, <span class="va">i</span><span class="op">)</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">100</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">10</span><span class="op">)</span>,</span>
-<span class="r-in">      doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Plot"</span>, <span class="va">i</span><span class="op">)</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">100</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="getPlotAspect-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">getPlotAspect</span><span class="op">(</span><span class="st">"coords"</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">getPlotAspect</span><span class="op">(</span><span class="st">"coords"</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03639338</span>
-<span class="r-in"><span class="fu">getPlotAspect</span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">getPlotAspect</span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4003272</span>
-<span class="r-in"><span class="fu">getPlotAspect</span><span class="op">(</span><span class="st">"device"</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">getPlotAspect</span><span class="op">(</span><span class="st">"device"</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -163,8 +170,7 @@ type, see the <code>type</code> parameter.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

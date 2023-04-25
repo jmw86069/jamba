@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,32 +62,39 @@
     <p>Remove outlier points per row by MAD factor threshold</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">rowRmMadOutliers</span><span class="op">(</span>
-  <span class="va">x</span>,
-  madFactor <span class="op">=</span> <span class="fl">5</span>,
-  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  minDiff <span class="op">=</span> <span class="fl">0</span>,
-  minReps <span class="op">=</span> <span class="fl">3</span>,
-  includeAttributes <span class="op">=</span> <span class="cn">FALSE</span>,
-  rowMadValues <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rowRmMadOutliers</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  madFactor <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  minDiff <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  minReps <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  includeAttributes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rowMadValues <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>numeric matrix</p></dd>
+
+
 <dt>madFactor</dt>
 <dd><p><code>numeric</code> value to multiply by each row MAD
 to define the threshold for outlier detection.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p><code>logical</code> indicating whether to ignore NA values
 when calculating the MAD value. It should probably always be
 <code>TRUE</code>, however setting to <code>FALSE</code> will prevent any
 calculations in rows that contain <code>NA</code> values, which could
 be useful.</p></dd>
+
+
 <dt>minDiff</dt>
 <dd><p><code>numeric</code> value indicating the minimum difference
 from median to qualify as an outlier. This value protects
@@ -98,6 +105,8 @@ similar. Consider this example:</p><ul><li><p>Three numeric values: <code>c(10.0
 <li><p><code>minDiff = 0.01</code> would require the minimum difference from
 median to be at least 0.01 to be eligible to be an outlier point.</p></li>
 </ul></dd>
+
+
 <dt>minReps</dt>
 <dd><p><code>numeric</code> minimum number of non-NA values per row
 for outliers to be filtered on the row. This argument is typically
@@ -106,26 +115,39 @@ only relevant for rows with <code>n=2</code> non-NA values, and when
 half the difference in the two points on the given row.
 Otherwise, n=2 defines each point at exactly 1x MAD from median,
 and would therefore never be considered an outlier.</p></dd>
+
+
 <dt>includeAttributes</dt>
 <dd><p><code>logical</code> indicating whether to return
 attributes that describe the threshold and type of threshold
 used per row, in addition to the madFactor and minDiff values
 defined.</p></dd>
+
+
 <dt>rowMadValues</dt>
 <dd><p><code>numeric</code> optional set of row MAD values to use,
 which is mostly helpful when combining MAD values across multiple
 samples groups on each row of data, where the combined MAD values
 may be more reliable than individual group MAD values.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A numeric matrix is returned, with the same dimensions
-as the input <code>x</code> matrix. Outliers are replaced with <code>NA</code>.
-If <code>includeAttributes=TRUE</code> then attributes will be
+    
+
+<p>A numeric matrix is returned, with the same dimensions
+as the input <code>x</code> matrix. Outliers are replaced with <code>NA</code>.</p>
+
+
+<p>If <code>includeAttributes=TRUE</code> then attributes will be
 included:</p><ul><li><p><code>outlierDF</code> which is a <code>data.frame</code> with colnames</p><ul><li><p>rowMedians: <code>numeric</code> median on each row</p></li>
 <li><p>rowMadValues: <code>numeric</code> MAD for each row</p></li>
 <li><p>rowThresholds: <code>numeric</code> threshold after applying <code>madFactor</code> and
@@ -203,28 +225,27 @@ within each sample group.</p>
 <code><a href="rowGroupMeans.html">rowGroupMeans</a>()</code>,
 <code><a href="warpAroundZero.html">warpAroundZero</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="fl">5</span> <span class="op">+</span> <span class="fl">10</span>;</span>
-<span class="r-in"><span class="co">## Define some outlier points</span></span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">]</span><span class="op">*</span><span class="fl">5</span> <span class="op">+</span> <span class="fl">50</span>;</span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">]</span><span class="op">*</span><span class="fl">5</span> <span class="op">-</span> <span class="fl">100</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">letters</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x</span>, madFactor<span class="op">=</span><span class="fl">5</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="fl">5</span> <span class="op">+</span> <span class="fl">10</span>;</span></span>
+<span class="r-in"><span><span class="co">## Define some outlier points</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">]</span><span class="op">*</span><span class="fl">5</span> <span class="op">+</span> <span class="fl">50</span>;</span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">]</span><span class="op">*</span><span class="fl">5</span> <span class="op">-</span> <span class="fl">100</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">letters</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x</span>, madFactor<span class="op">=</span><span class="fl">5</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        [,1]      [,2]      [,3]       [,4]     [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a  7.197622 18.575325        NA 18.9345657 4.660881</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b  8.849113        NA        NA 12.4892524 8.910125</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c 17.793542        NA 12.003857  0.1669142 4.869978</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> d 10.352542  6.565736 10.553414 13.5067795 6.355544</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> e 10.646439  7.771690  7.220794  7.6360430 6.874804</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x</span>, madFactor<span class="op">=</span><span class="fl">2</span>,</span>
-<span class="r-in">   includeAttributes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">x2</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x</span>, madFactor<span class="op">=</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>   includeAttributes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">x2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        [,1]      [,2]      [,3]       [,4]     [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a  7.197622 18.575325        NA 18.9345657 4.660881</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b  8.849113        NA        NA 12.4892524 8.910125</span>
@@ -244,12 +265,12 @@ within each sample group.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"outliersRemoved")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x2</span>,</span>
-<span class="r-in">   madFactor<span class="op">=</span><span class="fl">2</span>,</span>
-<span class="r-in">   rowMadValues<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x2</span>, <span class="st">"outlierDF"</span><span class="op">)</span><span class="op">$</span><span class="va">rowMadValues</span>,</span>
-<span class="r-in">   includeAttributes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">x3</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu">rowRmMadOutliers</span><span class="op">(</span><span class="va">x2</span>,</span></span>
+<span class="r-in"><span>   madFactor<span class="op">=</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>   rowMadValues<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x2</span>, <span class="st">"outlierDF"</span><span class="op">)</span><span class="op">$</span><span class="va">rowMadValues</span>,</span></span>
+<span class="r-in"><span>   includeAttributes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">x3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        [,1]      [,2]      [,3]       [,4]     [,5]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a  7.197622 18.575325        NA 18.9345657 4.660881</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b  8.849113        NA        NA 12.4892524 8.910125</span>
@@ -269,7 +290,7 @@ within each sample group.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"outliersRemoved")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -284,8 +305,7 @@ within each sample group.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

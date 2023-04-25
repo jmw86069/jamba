@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,64 +62,91 @@
     <p>Add categorical colors to Excel xlsx worksheets</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">applyXlsxCategoricalFormat</span><span class="op">(</span>
-  <span class="va">xlsxFile</span>,
-  sheet <span class="op">=</span> <span class="fl">1</span>,
-  rowRange <span class="op">=</span> <span class="cn">NULL</span>,
-  colRange <span class="op">=</span> <span class="cn">NULL</span>,
-  colorSub <span class="op">=</span> <span class="cn">NULL</span>,
-  colorSubText <span class="op">=</span> <span class="fu"><a href="setTextContrastColor.html">setTextContrastColor</a></span><span class="op">(</span><span class="va">colorSub</span><span class="op">)</span>,
-  trimCatNames <span class="op">=</span> <span class="cn">TRUE</span>,
-  overwrite <span class="op">=</span> <span class="cn">TRUE</span>,
-  wrapText <span class="op">=</span> <span class="cn">FALSE</span>,
-  stack <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">applyXlsxCategoricalFormat</span><span class="op">(</span></span>
+<span>  <span class="va">xlsxFile</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  rowRange <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  colRange <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  colorSub <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  colorSubText <span class="op">=</span> <span class="fu"><a href="setTextContrastColor.html">setTextContrastColor</a></span><span class="op">(</span><span class="va">colorSub</span><span class="op">)</span>,</span>
+<span>  trimCatNames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  wrapText <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  stack <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>xlsxFile</dt>
 <dd><p><code>character</code> filename to a file with ".xlsx" extension,
 or <code>Workbook</code> object defined in the <code>openxlsx</code> package. When
 <code>xlsxFile</code> is a <code>Workbook</code> the output is not saved to a file.</p></dd>
+
+
 <dt>sheet</dt>
-<dd><p>integer index of the worksheet or worksheets.</p></dd>
+<dd><p><code>integer</code> index of the worksheet or worksheets.</p></dd>
+
+
 <dt>rowRange, colRange</dt>
-<dd><p>integer vectors of rows and columns
+<dd><p><code>integer</code> vectors of rows and columns
 to apply categorical colors in the Excel xlsx worksheet.</p></dd>
+
+
 <dt>colorSub</dt>
-<dd><p>named character vector of valid R colors, whose
+<dd><p>named <code>character</code> vector of valid R colors, whose
 names correspond to values in the worksheet cells.</p></dd>
+
+
 <dt>colorSubText</dt>
-<dd><p>optional character vector of colors, whose
+<dd><p>optional <code>character</code> vector of colors, whose
 names correspond to values in the worksheet cells. In
 absence of a specific text color, <code><a href="setTextContrastColor.html">jamba::setTextContrastColor()</a></code>
 is used to define a contrasting text color to be visible on
 the colored background.</p></dd>
+
+
 <dt>trimCatNames</dt>
-<dd><p>logical whether to trim whitespace and punctuation
+<dd><p><code>logical</code> whether to trim whitespace and punctuation
 from <code>colorSub</code> and from Excel cell fields before matching colors
 to Excel values.</p></dd>
+
+
 <dt>overwrite</dt>
-<dd><p>logical indicating whether new cell color styles
+<dd><p><code>logical</code> indicating whether new cell color styles
 should be forced overwrite of previous cell styles.</p></dd>
+
+
 <dt>wrapText</dt>
-<dd><p>logical indicating whether to wrap text.</p></dd>
+<dd><p><code>logical</code> indicating whether to wrap text.</p></dd>
+
+
 <dt>stack</dt>
-<dd><p>logical indicating whether new color rules should be
+<dd><p><code>logical</code> indicating whether new color rules should be
 applied above existing styles, many of whose styles may not affect
 the specific cell color, for example the font size and font name.</p></dd>
+
+
 <dt>verbose</dt>
-<dd><p>logical indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
-is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code>can be used in argument <code>wb</code> to provide a speed boost when
+    
+
+<p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
+is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code></p>
+
+
+<p>can be used in argument <code>wb</code> to provide a speed boost when
 saving multiple sheets to the same file.</p>
     </div>
     <div id="details">
@@ -140,26 +167,25 @@ to define a specific color for the cell text.</p>
 <code><a href="set_xlsx_rowheights.html">set_xlsx_rowheights</a>()</code>,
 <code><a href="writeOpenxlsx.html">writeOpenxlsx</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">   <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, b<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="writeOpenxlsx.html">writeOpenxlsx</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">df</span>,</span>
-<span class="r-in">      file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span>
-<span class="r-in">      sheetName<span class="op">=</span><span class="st">"test_jamba"</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in">   <span class="va">colorSub</span> <span class="op">&lt;-</span> <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span></span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow</a></span><span class="op">(</span><span class="fl">5</span>, s<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">1</span><span class="op">)</span>, v<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu">applyXlsxCategoricalFormat</span><span class="op">(</span></span>
-<span class="r-in">      xlsxFile<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span>
-<span class="r-in">      sheet<span class="op">=</span><span class="st">"test_jamba"</span>,</span>
-<span class="r-in">      colorSub<span class="op">=</span><span class="va">colorSub</span></span>
-<span class="r-in">   <span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, b<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="writeOpenxlsx.html">writeOpenxlsx</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">df</span>,</span></span>
+<span class="r-in"><span>      file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span></span>
+<span class="r-in"><span>      sheetName<span class="op">=</span><span class="st">"test_jamba"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="va">colorSub</span> <span class="op">&lt;-</span> <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow</a></span><span class="op">(</span><span class="fl">5</span>, s<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">1</span><span class="op">)</span>, v<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu">applyXlsxCategoricalFormat</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      xlsxFile<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span></span>
+<span class="r-in"><span>      sheet<span class="op">=</span><span class="st">"test_jamba"</span>,</span></span>
+<span class="r-in"><span>      colorSub<span class="op">=</span><span class="va">colorSub</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -174,8 +200,7 @@ to define a specific color for the cell text.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

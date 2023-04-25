@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,102 +62,141 @@
     <p>Draw text labels on a base R plot</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">drawLabels</span><span class="op">(</span>
-  txt <span class="op">=</span> <span class="cn">NULL</span>,
-  newCoords <span class="op">=</span> <span class="cn">NULL</span>,
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  y <span class="op">=</span> <span class="cn">NULL</span>,
-  lx <span class="op">=</span> <span class="cn">NULL</span>,
-  ly <span class="op">=</span> <span class="cn">NULL</span>,
-  segmentLwd <span class="op">=</span> <span class="fl">1</span>,
-  segmentCol <span class="op">=</span> <span class="st">"#00000088"</span>,
-  drawSegments <span class="op">=</span> <span class="cn">TRUE</span>,
-  boxBorderColor <span class="op">=</span> <span class="st">"#000000AA"</span>,
-  boxColor <span class="op">=</span> <span class="st">"#FFEECC"</span>,
-  boxLwd <span class="op">=</span> <span class="fl">1</span>,
-  drawBox <span class="op">=</span> <span class="cn">TRUE</span>,
-  drawLabels <span class="op">=</span> <span class="cn">TRUE</span>,
-  font <span class="op">=</span> <span class="fl">1</span>,
-  labelCex <span class="op">=</span> <span class="fl">0.8</span>,
-  boxCexAdjust <span class="op">=</span> <span class="fl">1.9</span>,
-  labelCol <span class="op">=</span> <span class="fu"><a href="alpha2col.html">alpha2col</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span>, <span class="fu"><a href="setTextContrastColor.html">setTextContrastColor</a></span><span class="op">(</span><span class="va">boxColor</span><span class="op">)</span><span class="op">)</span>,
-  doPlot <span class="op">=</span> <span class="cn">TRUE</span>,
-  xpd <span class="op">=</span> <span class="cn">NA</span>,
-  preset <span class="op">=</span> <span class="st">"default"</span>,
-  adjPreset <span class="op">=</span> <span class="st">"default"</span>,
-  preset_type <span class="op">=</span> <span class="st">"plot"</span>,
-  adjX <span class="op">=</span> <span class="fl">0.5</span>,
-  adjY <span class="op">=</span> <span class="fl">0.5</span>,
-  panelWidth <span class="op">=</span> <span class="st">"default"</span>,
-  trimReturns <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">drawLabels</span><span class="op">(</span></span>
+<span>  txt <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newCoords <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lx <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ly <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  segmentLwd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  segmentCol <span class="op">=</span> <span class="st">"#00000088"</span>,</span>
+<span>  drawSegments <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  boxBorderColor <span class="op">=</span> <span class="st">"#000000AA"</span>,</span>
+<span>  boxColor <span class="op">=</span> <span class="st">"#FFEECC"</span>,</span>
+<span>  boxLwd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  drawBox <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  drawLabels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  font <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  labelCex <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  boxCexAdjust <span class="op">=</span> <span class="fl">1.9</span>,</span>
+<span>  labelCol <span class="op">=</span> <span class="fu"><a href="alpha2col.html">alpha2col</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span>, <span class="fu"><a href="setTextContrastColor.html">setTextContrastColor</a></span><span class="op">(</span><span class="va">boxColor</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  doPlot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  xpd <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  preset <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  adjPreset <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  preset_type <span class="op">=</span> <span class="st">"plot"</span>,</span>
+<span>  adjX <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  adjY <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  panelWidth <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  trimReturns <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>txt</dt>
 <dd><p>character vector of labels, length equal to <code>x</code> and <code>y</code>.</p></dd>
+
+
 <dt>newCoords</dt>
 <dd><p>optional <code>data.frame</code> typically as a result of
 a previous call to <code>drawLabels()</code>. In general, it should contain
 colnames equivalent to the function parameters of <code>drawLabels()</code>.</p></dd>
+
+
 <dt>x, y</dt>
 <dd><p>vector of x- and y- coordinates.</p></dd>
+
+
 <dt>lx, ly</dt>
 <dd><p>optional vector of segment endpoint coordinates, used
 to draw a line from x,y coordinates to the segment lx,ly coordinate.</p></dd>
+
+
 <dt>segmentLwd, segmentCol</dt>
 <dd><p>vector of segment line widths, and colors,
 respectively. Each vector will be recycled to <code>length(txt)</code> as
 needed.</p></dd>
+
+
 <dt>drawSegments</dt>
 <dd><p>logical whether to draw segments, where applicable.</p></dd>
+
+
 <dt>boxBorderColor</dt>
 <dd><p>vector of colors used for the box border around
 each label.</p></dd>
+
+
 <dt>boxColor</dt>
 <dd><p>vector of colors used for the box background behind
 each label.</p></dd>
+
+
 <dt>boxLwd</dt>
 <dd><p>vector of box line widths, sent to <code><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">graphics::rect()</a></code>,
 this vector will be recycled to <code>length(txt)</code>.</p></dd>
+
+
 <dt>drawBox</dt>
 <dd><p>logical whether to draw boxes behind each text label.</p></dd>
+
+
 <dt>drawLabels</dt>
 <dd><p>logical whether to draw each text label.</p></dd>
+
+
 <dt>font</dt>
 <dd><p>vector of font values as described in <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par()</a></code>,
 where 1=normal, 2=bold, 3=italics, 4=bold-italics.</p></dd>
+
+
 <dt>labelCex</dt>
 <dd><p>vector of cex values used for text labels. This vector
 will be recycled to <code>length(txt)</code> as needed.</p></dd>
+
+
 <dt>boxCexAdjust</dt>
 <dd><p>numeric vector length=2, used to expand the x-width
 and y-height of the box around around text labels.</p></dd>
+
+
 <dt>labelCol</dt>
 <dd><p>vector of label colors, by default it calls
 <code><a href="setTextContrastColor.html">jamba::setTextContrastColor()</a></code> to generate a color to contrast
 the background box color.</p></dd>
+
+
 <dt>doPlot</dt>
 <dd><p>logical whether to perform any plot operations. Set
 <code>FALSE</code> to calculate coordinates and return a <code>data.frame</code> of
 label coordinates, which can then be manipulated before calling
 <code>drawLabels()</code> again.</p></dd>
+
+
 <dt>xpd</dt>
 <dd><p>value compatible with <code>par("xpd")</code>, where NA allows labels
 anywhere in the device region, TRUE retricts labels within the figure
 region, and FALSE restricts labels within the plot region.</p></dd>
+
+
 <dt>preset</dt>
 <dd><p>vector of text values used to position text labels relative
 to the x,y coordinate, where "topleft" will position the label so the
 entire label box is top-left of the point, therefore the point will be
 at the bottom-right corner of the label box. When <code>preset</code> is anything
 by <code>"none"</code> the <code>adjX</code> and <code>adjY</code> values are ignored.</p></dd>
+
+
 <dt>adjX, adjY</dt>
 <dd><p>the text adjustment of labels relative to the x,y
 coordinate. The values are recycled to <code>length(txt)</code>.</p></dd>
+
+
 <dt>panelWidth</dt>
 <dd><p><code>character</code> string or vector, recycled to the number
 of labels to be displayed. The argument indicates whether to size
@@ -174,19 +213,28 @@ necessary to fit the text label</p></li>
 <li><p><code>"maximum"</code> size label to the text label width, but no larger than
 the plot panel width</p></li>
 </ul></dd>
+
+
 <dt>trimReturns</dt>
 <dd><p>logical whether to trim leading and trailing return
 (newline) characters from labels.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>logical whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="https://rdrr.io/r/graphics/segments.html" class="external-link">graphics::segments()</a></code> when
 segments are drawn, to <code><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">graphics::rect()</a></code> when label boxes are drawn,
 and to <code><a href="https://rdrr.io/r/graphics/text.html" class="external-link">graphics::text()</a></code> when text labels are drawn.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>invisible data.frame containing label coordinates used
+    
+
+<p>invisible data.frame containing label coordinates used
 to draw labels. This data.frame can be manipulated and provided
 as input to <code>drawLabels()</code> for subsequent customized label
 positioning.</p>
@@ -222,74 +270,73 @@ example axis labels.</p>
 <code><a href="sqrtAxis.html">sqrtAxis</a>()</code>,
 <code><a href="usrBox.html">usrBox</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">dl_topleft</span> <span class="op">&lt;-</span> <span class="fu">drawLabels</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span class="r-in">   y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>,</span>
-<span class="r-in">   txt<span class="op">=</span><span class="st">"Top-left\nof plot"</span>,</span>
-<span class="r-in">   preset<span class="op">=</span><span class="st">"topleft"</span>,</span>
-<span class="r-in">   boxColor<span class="op">=</span><span class="st">"blue4"</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">drawLabels</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
-<span class="r-in">   y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span>
-<span class="r-in">   txt<span class="op">=</span><span class="st">"Bottom-right\nof plot"</span>,</span>
-<span class="r-in">   preset<span class="op">=</span><span class="st">"bottomright"</span>,</span>
-<span class="r-in">   boxColor<span class="op">=</span><span class="st">"green4"</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">drawLabels</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">   y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">   txt<span class="op">=</span><span class="st">"Center\nof plot"</span>,</span>
-<span class="r-in">   preset<span class="op">=</span><span class="st">"center"</span>,</span>
-<span class="r-in">   boxColor<span class="op">=</span><span class="st">"purple3"</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">   y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">   pch<span class="op">=</span><span class="fl">20</span>,</span>
-<span class="r-in">   col<span class="op">=</span><span class="st">"red"</span>,</span>
-<span class="r-in">   xpd<span class="op">=</span><span class="cn">NA</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">dl_topleft</span> <span class="op">&lt;-</span> <span class="fu">drawLabels</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   txt<span class="op">=</span><span class="st">"Top-left\nof plot"</span>,</span></span>
+<span class="r-in"><span>   preset<span class="op">=</span><span class="st">"topleft"</span>,</span></span>
+<span class="r-in"><span>   boxColor<span class="op">=</span><span class="st">"blue4"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">drawLabels</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   txt<span class="op">=</span><span class="st">"Bottom-right\nof plot"</span>,</span></span>
+<span class="r-in"><span>   preset<span class="op">=</span><span class="st">"bottomright"</span>,</span></span>
+<span class="r-in"><span>   boxColor<span class="op">=</span><span class="st">"green4"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">drawLabels</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   txt<span class="op">=</span><span class="st">"Center\nof plot"</span>,</span></span>
+<span class="r-in"><span>   preset<span class="op">=</span><span class="st">"center"</span>,</span></span>
+<span class="r-in"><span>   boxColor<span class="op">=</span><span class="st">"purple3"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   pch<span class="op">=</span><span class="fl">20</span>,</span></span>
+<span class="r-in"><span>   col<span class="op">=</span><span class="st">"red"</span>,</span></span>
+<span class="r-in"><span>   xpd<span class="op">=</span><span class="cn">NA</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="drawLabels-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"place label across the full top plot panel"</span>, line<span class="op">=</span><span class="fl">2.5</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dl_top</span> <span class="op">&lt;-</span> <span class="fu">drawLabels</span><span class="op">(</span></span>
-<span class="r-in">   txt<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"preset='topright', adjPreset='topright', \npanelWidth='force'"</span>,</span>
-<span class="r-in">      <span class="st">"preset='topright',\nadjPreset='bottomleft'"</span>,</span>
-<span class="r-in">      <span class="st">"preset='bottomleft', adjPreset='topright',\npanelWidth='force'"</span><span class="op">)</span>,</span>
-<span class="r-in">   preset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"topright"</span>, <span class="st">"topright"</span>, <span class="st">"bottomleft"</span><span class="op">)</span>,</span>
-<span class="r-in">   adjPreset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"topleft"</span>, <span class="st">"bottomleft"</span>, <span class="st">"topright"</span><span class="op">)</span>,</span>
-<span class="r-in">   panelWidth<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"force"</span>, <span class="st">"none"</span>, <span class="st">"force"</span><span class="op">)</span>,</span>
-<span class="r-in">   boxColor<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red4"</span>,</span>
-<span class="r-in">      <span class="st">"blue4"</span>,</span>
-<span class="r-in">      <span class="st">"purple3"</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span>lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"place label across the full top plot panel"</span>, line<span class="op">=</span><span class="fl">2.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dl_top</span> <span class="op">&lt;-</span> <span class="fu">drawLabels</span><span class="op">(</span></span></span>
+<span class="r-in"><span>   txt<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"preset='topright', adjPreset='topright', \npanelWidth='force'"</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"preset='topright',\nadjPreset='bottomleft'"</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"preset='bottomleft', adjPreset='topright',\npanelWidth='force'"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   preset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"topright"</span>, <span class="st">"topright"</span>, <span class="st">"bottomleft"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   adjPreset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"topleft"</span>, <span class="st">"bottomleft"</span>, <span class="st">"topright"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   panelWidth<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"force"</span>, <span class="st">"none"</span>, <span class="st">"force"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   boxColor<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red4"</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"blue4"</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"purple3"</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span>lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="drawLabels-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"xpd"</span><span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">isub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>force<span class="op">=</span><span class="st">"Always full panel width"</span>,</span>
-<span class="r-in">   minimum<span class="op">=</span><span class="st">"At least full panel width or larger"</span>,</span>
-<span class="r-in">   maximum<span class="op">=</span><span class="st">"No larger than panel width"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"force"</span>, <span class="st">"minimum"</span>, <span class="st">"maximum"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span>, doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"panelWidth='"</span>, <span class="va">i</span>, <span class="st">"'\n"</span>,</span>
-<span class="r-in">   <span class="va">isub</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">drawLabels</span><span class="op">(</span>labelCex<span class="op">=</span><span class="fl">1.2</span>,</span>
-<span class="r-in">   txt<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Super-wide title across the top\npanelWidth='force'"</span>,</span>
-<span class="r-in">   <span class="st">"bottom label"</span><span class="op">)</span>,</span>
-<span class="r-in">   preset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"top"</span>, <span class="st">"bottom"</span><span class="op">)</span>,</span>
-<span class="r-in">   panelWidth<span class="op">=</span><span class="va">i</span>,</span>
-<span class="r-in">   boxColor<span class="op">=</span><span class="st">"red4"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"xpd"</span><span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">isub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>force<span class="op">=</span><span class="st">"Always full panel width"</span>,</span></span>
+<span class="r-in"><span>   minimum<span class="op">=</span><span class="st">"At least full panel width or larger"</span>,</span></span>
+<span class="r-in"><span>   maximum<span class="op">=</span><span class="st">"No larger than panel width"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"force"</span>, <span class="st">"minimum"</span>, <span class="st">"maximum"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>plotAreaTitle<span class="op">=</span><span class="st">""</span>, doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"panelWidth='"</span>, <span class="va">i</span>, <span class="st">"'\n"</span>,</span></span>
+<span class="r-in"><span>   <span class="va">isub</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">drawLabels</span><span class="op">(</span>labelCex<span class="op">=</span><span class="fl">1.2</span>,</span></span>
+<span class="r-in"><span>   txt<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Super-wide title across the top\npanelWidth='force'"</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"bottom label"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   preset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"top"</span>, <span class="st">"bottom"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   panelWidth<span class="op">=</span><span class="va">i</span>,</span></span>
+<span class="r-in"><span>   boxColor<span class="op">=</span><span class="st">"red4"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="drawLabels-3.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="drawLabels-4.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="drawLabels-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -304,8 +351,7 @@ example axis labels.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

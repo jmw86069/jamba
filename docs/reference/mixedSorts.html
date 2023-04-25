@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,71 +62,104 @@
     <p>sort alphanumeric values within a list format</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">mixedSorts</span><span class="op">(</span>
-  <span class="va">x</span>,
-  blanksFirst <span class="op">=</span> <span class="cn">TRUE</span>,
-  na.last <span class="op">=</span> <span class="va">NAlast</span>,
-  keepNegative <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepInfinite <span class="op">=</span> <span class="cn">TRUE</span>,
-  keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,
-  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,
-  useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,
-  sortByName <span class="op">=</span> <span class="cn">FALSE</span>,
-  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  NAlast <span class="op">=</span> <span class="cn">TRUE</span>,
-  honorFactor <span class="op">=</span> <span class="cn">TRUE</span>,
-  xclass <span class="op">=</span> <span class="cn">NULL</span>,
-  debug <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mixedSorts</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  blanksFirst <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.last <span class="op">=</span> <span class="va">NAlast</span>,</span>
+<span>  keepNegative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepInfinite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sortByName <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  NAlast <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  honorFactor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  xclass <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  indent <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  debug <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>vector</code></p></dd>
+
+
 <dt>blanksFirst</dt>
 <dd><p><code>logical</code> whether to order blank entries before entries
 containing a value.</p></dd>
+
+
 <dt>na.last</dt>
 <dd><p><code>logical</code> indicating whether to move NA entries at
 the end of the sort.</p></dd>
+
+
 <dt>keepNegative</dt>
 <dd><p><code>logical</code> whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values.</p></dd>
+
+
 <dt>keepInfinite</dt>
 <dd><p><code>logical</code> whether to allow "Inf" to be considered
 a numeric infinite value.</p></dd>
+
+
 <dt>keepDecimal</dt>
 <dd><p><code>logical</code> whether to keep the decimal in numbers,
 sorting as a true number and not as a version number. By default
 keepDecimal=FALSE, which means "v1.200" should be ordered before
 "v1.30". When keepDecimal=TRUE, the numeric sort considers only
 "1.2" and "1.3" and sorts in that order.</p></dd>
+
+
 <dt>ignore.case</dt>
 <dd><p><code>logical</code> whether to ignore uppercase and lowercase
 characters when defining the sort order. Note that when <code>x</code> is
 <code>factor</code> the factor levels are converted using
 <code>unique(toupper(levels(x)))</code>, therefore the values in <code>x</code> will be
 sorted by factor level.</p></dd>
+
+
 <dt>useCaseTiebreak</dt>
 <dd><p><code>logical</code> indicating whether to break ties
 when <code>ignore.case=TRUE</code>, using mixed case as a tiebreaker.</p></dd>
+
+
 <dt>sortByName</dt>
 <dd><p><code>logical</code> whether to sort the vector x by names(x) instead
 of sorting by x itself.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> whether to print verbose output.</p></dd>
+
+
 <dt>NAlast</dt>
 <dd><p><code>logical</code> deprecated in favor of argument <code>na.last</code>
 for consistency with <code><a href="https://rdrr.io/r/base/sort.html" class="external-link">base::sort()</a></code>.</p></dd>
+
+
 <dt>xclass</dt>
 <dd><p><code>character</code> vector of classes in <code>x</code>, used for slight
 optimization to re-use this vector if it has already been
 defined for <code>x</code>. When <code>NULL</code> it is created within this function.</p></dd>
+
+
+<dt>indent</dt>
+<dd><p><code>numeric</code> used only when <code>verbose=TRUE</code> to determine
+the number of spaces indented for verbose output, passed to
+<code><a href="printDebug.html">printDebug()</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are sent to <code><a href="mixedOrder.html">mixedOrder</a></code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -178,7 +211,6 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p>
@@ -196,29 +228,25 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <code><a href="relist_named.html">relist_named</a>()</code>,
 <code><a href="rlengths.html">rlengths</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code>,
 <code><a href="unnestList.html">unnestList</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># set up an example list of mixed alpha-numeric strings</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span>, replace<span class="op">=</span><span class="cn">TRUE</span>, <span class="fl">52</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span>, length.out<span class="op">=</span><span class="fl">52</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">x</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># set up an example list of mixed alpha-numeric strings</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span>, replace<span class="op">=</span><span class="cn">TRUE</span>, <span class="fl">52</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span>, length.out<span class="op">=</span><span class="fl">52</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">x</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b1"  "z2"  "p3"  "w4"  "n5"  "e6"  "e7"  "b8"  "h9"  "r10" "r11" "y12"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] "f13" "l14" "j15" "z16" "g17" "p18" "m19" "x20" "d21" "x22" "y23" "h24"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [25] "z25" "k26" "n27" "g28" "l29" "e30" "y1"  "b2"  "g3"  "n4"  "g5"  "z6" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [37] "t7"  "t8"  "s9"  "t10" "d11" "m12" "m13" "p14" "e15" "w16" "p17" "o18"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [49] "v19" "g20" "m21" "t22"</span>
-<span class="r-in"><span class="co"># split into a list as an example</span></span>
-<span class="r-in"><span class="va">xL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">xL</span>;</span>
+<span class="r-in"><span><span class="co"># split into a list as an example</span></span></span>
+<span class="r-in"><span><span class="va">xL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">xL</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b1"  "z2"  "p3"  "w4"  "n5"  "e6"  "n27" "g28" "l29" "e30" "y1"  "b2" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -235,10 +263,10 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> $e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "y23" "h24" "z25" "k26" "v19" "g20" "m21" "t22"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># now run mixedSorts(xL)</span></span>
-<span class="r-in"><span class="co"># Notice "e6" is sorted before "e30"</span></span>
-<span class="r-in"><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">xL</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># now run mixedSorts(xL)</span></span></span>
+<span class="r-in"><span><span class="co"># Notice "e6" is sorted before "e30"</span></span></span>
+<span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">xL</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b1"  "b2"  "e6"  "e30" "g28" "l29" "n5"  "n27" "p3"  "w4"  "y1"  "z2" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -255,10 +283,10 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> $e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g20" "h24" "k26" "m21" "t22" "v19" "y23" "z25"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># for fun, compare to lapply(xL, sort)</span></span>
-<span class="r-in"><span class="co"># Notice "e6" is sorted after "e30"</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">xL</span>, <span class="va">sort</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># for fun, compare to lapply(xL, sort)</span></span></span>
+<span class="r-in"><span><span class="co"># Notice "e6" is sorted after "e30"</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">xL</span>, <span class="va">sort</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b1"  "b2"  "e30" "e6"  "g28" "l29" "n27" "n5"  "p3"  "w4"  "y1"  "z2" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -275,11 +303,11 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> $e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g20" "h24" "k26" "m21" "t22" "v19" "y23" "z25"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># test super-long list</span></span>
-<span class="r-in"><span class="va">xL10k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">xL</span>, length.out<span class="op">=</span><span class="fl">10000</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xL10k</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">xL10k</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">xL10k</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># test super-long list</span></span></span>
+<span class="r-in"><span><span class="va">xL10k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">xL</span>, length.out<span class="op">=</span><span class="fl">10000</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xL10k</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">xL10k</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">xL10k</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b1"  "b2"  "e6"  "e30" "g28" "l29" "n5"  "n27" "p3"  "w4"  "y1"  "z2" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -312,14 +340,14 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`10`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g20" "h24" "k26" "m21" "t22" "v19" "y23" "z25"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Now make some list vectors into factors</span></span>
-<span class="r-in"><span class="va">xF</span> <span class="op">&lt;-</span> <span class="va">xL</span>;</span>
-<span class="r-in"><span class="va">xF</span><span class="op">$</span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">xL</span><span class="op">$</span><span class="va">c</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># for fun, reverse the levels</span></span>
-<span class="r-in"><span class="va">xF</span><span class="op">$</span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">xF</span><span class="op">$</span><span class="va">c</span>,</span>
-<span class="r-in">   levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">xF</span><span class="op">$</span><span class="va">c</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">xF</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Now make some list vectors into factors</span></span></span>
+<span class="r-in"><span><span class="va">xF</span> <span class="op">&lt;-</span> <span class="va">xL</span>;</span></span>
+<span class="r-in"><span><span class="va">xF</span><span class="op">$</span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">xL</span><span class="op">$</span><span class="va">c</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># for fun, reverse the levels</span></span></span>
+<span class="r-in"><span><span class="va">xF</span><span class="op">$</span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">xF</span><span class="op">$</span><span class="va">c</span>,</span></span>
+<span class="r-in"><span>   levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">xF</span><span class="op">$</span><span class="va">c</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">xF</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b1"  "z2"  "p3"  "w4"  "n5"  "e6"  "n27" "g28" "l29" "e30" "y1"  "b2" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -337,7 +365,7 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> $e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "y23" "h24" "z25" "k26" "v19" "g20" "m21" "t22"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">xF</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">xF</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b1"  "b2"  "e6"  "e30" "g28" "l29" "n5"  "n27" "p3"  "w4"  "y1"  "z2" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -355,11 +383,11 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> $e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g20" "h24" "k26" "m21" "t22" "v19" "y23" "z25"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># test super-long list</span></span>
-<span class="r-in"><span class="va">xF10k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">xF</span>, length.out<span class="op">=</span><span class="fl">10000</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xF10k</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">xF10k</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">xF10k</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># test super-long list</span></span></span>
+<span class="r-in"><span><span class="va">xF10k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">xF</span>, length.out<span class="op">=</span><span class="fl">10000</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xF10k</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">xF10k</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">xF10k</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b1"  "b2"  "e6"  "e30" "g28" "l29" "n5"  "n27" "p3"  "w4"  "y1"  "z2" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -394,17 +422,17 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`10`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g20" "h24" "k26" "m21" "t22" "v19" "y23" "z25"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Make a nested list</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">l1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">   A<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">   B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">      C<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">      D<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">   <span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">l1</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make a nested list</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">l1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   A<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      C<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      D<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">l1</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  m  l  k </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 12 13 </span>
@@ -419,9 +447,9 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> "C" "E" "B" "D" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># The output is a nested list with the same structure</span></span>
-<span class="r-in"><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l1</span>, verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">15:08:09</span>) 23Mar2023:   <span style="color: #FF8700;">mixedSorts(): </span><span style="color: #00AFFF;">Performing rapply() mixedSort() for each nested sublist.</span> </span>
+<span class="r-in"><span><span class="co"># The output is a nested list with the same structure</span></span></span>
+<span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l1</span>, verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">13:02:52</span>) 25Apr2023:   <span style="color: #FF8700;">mixedSorts(): </span><span style="color: #00AFFF;">Performing rapply() mixedSort() for each nested sublist.</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  m  l  k </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 12 13 </span>
@@ -436,8 +464,8 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> "B" "C" "D" "E" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l1</span>, sortByName<span class="op">=</span><span class="cn">TRUE</span>, verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">15:08:09</span>) 23Mar2023:   <span style="color: #FF8700;">mixedSorts(): </span><span style="color: #00AFFF;">Performing rapply() mixedSort() for each nested sublist.</span> </span>
+<span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l1</span>, sortByName<span class="op">=</span><span class="cn">TRUE</span>, verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">13:02:52</span>) 25Apr2023:   <span style="color: #FF8700;">mixedSorts(): </span><span style="color: #00AFFF;">Performing rapply() mixedSort() for each nested sublist.</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  k  l  m </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13 12 11 </span>
@@ -452,19 +480,19 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> "E" "D" "C" "B" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Make a nested list with two sub-lists</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">l2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">   A<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">      E<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">   <span class="op">)</span>,</span>
-<span class="r-in">   B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">      C<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">      D<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">   <span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">l2</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make a nested list with two sub-lists</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">l2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   A<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      E<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span>,</span></span>
+<span class="r-in"><span>   B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      C<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      D<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">l2</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A$E</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  m  l  k </span>
@@ -481,8 +509,8 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> "C" "E" "B" "D" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># The output is a nested list with the same structure</span></span>
-<span class="r-in"><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l2</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="co"># The output is a nested list with the same structure</span></span></span>
+<span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l2</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A$E</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  m  l  k </span>
@@ -499,7 +527,7 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> "B" "C" "D" "E" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l2</span>, sortByName<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l2</span>, sortByName<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A$E</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  k  l  m </span>
@@ -516,13 +544,13 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> "E" "D" "C" "B" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># when one entry is missing</span></span>
-<span class="r-in"><span class="va">L0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A<span class="op">=</span><span class="fl">3</span><span class="op">:</span><span class="fl">1</span>,</span>
-<span class="r-in">   B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>C<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="cn">NA</span>,<span class="fl">0</span><span class="op">)</span>,</span>
-<span class="r-in">   D<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>,</span>
-<span class="r-in">   E<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">L0</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># when one entry is missing</span></span></span>
+<span class="r-in"><span><span class="va">L0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A<span class="op">=</span><span class="fl">3</span><span class="op">:</span><span class="fl">1</span>,</span></span>
+<span class="r-in"><span>   B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>C<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="cn">NA</span>,<span class="fl">0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   D<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   E<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">L0</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 2 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -537,7 +565,7 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">L0</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">L0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -552,7 +580,7 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">L0</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">L0</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -567,7 +595,7 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -582,8 +610,7 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

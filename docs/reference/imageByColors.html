@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,54 +62,67 @@
     <p>Display color raster image using a matrix of colors</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">imageByColors</span><span class="op">(</span>
-  <span class="va">x</span>,
-  useRaster <span class="op">=</span> <span class="cn">FALSE</span>,
-  fixRasterRatio <span class="op">=</span> <span class="cn">TRUE</span>,
-  maxRatioFix <span class="op">=</span> <span class="fl">100</span>,
-  xaxt <span class="op">=</span> <span class="st">"s"</span>,
-  yaxt <span class="op">=</span> <span class="st">"s"</span>,
-  doPlot <span class="op">=</span> <span class="cn">TRUE</span>,
-  cellnote <span class="op">=</span> <span class="cn">NULL</span>,
-  cexCellnote <span class="op">=</span> <span class="fl">1</span>,
-  srtCellnote <span class="op">=</span> <span class="fl">0</span>,
-  fontCellnote <span class="op">=</span> <span class="fl">1</span>,
-  groupCellnotes <span class="op">=</span> <span class="cn">TRUE</span>,
-  groupBy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"column"</span>, <span class="st">"row"</span><span class="op">)</span>,
-  groupByColors <span class="op">=</span> <span class="cn">TRUE</span>,
-  adjBy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"column"</span>, <span class="st">"row"</span><span class="op">)</span>,
-  adjustMargins <span class="op">=</span> <span class="cn">FALSE</span>,
-  interpolate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"interpolate"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  xpd <span class="op">=</span> <span class="cn">NULL</span>,
-  bty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"bty"</span><span class="op">)</span>,
-  flip <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"y"</span>, <span class="st">"x"</span>, <span class="st">"xy"</span><span class="op">)</span>,
-  keepTextAlpha <span class="op">=</span> <span class="cn">FALSE</span>,
-  doTest <span class="op">=</span> <span class="cn">FALSE</span>,
-  add <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">imageByColors</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  useRaster <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fixRasterRatio <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  maxRatioFix <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  xaxt <span class="op">=</span> <span class="st">"s"</span>,</span>
+<span>  yaxt <span class="op">=</span> <span class="st">"s"</span>,</span>
+<span>  doPlot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cellnote <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cexCellnote <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  srtCellnote <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  fontCellnote <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  groupCellnotes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  groupBy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"column"</span>, <span class="st">"row"</span><span class="op">)</span>,</span>
+<span>  groupByColors <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  adjBy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"column"</span>, <span class="st">"row"</span><span class="op">)</span>,</span>
+<span>  adjustMargins <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  interpolate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"interpolate"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  xpd <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"bty"</span><span class="op">)</span>,</span>
+<span>  flip <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"y"</span>, <span class="st">"x"</span>, <span class="st">"xy"</span><span class="op">)</span>,</span>
+<span>  keepTextAlpha <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  doTest <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  add <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>matrix or data.frame containing colors</p></dd>
+
+
 <dt>useRaster</dt>
 <dd><p>logical sent to <code><a href="imageDefault.html">imageDefault</a></code> to enable
 raster rendering, as opposed to polygon rendering. This parameter is
 highly recommended when the matrix is large (&gt;50 columns or rows).</p></dd>
+
+
 <dt>fixRasterRatio</dt>
 <dd><p>logical sent to <code><a href="imageDefault.html">imageDefault</a></code>.</p></dd>
+
+
 <dt>maxRatioFix</dt>
 <dd><p>numeric sent to <code><a href="imageDefault.html">imageDefault</a></code>.</p></dd>
+
+
 <dt>xaxt, yaxt</dt>
 <dd><p>character values compatible with <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></code> to
 determine whether x- and y-axes are plotted. Set both to "n" to
 suppress display of axes.</p></dd>
+
+
 <dt>doPlot</dt>
 <dd><p>logical whether to create a plot, or simply return data which
 would have been used to create the plot.</p></dd>
+
+
 <dt>cellnote</dt>
 <dd><p>matrix or data.frame of labels to be displayed on the
 image. If groupCellnotes==TRUE labels will be placed in the center
@@ -117,6 +130,8 @@ of consecutive cells with the same label and identical color.
 Currently, cell text is colored using <code><a href="setTextContrastColor.html">setTextContrastColor</a></code>
 which uses either white or black depending upon the brightness of
 the background color.</p></dd>
+
+
 <dt>cexCellnote, srtCellnote, fontCellnote</dt>
 <dd><p>numeric vectors, with values
 applied to cellnote text to be compatible with par("cex"), par("srt"),
@@ -133,34 +148,50 @@ applied to each cell, but when cell labels are combined with
 groupCellnotes==TRUE, the value for the first matching cell is used.
 Remember that values are placed by coordinate, bottom-to-top on the
 y-axis, and left-to-right on the x-axis.</p></dd>
+
+
 <dt>groupCellnotes</dt>
 <dd><p>logical whether to group labels where consecutive
 cells contain the same label and identical cell colors, thus only
 displaying one label in the center of these groups.</p></dd>
+
+
 <dt>groupBy</dt>
 <dd><p>character value indicating the direction to group
 cellnotes, when <code>groupCellnotes=TRUE</code>: <code>"row"</code> will group cellnote
 values by row; <code>"column"</code> will group cellnote values by column.
 By default, it will first group cellnotes by <code>"row"</code> then
 by <code>"column"</code>.</p></dd>
+
+
 <dt>groupByColors</dt>
 <dd><p>logical indicating whether the cellnote grouping
 should also include the cell color. When <code>groupByColors=FALSE</code>,
 cellnote values will be grouped together regardless whether the
 underlying colors change, which may be preferred when applying
 text label to topographical data.</p></dd>
+
+
 <dt>adjBy</dt>
 <dd><p>character value indicating how to apply adjustments for
 cexCellnote, srtCellnote, and fontCellnote, as described above.</p></dd>
+
+
 <dt>adjustMargins</dt>
 <dd><p>logical indicating whether to adjust the axis
 label margins to ensure enough room to draw the text rownames
 and colnames.</p></dd>
+
+
 <dt>interpolate</dt>
 <dd><p>logical whether to implement image interpolation,
 by default TRUE when useRaster=TRUE.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>logical whether to print verbose output.</p></dd>
+
+
 <dt>xpd</dt>
 <dd><p>NULLL or logical used for <code>par("xpd")</code> to define whether
 to crop displayed output to the plot area. If xpd=NULL then par("xpd")
@@ -169,14 +200,19 @@ adding any cell notes, then reverted to its previous value afterward.
 This parameter is mainly useful when cellnote labels may overhang the
 plot space, and would be cropped and not visible if
 <code>par("xpd"=TRUE)</code>.</p></dd>
+
+
 <dt>keepTextAlpha</dt>
 <dd><p>logical passed to <code><a href="setTextContrastColor.html">setTextContrastColor</a></code>
 indicating whether the text label color should inherit the alpha
 transparency from the background color. If TRUE then fully transparent
 background colors will not have a visible label.</p></dd>
+
+
 <dt>doTest</dt>
 <dd><p>logical whether to run a test showing basic features of
 <code>imageByColors</code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -235,28 +271,27 @@ columns, but not always the same columns per row.</p></li>
 <code><a href="sqrtAxis.html">sqrtAxis</a>()</code>,
 <code><a href="usrBox.html">usrBox</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">a1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red4"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
-<span class="r-in"><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yellow"</span>,<span class="st">"orange"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
-<span class="r-in"><span class="va">c1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"orange"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
-<span class="r-in"><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"green4"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
-<span class="r-in"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">a1</span>, b<span class="op">=</span><span class="va">b1</span>, c<span class="op">=</span><span class="va">c1</span>, d<span class="op">=</span><span class="va">d1</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># default using polygons</span></span>
-<span class="r-in"><span class="fu">imageByColors</span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">a1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red4"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span></span>
+<span class="r-in"><span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yellow"</span>,<span class="st">"orange"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span></span>
+<span class="r-in"><span><span class="va">c1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"orange"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span></span>
+<span class="r-in"><span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"green4"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span></span>
+<span class="r-in"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">a1</span>, b<span class="op">=</span><span class="va">b1</span>, c<span class="op">=</span><span class="va">c1</span>, d<span class="op">=</span><span class="va">d1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># default using polygons</span></span></span>
+<span class="r-in"><span><span class="fu">imageByColors</span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="imageByColors-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># useRaster=TRUE, edges are slightly blurred with small tables</span></span>
-<span class="r-in"><span class="fu">imageByColors</span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span>, useRaster<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># useRaster=TRUE, edges are slightly blurred with small tables</span></span></span>
+<span class="r-in"><span><span class="fu">imageByColors</span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span>, useRaster<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="imageByColors-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># some text features, rotation, font size, etc</span></span>
-<span class="r-in"><span class="fu">imageByColors</span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span>, useRaster<span class="op">=</span><span class="cn">TRUE</span>, adjBy<span class="op">=</span><span class="st">"column"</span>,</span>
-<span class="r-in">   cexCellnote<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.6</span>,<span class="fl">1.2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.6</span>,<span class="fl">1.5</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">   srtCellnote<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">90</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">45</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">90</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># some text features, rotation, font size, etc</span></span></span>
+<span class="r-in"><span><span class="fu">imageByColors</span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span>, useRaster<span class="op">=</span><span class="cn">TRUE</span>, adjBy<span class="op">=</span><span class="st">"column"</span>,</span></span>
+<span class="r-in"><span>   cexCellnote<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.6</span>,<span class="fl">1.2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.6</span>,<span class="fl">1.5</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   srtCellnote<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">90</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">45</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">90</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="imageByColors-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -272,8 +307,7 @@ columns, but not always the same columns per row.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

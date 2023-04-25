@@ -36,9 +36,11 @@
 #'    Also, when `x` is a `list`, just to be fancy, `makeUnique`
 #'    is recycled to `length(x)` so certain list elements can display
 #'    unique values, while others display all values.
+#' @param doPlot `logical` indicating whether to produce a visual plot.
+#'    Note this function returns the color matrix invisibly.
 #' @param ... additional parameters are passed to `imageByColors()`.
 #'
-#' @return invisible color `matrix` used in `imageByColors()`. When
+#' @return invisible color `matrix` used by `imageByColors()`. When
 #'    the input `x` is empty, or cannot be converted to colors when
 #'    `x` contains a `function`, the output returns `NULL`.
 #'
@@ -100,6 +102,7 @@ showColors <- function
  srtCellnote=NULL,
  adjustMargins=TRUE,
  makeUnique=FALSE,
+ doPlot=TRUE,
  ...)
 {
    ## Purpose is to show a vector of colors, or display a list of
@@ -117,9 +120,17 @@ showColors <- function
             colorset <- tryCatch({
                br <- attr(f, "breaks");
                if (length(br) > 0) {
-                  nameVector(
-                     rgb(attr(f, "colors")),
-                     format(digits=2, br))
+                  if ("matrix" %in% class(attr(f, "colors"))) {
+                     # previous version of circlize stored rgb matrix
+                     nameVector(
+                        rgb(attr(f, "colors")),
+                        format(digits=2, br))
+                  } else {
+                     # recent version of circlize stores hex values
+                     nameVector(
+                        attr(f, "colors"),
+                        format(digits=2, br))
+                  }
                } else {
                   attr(f, "colors")
                }
@@ -154,7 +165,7 @@ showColors <- function
       makeUnique <- rep(makeUnique,
          length.out=length(x));
       # optionally return only one unique color per list element
-      if (any(makeUnique)) {
+      if (TRUE %in% makeUnique) {
          x[makeUnique] <- lapply(x[makeUnique], function(i){
             tryCatch({
                i[!duplicated(i)]
@@ -172,7 +183,7 @@ showColors <- function
             labelCells <- TRUE;
          }
       }
-      if (labelCells) {
+      if (TRUE %in% labelCells) {
          xMnames <- rbindList(lapply(x, function(i){
             if (is.null(names(i))) {
                rep("", length(i));
@@ -198,7 +209,7 @@ showColors <- function
          }
       }
       # optionally return only one unique color per list element
-      if (makeUnique) {
+      if (TRUE %in% makeUnique) {
          x <- tryCatch({
             x[!duplicated(x)]
          }, error=function(e){
@@ -209,14 +220,14 @@ showColors <- function
       if (!is.null(names(x))) {
          colnames(xM) <- names(x);
       }
-      if (length(labelCells)==0) {
+      if (length(labelCells) == 0) {
          if (max(dim(xM)) > 40) {
             labelCells <- FALSE;
          } else {
             labelCells <- TRUE;
          }
       }
-      if (labelCells) {
+      if (TRUE %in% labelCells) {
          if (!is.null(names(x))) {
             xMnames <- matrix(names(x), nrow=1);
          } else {
@@ -228,59 +239,64 @@ showColors <- function
       }
    }
 
-   if (adjustMargins &&
+   if (TRUE %in% adjustMargins &&
          length(colnames(xM)) == 0 &&
          length(rownames(xM)) == 0) {
       adjustMargins <- FALSE;
    }
-   if (transpose) {
-      if (adjustMargins) {
-         opar <- par("mar"=par("mar"));
-         on.exit(par(opar));
-         ## Detect string width to adjust margins
-         adjustAxisLabelMargins(x=rownames(xM),
-            margin=1,
-            ...);
-         adjustAxisLabelMargins(x=colnames(xM),
-            margin=2,
-            ...);
-      }
-      if (length(srtCellnote)==0) {
-         if (nrow(xM) > ncol(xM)) {
-            srtCellnote <- 90;
-         } else {
-            srtCellnote <- 0;
+   if (TRUE %in% doPlot) {
+      if (TRUE %in% transpose) {
+         if (adjustMargins) {
+            opar <- par("mar"=par("mar"));
+            on.exit(par(opar));
+            ## Detect string width to adjust margins
+            adjustAxisLabelMargins(x=rownames(xM),
+               margin=1,
+               ...);
+            adjustAxisLabelMargins(x=colnames(xM),
+               margin=2,
+               ...);
          }
-      }
-      imageByColors(t(xM),
-         cellnote=t(xMnames),
-         flip="y",
-         srtCellnote=srtCellnote,
-         ...);
-   } else {
-      if (adjustMargins) {
-         opar <- par("mar"=par("mar"));
-         on.exit(par(opar));
-         ## Detect string width to adjust margins
-         adjustAxisLabelMargins(x=colnames(xM),
-            margin=1,
-            ...);
-         adjustAxisLabelMargins(x=rownames(xM),
-            margin=2,
-            ...);
-      }
-      if (is.null(srtCellnote)) {
-         if (nrow(xM) > ncol(xM)) {
-            srtCellnote <- 0;
-         } else {
-            srtCellnote <- 90;
+         if (length(srtCellnote)==0) {
+            if (nrow(xM) > ncol(xM)) {
+               srtCellnote <- 90;
+            } else {
+               srtCellnote <- 0;
+            }
          }
+         imageByColors(t(xM),
+            cellnote=t(xMnames),
+            flip="y",
+            srtCellnote=srtCellnote,
+            ...);
+      } else {
+         if (adjustMargins) {
+            opar <- par("mar"=par("mar"));
+            on.exit(par(opar));
+            ## Detect string width to adjust margins
+            adjustAxisLabelMargins(x=colnames(xM),
+               margin=1,
+               ...);
+            adjustAxisLabelMargins(x=rownames(xM),
+               margin=2,
+               ...);
+         }
+         if (is.null(srtCellnote)) {
+            if (nrow(xM) > ncol(xM)) {
+               srtCellnote <- 0;
+            } else {
+               srtCellnote <- 90;
+            }
+         }
+         imageByColors(xM,
+            cellnote=xMnames,
+            flip="y",
+            srtCellnote=srtCellnote,
+            ...);
       }
-      imageByColors(xM,
-         cellnote=xMnames,
-         flip="y",
-         srtCellnote=srtCellnote,
-         ...);
    }
-   invisible(xM);
+   if (TRUE %in% transpose) {
+      xM <- t(xM);
+   }
+   return(invisible(xM));
 }

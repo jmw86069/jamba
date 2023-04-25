@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,31 +62,41 @@
     <p>convert size to numeric value</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">sizeAsNum</span><span class="op">(</span><span class="va">x</span>, kiloSize <span class="op">=</span> <span class="fl">1024</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sizeAsNum</span><span class="op">(</span><span class="va">x</span>, kiloSize <span class="op">=</span> <span class="fl">1024</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>character</code> vector. When <code>x</code> is numeric, it is returned as-is;
 otherwise x is coerced to <code>character</code> with <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code> and
 will throw an error if it fails.</p></dd>
+
+
 <dt>kiloSize</dt>
 <dd><p><code>numeric</code> number of base units when converting from one
 base unit, to one "kilo" base unit. For file sizes, this value is 1024,
 but for other purposes this value may be 1000, like one thousand units
 is <code>"1k units"</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output.
 The output includes a <code>data.frame</code> summarizing the input,
 and the unit matched, and the final value. If <code>verbose==2</code> it
 will return this <code>data.frame</code> for review.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>numeric</code> vector representing the numeric value represented
+    
+
+<p><code>numeric</code> vector representing the numeric value represented
 by an abbreviated size.</p>
     </div>
     <div id="details">
@@ -134,25 +144,23 @@ rounded by <code>digits</code> in <code><a href="asSize.html">asSize()</a></code
 <code><a href="padString.html">padString</a>()</code>,
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="asSize.html">asSize</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>,<span class="fl">2010</span>,<span class="fl">22000</span>,<span class="fl">52200</span><span class="op">)</span>, unitType<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="asSize.html">asSize</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>,<span class="fl">2010</span>,<span class="fl">22000</span>,<span class="fl">52200</span><span class="op">)</span>, unitType<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1"    "10"   "2 k"  "21 k" "51 k"</span>
-<span class="r-in"><span class="co">#&gt; "1"   "10" "2k"     "21k"    "51k"</span></span>
-<span class="r-in"><span class="fu">sizeAsNum</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co">#&gt; "1"   "10" "2k"     "21k"    "51k"</span></span></span>
+<span class="r-in"><span><span class="fu">sizeAsNum</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]     1    10  2048 21504 52224</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">sizeAsNum</span><span class="op">(</span><span class="va">x</span>, kiloSize<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">sizeAsNum</span><span class="op">(</span><span class="va">x</span>, kiloSize<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]     1    10  2000 21000 51000</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -167,8 +175,7 @@ rounded by <code>digits</code> in <code><a href="asSize.html">asSize()</a></code
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

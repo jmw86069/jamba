@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,43 +62,58 @@
     <p>set R prompt with project name and R version</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">setPrompt</span><span class="op">(</span>
-  projectName <span class="op">=</span> <span class="cn">NULL</span>,
-  useColor <span class="op">=</span> <span class="cn">TRUE</span>,
-  projectColor <span class="op">=</span> <span class="st">"yellow"</span>,
-  bracketColor <span class="op">=</span> <span class="st">"white"</span>,
-  Rcolors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"white"</span>, <span class="st">"white"</span><span class="op">)</span>,
-  PIDcolor <span class="op">=</span> <span class="cn">NA</span>,
-  promptColor <span class="op">=</span> <span class="st">"white"</span>,
-  usePid <span class="op">=</span> <span class="cn">TRUE</span>,
-  resetPrompt <span class="op">=</span> <span class="cn">FALSE</span>,
-  addEscape <span class="op">=</span> <span class="cn">NULL</span>,
-  debug <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">setPrompt</span><span class="op">(</span></span>
+<span>  projectName <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  useColor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  projectColor <span class="op">=</span> <span class="st">"yellow"</span>,</span>
+<span>  bracketColor <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  Rcolors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"white"</span>, <span class="st">"white"</span><span class="op">)</span>,</span>
+<span>  PIDcolor <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  promptColor <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  usePid <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  resetPrompt <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  addEscape <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  debug <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>projectName</dt>
 <dd><p><code>character</code> string representing the active project.</p></dd>
+
+
 <dt>useColor</dt>
-<dd><p>logical whether to define a color prompt if the
+<dd><p><code>logical</code> whether to define a color prompt if the
 <code>crayon</code> package is installed.</p></dd>
+
+
 <dt>projectColor, bracketColor, Rcolors, PIDcolor, promptColor</dt>
-<dd><p>colors
-used when <code>useColor==TRUE</code> and the <code>crayon</code> package
-is installed: <code>projectColor</code> colors the project name; <code>bracketColor</code>
-colors the curly brackets around the project; <code>Rcolors</code> can be
-a vector of 3 colors, colorizing "R", the "-" divider, and the
-R version; <code>PIDcolor</code> colors the PID when <code>usePid=TRUE</code>; and
-<code>promptColor</code> colors the <code>"&gt;"</code> at the end of the prompt.</p></dd>
+<dd><p><code>character</code>
+colors used when <code>useColor==TRUE</code> and the <code>crayon</code> package
+is installed:</p><ul><li><p><code>projectColor</code> colors the project name;</p></li>
+<li><p><code>bracketColor</code> colors the curly brackets around the project;</p></li>
+<li><p><code>Rcolors</code> can be a vector of 3 colors, colorizing "R",
+the "-" divider, and the R version;</p></li>
+<li><p><code>PIDcolor</code> colors the PID when <code>usePid=TRUE</code>; and</p></li>
+<li><p><code>promptColor</code> colors the <code>"&gt;"</code> at the end of the prompt.</p></li>
+</ul></dd>
+
+
 <dt>usePid</dt>
-<dd><p><code>logical</code> whether to include the process ID in the prompt.</p></dd>
+<dd><p><code>logical</code> whether to include the process ID in the prompt.
+Including the PID is helpful for the rare occasion when a process is
+hung and needs to be stopped directly.</p></dd>
+
+
 <dt>resetPrompt</dt>
 <dd><p><code>logical</code> whether to revert all changes to the prompt
 back to the default R prompt, that is, no color and no projectName.</p></dd>
+
+
 <dt>addEscape</dt>
 <dd><p><code>logical</code> or <code>NULL</code> indicating whether to wrap color
 encoding ANSI inside additional escape sequences. This change is
@@ -106,22 +121,36 @@ helpful for linux-based (readline-based) R consoles, by telling
 the console not to count ANSI color control characters as visible
 characters when determining word wrapping on the console. Note
 that RStudio does not work well with this setting.
+If you find that the word-wrap is incorrect in the R console, try
+<code>addEscape=TRUE</code>. Apparently most versions of RStudio will already
+adjust (and prevent) colorizing the prompt during editing, presumably
+to sidestep the problem of calculating the correct character length.
 By default when <code>addEscape</code> is <code>NULL</code>, it checks whether environmental
 variable <code>RSTUDIO</code> equals <code>"1"</code> (running inside RStudio) then sets
-addEscape=FALSE; otherwise addEscape=TRUE. In most cases for
-commandline prompts, <code>addEscape=TRUE</code> is helpful and not problematic.</p></dd>
+<code>addEscape=FALSE</code>; otherwise it defines <code>addEscape=TRUE</code>.
+In most cases for commandline prompts, <code>addEscape=TRUE</code> is helpful
+and not problematic.</p></dd>
+
+
 <dt>debug</dt>
 <dd><p><code>logical</code> indicating whether to print the ANSI control
 character output for the full prompt, for visual review.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are passed to <code><a href="make_styles.html">make_styles()</a></code> which is
 only relevant with the argument <code>useColor=TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>character</code> string representing the prompt used, returned
+    
+
+<p><code>character</code> string representing the prompt used, returned
 invisibly.</p>
     </div>
     <div id="details">
@@ -204,20 +233,16 @@ number of characters being displayed by the prompt.</p>
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
-<code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p></div>
-    </div>
+<code><a href="sdim.html">sdim</a>()</code></p></div>
     </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">setPrompt</span><span class="op">(</span><span class="st">"jamba"</span>, projectColor<span class="op">=</span><span class="st">"purple"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">setPrompt</span><span class="op">(</span><span class="st">"jamba"</span>, usePid<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">setPrompt</span><span class="op">(</span><span class="st">"jamba"</span>, projectColor<span class="op">=</span><span class="st">"purple"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">setPrompt</span><span class="op">(</span><span class="st">"jamba"</span>, usePid<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -232,8 +257,7 @@ number of characters being displayed by the prompt.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

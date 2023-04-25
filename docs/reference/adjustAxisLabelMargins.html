@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,36 +62,48 @@
     <p>Adjust axis label margins</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span>
-  <span class="va">x</span>,
-  margin <span class="op">=</span> <span class="fl">1</span>,
-  maxFig <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>,
-  cex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"cex"</span><span class="op">)</span>,
-  cex.axis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"cex.axis"</span><span class="op">)</span>,
-  prefix <span class="op">=</span> <span class="st">"-- -- "</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  margin <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  maxFig <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>,</span>
+<span>  cex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"cex"</span><span class="op">)</span>,</span>
+<span>  cex.axis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"cex.axis"</span><span class="op">)</span>,</span>
+<span>  prefix <span class="op">=</span> <span class="st">"-- -- "</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>vector of axis labels</p></dd>
+
+
 <dt>margin</dt>
 <dd><p>single integer value indicating which margin to adjust,
 using the order by <code>par("mar")</code>, 1=bottom, 2=left, 3=top,
 4=right.</p></dd>
+
+
 <dt>maxFig</dt>
 <dd><p>fraction less than 1, indicating the maximum size of margin
 relative to the figure size. Setting margins too large results in an
 error otherwise.</p></dd>
+
+
 <dt>cex</dt>
 <dd><p>numeric or NULL, sent to <code><a href="https://rdrr.io/r/graphics/strwidth.html" class="external-link">strwidth</a></code> when
 calculating the string width of labels in inches.</p></dd>
+
+
 <dt>prefix</dt>
 <dd><p>character string used to add whitespace around the axis label.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -123,27 +135,26 @@ the axis, e.g. <code>las=2</code> when using <code><a href="https://rdrr.io/r/gr
 <code><a href="sqrtAxis.html">sqrtAxis</a>()</code>,
 <code><a href="usrBox.html">usrBox</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">xlabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"item_"</span>, <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">ylabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rownum_"</span>, <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span><span class="va">xlabs</span>, <span class="fl">1</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span><span class="va">ylabs</span>, <span class="fl">2</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">20</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">20</span><span class="op">)</span>, doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, labels<span class="op">=</span><span class="va">xlabs</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, labels<span class="op">=</span><span class="va">ylabs</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">xlabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"item_"</span>, <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">ylabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rownum_"</span>, <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span><span class="va">xlabs</span>, <span class="fl">1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span><span class="va">ylabs</span>, <span class="fl">2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">20</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">20</span><span class="op">)</span>, doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, labels<span class="op">=</span><span class="va">xlabs</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, labels<span class="op">=</span><span class="va">ylabs</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="adjustAxisLabelMargins-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mar"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span><span class="va">xlabs</span>, <span class="fl">3</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span><span class="va">ylabs</span>, <span class="fl">4</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">20</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">20</span><span class="op">)</span>, doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">3</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, labels<span class="op">=</span><span class="va">xlabs</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">4</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, labels<span class="op">=</span><span class="va">ylabs</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mar"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span><span class="va">xlabs</span>, <span class="fl">3</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">adjustAxisLabelMargins</span><span class="op">(</span><span class="va">ylabs</span>, <span class="fl">4</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">20</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">20</span><span class="op">)</span>, doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">3</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, labels<span class="op">=</span><span class="va">xlabs</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">4</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, labels<span class="op">=</span><span class="va">ylabs</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="adjustAxisLabelMargins-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -158,8 +169,7 @@ the axis, e.g. <code>las=2</code> when using <code><a href="https://rdrr.io/r/gr
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

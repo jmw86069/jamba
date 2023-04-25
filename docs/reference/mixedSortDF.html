@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,29 +62,32 @@
     <p>sort data.frame keeping numeric values in proper order</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">mixedSortDF</span><span class="op">(</span>
-  <span class="va">df</span>,
-  byCols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>,
-  na.last <span class="op">=</span> <span class="cn">TRUE</span>,
-  decreasing <span class="op">=</span> <span class="cn">NULL</span>,
-  useRownames <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  blanksFirst <span class="op">=</span> <span class="cn">TRUE</span>,
-  keepNegative <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepInfinite <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,
-  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,
-  useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,
-  sortByName <span class="op">=</span> <span class="cn">FALSE</span>,
-  honorFactor <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mixedSortDF</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  byCols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  na.last <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  decreasing <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  useRownames <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  blanksFirst <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  keepNegative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepInfinite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sortByName <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  honorFactor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p><code>data.frame</code> input</p></dd>
+
+
 <dt>byCols</dt>
 <dd><p>one of two types of input:</p><ol><li><p><code>integer</code> vector referring to the order of columns to be
 used by <code><a href="mmixedOrder.html">mmixedOrder()</a></code> to order the <code>data.frame</code>. Note that
@@ -100,16 +103,22 @@ to be applied to each column in <code>byCols</code>. To sort <code>rownames(df)<
 use <code>"rownames"</code> or <code>"row.names"</code>. To reverse sorting <code>rownames(df)</code>
 use <code>"-rownames"</code> or <code>"-row.names"</code>.</p></li>
 </ol></dd>
+
+
 <dt>na.last</dt>
 <dd><p><code>logical</code> whether to move NA entries to the end of the sort.
 When <code>na.last=TRUE</code> then <code>NA</code> values will always be last, even following
 blanks and infinite values. When <code>na.last=FALSE</code> then <code>NA</code> values
 will always be first, even before blanks and negative infinite values.</p></dd>
+
+
 <dt>decreasing</dt>
 <dd><p>NULL or <code>logical</code> vector indicating which columns
 in <code>byCols</code> should be sorted in decreasing order. By default, the
 <code>sign(byCols)</code> is used to define the sort order of each column, but it
 can be explicitly overridden with this <code>decreasing</code> parameter.</p></dd>
+
+
 <dt>useRownames</dt>
 <dd><p><code>logical</code> whether to use <code>rownames(df)</code> as a last
 tiebreaker in the overall rank ordering. This parameter has the primary
@@ -117,19 +126,28 @@ effect of assuring a reproducible result, provided the rownames are
 consistently defined, or if rownames are actually row numbers.
 When <code>useRownames=FALSE</code> then rows that would otherwise be ties
 will be returned in the same order they were provided in <code>df</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> whether to print verbose output. When
 <code>verbose=2</code> there is slightly more verbose output.</p></dd>
+
+
 <dt>blanksFirst, na.last, keepNegative, keepInfinite, keepDecimal, ignore.case, useCaseTiebreak, sortByName</dt>
 <dd><p>arguments passed to <code><a href="mmixedOrder.html">mmixedOrder()</a></code>, except <code>sortByName</code> which is not
 passed along.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments passed to <code><a href="mmixedOrder.html">mmixedOrder()</a></code> for custom
 sort options as described in <code><a href="mixedSort.html">mixedSort()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>data.frame</code> whose rows are ordered using <code><a href="mmixedOrder.html">mmixedOrder()</a></code>.</p>
+    
+
+<p><code>data.frame</code> whose rows are ordered using <code><a href="mmixedOrder.html">mmixedOrder()</a></code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -187,26 +205,24 @@ determine row order.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># start with a vector of miRNA names</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"miR-12"</span>,<span class="st">"miR-1"</span>,<span class="st">"miR-122"</span>,<span class="st">"miR-1b"</span>, <span class="st">"miR-1a"</span>,<span class="st">"miR-2"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="co"># add some arbitrary group information</span></span>
-<span class="r-in"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Air"</span>, <span class="st">"Treatment"</span>, <span class="st">"Control"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="co"># create a data.frame</span></span>
-<span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">g</span>,</span>
-<span class="r-in">   miRNA<span class="op">=</span><span class="va">x</span>,</span>
-<span class="r-in">   stringsAsFactors<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># input data</span></span>
-<span class="r-in"><span class="va">df</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># start with a vector of miRNA names</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"miR-12"</span>,<span class="st">"miR-1"</span>,<span class="st">"miR-122"</span>,<span class="st">"miR-1b"</span>, <span class="st">"miR-1a"</span>,<span class="st">"miR-2"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="co"># add some arbitrary group information</span></span></span>
+<span class="r-in"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Air"</span>, <span class="st">"Treatment"</span>, <span class="st">"Control"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="co"># create a data.frame</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">g</span>,</span></span>
+<span class="r-in"><span>   miRNA<span class="op">=</span><span class="va">x</span>,</span></span>
+<span class="r-in"><span>   stringsAsFactors<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># input data</span></span></span>
+<span class="r-in"><span><span class="va">df</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       group   miRNA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       Air  miR-12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Treatment   miR-1</span>
@@ -214,9 +230,9 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4       Air  miR-1b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 Treatment  miR-1a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6   Control   miR-2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># output when using order()</span></span>
-<span class="r-in"><span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">order</span>, <span class="va">df</span><span class="op">)</span>, , drop<span class="op">=</span><span class="cn">FALSE</span><span class="op">]</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># output when using order()</span></span></span>
+<span class="r-in"><span><span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">order</span>, <span class="va">df</span><span class="op">)</span>, , drop<span class="op">=</span><span class="cn">FALSE</span><span class="op">]</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       group   miRNA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       Air  miR-12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4       Air  miR-1b</span>
@@ -224,9 +240,9 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6   Control   miR-2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Treatment   miR-1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 Treatment  miR-1a</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># output with mixedSortDF()</span></span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># output with mixedSortDF()</span></span></span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       group   miRNA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4       Air  miR-1b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       Air  miR-12</span>
@@ -234,18 +250,18 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   Control miR-122</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Treatment   miR-1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 Treatment  miR-1a</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># mixedSort respects factor order</span></span>
-<span class="r-in"><span class="co"># reorder factor levels to demonstrate.</span></span>
-<span class="r-in"><span class="co"># "Control" should come first</span></span>
-<span class="r-in"><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">g</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"Air"</span>, <span class="st">"Treatment"</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>groupfactor<span class="op">=</span><span class="va">gf</span>,</span>
-<span class="r-in">   miRNA<span class="op">=</span><span class="va">x</span>,</span>
-<span class="r-in">   stringsAsFactors<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># now the sort properly keeps the group factor levels in order,</span></span>
-<span class="r-in"><span class="co"># which also sorting the miRNA names in their proper order.</span></span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># mixedSort respects factor order</span></span></span>
+<span class="r-in"><span><span class="co"># reorder factor levels to demonstrate.</span></span></span>
+<span class="r-in"><span><span class="co"># "Control" should come first</span></span></span>
+<span class="r-in"><span><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">g</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"Air"</span>, <span class="st">"Treatment"</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>groupfactor<span class="op">=</span><span class="va">gf</span>,</span></span>
+<span class="r-in"><span>   miRNA<span class="op">=</span><span class="va">x</span>,</span></span>
+<span class="r-in"><span>   stringsAsFactors<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># now the sort properly keeps the group factor levels in order,</span></span></span>
+<span class="r-in"><span><span class="co"># which also sorting the miRNA names in their proper order.</span></span></span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   groupfactor   miRNA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6     Control   miR-2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3     Control miR-122</span>
@@ -253,15 +269,15 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         Air  miR-12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   Treatment   miR-1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5   Treatment  miR-1a</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>l1<span class="op">=</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span>
-<span class="r-in">   l2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">+</span><span class="fl">10</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">   L1<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span>
-<span class="r-in">   L2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">+</span><span class="fl">20</span><span class="op">]</span>, each<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">x</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>l1<span class="op">=</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   l2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">+</span><span class="fl">10</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   L1<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   L2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">+</span><span class="fl">20</span><span class="op">]</span>, each<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">x</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    l1 l2 L1 L2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   a  k  A  U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  b  l  B  U</span>
@@ -273,9 +289,9 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7   h  l  H  V</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5   i  k  I  V</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4   j  l  J  V</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># sort by including rownames</span></span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">x</span>, byCols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rownames"</span><span class="op">)</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># sort by including rownames</span></span></span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">x</span>, byCols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rownames"</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    l1 l2 L1 L2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   g  k  G  V</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   c  k  C  U</span>
@@ -287,7 +303,7 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8   d  l  D  U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9   f  l  F  V</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  b  l  B  U</span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">x</span>, byCols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"L2"</span>, <span class="st">"-rownames"</span><span class="op">)</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">x</span>, byCols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"L2"</span>, <span class="st">"-rownames"</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    l1 l2 L1 L2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  b  l  B  U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8   d  l  D  U</span>
@@ -299,35 +315,35 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5   i  k  I  V</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4   j  l  J  V</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   g  k  G  V</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># demonstrate sorting a matrix with no rownames</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># demonstrate sorting a matrix with no rownames</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2    3</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add rownames</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"a"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add rownames</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"a"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a    1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c    2    3</span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="st">"-rownames"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="st">"-rownames"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c    2    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a    1    4</span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="st">"rownames"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="st">"rownames"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a    1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c    2    3</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">mixedSortDF</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>factor1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>factor1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   factor1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   Cnot8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   Cnot9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3  Cnot10</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -342,8 +358,7 @@ determine row order.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -18,7 +18,7 @@ empty fields in order to avoid delimiters being duplicated."><!-- mathjax --><sc
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -64,60 +64,82 @@ empty fields in order to avoid delimiters being duplicated."><!-- mathjax --><sc
 empty fields in order to avoid delimiters being duplicated.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">pasteByRow</span><span class="op">(</span>
-  <span class="va">x</span>,
-  sep <span class="op">=</span> <span class="st">"_"</span>,
-  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  condenseBlanks <span class="op">=</span> <span class="cn">TRUE</span>,
-  includeNames <span class="op">=</span> <span class="cn">FALSE</span>,
-  sepName <span class="op">=</span> <span class="st">":"</span>,
-  blankGrep <span class="op">=</span> <span class="st">"^[ ]*$"</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pasteByRow</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">"_"</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  condenseBlanks <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  includeNames <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sepName <span class="op">=</span> <span class="st">":"</span>,</span>
+<span>  blankGrep <span class="op">=</span> <span class="st">"^[ ]*$"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>data.frame, matrix, or tibble</p></dd>
+<dd><p><code>data.frame</code> or comparable object such as <code>matrix</code> or <code>tibble</code>.</p></dd>
+
+
 <dt>sep</dt>
-<dd><p>character separator to use between columns</p></dd>
+<dd><p><code>character</code> string separator to use between columns.</p></dd>
+
+
 <dt>na.rm</dt>
-<dd><p>logical whether to remove NA values, or include them as "NA"</p></dd>
+<dd><p><code>logical</code> whether to remove NA values, or include them
+as <code>"NA"</code> strings.</p></dd>
+
+
 <dt>condenseBlanks</dt>
-<dd><p>logical whether to condense blank or empty values
+<dd><p><code>logical</code> whether to condense blank or empty values
 without including an extra delimiter between columns.</p></dd>
+
+
 <dt>includeNames</dt>
-<dd><p>logical whether to include the colname delimited
+<dd><p><code>logical</code> whether to include the colname delimited
 prior to the value, using sepName as the delimiter.</p></dd>
+
+
 <dt>sepName</dt>
-<dd><p>character, only relevant when includeNames=TRUE, this value
-becomes the delimiter.</p></dd>
+<dd><p><code>character</code> string relevant when <code>includeNames=TRUE</code>,
+this value becomes the delimiter between name:value.</p></dd>
+
+
 <dt>blankGrep</dt>
-<dd><p>character grep string used to recognize blank entries,
-by default any field containing no text, or only spaces, is considered
-a blank entry.</p></dd>
+<dd><p><code>character</code> string used as regular expression pattern in
+<code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep()</a></code> to recognize blank entries;
+by default any field containing no text, or only whitespace,
+is considered a blank entry.</p></dd>
+
+
 <dt>verbose</dt>
-<dd><p>logical whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>character vector of length <code>nrow(x)</code>.</p>
+    
+
+<p><code>character</code> vector of length <code>nrow(x)</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>This function is intended to paste data.frame (or matrix, or tibble) values
-for each row of data. It differs from using apply(x, 2, paste) in that it
-handles factors without converting to integer factor level numbers. It
-also by default removes blank or empty fields, preventing the delimiter
-from being included multiple times, per the condenseBlanks parameter.
-Lastly, it is notably faster than apply, by means of running paste() on
+    <p>This function is intended to paste <code>data.frame</code> (or <code>matrix</code>, or <code>tibble</code>)
+values for each row of data.
+It differs from using <code>apply(x, 2, paste)</code>:</p><ul><li><p>it handles factors without converting to integer factor level numbers.</p></li>
+<li><p>it also by default removes blank or empty fields, preventing the delimiter
+from being included multiple times, per the <code>condenseBlanks</code> argument.</p></li>
+<li><p>it is notably faster than apply, by means of running <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code> on
 each column of data, making the output vectorized, and scaling rather
-well for large data.frames.</p>
-<p>The output can also include name:value pairs, which can make the output
+well for large <code>data.frame</code> objects.</p></li>
+</ul><p>The output can also include name:value pairs, which can make the output
 data more self-describing in some circumstances. That said, the most basic
 usefulness of this function is to create row labels.</p>
     </div>
@@ -146,47 +168,44 @@ usefulness of this function is to create row labels.</p>
 <code><a href="padString.html">padString</a>()</code>,
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># create an example data.frame</span></span>
-<span class="r-in"><span class="va">a1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
-<span class="r-in"><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yellow"</span>,<span class="st">"orange"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
-<span class="r-in"><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"green"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
-<span class="r-in"><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">a1</span>, b<span class="op">=</span><span class="va">b1</span>, d<span class="op">=</span><span class="va">d1</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">df2</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># create an example data.frame</span></span></span>
+<span class="r-in"><span><span class="va">a1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span></span>
+<span class="r-in"><span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yellow"</span>,<span class="st">"orange"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span></span>
+<span class="r-in"><span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"green"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span></span>
+<span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">a1</span>, b<span class="op">=</span><span class="va">b1</span>, d<span class="op">=</span><span class="va">d1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">df2</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      a      b      d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  red yellow purple</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  red orange  green</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 blue orange  green</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the basic output</span></span>
-<span class="r-in"><span class="fu">pasteByRow</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the basic output</span></span></span>
+<span class="r-in"><span><span class="fu">pasteByRow</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "red_yellow_purple"  "red_orange_green" "blue_orange_green" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Now remove an entry to show the empty field is skipped</span></span>
-<span class="r-in"><span class="va">df2</span><span class="op">[</span><span class="fl">3</span>,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span>;</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>invalid factor level, NA generated</span>
-<span class="r-in"><span class="fu">pasteByRow</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Now remove an entry to show the empty field is skipped</span></span></span>
+<span class="r-in"><span><span class="va">df2</span><span class="op">[</span><span class="fl">3</span>,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span>;</span></span>
+<span class="r-in"><span><span class="fu">pasteByRow</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "red_yellow_purple"  "red_orange_green"       "blue_orange" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the output tends to make good rownames</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">pasteByRow</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># since the data.frame contains colors, we display using</span></span>
-<span class="r-in"><span class="co"># imageByColors()</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mar"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="imageByColors.html">imageByColors</a></span><span class="op">(</span><span class="va">df2</span>, cellnote<span class="op">=</span><span class="va">df2</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the output tends to make good rownames</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">pasteByRow</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># since the data.frame contains colors, we display using</span></span></span>
+<span class="r-in"><span><span class="co"># imageByColors()</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mar"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="imageByColors.html">imageByColors</a></span><span class="op">(</span><span class="va">df2</span>, cellnote<span class="op">=</span><span class="va">df2</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="pasteByRow-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -201,8 +220,7 @@ usefulness of this function is to create row labels.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

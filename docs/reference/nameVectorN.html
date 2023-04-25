@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,20 +62,26 @@
     <p>define a named vector using vector names</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">nameVectorN</span><span class="op">(</span><span class="va">x</span>, makeNamesFunc <span class="op">=</span> <span class="va">makeNames</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nameVectorN</span><span class="op">(</span><span class="va">x</span>, makeNamesFunc <span class="op">=</span> <span class="va">makeNames</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>vector or any object which has names available via <code>names(x)</code></p></dd>
+
+
 <dt>makeNamesFunc</dt>
 <dd><p>function used to create unique names, in the event that
 the names(x) are not unique.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>vector of names, whose names are uniquely assigned using
+    
+
+<p>vector of names, whose names are uniquely assigned using
 <code><a href="makeNames.html">makeNames</a></code> using the values of the vector.</p>
     </div>
     <div id="details">
@@ -121,30 +127,28 @@ could for example be added to the data.frame.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># a simple integer vector with character names</span></span>
-<span class="r-in"><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">L</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># a simple integer vector with character names</span></span></span>
+<span class="r-in"><span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">L</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A B C D E </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 2 3 4 5 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># we can make a vector of names, retaining the names</span></span>
-<span class="r-in"><span class="fu">nameVectorN</span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># we can make a vector of names, retaining the names</span></span></span>
+<span class="r-in"><span><span class="fu">nameVectorN</span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A   B   C   D   E </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "A" "B" "C" "D" "E" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Now consider a named list, where the name is important</span></span>
-<span class="r-in"><span class="co"># to keep for downstream work.</span></span>
-<span class="r-in"><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">^</span><span class="fl">3</span>, B<span class="op">=</span><span class="fl">7</span><span class="op">:</span><span class="fl">10</span>, C<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">K</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Now consider a named list, where the name is important</span></span></span>
+<span class="r-in"><span><span class="co"># to keep for downstream work.</span></span></span>
+<span class="r-in"><span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">^</span><span class="fl">3</span>, B<span class="op">=</span><span class="fl">7</span><span class="op">:</span><span class="fl">10</span>, C<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">K</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  8 27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -154,13 +158,13 @@ could for example be added to the data.frame.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  4  9 16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># Typical lapply-style work does not operate on the name,</span></span>
-<span class="r-in"><span class="co"># making it difficult to use the name inside the function.</span></span>
-<span class="r-in"><span class="co"># Here, we just add the name to the colnames, but anything</span></span>
-<span class="r-in"><span class="co"># could be useful.</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">K</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span>, median<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"> <span class="op">}</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="co"># Typical lapply-style work does not operate on the name,</span></span></span>
+<span class="r-in"><span><span class="co"># making it difficult to use the name inside the function.</span></span></span>
+<span class="r-in"><span><span class="co"># Here, we just add the name to the colnames, but anything</span></span></span>
+<span class="r-in"><span><span class="co"># could be useful.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">K</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span>, median<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span> <span class="op">}</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean median</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   12      8</span>
@@ -173,13 +177,13 @@ could for example be added to the data.frame.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean median</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  7.5    6.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># So the next step is to run lapply() on the names</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">K</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">   <span class="va">iDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">K</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, median<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">K</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">iDF</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>, <span class="va">i</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="va">iDF</span>;</span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># So the next step is to run lapply() on the names</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">K</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="va">iDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">K</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, median<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">K</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">iDF</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>, <span class="va">i</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="va">iDF</span>;</span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean A median A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     12        8</span>
@@ -192,16 +196,16 @@ could for example be added to the data.frame.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean C median C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    7.5      6.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># The result is good, but the list is no longer named.</span></span>
-<span class="r-in"><span class="co"># The nameVectorN() function is helpful for maintaining the names.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># So we run lapply() on the named-names, which keeps the names in</span></span>
-<span class="r-in"><span class="co"># the resulting list, and sends it into the function.</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu">nameVectorN</span><span class="op">(</span><span class="va">K</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">   <span class="va">iDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">K</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, median<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">K</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">iDF</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>, <span class="va">i</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="va">iDF</span>;</span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="co"># The result is good, but the list is no longer named.</span></span></span>
+<span class="r-in"><span><span class="co"># The nameVectorN() function is helpful for maintaining the names.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># So we run lapply() on the named-names, which keeps the names in</span></span></span>
+<span class="r-in"><span><span class="co"># the resulting list, and sends it into the function.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu">nameVectorN</span><span class="op">(</span><span class="va">K</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="va">iDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">K</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, median<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">K</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">iDF</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>, <span class="va">i</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="va">iDF</span>;</span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean A median A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     12        8</span>
@@ -214,7 +218,7 @@ could for example be added to the data.frame.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean C median C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    7.5      6.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -229,8 +233,7 @@ could for example be added to the data.frame.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,26 +62,34 @@
     <p>relist a vector which allows re-ordered names</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">relist_named</span><span class="op">(</span><span class="va">x</span>, <span class="va">skeleton</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">relist_named</span><span class="op">(</span><span class="va">x</span>, <span class="va">skeleton</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>vector to be applied to the <code>skeleton</code> list
 structure in order.</p></dd>
+
+
 <dt>skeleton</dt>
 <dd><p><code>list</code> object representing the desired
 final list structure, or <code>vector</code> when the input
 data <code>x</code> should be returned as-is, without change.
 Specifically, when <code>skeleton</code> is a <code>vector</code>, the
 <code>names(x)</code> are maintained without change.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>list</code> object with the same structure as the <code>skeleton</code>.</p>
+    
+
+<p><code>list</code> object with the same structure as the <code>skeleton</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -112,13 +120,9 @@ and there is much to be commended for functions that work.</p>
 <code><a href="rbindList.html">rbindList</a>()</code>,
 <code><a href="rlengths.html">rlengths</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code>,
 <code><a href="unnestList.html">unnestList</a>()</code></p></div>
-    </div>
     </div>
 
   </div>
@@ -133,8 +137,7 @@ and there is much to be commended for functions that work.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

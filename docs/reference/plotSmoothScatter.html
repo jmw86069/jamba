@@ -18,7 +18,7 @@ individual data points."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -64,54 +64,63 @@ individual data points."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
 individual data points.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">plotSmoothScatter</span><span class="op">(</span>
-  <span class="va">x</span>,
-  y <span class="op">=</span> <span class="cn">NULL</span>,
-  bwpi <span class="op">=</span> <span class="fl">50</span>,
-  binpi <span class="op">=</span> <span class="fl">50</span>,
-  bandwidthN <span class="op">=</span> <span class="cn">NULL</span>,
-  nbin <span class="op">=</span> <span class="cn">NULL</span>,
-  expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.04</span>, <span class="fl">0.04</span><span class="op">)</span>,
-  transFactor <span class="op">=</span> <span class="fl">0.25</span>,
-  transformation <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">^</span><span class="va">transFactor</span>,
-  xlim <span class="op">=</span> <span class="cn">NULL</span>,
-  ylim <span class="op">=</span> <span class="cn">NULL</span>,
-  xlab <span class="op">=</span> <span class="cn">NULL</span>,
-  ylab <span class="op">=</span> <span class="cn">NULL</span>,
-  nrpoints <span class="op">=</span> <span class="fl">0</span>,
-  colramp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"lightblue"</span>, <span class="st">"blue"</span>, <span class="st">"orange"</span>, <span class="st">"orangered2"</span><span class="op">)</span>,
-  col <span class="op">=</span> <span class="st">"black"</span>,
-  doTest <span class="op">=</span> <span class="cn">FALSE</span>,
-  fillBackground <span class="op">=</span> <span class="cn">TRUE</span>,
-  naAction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remove"</span>, <span class="st">"floor0"</span>, <span class="st">"floor1"</span><span class="op">)</span>,
-  xaxt <span class="op">=</span> <span class="st">"s"</span>,
-  yaxt <span class="op">=</span> <span class="st">"s"</span>,
-  add <span class="op">=</span> <span class="cn">FALSE</span>,
-  applyRangeCeiling <span class="op">=</span> <span class="cn">TRUE</span>,
-  useRaster <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotSmoothScatter</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bwpi <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  binpi <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  bandwidthN <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nbin <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.04</span>, <span class="fl">0.04</span><span class="op">)</span>,</span>
+<span>  transFactor <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  transformation <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">^</span><span class="va">transFactor</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nrpoints <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  colramp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"lightblue"</span>, <span class="st">"blue"</span>, <span class="st">"orange"</span>, <span class="st">"orangered2"</span><span class="op">)</span>,</span>
+<span>  col <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  doTest <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fillBackground <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  naAction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remove"</span>, <span class="st">"floor0"</span>, <span class="st">"floor1"</span><span class="op">)</span>,</span>
+<span>  xaxt <span class="op">=</span> <span class="st">"s"</span>,</span>
+<span>  yaxt <span class="op">=</span> <span class="st">"s"</span>,</span>
+<span>  add <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  applyRangeCeiling <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useRaster <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>numeric vector, or data matrix with two or  more columns.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>numeric vector, or if data is supplied via x as a matrix, y
 is NULL.</p></dd>
+
+
 <dt>bwpi</dt>
 <dd><p><code>numeric</code> value indicating the bandwidth "per inch"
 to scale the bandwidth based upon visual space available.
 This argument is used to define <code>bandwidthN</code>, however <code>bwpi</code>
 is only used when <code>bandwidthN=NULL</code>.
 The bandwidth is used to define the 2-dimensional point density.</p></dd>
+
+
 <dt>binpi</dt>
 <dd><p><code>numeric</code> value indicating the number of bins "per inch",
 to scale based upon visual space available.
 This argument is used to define <code>nbin</code>, however <code>binpi</code>
 is only used when <code>nbin=NULL</code>.</p></dd>
+
+
 <dt>bandwidthN</dt>
 <dd><p><code>integer</code> number of bandwidth steps to use across the
 visible plot window. Note that this bandwidth differs from default
@@ -120,6 +129,8 @@ plot window instead of the data range, so if the plot window is not
 sufficiently similar to the data range, the resulting smoothed
 density will not be visibly distorted. This parameter also permits
 display of higher (or lower) level of detail.</p></dd>
+
+
 <dt>nbin</dt>
 <dd><p><code>integer</code> number of bins to use when converting the kernel
 density result (which uses bandwidthN above) into a usable image.
@@ -129,34 +140,50 @@ bandwidth density in terms of visible pixels. For example
 plot panel; and <code>nbin=32</code> will create 32 visible pixels, with
 lower detail which may be suitable for multi-panel plots.
 To use a variable number of bins, try <code>binpi</code>.</p></dd>
+
+
 <dt>expand</dt>
 <dd><p><code>numeric</code> value indicating the fraction of the x-axis
 and y-axis ranges to add to create an expanded range,
 used when <code>add=FALSE</code>. The default <code>expand=c(0.04, 0.04)</code> mimics
 the R base plot default which adds 4 percent total, therefore 2 percent
 to each side of the visible range.</p></dd>
+
+
 <dt>transFactor</dt>
 <dd><p><code>numeric</code> value used by the default <code>transformation</code>
 function, which effectively scales the density of points to
 a reasonable visible distribution. This argument is a convenience
 method to avoid having to type out the full <code>transformation</code> function.</p></dd>
+
+
 <dt>transformation</dt>
 <dd><p><code>function</code> which converts point density to a number,
 typically related to square root or cube root transformation. Note
 that the default uses <code>transFactor</code> but if a custom function is
 supplied, it will not use <code>transFactor</code> unless specified.</p></dd>
+
+
 <dt>xlim</dt>
 <dd><p><code>numeric</code> x-axis range, or <code>NULL</code> to use the data range.</p></dd>
+
+
 <dt>ylim</dt>
 <dd><p><code>numeric</code> y-axis range, or <code>NULL</code> to use the data range.</p></dd>
+
+
 <dt>xlab, ylab</dt>
 <dd><p><code>character</code> labels for x- and y-axis, respectively.</p></dd>
+
+
 <dt>nrpoints</dt>
 <dd><p><code>integer</code> number of outlier datapoints to display,
 as defined by <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">graphics::smoothScatter()</a></code>, however the default here
 is <code>nrpoints=0</code> to avoid additional clutter in the output,
 and because the default arguments <code>bwpi</code>, <code>binpi</code> usually indicate all
 individual points.</p></dd>
+
+
 <dt>colramp</dt>
 <dd><p>any input recognized by <code><a href="getColorRamp.html">getColorRamp()</a></code>:</p><ul><li><p><code>character</code> vector with multiple colors</p></li>
 <li><p><code>character</code> string length 1, with valid R color used to create
@@ -166,12 +193,18 @@ or <code>viridis</code></p></li>
 <li><p><code>function</code> that itself produces vector of colors,
 in the form <code>function(n)</code> where <code>n</code> defines the number of colors.</p></li>
 </ul></dd>
+
+
 <dt>col</dt>
 <dd><p><code>character</code> string with R color used when <code>nrpoints</code> is
 non-zero, this color defines the color of those points.</p></dd>
+
+
 <dt>doTest</dt>
 <dd><p><code>logical</code> indicating whether to create a visual set of test
 plots to demonstrate the utility of this function.</p></dd>
+
+
 <dt>fillBackground</dt>
 <dd><p><code>logical</code> indicating whether to fill the
 background of the plot panel with the first color in <code>colramp</code>.
@@ -183,6 +216,8 @@ Run a test using:
 <code>plotSmoothScatter(doTest=TRUE, fillBackground=FALSE, colramp="viridis")</code>
 and compare with:
 <code>plotSmoothScatter(doTest=TRUE, colramp="viridis")</code></p></dd>
+
+
 <dt>naAction</dt>
 <dd><p><code>character</code> string indicating how to handle NA values,
 typically when x is NA and y is not NA, or vice versa. valid values:</p><dl><dt>"remove"</dt>
@@ -200,15 +235,23 @@ the presence of an NA value in either x or y, while also indicating the
 the corresponding non-NA value in the opposing axis. The driving use
 was plotting gene fold changes from two experiments, where the two
 experiments may not have measured the same genes.</p></dd>
+
+
 <dt>xaxt</dt>
 <dd><p><code>character</code> value compatible with par(xaxt), used to control
-the x-axis range, similar to its use in <code><a href="https://rdrr.io/r/graphics/plot.html" class="external-link">plot()</a></code> generic functions.</p></dd>
+the x-axis range, similar to its use in <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> generic functions.</p></dd>
+
+
 <dt>yaxt</dt>
 <dd><p><code>character</code> value compatible with par(yaxt), used to control
-the y-axis range, similar to its use in <code><a href="https://rdrr.io/r/graphics/plot.html" class="external-link">plot()</a></code> generic functions.</p></dd>
+the y-axis range, similar to its use in <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> generic functions.</p></dd>
+
+
 <dt>add</dt>
 <dd><p><code>logical</code> whether to add to an existing active R plot, or create
 a new plot window.</p></dd>
+
+
 <dt>applyRangeCeiling</dt>
 <dd><p><code>logical</code> indicating how to handle points outside
 the visible plot range. Valid values:</p><dl><dt>TRUE</dt>
@@ -229,6 +272,8 @@ would obscure these points.</p></dd>
 
 
 </dl></dd>
+
+
 <dt>useRaster</dt>
 <dd><p><code>logical</code> indicating whether to produce plots using the
 <code><a href="https://rdrr.io/r/graphics/rasterImage.html" class="external-link">graphics::rasterImage()</a></code> function which produces a plot
@@ -237,11 +282,16 @@ This technique has two benefits:</p><ol><li><p>It produces substantially faster 
 <li><p>Output contains substantially fewer plot objects, which results
 in much smaller file sizes when saving in PDF or SVG format.</p></li>
 </ol></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to called functions,
 including <code><a href="getColorRamp.html">getColorRamp()</a></code>, <code><a href="nullPlot.html">nullPlot()</a></code>, <code><a href="smoothScatterJam.html">smoothScatterJam()</a></code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -280,22 +330,22 @@ are very different.</p>
 <code><a href="sqrtAxis.html">sqrtAxis</a>()</code>,
 <code><a href="usrBox.html">usrBox</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># doTest=TRUE invisibly returns the test data</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">plotSmoothScatter</span><span class="op">(</span>doTest<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># doTest=TRUE invisibly returns the test data</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">plotSmoothScatter</span><span class="op">(</span>doTest<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="plotSmoothScatter-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># so it can be plotted again with different settings</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"column_1"</span>, <span class="st">"column_2"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plotSmoothScatter</span><span class="op">(</span><span class="va">x</span>, colramp<span class="op">=</span><span class="st">"inferno"</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># so it can be plotted again with different settings</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"column_1"</span>, <span class="st">"column_2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plotSmoothScatter</span><span class="op">(</span><span class="va">x</span>, colramp<span class="op">=</span><span class="st">"inferno"</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="plotSmoothScatter-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="plotPolygonDensity.html">plotPolygonDensity</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotPolygonDensity.html">plotPolygonDensity</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>argument 1 does not name a graphical parameter</span>
 <span class="r-plt img"><img src="plotSmoothScatter-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -310,8 +360,7 @@ are very different.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

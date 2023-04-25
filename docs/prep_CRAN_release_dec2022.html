@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -61,24 +61,15 @@
 <div class="section level3">
 <h3 id="code-changes-for-cran-compliance">Code changes for CRAN compliance<a class="anchor" aria-label="anchor" href="#code-changes-for-cran-compliance"></a></h3>
 <ul><li>
-<p>Remove use of <code>:::</code>, replace with call to exported
-function, or internal function that performs equivalent task.</p>
-<ul><li>DONE: <code>grDevices:::.smoothScatterCalcDensity()</code> - is a
-wrapper for <code><a href="https://rdrr.io/pkg/KernSmooth/man/bkde2D.html" class="external-link">KernSmooth::bkde2D()</a></code> so can be replaced with
-internal Jam function.</li>
-<li>DONE: <code>RColorBrewer:::namelist</code> - should be removed,
-RColorBrewer is not in Imports, but in Suggests. Use manually-encoded
-method to recognize valid RColorBrewer color names.
-(<code>jamba-showcolors.R:52</code>)</li>
+<p>Remove use of <code>:::</code>, replace with call to exported function, or internal function that performs equivalent task.</p>
+<ul><li>DONE: <code>grDevices:::.smoothScatterCalcDensity()</code> - is a wrapper for <code><a href="https://rdrr.io/pkg/KernSmooth/man/bkde2D.html" class="external-link">KernSmooth::bkde2D()</a></code> so can be replaced with internal Jam function.</li>
+<li>DONE: <code>RColorBrewer:::namelist</code> - should be removed, RColorBrewer is not in Imports, but in Suggests. Use manually-encoded method to recognize valid RColorBrewer color names. (<code>jamba-showcolors.R:52</code>)</li>
 <li>
-<code>utils:::relist.default()</code> - remove reference in help
-docs, see <code>jamba-string.r:2411</code>.</li>
-<li>DONE: <code>base:::merge.data.frame()</code> - manually recognize
-argument names, see <code>jamba.r:4632</code>.</li>
+<code>utils:::relist.default()</code> - remove reference in help docs, see <code>jamba-string.r:2411</code>.</li>
+<li>DONE: <code>base:::merge.data.frame()</code> - manually recognize argument names, see <code>jamba.r:4632</code>.</li>
 </ul></li>
 <li>
-<p>Consider splitting large files into smaller counterparts,
-examples:</p>
+<p>Consider splitting large files into smaller counterparts, examples:</p>
 <ul><li>
 <code>jamba.r</code>: 5,074 lines</li>
 <li>
@@ -93,10 +84,8 @@ examples:</p>
 <code>jamba-mixedSort.R</code>: 1,147 lines</li>
 </ul></li>
 <li>
-<p>Port <code><a href="reference/imageDefault.html">imageDefault()</a></code> to call
-<code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image.default()</a></code></p>
-<ul><li>DONE: avoid
-<code>.External.graphics(graphics:::C_image, x, y, zi, col)</code>
+<p>Port <code><a href="reference/imageDefault.html">imageDefault()</a></code> to call <code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image.default()</a></code></p>
+<ul><li>DONE: avoid <code>.External.graphics(graphics:::C_image, x, y, zi, col)</code>
 </li>
 </ul></li>
 </ul></div>
@@ -117,8 +106,7 @@ examples:</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

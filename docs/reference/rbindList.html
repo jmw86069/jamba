@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,57 +62,77 @@
     <p>rbind a list of vectors into matrix or data.frame</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">rbindList</span><span class="op">(</span>
-  <span class="va">x</span>,
-  emptyValue <span class="op">=</span> <span class="st">""</span>,
-  nullValue <span class="op">=</span> <span class="cn">NULL</span>,
-  keepListNames <span class="op">=</span> <span class="cn">TRUE</span>,
-  newColnames <span class="op">=</span> <span class="cn">NULL</span>,
-  newRownames <span class="op">=</span> <span class="cn">NULL</span>,
-  fixBlanks <span class="op">=</span> <span class="cn">TRUE</span>,
-  returnDF <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rbindList</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  emptyValue <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  nullValue <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  keepListNames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  newColnames <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newRownames <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fixBlanks <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  returnDF <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>list</code> of atomic <code>vector</code>, <code>matrix</code>, or <code>data.frame</code>
 objects.</p></dd>
+
+
 <dt>emptyValue</dt>
 <dd><p><code>character</code> value to use to represent missing values,
 whenever a blank cell is introduced into the resulting matrix</p></dd>
+
+
 <dt>nullValue</dt>
 <dd><p>optional value used to replace NULL entries in
 the input list, useful especially when the data was produced
 by <code><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit()</a></code> with <code>""</code>. Use <code>nullValue=""</code> to replace <code>NULL</code>
 with <code>""</code> and preserve the original list length. Otherwise when
 <code>nullValue=NULL</code> any empty entries will be silently dropped.</p></dd>
+
+
 <dt>keepListNames</dt>
 <dd><p><code>logical</code> whether to use list names as rownames
 in the resulting matrix or data.frame.</p></dd>
+
+
 <dt>newColnames</dt>
 <dd><p>NULL or <code>character</code> vector of colnames to use for the
 resulting matrix or data.frame.</p></dd>
+
+
 <dt>newRownames</dt>
 <dd><p>NULL or <code>character</code> vector of rownames to use for the
 resulting matrix or data.frame. If supplied, this value overrides the
 keepListNames=TRUE use of list names as rownames.</p></dd>
+
+
 <dt>fixBlanks</dt>
 <dd><p><code>logical</code> whether to use blank values instead of repeating
 each vector to the length of the maximum vector length when filling
 each row of the matrix or data.frame.</p></dd>
+
+
 <dt>returnDF</dt>
 <dd><p><code>logical</code> whether to return a data.frame, by default FALSE,
 a matrix is returned.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> whether to print verbose output during processing.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>matrix</code> unless <code>returnDF=TRUE</code> in which the output is coerced
+    
+
+<p><code>matrix</code> unless <code>returnDF=TRUE</code> in which the output is coerced
 to a <code>data.frame</code>.
 The rownames by default are derived from the list names,
 but the colnames are not derived from the vector names.
@@ -151,32 +171,28 @@ alternative approaches such as pre-processing the input data.</p>
 <code><a href="relist_named.html">relist_named</a>()</code>,
 <code><a href="rlengths.html">rlengths</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code>,
 <code><a href="unnestList.html">unnestList</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, b<span class="op">=</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">L</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, b<span class="op">=</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">L</span><span class="op">)</span>;</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result is not a multiple of vector length (arg 2)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2] [,3] [,4]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a "A"  "B"  "C"  "D" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b "a"  "b"  "c"  "a" </span>
-<span class="r-in"><span class="fu">rbindList</span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">rbindList</span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2] [,3] [,4]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a "A"  "B"  "C"  "D" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b "a"  "b"  "c"  ""  </span>
-<span class="r-in"><span class="fu">rbindList</span><span class="op">(</span><span class="va">L</span>, returnDF<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">rbindList</span><span class="op">(</span><span class="va">L</span>, returnDF<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1 2 3 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a A B C D</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b a b c  </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -191,8 +207,7 @@ alternative approaches such as pre-processing the input data.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

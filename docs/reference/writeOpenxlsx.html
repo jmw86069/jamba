@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,78 +62,85 @@
     <p>Export a data.frame to Excel xlsx format</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">writeOpenxlsx</span><span class="op">(</span>
-  <span class="va">x</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>,
-  wb <span class="op">=</span> <span class="cn">NULL</span>,
-  sheetName <span class="op">=</span> <span class="st">"Sheet1"</span>,
-  append <span class="op">=</span> <span class="cn">FALSE</span>,
-  headerColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lightskyblue1"</span>, <span class="st">"lightskyblue2"</span><span class="op">)</span>,
-  columnColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aliceblue"</span>, <span class="st">"azure2"</span><span class="op">)</span>,
-  highlightHeaderColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tan1"</span>, <span class="st">"tan2"</span><span class="op">)</span>,
-  highlightColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"moccasin"</span>, <span class="st">"navajowhite"</span><span class="op">)</span>,
-  borderColor <span class="op">=</span> <span class="st">"gray75"</span>,
-  borderPosition <span class="op">=</span> <span class="st">"BottomRight"</span>,
-  highlightColumns <span class="op">=</span> <span class="cn">NULL</span>,
-  numColumns <span class="op">=</span> <span class="cn">NULL</span>,
-  fcColumns <span class="op">=</span> <span class="cn">NULL</span>,
-  lfcColumns <span class="op">=</span> <span class="cn">NULL</span>,
-  hitColumns <span class="op">=</span> <span class="cn">NULL</span>,
-  intColumns <span class="op">=</span> <span class="cn">NULL</span>,
-  pvalueColumns <span class="op">=</span> <span class="cn">NULL</span>,
-  numFormat <span class="op">=</span> <span class="st">"#,##0.00"</span>,
-  fcFormat <span class="op">=</span> <span class="st">"#,##0.0"</span>,
-  lfcFormat <span class="op">=</span> <span class="st">"#,##0.0"</span>,
-  hitFormat <span class="op">=</span> <span class="st">"#,##0.0"</span>,
-  intFormat <span class="op">=</span> <span class="st">"#,##0"</span>,
-  pvalueFormat <span class="op">=</span> <span class="st">"[&gt;0.01]0.00#;0.00E+00"</span>,
-  numRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span>,
-  fcRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">6</span>, <span class="fl">0</span>, <span class="fl">6</span><span class="op">)</span>,
-  lfcRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>,
-  hitRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="fl">0</span>, <span class="fl">1.5</span><span class="op">)</span>,
-  intRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, <span class="fl">10000</span><span class="op">)</span>,
-  pvalueRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span><span class="op">)</span>,
-  numStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#F2F0F7"</span>, <span class="st">"#B4B1D4"</span>, <span class="st">"#938EC2"</span><span class="op">)</span>,
-  fcStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4F81BD"</span>, <span class="st">"#EEECE1"</span>, <span class="st">"#C0504D"</span><span class="op">)</span>,
-  lfcStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4F81BD"</span>, <span class="st">"#EEECE1"</span>, <span class="st">"#C0504D"</span><span class="op">)</span>,
-  hitStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4F81BD"</span>, <span class="st">"#EEECE1"</span>, <span class="st">"#C0504D"</span><span class="op">)</span>,
-  intStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#EEECE1"</span>, <span class="st">"#FDA560"</span>, <span class="st">"#F77F30"</span><span class="op">)</span>,
-  pvalueStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#F77F30"</span>, <span class="st">"#FDC99B"</span>, <span class="st">"#EEECE1"</span><span class="op">)</span>,
-  doConditional <span class="op">=</span> <span class="cn">TRUE</span>,
-  doCategorical <span class="op">=</span> <span class="cn">TRUE</span>,
-  colorSub <span class="op">=</span> <span class="cn">NULL</span>,
-  freezePaneColumn <span class="op">=</span> <span class="fl">1</span>,
-  freezePaneRow <span class="op">=</span> <span class="fl">2</span>,
-  doFilter <span class="op">=</span> <span class="cn">TRUE</span>,
-  fontName <span class="op">=</span> <span class="st">"Arial"</span>,
-  fontSize <span class="op">=</span> <span class="fl">12</span>,
-  minWidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"openxlsx.minWidth"</span>, <span class="fl">8</span><span class="op">)</span>,
-  maxWidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"openxlsx.maxWidth"</span>, <span class="fl">40</span><span class="op">)</span>,
-  autoWidth <span class="op">=</span> <span class="cn">TRUE</span>,
-  colWidths <span class="op">=</span> <span class="cn">NULL</span>,
-  wrapCells <span class="op">=</span> <span class="cn">FALSE</span>,
-  wrapHeaders <span class="op">=</span> <span class="cn">TRUE</span>,
-  headerRowMultiplier <span class="op">=</span> <span class="fl">5</span>,
-  keepRownames <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">writeOpenxlsx</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  wb <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sheetName <span class="op">=</span> <span class="st">"Sheet1"</span>,</span>
+<span>  startRow <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  startCol <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  append <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  headerColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lightskyblue1"</span>, <span class="st">"lightskyblue2"</span><span class="op">)</span>,</span>
+<span>  columnColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aliceblue"</span>, <span class="st">"azure2"</span><span class="op">)</span>,</span>
+<span>  highlightHeaderColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tan1"</span>, <span class="st">"tan2"</span><span class="op">)</span>,</span>
+<span>  highlightColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"moccasin"</span>, <span class="st">"navajowhite"</span><span class="op">)</span>,</span>
+<span>  borderColor <span class="op">=</span> <span class="st">"gray75"</span>,</span>
+<span>  borderPosition <span class="op">=</span> <span class="st">"BottomRight"</span>,</span>
+<span>  highlightColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  numColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fcColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lfcColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  hitColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  intColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pvalueColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  numFormat <span class="op">=</span> <span class="st">"#,##0.00"</span>,</span>
+<span>  fcFormat <span class="op">=</span> <span class="st">"#,##0.0"</span>,</span>
+<span>  lfcFormat <span class="op">=</span> <span class="st">"#,##0.0"</span>,</span>
+<span>  hitFormat <span class="op">=</span> <span class="st">"#,##0.0"</span>,</span>
+<span>  intFormat <span class="op">=</span> <span class="st">"#,##0"</span>,</span>
+<span>  pvalueFormat <span class="op">=</span> <span class="st">"[&gt;0.01]0.00#;0.00E+00"</span>,</span>
+<span>  numRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span>,</span>
+<span>  fcRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">6</span>, <span class="fl">0</span>, <span class="fl">6</span><span class="op">)</span>,</span>
+<span>  lfcRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  hitRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="fl">0</span>, <span class="fl">1.5</span><span class="op">)</span>,</span>
+<span>  intRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, <span class="fl">10000</span><span class="op">)</span>,</span>
+<span>  pvalueRule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span><span class="op">)</span>,</span>
+<span>  numStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#F2F0F7"</span>, <span class="st">"#B4B1D4"</span>, <span class="st">"#938EC2"</span><span class="op">)</span>,</span>
+<span>  fcStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4F81BD"</span>, <span class="st">"#EEECE1"</span>, <span class="st">"#C0504D"</span><span class="op">)</span>,</span>
+<span>  lfcStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4F81BD"</span>, <span class="st">"#EEECE1"</span>, <span class="st">"#C0504D"</span><span class="op">)</span>,</span>
+<span>  hitStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4F81BD"</span>, <span class="st">"#EEECE1"</span>, <span class="st">"#C0504D"</span><span class="op">)</span>,</span>
+<span>  intStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#EEECE1"</span>, <span class="st">"#FDA560"</span>, <span class="st">"#F77F30"</span><span class="op">)</span>,</span>
+<span>  pvalueStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#F77F30"</span>, <span class="st">"#FDC99B"</span>, <span class="st">"#EEECE1"</span><span class="op">)</span>,</span>
+<span>  doConditional <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  doCategorical <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  colorSub <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  freezePaneColumn <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  freezePaneRow <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  doFilter <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fontName <span class="op">=</span> <span class="st">"Arial"</span>,</span>
+<span>  fontSize <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  minWidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"openxlsx.minWidth"</span>, <span class="fl">8</span><span class="op">)</span>,</span>
+<span>  maxWidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"openxlsx.maxWidth"</span>, <span class="fl">40</span><span class="op">)</span>,</span>
+<span>  autoWidth <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  colWidths <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  wrapCells <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  wrapHeaders <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  headerRowMultiplier <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  keepRownames <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>data.frame to be saved to an Excel xlsx file.</p></dd>
+<dd><p><code>data.frame</code> to be saved to an Excel xlsx file.</p></dd>
+
+
 <dt>file</dt>
-<dd><p>a valid path to save an Excel xlsx file. If the file exists,
-and <code>append=TRUE</code> the new data will be added to the existing file with
-the defined <code>sheetName</code>.</p><ul><li><p>Note when <code>file=NULL</code> the output is not saved to a file,
+<dd><p><code>character</code> valid path to save an Excel xlsx file. If the file
+exists, and <code>append=TRUE</code> the new data will be added to the existing
+file withthe defined <code>sheetName</code>.</p><ul><li><p>Note when <code>file=NULL</code> the output is not saved to a file,
 instead the <code>Workbook</code> object is returned by this function.
 The <code>Workbook</code> object can be passed as argument <code>wb</code> in order
 to add multiple sheets to the same Workbook prior to saving
 them together. This operation is intended to provide a
 substantial improvement in speed.</p></li>
 </ul></dd>
+
+
 <dt>wb</dt>
 <dd><p><code>Workbook</code> object as defined in R package <code>openxlsx</code>.
 When this argument is defined, data is not imported from <code>file</code>,
@@ -141,85 +148,172 @@ and instead the workbook data is used from <code>wb</code>. This option is
 intended to improve speed of writing several sheets to the same
 output file, by preventing the slow read/write steps each time
 a new sheet is added.</p></dd>
+
+
 <dt>sheetName</dt>
-<dd><p>character value less with a valid
+<dd><p><code>character</code> value less with a valid
 Excel xlsx worksheet name. At this time (version 0.0.29.900) the
 sheetName is restricted to 31 characters, with no puntuation except
 "-" and "_".</p></dd>
+
+
 <dt>headerColors, columnColors, highlightHeaderColors, highlightColors, borderColor, borderPosition</dt>
 <dd><p>default values for the Excel worksheet background and border
 colors. As of version 0.0.29.900, colors must use Excel-valid
 color names.</p></dd>
+
+
 <dt>highlightColumns, numColumns, fcColumns, lfcColumns, hitColumns, intColumns, pvalueColumns</dt>
-<dd><p>integer vector referring the column number in the input data.frame <code>x</code>
-to define as each column type, as relevant.</p></dd>
+<dd><p><code>integer</code> vector referring the column number in the input <code>data.frame</code>
+<code>x</code> to define as each column type, as relevant.</p></dd>
+
+
 <dt>numFormat, fcFormat, lfcFormat, hitFormat, intFormat, pvalueFormat</dt>
-<dd><p>character string with valid Excel cell formatting, for example
-"#,##0.00" defines a column to use comma-delimited numbers above
-one thousand, and display two decimal places in all numeric cells.</p></dd>
+<dd><p><code>character</code> string with valid Excel cell formatting, for example
+<code>"#,##0.00"</code> defines a column to use comma-delimited numbers above
+one thousand, and display two decimal places in all numeric cells.
+See <code>[https://support.microsoft.com]</code> topic
+<code>"Excel Create and apply a custom number format."</code> or
+<code>"Excel Number format codes"</code> for more details. Some examples below:</p><ul><li><p><code>"#,##0"</code> : display only integer values, using comma as delimiter
+for every thousands place.
+The number <code>2142.12</code> would be represented: <code>"2,142"</code></p></li>
+<li><p><code>"###0.0"</code> : display numeric values rounded to the <code>0.1</code> place,
+using no comma delimiter for values above one thousand.
+The number <code>2142.12</code> would be represented: <code>"2142.1"</code></p></li>
+<li><p><code>"[&gt;0.01]0.00#;0.00E+00"</code> : this rule is a conditional format,
+values above <code>0.01</code> are represented as numbers rounded to the
+thousandths position <code>0.001</code>; values below <code>0.01</code> are represented
+with scientific notation with three digits.
+The number <code>0.1256</code> would be represented: <code>"0.126"</code>
+The number <code>0.001256</code> would be represented: <code>"1.26E-03"</code></p></li>
+<li><p><code>"[Red]#,###.00_);[Blue](#,###.00);[Black]0.00_)"</code> : this format applies
+to positive values, negative values, and zero, in order delimited
+by semicolons. Positive values are colored red.
+The string <code>"_)"</code> adds whitespace (defined by <code>"_"</code>)
+equale to the width of the character <code>")"</code> to the end
+of positive values.
+Negative values are surrounded by parentheses <code>"()"</code>
+and are colored blue.
+Values equal to zero are represented with two trailing digits,
+and whitespace (<code>"_"</code>) equal to width <code>")"</code>.
+The whitespace at the end of positive values and zero are used
+to align all values at the same decimal position.</p></li>
+</ul></dd>
+
+
 <dt>numRule, fcRule, lfcRule, hitRule, intRule, pvalueRule</dt>
-<dd><p>numeric vector
+<dd><p><code>numeric</code> vector
 <code>length=3</code> indicating the breakpoints for Excel to apply conditional
-color formatting, using the corresponding style.</p></dd>
+color formatting, using the corresponding style.
+Note that all conditional formatting applied by this function uses
+the <code>"3-Color Scale"</code>, therefore there should be three values,
+and three corresponding colors in the corresponding Style arguments.</p></dd>
+
+
 <dt>numStyle, fcStyle, lfcStyle, intStyle, hitStyle, pvalueStyle</dt>
-<dd><p>character
+<dd><p><code>character</code>
 vector <code>length=3</code> containing three valid R colors. Note that alpha
-transparency will be removed prior to use in Excel, as required.</p></dd>
+transparency will be removed prior to use in Excel, as required.
+Note that all conditional formatting applied by this function uses
+the <code>"3-Color Scale"</code>, therefore there should be three colors,
+which match three values in the corresponding Rule arguments.</p></dd>
+
+
 <dt>doConditional</dt>
-<dd><p>logical indicating whether to apply conditional
+<dd><p><code>logical</code> indicating whether to apply conditional
 formatting of cells, with this function only the background cell
 color (and contrasting text color) is affected.</p></dd>
+
+
 <dt>doCategorical</dt>
-<dd><p>logical indicating whether to apply categorical
+<dd><p><code>logical</code> indicating whether to apply categorical
 color formatting, of only the background cell colors and contrasting
 text color. This argument requires <code>colorSub</code> be defined.</p></dd>
+
+
 <dt>colorSub</dt>
-<dd><p>character vector of R colors, whose names refer to
+<dd><p><code>character</code> vector of R colors, whose names refer to
 cell values in the input <code>x</code> data.frame.</p></dd>
+
+
 <dt>freezePaneColumn, freezePaneRow</dt>
-<dd><p>integer value of the row or
-column before which the Excel "freeze panes" is applied.</p></dd>
+<dd><p><code>integer</code> value of the row or
+column before which the Excel "freeze panes" is applied.
+Note that these values are adjusted relative by <code>startRow</code> and
+<code>startCol</code> in the Excel worksheet, so that the values are applied
+relative to the <code>data.frame</code> argument <code>x</code>.</p></dd>
+
+
 <dt>doFilter</dt>
-<dd><p>logical indicating whether to enable column
+<dd><p><code>logical</code> indicating whether to enable column
 filtering by default.</p></dd>
-<dt>fontName, fontSize</dt>
-<dd><p>default font configuration, containing
-a valid Excel font name, and a font size in Excel point units,
-respectively.</p></dd>
+
+
+<dt>fontName</dt>
+<dd><p><code>character</code> default font configuration, containing
+a valid Excel font name.</p></dd>
+
+
+<dt>fontSize</dt>
+<dd><p><code>numeric</code> default font size in Excel point units.</p></dd>
+
+
 <dt>minWidth, maxWidth, autoWidth</dt>
-<dd><p>numeric minimum, maximum size
+<dd><p><code>numeric</code> minimum, maximum size
 for each Excel cell, in character units as defined by Excel,
-used when <code>autoWidth=TRUE</code> to restrict cell widths to this range,
-dependent upon the data content. When <code>autoWidth=FALSE</code> Excel
-naturally auto-sizes cells to the width of the largest value
-in each column.</p></dd>
+used when <code>autoWidth=TRUE</code> to restrict cell widths to this range.
+Note that the argument <code>colWidths</code> is generally preferred, if the
+numeric widths can be reasonable calculated or anticipated upfront.
+When <code>autoWidth=FALSE</code> Excel typically auto-sizes cells to the width
+of the largest value in each column, which may not be ideal when
+values are extremely large.</p></dd>
+
+
 <dt>colWidths</dt>
 <dd><p><code>numeric</code> width of each column in <code>x</code>, recycled
 to the total number of columns required. Note that when
 <code>keepRownames=TRUE</code>, the first column will contain <code>rownames(x)</code>,
 therefore the length of <code>colWidths</code> in that case will be
 <code>ncol(x) + 1</code>.</p></dd>
+
+
 <dt>wrapHeaders</dt>
-<dd><p>logical indicating whether to enable word wrap
+<dd><p><code>logical</code> indicating whether to enable word wrap
 for column headers, which is helpful when <code>autoWidth=TRUE</code> since
 it fixed the cell width while allowing the column header to be seen.</p></dd>
+
+
 <dt>headerRowMultiplier</dt>
-<dd><p>integer value, the row height of the first
-header row in Excel, as a multiple of subsequent rows. This argument
+<dd><p><code>numeric</code> value to define the row height of
+the first header row in Excel. This value is defined as a multiple
+of subsequent rows, and should usually represent the maximum number
+of lines after word-wrapping, as relevant. This argument
 is helpful when <code>wrapHeaders=TRUE</code> and <code>autoWidth=TRUE</code>.</p></dd>
+
+
 <dt>keepRownames</dt>
-<dd><p>logical indicating whether to include
+<dd><p><code>logical</code> indicating whether to include
 <code>rownames(x)</code> in its own column in Excel.</p></dd>
+
+
 <dt>verbose</dt>
-<dd><p>logical indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code>
-and <code><a href="applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>.</p></dd>
+and <code><a href="applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code> as relevant.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
-is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code>can be used in argument <code>wb</code> to provide a speed boost when
+    
+
+<p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
+is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code></p>
+
+
+<p>can be used in argument <code>wb</code> to provide a speed boost when
 saving multiple sheets to the same file.</p>
     </div>
     <div id="details">
@@ -293,41 +387,40 @@ expected ranges of values.</p>
 <code><a href="set_xlsx_colwidths.html">set_xlsx_colwidths</a>()</code>,
 <code><a href="set_xlsx_rowheights.html">set_xlsx_rowheights</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># set up a test data.frame</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="va">lfc</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">/</span><span class="fl">3</span>;</span>
-<span class="r-in">   <span class="va">colorSub</span> <span class="op">&lt;-</span> <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span></span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow</a></span><span class="op">(</span><span class="fl">7</span>, s<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">1</span><span class="op">)</span>, v<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in">   <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>name<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>,</span>
-<span class="r-in">      int<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">4</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">      num<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span><span class="op">-</span><span class="fl">2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,</span>
-<span class="r-in">      fold<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">lfc</span><span class="op">)</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign</a></span><span class="op">(</span><span class="va">lfc</span><span class="op">)</span>,</span>
-<span class="r-in">      lfc<span class="op">=</span><span class="va">lfc</span>,</span>
-<span class="r-in">      pvalue<span class="op">=</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="op">-</span><span class="fl">7</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">      hit<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, replace<span class="op">=</span><span class="cn">TRUE</span>, size<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="va">df</span>;</span>
-<span class="r-in">   <span class="fu">writeOpenxlsx</span><span class="op">(</span>x<span class="op">=</span><span class="va">df</span>,</span>
-<span class="r-in">      file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span>
-<span class="r-in">      sheetName<span class="op">=</span><span class="st">"jamba_test"</span>,</span>
-<span class="r-in">      colorSub<span class="op">=</span><span class="va">colorSub</span>,</span>
-<span class="r-in">      intColumns<span class="op">=</span><span class="fl">2</span>,</span>
-<span class="r-in">      numColumns<span class="op">=</span><span class="fl">3</span>,</span>
-<span class="r-in">      fcColumns<span class="op">=</span><span class="fl">4</span>,</span>
-<span class="r-in">      lfcColumns<span class="op">=</span><span class="fl">5</span>,</span>
-<span class="r-in">      pvalueColumns<span class="op">=</span><span class="fl">6</span>,</span>
-<span class="r-in">      hitColumn<span class="op">=</span><span class="fl">7</span>,</span>
-<span class="r-in">      freezePaneRow<span class="op">=</span><span class="fl">2</span>,</span>
-<span class="r-in">      freezePaneColumn<span class="op">=</span><span class="fl">2</span>,</span>
-<span class="r-in">      append<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># set up a test data.frame</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="va">lfc</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">/</span><span class="fl">3</span>;</span></span>
+<span class="r-in"><span>   <span class="va">colorSub</span> <span class="op">&lt;-</span> <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow</a></span><span class="op">(</span><span class="fl">7</span>, s<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">1</span><span class="op">)</span>, v<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>name<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      int<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">4</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      num<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span><span class="op">-</span><span class="fl">2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      fold<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">lfc</span><span class="op">)</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign</a></span><span class="op">(</span><span class="va">lfc</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      lfc<span class="op">=</span><span class="va">lfc</span>,</span></span>
+<span class="r-in"><span>      pvalue<span class="op">=</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="op">-</span><span class="fl">7</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      hit<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, replace<span class="op">=</span><span class="cn">TRUE</span>, size<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="va">df</span>;</span></span>
+<span class="r-in"><span>   <span class="fu">writeOpenxlsx</span><span class="op">(</span>x<span class="op">=</span><span class="va">df</span>,</span></span>
+<span class="r-in"><span>      file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span></span>
+<span class="r-in"><span>      sheetName<span class="op">=</span><span class="st">"jamba_test"</span>,</span></span>
+<span class="r-in"><span>      colorSub<span class="op">=</span><span class="va">colorSub</span>,</span></span>
+<span class="r-in"><span>      intColumns<span class="op">=</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>      numColumns<span class="op">=</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>      fcColumns<span class="op">=</span><span class="fl">4</span>,</span></span>
+<span class="r-in"><span>      lfcColumns<span class="op">=</span><span class="fl">5</span>,</span></span>
+<span class="r-in"><span>      pvalueColumns<span class="op">=</span><span class="fl">6</span>,</span></span>
+<span class="r-in"><span>      hitColumn<span class="op">=</span><span class="fl">7</span>,</span></span>
+<span class="r-in"><span>      freezePaneRow<span class="op">=</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>      freezePaneColumn<span class="op">=</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>      append<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -342,8 +435,7 @@ expected ranges of values.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,15 +62,19 @@
     <p>convert R color to HSL color matrix</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">col2hsl</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">col2hsl</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>character</code> vector with R compatible colors.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -113,52 +117,51 @@ will likely be removed in favor of using <code>farver</code>. In any event,
 <code><a href="unalpha.html">unalpha</a>()</code>,
 <code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#FF000044"</span>, <span class="st">"#FF0000"</span>, <span class="st">"firebrick"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">x</span>;</span>
-<span class="r-in"><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#FF000044"</span>, <span class="st">"#FF0000"</span>, <span class="st">"firebrick"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">x</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="col2hsl-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="va">xhsl</span> <span class="op">&lt;-</span> <span class="fu">col2hsl</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">xhsl</span></span>
+<span class="r-in"><span><span class="va">xhsl</span> <span class="op">&lt;-</span> <span class="fu">col2hsl</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">xhsl</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         #FF000044 #FF0000 firebrick</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> H       0.0000000       0   0.00000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> S     100.0000000     100  67.92453</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> L      50.0000000      50  41.56863</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alpha   0.2666667       1   1.00000</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">xhex</span> <span class="op">&lt;-</span> <span class="fu"><a href="hsl2col.html">hsl2col</a></span><span class="op">(</span><span class="va">xhsl</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,</span>
-<span class="r-in">   xhex<span class="op">=</span><span class="va">xhex</span><span class="op">)</span>,</span>
-<span class="r-in">   groupCellnotes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">xhex</span> <span class="op">&lt;-</span> <span class="fu"><a href="hsl2col.html">hsl2col</a></span><span class="op">(</span><span class="va">xhsl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,</span></span>
+<span class="r-in"><span>   xhex<span class="op">=</span><span class="va">xhex</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   groupCellnotes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="col2hsl-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">H</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">0</span>, to<span class="op">=</span><span class="fl">360</span>, length.out<span class="op">=</span><span class="fl">17</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">17</span><span class="op">]</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">S</span> <span class="op">&lt;-</span> <span class="fl">75</span>;</span>
-<span class="r-in"><span class="va">Lseq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">15</span>, to<span class="op">=</span><span class="fl">95</span>, by<span class="op">=</span><span class="fl">10</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">hsl_gradient</span> <span class="op">&lt;-</span> <span class="fu"><a href="hsl2col.html">hsl2col</a></span><span class="op">(</span></span>
-<span class="r-in">   H<span class="op">=</span><span class="va">H</span>,</span>
-<span class="r-in">   S<span class="op">=</span><span class="fl">85</span>,</span>
-<span class="r-in">   L<span class="op">=</span><span class="va">Lseq</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">hcl_gradient</span> <span class="op">&lt;-</span> <span class="fu"><a href="hcl2col.html">hcl2col</a></span><span class="op">(</span></span>
-<span class="r-in">   H<span class="op">=</span><span class="va">H</span>,</span>
-<span class="r-in">   C<span class="op">=</span><span class="fl">85</span>,</span>
-<span class="r-in">   L<span class="op">=</span><span class="va">Lseq</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">hsl_gradient</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">Lseq</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">hcl_gradient</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">Lseq</span>;</span>
-<span class="r-in"><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">      hsl<span class="op">=</span><span class="va">hsl_gradient</span>,</span>
-<span class="r-in">      hcl<span class="op">=</span><span class="va">hcl_gradient</span><span class="op">)</span>,</span>
-<span class="r-in">   main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Hue: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">H</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="st">"\nSat: "</span>, <span class="va">S</span>,</span>
-<span class="r-in">      <span class="st">"\nLum: (as labeled)"</span><span class="op">)</span>,</span>
-<span class="r-in">   groupCellnotes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">H</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">0</span>, to<span class="op">=</span><span class="fl">360</span>, length.out<span class="op">=</span><span class="fl">17</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">17</span><span class="op">]</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">S</span> <span class="op">&lt;-</span> <span class="fl">75</span>;</span></span>
+<span class="r-in"><span><span class="va">Lseq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">15</span>, to<span class="op">=</span><span class="fl">95</span>, by<span class="op">=</span><span class="fl">10</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">hsl_gradient</span> <span class="op">&lt;-</span> <span class="fu"><a href="hsl2col.html">hsl2col</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   H<span class="op">=</span><span class="va">H</span>,</span></span>
+<span class="r-in"><span>   S<span class="op">=</span><span class="fl">85</span>,</span></span>
+<span class="r-in"><span>   L<span class="op">=</span><span class="va">Lseq</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">hcl_gradient</span> <span class="op">&lt;-</span> <span class="fu"><a href="hcl2col.html">hcl2col</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   H<span class="op">=</span><span class="va">H</span>,</span></span>
+<span class="r-in"><span>   C<span class="op">=</span><span class="fl">85</span>,</span></span>
+<span class="r-in"><span>   L<span class="op">=</span><span class="va">Lseq</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">hsl_gradient</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">Lseq</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">hcl_gradient</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">Lseq</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      hsl<span class="op">=</span><span class="va">hsl_gradient</span>,</span></span>
+<span class="r-in"><span>      hcl<span class="op">=</span><span class="va">hcl_gradient</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Hue: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">H</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"\nSat: "</span>, <span class="va">S</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"\nLum: (as labeled)"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   groupCellnotes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="col2hsl-3.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="col2hsl-4.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="col2hsl-5.png" alt="" width="700" height="433"></span>
@@ -175,7 +178,7 @@ will likely be removed in favor of using <code>farver</code>. In any event,
 <span class="r-plt img"><img src="col2hsl-16.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="col2hsl-17.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="col2hsl-18.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -190,8 +193,7 @@ will likely be removed in favor of using <code>farver</code>. In any event,
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

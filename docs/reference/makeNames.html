@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,44 +62,57 @@
     <p>make unique vector names</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">makeNames</span><span class="op">(</span>
-  <span class="va">x</span>,
-  unique <span class="op">=</span> <span class="cn">TRUE</span>,
-  suffix <span class="op">=</span> <span class="st">"_v"</span>,
-  renameOnes <span class="op">=</span> <span class="cn">FALSE</span>,
-  doPadInteger <span class="op">=</span> <span class="cn">FALSE</span>,
-  startN <span class="op">=</span> <span class="fl">1</span>,
-  numberStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"number"</span>, <span class="st">"letters"</span>, <span class="st">"LETTERS"</span><span class="op">)</span>,
-  useNchar <span class="op">=</span> <span class="cn">NULL</span>,
-  renameFirst <span class="op">=</span> <span class="cn">TRUE</span>,
-  keepNA <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">makeNames</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  unique <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  suffix <span class="op">=</span> <span class="st">"_v"</span>,</span>
+<span>  renameOnes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  doPadInteger <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  startN <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  numberStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"number"</span>, <span class="st">"letters"</span>, <span class="st">"LETTERS"</span><span class="op">)</span>,</span>
+<span>  useNchar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  renameFirst <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  keepNA <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>character vector to be used when defining names. All other
 vector types will be coerced to character prior to use.</p></dd>
+
+
 <dt>unique</dt>
 <dd><p>argument which is ignored, included only for
 compatibility with <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">base::make.names</a></code>. All results from
 <code>makeNames()</code> are unique.</p></dd>
+
+
 <dt>suffix</dt>
 <dd><p>character separator between the original entry and the
 version, if necessary.</p></dd>
+
+
 <dt>renameOnes</dt>
 <dd><p>logical whether to rename single, unduplicated, entries.</p></dd>
+
+
 <dt>doPadInteger</dt>
 <dd><p>logical whether to pad integer values to a consistent
 number of digits, based upon all suffix values needed. This output
 allows for more consistent sorting of names. To define a fixed number
 of digits, use the useNchar parameter.</p></dd>
+
+
 <dt>startN</dt>
 <dd><p>integer number used when numberStyle is "number", this integer
 is used for the first entry to be renamed. You can use this value to
 make zero-based suffix values, for example.</p></dd>
+
+
 <dt>numberStyle</dt>
 <dd><p>character style for version numbering</p><dl><dt>"number"</dt>
 <dd><p>Use integer numbers to represent each duplicated
@@ -121,22 +134,31 @@ entry, with the same rules as applied to "letters".</p></dd>
 
 
 </dl></dd>
+
+
 <dt>useNchar</dt>
 <dd><p>integer or NULL, number of digits to use when padding
 integer values with leading zero, only relevant when usePadInteger=TRUE.</p></dd>
+
+
 <dt>renameFirst</dt>
 <dd><p>logical whether to rename the first entry in a set of
 duplicated entries. If FALSE then the first entry in a set will not
 be versioned, even when renameOnes=TRUE.</p></dd>
+
+
 <dt>keepNA</dt>
 <dd><p>logical whether to retain NA values using the string "NA".
 If keepNA is FALSE, then NA values will remain NA, thus causing some
 names to become <code>&lt;NA&gt;</code>, which can cause problems with some downstream
 functions which assume all names are either NULL or non-NA.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>character vector of unique names</p>
+    
+
+<p>character vector of unique names</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -190,26 +212,24 @@ entry in a set.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">V</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">makeNames</span><span class="op">(</span><span class="va">V</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">V</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">makeNames</span><span class="op">(</span><span class="va">V</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A_v1" "A_v2" "B_v1" "B_v2" "B_v3" "C"   </span>
-<span class="r-in"><span class="fu">makeNames</span><span class="op">(</span><span class="va">V</span>, renameOnes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">makeNames</span><span class="op">(</span><span class="va">V</span>, renameOnes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A_v1" "A_v2" "B_v1" "B_v2" "B_v3" "C_v1"</span>
-<span class="r-in"><span class="fu">makeNames</span><span class="op">(</span><span class="va">V</span>, renameFirst<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu">makeNames</span><span class="op">(</span><span class="va">V</span>, renameFirst<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A"    "A_v1" "B"    "B_v1" "B_v2" "C"   </span>
-<span class="r-in"><span class="va">exons</span> <span class="op">&lt;-</span> <span class="fu">makeNames</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"exon"</span>, <span class="fl">3</span><span class="op">)</span>, suffix<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">makeNames</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">exons</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>, numberStyle<span class="op">=</span><span class="st">"letters"</span>, suffix<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="va">exons</span> <span class="op">&lt;-</span> <span class="fu">makeNames</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"exon"</span>, <span class="fl">3</span><span class="op">)</span>, suffix<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">makeNames</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">exons</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>, numberStyle<span class="op">=</span><span class="st">"letters"</span>, suffix<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "exon1a" "exon1b" "exon2a" "exon2b" "exon2c" "exon3" </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -224,8 +244,7 @@ entry in a set.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

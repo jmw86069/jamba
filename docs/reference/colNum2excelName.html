@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,38 +62,46 @@
     <p>convert column number to Excel column name</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">colNum2excelName</span><span class="op">(</span><span class="va">x</span>, useLetters <span class="op">=</span> <span class="va">LETTERS</span>, zeroVal <span class="op">=</span> <span class="st">"a"</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">colNum2excelName</span><span class="op">(</span><span class="va">x</span>, useLetters <span class="op">=</span> <span class="va">LETTERS</span>, zeroVal <span class="op">=</span> <span class="st">"a"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>integer vector</p></dd>
+<dd><p><code>integer</code> vector</p></dd>
+
+
 <dt>useLetters</dt>
-<dd><p>character vector of single-digit characters to use as
+<dd><p><code>character</code> vector of single-digit characters to use as
 digits in the resulting column name. Note that these characters can
 be of almost any length, with any content.</p></dd>
+
+
 <dt>zeroVal</dt>
-<dd><p>character single-digit to be used whenever x==0, or as a
+<dd><p><code>character</code> single-digit to be used whenever <code>x==0</code>, or as a
 prefix for negative values. In theory there should be no negative
 input values, but this basic mechanism is used to handle the possibility.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>character vector with length(x)</p>
+    
+
+<p><code>character</code> vector with length(x)</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>The purpose is to convert a numerical column number into a valid Excel
-column name, using LETTERS starting at A.
+    <p>The purpose is to convert an <code>integer</code> column number into a valid Excel
+column name, using <code>LETTERS</code> starting at A.
 This function implements an arbitrary number of digits, which may or
 may not be compatible with each version of Excel.  18,278 columns
 would be the maximum for three digits, "A" through "ZZZ".</p>
 <p>This function is useful when referencing Excel columns via another
-interface such as via openxlsx. It is also used by <code>makeNames</code>
-when the numberStyle="letters", in order to provide letter suffix values.</p>
-<p>One can somewhat manipulate the allowed column names via the useLetters
-parameter, which by default uses the entire 26-letter Western alphabet.</p>
+interface such as via openxlsx. It is also used by <code><a href="makeNames.html">makeNames()</a></code>
+when the <code>numberStyle="letters"</code>, in order to provide letter suffix values.</p>
+<p>One can somewhat manipulate the allowed column names via the <code>useLetters</code>
+argument, which by default uses the entire 26-letter Western alphabet.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -131,20 +139,16 @@ parameter, which by default uses the entire 26-letter Western alphabet.</p>
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p></div>
-    </div>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">colNum2excelName</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">colNum2excelName</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "A"  "B"  "C"  "D"  "E"  "F"  "G"  "H"  "I"  "J"  "K"  "L"  "M"  "N"  "O" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] "P"  "Q"  "R"  "S"  "T"  "U"  "V"  "W"  "X"  "Y"  "Z"  "AA" "AB" "AC" "AD"</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -159,8 +163,7 @@ parameter, which by default uses the entire 26-letter Western alphabet.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,28 +62,38 @@
     <p>prefix integers with leading zeros</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">padInteger</span><span class="op">(</span><span class="va">x</span>, padCharacter <span class="op">=</span> <span class="st">"0"</span>, useNchar <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">padInteger</span><span class="op">(</span><span class="va">x</span>, padCharacter <span class="op">=</span> <span class="st">"0"</span>, useNchar <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>input integer, numeric, or character vector. In reality, only
-nchar(x) is used to determine padding.</p></dd>
+<dd><p><code>integer</code>, <code>numeric</code>, or <code>character</code> vector. In reality, only
+<code>nchar(x)</code> is required to determine padding.</p></dd>
+
+
 <dt>padCharacter</dt>
-<dd><p>character with nchar(padCharacter)==1, used to pad
+<dd><p><code>character</code> with nchar(padCharacter)==1, used to pad
 each digit as a prefix.</p></dd>
+
+
 <dt>useNchar</dt>
-<dd><p>NULL or integer number of digits used, or if the maximum
-nchar(x) is higher, that number of digits is used. Note useNchar is
+<dd><p><code>NULL</code> or <code>integer</code> number of digits used, or if the maximum
+<code>nchar(x)</code> is higher, that number of digits is used. Note <code>useNchar</code> is
 mostly useful when all numbers are less than 10, but the desired output
 is to have a fixed number of digits 2 or higher.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>character vector of length(x).</p>
+    
+
+<p><code>character</code> vector of length(x).</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -116,11 +126,9 @@ as character strings.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
-    </div>
     </div>
 
   </div>
@@ -135,8 +143,7 @@ as character strings.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

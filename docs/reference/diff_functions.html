@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,40 +62,56 @@
     <p>Compare two functions line by line using diff</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">diff_functions</span><span class="op">(</span>
-  <span class="va">f1</span>,
-  <span class="va">f2</span>,
-  width <span class="op">=</span> <span class="cn">NULL</span>,
-  wide <span class="op">=</span> <span class="cn">TRUE</span>,
-  trim_whitespace <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">diff_functions</span><span class="op">(</span></span>
+<span>  <span class="va">f1</span>,</span>
+<span>  <span class="va">f2</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  wide <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  trim_whitespace <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>f1</dt>
 <dd><p><code>function</code> expected to be passed by function name.</p></dd>
+
+
 <dt>f2</dt>
 <dd><p><code>function</code> expected to be passed by function name.</p></dd>
+
+
 <dt>width</dt>
 <dd><p><code>integer</code> number of columns to allow in output.</p></dd>
+
+
 <dt>wide</dt>
 <dd><p><code>logical</code> indicating whether to use wide output
 from <code>diff</code>, which prints the two functions side by side.</p></dd>
+
+
 <dt>trim_whitespace</dt>
 <dd><p><code>logical</code> indicating whether to trim leading
 and trailing whitespace on each function line to avoid differences
 defined only by the indentation of text.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>None. This function is called for its output, which
+    
+
+<p>None. This function is called for its output, which
 can be captured with <code><a href="https://rdrr.io/r/utils/capture.output.html" class="external-link">utils::capture.output()</a></code>.</p>
     </div>
     <div id="details">
@@ -140,23 +156,19 @@ R functions.</p>
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p></div>
-    </div>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">diff_functions</span><span class="op">(</span><span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span>, <span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/agrep.html" class="external-link">agrepl</a></span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">15:07:38</span>) 23Mar2023:   <span style="color: #FF8700;">f1_name: </span><span style="color: #00AFFF;">base..grepl</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">15:07:38</span>) 23Mar2023:   <span style="color: #FF8700;">f1_file: </span><span style="color: #00AFFF;">/var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//RtmpyIeWlq/base..grepl.R</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">15:07:38</span>) 23Mar2023:   <span style="color: #FF8700;">f2_name: </span><span style="color: #00AFFF;">base..agrepl</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">15:07:38</span>) 23Mar2023:   <span style="color: #FF8700;">f2_file: </span><span style="color: #00AFFF;">/var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//RtmpyIeWlq/base..agrepl.R</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "diff -W 80 -y /var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//RtmpyIeWlq/base..grepl.R /var/folders/9z/y1_0kf711fx3lgc68w1k27xr0000gs/T//RtmpyIeWlq/base..agrepl.R"</span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">diff_functions</span><span class="op">(</span><span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span>, <span class="fu">base</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/base/agrep.html" class="external-link">agrepl</a></span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">13:02:36</span>) 25Apr2023:   <span style="color: #FF8700;">f1_name: </span><span style="color: #00AFFF;">base..grepl</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">13:02:36</span>) 25Apr2023:   <span style="color: #FF8700;">f1_file: </span><span style="color: #00AFFF;">/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T//Rtmpp0iEd0/base..grepl.R</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">13:02:36</span>) 25Apr2023:   <span style="color: #FF8700;">f2_name: </span><span style="color: #00AFFF;">base..agrepl</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">13:02:36</span>) 25Apr2023:   <span style="color: #FF8700;">f2_file: </span><span style="color: #00AFFF;">/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T//Rtmpp0iEd0/base..agrepl.R</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "diff -W 80 -y /var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T//Rtmpp0iEd0/base..grepl.R /var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T//Rtmpp0iEd0/base..agrepl.R"</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -171,8 +183,7 @@ R functions.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

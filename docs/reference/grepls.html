@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,41 +62,55 @@
     <p>Search for objects in the environment</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">grepls</span><span class="op">(</span>
-  <span class="va">x</span>,
-  where <span class="op">=</span> <span class="st">"all"</span>,
-  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,
-  searchNames <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">grepls</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  where <span class="op">=</span> <span class="st">"all"</span>,</span>
+<span>  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  searchNames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>grep pattern</p></dd>
+<dd><p><code>character</code> string used as a grep pattern</p></dd>
+
+
 <dt>where</dt>
-<dd><p>character string compatible with <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">base::ls()</a></code> or if
+<dd><p><code>character</code> string compatible with <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">base::ls()</a></code> or if
 installed, <code><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html" class="external-link">AnnotationDbi::ls()</a></code>. A special value <code>"all"</code> will
 search all environments on the search path <code><a href="https://rdrr.io/r/base/search.html" class="external-link">base::search()</a></code>
 in order.</p></dd>
+
+
 <dt>ignore.case</dt>
-<dd><p>logical indicating whether the pattern match
+<dd><p><code>logical</code> indicating whether the pattern match
 is case-insensitive.</p></dd>
+
+
 <dt>searchNames</dt>
-<dd><p>logical indicating whether names should also
+<dd><p><code>logical</code> indicating whether names should also
 be searched, which is only relevant for <code>AnnDb</code> objects,
 for example <code>org.Mm.egSYMBOL2EG</code> from the <code>org.Mm.eg.db</code>
 Bioconductor package.</p></dd>
+
+
 <dt>verbose</dt>
-<dd><p>logical indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>vector</code> of matching object names, or if <code>where="all"</code> a named list,
+    
+
+<p><code>vector</code> of matching object names, or if <code>where="all"</code> a named list,
 whose names indicate the search environment name, and whose
 entries are matching object names within each environment.</p>
     </div>
@@ -119,13 +133,12 @@ substring, for example <code>grepls("statshits")</code>.</p>
 <code><a href="vgrep.html">vgrep</a>()</code>,
 <code><a href="vigrep.html">vigrep</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Find all objects named "grep", which should find</span></span>
-<span class="r-in"><span class="co"># base grep() and jamba::vigrep() among other results.</span></span>
-<span class="r-in"><span class="fu">grepls</span><span class="op">(</span><span class="st">"grep"</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Find all objects named "grep", which should find</span></span></span>
+<span class="r-in"><span><span class="co"># base grep() and jamba::vigrep() among other results.</span></span></span>
+<span class="r-in"><span><span class="fu">grepls</span><span class="op">(</span><span class="st">"grep"</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:grid`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "grid.grep"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -142,18 +155,18 @@ substring, for example <code>grepls("statshits")</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:base`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "agrep"   "agrepl"  "grep"    "grepRaw" "grepl"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Find objects in the local environment</span></span>
-<span class="r-in"><span class="va">allStatsHits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">someStatsHits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">grepls</span><span class="op">(</span><span class="st">"statshits"</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Find objects in the local environment</span></span></span>
+<span class="r-in"><span><span class="va">allStatsHits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">someStatsHits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">grepls</span><span class="op">(</span><span class="st">"statshits"</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> named list()</span>
-<span class="r-in"><span class="co"># shortcut way to search only the .GlobalEnv, the active local environment</span></span>
-<span class="r-in"><span class="fu">grepls</span><span class="op">(</span><span class="st">"statshits"</span>, <span class="fl">1</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="co"># shortcut way to search only the .GlobalEnv, the active local environment</span></span></span>
+<span class="r-in"><span><span class="fu">grepls</span><span class="op">(</span><span class="st">"statshits"</span>, <span class="fl">1</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># return objects with "raw" in the name</span></span>
-<span class="r-in"><span class="fu">grepls</span><span class="op">(</span><span class="st">"raw"</span><span class="op">)</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># return objects with "raw" in the name</span></span></span>
+<span class="r-in"><span><span class="fu">grepls</span><span class="op">(</span><span class="st">"raw"</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:grid`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "draw.details"    "drawDetails"     "grid.draw"       "postDrawDetails"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "preDrawDetails" </span>
@@ -167,13 +180,13 @@ substring, for example <code>grepls("statshits")</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "raw"                "rawConnection"      "rawConnectionValue"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10] "rawShift"           "rawToBits"          "rawToChar"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Require "Raw" to be case-sensitive</span></span>
-<span class="r-in"><span class="fu">grepls</span><span class="op">(</span><span class="st">"Raw"</span>, ignore.case<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Require "Raw" to be case-sensitive</span></span></span>
+<span class="r-in"><span><span class="fu">grepls</span><span class="op">(</span><span class="st">"Raw"</span>, ignore.case<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:base`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "charToRaw" "grepRaw"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -188,8 +201,7 @@ substring, for example <code>grepls("statshits")</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

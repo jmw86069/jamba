@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,19 +62,25 @@
     <p>return the classes of a list of objects</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">sclass</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sclass</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>an S3 object inheriting from class "list", or an S4 object.</p></dd>
+<dd><p>an S3 object inheriting from class <code>list</code>, or an S4 object.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>character vector with the class of each list element, or
+    
+
+<p><code>character</code> vector with the class of each list element, or
 column name, depending upon the input <code>class(x)</code>.</p>
     </div>
     <div id="details">
@@ -92,7 +98,7 @@ example of this case is with <code>limma::MArrayLM-class</code>.</p>
 <p>When <code>x</code> is a matrix, the class of each column is returned for
 consistency, even though the class of each column should be identical.</p>
 <p>For more more information about a list-like object, including
-the lengths/dimensions of the elements, see <code><a href="sdim.html">sdim()</a></code> or <code><a href="ssdim.html">ssdim()</a></code>.</p>
+the lengths/dimensions of the elements, see <code><a href="sdim.html">sdim()</a></code> or <code><a href="sdim.html">ssdim()</a></code>.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -130,11 +136,8 @@ the lengths/dimensions of the elements, see <code><a href="sdim.html">sdim()</a>
 <code><a href="rmNAs.html">rmNAs</a>()</code>,
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p>
 <p>Other jam list functions: 
 <code><a href="cPasteSU.html">cPasteSU</a>()</code>,
 <code><a href="cPasteS.html">cPasteS</a>()</code>,
@@ -149,25 +152,21 @@ the lengths/dimensions of the elements, see <code><a href="sdim.html">sdim()</a>
 <code><a href="rbindList.html">rbindList</a>()</code>,
 <code><a href="relist_named.html">relist_named</a>()</code>,
 <code><a href="rlengths.html">rlengths</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code>,
 <code><a href="unnestList.html">unnestList</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">sclass</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>LETTERS<span class="op">=</span><span class="va">LETTERS</span>, letters<span class="op">=</span><span class="va">letters</span><span class="op">)</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">sclass</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>LETTERS<span class="op">=</span><span class="va">LETTERS</span>, letters<span class="op">=</span><span class="va">letters</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     LETTERS     letters </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "character" "character" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">sclass</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>B<span class="op">=</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, C<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         B         C </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  "factor" "integer" </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">sclass</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>B<span class="op">=</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, C<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           B           C </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "character"   "integer" </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -182,8 +181,7 @@ the lengths/dimensions of the elements, see <code><a href="sdim.html">sdim()</a>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

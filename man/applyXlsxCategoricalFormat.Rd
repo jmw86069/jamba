@@ -24,34 +24,34 @@ applyXlsxCategoricalFormat(
 or \code{Workbook} object defined in the \code{openxlsx} package. When
 \code{xlsxFile} is a \code{Workbook} the output is not saved to a file.}
 
-\item{sheet}{integer index of the worksheet or worksheets.}
+\item{sheet}{\code{integer} index of the worksheet or worksheets.}
 
-\item{rowRange, colRange}{integer vectors of rows and columns
+\item{rowRange, colRange}{\code{integer} vectors of rows and columns
 to apply categorical colors in the Excel xlsx worksheet.}
 
-\item{colorSub}{named character vector of valid R colors, whose
+\item{colorSub}{named \code{character} vector of valid R colors, whose
 names correspond to values in the worksheet cells.}
 
-\item{colorSubText}{optional character vector of colors, whose
+\item{colorSubText}{optional \code{character} vector of colors, whose
 names correspond to values in the worksheet cells. In
 absence of a specific text color, \code{jamba::setTextContrastColor()}
 is used to define a contrasting text color to be visible on
 the colored background.}
 
-\item{trimCatNames}{logical whether to trim whitespace and punctuation
+\item{trimCatNames}{\code{logical} whether to trim whitespace and punctuation
 from \code{colorSub} and from Excel cell fields before matching colors
 to Excel values.}
 
-\item{overwrite}{logical indicating whether new cell color styles
+\item{overwrite}{\code{logical} indicating whether new cell color styles
 should be forced overwrite of previous cell styles.}
 
-\item{wrapText}{logical indicating whether to wrap text.}
+\item{wrapText}{\code{logical} indicating whether to wrap text.}
 
-\item{stack}{logical indicating whether new color rules should be
+\item{stack}{\code{logical} indicating whether new color rules should be
 applied above existing styles, many of whose styles may not affect
 the specific cell color, for example the font size and font name.}
 
-\item{verbose}{logical indicating whether to print verbose output.}
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
 
 \item{...}{additional arguments are ignored.}
 }

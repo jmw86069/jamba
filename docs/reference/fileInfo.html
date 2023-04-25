@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,22 +62,26 @@
     <p>file information in data.frame format</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">fileInfo</span><span class="op">(</span><span class="va">fileList</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fileInfo</span><span class="op">(</span><span class="va">fileList</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>fileList</dt>
 <dd><p>character vector with one or more file paths.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.frame with file information, including "filename" and "size"
-as additional colnames as compared to <code>file.info</code> output.</p>
+    
+
+<p><code>data.frame</code> with file information, including "filename" and "size"
+as additional colnames as compared to <code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info()</a></code> output.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>This function is a minor extension to <code>file.info</code> in that it
+    <p>This function is a minor extension to <code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info()</a></code> in that it
 adds the filename as a proper colname, and "size" which contains a text
 file size.</p>
     </div>
@@ -117,12 +121,8 @@ file size.</p>
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p></div>
-    </div>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
   </div>
@@ -137,8 +137,7 @@ file size.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

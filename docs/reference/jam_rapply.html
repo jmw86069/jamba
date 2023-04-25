@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,20 +62,28 @@
     <p>Jam-specific recursive apply</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">jam_rapply</span><span class="op">(</span><span class="va">x</span>, <span class="va">FUN</span>, how <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"unlist"</span>, <span class="st">"list"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jam_rapply</span><span class="op">(</span><span class="va">x</span>, <span class="va">FUN</span>, how <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"unlist"</span>, <span class="st">"list"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>list</code></p></dd>
+
+
 <dt>FUN</dt>
 <dd><p><code>function</code> to be called on non-list elements in <code>x</code>.</p></dd>
+
+
 <dt>how</dt>
 <dd><p><code>character</code> string indicating whether to return the
 <code>list</code> or whether to call <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> on the result.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code>FUN</code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -98,38 +106,34 @@ specifically that it does not remove <code>NULL</code> entries.</p>
 <code><a href="relist_named.html">relist_named</a>()</code>,
 <code><a href="rlengths.html">rlengths</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code>,
 <code><a href="unnestList.html">unnestList</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>entryA<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"miR-112"</span>, <span class="st">"miR-12"</span>, <span class="st">"miR-112"</span><span class="op">)</span>,</span>
-<span class="r-in">   entryB<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"A"</span>,<span class="st">"B"</span><span class="op">)</span>,</span>
-<span class="r-in">      levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>,<span class="st">"A"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">   entryC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>,<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"B"</span>,<span class="st">"C"</span><span class="op">)</span>,</span>
-<span class="r-in">      levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">   entryNULL<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/rapply.html" class="external-link">rapply</a></span><span class="op">(</span><span class="va">L</span>, <span class="va">length</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>entryA<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"miR-112"</span>, <span class="st">"miR-12"</span>, <span class="st">"miR-112"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   entryB<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"A"</span>,<span class="st">"B"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>,<span class="st">"A"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   entryC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>,<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"B"</span>,<span class="st">"C"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   entryNULL<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rapply.html" class="external-link">rapply</a></span><span class="op">(</span><span class="va">L</span>, <span class="va">length</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> entryA entryB entryC </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      3      4      5 </span>
-<span class="r-in"><span class="fu">jam_rapply</span><span class="op">(</span><span class="va">L</span>, <span class="va">length</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">jam_rapply</span><span class="op">(</span><span class="va">L</span>, <span class="va">length</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    entryA    entryB    entryC entryNULL </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         3         4         5         0 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">L0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>C<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, D<span class="op">=</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span>, E<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/rapply.html" class="external-link">rapply</a></span><span class="op">(</span><span class="va">L0</span>, <span class="va">length</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">L0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>C<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, D<span class="op">=</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span>, E<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rapply.html" class="external-link">rapply</a></span><span class="op">(</span><span class="va">L0</span>, <span class="va">length</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A B.C B.D </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3   3   2 </span>
-<span class="r-in"><span class="fu">jam_rapply</span><span class="op">(</span><span class="va">L0</span>, <span class="va">length</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">jam_rapply</span><span class="op">(</span><span class="va">L0</span>, <span class="va">length</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A B.C B.D B.E </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3   3   2   0 </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -144,8 +148,7 @@ specifically that it does not remove <code>NULL</code> entries.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

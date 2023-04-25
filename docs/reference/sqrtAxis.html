@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,49 +62,67 @@
     <p>Determine square root axis tick mark positions</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">sqrtAxis</span><span class="op">(</span>
-  side <span class="op">=</span> <span class="fl">1</span>,
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  pretty.n <span class="op">=</span> <span class="fl">10</span>,
-  u5.bias <span class="op">=</span> <span class="fl">0</span>,
-  big.mark <span class="op">=</span> <span class="st">","</span>,
-  plot <span class="op">=</span> <span class="cn">TRUE</span>,
-  las <span class="op">=</span> <span class="fl">2</span>,
-  cex.axis <span class="op">=</span> <span class="fl">0.6</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sqrtAxis</span><span class="op">(</span></span>
+<span>  side <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pretty.n <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  u5.bias <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  big.mark <span class="op">=</span> <span class="st">","</span>,</span>
+<span>  plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  las <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  cex.axis <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>side</dt>
 <dd><p>integer value indicating the axis position, as used
 by <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis()</a></code>, 1=bottom, 2=left, 3=top, 4=right.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>optional numeric vector representing the numeric range
 to be labeled.</p></dd>
+
+
 <dt>pretty.n</dt>
 <dd><p>numeric value indicating the number of desired
 tick marks, passed to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code>.</p></dd>
+
+
 <dt>u5.bias</dt>
 <dd><p>numeric value passed to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code> to influence the
 frequency of intermediate tick marks.</p></dd>
+
+
 <dt>big.mark</dt>
 <dd><p>character value passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> which helps
 visually distinguish numbers larger than 1000.</p></dd>
+
+
 <dt>plot</dt>
 <dd><p>logical indicating whether to plot the axis tick
 marks and labels.</p></dd>
+
+
 <dt>las, cex.axis</dt>
 <dd><p>numeric values passed to <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis()</a></code> when drawing
 the axis, by default <code>las=2</code> plots labels rotated
 perpendicular to the axis.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are passed to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Invisibly returns a numeric vector of axis tick positions,
+    
+
+<p>Invisibly returns a numeric vector of axis tick positions,
 named by the display label.
 The axis values are in square root space while the labels represent
 the normal space values.</p>
@@ -138,7 +156,6 @@ tick marks using integer values.</p>
 <code><a href="smoothScatterJam.html">smoothScatterJam</a>()</code>,
 <code><a href="usrBox.html">usrBox</a>()</code></p></div>
     </div>
-    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -152,8 +169,7 @@ tick marks using integer values.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

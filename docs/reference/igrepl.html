@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,17 +62,21 @@
     <p>case-insensitive logical grepl</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">igrepl</span><span class="op">(</span><span class="va">...</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">igrepl</span><span class="op">(</span><span class="va">...</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>..., ignore.case</dt>
 <dd><p>parameters sent to <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">base::grep()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>logical</code> vector indicating pattern match</p>
+    
+
+<p><code>logical</code> vector indicating pattern match</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -92,27 +96,26 @@ It is mainly used for convenience.</p>
 <code><a href="vgrep.html">vgrep</a>()</code>,
 <code><a href="vigrep.html">vigrep</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">V</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">ig1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"D"</span>, <span class="va">V</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">ig2</span> <span class="op">&lt;-</span> <span class="fu">igrepl</span><span class="op">(</span><span class="st">"D"</span>, <span class="va">V</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">ig3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="va">V</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">ig4</span> <span class="op">&lt;-</span> <span class="fu">igrepl</span><span class="op">(</span><span class="st">"d"</span>, <span class="va">V</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">V</span>,</span>
-<span class="r-in">   grepl_D<span class="op">=</span><span class="va">ig1</span>,</span>
-<span class="r-in">   grepl_d<span class="op">=</span><span class="va">ig3</span>,</span>
-<span class="r-in">   igrepl_D<span class="op">=</span><span class="va">ig2</span>,</span>
-<span class="r-in">   igrepl_d<span class="op">=</span><span class="va">ig4</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">V</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">ig1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"D"</span>, <span class="va">V</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">ig2</span> <span class="op">&lt;-</span> <span class="fu">igrepl</span><span class="op">(</span><span class="st">"D"</span>, <span class="va">V</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">ig3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="va">V</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">ig4</span> <span class="op">&lt;-</span> <span class="fu">igrepl</span><span class="op">(</span><span class="st">"d"</span>, <span class="va">V</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">V</span>,</span></span>
+<span class="r-in"><span>   grepl_D<span class="op">=</span><span class="va">ig1</span>,</span></span>
+<span class="r-in"><span>   grepl_d<span class="op">=</span><span class="va">ig3</span>,</span></span>
+<span class="r-in"><span>   igrepl_D<span class="op">=</span><span class="va">ig2</span>,</span></span>
+<span class="r-in"><span>   igrepl_d<span class="op">=</span><span class="va">ig4</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    V grepl_D grepl_d igrepl_D igrepl_d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 AD    TRUE   FALSE     TRUE     TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 BE   FALSE   FALSE    FALSE    FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 CF   FALSE   FALSE    FALSE    FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 DG    TRUE   FALSE     TRUE     TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 EH   FALSE   FALSE    FALSE    FALSE</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -127,8 +130,7 @@ It is mainly used for convenience.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

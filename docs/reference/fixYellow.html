@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,28 +62,38 @@
     <p>Fix yellow color to be less green than default "yellow"</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">fixYellow</span><span class="op">(</span><span class="va">col</span>, Hrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">100</span><span class="op">)</span>, Hshift <span class="op">=</span> <span class="op">-</span><span class="fl">20</span>, fixup <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fixYellow</span><span class="op">(</span><span class="va">col</span>, Hrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">100</span><span class="op">)</span>, Hshift <span class="op">=</span> <span class="op">-</span><span class="fl">20</span>, fixup <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>col</dt>
 <dd><p>R color, either in hex color format or using values from
 <code><a href="https://rdrr.io/r/grDevices/colors.html" class="external-link">colors()</a></code>.</p></dd>
+
+
 <dt>Hrange</dt>
 <dd><p>numeric vector whose range defines the region of hues
 to be adjusted. By default hues between 80 and 90 are adjusted. If
 NULL, <code>HCL</code> is return unchanged.</p></dd>
+
+
 <dt>Hshift</dt>
 <dd><p>numeric value length one, used to adjust the hue of colors
 within the range <code>Hrange</code>. If NULL, <code>HCL</code> is return unchanged.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="col2hcl.html">col2hcl()</a></code>, and
 <code><a href="hcl2col.html">hcl2col()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>returns a vector of R colors the same length as input <code>col</code>.
+    
+
+<p>returns a vector of R colors the same length as input <code>col</code>.
 In the event <code>col</code>, <code>Hrange</code>, or <code>Hshift</code> have length 0, or if any
 step in the conversion produces length 0, then the
 original <code>col</code> is returned.</p>
@@ -134,11 +144,8 @@ any of the values <code>col</code>, <code>Hrange</code>, or <code>Hshift</code> 
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p>
 <p>Other jam color functions: 
 <code><a href="alpha2col.html">alpha2col</a>()</code>,
 <code><a href="applyCLrange.html">applyCLrange</a>()</code>,
@@ -164,16 +171,15 @@ any of the values <code>col</code>, <code>Hrange</code>, or <code>Hshift</code> 
 <code><a href="unalpha.html">unalpha</a>()</code>,
 <code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">yellows</span> <span class="op">&lt;-</span> <span class="fu"><a href="vigrep.html">vigrep</a></span><span class="op">(</span><span class="st">"yellow"</span>, <span class="fu"><a href="https://rdrr.io/r/grDevices/colors.html" class="external-link">colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="va">fixedYellows</span> <span class="op">&lt;-</span> <span class="fu">fixYellow</span><span class="op">(</span><span class="va">yellows</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>yellows<span class="op">=</span><span class="va">yellows</span>,</span>
-<span class="r-in">   fixedYellows<span class="op">=</span><span class="va">fixedYellows</span><span class="op">)</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">yellows</span> <span class="op">&lt;-</span> <span class="fu"><a href="vigrep.html">vigrep</a></span><span class="op">(</span><span class="st">"yellow"</span>, <span class="fu"><a href="https://rdrr.io/r/grDevices/colors.html" class="external-link">colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">fixedYellows</span> <span class="op">&lt;-</span> <span class="fu">fixYellow</span><span class="op">(</span><span class="va">yellows</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>yellows<span class="op">=</span><span class="va">yellows</span>,</span></span>
+<span class="r-in"><span>   fixedYellows<span class="op">=</span><span class="va">fixedYellows</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="fixYellow-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -188,8 +194,7 @@ any of the values <code>col</code>, <code>Hrange</code>, or <code>Hshift</code> 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

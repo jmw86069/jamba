@@ -18,7 +18,7 @@ usually delimited by a comma."><!-- mathjax --><script src="https://cdnjs.cloudf
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -64,51 +64,68 @@ usually delimited by a comma."><!-- mathjax --><script src="https://cdnjs.cloudf
 usually delimited by a comma.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">cPasteUnique</span><span class="op">(</span>
-  <span class="va">x</span>,
-  sep <span class="op">=</span> <span class="st">","</span>,
-  doSort <span class="op">=</span> <span class="cn">FALSE</span>,
-  makeUnique <span class="op">=</span> <span class="cn">TRUE</span>,
-  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepFactors <span class="op">=</span> <span class="cn">FALSE</span>,
-  checkClass <span class="op">=</span> <span class="cn">TRUE</span>,
-  useBioc <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cPasteUnique</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">","</span>,</span>
+<span>  doSort <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  makeUnique <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  checkClass <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useBioc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>input list of vectors</p></dd>
+<dd><p>input <code>list</code> of vectors</p></dd>
+
+
 <dt>sep</dt>
-<dd><p>character delimiter used to paste multiple values together</p></dd>
+<dd><p><code>character</code> delimiter used to paste multiple values together</p></dd>
+
+
 <dt>doSort</dt>
-<dd><p>boolean indicating whether to sort each vector
+<dd><p><code>logical</code> indicating whether to sort each vector
 using <code><a href="mixedOrder.html">mixedOrder()</a></code>.</p></dd>
+
+
 <dt>makeUnique</dt>
-<dd><p>boolean indicating whether to make each vector in
+<dd><p><code>logical</code> indicating whether to make each vector in
 the input list unique before pasting its values together.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>boolean indicating whether to remove NA values from
 each vector in the input list. When <code>na.rm</code> is <code>TRUE</code> and a
 list element contains only <code>NA</code> values, the resulting string
 will be <code>""</code>.</p></dd>
+
+
 <dt>keepFactors</dt>
-<dd><p>logical indicating whether to preserve factors,
-keeping factor level order when <code>doSort=TRUE</code>. When
-<code>keepFactors=TRUE</code>, if any list element is a factor, all elements
+<dd><p><code>logical</code> only used when <code>useLegacy=TRUE</code> and
+<code>doSort=TRUE</code>; indicating whether to preserve factors,
+keeping factor level order. When
+<code>keepFactors=TRUE</code>, if any list element is a <code>factor</code>, all elements
 are converted to factors. Note that this step combines overall
 factor levels, and non-factors will be ordered using
 <code><a href="https://rdrr.io/r/base/order.html" class="external-link">base::order()</a></code> instead of <code><a href="mixedOrder.html">jamba::mixedOrder()</a></code> (for now.)</p></dd>
+
+
 <dt>useBioc</dt>
-<dd><p>boolean indicating whether this function should try
+<dd><p><code>logical</code> indicating whether this function should try
 to use <code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html" class="external-link">S4Vectors::unstrsplit()</a></code> when the Bioconductor package
-<code>S4Vectors</code> is installed, otherwise it will use a much less
+<code>S4Vectors</code> is installed, otherwise it will use a less
 efficient <code><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply()</a></code> operation.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="mixedOrder.html">mixedOrder()</a></code> when
 <code>doSort=TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -139,7 +156,6 @@ efficient <code><a href="https://rdrr.io/r/base/mapply.html" class="external-lin
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p>
@@ -157,13 +173,9 @@ efficient <code><a href="https://rdrr.io/r/base/mapply.html" class="external-lin
 <code><a href="relist_named.html">relist_named</a>()</code>,
 <code><a href="rlengths.html">rlengths</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code>,
 <code><a href="unnestList.html">unnestList</a>()</code></p></div>
-    </div>
     </div>
 
   </div>
@@ -178,8 +190,7 @@ efficient <code><a href="https://rdrr.io/r/base/mapply.html" class="external-lin
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

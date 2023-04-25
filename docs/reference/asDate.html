@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,22 +62,30 @@
     <p>convert date DDmmmYYYY to Date</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">asDate</span><span class="op">(</span><span class="va">getDateValues</span>, dateFormat <span class="op">=</span> <span class="st">"%d%b%Y"</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">asDate</span><span class="op">(</span><span class="va">getDateValues</span>, dateFormat <span class="op">=</span> <span class="st">"%d%b%Y"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>getDateValues</dt>
-<dd><p>character date, in format recognized by dateFormat</p></dd>
+<dd><p><code>character</code> date, in format recognized by dateFormat</p></dd>
+
+
 <dt>dateFormat</dt>
-<dd><p>character string representing the recognized date format,
-by default DDmmmYYYY, for example 23aug2007.</p></dd>
+<dd><p><code>character</code> string representing the recognized date
+format, by default <code>"DDmmmYYYY"</code>, which recognizes <code>"23aug2007"</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Date object</p>
+    
+
+<p>Date object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -90,14 +98,13 @@ allow date-related math operations, for example <code><a href="https://rdrr.io/r
 <code><a href="dateToDaysOld.html">dateToDaysOld</a>()</code>,
 <code><a href="getDate.html">getDate</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">asDate</span><span class="op">(</span><span class="fu"><a href="getDate.html">getDate</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    23mar2023 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "2023-03-23" </span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">asDate</span><span class="op">(</span><span class="fu"><a href="getDate.html">getDate</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    25apr2023 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "2023-04-25" </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -112,8 +119,7 @@ allow date-related math operations, for example <code><a href="https://rdrr.io/r
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

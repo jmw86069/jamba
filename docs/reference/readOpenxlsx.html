@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,42 +62,55 @@
     <p>Import one or more data.frame from Excel xlsx format</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">readOpenxlsx</span><span class="op">(</span>
-  <span class="va">xlsx</span>,
-  sheet <span class="op">=</span> <span class="cn">NULL</span>,
-  startRow <span class="op">=</span> <span class="fl">1</span>,
-  rows <span class="op">=</span> <span class="cn">NULL</span>,
-  check.names <span class="op">=</span> <span class="cn">FALSE</span>,
-  check_header <span class="op">=</span> <span class="cn">FALSE</span>,
-  check_header_n <span class="op">=</span> <span class="fl">10</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readOpenxlsx</span><span class="op">(</span></span>
+<span>  <span class="va">xlsx</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  startRow <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  startCol <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  rows <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  check_header <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  check_header_n <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>xlsx</dt>
 <dd><p><code>character</code> path to an Excel file in <code>xlsx</code> format,
 compatible with <code><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">openxlsx::read.xlsx()</a></code>.</p></dd>
+
+
 <dt>sheet</dt>
 <dd><p>one of <code>NULL</code>, <code>character</code>, or <code>integer</code> vector,
 where: <code>sheet=NULL</code> will import every sheet; <code>character</code> is
 a vector of sheet names; and <code>integer</code> is a vector of sheet
 index values. The sheet names are determined with
 <code><a href="https://rdrr.io/pkg/openxlsx/man/getSheetNames.html" class="external-link">openxlsx::getSheetNames()</a></code>.</p></dd>
+
+
 <dt>startRow</dt>
 <dd><p><code>integer</code> indicating the row number to start
 importing each <code>sheet</code>. Note that <code>startRow</code> can be a vector
 with length <code>length(sheet)</code>, to specify the <code>startRow</code> for
 each <code>sheet</code>.</p></dd>
+
+
 <dt>rows</dt>
 <dd><p><code>integer</code> vector indicating specific rows to import
 for each <code>sheet</code>. To specify different <code>rows</code> for each <code>sheet</code>,
 supply <code>rows</code> as a <code>list</code> of <code>integer</code> vectors.</p></dd>
+
+
 <dt>check.names</dt>
 <dd><p><code>logical</code> indicating whether to call <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>
 on the <code>colnames</code> of each <code>data.frame</code>.</p></dd>
+
+
 <dt>check_header</dt>
 <dd><p><code>logical</code> indicating whether to test for presence
 of header rows, which are not column headers.
@@ -106,6 +119,8 @@ method simply tests for the presence of rows that have <code>ncol</code>
 different than the remaining rows of data in the given sheet.
 When header rows are detected, the values are assigned to column
 <code>dimnames</code> of the <code>data.frame</code>.</p></dd>
+
+
 <dt>check_header_n</dt>
 <dd><p><code>integer</code> number of rows to test for header rows,
 only used when <code>check_header=TRUE</code>. This step is intended when
@@ -116,10 +131,15 @@ In this case the desired output is
 <code>"Sample_Name","Sample_Type","Sample_Label","Lane_Name","Lane_Type")</code>.
 This option default is <code>FALSE</code> due to the number of exceptions
 seen in real data.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">openxlsx::read.xlsx()</a></code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -128,7 +148,16 @@ with a few minor additions:</p><ol><li><p>It returns a <code>list</code> of <cod
 <li><p>It properly reads the <code>colnames</code> with <code>check.names=FALSE</code>.</p></li>
 </ol><p>By default this function returns every <code>sheet</code> for a given
 <code>xlsx</code> file.</p>
-    </div>
+<p>Some useful details:</p><ul><li><p>Empty columns are not skipped during loading, which means a worksheet
+whose data starts at column 3 will be returned with two empty columns,
+followed by data from that worksheet. Similarly, any empty columns
+in the middle of the data in that worksheet will be included in the
+output.</p></li>
+<li><p>When both <code>startRow</code> and <code>rows</code> are applied, <code>rows</code> takes priority
+and will be used instead of <code>startRows</code>. In fact <code>startRows</code> will be
+defined <code>startRows &lt;- min(rows)</code> for each relevant worksheet. However,
+for each worksheet either argument can be <code>NULL</code>.</p></li>
+</ul></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other jam export functions: 
@@ -137,7 +166,6 @@ with a few minor additions:</p><ol><li><p>It returns a <code>list</code> of <cod
 <code><a href="set_xlsx_colwidths.html">set_xlsx_colwidths</a>()</code>,
 <code><a href="set_xlsx_rowheights.html">set_xlsx_rowheights</a>()</code>,
 <code><a href="writeOpenxlsx.html">writeOpenxlsx</a>()</code></p></div>
-    </div>
     </div>
 
   </div>
@@ -152,8 +180,7 @@ with a few minor additions:</p><ol><li><p>It returns a <code>list</code> of <cod
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

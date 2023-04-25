@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,28 +62,38 @@
     <p>Fill blank entries in a vector</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">fillBlanks</span><span class="op">(</span><span class="va">x</span>, blankGrep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ \t]*"</span><span class="op">)</span>, first <span class="op">=</span> <span class="st">""</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fillBlanks</span><span class="op">(</span><span class="va">x</span>, blankGrep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[ \t]*"</span><span class="op">)</span>, first <span class="op">=</span> <span class="st">""</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>character vector</p></dd>
+
+
 <dt>blankGrep</dt>
 <dd><p>vector of grep patterns, or <code>NA</code>, indicating
 the type of entry to be considered blank.
 Each <code>blankGrep</code> pattern is searched using <code><a href="provigrep.html">jamba::proigrep()</a></code>, which
 by default uses case-insensitive regular expression pattern
 matching.</p></dd>
+
+
 <dt>first</dt>
 <dd><p>options character string intended when the first
 entry of <code>x</code> is blank. By default <code>""</code> is used.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Character vector where blank entries are filled with the
+    
+
+<p>Character vector where blank entries are filled with the
 most recent non-blank value.</p>
     </div>
     <div id="details">
@@ -120,18 +130,16 @@ fairly well with good efficiency even for extremely large vectors.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="cn">NA</span>,</span>
-<span class="r-in">   <span class="st">"D"</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">""</span>, <span class="st">""</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">fillBlanks</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"D"</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">""</span>, <span class="st">""</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">fillBlanks</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       x fillBlanks.x.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     A             A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                   A</span>
@@ -150,7 +158,7 @@ fairly well with good efficiency even for extremely large vectors.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15    G             G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16                  G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17                  G</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -165,8 +173,7 @@ fairly well with good efficiency even for extremely large vectors.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

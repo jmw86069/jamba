@@ -19,7 +19,7 @@ function to call rowGroupMeans(..., rmOutliers=TRUE, returnType="input").'><!-- 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -66,52 +66,61 @@ calculates row summary stats; and <code>rowGroupRmOutliers()</code> is a conveni
 function to call <code>rowGroupMeans(..., rmOutliers=TRUE, returnType="input")</code>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">rowGroupMeans</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">groups</span>,
-  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  useMedian <span class="op">=</span> <span class="cn">TRUE</span>,
-  rmOutliers <span class="op">=</span> <span class="cn">FALSE</span>,
-  crossGroupMad <span class="op">=</span> <span class="cn">TRUE</span>,
-  madFactor <span class="op">=</span> <span class="fl">5</span>,
-  returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"output"</span>, <span class="st">"input"</span><span class="op">)</span>,
-  rowStatsFunc <span class="op">=</span> <span class="cn">NULL</span>,
-  groupOrder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"same"</span>, <span class="st">"sort"</span><span class="op">)</span>,
-  keepNULLlevels <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rowGroupMeans</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">groups</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useMedian <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  rmOutliers <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  crossGroupMad <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  madFactor <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"output"</span>, <span class="st">"input"</span><span class="op">)</span>,</span>
+<span>  rowStatsFunc <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  groupOrder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"same"</span>, <span class="st">"sort"</span><span class="op">)</span>,</span>
+<span>  keepNULLlevels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">rowGroupRmOutliers</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">groups</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  crossGroupMad <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  madFactor <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  rmOutliers <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"input"</span><span class="op">)</span>,</span>
+<span>  groupOrder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"same"</span>, <span class="st">"sort"</span><span class="op">)</span>,</span>
+<span>  keepNULLlevels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-<span class="fu">rowGroupRmOutliers</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">groups</span>,
-  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  crossGroupMad <span class="op">=</span> <span class="cn">TRUE</span>,
-  madFactor <span class="op">=</span> <span class="fl">5</span>,
-  rmOutliers <span class="op">=</span> <span class="cn">TRUE</span>,
-  returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"input"</span><span class="op">)</span>,
-  groupOrder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"same"</span>, <span class="st">"sort"</span><span class="op">)</span>,
-  keepNULLlevels <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
-
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>numeric</code> data matrix</p></dd>
+
+
 <dt>groups</dt>
 <dd><p><code>character</code> or <code>factor</code> vector of group labels,
 either as a character vector, or a factor. See the parameter
 <code>groupOrder</code> for ordering of group labels in the output
 data matrix.</p></dd>
+
+
 <dt>useMedian</dt>
 <dd><p><code>logical</code> indicating whether the default
 stat should be "mean" or "median".</p></dd>
+
+
 <dt>rmOutliers</dt>
 <dd><p><code>logical</code> indicating whether to apply outlier
 detection and removal.</p></dd>
+
+
 <dt>crossGroupMad</dt>
 <dd><p><code>logical</code> indicating whether to calculate
 row MAD values using the median across groups for each row.
@@ -120,23 +129,31 @@ MAD values. When <code>crossGroupMad=TRUE</code> it also calculates
 the non-NA, non-zero median row MAD across all rows,
 which defines the minimum difference from median applied across
 all values to be considered an outlier.</p></dd>
+
+
 <dt>madFactor</dt>
 <dd><p><code>numeric</code> value indicating the multiple of the
 MAD value to define outliers. For example <code>madFactor=5</code>
 will take the MAD value for a group multiplied by 5,
 5<em>MAD, as a threshold for outliers. So any points more than
 5</em>MAD distance from the median per group are outliers.</p></dd>
+
+
 <dt>returnType</dt>
 <dd><p><code>character</code> value indicating the return data
 type, <code>"output"</code> returns one summary stat value per group, per row;
 <code>"input"</code> is useful when <code>rmOutliers=TRUE</code> in that it returns
 a matrix with the same dimensions as the input, except with
 outlier points replaced with NA.</p></dd>
+
+
 <dt>rowStatsFunc</dt>
 <dd><p>optional <code>function</code> which takes a numeric matrix
 as input, and returns a numeric vector equal to the number of
 rows of the input data matrix. Examples: <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">base::rowMeans()</a></code>,
 <code><a href="https://rdrr.io/pkg/matrixStats/man/rowMedians.html" class="external-link">matrixStats::rowMedians()</a></code>, <code><a href="https://rdrr.io/pkg/matrixStats/man/rowSds.html" class="external-link">matrixStats::rowMads</a></code>.</p></dd>
+
+
 <dt>groupOrder</dt>
 <dd><p><code>character</code> string indicating how character group
 labels are ordered in the final data matrix, when <code>returnType="output"</code>.
@@ -144,6 +161,8 @@ Note that when <code>groups</code> is a factor, the factor levels are kept
 in that order. Otherwise, <code>"same"</code> keeps groups in the same
 order they appear in the input matrix; <code>"sort"</code> applies
 <code><a href="mixedSort.html">jamba::mixedSort()</a></code> to the labels.</p></dd>
+
+
 <dt>keepNULLlevels</dt>
 <dd><p><code>logical</code> indicating whether to keep factor
 levels even when there are no corresponding columns in <code>x</code>.
@@ -151,26 +170,37 @@ When <code>TRUE</code> and <code>returnType="output"</code> the output matrix wi
 contain one colname for each factor level, with NA values used
 to fill empty factor levels. This mechanism can be helpful to
 ensure that output matrices have consistent colnames.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are passed to <code>rowStatsFunc</code>,
 and if <code>rmOutliers=TRUE</code> to <code><a href="rowRmMadOutliers.html">jamba::rowRmMadOutliers()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>When <code>returnType="output"</code> the output is a numeric matrix
+    
+
+<p>When <code>returnType="output"</code> the output is a numeric matrix
 with the same number of columns as the number of unique
 <code>groups</code> labels. When <code>groups</code> is a factor and
 <code>keepNULLlevels=TRUE</code>, the number of columns will be the
 number of factor levels, otherwise it will be the number of
-factor levels used in <code>groups</code>.
-When <code>returnType="input"</code> the output is a numeric matrix
+factor levels used in <code>groups</code>.</p>
+
+
+<p>When <code>returnType="input"</code> the output is a numeric matrix
 with the same dimensions as the input data. This output is
 intended for use with <code>rmOutliers=TRUE</code> which will replace
 outlier points with <code>NA</code> values. Therefore, this matrix can
-be used to see the location of outliers.
-The function also returns attributes that describe the
+be used to see the location of outliers.</p>
+
+
+<p>The function also returns attributes that describe the
 number of samples per group overall:</p><dl><dt>attr(out, "n")</dt>
 <dd><p>The attribute <code>"n"</code> is used to describe
 the number of replicates per group.</p></dd>
@@ -211,13 +241,12 @@ removal is performed by <code><a href="rowRmMadOutliers.html">jamba::rowRmMadOut
 <code><a href="rowRmMadOutliers.html">rowRmMadOutliers</a>()</code>,
 <code><a href="warpAroundZero.html">warpAroundZero</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">9</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>;</span>
-<span class="r-in"><span class="fu">rowGroupMeans</span><span class="op">(</span><span class="va">x</span>, groups<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">9</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>;</span></span>
+<span class="r-in"><span><span class="fu">rowGroupMeans</span><span class="op">(</span><span class="va">x</span>, groups<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  a           b           c</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -0.005767173  0.83204713  0.24841265</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  0.046726172 -0.27934628  0.06528818</span>
@@ -235,7 +264,7 @@ removal is performed by <code><a href="rowRmMadOutliers.html">jamba::rowRmMadOut
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"nLabel")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     a     b     c </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "n=3" "n=3" "n=3" </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -250,8 +279,7 @@ removal is performed by <code><a href="rowRmMadOutliers.html">jamba::rowRmMadOut
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

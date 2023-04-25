@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,29 +62,36 @@
     <p>Calculate scatter plot point density</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">jamCalcDensity</span><span class="op">(</span><span class="va">x</span>, <span class="va">nbin</span>, bandwidth <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">range.x</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jamCalcDensity</span><span class="op">(</span><span class="va">x</span>, <span class="va">nbin</span>, bandwidth <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">range.x</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>numeric</code> matrix with two columns representing x,y coordinates.</p></dd>
+
+
 <dt>nbin</dt>
 <dd><p><code>integer</code> number of bins to subdivide the scatterplot,
 expanded to length 2 to accommodate x and y axis bins.</p></dd>
+
+
 <dt>bandwidth</dt>
 <dd><p><code>numeric</code> or <code>NULL</code> representing the bandwidth used
 for point density determination.</p></dd>
+
+
 <dt>range.x</dt>
 <dd><p><code>numeric</code> vector length 2 representing the range of
 values to consider for point density.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>This function is called internally by <code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code>,
 and is an equivalent replacement for
 <code>grDevices:::.smoothScatterCalcDensity()</code>.</p>
-    </div>
     </div>
 
   </div>
@@ -99,8 +106,7 @@ and is an equivalent replacement for
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

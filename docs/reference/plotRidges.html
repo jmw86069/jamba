@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,31 +62,34 @@
     <p>Plot ridges density plots for numeric matrix input</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">plotRidges</span><span class="op">(</span>
-  <span class="va">x</span>,
-  xScale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"-log10"</span>, <span class="st">"log10"</span><span class="op">)</span>,
-  xlab <span class="op">=</span> <span class="cn">NULL</span>,
-  ylab <span class="op">=</span> <span class="cn">NULL</span>,
-  title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,
-  subtitle <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,
-  caption <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,
-  xlim <span class="op">=</span> <span class="cn">NULL</span>,
-  color_sub <span class="op">=</span> <span class="cn">NULL</span>,
-  rel_min_height <span class="op">=</span> <span class="fl">0</span>,
-  bandwidth <span class="op">=</span> <span class="cn">NULL</span>,
-  adjust <span class="op">=</span> <span class="fl">1</span>,
-  scale <span class="op">=</span> <span class="fl">1</span>,
-  share_bandwidth <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotRidges</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  xScale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"-log10"</span>, <span class="st">"log10"</span><span class="op">)</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  subtitle <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  caption <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  color_sub <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rel_min_height <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  bandwidth <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  adjust <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  scale <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  share_bandwidth <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code>matrix</code> with numeric values, or a <code>list</code> of <code>numeric</code>
 vectors. In either case the data is converted to long-tall
 format before plotting.</p></dd>
+
+
 <dt>xScale</dt>
 <dd><p><code>character</code> string indicating whether to transform
 the x-axis values:</p><ul><li><p><code>"none"</code>: no transformation</p></li>
@@ -96,49 +99,70 @@ labels are adjusted accordingly.</p></li>
 that negative values are transformed with <code>-log10(1 - x)</code>. The
 x-axis labels are plotted to account for the <code>log10(1 + x)</code> offset.</p></li>
 </ul></dd>
+
+
 <dt>xlab, ylab</dt>
 <dd><p><code>character</code> strings optionally used as x-axis and y-axis
 labels.</p></dd>
+
+
 <dt>title, subtitle, caption</dt>
 <dd><p><code>character</code> string values optionally passed
 to the relevant downstream <code>ggplot2</code> functions.</p></dd>
+
+
 <dt>xlim</dt>
 <dd><p>passed to <code><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ggplot2::xlim()</a></code> to define the x-axis range.</p></dd>
+
+
 <dt>color_sub</dt>
 <dd><p><code>character</code> vector named by <code>colnames(x)</code>, or when
 <code>x</code> is a <code>list</code>, <code>names(color_sub)</code> should contain <code>names(x)</code>, used
 to define specific colors for each ridge plot.</p></dd>
+
+
 <dt>rel_min_height</dt>
 <dd><p><code>numeric</code> values passed to
-<code><a href="https://wilkelab.org/ggridges/reference/geom_density_ridges.html" class="external-link">ggridges::geom_density_ridges2()</a></code></p></dd>
+<code>ggridges::geom_density_ridges2()</code></p></dd>
+
+
 <dt>bandwidth</dt>
 <dd><p><code>numeric</code> value used to define the bandwidth density
 when <code>share_bandwidth=TRUE</code> which is default. The bandwidth
 affects the level of detail presented in each ridgeline, and when
 shared across ridgelines <code>share_bandwidth=TRUE</code> then each ridgeline
 will use the same consistent level of detail. In this case, it
-is passed to <code><a href="https://wilkelab.org/ggridges/reference/geom_density_ridges.html" class="external-link">ggridges::geom_density_ridges2()</a></code>.
+is passed to <code>ggridges::geom_density_ridges2()</code>.
 Note when <code>bandwidth=NULL</code> a default value is derived from the
 range of data to be plotted.</p></dd>
+
+
 <dt>adjust</dt>
 <dd><p><code>numeric</code> used to adjust the default bandwidth only
 when <code>bandwidth=NULL</code>. It is intended as a convenient method to
 adjust the level of detail.</p></dd>
+
+
 <dt>scale</dt>
 <dd><p><code>numeric</code> passed directly to
-<code><a href="https://wilkelab.org/ggridges/reference/geom_density_ridges.html" class="external-link">ggridges::geom_density_ridges2()</a></code>.</p></dd>
+<code>ggridges::geom_density_ridges2()</code>.</p></dd>
+
+
 <dt>share_bandwidth</dt>
 <dd><p><code>logical</code> indicating whether to supply
-<code><a href="https://wilkelab.org/ggridges/reference/geom_density_ridges.html" class="external-link">ggridges::geom_density_ridges2()</a></code> a specific <code>bandwidth</code> to use
+<code>ggridges::geom_density_ridges2()</code> a specific <code>bandwidth</code> to use
 for all ridgelines. When <code>share_bandwidth=FALSE</code> then each ridgeline
 is presented using the default bandwidth in
-<code><a href="https://wilkelab.org/ggridges/reference/geom_density_ridges.html" class="external-link">ggridges::geom_density_ridges2()</a></code>.</p></dd>
+<code>ggridges::geom_density_ridges2()</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
-    <p>This function is a convenient wrapper for <code><a href="https://wilkelab.org/ggridges/reference/geom_density_ridges.html" class="external-link">ggridges::geom_density_ridges2()</a></code>,
+    <p>This function is a convenient wrapper for <code>ggridges::geom_density_ridges2()</code>,
 intended to be analogous to <code><a href="plotPolygonDensity.html">plotPolygonDensity()</a></code> which differs
 by plotting each item in a separate plot panel using base graphics.
 This function plots each item as a ridgeline plot in the same
@@ -165,7 +189,6 @@ plot window using <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.
 <code><a href="sqrtAxis.html">sqrtAxis</a>()</code>,
 <code><a href="usrBox.html">usrBox</a>()</code></p></div>
     </div>
-    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -179,8 +202,7 @@ plot window using <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

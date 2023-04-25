@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,39 +62,48 @@
     <p>order alphanumeric values keeping numeric values in proper order</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">mixedOrder</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">...</span>,
-  blanksFirst <span class="op">=</span> <span class="cn">TRUE</span>,
-  na.last <span class="op">=</span> <span class="va">NAlast</span>,
-  keepNegative <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepInfinite <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,
-  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,
-  useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,
-  honorFactor <span class="op">=</span> <span class="cn">FALSE</span>,
-  returnDebug <span class="op">=</span> <span class="cn">FALSE</span>,
-  returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"order"</span>, <span class="st">"rank"</span><span class="op">)</span>,
-  NAlast <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  debug <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mixedOrder</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  blanksFirst <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.last <span class="op">=</span> <span class="va">NAlast</span>,</span>
+<span>  keepNegative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepInfinite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepDecimal <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore.case <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useCaseTiebreak <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  honorFactor <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnDebug <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"order"</span>, <span class="st">"rank"</span><span class="op">)</span>,</span>
+<span>  NAlast <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  debug <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>input vector</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are sent to <code>mixedOrder()</code>.</p></dd>
+
+
 <dt>blanksFirst</dt>
 <dd><p><code>logical</code> whether to order blank entries before entries
 containing a value.</p></dd>
+
+
 <dt>na.last</dt>
 <dd><p><code>logical</code> whether to move NA entries to the end of the sort.
 When <code>na.last=TRUE</code> then <code>NA</code> values will always be last, even following
 blanks and infinite values. When <code>na.last=FALSE</code> then <code>NA</code> values
 will always be first, even before blanks and negative infinite values.</p></dd>
+
+
 <dt>keepNegative</dt>
 <dd><p><code>logical</code> whether to keep '-' associated with adjacent
 numeric values, in order to sort them as negative values. Note that
@@ -102,6 +111,8 @@ numeric values, in order to sort them as negative values. Note that
 matching of scientific notation such as <code>-1.23e-10</code> as a numeric
 value. When <code>keepNegative=FALSE</code> the dash <code>"-"</code> is treated as
 a common delimiter.</p></dd>
+
+
 <dt>keepInfinite</dt>
 <dd><p><code>logical</code> whether to allow "Inf" in the input <code>x</code>
 to be considered a numeric infinite value. Note that <code>"-Inf"</code> is
@@ -114,41 +125,62 @@ gene symbols like <code>"Inf3"</code> which should not be sorted as infinite.
 Lastly, infinite values are sorted at the end, notably after
 all character values which differs from some mixed sorting
 algorithms.</p></dd>
+
+
 <dt>keepDecimal</dt>
 <dd><p><code>logical</code> whether to keep the decimal in numbers,
 sorting as a true number and not as a version number. By default
 <code>keepDecimal=FALSE``, which means "v1.200" will be ordered after "v1.30", since it considers </code>"1.200"<code>effectively as</code>1<code>and</code>200<code>, and </code>"1.30"<code>effectively as</code>1<code>and</code>30<code>. When </code>keepDecimal=TRUE<code>, the numeric sort orders </code>"v1.200"<code>before</code>"v1.30"`.</p></dd>
+
+
 <dt>ignore.case</dt>
 <dd><p><code>logical</code> whether to ignore uppercase and lowercase
 characters when defining the sort order.</p></dd>
+
+
 <dt>useCaseTiebreak</dt>
 <dd><p><code>logical</code> indicating whether to break ties
 when <code>ignore.case=TRUE</code>, using mixed case as a tiebreaker.</p></dd>
+
+
 <dt>honorFactor</dt>
 <dd><p><code>logical</code> indicating whether to honor the
 order of <code>levels</code> if the input <code>x</code> is a <code>factor</code>. The default
 <code>honorFactor=FALSE</code> is to maintain consistent legacy behavior.
 The purpose of this function is to enable alphanumeric sorting,
 which is not the purpose of sorting by factor levels.</p></dd>
+
+
 <dt>returnDebug</dt>
 <dd><p><code>logical</code> indicating whether to include
 additional debug info as attributes.</p></dd>
+
+
 <dt>returnType</dt>
 <dd><p><code>character</code> string to define the return type:</p><ul><li><p>"order": returns <code>integer</code> order, equivalent to <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code></p></li>
 <li><p>"rank": returns <code>integer</code> rank, equivalent to <code><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank()</a></code></p></li>
 </ul></dd>
+
+
 <dt>NAlast</dt>
 <dd><p><code>logical</code> DEPRECATED in favor of <code>na.last</code> for
 consistency with other base R functions.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> whether to print verbose output.</p></dd>
+
+
 <dt>debug</dt>
 <dd><p><code>logical</code> indicating whether to return intermediate data
 useful only for debugging purposes.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>integer</code> vector of orders derived from x,
+    
+
+<p><code>integer</code> vector of orders derived from x,
 or when <code>returnType="rank"</code> an integer vector of ranks allowing ties.
 The rank is therefore valid for use in chains, such as multiple
 columns of a <code>data.frame</code>.</p>
@@ -228,78 +260,76 @@ that proved to be so useful it ultimately inspired this function.</p>
 <code><a href="pasteByRowOrdered.html">pasteByRowOrdered</a>()</code>,
 <code><a href="pasteByRow.html">pasteByRow</a>()</code>,
 <code><a href="sizeAsNum.html">sizeAsNum</a>()</code>,
-<code><a href="tcount2.html">tcount2</a>()</code>,
 <code><a href="tcount.html">tcount</a>()</code>,
 <code><a href="ucfirst.html">ucfirst</a>()</code>,
 <code><a href="uniques.html">uniques</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"miR-12"</span>,<span class="st">"miR-1"</span>,<span class="st">"miR-122"</span>,<span class="st">"miR-1b"</span>, <span class="st">"miR-1a"</span>,<span class="st">"miR-2"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"miR-12"</span>,<span class="st">"miR-1"</span>,<span class="st">"miR-122"</span>,<span class="st">"miR-1b"</span>, <span class="st">"miR-1a"</span>,<span class="st">"miR-2"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 5 4 6 1 3</span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>;</span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-1a"  "miR-1b"  "miR-2"   "miR-12"  "miR-122"</span>
-<span class="r-in"><span class="fu"><a href="mixedSort.html">mixedSort</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu"><a href="mixedSort.html">mixedSort</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-1a"  "miR-1b"  "miR-2"   "miR-12"  "miR-122"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 1 3 5 4 6</span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>;</span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-12"  "miR-122" "miR-1a"  "miR-1b"  "miR-2"  </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miR-1"   "miR-12"  "miR-122" "miR-1a"  "miR-1b"  "miR-2"  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Complex example including NA, blanks, and infinite "Inf"</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Inf"</span>,</span>
-<span class="r-in">   <span class="st">"+Inf12"</span>,</span>
-<span class="r-in">   <span class="cn">NA</span>,</span>
-<span class="r-in">   <span class="st">"-Inf14"</span>,</span>
-<span class="r-in">   <span class="st">"-"</span>,</span>
-<span class="r-in">   <span class="st">"---"</span>,</span>
-<span class="r-in">   <span class="st">"Jnf12"</span>,</span>
-<span class="r-in">   <span class="st">"Hnf12"</span>,</span>
-<span class="r-in">   <span class="st">"--"</span>,</span>
-<span class="r-in">   <span class="st">"Information"</span><span class="op">)</span>;</span>
-<span class="r-in"><span class="co">## By default, strings are sorted as-is, "Hnf" before "Inf" before "Jnf"</span></span>
-<span class="r-in"><span class="co">## blanks are first, NA values are last</span></span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Complex example including NA, blanks, and infinite "Inf"</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Inf"</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"+Inf12"</span>,</span></span>
+<span class="r-in"><span>   <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"-Inf14"</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"-"</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"---"</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"Jnf12"</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"Hnf12"</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"--"</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"Information"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="co">## By default, strings are sorted as-is, "Hnf" before "Inf" before "Jnf"</span></span></span>
+<span class="r-in"><span><span class="co">## blanks are first, NA values are last</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "-"           "--"          "---"         "Hnf12"       "+Inf12"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "-Inf14"      "Inf"         "Information" "Jnf12"       NA           </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## blanks are last, but before NA values which are also last</span></span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span>, blanksFirst<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span>;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## blanks are last, but before NA values which are also last</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span>, blanksFirst<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Hnf12"       "+Inf12"      "-Inf14"      "Inf"         "Information"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "Jnf12"       "-"           "--"          "---"         NA           </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Recognize infinite, but not the negative sign</span></span>
-<span class="r-in"><span class="co">## Now infinite values are at the end, ordered by the number that follows.</span></span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span>, blanksFirst<span class="op">=</span><span class="cn">FALSE</span>, keepInfinite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Recognize infinite, but not the negative sign</span></span></span>
+<span class="r-in"><span><span class="co">## Now infinite values are at the end, ordered by the number that follows.</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span>, blanksFirst<span class="op">=</span><span class="cn">FALSE</span>, keepInfinite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Hnf12"       "Information" "Jnf12"       "+Inf12"      "-Inf14"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "Inf"         "-"           "--"          "---"         NA           </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Now also recognize negative infinite values,</span></span>
-<span class="r-in"><span class="co">## which puts "-Inf14" at the very beginning.</span></span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span>, blanksFirst<span class="op">=</span><span class="cn">FALSE</span>, keepInfinite<span class="op">=</span><span class="cn">TRUE</span>, keepNegative<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Now also recognize negative infinite values,</span></span></span>
+<span class="r-in"><span><span class="co">## which puts "-Inf14" at the very beginning.</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">x</span>, blanksFirst<span class="op">=</span><span class="cn">FALSE</span>, keepInfinite<span class="op">=</span><span class="cn">TRUE</span>, keepNegative<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "-Inf14"      "Hnf12"       "Information" "Jnf12"       "+Inf12"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "Inf"         "-"           "--"          "---"         NA           </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># test factor level order</span></span>
-<span class="r-in"><span class="va">factor1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># test factor level order</span></span></span>
+<span class="r-in"><span><span class="va">factor1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="fu"><a href="mixedSort.html">mixedSort</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="mixedSort.html">mixedSort</a></span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="va">factor1</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span><span class="va">factor1</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">factor1</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot8  Cnot9  Cnot10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"><span class="va">factor1</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">factor1</span>, honorFactor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span><span class="va">factor1</span><span class="op">[</span><span class="fu">mixedOrder</span><span class="op">(</span><span class="va">factor1</span>, honorFactor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] Cnot10 Cnot8  Cnot9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: Cnot10 Cnot8 Cnot9</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -314,8 +344,7 @@ that proved to be so useful it ultimately inspired this function.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

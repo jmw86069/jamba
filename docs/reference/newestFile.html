@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,28 +62,38 @@
     <p>Return the newest file from a vector of files</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">newestFile</span><span class="op">(</span><span class="va">x</span>, timecol <span class="op">=</span> <span class="st">"mtime"</span>, n <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">newestFile</span><span class="op">(</span><span class="va">x</span>, timecol <span class="op">=</span> <span class="st">"mtime"</span>, n <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>character vector of files, specifying file path where
+<dd><p><code>character</code> vector of files, specifying file path where
 required.</p></dd>
+
+
 <dt>timecol</dt>
-<dd><p>character value from the output of <code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">base::file.info()</a></code>
+<dd><p><code>character</code> value from the output of <code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">base::file.info()</a></code>
 indicating the time column used to order files. By default <code>"mtime"</code>
 refers to the time the file was last modified.</p></dd>
+
+
 <dt>n</dt>
-<dd><p>integer number of files to return, in order of the most
+<dd><p><code>integer</code> number of files to return, in order of the most
 recent to the least recent. By default <code>n=1</code> returns only the one
 newest file.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Character vector <code>length=1</code> of the most recently modified file
+    
+
+<p>Character vector <code>length=1</code> of the most recently modified file
 from the input vector <code>x</code>. Note that any files not found are removed,
 using <code><a href="https://rdrr.io/r/base/files.html" class="external-link">base::file.exists()</a></code>.</p>
     </div>
@@ -128,19 +138,15 @@ recently modified time obtained from <code><a href="https://rdrr.io/r/base/file.
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p></div>
-    </div>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">newestFile</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>;</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">newestFile</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "nameVectorN.html"</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -155,8 +161,7 @@ recently modified time obtained from <code><a href="https://rdrr.io/r/base/file.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

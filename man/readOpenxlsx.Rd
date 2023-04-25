@@ -8,7 +8,9 @@ readOpenxlsx(
   xlsx,
   sheet = NULL,
   startRow = 1,
+  startCol = 1,
   rows = NULL,
+  cols = NULL,
   check.names = FALSE,
   check_header = FALSE,
   check_header_n = 10,
@@ -73,6 +75,19 @@ with a few minor additions:
 
 By default this function returns every \code{sheet} for a given
 \code{xlsx} file.
+
+Some useful details:
+\itemize{
+\item Empty columns are not skipped during loading, which means a worksheet
+whose data starts at column 3 will be returned with two empty columns,
+followed by data from that worksheet. Similarly, any empty columns
+in the middle of the data in that worksheet will be included in the
+output.
+\item When both \code{startRow} and \code{rows} are applied, \code{rows} takes priority
+and will be used instead of \code{startRows}. In fact \code{startRows} will be
+defined \code{startRows <- min(rows)} for each relevant worksheet. However,
+for each worksheet either argument can be \code{NULL}.
+}
 }
 \seealso{
 Other jam export functions: 

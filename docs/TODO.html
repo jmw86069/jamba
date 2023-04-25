@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -56,49 +56,47 @@
       <h1>TODO for jamba</h1>
     </div>
 
+
 <div id="todo-for-jamba" class="section level1">
 
-<div class="section level2">
-<h2 id="22mar2023">22mar2023<a class="anchor" aria-label="anchor" href="#22mar2023"></a></h2>
+</div>
+<div class="section level1">
+<h1 id="id_23mar2023">23mar2023<a class="anchor" aria-label="anchor" href="#id_23mar2023"></a></h1>
+<ul><li>
+<p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code></p>
+<ul><li>Enable passing <code>sample_color_list</code> to colorize columns</li>
+<li>Allow coloring <code>numeric</code> columns, perhaps through <code>sample_color_list</code>?</li>
+<li>It should apply color to <code>row.names</code> when they are displayed. (Taken from 10jan2023 TODO item.)</li>
+<li>Use bold font by default for row names.</li>
+<li>Consider handling <code>matrix</code> input by using a color gradient to colorize <code>numeric</code> values.</li>
+</ul></li>
+</ul><div class="section level2">
+<h2 id="id_22mar2023">22mar2023<a class="anchor" aria-label="anchor" href="#id_22mar2023"></a></h2>
 <ul><li>
 <p><code><a href="reference/imageByColors.html">imageByColors()</a></code></p>
 <ul><li>
-<code>adjustMargins=TRUE</code> does not reset margins after
-plotting. It may be desirable, so other features can be added, but
-causes problems when running a series of plots.</li>
+<code>adjustMargins=TRUE</code> does not reset margins after plotting. It may be desirable, so other features can be added, but causes problems when running a series of plots.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="27feb2023">27feb2023<a class="anchor" aria-label="anchor" href="#27feb2023"></a></h2>
+<h2 id="id_27feb2023">27feb2023<a class="anchor" aria-label="anchor" href="#id_27feb2023"></a></h2>
 <ul><li>
 <p>consider new color function: <code>is_color_ramp()</code></p>
-<ul><li>simple function that performs the same test in
-<code><a href="reference/getColorRamp.html">getColorRamp()</a></code> just to validate that an input
-<code>character</code> string is a possible color ramp.</li>
-<li>potential argument to require the <code>character</code> string to
-be a specific named color ramp, and not a single color which could be
-converted into a color ramp.</li>
+<ul><li>simple function that performs the same test in <code><a href="reference/getColorRamp.html">getColorRamp()</a></code> just to validate that an input <code>character</code> string is a possible color ramp.</li>
+<li>potential argument to require the <code>character</code> string to be a specific named color ramp, and not a single color which could be converted into a color ramp.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="06feb2023">06feb2023<a class="anchor" aria-label="anchor" href="#06feb2023"></a></h2>
+<h2 id="id_06feb2023">06feb2023<a class="anchor" aria-label="anchor" href="#id_06feb2023"></a></h2>
 <ul><li>
 <p><code><a href="reference/mixedSorts.html">mixedSorts()</a></code> optimization</p>
-<ul><li>DONE: when <code>honorFactor=FALSE</code> all class
-<code>"factor"</code> should be considered <code>"character"</code>,
-minimizing effects of handling <code>factor</code> and
-<code>character</code> data independently.</li>
-<li>Handle other edge cases with mixed class, and nested or simple
-list.</li>
+<ul><li>DONE: when <code>honorFactor=FALSE</code> all class <code>"factor"</code> should be considered <code>"character"</code>, minimizing effects of handling <code>factor</code> and <code>character</code> data independently.</li>
+<li>Handle other edge cases with mixed class, and nested or simple list.</li>
 </ul></li>
-<li><p><code><a href="reference/reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code> should check subdirectory
-“./html/” if initial reload fails. For some reason some RMarkdown output
-imposes an additional subdirectory “html” for html output. For that
-matter, this function may need to check subdirectories and by default
-use the first one found (without a dot prefix like “.git”).</p></li>
+<li><p><code><a href="reference/reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code> should check subdirectory “./html/” if initial reload fails. For some reason some RMarkdown output imposes an additional subdirectory “html” for html output. For that matter, this function may need to check subdirectories and by default use the first one found (without a dot prefix like “.git”).</p></li>
 </ul></div>
 <div class="section level2">
-<h2 id="04feb2023">04feb2023<a class="anchor" aria-label="anchor" href="#04feb2023"></a></h2>
+<h2 id="id_04feb2023">04feb2023<a class="anchor" aria-label="anchor" href="#id_04feb2023"></a></h2>
 <ul><li>
 <p>run some performance profiling of core functions:</p>
 <ul><li>
@@ -108,383 +106,239 @@ use the first one found (without a dot prefix like “.git”).</p></li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="10jan2023">10jan2023<a class="anchor" aria-label="anchor" href="#10jan2023"></a></h2>
+<h2 id="id_10jan2023">10jan2023<a class="anchor" aria-label="anchor" href="#id_10jan2023"></a></h2>
 <ul><li>
 <p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code></p>
-<ul><li>Categorical colors are assigned with <code>colorSub</code>, but
-should also be compatible with <code>color_list</code> output from
-<code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code> (soon to be moved into
-<code>colorjam</code>).</li>
-<li>It should apply color to <code>row.names</code> when they are
-displayed.</li>
+<ul><li>Categorical colors are assigned with <code>colorSub</code>, but should also be compatible with <code>color_list</code> output from <code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code> (soon to be moved into <code>colorjam</code>).</li>
+<li>It should apply color to <code>row.names</code> when they are displayed.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="28nov2022">28nov2022<a class="anchor" aria-label="anchor" href="#28nov2022"></a></h2>
+<h2 id="id_28nov2022">28nov2022<a class="anchor" aria-label="anchor" href="#id_28nov2022"></a></h2>
 <ul><li>
 <p><code><a href="reference/jargs.html">jargs()</a></code></p>
 <ul><li>
-<p>it fails when functions follow the troubled paradigm for
-generics, e.g.:</p>
+<p>it fails when functions follow the troubled paradigm for generics, e.g.:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>some_func <span class="ot">&lt;-</span> <span class="cf">function</span>(object, ...){</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   .local <span class="ot">&lt;-</span> <span class="cf">function</span>(object, arg1, arg2, arg3);</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">.local</span>(object, ...)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </li>
-<li><p>Design idea: Figure out a way to “sniff” out these
-arguments.</p></li>
-<li><p>Eval the function body, look for function named
-<code>.local</code></p></li>
-<li><p>It will fail for functions that call
-<code>UseMethod("mean")</code>, which requires the object class in order
-to search generics using the form <code>function.class1()</code>, where
-<code>class1</code> is the first <code>"character"</code> value from
-<code>class(object)</code>. Optionally, <code>jargs_internal()</code>
-could have argument <code>class</code> or <code>object</code> to guide
-it to the appropriate method based upon the <code>class</code> or
-<code>class(object)</code>.</p></li>
+<li><p>Design idea: Figure out a way to “sniff” out these arguments.</p></li>
+<li><p>Eval the function body, look for function named <code>.local</code></p></li>
+<li><p>It will fail for functions that call <code>UseMethod("mean")</code>, which requires the object class in order to search generics using the form <code>function.class1()</code>, where <code>class1</code> is the first <code>"character"</code> value from <code>class(object)</code>. Optionally, <code>jargs_internal()</code> could have argument <code>class</code> or <code>object</code> to guide it to the appropriate method based upon the <code>class</code> or <code>class(object)</code>.</p></li>
 <li>
 <p>Driving example: <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">ComplexHeatmap::draw()</a></code></p>
-<ul><li>can be found with <code>names(findMethods("draw"))</code>, for class
-<code>"Heatmap"</code>, <code>"HeatmapAnnotation"</code>, and several
-others.</li>
+<ul><li>can be found with <code>names(findMethods("draw"))</code>, for class <code>"Heatmap"</code>, <code>"HeatmapAnnotation"</code>, and several others.</li>
 <li>
-<code>args(findMethods("draw")$Heatmap)</code> will show
-<code>function(object, ...)</code>
+<code>args(findMethods("draw")$Heatmap)</code> will show <code>function(object, ...)</code>
 </li>
-<li>however the function body defines <code>.local</code> as a
-<code>function</code>
+<li>however the function body defines <code>.local</code> as a <code>function</code>
 </li>
 </ul></li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="14nov2022">14nov2022<a class="anchor" aria-label="anchor" href="#14nov2022"></a></h2>
+<h2 id="id_14nov2022">14nov2022<a class="anchor" aria-label="anchor" href="#id_14nov2022"></a></h2>
 <ul><li>
-<p><code><a href="reference/jargs.html">jargs()</a></code> is janky for some functions, for example
-arguments that begin with parentheses. Other non-standard formatting has
-previously caused problems, but examples like embedded functions appear
-to work fine.</p>
-<ul><li>Example that works: <code><a href="https://rdrr.io/pkg/jamses/man/heatmap_se.html" class="external-link">jamses::heatmap_se()</a></code> argument
-<code>cluster_rows=function(x, ...){ amap::hcluster(x, ...) }</code>.
-Actually, this one fails to insert a comma between internal function
-arguments. Sigh.</li>
-<li>Example that fails: <code><a href="https://rdrr.io/pkg/multienrichjam/man/layout_with_qfr.html" class="external-link">multienrichjam::layout_with_qfr()</a></code>
-argument <code>repulse.rad=(igraph::vcount(g)^repulse)</code>
+<p><code><a href="reference/jargs.html">jargs()</a></code> is janky for some functions, for example arguments that begin with parentheses. Other non-standard formatting has previously caused problems, but examples like embedded functions appear to work fine.</p>
+<ul><li>Example that works: <code><a href="https://rdrr.io/pkg/jamses/man/heatmap_se.html" class="external-link">jamses::heatmap_se()</a></code> argument <code>cluster_rows=function(x, ...){ amap::hcluster(x, ...) }</code>. Actually, this one fails to insert a comma between internal function arguments. Sigh.</li>
+<li>Example that fails: <code><a href="https://rdrr.io/pkg/multienrichjam/man/layout_with_qfr.html" class="external-link">multienrichjam::layout_with_qfr()</a></code> argument <code>repulse.rad=(igraph::vcount(g)^repulse)</code>
 </li>
-<li>Design idea: write a test routine that calls
-<code><a href="reference/jargs.html">jamba::jargs()</a></code> on all functions in a package, captures text
-output, then searches for any argument that spans multiple lines. Then
-print a visual summary to check for potential problems.</li>
+<li>Design idea: write a test routine that calls <code><a href="reference/jargs.html">jamba::jargs()</a></code> on all functions in a package, captures text output, then searches for any argument that spans multiple lines. Then print a visual summary to check for potential problems.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="19oct2022">19oct2022<a class="anchor" aria-label="anchor" href="#19oct2022"></a></h2>
+<h2 id="id_19oct2022">19oct2022<a class="anchor" aria-label="anchor" href="#id_19oct2022"></a></h2>
 <ul><li>
-<p><code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code> throws an error when column headers
-do not align with subsequent data. Insert filler column headers.</p>
-<ul><li>Easiest workaround is change default to
-<code>check_header=FALSE</code>
+<p><code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code> throws an error when column headers do not align with subsequent data. Insert filler column headers.</p>
+<ul><li>Easiest workaround is change default to <code>check_header=FALSE</code>
 </li>
-<li>The <code>check_header=TRUE</code> logic should change, the intent
-is to detect when one row of additional header is above column headers,
-usually seen with lower ncol, however sometimes real data has fewer ncol
-because the last column(s) contain empty cells.</li>
+<li>The <code>check_header=TRUE</code> logic should change, the intent is to detect when one row of additional header is above column headers, usually seen with lower ncol, however sometimes real data has fewer ncol because the last column(s) contain empty cells.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="14oct2022">14oct2022<a class="anchor" aria-label="anchor" href="#14oct2022"></a></h2>
+<h2 id="id_14oct2022">14oct2022<a class="anchor" aria-label="anchor" href="#id_14oct2022"></a></h2>
 <ul><li>
-<code><a href="reference/renameColumn.html">renameColumn()</a></code> should accept <code>integer</code>
-values for <code>from</code> to indicate column indexes. The driving use
-case is a matrix that lacks colnames,
-<code>renameColumn(x, from=1:4, to=letters[1:4])</code>. Internally
-convert <code>integer</code> or <code>numeric</code> values in
-<code>from</code> to <code>colnames(x)</code> or when
-<code>length(colnames(x)) == 0</code> assign
-<code>colnames(x) &lt;- seq_len(ncol(x))</code>,, then convert
-<code>from &lt;- as.character(from)</code>.</li>
+<code><a href="reference/renameColumn.html">renameColumn()</a></code> should accept <code>integer</code> values for <code>from</code> to indicate column indexes. The driving use case is a matrix that lacks colnames, <code>renameColumn(x, from=1:4, to=letters[1:4])</code>. Internally convert <code>integer</code> or <code>numeric</code> values in <code>from</code> to <code>colnames(x)</code> or when <code>length(colnames(x)) == 0</code> assign <code>colnames(x) &lt;- seq_len(ncol(x))</code>,, then convert <code>from &lt;- as.character(from)</code>.</li>
 </ul></div>
 <div class="section level2">
-<h2 id="04oct2022">04oct2022<a class="anchor" aria-label="anchor" href="#04oct2022"></a></h2>
+<h2 id="id_04oct2022">04oct2022<a class="anchor" aria-label="anchor" href="#id_04oct2022"></a></h2>
 <ul><li>
 <p><code><a href="reference/jargs.html">jargs()</a></code></p>
-<ul><li>Option for multiple columns, for those functions with many
-arguments. Requires some estimate of the number of console columns, or
-user-defined.</li>
+<ul><li>Option for multiple columns, for those functions with many arguments. Requires some estimate of the number of console columns, or user-defined.</li>
 </ul></li>
 <li>
 <p><code>jamsplom()</code></p>
-<ul><li>new custom function that I still use often outside the Jam package
-context, useful enough to be added to jamba for convenience. It’s as
-useful as <code>plotPolygoDensity()</code>,
-<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>, <code><a href="reference/plotRidges.html">plotRidges()</a></code>, somewhat
-combined.</li>
+<ul><li>new custom function that I still use often outside the Jam package context, useful enough to be added to jamba for convenience. It’s as useful as <code>plotPolygoDensity()</code>, <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>, <code><a href="reference/plotRidges.html">plotRidges()</a></code>, somewhat combined.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="27sep2022">27sep2022<a class="anchor" aria-label="anchor" href="#27sep2022"></a></h2>
+<h2 id="id_27sep2022">27sep2022<a class="anchor" aria-label="anchor" href="#id_27sep2022"></a></h2>
 <ul><li>
-<code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> does not work with time class such as
-<code>"POSIXct"</code>, although <code><a href="reference/mixedSort.html">mixedSort()</a></code> does work.
-Coersion with <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric()</a></code> should suffice as a
-workaround.</li>
+<code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> does not work with time class such as <code>"POSIXct"</code>, although <code><a href="reference/mixedSort.html">mixedSort()</a></code> does work. Coersion with <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric()</a></code> should suffice as a workaround.</li>
 </ul></div>
 <div class="section level2">
-<h2 id="01sep2022">01sep2022<a class="anchor" aria-label="anchor" href="#01sep2022"></a></h2>
+<h2 id="id_01sep2022">01sep2022<a class="anchor" aria-label="anchor" href="#id_01sep2022"></a></h2>
 <ul><li>
 <p><code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code></p>
-<ul><li>add option not to include colnames, equivalent of
-<code>colNames=FALSE</code>. This option will skip the step that loads
-colnames separately.</li>
+<ul><li>add option not to include colnames, equivalent of <code>colNames=FALSE</code>. This option will skip the step that loads colnames separately.</li>
 <li>debug argument <code>rows</code>
 </li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="26jul2022">26jul2022<a class="anchor" aria-label="anchor" href="#26jul2022"></a></h2>
+<h2 id="id_26jul2022">26jul2022<a class="anchor" aria-label="anchor" href="#id_26jul2022"></a></h2>
 <ul><li>
 <p><code><a href="reference/adjustAxisLabelMargins.html">adjustAxisLabelMargins()</a></code></p>
-<ul><li>It should operate much like <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code>, by returning the
-<code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> values that were changed, so they can be changed
-back.</li>
-<li>Should be an option so it defines <code>on.exit(par(opar))</code> to
-revert the margin values that it re-defines during its operation.</li>
+<ul><li>It should operate much like <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code>, by returning the <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> values that were changed, so they can be changed back.</li>
+<li>Should be an option so it defines <code>on.exit(par(opar))</code> to revert the margin values that it re-defines during its operation.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="20jul2022">20jul2022<a class="anchor" aria-label="anchor" href="#20jul2022"></a></h2>
-<ul><li><p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code> chokes when <code>colorSub</code>
-uses color names, they just need to be converted to hex format
-beforehand.</p></li>
+<h2 id="id_20jul2022">20jul2022<a class="anchor" aria-label="anchor" href="#id_20jul2022"></a></h2>
+<ul><li><p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code> chokes when <code>colorSub</code> uses color names, they just need to be converted to hex format beforehand.</p></li>
 <li>
 <p><code><a href="reference/cell_fun_label.html">cell_fun_label()</a></code></p>
-<ul><li>arguments <code>prefix</code> and <code>suffix</code> are indexed by
-the list <code>m</code> and not by <code>show</code> which is confusing.
-Consider applying <code>prefix</code> and <code>suffix</code> in order
-to each entry in <code>show</code>.</li>
+<ul><li>arguments <code>prefix</code> and <code>suffix</code> are indexed by the list <code>m</code> and not by <code>show</code> which is confusing. Consider applying <code>prefix</code> and <code>suffix</code> in order to each entry in <code>show</code>.</li>
 </ul></li>
 <li>
-<p><code><a href="reference/cPasteU.html">cPasteU()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> appears slow in
-some situations</p>
-<ul><li>Apparently for small length vectors &lt;1000,
-<code>lapply(x, unique)</code> is much faster than BioC methods with
-<code>unique(CharacterList(x))</code>
+<p><code><a href="reference/cPasteU.html">cPasteU()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> appears slow in some situations</p>
+<ul><li>Apparently for small length vectors &lt;1000, <code>lapply(x, unique)</code> is much faster than BioC methods with <code>unique(CharacterList(x))</code>
 </li>
 <li>
-<code>unique(FactorList(x))</code> is extremely slow for large
-vectors</li>
-<li>unclear whether <code><a href="reference/cPaste.html">cPaste()</a></code> should ever handle
-<code>factor</code> without converting to <code>character</code> - all
-data should be <code>character</code> upfront, which may speed all
-downstream steps.</li>
+<code>unique(FactorList(x))</code> is extremely slow for large vectors</li>
+<li>unclear whether <code><a href="reference/cPaste.html">cPaste()</a></code> should ever handle <code>factor</code> without converting to <code>character</code> - all data should be <code>character</code> upfront, which may speed all downstream steps.</li>
 </ul></li>
 <li>
-<p><code><a href="reference/mixedSorts.html">mixedSorts()</a></code> does not handle mixed <code>list</code>
-with <code>character</code> and <code>factor</code></p>
-<ul><li>Easiest option that works*: when input is all the same
-<code>class</code> proceed with the optimization step currently used,
-otherwise revert to <code>lapply(x, mixedSort)</code> which is markedly
-slower, but more consistent with expected behavior.</li>
+<p><code><a href="reference/mixedSorts.html">mixedSorts()</a></code> does not handle mixed <code>list</code> with <code>character</code> and <code>factor</code></p>
+<ul><li>Easiest option that works*: when input is all the same <code>class</code> proceed with the optimization step currently used, otherwise revert to <code>lapply(x, mixedSort)</code> which is markedly slower, but more consistent with expected behavior.</li>
 </ul></li>
 <li>
-<p><code><a href="reference/mixedSort.html">mixedSort()</a></code> and <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> are
-inconsistent handling <code>factor</code></p>
+<p><code><a href="reference/mixedSort.html">mixedSort()</a></code> and <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> are inconsistent handling <code>factor</code></p>
 <ul><li>
-<code><a href="reference/mixedSort.html">mixedSort()</a></code> should have option to honor
-<code>factor</code> order, consistent with
-<code><a href="reference/mixedSorts.html">mixedSorts()</a></code>
+<code><a href="reference/mixedSort.html">mixedSort()</a></code> should have option to honor <code>factor</code> order, consistent with <code><a href="reference/mixedSorts.html">mixedSorts()</a></code>
 </li>
 <li>
-<code><a href="reference/mixedSorts.html">mixedSorts()</a></code> should handle mix of
-<code>character</code> and <code>factor</code> and return a
-<code>list</code> with the same classes as the input
-<code>list</code>.</li>
-<li>suggest new argument <code>honorFactor=FALSE</code> default for
-<code><a href="reference/mixedSort.html">mixedSort()</a></code> to keep previous behavior without affecting
-dependencies</li>
-<li>suggest new argument <code>honorFactor=TRUE</code> default for
-<code><a href="reference/mixedSorts.html">mixedSorts()</a></code> to keep previous behavior without affecting
-dependencies</li>
+<code><a href="reference/mixedSorts.html">mixedSorts()</a></code> should handle mix of <code>character</code> and <code>factor</code> and return a <code>list</code> with the same classes as the input <code>list</code>.</li>
+<li>suggest new argument <code>honorFactor=FALSE</code> default for <code><a href="reference/mixedSort.html">mixedSort()</a></code> to keep previous behavior without affecting dependencies</li>
+<li>suggest new argument <code>honorFactor=TRUE</code> default for <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> to keep previous behavior without affecting dependencies</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="18jul2022">18jul2022<a class="anchor" aria-label="anchor" href="#18jul2022"></a></h2>
+<h2 id="id_18jul2022">18jul2022<a class="anchor" aria-label="anchor" href="#id_18jul2022"></a></h2>
 <ul><li>
 <p>COMPLETE: <code><a href="reference/printDebug.html">printDebug()</a></code> updates</p>
-<ul><li>Situation: In Rmarkdown, when the R block uses
-<code>results='asis'</code>, see <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html#generate-multiple-tables-from-a-for-loop" class="external-link">RMarkdown
-Guide#generate-multiple-tables-from-a-for-loop</a>). The output from
-<code><a href="reference/printDebug.html">printDebug()</a></code> should be configurable for that format, maybe
-with some global option, so that all internal functions that call
-<code><a href="reference/printDebug.html">printDebug()</a></code> will be affected the same way without having
-to pass an option through each child function in a process.</li>
+<ul><li>Situation: In Rmarkdown, when the R block uses <code>results='asis'</code>, see <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html#generate-multiple-tables-from-a-for-loop" class="external-link">RMarkdown Guide#generate-multiple-tables-from-a-for-loop</a>). The output from <code><a href="reference/printDebug.html">printDebug()</a></code> should be configurable for that format, maybe with some global option, so that all internal functions that call <code><a href="reference/printDebug.html">printDebug()</a></code> will be affected the same way without having to pass an option through each child function in a process.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="07jul2022">07jul2022<a class="anchor" aria-label="anchor" href="#07jul2022"></a></h2>
+<h2 id="id_07jul2022">07jul2022<a class="anchor" aria-label="anchor" href="#id_07jul2022"></a></h2>
 <ul><li>
-<code><a href="reference/rmNA.html">rmNA()</a></code> should work properly on data.frame and matrix
-objects, returning the same object back, with the relevant values
-replaced with <code>naValue</code> as relevant.</li>
+<code><a href="reference/rmNA.html">rmNA()</a></code> should work properly on data.frame and matrix objects, returning the same object back, with the relevant values replaced with <code>naValue</code> as relevant.</li>
 </ul></div>
 <div class="section level2">
-<h2 id="17jun2022">17jun2022<a class="anchor" aria-label="anchor" href="#17jun2022"></a></h2>
+<h2 id="id_17jun2022">17jun2022<a class="anchor" aria-label="anchor" href="#id_17jun2022"></a></h2>
 <ul><li>add <code>log2fold_axis()</code> convenience function</li>
 <li>
-<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> argument <code>transFactor</code>
-is not used by default, the argument <code>transformation</code> should
-by default use <code>transFactor</code>.</li>
+<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> argument <code>transFactor</code> is not used by default, the argument <code>transformation</code> should by default use <code>transFactor</code>.</li>
 </ul></div>
 <div class="section level2">
-<h2 id="25may2022">25may2022<a class="anchor" aria-label="anchor" href="#25may2022"></a></h2>
+<h2 id="id_25may2022">25may2022<a class="anchor" aria-label="anchor" href="#id_25may2022"></a></h2>
 <ul><li>
 <p>Check <code>cell_fun_label</code>:</p>
-<ul><li>COMPLETE: It is possible to increase speed by skipping blank cells?
-(Yes.)</li>
+<ul><li>COMPLETE: It is possible to increase speed by skipping blank cells? (Yes.)</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="23may2022">23may2022<a class="anchor" aria-label="anchor" href="#23may2022"></a></h2>
+<h2 id="id_23may2022">23may2022<a class="anchor" aria-label="anchor" href="#id_23may2022"></a></h2>
 <ul><li>
-<p>Allow list of colors/color functions as input to
-<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>.</p>
+<p>Allow list of colors/color functions as input to <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>.</p>
 <ul><li>
-<code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code> soon to be migrated into
-<code>colorjam::design2colors()</code>
+<code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code> soon to be migrated into <code>colorjam::design2colors()</code>
 </li>
 <li>
-<code>design2colors()</code> outputs a <code>list</code> of named
-color vectors, and for <code>numeric</code> columns it returns color
-<code>function</code> defined by <code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code>.
-Not sure how well a custom color <code>function</code> will work in
-Excel, other than pre-defining cell color for each individual cell,
-which seems sub-optimal.</li>
-<li>The main benefit would be that a color <code>list</code> can be
-matched to <code>colnames(x)</code>, and applied only to columns known
-to benefit from color assignment. Also, colors can be uniquely assigned
-by each column.</li>
+<code>design2colors()</code> outputs a <code>list</code> of named color vectors, and for <code>numeric</code> columns it returns color <code>function</code> defined by <code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code>. Not sure how well a custom color <code>function</code> will work in Excel, other than pre-defining cell color for each individual cell, which seems sub-optimal.</li>
+<li>The main benefit would be that a color <code>list</code> can be matched to <code>colnames(x)</code>, and applied only to columns known to benefit from color assignment. Also, colors can be uniquely assigned by each column.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="22may2022">22may2022<a class="anchor" aria-label="anchor" href="#22may2022"></a></h2>
-<ul><li>COMPLETE: <code><a href="reference/drawLabels.html">drawLabels()</a></code> option to force at least panel
-width, intended to mimic ggplot facet labels.</li>
+<h2 id="id_22may2022">22may2022<a class="anchor" aria-label="anchor" href="#id_22may2022"></a></h2>
+<ul><li>COMPLETE: <code><a href="reference/drawLabels.html">drawLabels()</a></code> option to force at least panel width, intended to mimic ggplot facet labels.</li>
 </ul></div>
 <div class="section level2">
-<h2 id="05may2022">05may2022<a class="anchor" aria-label="anchor" href="#05may2022"></a></h2>
+<h2 id="id_05may2022">05may2022<a class="anchor" aria-label="anchor" href="#id_05may2022"></a></h2>
 <ul><li>
-<p>COMPLETE. Consider new function specifically for MAD outlier
-point filtering, instead of hiding this feature inside
-<code><a href="reference/rowGroupMeans.html">rowGroupMeans()</a></code>.</p>
-<ul><li>I am so dumb, there is a function <code><a href="reference/rowRmMadOutliers.html">rowRmMadOutliers()</a></code>
-for this purpose, however this function is not grouped, and is instead
-only per row.</li>
+<p>COMPLETE. Consider new function specifically for MAD outlier point filtering, instead of hiding this feature inside <code><a href="reference/rowGroupMeans.html">rowGroupMeans()</a></code>.</p>
+<ul><li>I am so dumb, there is a function <code><a href="reference/rowRmMadOutliers.html">rowRmMadOutliers()</a></code> for this purpose, however this function is not grouped, and is instead only per row.</li>
 <li>COMPLETE. New function <code><a href="reference/rowGroupMeans.html">rowGroupRmOutliers()</a></code>.</li>
 </ul></li>
 <li>
-<p>Consider moving functions into this package which are currently
-being used in multiple Jam packages:</p>
+<p>Consider moving functions into this package which are currently being used in multiple Jam packages:</p>
 <ul><li>
 <code>update_function_params()</code> - jamma multienrichjam</li>
 <li>
-<code>update_list_elements()</code> - jamma multienrichjam (use
-<code><a href="https://rdrr.io/r/utils/modifyList.html" class="external-link">utils::modifyList()</a></code>)</li>
+<code>update_list_elements()</code> - jamma multienrichjam (use <code><a href="https://rdrr.io/r/utils/modifyList.html" class="external-link">utils::modifyList()</a></code>)</li>
 <li>
 <code>find_colname()</code> - jamma, multienrichjam</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="19apr2022">19apr2022<a class="anchor" aria-label="anchor" href="#19apr2022"></a></h2>
+<h2 id="id_19apr2022">19apr2022<a class="anchor" aria-label="anchor" href="#id_19apr2022"></a></h2>
 <ul><li>
 <p>Consider steps required to publish jamba on CRAN. (yike!)</p>
 <ul><li>Might need to add tests for every function (yike!)</li>
-<li>Might need to remove some non-essential functions:
-<code>"jamrandom"</code>, <code>"jamitall"</code>?</li>
+<li>Might need to remove some non-essential functions: <code>"jamrandom"</code>, <code>"jamitall"</code>?</li>
 </ul></li>
 <li>
-<p><code><a href="reference/printDebug.html">printDebug()</a></code> and <code><a href="reference/printDebugI.html">printDebugI()</a></code>
-changes:</p>
-<ul><li>consider detecting “state” when run inside RMarkdown, although
-currently seems to require the R block options include
-<code>results='asis'</code> to enable color, which also requires
-<code>htmlOut=TRUE</code>.</li>
+<p><code><a href="reference/printDebug.html">printDebug()</a></code> and <code><a href="reference/printDebugI.html">printDebugI()</a></code> changes:</p>
+<ul><li>consider detecting “state” when run inside RMarkdown, although currently seems to require the R block options include <code>results='asis'</code> to enable color, which also requires <code>htmlOut=TRUE</code>.</li>
 <li>
-<code>htmlOut=TRUE</code> does not de-colorize before applying the
-delimiter; also by default should remove comment prefix.</li>
+<code>htmlOut=TRUE</code> does not de-colorize before applying the delimiter; also by default should remove comment prefix.</li>
 </ul></li>
 <li>
 <p>consider moving all color-related functions into colorjam.</p>
 <ul><li>
-<code><a href="reference/hcl2col.html">hcl2col()</a></code>, <code><a href="reference/col2hcl.html">col2hcl()</a></code>,
-<code><a href="reference/rgb2col.html">rgb2col()</a></code>, <code><a href="reference/hsv2col.html">hsv2col()</a></code>,
-<code><a href="reference/col2hsv.html">col2hsv()</a></code>
+<code><a href="reference/hcl2col.html">hcl2col()</a></code>, <code><a href="reference/col2hcl.html">col2hcl()</a></code>, <code><a href="reference/rgb2col.html">rgb2col()</a></code>, <code><a href="reference/hsv2col.html">hsv2col()</a></code>, <code><a href="reference/col2hsv.html">col2hsv()</a></code>
 </li>
-<li>check cross-jam-package dependencies,
-e.g. <code><a href="reference/rgb2col.html">jamba::rgb2col()</a></code> is in <code>splicejam</code>,
-<code>colorjam</code>, and a few R scripts.</li>
+<li>check cross-jam-package dependencies, e.g. <code><a href="reference/rgb2col.html">jamba::rgb2col()</a></code> is in <code>splicejam</code>, <code>colorjam</code>, and a few R scripts.</li>
 </ul></li>
 <li>
 <p><code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> and related functions</p>
-<ul><li>Enable <code>startRow</code> to write data starting on row 2 or row
-3 for example.</li>
-<li>Add example syntax for saving multi-sheet data to file with one
-write operation, avoiding read/write for each worksheet.</li>
+<ul><li>Enable <code>startRow</code> to write data starting on row 2 or row 3 for example.</li>
+<li>Add example syntax for saving multi-sheet data to file with one write operation, avoiding read/write for each worksheet.</li>
 </ul></li>
 <li>
-<p>Convert <code>imageToColors()</code> to
-<code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p>
+<p>Convert <code>imageToColors()</code> to <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p>
 <ul><li>or create a variation that uses ComplexHeatmap</li>
-<li>requires function to label cells in the center of contiguous range
-of cells with same color and label</li>
+<li>requires function to label cells in the center of contiguous range of cells with same color and label</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
-<h2 id="02dec2021">02dec2021<a class="anchor" aria-label="anchor" href="#02dec2021"></a></h2>
-<ul><li>COMPLETE: additional functions to convert to and from abbreviated
-size <code><a href="reference/asSize.html">asSize()</a></code>
+<h2 id="id_02dec2021">02dec2021<a class="anchor" aria-label="anchor" href="#id_02dec2021"></a></h2>
+<ul><li>COMPLETE: additional functions to convert to and from abbreviated size <code><a href="reference/asSize.html">asSize()</a></code>
 </li>
 </ul></div>
 <div class="section level2">
-<h2 id="29nov2021">29nov2021<a class="anchor" aria-label="anchor" href="#29nov2021"></a></h2>
-<ul><li>COMPLETE: <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> appears to have issues sorting
-data.frame columns with type “integer64”. It appears not to sort these
-columns at all.</li>
-<li>COMPLETE: <code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code> is throwing errors in edge
-cases, needs debugging.</li>
-<li>COMPLETE: <code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code> detect when there is one or
-more header lines that are not column headers, for example when there is
-an overall title in the first row or rows of each worksheet. It can be
-detected either by counting <code><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol()</a></code> for each of the first 5
-rows individually, and by comparing column classes for each row loaded
-individually.</li>
+<h2 id="id_29nov2021">29nov2021<a class="anchor" aria-label="anchor" href="#id_29nov2021"></a></h2>
+<ul><li>COMPLETE: <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> appears to have issues sorting data.frame columns with type “integer64”. It appears not to sort these columns at all.</li>
+<li>COMPLETE: <code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code> is throwing errors in edge cases, needs debugging.</li>
+<li>COMPLETE: <code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code> detect when there is one or more header lines that are not column headers, for example when there is an overall title in the first row or rows of each worksheet. It can be detected either by counting <code><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol()</a></code> for each of the first 5 rows individually, and by comparing column classes for each row loaded individually.</li>
 </ul></div>
 <div class="section level2">
-<h2 id="22nov2021">22nov2021<a class="anchor" aria-label="anchor" href="#22nov2021"></a></h2>
-<ul><li>Consider adding version to <code><a href="reference/check_pkg_installed.html">check_pkg_installed()</a></code> for
-additional constraints. The idea is to check if the package is
-installed, and optionally if the package version is at least
-<code>&gt;= x.y.z</code>, likely using
-<code><a href="https://rdrr.io/r/utils/compareVersion.html" class="external-link">utils::compareVersion()</a></code>.</li>
-<li>COMPLETE: Update <code><a href="reference/getColorRamp.html">getColorRamp()</a></code> to recognize any color
-ramps supplied by <code>colorjam</code> if that package is installed:
-<code>jam_linear</code> and <code>jam_divergent</code>.</li>
+<h2 id="id_22nov2021">22nov2021<a class="anchor" aria-label="anchor" href="#id_22nov2021"></a></h2>
+<ul><li>Consider adding version to <code><a href="reference/check_pkg_installed.html">check_pkg_installed()</a></code> for additional constraints. The idea is to check if the package is installed, and optionally if the package version is at least <code>&gt;= x.y.z</code>, likely using <code><a href="https://rdrr.io/r/utils/compareVersion.html" class="external-link">utils::compareVersion()</a></code>.</li>
+<li>COMPLETE: Update <code><a href="reference/getColorRamp.html">getColorRamp()</a></code> to recognize any color ramps supplied by <code>colorjam</code> if that package is installed: <code>jam_linear</code> and <code>jam_divergent</code>.</li>
 </ul></div>
 <div class="section level2">
-<h2 id="04nov2021">04nov2021<a class="anchor" aria-label="anchor" href="#04nov2021"></a></h2>
-<p><code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> currently allows applying reverse sort by
-using colname prefix “-”. For numeric columns it is sometimes useful to
-sort the magnitude instead of the absolute value.</p>
-<ul><li>suggest new prefix “*” or “~” which may appear with or without
-“-”.</li>
-<li>when “~-” or “-~” appear as prefix, data is sorted by decreasing
-absolute value.</li>
-<li>when only “~” appears as a prefix, data is sorted by increasing
-absolute value.</li>
-<li>at some point sort columns could use non-standard evaluation, which
-could allow fancy math or logic to be applied here. Not yet.</li>
+<h2 id="id_04nov2021">04nov2021<a class="anchor" aria-label="anchor" href="#id_04nov2021"></a></h2>
+<p><code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code> currently allows applying reverse sort by using colname prefix “-”. For numeric columns it is sometimes useful to sort the magnitude instead of the absolute value.</p>
+<ul><li>suggest new prefix “*” or “~” which may appear with or without “-”.</li>
+<li>when “~-” or “-~” appear as prefix, data is sorted by decreasing absolute value.</li>
+<li>when only “~” appears as a prefix, data is sorted by increasing absolute value.</li>
+<li>at some point sort columns could use non-standard evaluation, which could allow fancy math or logic to be applied here. Not yet.</li>
 </ul><div class="section level3">
-<h3 id="05oct2021">05oct2021<a class="anchor" aria-label="anchor" href="#05oct2021"></a></h3>
+<h3 id="id_05oct2021">05oct2021<a class="anchor" aria-label="anchor" href="#id_05oct2021"></a></h3>
 <p>Simple utility function to load a common set of JAM packages</p>
 <ul><li>“omics” - loads jamba, jamma, colorjam, jamsession, jamses</li>
 <li>“regions” - as above plus GenomicRanges</li>
@@ -493,70 +347,37 @@ could allow fancy math or logic to be applied here. Not yet.</li>
 <li>“covhm” - “omics” and platjam</li>
 </ul></div>
 <div class="section level3">
-<h3 id="10aug2021">10aug2021<a class="anchor" aria-label="anchor" href="#10aug2021"></a></h3>
+<h3 id="id_10aug2021">10aug2021<a class="anchor" aria-label="anchor" href="#id_10aug2021"></a></h3>
 <ul><li>
-<p>COMPLETE: <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> can be painfully slow with
-somewhat large Excel sheets, roughly 20,000 rows and 11 columns.</p>
-<ul><li>The slow step is probably either
-<code><a href="reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code>, or
-<code><a href="reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>.</li>
+<p>COMPLETE: <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> can be painfully slow with somewhat large Excel sheets, roughly 20,000 rows and 11 columns.</p>
+<ul><li>The slow step is probably either <code><a href="reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code>, or <code><a href="reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>.</li>
 <li>Whichever step is slowest, it needs to become much faster.</li>
-<li>Note: Slowness was resolved by converting functions to use Workbook
-instead of saving/loading/updating/saving.</li>
+<li>Note: Slowness was resolved by converting functions to use Workbook instead of saving/loading/updating/saving.</li>
 </ul></li>
 </ul></div>
 <div class="section level3">
-<h3 id="25jul2021">25jul2021<a class="anchor" aria-label="anchor" href="#25jul2021"></a></h3>
+<h3 id="id_25jul2021">25jul2021<a class="anchor" aria-label="anchor" href="#id_25jul2021"></a></h3>
 <ul><li>
-<p><code>geom_shadowText()</code> - essentially drop-in replacement
-for <code>geom_text()</code> except that it uses
-<code><a href="reference/shadowText.html">shadowText()</a></code> logic in ggplot2 context. There is a similar
-package “shadowtext” by Dr.Guangchuang Yu, however that package does not
-offer the features implemented here:</p>
+<p><code>geom_shadowText()</code> - essentially drop-in replacement for <code>geom_text()</code> except that it uses <code><a href="reference/shadowText.html">shadowText()</a></code> logic in ggplot2 context. There is a similar package “shadowtext” by Dr.Guangchuang Yu, however that package does not offer the features implemented here:</p>
 <ul><li>define the transparency of shadow or outline</li>
 <li>define the color of each shadow</li>
-<li>order rendering of shadows with each label and in vectorized
-context</li>
+<li>order rendering of shadows with each label and in vectorized context</li>
 </ul></li>
 </ul></div>
 <div class="section level3">
 <h3 id="functions-to-update">Functions to update<a class="anchor" aria-label="anchor" href="#functions-to-update"></a></h3>
-<ul><li><p>DONE: <code><a href="reference/shadowText.html">shadowText()</a></code> - consider re-ordering the
-rendering so that the shadow for each text label is placed before the
-next label.</p></li>
+<ul><li><p>DONE: <code><a href="reference/shadowText.html">shadowText()</a></code> - consider re-ordering the rendering so that the shadow for each text label is placed before the next label.</p></li>
 <li>
-<p>DONE: <code>checkLightmode()</code> along with
-<code><a href="reference/printDebug.html">printDebug()</a></code>, <code>makeStyles()</code>, and
-<code><a href="reference/setPrompt.html">setPrompt()</a></code> collectively do not update light mode as
-intended when used inside RStudio. The issue was with
-<code><a href="reference/setCLranges.html">setCLranges()</a></code>.</p>
-<ul><li>Also, once set, light mode is not as easily changed as
-intended.</li>
+<p>DONE: <code>checkLightmode()</code> along with <code><a href="reference/printDebug.html">printDebug()</a></code>, <code>makeStyles()</code>, and <code><a href="reference/setPrompt.html">setPrompt()</a></code> collectively do not update light mode as intended when used inside RStudio. The issue was with <code><a href="reference/setCLranges.html">setCLranges()</a></code>.</p>
+<ul><li>Also, once set, light mode is not as easily changed as intended.</li>
 </ul></li>
-<li><p><code>colorRampPaletteJam()</code> - new function as a drop-in
-replacement to <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>; this alternative calls
-<code>blend_colors()</code> between each pair of colors in order to
-create better intermediate colors in the gradient. Examples: red-blue
-which should produce purple intermediate; yellow-blue which should
-produce green intermediate.</p></li>
+<li><p><code>colorRampPaletteJam()</code> - new function as a drop-in replacement to <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>; this alternative calls <code>blend_colors()</code> between each pair of colors in order to create better intermediate colors in the gradient. Examples: red-blue which should produce purple intermediate; yellow-blue which should produce green intermediate.</p></li>
 <li>
-<p><code><a href="https://rdrr.io/pkg/colorjam/man/blend_colors.html" class="external-link">colorjam::blend_colors()</a></code> currently purple-gold and
-purple-yellow create a green intermediate color, these cases should go
-through red/brown. It requires either manual correction and/or requires
-that purple-to-yellow shortest hue angular path goes through red.</p>
-<ul><li>Consider using a slightly improved red-yellow-blue color hue wheel,
-with better delineation of the blue-purple-red transitions. The hope is
-that this color hue wheel might make purple-red-yellow the preferred
-(shorter) angular path between purple-to-yellow.</li>
-<li>Consider manual correction inside <code>blend_colors()</code> for
-cases where colors are roughly 180 hue degrees different, instead of
-leaving it to chance.</li>
+<p><code><a href="https://rdrr.io/pkg/colorjam/man/blend_colors.html" class="external-link">colorjam::blend_colors()</a></code> currently purple-gold and purple-yellow create a green intermediate color, these cases should go through red/brown. It requires either manual correction and/or requires that purple-to-yellow shortest hue angular path goes through red.</p>
+<ul><li>Consider using a slightly improved red-yellow-blue color hue wheel, with better delineation of the blue-purple-red transitions. The hope is that this color hue wheel might make purple-red-yellow the preferred (shorter) angular path between purple-to-yellow.</li>
+<li>Consider manual correction inside <code>blend_colors()</code> for cases where colors are roughly 180 hue degrees different, instead of leaving it to chance.</li>
 </ul></li>
-<li><p><code><a href="https://rdrr.io/pkg/colorjam/man/rainbowJam.html" class="external-link">colorjam::rainbowJam()</a></code> should have better mechanism
-to define <code>preset</code> for custom color hue wheels, for example
-<code>"custom"</code> or some option that uses the <code>h1</code> and
-<code>h2</code> hue conversion already defined if it has been
-defined.</p></li>
+<li><p><code><a href="https://rdrr.io/pkg/colorjam/man/rainbowJam.html" class="external-link">colorjam::rainbowJam()</a></code> should have better mechanism to define <code>preset</code> for custom color hue wheels, for example <code>"custom"</code> or some option that uses the <code>h1</code> and <code>h2</code> hue conversion already defined if it has been defined.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="vignettes-for-common-small-use-cases">Vignettes for common small use cases<a class="anchor" aria-label="anchor" href="#vignettes-for-common-small-use-cases"></a></h3>
@@ -573,8 +394,7 @@ defined.</p></li>
 </ul></li>
 </ul></li>
 <li>
-<p>log-transformation, sqrt-transformation and plotting appropriate
-axes</p>
+<p>log-transformation, sqrt-transformation and plotting appropriate axes</p>
 <ul><li>
 <code><a href="reference/log2signed.html">log2signed()</a></code>, <code><a href="reference/exp2signed.html">exp2signed()</a></code>
 </li>
@@ -586,15 +406,11 @@ axes</p>
 </ul></div>
 <div class="section level3">
 <h3 id="usability">Usability<a class="anchor" aria-label="anchor" href="#usability"></a></h3>
-<ul><li>FIXED: <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> ignores <code>xlab</code>
-and <code>ylab</code>.</li>
+<ul><li>FIXED: <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> ignores <code>xlab</code> and <code>ylab</code>.</li>
 <li>
-<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> using <code>bandwidthN</code> is
-confusing, it overrides <code>bwpi</code>.</li>
+<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> using <code>bandwidthN</code> is confusing, it overrides <code>bwpi</code>.</li>
 <li>
-<code><a href="reference/getColorRamp.html">getColorRamp()</a></code> value
-<code>defaultBaseColor="grey95"</code> is annoying to me, change to
-<code>"grey98"</code> or <code>"grey99"</code>
+<code><a href="reference/getColorRamp.html">getColorRamp()</a></code> value <code>defaultBaseColor="grey95"</code> is annoying to me, change to <code>"grey98"</code> or <code>"grey99"</code>
 </li>
 </ul></div>
 <div class="section level3">
@@ -604,41 +420,30 @@ confusing, it overrides <code>bwpi</code>.</li>
 <h3 id="new-functions">new functions<a class="anchor" aria-label="anchor" href="#new-functions"></a></h3>
 <ul><li>
 <p><code>splomSmooth()</code></p>
-<ul><li>all-versus-all scatter plot matrix using equivalent logic as used in
-<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>, but using
-<code><a href="https://rdrr.io/pkg/lattice/man/splom.html" class="external-link">lattice::splom()</a></code>. It is much more efficient than equivalent
-base and ggplot2 plot methods.</li>
-<li>add option to “hide” combinations of panels, when those combinations
-are not relevant or appropriate to the visualization.</li>
-<li>option to specify the specific color gradient in each cell, as
-opposed to combining the categorical color from each input column.</li>
+<ul><li>all-versus-all scatter plot matrix using equivalent logic as used in <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>, but using <code><a href="https://rdrr.io/pkg/lattice/man/splom.html" class="external-link">lattice::splom()</a></code>. It is much more efficient than equivalent base and ggplot2 plot methods.</li>
+<li>add option to “hide” combinations of panels, when those combinations are not relevant or appropriate to the visualization.</li>
+<li>option to specify the specific color gradient in each cell, as opposed to combining the categorical color from each input column.</li>
 <li>make options for bandwidth and visual bins more intuitive</li>
 </ul></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bugs-28aug2020">Bugs 28aug2020<a class="anchor" aria-label="anchor" href="#bugs-28aug2020"></a></h3>
-<ul><li>FIXED: <code><a href="reference/printDebug.html">printDebug()</a></code> throws a warning about
-fixYellow:</li>
+<ul><li>FIXED: <code><a href="reference/printDebug.html">printDebug()</a></code> throws a warning about fixYellow:</li>
 </ul><blockquote>
-<p>Warning message: In if (fixYellow) { : the condition has length &gt;
-1 and only the first element will be used</p>
+<p>Warning message: In if (fixYellow) { : the condition has length &gt; 1 and only the first element will be used</p>
 </blockquote>
 </div>
 <div class="section level3">
 <h3 id="bugs-29jul2020">Bugs 29jul2020<a class="anchor" aria-label="anchor" href="#bugs-29jul2020"></a></h3>
 <ul><li>
-<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> highlightColumns appears to prevent
-conditional formatting on the same columns.</li>
+<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> highlightColumns appears to prevent conditional formatting on the same columns.</li>
 <li>
-<code><a href="reference/provigrep.html">provigrep()</a></code> checks for names and assigns only if
-missing, it does not correct duplicate names if they are already
-present.</li>
+<code><a href="reference/provigrep.html">provigrep()</a></code> checks for names and assigns only if missing, it does not correct duplicate names if they are already present.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="enhancements-29jul2020">enhancements 29jul2020<a class="anchor" aria-label="anchor" href="#enhancements-29jul2020"></a></h3>
 <ul><li>
-<code><a href="reference/tcount2.html">tcount2()</a></code> - wrapper for
-<code>tcount(..., minCount=2)</code>
+<code><a href="reference/tcount.html">tcount2()</a></code> - wrapper for <code>tcount(..., minCount=2)</code>
 </li>
 </ul></div>
 <div class="section level3">
@@ -649,215 +454,103 @@ present.</li>
 <div class="section level3">
 <h3 id="enhance-writeopenxlsx-08may2020">Enhance writeOpenxlsx() 08may2020<a class="anchor" aria-label="anchor" href="#enhance-writeopenxlsx-08may2020"></a></h3>
 <ul><li>
-<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> option to supply a header which is
-displayed in the top row of the Excel worksheet, with its own style. For
-example the header may be a title “Data following normalization and
-limma analysis” with dark blue background, white text, font size
-18.</li>
+<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> option to supply a header which is displayed in the top row of the Excel worksheet, with its own style. For example the header may be a title “Data following normalization and limma analysis” with dark blue background, white text, font size 18.</li>
 </ul><div class="section level4">
 <h4 id="nice-to-have">Nice to have<a class="anchor" aria-label="anchor" href="#nice-to-have"></a></h4>
 <ul><li>
-<code><a href="reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code> should in theory color the
-text with <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> to use white text on dark
-background colors. Not sure if Excel allows it, or if it requires
-manually setting the color in each cell.</li>
+<code><a href="reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code> should in theory color the text with <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> to use white text on dark background colors. Not sure if Excel allows it, or if it requires manually setting the color in each cell.</li>
 <li>
-<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> option to apply conditional formatting
-to numeric columns using each column numeric range, not fixed range.
-Other option is to supply a list of rules for <code>numRule</code>.
-Design idea: When <code>numRule=NULL</code> or <code>numRule=NA</code>
-then create rule based upon the numeric range (min, mean, max). Also,
-<code>numRule</code> can be a <code>list</code>, for example
-<code>numRule=list(c(0,100,1000), NA, c(0,1,2))</code>. This rule would
-apply <code>c(0,100,1000)</code> to the first column in
-<code>numColumns</code>, then would apply <code>NA</code> to the second
-column (thus auto-scaled), then would apply <code>c(0,1,2)</code> to the
-third column.</li>
+<code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> option to apply conditional formatting to numeric columns using each column numeric range, not fixed range. Other option is to supply a list of rules for <code>numRule</code>. Design idea: When <code>numRule=NULL</code> or <code>numRule=NA</code> then create rule based upon the numeric range (min, mean, max). Also, <code>numRule</code> can be a <code>list</code>, for example <code>numRule=list(c(0,100,1000), NA, c(0,1,2))</code>. This rule would apply <code>c(0,100,1000)</code> to the first column in <code>numColumns</code>, then would apply <code>NA</code> to the second column (thus auto-scaled), then would apply <code>c(0,1,2)</code> to the third column.</li>
 </ul></div>
 </div>
 <div class="section level3">
 <h3 id="optimizations-29apr2020">Optimizations 29apr2020<a class="anchor" aria-label="anchor" href="#optimizations-29apr2020"></a></h3>
 <ul><li>
-<p>FIXED: <code><a href="reference/cPaste.html">cPaste()</a></code> is not fully efficient when the
-input does not require going through steps <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> then
-<code><a href="https://rdrr.io/r/base/split.html" class="external-link">split()</a></code>. In these cases the data should be left as
-<code>CharacterList</code> if possible, to use
-<code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html" class="external-link">S4Vectors::unstrsplit()</a></code> directly. Conditions that require
-<code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> then <code><a href="https://rdrr.io/r/base/split.html" class="external-link">split()</a></code>:</p>
+<p>FIXED: <code><a href="reference/cPaste.html">cPaste()</a></code> is not fully efficient when the input does not require going through steps <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> then <code><a href="https://rdrr.io/r/base/split.html" class="external-link">split()</a></code>. In these cases the data should be left as <code>CharacterList</code> if possible, to use <code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html" class="external-link">S4Vectors::unstrsplit()</a></code> directly. Conditions that require <code><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist()</a></code> then <code><a href="https://rdrr.io/r/base/split.html" class="external-link">split()</a></code>:</p>
 <ul><li>
-<code>na.rm=TRUE</code> and the presence of <code>NA</code>
-values</li>
+<code>na.rm=TRUE</code> and the presence of <code>NA</code> values</li>
 <li>
-<code>doSort=TRUE</code> and any list element with multiple
-values</li>
+<code>doSort=TRUE</code> and any list element with multiple values</li>
 </ul></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-02oct2019">Bug 02oct2019<a class="anchor" aria-label="anchor" href="#bug-02oct2019"></a></h3>
 <ul><li>
-<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> throws an error
-<code>"is.numeric(xlim) is not TRUE"</code> when plotting data with
-class <code>"difftime"</code>.</li>
+<code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> throws an error <code>"is.numeric(xlim) is not TRUE"</code> when plotting data with class <code>"difftime"</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="general-enhancements">General enhancements<a class="anchor" aria-label="anchor" href="#general-enhancements"></a></h3>
-<ul><li>Add message during package install suggesting the “crayon” package
-be installed if not already installed.</li>
-<li>Investigate the interplay between Mac/Linux TERM, locale with
-LC_ALL, special characters like <ce> (theta), and R help docs.</ce></li>
+<ul><li>Add message during package install suggesting the “crayon” package be installed if not already installed.</li>
+<li>Investigate the interplay between Mac/Linux TERM, locale with LC_ALL, special characters like <ce> (theta), and R help docs.</ce></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes--enhancements-to-existing-functions">Bug fixes / Enhancements to existing functions<a class="anchor" aria-label="anchor" href="#bug-fixes--enhancements-to-existing-functions"></a></h3>
 <ol style="list-style-type: decimal"><li>
-<code><a href="reference/printDebug.html">printDebug()</a></code> probably needs a specific delimiter
-between lists. Currently <code>collapse</code> is accepted via
-<code>...</code> but separates every entry.</li>
+<code><a href="reference/printDebug.html">printDebug()</a></code> probably needs a specific delimiter between lists. Currently <code>collapse</code> is accepted via <code>...</code> but separates every entry.</li>
 </ol></div>
 <div class="section level3">
 <h3 id="new-plotsmoothscatterg-with-grouped-colors">new plotSmoothScatterG with grouped colors<a class="anchor" aria-label="anchor" href="#new-plotsmoothscatterg-with-grouped-colors"></a></h3>
 <ol style="list-style-type: decimal"><li>
-<code>plotSmoothScatterG()</code> a new function which would create
-a smooth scatter plot like <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> except that
-it will also allow coloring points by group. The previous closest
-estimate was the ability to overlay contours of different colors,
-however the transparency of each layer is not effective, the last color
-layer drawn becomes the dominant color. This function essentially
-creates a layer for each color, then blends them into one collective
-layer. Each layer should probably be a <code>weight</code> applied to
-each layer of colors, in order to avoid blending the paleness become
-dominant. The point color will be determined by the weighted color
-blend, the intensity of the color as a gradient starting from background
-color will be determined by the sum of the weights, relative to the rest
-of the plot.</li>
+<code>plotSmoothScatterG()</code> a new function which would create a smooth scatter plot like <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> except that it will also allow coloring points by group. The previous closest estimate was the ability to overlay contours of different colors, however the transparency of each layer is not effective, the last color layer drawn becomes the dominant color. This function essentially creates a layer for each color, then blends them into one collective layer. Each layer should probably be a <code>weight</code> applied to each layer of colors, in order to avoid blending the paleness become dominant. The point color will be determined by the weighted color blend, the intensity of the color as a gradient starting from background color will be determined by the sum of the weights, relative to the rest of the plot.</li>
 </ol><p>Required secondary functions:</p>
-<ul><li>Weighted color blending function. Must blend yellow and blue to make
-green, not grey (my own requirement). See
-<code>"jonclayden/shades"</code>, or <code><a href="https://colorspace.R-Forge.R-project.org/reference/mixcolor.html" class="external-link">colorspace::mixcolor()</a></code>
-though it only works with 2 colors.</li>
-<li>Weighted gradient color assignment, such that given any color, and a
-weight from 0 to 1, returns a single color representing the color at
-that position along the gradient from background to foreground
-color.</li>
-</ul><p>Commentary: Does any one color space blend
-<code>red + yellow = orange</code> and
-<code>blue + yellow = green</code>? Maybe <code>polarLUV</code>. Others
-either blend <code>blue + yellow</code> into <code>grey</code> or
-<code>purple</code> … makes zero sense (to me).</p>
-<ol start="2" style="list-style-type: decimal"><li><p><code><a href="reference/printDebug.html">printDebug()</a></code> option for HTML or Rmarkdown-friendly
-output. Note this feature seems to work when producing HTML output from
-Rmarkdown.</p></li>
+<ul><li>Weighted color blending function. Must blend yellow and blue to make green, not grey (my own requirement). See <code>"jonclayden/shades"</code>, or <code><a href="https://colorspace.R-Forge.R-project.org/reference/mixcolor.html" class="external-link">colorspace::mixcolor()</a></code> though it only works with 2 colors.</li>
+<li>Weighted gradient color assignment, such that given any color, and a weight from 0 to 1, returns a single color representing the color at that position along the gradient from background to foreground color.</li>
+</ul><p>Commentary: Does any one color space blend <code>red + yellow = orange</code> and <code>blue + yellow = green</code>? Maybe <code>polarLUV</code>. Others either blend <code>blue + yellow</code> into <code>grey</code> or <code>purple</code> … makes zero sense (to me).</p>
+<ol start="2" style="list-style-type: decimal"><li><p><code><a href="reference/printDebug.html">printDebug()</a></code> option for HTML or Rmarkdown-friendly output. Note this feature seems to work when producing HTML output from Rmarkdown.</p></li>
 <li>
 <p><code><a href="reference/jargs.html">jargs()</a></code> is choking on certain argument formats:</p>
-<ul><li>When an argument is a prefixed function, the <code>::</code> should
-not have spaces before and after.
-<code>f &lt;- function(x=jamba::colorjam){10};jargs(f);</code> It
-doesn’t happen when the function has parentheses:
-<code>f &lt;- function(x=jamba::colorjam(a)){10};jargs(f);</code>
+<ul><li>When an argument is a prefixed function, the <code>::</code> should not have spaces before and after. <code>f &lt;- function(x=jamba::colorjam){10};jargs(f);</code> It doesn’t happen when the function has parentheses: <code>f &lt;- function(x=jamba::colorjam(a)){10};jargs(f);</code>
 </li>
-<li>There was another case of an empty argument being displayed where an
-actual argument existed for the function. I can’t remember the exact
-conditions, but this is a placeholder for now.</li>
+<li>There was another case of an empty argument being displayed where an actual argument existed for the function. I can’t remember the exact conditions, but this is a placeholder for now.</li>
 </ul></li>
 </ol></div>
 <div class="section level3">
 <h3 id="testthat">testthat<a class="anchor" aria-label="anchor" href="#testthat"></a></h3>
-<p>Functions in <code>jamba</code> should have their various options
-tested using the package <code>testthat</code> to help maintain
-consistent performance for future package and R builds.</p>
+<p>Functions in <code>jamba</code> should have their various options tested using the package <code>testthat</code> to help maintain consistent performance for future package and R builds.</p>
 <ul><li>
-<code><a href="reference/jargs.html">jargs()</a></code> can be tested with several example custom
-functions to make sure it produces output as desired.</li>
+<code><a href="reference/jargs.html">jargs()</a></code> can be tested with several example custom functions to make sure it produces output as desired.</li>
 <li>
-<code><a href="reference/mixedSort.html">mixedSort()</a></code>, <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code>,
-<code><a href="reference/mixedOrder.html">mixedOrder()</a></code>, <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> needs several tests
-to confirm consistent outputs for the various custom conditions.</li>
+<code><a href="reference/mixedSort.html">mixedSort()</a></code>, <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code>, <code><a href="reference/mixedOrder.html">mixedOrder()</a></code>, <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> needs several tests to confirm consistent outputs for the various custom conditions.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="functions-to-add">Functions to add<a class="anchor" aria-label="anchor" href="#functions-to-add"></a></h3>
 </div>
 <div class="section level3">
 <h3 id="jam-global-re-usable-options">jam global re-usable options<a class="anchor" aria-label="anchor" href="#jam-global-re-usable-options"></a></h3>
-<p>The goal is to make it easier to set certain function parameters once
-as a global option, to make it more efficient for these parameters to be
-used in several functions. Per Hadley Wickham’s recommendation, options
-should be restricted to non-analytical parameters, in order to maintain
-clear reproducible analysis workflows. That is, any analysis parameter
-should be defined clearly when the function is called, and should never
-use the value of a global option.</p>
-<p>In fact, options that only change visual output may be preferred as
-global options, since they help support specific output and should not
-be hard-coded into the R script.</p>
-<p>In general, visual themes may be good candidates for these
-parameters.</p>
+<p>The goal is to make it easier to set certain function parameters once as a global option, to make it more efficient for these parameters to be used in several functions. Per Hadley Wickham’s recommendation, options should be restricted to non-analytical parameters, in order to maintain clear reproducible analysis workflows. That is, any analysis parameter should be defined clearly when the function is called, and should never use the value of a global option.</p>
+<p>In fact, options that only change visual output may be preferred as global options, since they help support specific output and should not be hard-coded into the R script.</p>
+<p>In general, visual themes may be good candidates for these parameters.</p>
 <div class="section level4">
 <h4 id="nomenclature-for-jam-package-options">Nomenclature for jam package options<a class="anchor" aria-label="anchor" href="#nomenclature-for-jam-package-options"></a></h4>
-<p>Jam package options should be named with the prefix “jam.” followed
-by the name of the function argument. For example the function parameter
-“adjustRgb” would become “jam.adjustRgb”.</p>
+<p>Jam package options should be named with the prefix “jam.” followed by the name of the function argument. For example the function parameter “adjustRgb” would become “jam.adjustRgb”.</p>
 </div>
 <div class="section level4">
 <h4 id="parameters-proposed-to-become-jam-options">Parameters proposed to become jam options<a class="anchor" aria-label="anchor" href="#parameters-proposed-to-become-jam-options"></a></h4>
 <ul><li>
-<strong>jam.adjustRgb</strong>, used by colsHead() and printDebug()
-when displaying colored text on the R console. This value applies a
-slight adjustment to the crayon package rgb-to-ansi conversion to
-correct the limitation of 256-color ANSI having only 6 channels of
-brightness for red,green,blue, not 8 each as it typical for VGA-style
-256-color palettes. The effect of 6 channel color ranges is that the rgb
-conversion results in fractional values which are rounded up, making
-many colors less saturated (less colorful), which by nature works
-against the core goal of adding color.</li>
+<strong>jam.adjustRgb</strong>, used by colsHead() and printDebug() when displaying colored text on the R console. This value applies a slight adjustment to the crayon package rgb-to-ansi conversion to correct the limitation of 256-color ANSI having only 6 channels of brightness for red,green,blue, not 8 each as it typical for VGA-style 256-color palettes. The effect of 6 channel color ranges is that the rgb conversion results in fractional values which are rounded up, making many colors less saturated (less colorful), which by nature works against the core goal of adding color.</li>
 <li>
-<strong>jam.lightMode</strong>, used by colsHead() and printDebug()
-to restrict the range of dark or light colors displayed on an R console,
-based upon whether the background colors is light (high luminance,
-lightMode=TRUE), or dark (low luminance, lightMode=FALSE.) Normally, if
-lightMode is not specifically defined, functions will try to detect
-whether running inside Rstudio, and if so it assumes Rstudio is using
-the default white background, and sets lightMode=TRUE.</li>
+<strong>jam.lightMode</strong>, used by colsHead() and printDebug() to restrict the range of dark or light colors displayed on an R console, based upon whether the background colors is light (high luminance, lightMode=TRUE), or dark (low luminance, lightMode=FALSE.) Normally, if lightMode is not specifically defined, functions will try to detect whether running inside Rstudio, and if so it assumes Rstudio is using the default white background, and sets lightMode=TRUE.</li>
 </ul></div>
 </div>
 <div class="section level3">
 <h3 id="rbindlist">rbindList<a class="anchor" aria-label="anchor" href="#rbindlist"></a></h3>
-<ul><li>optional recursive operation, in the event of a nested list of
-data.frames, it should recurse through the list, calling rbindList() on
-each list element and progressive build up one resulting data.frame or
-matrix.</li>
-<li>optional ability to handle different colnames; alternative is to
-review <code><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> as potential
-replacement.</li>
+<ul><li>optional recursive operation, in the event of a nested list of data.frames, it should recurse through the list, calling rbindList() on each list element and progressive build up one resulting data.frame or matrix.</li>
+<li>optional ability to handle different colnames; alternative is to review <code><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> as potential replacement.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="imagebycolors">imageByColors<a class="anchor" aria-label="anchor" href="#imagebycolors"></a></h3>
-<ul><li>new argument <code>cellnoteColor</code> to define specific cellnote
-text color, currently uses <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> but
-should be able to define custom colors. (Setup for print colorized text
-data.frame using similar input.)</li>
-<li>optional boolean parameter to transpose the image, i.e. t(x) and if
-applicable t(cellnote).</li>
-<li>optionally draw boxes around grouped labels, a visual indicator of
-groups of cells sharing one label. Care should be taken not to enable
-this functionality with a large table containing no grouped labels, or
-even with any scenario resulting in “too many boxes”. This option likely
-needs SpatialPolygons and some related function like
-<code><a href="https://rdrr.io/pkg/rgeos/man/topo-bin-gUnion.html" class="external-link">rgeos::gUnion()</a></code>. Is <code>rgeos</code> a reasonable package
-dependency, or is that too heavy for this purpose?</li>
+<ul><li>new argument <code>cellnoteColor</code> to define specific cellnote text color, currently uses <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> but should be able to define custom colors. (Setup for print colorized text data.frame using similar input.)</li>
+<li>optional boolean parameter to transpose the image, i.e. t(x) and if applicable t(cellnote).</li>
+<li>optionally draw boxes around grouped labels, a visual indicator of groups of cells sharing one label. Care should be taken not to enable this functionality with a large table containing no grouped labels, or even with any scenario resulting in “too many boxes”. This option likely needs SpatialPolygons and some related function like <code><a href="https://rdrr.io/pkg/rgeos/man/rgeos-deprecated.html" class="external-link">rgeos::gUnion()</a></code>. Is <code>rgeos</code> a reasonable package dependency, or is that too heavy for this purpose?</li>
 </ul></div>
 <div class="section level3">
 <h3 id="color-brightness-and-saturation-handling">color brightness and saturation handling<a class="anchor" aria-label="anchor" href="#color-brightness-and-saturation-handling"></a></h3>
-<ul><li>helper functions like darken(), lighten(), saturate(), desaturate().
-Note colorspace::desaturate() completely removes all color saturation
-(chroma), and conflicts with this function naming scheme. Maybe:
-<code>jam_desaturate()</code>, <code>jam_darken()</code>,
-<code>jam_brighten()</code>, <code>jam_saturate()</code>.</li>
-<li>new function <code>subsetColors()</code> which internally creates a
-data.frame with hex, RGB, HSV, and HCL values, which can then be used to
-subset an input set of colors. Bonus points for accepting different
-color classes at input, and returning the same color class at
-output.</li>
+<ul><li>helper functions like darken(), lighten(), saturate(), desaturate(). Note colorspace::desaturate() completely removes all color saturation (chroma), and conflicts with this function naming scheme. Maybe: <code>jam_desaturate()</code>, <code>jam_darken()</code>, <code>jam_brighten()</code>, <code>jam_saturate()</code>.</li>
+<li>new function <code>subsetColors()</code> which internally creates a data.frame with hex, RGB, HSV, and HCL values, which can then be used to subset an input set of colors. Bonus points for accepting different color classes at input, and returning the same color class at output.</li>
 </ul></div>
 </div>
 </div>
+
 
   </div>
 
@@ -874,8 +567,7 @@ output.</li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

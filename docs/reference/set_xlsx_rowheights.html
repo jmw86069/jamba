@@ -18,7 +18,7 @@ from the very useful openxlsx R package:"><!-- mathjax --><script src="https://c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -64,37 +64,52 @@ from the very useful openxlsx R package:"><!-- mathjax --><script src="https://c
 from the very useful <code>openxlsx</code> R package:</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">set_xlsx_rowheights</span><span class="op">(</span>
-  <span class="va">xlsxFile</span>,
-  sheet <span class="op">=</span> <span class="fl">1</span>,
-  rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">heights</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>,
-  heights <span class="op">=</span> <span class="fl">17</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">set_xlsx_rowheights</span><span class="op">(</span></span>
+<span>  <span class="va">xlsxFile</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">heights</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>,</span>
+<span>  heights <span class="op">=</span> <span class="fl">17</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>xlsxFile</dt>
 <dd><p><code>character</code> filename to a file with ".xlsx" extension,
 or <code>Workbook</code> object defined in the <code>openxlsx</code> package. When
 <code>xlsxFile</code> is a <code>Workbook</code> the output is not saved to a file.</p></dd>
+
+
 <dt>sheet</dt>
 <dd><p>value passed to <code><a href="https://rdrr.io/pkg/openxlsx/man/setRowHeights.html" class="external-link">openxlsx::setRowHeights()</a></code> indicating
 the worksheet to affect. It can either be an <code>integer</code> value, or
 the <code>character</code> name of a sheet.</p></dd>
+
+
 <dt>rows</dt>
 <dd><p><code>integer vector</code> indicating the row numbers to affect.</p></dd>
+
+
 <dt>heights</dt>
 <dd><p><code>numeric vector</code> indicating the height of each column
 defined by <code>rows</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="https://rdrr.io/pkg/openxlsx/man/setRowHeights.html" class="external-link">openxlsx::setRowHeights()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
-is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code>can be used in argument <code>wb</code> to provide a speed boost when
+    
+
+<p><code>Workbook</code> object as defined by the <code>openxlsx</code> package
+is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>. This <code>Workbook</code></p>
+
+
+<p>can be used in argument <code>wb</code> to provide a speed boost when
 saving multiple sheets to the same file.</p>
     </div>
     <div id="details">
@@ -117,30 +132,29 @@ in order to affect the header row as well.</p>
 <code><a href="set_xlsx_colwidths.html">set_xlsx_colwidths</a>()</code>,
 <code><a href="writeOpenxlsx.html">writeOpenxlsx</a>()</code></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">   <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, b<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>;</span>
-<span class="r-in">   <span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="writeOpenxlsx.html">writeOpenxlsx</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">df</span>,</span>
-<span class="r-in">      file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span>
-<span class="r-in">      sheetName<span class="op">=</span><span class="st">"test_jamba"</span><span class="op">)</span>;</span>
-<span class="r-in"></span>
-<span class="r-in">   <span class="co">## by default, rows will start at row 2, skipping the header</span></span>
-<span class="r-in">   <span class="fu">jamba</span><span class="fu">::</span><span class="fu">set_xlsx_rowheights</span><span class="op">(</span>file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span>
-<span class="r-in">      sheetName<span class="op">=</span><span class="st">"test_jamba"</span>,</span>
-<span class="r-in">      heights<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">   <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">   <span class="co">## to include the header row</span></span>
-<span class="r-in">   <span class="fu">jamba</span><span class="fu">::</span><span class="fu">set_xlsx_rowheights</span><span class="op">(</span>file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span>
-<span class="r-in">      sheetName<span class="op">=</span><span class="st">"test_jamba"</span>,</span>
-<span class="r-in">      rows<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span>,</span>
-<span class="r-in">      heights<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in">   <span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, b<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="writeOpenxlsx.html">writeOpenxlsx</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">df</span>,</span></span>
+<span class="r-in"><span>      file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span></span>
+<span class="r-in"><span>      sheetName<span class="op">=</span><span class="st">"test_jamba"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="co">## by default, rows will start at row 2, skipping the header</span></span></span>
+<span class="r-in"><span>   <span class="fu">jamba</span><span class="fu">::</span><span class="fu">set_xlsx_rowheights</span><span class="op">(</span>file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span></span>
+<span class="r-in"><span>      sheetName<span class="op">=</span><span class="st">"test_jamba"</span>,</span></span>
+<span class="r-in"><span>      heights<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="co">## to include the header row</span></span></span>
+<span class="r-in"><span>   <span class="fu">jamba</span><span class="fu">::</span><span class="fu">set_xlsx_rowheights</span><span class="op">(</span>file<span class="op">=</span><span class="st">"jamba_test.xlsx"</span>,</span></span>
+<span class="r-in"><span>      sheetName<span class="op">=</span><span class="st">"test_jamba"</span>,</span></span>
+<span class="r-in"><span>      rows<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      heights<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -155,8 +169,7 @@ in order to affect the header row as well.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

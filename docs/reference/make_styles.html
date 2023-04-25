@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,103 +62,144 @@
     <p>vectorized make_styles for crayon output</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">make_styles</span><span class="op">(</span>
-  style <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">text</span>,
-  bg <span class="op">=</span> <span class="cn">FALSE</span>,
-  bg_style <span class="op">=</span> <span class="cn">NULL</span>,
-  grey <span class="op">=</span> <span class="cn">FALSE</span>,
-  colors <span class="op">=</span> <span class="fu">num_colors</span><span class="op">(</span><span class="op">)</span>,
-  Cgrey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Cgrey"</span>, <span class="fl">5</span><span class="op">)</span>,
-  lightMode <span class="op">=</span> <span class="cn">NULL</span>,
-  Crange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Crange"</span><span class="op">)</span>,
-  Lrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Lrange"</span><span class="op">)</span>,
-  adjustRgb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.adjustRgb"</span><span class="op">)</span>,
-  adjustPower <span class="op">=</span> <span class="fl">1.5</span>,
-  fixYellow <span class="op">=</span> <span class="cn">TRUE</span>,
-  colorTransparent <span class="op">=</span> <span class="st">"grey45"</span>,
-  alphaPower <span class="op">=</span> <span class="fl">2</span>,
-  setOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ifnull"</span>, <span class="st">"FALSE"</span>, <span class="st">"TRUE"</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_styles</span><span class="op">(</span></span>
+<span>  style <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">text</span>,</span>
+<span>  bg <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  bg_style <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  colors <span class="op">=</span> <span class="fu">num_colors</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  Cgrey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Cgrey"</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  lightMode <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  Crange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Crange"</span><span class="op">)</span>,</span>
+<span>  Lrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Lrange"</span><span class="op">)</span>,</span>
+<span>  adjustRgb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.adjustRgb"</span><span class="op">)</span>,</span>
+<span>  adjustPower <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  fixYellow <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  colorTransparent <span class="op">=</span> <span class="st">"grey45"</span>,</span>
+<span>  alphaPower <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  setOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ifnull"</span>, <span class="st">"FALSE"</span>, <span class="st">"TRUE"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>style</dt>
-<dd><p>vector of one or more styles. When NULL or NA,
+<dd><p><code>character</code> vector of one or more styles. When <code>NULL</code> or <code>NA</code>,
 no style is applied, except when <code>bg_style</code> is supplied
-and is neither NA nor NULL, in which case entries with
+and is neither <code>NA</code> nor <code>NULL</code>, in which case entries with
 a <code>bg_style</code> and no <code>style</code> will use <code><a href="setTextContrastColor.html">setTextContrastColor()</a></code>
 to define a contrasting <code>style</code>.</p></dd>
+
+
 <dt>text</dt>
-<dd><p>vector of one or more character values</p></dd>
+<dd><p><code>character</code> vector (or coerced to <code>character</code>) of one or
+more values,.</p></dd>
+
+
 <dt>bg</dt>
-<dd><p>logical indicating whether the <code>style</code> should be
+<dd><p><code>logical</code> indicating whether the <code>style</code> should be
 applied to the background instead of foreground. This argument
 is ignored when <code>bg_style</code> is supplied.</p></dd>
+
+
 <dt>bg_style</dt>
-<dd><p>NULL or a vector of one or more background styles.
-When this argument is not NULL, it applies both the foreground
+<dd><p><code>NULL</code> or a <code>character</code> vector of one or more background
+styles. When this argument is not NULL, it applies both the foreground
 <code>style</code> and background <code>bg_style</code> together, and therefore ignores
 <code>Crange</code> and <code>Lrange</code> settings.</p></dd>
+
+
 <dt>colors</dt>
-<dd><p>integer number of colors allowed for console output</p></dd>
+<dd><p><code>integer</code> number of colors allowed for console output.</p></dd>
+
+
 <dt>Cgrey</dt>
-<dd><p>numeric chroma (C) value, which defines grey colors at or
+<dd><p><code>numeric</code> chroma (C) value, which defines grey colors at or
 below this chroma. Any colors at or below the grey cutoff will have
 use ANSI greyscale coloring. To disable, set <code>Cgrey=-1</code>.</p></dd>
+
+
 <dt>lightMode</dt>
-<dd><p>boolean indicating whether the background color
+<dd><p><code>logical</code> indicating whether the background color
 is light (TRUE is bright), or dark (FALSE is dark.) By default
 it calls <code><a href="checkLightMode.html">checkLightMode()</a></code> which queries <code>getOption("lightMode")</code>.</p></dd>
+
+
 <dt>Crange</dt>
-<dd><p>numeric range of chroma values, ranging
+<dd><p><code>numeric</code> range of chroma values, ranging
 between 0 and 100. When NULL, default values will be
 assigned to Crange. When supplied, range(Crange) is used.</p></dd>
+
+
 <dt>Lrange</dt>
-<dd><p>numeric range of luminance values, ranging
+<dd><p><code>numeric</code> range of luminance values, ranging
 between 0 and 100. When NULL, default values will be
 assigned to Lrange. When supplied, range(Lrange) is used.</p></dd>
+
+
 <dt>adjustRgb</dt>
-<dd><p>numeric value adjustment used during the conversion of
+<dd><p><code>numeric</code> value adjustment used during the conversion of
 RGB colors to ANSI colors, which is inherently lossy. If not defined,
 it uses the default returned by <code><a href="setCLranges.html">setCLranges()</a></code> which itself uses
 <code>getOption("jam.adjustRgb")</code> with default=0. In order to boost
 color contrast, an alternate value of -0.1 is suggested.</p></dd>
+
+
 <dt>adjustPower</dt>
-<dd><p>numeric adjustment power factor</p></dd>
+<dd><p><code>numeric</code> adjustment power factor</p></dd>
+
+
 <dt>fixYellow</dt>
-<dd><p>boolean indicating whether to "fix" the darkening of
+<dd><p><code>logical</code> indicating whether to "fix" the darkening of
 yellow, which otherwise turns to green. Instead, since JAM can,
 JAM will make the yellow slightly more golden before darkening. This
 change only affects color hues between 80 and 90. This argument is
 passed to <code><a href="applyCLrange.html">applyCLrange()</a></code>.</p></dd>
+
+
 <dt>colorTransparent</dt>
-<dd><p>color used to substitute for "transparent" which
-a valid R color, but not a valid color for the crayon package.</p></dd>
+<dd><p><code>character</code> color used to substitute for
+"transparent" which a valid R color, but not a valid color for
+the crayon package.</p></dd>
+
+
 <dt>alphaPower</dt>
-<dd><p>numeric value, used to adjust the RGB values for alpha
+<dd><p><code>numeric</code> value, used to adjust the RGB values for alpha
 values less than 255, by raising the ratio to 1/alphaPower, which takes
 the ratio of square roots.  alphaPower=100 for minimal adjustment.</p></dd>
+
+
 <dt>setOptions</dt>
-<dd><p>character or logical whether to update <code>Crange</code> and <code>Lrange</code>
-options during the subsequent call to <code><a href="setCLranges.html">setCLranges()</a></code>. By default,
-<code>"ifnull"</code> will update only options which were previously <code>NULL</code>;
-<code>"FALSE"</code> prevents modifying the global options; <code>"TRUE"</code> will
-update these options with the current values.</p></dd>
+<dd><p><code>character</code> or <code>logical</code> whether to update
+<code>Crange</code> and <code>Lrange</code> options during the subsequent call to
+<code><a href="setCLranges.html">setCLranges()</a></code>. By default,</p><ul><li><p><code>"ifnull"</code> will update only options which were previously <code>NULL</code>;</p></li>
+<li><p><code>"FALSE"</code> prevents modifying the global options;</p></li>
+<li><p><code>"TRUE"</code> will update these options with the current values.</p></li>
+</ul></dd>
+
+
 <dt>verbose</dt>
-<dd><p>logical whether to print verbose output</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional parameters are ignored</p></dd>
+
+
 <dt>satCutoff</dt>
-<dd><p>numeric cutoff for color saturation, below which a color
-is considered "grey" and the ANSI greyscale color set is used.</p></dd>
+<dd><p><code>numeric</code> cutoff for color saturation, below which a color
+is considered grey and the ANSI greyscale color set is used.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Vector with the same length as <code>text</code> input vector, where
+    
+
+<p><code>character</code> vector with the same length as <code>text</code> input vector, where
 entries are surrounded by the relevant encoding consistent with
 the <code>style</code> defined at input. In short, a character vector as input,
 a colorized character vector as output.</p>
@@ -166,7 +207,7 @@ a colorized character vector as output.</p>
     <div id="details">
     <h2>Details</h2>
     <p>This function is essentially a vectorized version of
-<code><a href="https://rdrr.io/pkg/crayon/man/make_style.html" class="external-link">make_style</a></code> in order to style a vector of
+<code><a href="https://rdrr.io/pkg/crayon/man/make_style.html" class="external-link">crayon::make_style()</a></code> in order to style a vector of
 character strings with a vector of foreground and background styles.</p>
     </div>
     <div id="see-also">
@@ -205,11 +246,8 @@ character strings with a vector of foreground and background styles.</p>
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p>
 <p>Other jam color functions: 
 <code><a href="alpha2col.html">alpha2col</a>()</code>,
 <code><a href="applyCLrange.html">applyCLrange</a>()</code>,
@@ -235,7 +273,6 @@ character strings with a vector of foreground and background styles.</p>
 <code><a href="unalpha.html">unalpha</a>()</code>,
 <code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
     </div>
-    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -249,8 +286,7 @@ character strings with a vector of foreground and background styles.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

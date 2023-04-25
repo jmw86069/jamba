@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,26 +62,32 @@
     <p>Reload Rmarkdown cache in the order files were created</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">reload_rmarkdown_cache</span><span class="op">(</span>
-  dir <span class="op">=</span> <span class="st">"."</span>,
-  maxnum <span class="op">=</span> <span class="fl">1000</span>,
-  max_cache_name <span class="op">=</span> <span class="cn">NULL</span>,
-  envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv</a></span><span class="op">(</span><span class="op">)</span>,
-  file_sort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctime"</span>, <span class="st">"mtime"</span><span class="op">)</span>,
-  dryrun <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reload_rmarkdown_cache</span><span class="op">(</span></span>
+<span>  dir <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  maxnum <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  max_cache_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  file_sort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"globals"</span>, <span class="st">"objects"</span>, <span class="st">"ctime"</span>, <span class="st">"mtime"</span><span class="op">)</span>,</span>
+<span>  preferred_load_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lazyLoad"</span>, <span class="st">"load"</span><span class="op">)</span>,</span>
+<span>  dryrun <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dir</dt>
 <dd><p><code>character</code> path to the directory that contains Rmarkdown
 cache files. Each file is recognized by the file extension <code>".rdx"</code>.</p></dd>
+
+
 <dt>maxnum</dt>
 <dd><p><code>integer</code> indicating the maximum number of cache files
 to re-load, in order.</p></dd>
+
+
 <dt>max_cache_name</dt>
 <dd><p><code>character</code> optional string indicating the
 name of an Rmarkdown cache chunk where this function will stop
@@ -89,28 +95,63 @@ loading cache data. All cache files after this point will
 not be loaded. This option is intended to help recreate the
 data available to a particular Rmarkdown chunk during
 processing.</p></dd>
+
+
 <dt>envir</dt>
 <dd><p><code>environment</code> where cache data will be loaded.</p></dd>
+
+
 <dt>file_sort</dt>
 <dd><p><code>character</code> string indicating how to sort cache files
-to place them in proper order for re-loading. Note that
-file modification time <code>mtime</code> may incorrectly sort files
-that were modified after the initial processing of the
-Rmarkdown file.</p><ul><li><p><code>ctime</code> sorts by file creation time, default</p></li>
+to place them in proper order for re-loading. The default is to use
+one RMarkdown cache index file, which should accurately reflect only
+RMarkdown chunks present in the .Rmd file during rendering, and
+in the order they appear in that file.
+Using <code>"mtime"</code> or <code>"ctime"</code> below will sort files by the modification
+or creation time, respectively, and is less accurate, but often
+sufficient for most purposes. It would only be advised if for
+some reason the <code>"__globals"</code> or <code>"__objects"</code> files are not present.</p><ul><li><p><code>"globals"</code> uses the <code>"__globals"</code> file in the cache directory.</p></li>
+<li><p><code>"objects"</code> uses the <code>"__objects"</code> file in the cache directory.</p></li>
+<li><p><code>ctime</code> sorts by file creation time, default</p></li>
 <li><p><code>mtime</code> sorts by file modification time</p></li>
 </ul></dd>
+
+
+<dt>preferred_load_types</dt>
+<dd><p><code>character</code> string indicating the preferred
+load mechanism to use. By default it will use <code><a href="https://rdrr.io/r/base/lazyload.html" class="external-link">lazyLoad()</a></code> if <code>.rdx/.rdb</code>
+files are present, otherwise it falls back to using <code><a href="https://rdrr.io/r/base/load.html" class="external-link">load()</a></code> for <code>.RData</code>
+files.
+Remove <code>"lazyLoad"</code> to prevent lazy-loading of cached objects.</p><ul><li><p><code>"lazyLoad"</code> will try to use <code><a href="https://rdrr.io/r/base/lazyload.html" class="external-link">lazyLoad()</a></code> to load <code>.rdx/.rdb</code> files</p></li>
+<li><p><code>"load"</code> will try to use <code><a href="https://rdrr.io/r/base/load.html" class="external-link">load()</a></code> to load <code>.RData</code> files</p></li>
+</ul></dd>
+
+
 <dt>dryrun</dt>
 <dd><p><code>logical</code> indicating whether to perform a dry-run,
 which prints messages but does not process the data.</p></dd>
+
+
 <dt>verbose</dt>
-<dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output.
+Note that this variable is not passed along to <code><a href="https://rdrr.io/r/base/load.html" class="external-link">load()</a></code>, since it
+is inconsistent with <code><a href="https://rdrr.io/r/base/lazyload.html" class="external-link">lazyLoad()</a></code>.</p></dd>
+
+
 <dt>...</dt>
-<dd><p>additional arguments are passed to <code><a href="https://rdrr.io/r/base/lazyload.html" class="external-link">lazyLoad()</a></code>.</p></dd>
+<dd><p>additional arguments are passed to <code><a href="https://rdrr.io/r/base/lazyload.html" class="external-link">lazyLoad()</a></code> or <code><a href="https://rdrr.io/r/base/load.html" class="external-link">load()</a></code>
+as relevant to the method used to re-load the cache object data.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>this function does not return data, but instead is called
-for the by-product of loading data into the given <code>envir</code>environment.</p>
+    
+
+<p>this function does not return data, but instead is called
+for the by-product of loading data into the given <code>envir</code></p>
+
+
+<p>environment.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -130,7 +171,6 @@ data available for a particular Rmarkdown chunk.</p>
     <div class="dont-index"><p>Other jam utility functions: 
 <code><a href="call_fn_ellipsis.html">call_fn_ellipsis</a>()</code></p></div>
     </div>
-    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -144,8 +184,7 @@ data available for a particular Rmarkdown chunk.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

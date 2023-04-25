@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,48 +62,68 @@
     <p>remove NA values</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">rmNA</span><span class="op">(</span>
-  <span class="va">x</span>,
-  naValue <span class="op">=</span> <span class="cn">NULL</span>,
-  rmNULL <span class="op">=</span> <span class="cn">FALSE</span>,
-  nullValue <span class="op">=</span> <span class="va">naValue</span>,
-  rmInfinite <span class="op">=</span> <span class="cn">TRUE</span>,
-  infiniteValue <span class="op">=</span> <span class="cn">NULL</span>,
-  rmNAnames <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rmNA</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  naValue <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rmNULL <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  nullValue <span class="op">=</span> <span class="va">naValue</span>,</span>
+<span>  rmInfinite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  infiniteValue <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rmNAnames <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>vector input</p></dd>
+
+
 <dt>naValue</dt>
 <dd><p>NULL or single replacement value for NA entries. If NULL,
 then NA entries are removed from the result.</p></dd>
+
+
 <dt>rmNULL</dt>
 <dd><p><code>logical</code> whether to replace NULL entries with <code>nullValue</code></p></dd>
+
+
 <dt>nullValue</dt>
 <dd><p>NULL or single replacement value for NULL entries. If NULL,
 then NULL entries are removed from the result.</p></dd>
+
+
 <dt>rmInfinite</dt>
 <dd><p><code>logical</code> whether to replace Infinite values with
 infiniteValue</p></dd>
+
+
 <dt>infiniteValue</dt>
 <dd><p>value to use when rmInfinite==TRUE to replace
 entries which are Inf or -Inf.</p></dd>
+
+
 <dt>rmNAnames</dt>
 <dd><p><code>logical</code> whether to remove entries which have NA as the
 name, regardless whether the entry itself is NA.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> whether to print verbose output</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>vector with NA entries either removed, or replaced with naValue,
+    
+
+<p>vector with NA entries either removed, or replaced with naValue,
 and NULL entries either removed or replaced by nullValue.</p>
     </div>
     <div id="details">
@@ -147,12 +167,8 @@ but optionally replacing NA and Infinite values with fixed values.</p>
 <code><a href="rmNAs.html">rmNAs</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p></div>
-    </div>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
   </div>
@@ -167,8 +183,7 @@ but optionally replacing NA and Infinite values with fixed values.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

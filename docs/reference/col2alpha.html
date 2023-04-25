@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,17 +62,21 @@
     <p>Return the alpha transparency per R color</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">col2alpha</span><span class="op">(</span><span class="va">x</span>, maxValue <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">col2alpha</span><span class="op">(</span><span class="va">x</span>, maxValue <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>R compatible color, either a color name, or hex value, or
 a mixture of the two. Any value compatible with <code><a href="https://rdrr.io/r/grDevices/col2rgb.html" class="external-link">col2rgb</a></code>.</p></dd>
+
+
 <dt>maxValue</dt>
 <dd><p>numeric maximum value to return, useful when the downstream
 alpha range should be 255. By default maxValue=1 is returned.</p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -101,7 +105,6 @@ alpha range should be 255. By default maxValue=1 is returned.</p></dd>
 <code><a href="unalpha.html">unalpha</a>()</code>,
 <code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
     </div>
-    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -115,8 +118,7 @@ alpha range should be 255. By default maxValue=1 is returned.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

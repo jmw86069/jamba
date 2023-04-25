@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.90.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
       </span>
     </div>
 
@@ -62,84 +62,123 @@
     <p>Show R function arguments jam-style</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">jargs</span><span class="op">(</span>
-  <span class="va">x</span>,
-  grepString <span class="op">=</span> <span class="cn">NULL</span>,
-  sortVars <span class="op">=</span> <span class="cn">FALSE</span>,
-  asList <span class="op">=</span> <span class="cn">TRUE</span>,
-  useColor <span class="op">=</span> <span class="cn">TRUE</span>,
-  lightMode <span class="op">=</span> <span class="cn">NULL</span>,
-  Crange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Crange"</span><span class="op">)</span>,
-  Lrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Lrange"</span><span class="op">)</span>,
-  adjustRgb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.adjustRgb"</span><span class="op">)</span>,
-  useCollapseBase <span class="op">=</span> <span class="st">", "</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  debug <span class="op">=</span> <span class="fl">0</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">jargs</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  grepString <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sortVars <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  asList <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useColor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  lightMode <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  Crange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Crange"</span><span class="op">)</span>,</span>
+<span>  Lrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.Lrange"</span><span class="op">)</span>,</span>
+<span>  adjustRgb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.adjustRgb"</span><span class="op">)</span>,</span>
+<span>  useCollapseBase <span class="op">=</span> <span class="st">", "</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  debug <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
-<dd><p>function or character name of a function.</p></dd>
+<dd><p><code>function</code> or character name of a function.</p></dd>
+
+
 <dt>grepString</dt>
-<dd><p>NULL, logical, or character grep string used to filter
-names of function parameters. If logical, it is assumed to be
-sortVars, and indicates whether to sort the parameter names.</p></dd>
+<dd><p><code>NULL</code>, <code>logical</code>, or <code>character</code> grep regular expression
+pattern used to filter function arguments by name. Very useful to
+search a function for arguments with a substring <code>"row"</code>.</p><ul><li><p>If <code>logical</code>, it is assumed to be sortVars, and indicates whether
+to sort the parameter names.</p></li>
+<li><p>if <code>character</code> it will subset the function arguments by name matching
+this regular expression pattern.</p></li>
+</ul></dd>
+
+
 <dt>sortVars</dt>
-<dd><p>logical whether to sort the function parameter names.</p></dd>
+<dd><p><code>logical</code> whether to sort the function parameter names.</p><ul><li><p><code>sortVars=FALSE</code> returns arguments in the order they appear in the
+function definition.</p></li>
+<li><p><code>sortVars=TRUE</code> returns arguments sorted alphabetically.</p></li>
+</ul></dd>
+
+
 <dt>asList</dt>
-<dd><p>logical whether to display one entry per line (TRUE), or
-display results as a data.frame.</p></dd>
+<dd><p><code>logical</code> whether to display one entry per line (default), or
+display results as a <code>data.frame</code>.</p></dd>
+
+
 <dt>useColor</dt>
-<dd><p>logical whether to display results in color, if the crayon
+<dd><p><code>logical</code> whether to display results in color, if the crayon
 package is available, and terminal console is capable.</p></dd>
+
+
 <dt>lightMode</dt>
-<dd><p>boolean or NULL, indicating whether the text background
+<dd><p><code>logical</code> or <code>NULL</code>, indicating whether the text background
 color is light, thus imposing a maximum brightness for colors displayed.
 It use lightMode if defined by the function caller, otherwise it will
-use options("jam.lightMode") if defined, lastly it will attempt to detect
-whether running inside Rstudio by checking the environment variable
+use <code>getOption("jam.lightMode")</code> if defined, lastly it will attempt to
+detect whether running inside Rstudio by checking the environment variable
 "RSTUDIO", and if so it will assume lightMode==TRUE.</p></dd>
+
+
 <dt>Crange</dt>
-<dd><p>numeric range of chroma values, ranging
+<dd><p><code>numeric</code> range of chroma values, ranging
 between 0 and 100. When NULL, default values will be
 assigned to Crange by <code><a href="setCLranges.html">setCLranges()</a></code>.</p></dd>
+
+
 <dt>Lrange</dt>
-<dd><p>numeric range of luminance values, ranging
+<dd><p><code>numeric</code> range of luminance values, ranging
 between 0 and 100. When NULL, default values will be
 assigned to Lrange by <code><a href="setCLranges.html">setCLranges()</a></code>.</p></dd>
+
+
 <dt>adjustRgb</dt>
-<dd><p>numeric value adjustment used during the conversion of
+<dd><p><code>numeric</code> value adjustment used during the conversion of
 RGB colors to ANSI colors, which is inherently lossy. If not defined,
 it uses the default returned by <code><a href="setCLranges.html">setCLranges()</a></code> which itself uses
 <code>getOption("jam.adjustRgb")</code> with default=0. In order to boost
 color contrast, an alternate value of -0.1 is suggested.</p></dd>
+
+
 <dt>useCollapseBase</dt>
-<dd><p>character string used to combine multiple parameter
+<dd><p><code>character</code> string used to combine multiple parameter
 values.</p></dd>
+
+
 <dt>verbose</dt>
-<dd><p>logical whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> whether to print verbose output.</p></dd>
+
+
 <dt>debug</dt>
-<dd><p>integer value, greater than 0 will cause debug-type verbose
+<dd><p><code>integer</code> value, greater than 0 will cause debug-type verbose
 output, useful because parameters are hard!</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>This function displays R function arguments, organized with one argument
 per line, and colorized using the <code>crayon</code> package if
 installed.</p>
-<p>It has an optional subset ability, using <code>grepString</code> which filters
-argument names by pattern matching. This feature is intended to help find
-the parameter name using a substring, which is particularly helpful for
-R functions which contain numerous parameters, and which have not obscured
-them by use of generic function wrapper. Generic functions very often
-contain no useful parameters, making it difficult to discover required
+<p>Output is nicely spaced to help visual alignment of argument names
+and argument values.</p>
+<p>Output can be filtered by <code>character</code> pattern. For example the
+function <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code> is amazing, and offers numerous
+arguments. To find arguments relevant to dendrograms, use <code>"dend"</code>:</p>
+<p><code>jargs(ComplexHeatmap::Heatmap, "dend")</code></p>
+<p>NOTE: This function has edge case issues displaying complex function
+argument values such as nested lists and custom functions.
+In that case the argument name is printed as usual, and the argument value
+is displayed as a partial snippet of the default argument value.</p>
+<p>Generic functions very often contain no useful parameters,
+making it difficult to discover required
 parameters without reading the function documentation from the proper
-dispatched function and calling package.</p>
-<p>It also by default sorts parameters by name, to make it easier to find
-from among many parameters.</p>
+dispatched function and calling package. In that case,
+try using <code>jargs(functionname.default)</code> for example compare:</p>
+<p><code>jargs(barplot)</code></p>
+<p>to:</p>
+<p><code>jargs(barplot.default)</code></p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -177,23 +216,19 @@ from among many parameters.</p>
 <code><a href="rmNA.html">rmNA</a>()</code>,
 <code><a href="rmNULL.html">rmNULL</a>()</code>,
 <code><a href="sclass.html">sclass</a>()</code>,
-<code><a href="sdima.html">sdima</a>()</code>,
 <code><a href="sdim.html">sdim</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code>,
-<code><a href="ssdima.html">ssdima</a>()</code>,
-<code><a href="ssdim.html">ssdim</a>()</code></p></div>
-    </div>
+<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (x, grepString = NULL, sortVars = FALSE, asList = TRUE, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     useColor = TRUE, lightMode = NULL, Crange = getOption("jam.Crange"), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Lrange = getOption("jam.Lrange"), adjustRgb = getOption("jam.adjustRgb"), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     useCollapseBase = ", ", verbose = FALSE, debug = 0, ...) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span class="fu">jargs</span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">jargs</span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               x = ,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      grepString = <span style="color: #949494;">NULL</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        sortVars = <span style="color: #FF0000;">FALSE</span>,</span>
@@ -207,15 +242,15 @@ from among many parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         verbose = <span style="color: #FF0000;">FALSE</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           debug = <span style="color: #AF87FF;">0</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             ... = </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># retrieve parameters involving notes from imageByColors</span></span>
-<span class="r-in"><span class="fu">jargs</span><span class="op">(</span><span class="va">imageByColors</span>, <span class="st">"note"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># retrieve parameters involving notes from imageByColors</span></span></span>
+<span class="r-in"><span><span class="fu">jargs</span><span class="op">(</span><span class="va">imageByColors</span>, <span class="st">"note"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       cellnote = <span style="color: #949494;">NULL</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    cexCellnote = <span style="color: #AF87FF;">1</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    srtCellnote = <span style="color: #AF87FF;">0</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   fontCellnote = <span style="color: #AF87FF;">1</span>,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> groupCellnotes = <span style="color: #0087D7;">TRUE</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -230,8 +265,7 @@ from among many parameters.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
