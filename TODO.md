@@ -1,11 +1,78 @@
 # TODO for jamba
 
-# 23mar2023
+## 11jul2023
+
+* DONE: `grepls()`
+
+   * not properly applying regular expressions to search package functions,
+   for example `library(multienrichjam);jamba::grepls("^enrich")` returns
+   no results, but `jamba::grepls("enrich")` does return results.
+
+* DONE: migrate `multienrichjam::gsubs()` into jamba.
+
+   * Minor: Deprecate `gsubs()` in multienrichjam, such that it calls
+   `jamba::gsubs()` when jamba is sufficient version.
+
+
+## 05jul2023
+
+* DONE: `plotSmoothScatter()`
+
+   * when `asp` is defined, honor this setting by also defining
+   axis ranges appropriately, not cropping points outside the range
+   when an axis range is increased to accommodate the aspect ratio.
+   One workaround is to use `nullPlot(asp=asp, doBoxes=FALSE)`,
+   then use `par("usr")` to define actual `xlim`, `ylim` values,
+   the `plotSmoothScatter(..., add=TRUE)` to inherit those options.
+
+* `drawLabels()`
+
+   * enhance the labels to allow `adj` to define text justification,
+   so for example text can be left-aligned, right-aligned, or centered.
+   Currently all text is centered, by defining the midpoint of the label
+   itself, the using `adj=c(0.5, 0.5)`.
+   In some cases it would be nice to have left-aligned text.
+   For this change, text width would be calculated, then the x coordinate
+   would be moved to the left side of the box, with buffer equal to half
+   the difference in box width and text width.
+
+## 12jun2023
+
+* `printDebug()`, `printDebugI()`
+
+   * Atomic elements with empty names `(NA, "", "^[\t ]+$")` (whitespace)
+   should be printed using the element value and not its name.
+   Currently, names are printed when they exist, but no attention
+   is given to whether the names are empty.
+   Unclear whether the expected/correct behavior would be to print all
+   values, or a mixture of non-empty-names/values-instead-of-empty-names.
+   For now, go with the second option, printing names when non-empty,
+   and element values otherwise.
+   * Consider argument `names_and_values=TRUE` which would optionally
+   display names above values as used with `print()`. In this case,
+   the names would be printed inverted (or when empty, the name would
+   not be visible), and values would be printed using the same color
+   but not inverted.
+
+* RMarkdown use with colorized text output: `printDebug()`, `printDebugI()`.
+
+   * Investigate how `pkgdown::build_article()` is able to produce
+   RMarkdown/HTML output that includes colored text from `printDebug()`,
+   but `knitr::render_markdown()` only captures color when using
+   block option `results='asis'`.
+   * Default yaml options include: `pkgdown: as_is: true`, so maybe it
+   is preferred to keep `results='asis'`?
+
+## 23mar2023
 
 * `kable_coloring()`
 
    * Enable passing `sample_color_list` to colorize columns
    * Allow coloring `numeric` columns, perhaps through `sample_color_list`?
+   Using `function` is more effective than `colorSub` for numeric values.
+   * automate colorizing numeric columns by value, for example
+   `platjam::df_to_numcolors()` except invisible. Maybe an optional
+   argument enabling/disabling this feature, but enabled by default?
    * It should apply color to `row.names` when they are displayed.
    (Taken from 10jan2023 TODO item.)
    * Use bold font by default for row names.

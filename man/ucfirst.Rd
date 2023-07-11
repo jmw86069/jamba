@@ -50,6 +50,7 @@ Other jam string functions:
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
+\code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
 \code{\link{mixedSortDF}()},

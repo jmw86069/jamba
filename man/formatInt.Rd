@@ -56,6 +56,7 @@ Other jam string functions:
 \code{\link{cPaste}()},
 \code{\link{fillBlanks}()},
 \code{\link{gsubOrdered}()},
+\code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
 \code{\link{mixedSortDF}()},

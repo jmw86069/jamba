@@ -25,6 +25,25 @@
 #' produce visually round density even when the x- and y-ranges
 #' are very different.
 #'
+#' Comments:
+#'
+#' * `asp=1` will define an aspect ratio 1, meaning the x-axis and y-axis
+#' units will be the same physical size in the output device.
+#' When this is true, and `fillBackground=TRUE` the `xlim` and `ylim`
+#' values follow logic for `plot.default()` and `plot.window()` such that
+#' each axis will include at least the `xlim` and `ylim` ranges, with
+#' additional range included in order to maintain the plot aspect ratio.
+#' * When `asp`, and any of `xlim` or `ylim`, are defined, the data will
+#' be "cropped" to respective `xlim` and `ylim` values as relevant,
+#' after which the plot is drawn with the appropriate plot aspect ratio.
+#' When `applyRangeCeiling=TRUE`, points outside the fixed `xlim` and `ylim`
+#' range are fixed to the edge of the range, after which the plot is drawn
+#' with the requested plot aspect ratio. It is recommended not to define
+#' `xlim` and `ylim` when also defining `asp`.
+#' * When `add=TRUE` the `xlim` and `ylim` values are already defined
+#' by the plot device. It is recommended not to define `xlim` and `ylim`
+#' when `add=TRUE`.
+#'
 #' @family jam plot functions
 #'
 #' @param x numeric vector, or data matrix with two or  more columns.
@@ -115,6 +134,19 @@
 #'    the y-axis range, similar to its use in `plot()` generic functions.
 #' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
+#' @param asp `numeric` with optional aspect ratio, as described in
+#'    `graphics::plot.window()`, where `asp=1` defines x- and y-axis
+#'    coordinate ranges such that distances between points are rendered
+#'    accurately. One data unit on the y-axis is equal in length to
+#'    `asp` multiplied by one data unit on the x-axis.
+#'    Notes:
+#'    * When `add=TRUE`, the value `asp` is ignored, because
+#'    the existing plot device is re-used.
+#'    * When `add=FALSE` and `asp` is defined with `numeric` value,
+#'    a new plot device is opened using `plot.window()`, and the `xlim`
+#'    and `ylim` values are passed to that function. As a result the
+#'    `par("usr")` values are used to define `xlim` and `ylim` for the
+#'    purpose of determining visible points, relevant to `applyRangeCeiling`.
 #' @param applyRangeCeiling `logical` indicating how to handle points outside
 #'    the visible plot range. Valid values:
 #'    \describe{
@@ -176,6 +208,7 @@ plotSmoothScatter <- function
  xaxt="s",
  yaxt="s",
  add=FALSE,
+ asp=NULL,
  applyRangeCeiling=TRUE,
  useRaster=TRUE,
  verbose=FALSE,
@@ -243,17 +276,20 @@ plotSmoothScatter <- function
       on.exit(par(oPar));
       smoothScatter(x2,
          main="smoothScatter default (using colramp blues9)",
+         asp=asp,
          ylab="",
          xlab="");
       plotSmoothScatter(x2,
          colramp=colramp,
          fillBackground=fillBackground,
          main="plotSmoothScatter",
+         asp=asp,
          ...);
       plotSmoothScatter(x2,
          colramp=c("white", blues9),
          fillBackground=fillBackground,
          main="plotSmoothScatter (using colramp blues9)",
+         asp=asp,
          ...);
       xy <- plotSmoothScatter(x2,
          colramp=colramp,
@@ -262,6 +298,7 @@ plotSmoothScatter <- function
          binpi=binpi * 1.5,
          fillBackground=fillBackground,
          main="plotSmoothScatter with increased bandwidth and bin",
+         asp=asp,
          ...);
       return(invisible(x2));
    }
@@ -304,10 +341,18 @@ plotSmoothScatter <- function
    }
 
    if (length(xlim) == 0) {
-      xlim <- range(x, na.rm=TRUE);
+      if (TRUE %in% add && exists(".Devices")) {
+         xlim <- range(par("usr")[1:2], na.rm=TRUE);
+      } else {
+         xlim <- range(x, na.rm=TRUE);
+      }
    }
    if (length(ylim) == 0) {
-      ylim <- range(y, na.rm=TRUE);
+      if (TRUE %in% add && exists(".Devices")) {
+         ylim <- range(par("usr")[3:4], na.rm=TRUE);
+      } else {
+         ylim <- range(y, na.rm=TRUE);
+      }
    }
    ## Apply a ceiling to values outside the range
    if (applyRangeCeiling) {
@@ -324,15 +369,21 @@ plotSmoothScatter <- function
    # expand xlim and ylim viewing range
    xlim4 <- sort((c(-1,1) * diff(xlim) * expand[1]/2) + xlim);
    ylim4 <- sort((c(-1,1) * diff(ylim) * expand[2]/2) + ylim);
+   if (TRUE) {
+      printDebug("plotSmoothScatter(): ",
+         "xlim: ", xlim4);
+      printDebug("plotSmoothScatter(): ",
+         "ylim: ", ylim4);
+   }
 
    ## Adjust for uneven plot aspect ratio, by using the plot par("pin")
    ## which contains the actual dimensions.
    ## Note that it does not require the actual coordinates of the plot,
    ## just the relative size of the display
-   if (!add) {
-      if (fillBackground) {
+   if (!TRUE %in% add) {
+      if (TRUE %in% fillBackground) {
          nullPlot(doBoxes=FALSE,
-            doUsrBox=TRUE,
+            doUsrBox=FALSE,
             fill=head(colramp(11),1),
             xaxs="i",
             yaxs="i",
@@ -341,7 +392,13 @@ plotSmoothScatter <- function
             xlim=xlim4,
             ylim=ylim4,
             add=add,
+            asp=asp,
+            border="transparent",
             ...);
+         # use grid.rect since it scales when plot is resized
+         abline(h=mean(ylim4), col="transparent")
+         grid::grid.rect(gp=grid::gpar(
+            fill=head(colramp(11), 1)))
       } else {
          nullPlot(doBoxes=FALSE,
             xaxs="i",
@@ -351,7 +408,21 @@ plotSmoothScatter <- function
             xlim=xlim4,
             ylim=ylim4,
             add=add,
+            asp=asp,
             ...);
+      }
+      if (length(asp) == 1) {
+         parUsr <- par("usr");
+         xlim4 <- parUsr[1:2]
+         ylim4 <- parUsr[3:4]
+         if (TRUE) {
+            printDebug("plotSmoothScatter(): ",
+               "parUsr: ", parUsr);
+            printDebug("plotSmoothScatter(): ",
+               "xlim: ", xlim4);
+            printDebug("plotSmoothScatter(): ",
+               "ylim: ", ylim4);
+         }
       }
       axis(1, las=1, xaxt=xaxt);
       axis(2, las=2, yaxt=yaxt);
@@ -360,6 +431,26 @@ plotSmoothScatter <- function
          title(xlab=xlab,
             ylab=ylab,
             ...);
+      }
+   } else {
+      # add=TRUE
+      # so xlim,ylim are already defined
+      if (fillBackground) {
+         abline(h=mean(ylim4), col="transparent")
+         grid::grid.rect(
+            gp=grid::gpar(
+               fill=head(colramp(11), 1)))
+      }
+      parUsr <- par("usr");
+      xlim4 <- parUsr[1:2]
+      ylim4 <- parUsr[3:4]
+      if (TRUE) {
+         printDebug("plotSmoothScatter(): ",
+            "parUsr: ", parUsr);
+         printDebug("plotSmoothScatter(): ",
+            "xlim: ", xlim4);
+         printDebug("plotSmoothScatter(): ",
+            "ylim: ", ylim4);
       }
    }
 

@@ -1563,7 +1563,8 @@ getColorRamp <- function
                divergent=divergent);
          }
          if (reverseRamp) {
-            cols <- rev(col);
+            printDebug("reverseRamp:", reverseRamp)
+            cols <- rev(cols);
          }
          cols <- colorRampPalette(cols, alpha=alpha);
       }

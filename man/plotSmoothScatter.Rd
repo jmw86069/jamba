@@ -27,6 +27,7 @@ plotSmoothScatter(
   xaxt = "s",
   yaxt = "s",
   add = FALSE,
+  asp = NULL,
   applyRangeCeiling = TRUE,
   useRaster = TRUE,
   verbose = FALSE,
@@ -145,6 +146,22 @@ the y-axis range, similar to its use in \code{plot()} generic functions.}
 \item{add}{\code{logical} whether to add to an existing active R plot, or create
 a new plot window.}
 
+\item{asp}{\code{numeric} with optional aspect ratio, as described in
+\code{graphics::plot.window()}, where \code{asp=1} defines x- and y-axis
+coordinate ranges such that distances between points are rendered
+accurately. One data unit on the y-axis is equal in length to
+\code{asp} multiplied by one data unit on the x-axis.
+Notes:
+\itemize{
+\item When \code{add=TRUE}, the value \code{asp} is ignored, because
+the existing plot device is re-used.
+\item When \code{add=FALSE} and \code{asp} is defined with \code{numeric} value,
+a new plot device is opened using \code{plot.window()}, and the \code{xlim}
+and \code{ylim} values are passed to that function. As a result the
+\code{par("usr")} values are used to define \code{xlim} and \code{ylim} for the
+purpose of determining visible points, relevant to \code{applyRangeCeiling}.
+}}
+
 \item{applyRangeCeiling}{\code{logical} indicating how to handle points outside
 the visible plot range. Valid values:
 \describe{
@@ -196,6 +213,26 @@ This function also by default produces a raster image plot
 with \code{useRaster=TRUE}, which adjusts the x- and y-bandwidth to
 produce visually round density even when the x- and y-ranges
 are very different.
+
+Comments:
+\itemize{
+\item \code{asp=1} will define an aspect ratio 1, meaning the x-axis and y-axis
+units will be the same physical size in the output device.
+When this is true, and \code{fillBackground=TRUE} the \code{xlim} and \code{ylim}
+values follow logic for \code{plot.default()} and \code{plot.window()} such that
+each axis will include at least the \code{xlim} and \code{ylim} ranges, with
+additional range included in order to maintain the plot aspect ratio.
+\item When \code{asp}, and any of \code{xlim} or \code{ylim}, are defined, the data will
+be "cropped" to respective \code{xlim} and \code{ylim} values as relevant,
+after which the plot is drawn with the appropriate plot aspect ratio.
+When \code{applyRangeCeiling=TRUE}, points outside the fixed \code{xlim} and \code{ylim}
+range are fixed to the edge of the range, after which the plot is drawn
+with the requested plot aspect ratio. It is recommended not to define
+\code{xlim} and \code{ylim} when also defining \code{asp}.
+\item When \code{add=TRUE} the \code{xlim} and \code{ylim} values are already defined
+by the plot device. It is recommended not to define \code{xlim} and \code{ylim}
+when \code{add=TRUE}.
+}
 }
 \examples{
 # doTest=TRUE invisibly returns the test data

@@ -65,3 +65,14 @@ testthat::test_that("vigrep_vgrep_igrep_provigrep", {
       provigrep(c(paste0("^", LETTERS[3:1]), "."), V),
       c("CF", "BE", "AD", "DG", "EH"))
 })
+
+context("grepls")
+
+testthat::test_that("grepls", {
+   testthat::expect_equal(
+      grepls("^vigrep"),
+      list(`package:jamba`=c("vigrep")))
+   testthat::expect_equal(
+      grepls("vigrep"),
+      list(`package:jamba`=c("provigrep", "unvigrep", "vigrep")))
+})

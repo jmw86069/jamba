@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
                         <h4 data-toc-skip class="author">James M.
 Ward</h4>
             
-            <h4 data-toc-skip class="date">2023-04-25</h4>
+            <h4 data-toc-skip class="date">2023-07-11</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/vignettes/jamba-vignette.Rmd" class="external-link"><code>vignettes/jamba-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>jamba-vignette.Rmd</code></div>
@@ -128,7 +128,13 @@ especially when rendered as a PDF, SVG, or any vector type output.</p>
 well-resolved with default <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">smoothScatter()</a></code>, but which is
 more clearly displayed with <code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSmoothScatter.html">plotSmoothScatter</a></span><span class="op">(</span>doTest<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSmoothScatter.html">plotSmoothScatter</a></span><span class="op">(</span>doTest<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span>
+<span><span class="co">#&gt; ##  (<span style="color: #00D7D7; font-weight: bold;">18:47:46</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">xlim: </span><span style="color: #FF8700;">-4.492416</span>,<span style="color: #FFAF5F;">4.152667</span> </span></span>
+<span><span class="co">#&gt; ##  (<span style="color: #00D7D7; font-weight: bold;">18:47:46</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">ylim: </span><span style="color: #FF8700;">-4.651150</span>,<span style="color: #FFAF5F;">4.616797</span></span></span>
+<span><span class="co">#&gt; ##  (<span style="color: #00D7D7; font-weight: bold;">18:47:46</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">xlim: </span><span style="color: #FF8700;">-4.492416</span>,<span style="color: #FFAF5F;">4.152667</span> </span></span>
+<span><span class="co">#&gt; ##  (<span style="color: #00D7D7; font-weight: bold;">18:47:46</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">ylim: </span><span style="color: #FF8700;">-4.651150</span>,<span style="color: #FFAF5F;">4.616797</span></span></span>
+<span><span class="co">#&gt; ##  (<span style="color: #00D7D7; font-weight: bold;">18:47:46</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">xlim: </span><span style="color: #FF8700;">-4.492416</span>,<span style="color: #FFAF5F;">4.152667</span> </span></span>
+<span><span class="co">#&gt; ##  (<span style="color: #00D7D7; font-weight: bold;">18:47:46</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">ylim: </span><span style="color: #FF8700;">-4.651150</span>,<span style="color: #FFAF5F;">4.616797</span></span></span></code></pre></div>
 <p><img src="jambaVignette-plotSmoothScatter-1.png" width="768"></p>
 <p>The function <code><a href="../reference/imageDefault.html">imageDefault()</a></code> is a slight enhancement to
 <code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">graphics::image()</a></code> specifically to enforce square pixels
@@ -463,8 +469,8 @@ is the best way to identify the specific task so it can be killed.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/setPrompt.html">setPrompt</a></span><span class="op">(</span><span class="st">"jambaVignette"</span><span class="op">)</span>;</span>
 <span><span class="co"># {jambaVignette}-R-3.6.0_10789&gt;</span></span></code></pre></div>
-<div class="figure">
-<img src="README-setPrompt.png" alt=""><p class="caption">setPrompt example</p>
+<div class="float">
+<img src="README-setPrompt.png" alt="setPrompt example"><div class="figcaption">setPrompt example</div>
 </div>
 </div>
 <div class="section level4">
@@ -753,6 +759,7 @@ you can search arguments by pattern.</p>
 <span><span class="co">#&gt;              xaxt = <span style="color: #AF87FF;">"s"</span>,</span></span>
 <span><span class="co">#&gt;              yaxt = <span style="color: #AF87FF;">"s"</span>,</span></span>
 <span><span class="co">#&gt;               add = <span style="color: #FF0000;">FALSE</span>,</span></span>
+<span><span class="co">#&gt;               asp = <span style="color: #949494;">NULL</span>,</span></span>
 <span><span class="co">#&gt; applyRangeCeiling = <span style="color: #0087D7;">TRUE</span>,</span></span>
 <span><span class="co">#&gt;         useRaster = <span style="color: #0087D7;">TRUE</span>,</span></span>
 <span><span class="co">#&gt;           verbose = <span style="color: #FF0000;">FALSE</span>,</span></span>

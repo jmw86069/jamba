@@ -94,27 +94,3 @@ testthat::test_that("cPasteSU", {
       cPasteSU(L, honorFactor=FALSE),
       cPasteSU_L_character)
 })
-
-   cPaste_LU <- c(
-      entryA="miR-112,miR-12,miR-112",
-      entryB="A,B,A,B",
-      entryC="C,A,B,B,C",
-      entryNULL="")
-   cPaste(L);
-   cPasteU(L);
-
-   # by default keepFactors=FALSE, which means factors are sorted as characters
-   cPasteS(L);
-   cPasteSU(L);
-
-   # LOCALE "C"
-   withr::with_locale(new=c("LC_COLLATE"="C"),
-      {
-         testthat::expect_equal(
-            mixedSort(mirna),
-            mirna[mo_c])
-         testthat::expect_equal(
-            mixedOrder(mirna),
-            mo_c)
-      })
-})

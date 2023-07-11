@@ -1,3 +1,52 @@
+# jamba version 0.0.93.900
+
+## bug fixes
+
+* `grepls()` now properly works with regular expressions when searching
+a `list` of package functions. Also added unit tests to confirm this
+use case.
+* Fixed test cases for `cPaste()` and `mixedSort()` functions.
+* `getColorRamp()` fixed rare edge case with a named palette,
+using n=NULL (so it returns a color function), and the palette was reversed.
+
+
+## new functions
+
+* `gsubs()`
+
+   * This function is being moved from `multienrichjam::gsubs()` into
+   jamba. During the process, it was noted that input `x` could not be
+   a `list`, which is inconsistent with other functions such as `lengths()`.
+   It now processes `list` input either iteratively (if input is a nested list),
+   or as unlisted subsets for optimal performance.
+
+## changes to existing functions
+
+* `plotSmoothScatter()`
+
+   * New argument `asp` with optional ability to define a fixed aspect
+   ratio. When enabled, the plot `xlim` and `ylim` behaves slightly
+   differently, but consistent with `plot()`, `plot.default()`,
+   and `plot.window()`, which include at least `xlim` and `ylim`
+   but expand one axis if needed in order to obtain the fixed
+   aspect ratio.
+   * When `add=TRUE` the `xlim` and `ylim` values by default will use
+   the plot device range, instead of the data value range. This change
+   makes the density consistently calculated for the plot area used
+   for display.
+   * The method for drawing background fill color `fillBackground=TRUE`
+   changed from using `usrPar()` to using `grid::grid.rect()`.
+   However, `grid::grid.rect()` apparently honors the plot device itself
+   only when `par("xpd"=FALSE)` and after `abline()` is called with non-empty
+   and non-infinite value for `h` or `v`. Weird. Nonetheless, it causes
+   `grid::grid.rect()` to crop output to the plot device, which has the
+   benefit of resizing to the plot device when `asp` aspect ratio is defined,
+   when the device is resized. Normally `usrBox()` draws a box with fixed
+   coordinates, and with `asp` is defined the `xlim` and `ylim` will
+   change with the plot device is resized.
+   In future, if the `grid::grid.rect()` method is problematic, the
+   method will need to revert back to using `usrPar()`.
+
 # jamba version 0.0.92.900
 
 ## bug fixes

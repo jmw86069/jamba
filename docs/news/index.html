@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
       </span>
     </div>
 
@@ -57,6 +57,33 @@
       <small>Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.93.900" id="jamba-version-0093900">jamba version 0.0.93.900<a class="anchor" aria-label="anchor" href="#jamba-version-0093900"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-93-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-93-900"></a></h3>
+<ul><li>
+<code><a href="../reference/grepls.html">grepls()</a></code> now properly works with regular expressions when searching a <code>list</code> of package functions. Also added unit tests to confirm this use case.</li>
+<li>Fixed test cases for <code><a href="../reference/cPaste.html">cPaste()</a></code> and <code><a href="../reference/mixedSort.html">mixedSort()</a></code> functions.</li>
+<li>
+<code><a href="../reference/getColorRamp.html">getColorRamp()</a></code> fixed rare edge case with a named palette, using n=NULL (so it returns a color function), and the palette was reversed.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-0-0-93-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-93-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/gsubs.html">gsubs()</a></code></p>
+<ul><li>This function is being moved from <code><a href="https://rdrr.io/pkg/multienrichjam/man/gsubs.html" class="external-link">multienrichjam::gsubs()</a></code> into jamba. During the process, it was noted that input <code>x</code> could not be a <code>list</code>, which is inconsistent with other functions such as <code><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths()</a></code>. It now processes <code>list</code> input either iteratively (if input is a nested list), or as unlisted subsets for optimal performance.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-93-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-93-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code></p>
+<ul><li>New argument <code>asp</code> with optional ability to define a fixed aspect ratio. When enabled, the plot <code>xlim</code> and <code>ylim</code> behaves slightly differently, but consistent with <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot.default()</a></code>, and <code><a href="https://rdrr.io/r/graphics/plot.window.html" class="external-link">plot.window()</a></code>, which include at least <code>xlim</code> and <code>ylim</code> but expand one axis if needed in order to obtain the fixed aspect ratio.</li>
+<li>When <code>add=TRUE</code> the <code>xlim</code> and <code>ylim</code> values by default will use the plot device range, instead of the data value range. This change makes the density consistently calculated for the plot area used for display.</li>
+<li>The method for drawing background fill color <code>fillBackground=TRUE</code> changed from using <code>usrPar()</code> to using <code><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">grid::grid.rect()</a></code>. However, <code><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">grid::grid.rect()</a></code> apparently honors the plot device itself only when <code>par("xpd"=FALSE)</code> and after <code><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline()</a></code> is called with non-empty and non-infinite value for <code>h</code> or <code>v</code>. Weird. Nonetheless, it causes <code><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">grid::grid.rect()</a></code> to crop output to the plot device, which has the benefit of resizing to the plot device when <code>asp</code> aspect ratio is defined, when the device is resized. Normally <code><a href="../reference/usrBox.html">usrBox()</a></code> draws a box with fixed coordinates, and with <code>asp</code> is defined the <code>xlim</code> and <code>ylim</code> will change with the plot device is resized. In future, if the <code><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">grid::grid.rect()</a></code> method is problematic, the method will need to revert back to using <code>usrPar()</code>.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.92.900" id="jamba-version-0092900">jamba version 0.0.92.900<a class="anchor" aria-label="anchor" href="#jamba-version-0092900"></a></h2>
 <div class="section level3">

@@ -40,7 +40,7 @@ testthat::test_that("mixedSort factor vectors", {
    mo_c_hfT <- c(9, 11, 10, 6, 7,
       8, 12, 2, 1, 3, 5, 4)
    # expected order with useCaseTiebreak=FALSE
-   mo_c_uctF <   - c(10, 9, 11, 12, 2, 5,
+   mo_c_uctF <- c(10, 9, 11, 12, 2, 5,
       4, 6, 7, 8, 1, 3);
    # expected order with useCaseTiebreak=FALSE,ignore.case=FALSE
    mo_c_uctF_icF <- c(11, 10, 9, 6, 8, 12, 2,
@@ -92,28 +92,6 @@ testthat::test_that("mixedSort factor vectors", {
 context("mixedSorts")
 
 # test mixedSorts() in list context
-xl <- list(
-   a=c("b1", "z2", "p3", "w4", "n5",
-      "e6", "n27", "g28", "l29", "e30", "y1", "b2"),
-   b=c("e7", "b8", "h9", "r10", "r11", "y12", "f13",
-      "b10"))
-xls <- list(
-   a=xl$a[c(1, 12, 6, 10, 8, 9, 5, 7, 3, 4, 11, 2)],
-   b=xl$b[c(2, 8, 1, 7, 3, 4, 5, 6)])
-
-Sys.setlocale("LC_COLLATE", locale1)
-xlf <- c(xl,
-   list(d=factor(c(xl$a, xl$b))))
-xlfsC <- c(xls,
-   list(d=as.character(
-      xlf$d[c(1, 12, 14, 20, 6, 13, 10, 19, 8, 15, 9, 5, 7,
-         3, 16, 17, 4, 11, 18, 2)])))
-xlfsF <- c(xls,
-   list(d=
-      xlf$d[c(1, 20, 12, 14, 10, 6, 13, 19, 8, 15, 9, 7,
-         5, 3, 16, 17, 4, 11, 18, 2)]))
-
-# test mixedSorts() in list context
 testthat::test_that("mixedSorts_factor", {
    # define test list with character vectors
    xl <- list(
@@ -122,7 +100,7 @@ testthat::test_that("mixedSorts_factor", {
       b=c("e7", "b8", "h9", "r10",
          "r11", "y12", "f13", "b10"))
    # LOCALE "C"
-   withr::with_locale(new=c("LC_COLLATE"=locale1),
+   withr::with_locale(new=c("LC_COLLATE"="C"),
    {
       # define test list by adding one factor vector
       # factor levels are locale-specific

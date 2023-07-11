@@ -18,7 +18,7 @@ individual data points."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
       </span>
     </div>
 
@@ -88,6 +88,7 @@ individual data points.</p>
 <span>  xaxt <span class="op">=</span> <span class="st">"s"</span>,</span>
 <span>  yaxt <span class="op">=</span> <span class="st">"s"</span>,</span>
 <span>  add <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  asp <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  applyRangeCeiling <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  useRaster <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -252,6 +253,22 @@ the y-axis range, similar to its use in <code><a href="https://rdrr.io/r/graphic
 a new plot window.</p></dd>
 
 
+<dt>asp</dt>
+<dd><p><code>numeric</code> with optional aspect ratio, as described in
+<code><a href="https://rdrr.io/r/graphics/plot.window.html" class="external-link">graphics::plot.window()</a></code>, where <code>asp=1</code> defines x- and y-axis
+coordinate ranges such that distances between points are rendered
+accurately. One data unit on the y-axis is equal in length to
+<code>asp</code> multiplied by one data unit on the x-axis.
+Notes:</p><ul><li><p>When <code>add=TRUE</code>, the value <code>asp</code> is ignored, because
+the existing plot device is re-used.</p></li>
+<li><p>When <code>add=FALSE</code> and <code>asp</code> is defined with <code>numeric</code> value,
+a new plot device is opened using <code><a href="https://rdrr.io/r/graphics/plot.window.html" class="external-link">plot.window()</a></code>, and the <code>xlim</code>
+and <code>ylim</code> values are passed to that function. As a result the
+<code>par("usr")</code> values are used to define <code>xlim</code> and <code>ylim</code> for the
+purpose of determining visible points, relevant to <code>applyRangeCeiling</code>.</p></li>
+</ul></dd>
+
+
 <dt>applyRangeCeiling</dt>
 <dd><p><code>logical</code> indicating how to handle points outside
 the visible plot range. Valid values:</p><dl><dt>TRUE</dt>
@@ -308,7 +325,23 @@ unnecessary visual details.</p>
 with <code>useRaster=TRUE</code>, which adjusts the x- and y-bandwidth to
 produce visually round density even when the x- and y-ranges
 are very different.</p>
-    </div>
+<p>Comments:</p><ul><li><p><code>asp=1</code> will define an aspect ratio 1, meaning the x-axis and y-axis
+units will be the same physical size in the output device.
+When this is true, and <code>fillBackground=TRUE</code> the <code>xlim</code> and <code>ylim</code>
+values follow logic for <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot.default()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.window.html" class="external-link">plot.window()</a></code> such that
+each axis will include at least the <code>xlim</code> and <code>ylim</code> ranges, with
+additional range included in order to maintain the plot aspect ratio.</p></li>
+<li><p>When <code>asp</code>, and any of <code>xlim</code> or <code>ylim</code>, are defined, the data will
+be "cropped" to respective <code>xlim</code> and <code>ylim</code> values as relevant,
+after which the plot is drawn with the appropriate plot aspect ratio.
+When <code>applyRangeCeiling=TRUE</code>, points outside the fixed <code>xlim</code> and <code>ylim</code>
+range are fixed to the edge of the range, after which the plot is drawn
+with the requested plot aspect ratio. It is recommended not to define
+<code>xlim</code> and <code>ylim</code> when also defining <code>asp</code>.</p></li>
+<li><p>When <code>add=TRUE</code> the <code>xlim</code> and <code>ylim</code> values are already defined
+by the plot device. It is recommended not to define <code>xlim</code> and <code>ylim</code>
+when <code>add=TRUE</code>.</p></li>
+</ul></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other jam plot functions: 
@@ -335,11 +368,43 @@ are very different.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># doTest=TRUE invisibly returns the test data</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">plotSmoothScatter</span><span class="op">(</span>doTest<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">18:47:33</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">xlim: </span><span style="color: #FF8700;">-3.999603</span>,<span style="color: #FFAF5F;">4.023124</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">18:47:33</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">ylim: </span><span style="color: #FF8700;">-4.079960</span>,<span style="color: #FFAF5F;">4.546444</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">18:47:33</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">xlim: </span><span style="color: #FF8700;">-3.999603</span>,<span style="color: #FFAF5F;">4.023124</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">18:47:34</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">ylim: </span><span style="color: #FF8700;">-4.079960</span>,<span style="color: #FFAF5F;">4.546444</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">18:47:34</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">xlim: </span><span style="color: #FF8700;">-3.999603</span>,<span style="color: #FFAF5F;">4.023124</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">18:47:34</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">ylim: </span><span style="color: #FF8700;">-4.079960</span>,<span style="color: #FFAF5F;">4.546444</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
 <span class="r-plt img"><img src="plotSmoothScatter-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># so it can be plotted again with different settings</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"column_1"</span>, <span class="st">"column_2"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plotSmoothScatter</span><span class="op">(</span><span class="va">x</span>, colramp<span class="op">=</span><span class="st">"inferno"</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">18:47:34</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">xlim: </span><span style="color: #FF8700;">-3.999603</span>,<span style="color: #FFAF5F;">4.023124</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">18:47:34</span>) 11Jul2023:   <span style="color: #FF8700;">plotSmoothScatter(): </span><span style="color: #00AFFF;">ylim: </span><span style="color: #FF8700;">-4.079960</span>,<span style="color: #FFAF5F;">4.546444</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"border" is not a graphical parameter</span>
 <span class="r-plt img"><img src="plotSmoothScatter-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="plotPolygonDensity.html">plotPolygonDensity</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span></span>

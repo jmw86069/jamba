@@ -3770,9 +3770,14 @@ grepls <- function
       searchL <- lapply(nameVector(search()), function(i){
          ls(i);
       });
-      searchLuse <- searchL[igrep(x,
-         searchL,
-         ignore.case=ignore.case)];
+      # 0.0.93.900: improve grep() on list with regular expressions
+      searchLuse <- searchL[sapply(searchL, function(i){
+         igrepHas(x, i)
+      })]
+      # searchLuse <- searchL[igrep(x,
+      #    searchL,
+      #    ignore.case=ignore.case)];
+
       lapply(searchLuse, function(i){
          vigrep(x,
             i,

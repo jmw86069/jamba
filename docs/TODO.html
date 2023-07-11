@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.92.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
       </span>
     </div>
 
@@ -56,21 +56,56 @@
       <h1>TODO for jamba</h1>
     </div>
 
-
 <div id="todo-for-jamba" class="section level1">
 
-</div>
-<div class="section level1">
-<h1 id="id_23mar2023">23mar2023<a class="anchor" aria-label="anchor" href="#id_23mar2023"></a></h1>
+<div class="section level2">
+<h2 id="id_11jul2023">11jul2023<a class="anchor" aria-label="anchor" href="#id_11jul2023"></a></h2>
+<ul><li>
+<p>DONE: <code><a href="reference/grepls.html">grepls()</a></code></p>
+<ul><li>not properly applying regular expressions to search package functions, for example <code><a href="http://github.com/jmw86069/multienrichjam" class="external-link">library(multienrichjam);jamba::grepls("^enrich")</a></code> returns no results, but <code>jamba::grepls("enrich")</code> does return results.</li>
+</ul></li>
+<li>
+<p>DONE: migrate <code><a href="https://rdrr.io/pkg/multienrichjam/man/gsubs.html" class="external-link">multienrichjam::gsubs()</a></code> into jamba.</p>
+<ul><li>Minor: Deprecate <code><a href="reference/gsubs.html">gsubs()</a></code> in multienrichjam, such that it calls <code><a href="reference/gsubs.html">jamba::gsubs()</a></code> when jamba is sufficient version.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_05jul2023">05jul2023<a class="anchor" aria-label="anchor" href="#id_05jul2023"></a></h2>
+<ul><li>
+<p>DONE: <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code></p>
+<ul><li>when <code>asp</code> is defined, honor this setting by also defining axis ranges appropriately, not cropping points outside the range when an axis range is increased to accommodate the aspect ratio. One workaround is to use <code>nullPlot(asp=asp, doBoxes=FALSE)</code>, then use <code>par("usr")</code> to define actual <code>xlim</code>, <code>ylim</code> values, the <code>plotSmoothScatter(..., add=TRUE)</code> to inherit those options.</li>
+</ul></li>
+<li>
+<p><code><a href="reference/drawLabels.html">drawLabels()</a></code></p>
+<ul><li>enhance the labels to allow <code>adj</code> to define text justification, so for example text can be left-aligned, right-aligned, or centered. Currently all text is centered, by defining the midpoint of the label itself, the using <code>adj=c(0.5, 0.5)</code>. In some cases it would be nice to have left-aligned text. For this change, text width would be calculated, then the x coordinate would be moved to the left side of the box, with buffer equal to half the difference in box width and text width.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_12jun2023">12jun2023<a class="anchor" aria-label="anchor" href="#id_12jun2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/printDebug.html">printDebug()</a></code>, <code><a href="reference/printDebugI.html">printDebugI()</a></code></p>
+<ul><li>Atomic elements with empty names <code>(NA, "", "^[\t ]+$")</code> (whitespace) should be printed using the element value and not its name. Currently, names are printed when they exist, but no attention is given to whether the names are empty. Unclear whether the expected/correct behavior would be to print all values, or a mixture of non-empty-names/values-instead-of-empty-names. For now, go with the second option, printing names when non-empty, and element values otherwise.</li>
+<li>Consider argument <code>names_and_values=TRUE</code> which would optionally display names above values as used with <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>. In this case, the names would be printed inverted (or when empty, the name would not be visible), and values would be printed using the same color but not inverted.</li>
+</ul></li>
+<li>
+<p>RMarkdown use with colorized text output: <code><a href="reference/printDebug.html">printDebug()</a></code>, <code><a href="reference/printDebugI.html">printDebugI()</a></code>.</p>
+<ul><li>Investigate how <code><a href="https://pkgdown.r-lib.org/reference/build_articles.html" class="external-link">pkgdown::build_article()</a></code> is able to produce RMarkdown/HTML output that includes colored text from <code><a href="reference/printDebug.html">printDebug()</a></code>, but <code><a href="https://rdrr.io/pkg/knitr/man/output_hooks.html" class="external-link">knitr::render_markdown()</a></code> only captures color when using block option <code>results='asis'</code>.</li>
+<li>Default yaml options include: <code>pkgdown: as_is: true</code>, so maybe it is preferred to keep <code>results='asis'</code>?</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_23mar2023">23mar2023<a class="anchor" aria-label="anchor" href="#id_23mar2023"></a></h2>
 <ul><li>
 <p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code></p>
 <ul><li>Enable passing <code>sample_color_list</code> to colorize columns</li>
-<li>Allow coloring <code>numeric</code> columns, perhaps through <code>sample_color_list</code>?</li>
+<li>Allow coloring <code>numeric</code> columns, perhaps through <code>sample_color_list</code>? Using <code>function</code> is more effective than <code>colorSub</code> for numeric values.</li>
+<li>automate colorizing numeric columns by value, for example <code><a href="https://rdrr.io/pkg/platjam/man/df_to_numcolors.html" class="external-link">platjam::df_to_numcolors()</a></code> except invisible. Maybe an optional argument enabling/disabling this feature, but enabled by default?</li>
 <li>It should apply color to <code>row.names</code> when they are displayed. (Taken from 10jan2023 TODO item.)</li>
 <li>Use bold font by default for row names.</li>
 <li>Consider handling <code>matrix</code> input by using a color gradient to colorize <code>numeric</code> values.</li>
 </ul></li>
-</ul><div class="section level2">
+</ul></div>
+<div class="section level2">
 <h2 id="id_22mar2023">22mar2023<a class="anchor" aria-label="anchor" href="#id_22mar2023"></a></h2>
 <ul><li>
 <p><code><a href="reference/imageByColors.html">imageByColors()</a></code></p>
@@ -119,10 +154,10 @@
 <p><code><a href="reference/jargs.html">jargs()</a></code></p>
 <ul><li>
 <p>it fails when functions follow the troubled paradigm for generics, e.g.:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>some_func <span class="ot">&lt;-</span> <span class="cf">function</span>(object, ...){</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   .local <span class="ot">&lt;-</span> <span class="cf">function</span>(object, arg1, arg2, arg3);</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">.local</span>(object, ...)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>some_func <span class="ot">&lt;-</span> <span class="cf">function</span>(object, ...){</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>   .local <span class="ot">&lt;-</span> <span class="cf">function</span>(object, arg1, arg2, arg3);</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>   <span class="fu">.local</span>(object, ...)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>}</span></code></pre></div>
 </li>
 <li><p>Design idea: Figure out a way to “sniff” out these arguments.</p></li>
 <li><p>Eval the function body, look for function named <code>.local</code></p></li>
@@ -550,7 +585,6 @@
 </ul></div>
 </div>
 </div>
-
 
   </div>
 

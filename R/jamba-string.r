@@ -2846,3 +2846,187 @@ gsubOrdered <- function
    }
    return(factor(y, levels=yLevels));
 }
+
+
+#' Pattern replacement with multiple patterns
+#'
+#' Pattern replacement with multiple patterns
+#'
+#' This function is a simple wrapper around `base::gsub()`
+#' when considering a series of pattern-replacement
+#' combinations. It applies each pattern match and replacement
+#' in order and is therefore not vectorized.
+#'
+#' When `x` input is a `list` each vector in the `list` is processed,
+#' somewhat differently than processing one vector.
+#' 1. When the `list` contains another `list`, or when `length(x) < 100`,
+#' each value in `x` is iterated calling `gsubs()`.
+#' This process is the slowest option, however not noticeble until
+#' `x` has length over 10,000.
+#' 2. When the `list` does not contain another `list` and all values are
+#' non-factor, or all values are `factor`, they are unlisted,
+#' processed as a vector, then relisted. This process is nearly the
+#' same speed as processing one single vector, except the time it
+#' takes to confirm the list element classes.
+#' 3. When values contain a mix of non-factor and `factor` values, they
+#' are separately unlisted, processed by `gsubs()`, then relisted
+#' and combined afterward. Again, this process is only slightly slower
+#' than option 2 above, given that it calls `gsubs()` twice, with two
+#' vectors.
+#' 4. Note that `factor` values at input are
+#' replaced with `character` values at output, consistent with `gsub()`.
+#'
+#' @return `character` vector when input `x` is an atomic vector,
+#'    or `list` when input `x` is a `list`.
+#'
+#' @family jam string functions
+#'
+#' @param pattern character vector of patterns
+#' @param replacement character vector of replacements
+#' @param x character vector with input data to be curated
+#' @param ignore.case logical indicating whether to perform
+#'    pattern matching in case-insensitive manner, where
+#'    `ignore.case=TRUE` will ignore the uppercase/lowercase
+#'    distinction.
+#' @param replace_multiple logical vector indicating whether to perform
+#'    global substitution, where `replace_multiple=FALSE` will
+#'    only replace the first occurrence of the pattern, using
+#'    `base::sub()`. Note that this vector can refer to individual
+#'    entries in `pattern`.
+#' @param ... additional arguments are passed to `base::gsub()`
+#'    or `base::sub()`.
+#'
+#' @export
+gsubs <- function
+(pattern,
+ replacement,
+ x,
+ ignore.case=TRUE,
+ replaceMultiple=rep(TRUE, length(pattern)),
+ ...)
+{
+   ## Purpose is to curate a text field using a series of gsub()
+   ## commands, operating on a vector of from,to vectors.
+   ## 'pattern' is expected to be a vector of regular expression patterns
+   ## used by gsub()
+   ##
+   ## 'replacement' is expected to be a vector of replacement patterns, as
+   ## used by gsub(), including relevant regular expression operators.
+   ## If 'replacement' is empty, the "" is used, thereby replacing patterns with
+   ## empty characters.
+   ##
+   ## replaceMultiple is a logical vector indicating whether each pattern
+   ## replacement should use gsub() if replaceMultiple==TRUE, or sub()
+   ## if replaceMultiple==FALSE. The default is TRUE, which uses gsub().
+   ## One would use replaceMultiple=FALSE in order to replace only the
+   ## first occurrence of a pattern, like replacing the first tab character
+   ## only.
+   ##
+   ## This function allows the patterns and replacements to be defined
+   ## upfront, then applied to any relevant character vectors consistently,
+   ## for example across columns of a data.frame.
+   if (length(x) == 0 || length(pattern) == 0) {
+      return(x);
+   }
+   if (length(replaceMultiple) == 0) {
+      replaceMultiple <- TRUE;
+   }
+   replaceMultiple <- rep(replaceMultiple, length.out=length(pattern));
+   if (length(replacement) == 0) {
+      replacement <- "";
+   }
+   replacement <- rep(replacement, length.out=length(pattern));
+
+   # if input x is a list, iterate each element in the list.
+   # Possible optimization for long lists that are not nested:
+   # unlist into one character vector, split back into original form afterward.
+   if (is.list(x) || "list" %in% class(x)) {
+      # iterate each entry in x
+      if (length(x) > 100) {
+         # with more than 100 entries, iterative replacement gets slow
+         x_class <- (sclass(x))
+         if ("list" %in% x_class) {
+            x_class <- cPaste(x_class)
+         }
+         if (!igrepHas("list", x_class)) {
+            x_is_factor <- grepl("factor", x_class)
+            x_lengths <- lengths(x)
+            x_split <- factor(rep(seq_along(x), x_lengths),
+               levels=seq_along(x))
+            if (all(x_is_factor) || !any(x_is_factor)) {
+               # if no factor, or all factor, we can unlist()
+               x_unlist <- unlist(x, use.names=FALSE)
+               x_new_vector <- gsubs(pattern=pattern,
+                  replacement=replacement,
+                  x=x_unlist,
+                  ignore.case=ignore.case,
+                  replaceMultiple=replaceMultiple,
+                  ...)
+               x_new <- split(x_new_vector, x_split)
+               return(x_new)
+            } else if (any(x_is_factor) && !all(x_is_factor)) {
+               xnf <- x[!x_is_factor]
+               xif <- x[x_is_factor]
+               # non-factor
+               xnf_split <- factor(
+                  rep(seq_along(x)[!x_is_factor],
+                     x_lengths[!x_is_factor]),
+                  levels=seq_along(x))
+               xnf_unlist <- unlist(x[!x_is_factor], use.names=FALSE)
+               xnf_new_vector <- gsubs(pattern=pattern,
+                  replacement=replacement,
+                  x=xnf_unlist,
+                  ignore.case=ignore.case,
+                  replaceMultiple=replaceMultiple,
+                  ...)
+               # factor
+               xif_split <- factor(
+                  rep(seq_along(x)[x_is_factor],
+                     x_lengths[x_is_factor]),
+                  levels=seq_along(x))
+               xif_unlist <- unlist(x[x_is_factor], use.names=FALSE)
+               # printDebug("head(xif_unlist, 10):");print(head(xif_unlist, 10))
+               xif_new_vector <- gsubs(pattern=pattern,
+                  replacement=replacement,
+                  x=xif_unlist,
+                  ignore.case=ignore.case,
+                  replaceMultiple=replaceMultiple,
+                  ...)
+               # printDebug("head(xif_new_vector, 3):");print(head(xif_new_vector, 3));
+               # re-assemble
+               x_new <- split(xnf_new_vector, x_split[!x_is_factor])
+               xif_new <- split(xif_new_vector, x_split[x_is_factor])
+               # printDebug("head(xif_new, 3):");print(head(xif_new, 3));
+               x_new[x_is_factor] <- xif_new[x_is_factor];
+               return(x_new)
+            }
+         }
+      }
+      x_new <- lapply(x, function(ix){
+         gsubs(pattern=pattern,
+            replacement=replacement,
+            x=ix,
+            ignore.case=ignore.case,
+            replaceMultiple=replaceMultiple,
+            ...)
+      })
+      return(x_new);
+   }
+
+   for (i in seq_along(pattern)) {
+      if (replaceMultiple[[i]]) {
+         x <- gsub(pattern=pattern[i],
+            replacement=replacement[i],
+            x=x,
+            ignore.case=ignore.case,
+            ...);
+      } else {
+         x <- sub(pattern=pattern[i],
+            replacement=replacement[i],
+            x=x,
+            ignore.case=ignore.case,
+            ...);
+      }
+   }
+   return(x);
+}
