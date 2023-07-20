@@ -1,3 +1,29 @@
+# jamba version 0.0.94.900
+
+## changes to existing functions
+
+* `plotSmoothScatter()`
+
+   * Fixed regression where it was printing lots of verbose info.
+
+* `getColorRamp()`
+
+   * New argument `dex` as replacement for `gradientWtFactor`, reflecting
+   the same argument in `color2gradient()`. This argument is only used
+   when a single color is provided, in order to create a color gradient
+   using that color. The argument `dex` improves the color tone, which
+   more closely matches the original color without becoming too
+   de-saturated during the process.
+   * Change to existing argument: `gradientWtFactor=NULL` so this argument
+   is ignored, in favor of new argument `dex=1`.
+   * Updated unit tests accordingly.
+
+* `color2gradient()`
+
+   * argument `dex` now accepts values at or below zero, by converting them
+   to fractions.
+   * Added unit tests.
+
 # jamba version 0.0.93.900
 
 ## bug fixes

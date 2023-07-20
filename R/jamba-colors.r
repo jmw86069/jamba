@@ -1206,7 +1206,9 @@ makeColorDarker <- function
 #'    will be defined using these colors in order with `colorRampPalette()`.
 #'    * `character` vector length=1 with one R color.
 #'    A color gradient is defined from `defaultBaseColor` to `col`
-#'    using `colorRampPalette()`.
+#'    using `color2gradient()`. To adjust the range of light to dark
+#'    luminance, use the `dex` argument, where higher values increase
+#'    the range, and lower values decrease the range.
 #'    * `character` vector length=1, with one recognized color ramp name:
 #'    any color palette from `rownames(RColorBrewer::brewer.pal.info())`;
 #'    any color palette function name from `viridis`;
@@ -1247,6 +1249,14 @@ makeColorDarker <- function
 #' @param gradientWtFactor `numeric` value used to expand single color
 #'    input to a gradient, using `color2gradient()`, prior to making
 #'    a full gradient to the `defaultBaseColor`.
+#'    Note that `dex` is the preferred method for adjusting the range
+#'    of light to dark for the given color `col`.
+#' @param dex `numeric` darkness expansion factor, used only with input
+#'    `col` is a single color, which is then split into a color gradient
+#'    using `defaultBaseColor` by calling `color2gradient()`.
+#'    The `dex` factor adjusts the range of dark to light colors,
+#'    where higher values for `dex` increase the range,
+#'    making the changes more dramatic.
 #' @param lens,divergent arguments sent to `warpRamp()` to
 #'    apply a warp effect to the color ramp, to compress or expand
 #'    the color gradient: `lens` scales the warp effect, with
@@ -1299,7 +1309,8 @@ getColorRamp <- function
  defaultBaseColor="grey99",
  reverseRamp=FALSE,
  alpha=TRUE,
- gradientWtFactor=2/3,
+ gradientWtFactor=NULL,
+ dex=1,
  lens=0,
  divergent=NULL,
  verbose=FALSE,
@@ -1345,7 +1356,8 @@ getColorRamp <- function
             col %in% viridis_colors) {
          #######################################
          ## Viridis package color handling
-         if (!suppressWarnings(suppressPackageStartupMessages(require(viridisLite)))) {
+         if (!suppressWarnings(
+            suppressPackageStartupMessages(require(viridisLite)))) {
             stop(paste0("The viridisLite package is required for color ramps: ",
                cPaste(viridis_colors, sep=", ")));
          }
@@ -1416,6 +1428,7 @@ getColorRamp <- function
                ## If given one color, make a color ramp from white to this color
                mini_3set <- color2gradient(colset,
                   n=3,
+                  dex=dex,
                   gradientWtFactor=gradientWtFactor);
                if (col2hcl(defaultBaseColor)["L",] < col2hcl(colset)["L",]) {
                   mini_3set <- rev(mini_3set);
@@ -1634,18 +1647,22 @@ isColor <- function
 #'    of colors to return for each gradient. When `n=0` then only duplicated
 #'    colors will be expanded into a gradient.
 #' @param gradientWtFactor `numeric` fraction representing the amount to expand
-#'    a color toward its maximum brightness and darkness. When
-#'    `gradientWtFactor=NULL` this value is calculated based upon the
+#'    a color toward its maximum brightness and darkness.
+#'    It is recommended to use `dex` and not this argument.
+#'    * When `gradientWtFactor=NULL` this value is calculated based upon the
 #'    number of colors requested, and the initial luminance in HCL
-#'    space of the starting color. When multiple values are supplied,
-#'    they are applied in order to each color gradient, and each color
-#'    gradient is applied in the order the colors appear.
+#'    space of the starting color.
+#'    * When `gradientWtFactor` is defined, values are recycled to
+#'    `length(col)`, and can be independently applied to each color.
 #' @param dex `numeric` value to apply dramatic dark expansion, where:
 #'    * `dex > 1` will make the gradient more dramatic, values
-#'    * `dex < 1` will make the gradient less dramatic.
-#' @param reverseGradient logical whether to return light-to-dark gradient
+#'    * `dex < 1` will make the gradient less dramatic, and are considered
+#'    fractions 1/x.
+#'    * `dex < 0` will make the gradient less dramatic, and values are
+#'    internally converted to fractions using `1/(2 + abs(dex))`
+#' @param reverseGradient `logical` whether to return light-to-dark gradient
 #'    (TRUE) or dark-to-light gradient (FALSE).
-#' @param verbose logical whether to print verbose output.
+#' @param verbose `logical` whether to print verbose output.
 #' @param ... other parameters are ignored.
 #'
 #' @examples
@@ -1747,6 +1764,7 @@ color2gradient <- function
    }
    dex <- rep(dex,
       length.out=length(col));
+   dex[dex <= 0] <- 1/(2 + abs(dex[dex <= 0]));
    names(dex) <- names(col);
 
    # Determine n:

@@ -369,7 +369,7 @@ plotSmoothScatter <- function
    # expand xlim and ylim viewing range
    xlim4 <- sort((c(-1,1) * diff(xlim) * expand[1]/2) + xlim);
    ylim4 <- sort((c(-1,1) * diff(ylim) * expand[2]/2) + ylim);
-   if (TRUE) {
+   if (verbose) {
       printDebug("plotSmoothScatter(): ",
          "xlim: ", xlim4);
       printDebug("plotSmoothScatter(): ",

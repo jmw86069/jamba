@@ -31,23 +31,29 @@ of colors to return for each gradient. When \code{n=0} then only duplicated
 colors will be expanded into a gradient.}
 
 \item{gradientWtFactor}{\code{numeric} fraction representing the amount to expand
-a color toward its maximum brightness and darkness. When
-\code{gradientWtFactor=NULL} this value is calculated based upon the
+a color toward its maximum brightness and darkness.
+It is recommended to use \code{dex} and not this argument.
+\itemize{
+\item When \code{gradientWtFactor=NULL} this value is calculated based upon the
 number of colors requested, and the initial luminance in HCL
-space of the starting color. When multiple values are supplied,
-they are applied in order to each color gradient, and each color
-gradient is applied in the order the colors appear.}
+space of the starting color.
+\item When \code{gradientWtFactor} is defined, values are recycled to
+\code{length(col)}, and can be independently applied to each color.
+}}
 
 \item{dex}{\code{numeric} value to apply dramatic dark expansion, where:
 \itemize{
 \item \code{dex > 1} will make the gradient more dramatic, values
-\item \code{dex < 1} will make the gradient less dramatic.
+\item \code{dex < 1} will make the gradient less dramatic, and are considered
+fractions 1/x.
+\item \code{dex < 0} will make the gradient less dramatic, and values are
+internally converted to fractions using \code{1/(2 + abs(dex))}
 }}
 
-\item{reverseGradient}{logical whether to return light-to-dark gradient
+\item{reverseGradient}{\code{logical} whether to return light-to-dark gradient
 (TRUE) or dark-to-light gradient (FALSE).}
 
-\item{verbose}{logical whether to print verbose output.}
+\item{verbose}{\code{logical} whether to print verbose output.}
 
 \item{...}{other parameters are ignored.}
 }

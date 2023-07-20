@@ -4,8 +4,8 @@ context("getColorRamp")
 # test when input is an R color or hex color
 testthat::test_that("getColorRamp with multiple color input", {
    test_color1 <- c("red4");
-   expected_color1 <- c("#FCFCFCFF", "#C97171FF", "#A22D2DFF",
-      "#7F1212FF", "#5E0000FF")
+   expected_color1 <- c("#FCFCFCFF", "#C46666FF", "#9E2424FF",
+      "#810F0FFF", "#650000FF")
    testthat::expect_equal(
       getColorRamp(test_color1, n=5, alpha=TRUE),
       expected_color1)
@@ -13,16 +13,16 @@ testthat::test_that("getColorRamp with multiple color input", {
       getColorRamp(test_color1, n=5, alpha=FALSE),
       substr(expected_color1, 1, 7))
    # trimRamp
-   expected_color1_trim10 <- c("#EDD4D4FF", "#BE5555FF", "#9D2828FF",
-      "#7C1111FF", "#5E0000FF")
+   expected_color1_trim10 <- c("#ECD1D1FF", "#B84949FF", "#9A2121FF",
+      "#7F0E0EFF", "#650000FF")
    testthat::expect_equal(
       getColorRamp(test_color1, n=5, alpha=TRUE, trimRamp=c(1, 0)),
       expected_color1_trim10)
 
    # hex input
    test_color2 <- c("#0000FF");
-   expected_color2 <- c("#FCFCFCFF", "#8383FDFF", "#4141E8FF",
-      "#1B1BC4FF", "#0000A3FF")
+   expected_color2 <- c("#FCFCFCFF", "#7575FDFF", "#3434ECFF",
+      "#1616D1FF", "#0000B6FF")
    testthat::expect_equal(
       getColorRamp(test_color2, n=5, alpha=TRUE),
       expected_color2)
@@ -30,8 +30,8 @@ testthat::test_that("getColorRamp with multiple color input", {
       getColorRamp(test_color2, n=5, alpha=FALSE),
       substr(expected_color2, 1, 7))
    # trimRamp
-   expected_color2_trim10 <- c("#D9D9FCFF", "#6B6BFDFF", "#3B3BE3FF",
-      "#1A1AC2FF", "#0000A3FF")
+   expected_color2_trim10 <- c("#D5D5FCFF", "#5B5BFDFF", "#2F2FE8FF",
+      "#1414CFFF", "#0000B6FF")
    testthat::expect_equal(
       getColorRamp(test_color2, n=5, alpha=TRUE, trimRamp=c(1, 0)),
       expected_color2_trim10)

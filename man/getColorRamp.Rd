@@ -12,7 +12,8 @@ getColorRamp(
   defaultBaseColor = "grey99",
   reverseRamp = FALSE,
   alpha = TRUE,
-  gradientWtFactor = 2/3,
+  gradientWtFactor = NULL,
+  dex = 1,
   lens = 0,
   divergent = NULL,
   verbose = FALSE,
@@ -26,7 +27,9 @@ getColorRamp(
 will be defined using these colors in order with \code{colorRampPalette()}.
 \item \code{character} vector length=1 with one R color.
 A color gradient is defined from \code{defaultBaseColor} to \code{col}
-using \code{colorRampPalette()}.
+using \code{color2gradient()}. To adjust the range of light to dark
+luminance, use the \code{dex} argument, where higher values increase
+the range, and lower values decrease the range.
 \item \code{character} vector length=1, with one recognized color ramp name:
 any color palette from \code{rownames(RColorBrewer::brewer.pal.info())};
 any color palette function name from \code{viridis};
@@ -74,7 +77,16 @@ a linear gradient between each color.}
 
 \item{gradientWtFactor}{\code{numeric} value used to expand single color
 input to a gradient, using \code{color2gradient()}, prior to making
-a full gradient to the \code{defaultBaseColor}.}
+a full gradient to the \code{defaultBaseColor}.
+Note that \code{dex} is the preferred method for adjusting the range
+of light to dark for the given color \code{col}.}
+
+\item{dex}{\code{numeric} darkness expansion factor, used only with input
+\code{col} is a single color, which is then split into a color gradient
+using \code{defaultBaseColor} by calling \code{color2gradient()}.
+The \code{dex} factor adjusts the range of dark to light colors,
+where higher values for \code{dex} increase the range,
+making the changes more dramatic.}
 
 \item{lens, divergent}{arguments sent to \code{warpRamp()} to
 apply a warp effect to the color ramp, to compress or expand
