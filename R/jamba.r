@@ -908,6 +908,10 @@ breaksByVector <- function
 #'
 #' @family jam plot functions
 #'
+#' @returns `data.frame` invisibly, which contains the relevant axis
+#'    coordinates, labels, and whether the coordinate should
+#'    appear with a tick mark.
+#'
 #' @examples
 #' par("mar"=c(4,4,6,6));
 #' b <- rep(LETTERS[1:5], c(2,3,5,4,3));
@@ -949,6 +953,9 @@ breaksByVector <- function
 #' @param abline_lty line type compatible with `par("lty")`, used when
 #'    `do_abline=TRUE`.
 #' @param abline_col `character` color used when `do_abline=TRUE`.
+#' @param do_plot `logical` whether to plot the resulting axis,
+#'    as an option to suppress the output and do something else
+#'    with the `data.frame` of coordinates returned by this function.
 #' @param ... additional arguments are passed to `breaksByVector()`, and/or to
 #'    `axis()`.
 #'
@@ -956,13 +963,16 @@ breaksByVector <- function
 groupedAxis <- function
 (side=1,
  x,
- group_style=c("partial_grouped", "grouped", "centered"),
+ group_style=c("partial_grouped",
+    "grouped",
+    "centered"),
  las=2,
  returnFractions=TRUE,
  nudge=0.2,
  do_abline=FALSE,
  abline_lty="solid",
  abline_col="grey40",
+ do_plot=TRUE,
  ...)
 {
    ## Purpose is to provide a convenient wrapper for breaksByVector()
@@ -978,42 +988,117 @@ groupedAxis <- function
    ## Print axis labels in the center of each group
    for (side in sides) {
       if ("centered" %in% group_style) {
-         axis(side=side,
-            las=las,
-            at=bb2$labelPoints,
-            labels=bb2$useLabels,
-            ...);
+         axis_df <- tryCatch({
+            data.frame(check.names=FALSE,
+               stringsAsFactors=FALSE,
+               axis_at=bb2$labelPoints,
+               axis_ticks=TRUE,
+               axis_labels=bb2$useLabels,
+               axis_side=side,
+               axis_group=1)
+         }, error=function(e){
+            data.frame(check.names=FALSE,
+               stringsAsFactors=FALSE,
+               axis_at=1,
+               axis_ticks=TRUE,
+               axis_labels="",
+               axis_side=1,
+               axis_group=1)[0, , drop=FALSE]
+         })
+         if (TRUE %in% do_plot) {
+            axis(side=side,
+               las=las,
+               at=bb2$labelPoints,
+               labels=bb2$useLabels,
+               ...);
+         }
       } else if (any(c("partial_grouped", "grouped") %in% group_style)) {
          ## indicate each region
-         for (i in seq_along(bb2$breakPoints)) {
+         axis_dfs <- lapply(seq_along(bb2$breakPoints), function(i){
             x1 <- c(0, bb2$breakPoints)[i] + 1;
             x2 <- bb2$breakPoints[i];
             if (x1 == x2 && "partial_grouped" %in% group_style) {
-               axis(side=side,
-                  at=x1,
-                  labels=c(""),
-                  ...);
+               axis_df <- data.frame(check.names=FALSE,
+                  stringsAsFactors=FALSE,
+                  axis_at=x1,
+                  axis_ticks=TRUE,
+                  axis_labels="",
+                  axis_side=side,
+                  axis_group=i)
+               if (TRUE %in% do_plot) {
+                  axis(side=side,
+                     at=x1,
+                     labels=c(""),
+                     ...);
+               }
             } else {
-               axis(side=side,
-                  at=c(
+               axis_df <- data.frame(check.names=FALSE,
+                  stringsAsFactors=FALSE,
+                  axis_at=c(
                      x1 - nudge,
                      x2 + nudge),
-                  labels=c("", ""),
-                  ...);
+                  axis_ticks=TRUE,
+                  axis_labels=c("",
+                     ""),
+                  axis_side=side,
+                  axis_group=i)
+               if (TRUE %in% do_plot) {
+                  axis(side=side,
+                     at=c(
+                        x1 - nudge,
+                        x2 + nudge),
+                     labels=c("", ""),
+                     ...);
+               }
             }
-         }
+            axis_df
+         })
+         axis_df1 <- tryCatch({
+            rbindList(axis_dfs);
+         }, error=function(e){
+            data.frame(check.names=FALSE,
+               stringsAsFactors=FALSE,
+               axis_at=1,
+               axis_ticks=TRUE,
+               axis_labels="",
+               axis_side=side,
+               axis_group=1)[0, , drop=FALSE]
+         })
+
          ## place the label centered in each region without adding tick marks
-         axis(side=side,
-            las=las,
-            tick=FALSE,
-            at=bb2$labelPoints,
-            labels=bb2$useLabels,
-            ...);
+         axis_df2 <- tryCatch({
+            data.frame(check.names=FALSE,
+               stringsAsFactors=FALSE,
+               axis_at=bb2$labelPoints,
+               axis_ticks=FALSE,
+               axis_labels=bb2$useLabels,
+               axis_side=side,
+               axis_group=seq_along(bb2$useLabels))
+         }, error=function(e){
+            data.frame(check.names=FALSE,
+               stringsAsFactors=FALSE,
+               axis_at=1,
+               axis_labels="",
+               axis_side=side,
+               axis_group=1)[0, , drop=FALSE]
+         })
+         axis_df <- mixedSortDF(
+            rbind(axis_df1, axis_df2),
+            byCols=c("axis_group", "axis_at"))
+
+         if (TRUE %in% do_plot) {
+            axis(side=side,
+               las=las,
+               tick=FALSE,
+               at=bb2$labelPoints,
+               labels=bb2$useLabels,
+               ...);
+         }
       }
    }
 
    ## abline to indicate the boundaries, if needed
-   if (do_abline) {
+   if (TRUE %in% do_abline && TRUE %in% do_plot) {
       if (any(c(1,3) %in% sides)) {
          abline(v=c(0, bb2$breakPoints) + 0.5,
             lty=abline_lty,
@@ -1027,6 +1112,10 @@ groupedAxis <- function
             ...);
       }
    }
+   if (nrow(axis_df) > 0) {
+      rownames(axis_df) <- NULL
+   }
+   return(invisible(axis_df));
 }
 
 

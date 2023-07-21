@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
       </span>
     </div>
 
@@ -57,6 +57,54 @@
       <small>Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.95.900" id="jamba-0095900">jamba 0.0.95.900<a class="anchor" aria-label="anchor" href="#jamba-0095900"></a></h2>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-95-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-95-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/groupedAxis.html">groupedAxis()</a></code></p>
+<ul><li>now returns invisible <code>data.frame</code> with relevant coordinates.</li>
+<li>new argument <code>do_plot=TRUE</code> to allow for suppressing the plot output and handling only the numeric values directly.</li>
+<li>Added unit tests.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-95-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-95-900"></a></h3>
+<ul><li>
+<code><a href="../reference/minorLogTicks.html">minorLogTicks()</a></code> resolved warnings.</li>
+<li>
+<code><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> resolved warnings.</li>
+<li>
+<code><a href="../reference/shadowText.html">shadowText()</a></code> resolved warnings.</li>
+<li>
+<code><a href="../reference/showColors.html">showColors()</a></code> resolved warnings in the examples.</li>
+<li>
+<code><a href="../reference/rbindList.html">rbindList()</a></code> removed base R example that produced a warning.</li>
+<li>
+<code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> removed warnings.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.94.900" id="jamba-version-0094900">jamba version 0.0.94.900<a class="anchor" aria-label="anchor" href="#jamba-version-0094900"></a></h2>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-94-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-94-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code></p>
+<ul><li>Fixed regression where it was printing lots of verbose info.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/getColorRamp.html">getColorRamp()</a></code></p>
+<ul><li>New argument <code>dex</code> as replacement for <code>gradientWtFactor</code>, reflecting the same argument in <code><a href="../reference/color2gradient.html">color2gradient()</a></code>. This argument is only used when a single color is provided, in order to create a color gradient using that color. The argument <code>dex</code> improves the color tone, which more closely matches the original color without becoming too de-saturated during the process.</li>
+<li>Change to existing argument: <code>gradientWtFactor=NULL</code> so this argument is ignored, in favor of new argument <code>dex=1</code>.</li>
+<li>Updated unit tests accordingly.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/color2gradient.html">color2gradient()</a></code></p>
+<ul><li>argument <code>dex</code> now accepts values at or below zero, by converting them to fractions.</li>
+<li>Added unit tests.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.93.900" id="jamba-version-0093900">jamba version 0.0.93.900<a class="anchor" aria-label="anchor" href="#jamba-version-0093900"></a></h2>
 <div class="section level3">

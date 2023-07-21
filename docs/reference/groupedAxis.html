@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
       </span>
     </div>
 
@@ -73,6 +73,7 @@
 <span>  do_abline <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  abline_lty <span class="op">=</span> <span class="st">"solid"</span>,</span>
 <span>  abline_col <span class="op">=</span> <span class="st">"grey40"</span>,</span>
+<span>  do_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -128,11 +129,25 @@ of labels.</p></dd>
 <dd><p><code>character</code> color used when <code>do_abline=TRUE</code>.</p></dd>
 
 
+<dt>do_plot</dt>
+<dd><p><code>logical</code> whether to plot the resulting axis,
+as an option to suppress the output and do something else
+with the <code>data.frame</code> of coordinates returned by this function.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments are passed to <code><a href="breaksByVector.html">breaksByVector()</a></code>, and/or to
 <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis()</a></code>.</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p><code>data.frame</code> invisibly, which contains the relevant axis
+coordinates, labels, and whether the coordinate should
+appear with a tick mark.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>This function extends <code><a href="breaksByVector.html">breaksByVector()</a></code> specifically for

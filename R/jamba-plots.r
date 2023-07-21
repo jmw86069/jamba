@@ -182,8 +182,6 @@
 #' colnames(x) <- c("column_1", "column_2")
 #' plotSmoothScatter(x, colramp="inferno");
 #'
-#' plotPolygonDensity(x);
-#'
 #' @export
 plotSmoothScatter <- function
 (x,
@@ -393,7 +391,7 @@ plotSmoothScatter <- function
             ylim=ylim4,
             add=add,
             asp=asp,
-            border="transparent",
+            # border="transparent",
             ...);
          # use grid.rect since it scales when plot is resized
          abline(h=mean(ylim4), col="transparent")
@@ -1730,8 +1728,11 @@ shadowText <- function
    }
    if (doTest) {
       ## Example shadow text
-      nullPlot(xlim=c(1,9), ylim=c(0,10), doBoxes=FALSE,
-         doUsrBox=TRUE, ...);
+      nullPlot(xlim=c(1,9),
+         ylim=c(0,10),
+         doBoxes=FALSE,
+         doUsrBox=TRUE,
+         ...);
       if (length(col) == 1 && col == "white") {
          col <- c("white", "white", "yellow", "green4", "red4", "blue");
          bg <- setTextContrastColor(col);
@@ -1746,7 +1747,7 @@ shadowText <- function
          outline=FALSE, shadow=FALSE,
          col=col,
          bg=bg,
-         cex=c(1,1,1,1,1,1,1,1,1),
+         cex=c(1.1, 1, 1, 1, 1, 1, 1, 1, 1),
          offset=offset, n=n, r=r,
          doTest=FALSE);
       st2 <- shadowText(x=rep(4,9), y=9:1-0.3,
@@ -1754,7 +1755,7 @@ shadowText <- function
          outline=TRUE, shadow=FALSE,
          col=col,
          bg=bg,
-         cex=c(1.1,1,1,1,1,1,1,1,1),
+         cex=c(1.1, 1, 1, 1, 1, 1, 1, 1, 1),
          offset=offset, n=n, r=r,
          doTest=FALSE);
       st3 <- shadowText(x=rep(6,9), y=9:1,
@@ -1762,7 +1763,7 @@ shadowText <- function
          outline=FALSE, shadow=TRUE,
          col=col,
          bg=bg,
-         cex=c(1,1.1,1,1,1,1,1,1,1),
+         cex=c(1, 1.1, 1, 1, 1, 1, 1, 1, 1),
          offset=offset, n=n, r=r,
          doTest=FALSE);
       st4 <- shadowText(x=rep(8,9), y=9:1-0.3,
@@ -1770,7 +1771,7 @@ shadowText <- function
          outline=TRUE, shadow=TRUE,
          col=col,
          bg=bg,
-         cex=c(1.1,1.1,1,1,1,1,1,1,1),
+         cex=c(1.1, 1.1, 1, 1, 1, 1, 1, 1, 1),
          offset=offset, n=n, r=r,
          doTest=FALSE);
       return(invisible(list(st1=st1, st2=st2, st3=st3)));
@@ -1778,6 +1779,7 @@ shadowText <- function
 
    cex <- rep(cex, length.out=length(labels));
    font <- rep(font, length.out=length(labels));
+   bg <- rep(bg, length.out=length(labels));
    xy <- xy.coords(x, y);
    xo <- r * strwidth("A");
    yo <- r * strheight("A");
@@ -1794,13 +1796,18 @@ shadowText <- function
    ## Outline has no offset
    if (outline) {
       ## Make a matrix of coordinates per label
-      outlineX <- matrix(ncol=n, byrow=TRUE,
-         rep(xy$x, each=n) + cos(theta)*xo);
-      outlineY <- matrix(ncol=n, byrow=TRUE,
-         rep(xy$y, each=n) + sin(theta)*yo);
-      outlineLabels <- matrix(ncol=n, byrow=TRUE,
+      outlineX <- matrix(ncol=n,
+         byrow=TRUE,
+         rep(xy$x, each=n) + cos(theta) * xo);
+      outlineY <- matrix(ncol=n,
+         byrow=TRUE,
+         rep(xy$y, each=n) + sin(theta) * yo);
+      outlineLabels <- matrix(ncol=n,
+         byrow=TRUE,
          rep(labels, each=n));
-      outlineColors <- matrix(ncol=n, nrow=length(labels), byrow=TRUE,
+      outlineColors <- matrix(ncol=n,
+         byrow=TRUE,
+         nrow=length(labels),
          rep(alpha2col(bg, alpha=alphaOutline), each=n));
    } else {
       outlineX <- outlineY <- outlineLabels <- outlineColors <- NULL;
@@ -2030,8 +2037,8 @@ adjustAxisLabelMargins <- function
 #' @param main `character` title to display above the plot, used only when
 #'    `x` is supplied as a single `numeric` vector. Otherwise each plot
 #'    title uses the relevant `colnames(x)` value.
-#' @param xaxs,yaxs `character` string indicating the type of x-axis and
-#'    y-axis to render, see `par()`.
+#' @param xaxs,yaxs,xaxt,yaxt `character` string indicating the type of
+#'    x-axis and y-axis to render, see `par()`.
 #' @param xlab,ylab `character` labels for x-axis and y-axis, respectively.
 #' @param log `character` vector, optionally containing `"x"` and/or `"y"` to
 #'    to indicate which axes are log-transformed. If `"x" %in% log`
@@ -2106,6 +2113,15 @@ adjustAxisLabelMargins <- function
 #'    breaks=40,
 #'    main="breaks=40");
 #'
+#' # hide axis labels
+#' set.seed(123);
+#' plotPolygonDensity(x,
+#'    highlightPoints=sample(which(abs(x) > 1), size=200),
+#'    breaks=40,
+#'    xaxt="n",
+#'    yaxt="n",
+#'    main="breaks=40");
+#'
 #' @export
 plotPolygonDensity <- function
 (x,
@@ -2135,6 +2151,8 @@ plotPolygonDensity <- function
  main="Histogram distribution",
  xaxs="i",
  yaxs="i",
+ xaxt="s",
+ yaxt="s",
  xlab="",
  ylab="",
  log=NULL,
@@ -2289,6 +2307,8 @@ plotPolygonDensity <- function
             weightFactor=weightFactor,
             xaxs=xaxs,
             yaxs=yaxs,
+            xaxt=xaxt,
+            yaxt=yaxt,
             log=log,
             xScale=xScale,
             verbose=verbose,
@@ -2383,15 +2403,6 @@ plotPolygonDensity <- function
             hx <- call_fn_ellipsis(hist.default,
                x=x,
                breaks=breaks,
-               # xlab=xlab,
-               #col=barCol,
-               #main=main,
-               #border=histBorder,
-               #xaxt="n",
-               #las=las,
-               #ylab="",
-               #cex.axis=cex.axis*0.8,
-               #add=add,
                plot=FALSE,
                ...);
             ## Optionally define the y-axis scale
@@ -2411,6 +2422,9 @@ plotPolygonDensity <- function
                main=main,
                border=histBorder,
                xaxt="n",
+               yaxt=yaxt,
+               xaxs=xaxs,
+               yaxs=yaxs,
                las=las,
                ylab=ylab,
                xlab=xlab,
@@ -2431,48 +2445,50 @@ plotPolygonDensity <- function
                      tail(hx$breaks))));
          }
          if (!add) {
-            if ("log10" %in% xScale) {
-               if (verbose) {
-                  printDebug("plotPolygonDensity(): ",
-                     "log10 x-axis scale.");
-               }
-               minorLogTicksAxis(1,
-                  doMinorLabels=TRUE,
-                  logBase=10,
-                  displayBase=10,
-                  offset=1,
-                  logAxisType=xLogAxisType,
-                  ...);
-            } else if ("sqrt" %in% xScale) {
-               if (verbose) {
-                  printDebug("plotPolygonDensity(): ",
-                     "sqrt xScale");
-               }
-               atPretty <- sqrtAxis(side=1,
-                  plot=FALSE);
-               axisFunc(1,
-                  at=atPretty,
-                  labels=names(atPretty),
-                  las=las,
-                  cex.axis=cex.axis,
-                  ...);
-            } else {
-               #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
-               ## Slight change to use the plot region instead of the histogram region
-               atPretty <- pretty(par("usr")[1:2],
-                  u5.bias=u5.bias,
-                  n=pretty.n,
-                  ...);
-               #axis(1, at=atPretty, labels=atPretty, las=las, ...);
-               axisFunc(1,
-                  at=atPretty,
-                  las=las,
-                  cex.axis=cex.axis,
-                  ...);
-               if (verbose) {
-                  printDebug("plotPolygonDensity(): ",
-                     "atPretty: ",
-                     atPretty);
+            if (!"n" %in% xaxt) {
+               if ("log10" %in% xScale) {
+                  if (verbose) {
+                     printDebug("plotPolygonDensity(): ",
+                        "log10 x-axis scale.");
+                  }
+                  minorLogTicksAxis(1,
+                     doMinorLabels=TRUE,
+                     logBase=10,
+                     displayBase=10,
+                     offset=1,
+                     logAxisType=xLogAxisType,
+                     ...);
+               } else if ("sqrt" %in% xScale) {
+                  if (verbose) {
+                     printDebug("plotPolygonDensity(): ",
+                        "sqrt xScale");
+                  }
+                  atPretty <- sqrtAxis(side=1,
+                     plot=FALSE);
+                  axisFunc(1,
+                     at=atPretty,
+                     labels=names(atPretty),
+                     las=las,
+                     cex.axis=cex.axis,
+                     ...);
+               } else {
+                  #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
+                  ## Slight change to use the plot region instead of the histogram region
+                  atPretty <- pretty(par("usr")[1:2],
+                     u5.bias=u5.bias,
+                     n=pretty.n,
+                     ...);
+                  #axis(1, at=atPretty, labels=atPretty, las=las, ...);
+                  axisFunc(1,
+                     at=atPretty,
+                     las=las,
+                     cex.axis=cex.axis,
+                     ...);
+                  if (verbose) {
+                     printDebug("plotPolygonDensity(): ",
+                        "atPretty: ",
+                        atPretty);
+                  }
                }
             }
             box(bty=bty);
@@ -2522,44 +2538,49 @@ plotPolygonDensity <- function
             col="transparent",
             main=main,
             xaxt="n",
+            yaxt=yaxt,
+            xaxs=xaxs,
+            yaxs=yaxs,
             ...);
-         if ("log10" %in% xScale) {
-            minorLogTicksAxis(1,
-               logBase=10,
-               displayBase=10,
-               offset=1,
-               doMinorLabels=TRUE,
-               logAxisType=xLogAxisType,
-               ...);
-         } else if ("sqrt" %in% xScale) {
-            if (verbose) {
-               printDebug("plotPolygonDensity(): ",
-                  "sqrt xScale");
-            }
-            atPretty <- sqrtAxis(side=1,
-               plot=FALSE);
-            axisFunc(1,
-               at=sqrt(abs(atPretty))*sign(atPretty),
-               labels=names(atPretty),
-               las=las,
-               cex.axis=cex.axis,
-               ...);
-         } else {
-            #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
-            ## Slight change to use the plot region instead of the histogram region
-            atPretty <- pretty(par("usr")[1:2],
-               u5.bias=u5.bias,
-               n=pretty.n,
-               ...);
-            axisFunc(1,
-               at=atPretty,
-               las=las,
-               cex.axis=cex.axis,
-               ...);
-            if (verbose) {
-               printDebug("plotPolygonDensity(): ",
-                  "atPretty: ",
-                  atPretty);
+         if (!"n" %in% xaxt) {
+            if ("log10" %in% xScale) {
+               minorLogTicksAxis(1,
+                  logBase=10,
+                  displayBase=10,
+                  offset=1,
+                  doMinorLabels=TRUE,
+                  logAxisType=xLogAxisType,
+                  ...);
+            } else if ("sqrt" %in% xScale) {
+               if (verbose) {
+                  printDebug("plotPolygonDensity(): ",
+                     "sqrt xScale");
+               }
+               atPretty <- sqrtAxis(side=1,
+                  plot=FALSE);
+               axisFunc(1,
+                  at=sqrt(abs(atPretty))*sign(atPretty),
+                  labels=names(atPretty),
+                  las=las,
+                  cex.axis=cex.axis,
+                  ...);
+            } else {
+               #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
+               ## Slight change to use the plot region instead of the histogram region
+               atPretty <- pretty(par("usr")[1:2],
+                  u5.bias=u5.bias,
+                  n=pretty.n,
+                  ...);
+               axisFunc(1,
+                  at=atPretty,
+                  las=las,
+                  cex.axis=cex.axis,
+                  ...);
+               if (verbose) {
+                  printDebug("plotPolygonDensity(): ",
+                     "atPretty: ",
+                     atPretty);
+               }
             }
          }
       }
@@ -2594,10 +2615,18 @@ plotPolygonDensity <- function
       }
 
       if (!is.null(ablineV)) {
-         abline(v=ablineV, col=ablineVcol, lty=ablineVlty, ...);
+         call_fn_ellipsis(abline,
+            v=ablineV,
+            col=ablineVcol,
+            lty=ablineVlty,
+            ...);
       }
       if (!is.null(ablineH)) {
-         abline(h=ablineH, col=ablineHcol, lty=ablineHlty, ...);
+         call_fn_ellipsis(abline,
+            h=ablineH,
+            col=ablineHcol,
+            lty=ablineHlty,
+            ...);
       }
       if (doPar) {
          par(oPar);
@@ -3137,10 +3166,10 @@ minorLogTicksAxis <- function
 #' Use the argument `symmetricZero=TRUE` when using directional
 #' log fold change values.
 #'
-#' @return
-#' List of axis tick positions, and corresponding labels, for major
-#' and minor ticks. Major ticks are defined as one tick per log10
-#' unit, exponentiated. For example, 1, 10, 100, 1000.
+#' @returns `list` of axis tick positions, and corresponding labels,
+#'    for major and minor ticks.
+#'    Major ticks are defined as one tick per log unit
+#'    exponentiated. For example, 1, 10, 100, 1000 when `displayBase=10`.
 #'
 #' @family jam practical functions
 #'
@@ -3254,6 +3283,8 @@ minorLogTicks <- function
       offset <- 0;
    }
    offset <- head(offset, 1);
+   displayBase <- head(displayBase, 1);
+   logBase <- head(logBase, 1);
 
    if (logStep > 1) {
       minorWhich <- c(1);
@@ -3313,6 +3344,7 @@ minorLogTicks <- function
          symmetricZero=symmetricZero);
       iX;
    });
+
    ## majorLabels represents the numeric value associated with each
    ## axis position desired
    ##
@@ -3321,7 +3353,7 @@ minorLogTicks <- function
    ## which slightly shifts the actual axis position to the right.
    ## Therefore, in that case we must re-calculate majorTicks using
    ## the new axis space.
-   if (offset > 0 || symmetricZero) {
+   if (offset > 0 || TRUE %in% symmetricZero) {
       if (verbose) {
          printDebug("minorLogTicks(): ",
             "adjusted axis position for log base ",
@@ -3332,14 +3364,14 @@ minorLogTicks <- function
             "majorTicks:",
             format(digits=2, trim=TRUE, majorTicks));
       }
-      if (any(majorLabels < 0) && any(majorLabels) > 0) {
+      if (any(majorLabels < 0) && any(majorLabels > 0)) {
          if (verbose) {
             printDebug("minorLogTicks(): ",
                "Included zero with majorLabels since offset is non-zero");
          }
          majorLabels <- sort(unique(c(majorLabels, -1, 0)));
       }
-      if (symmetricZero) {
+      if (TRUE %in% symmetricZero) {
          iUse <- noiseFloor(abs(majorLabels) + offset,
             minimum=1);
          majorTicks <- (log(iUse, base=logBase) *
@@ -3351,10 +3383,14 @@ minorLogTicks <- function
    } else {
       majorTicks <- log(majorLabels + offset, base=logBase);
    }
-   majorLabelsDF <- data.frame(label=majorLabels,
+   majorLabelsDF <- data.frame(
+      check.names=FALSE,
+      stringsAsFactors=FALSE,
+      label=majorLabels,
       type="major",
       use=TRUE,
       tick=majorTicks);
+
    ## Confirm that the labels are unique
    cleanLTdf <- function(df) {
       df <- df[rev(seq_len(nrow(df))),,drop=FALSE];

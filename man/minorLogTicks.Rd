@@ -74,9 +74,10 @@ labeled \code{-4} to indicate a negative four fold change. If
 \item{...}{additional parameters are ignored.}
 }
 \value{
-List of axis tick positions, and corresponding labels, for major
-and minor ticks. Major ticks are defined as one tick per log10
-unit, exponentiated. For example, 1, 10, 100, 1000.
+\code{list} of axis tick positions, and corresponding labels,
+for major and minor ticks.
+Major ticks are defined as one tick per log unit
+exponentiated. For example, 1, 10, 100, 1000 when \code{displayBase=10}.
 }
 \description{
 Calculate major and minor tick marks for log-scale axis

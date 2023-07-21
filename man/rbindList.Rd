@@ -79,7 +79,6 @@ alternative approaches such as pre-processing the input data.
 }
 \examples{
 L <- list(a=LETTERS[1:4], b=letters[1:3]);
-do.call(rbind, L);
 rbindList(L);
 rbindList(L, returnDF=TRUE);
 

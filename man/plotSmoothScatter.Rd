@@ -242,8 +242,6 @@ x <- plotSmoothScatter(doTest=TRUE);
 colnames(x) <- c("column_1", "column_2")
 plotSmoothScatter(x, colramp="inferno");
 
-plotPolygonDensity(x);
-
 }
 \seealso{
 Other jam plot functions: 

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
       </span>
     </div>
 
@@ -91,6 +91,8 @@
 <span>  main <span class="op">=</span> <span class="st">"Histogram distribution"</span>,</span>
 <span>  xaxs <span class="op">=</span> <span class="st">"i"</span>,</span>
 <span>  yaxs <span class="op">=</span> <span class="st">"i"</span>,</span>
+<span>  xaxt <span class="op">=</span> <span class="st">"s"</span>,</span>
+<span>  yaxt <span class="op">=</span> <span class="st">"s"</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  log <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -235,9 +237,9 @@ within each plot panel.</p></dd>
 title uses the relevant <code>colnames(x)</code> value.</p></dd>
 
 
-<dt>xaxs, yaxs</dt>
-<dd><p><code>character</code> string indicating the type of x-axis and
-y-axis to render, see <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code>.</p></dd>
+<dt>xaxs, yaxs, xaxt, yaxt</dt>
+<dd><p><code>character</code> string indicating the type of
+x-axis and y-axis to render, see <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code>.</p></dd>
 
 
 <dt>xlab, ylab</dt>
@@ -408,6 +410,16 @@ with <code>polyCol</code>.</p>
 <span class="r-in"><span>   breaks<span class="op">=</span><span class="fl">40</span>,</span></span>
 <span class="r-in"><span>   main<span class="op">=</span><span class="st">"breaks=40"</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="plotPolygonDensity-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># hide axis labels</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">plotPolygonDensity</span><span class="op">(</span><span class="va">x</span>,</span></span>
+<span class="r-in"><span>   highlightPoints<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">200</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   breaks<span class="op">=</span><span class="fl">40</span>,</span></span>
+<span class="r-in"><span>   xaxt<span class="op">=</span><span class="st">"n"</span>,</span></span>
+<span class="r-in"><span>   yaxt<span class="op">=</span><span class="st">"n"</span>,</span></span>
+<span class="r-in"><span>   main<span class="op">=</span><span class="st">"breaks=40"</span><span class="op">)</span>;</span></span>
+<span class="r-plt img"><img src="plotPolygonDensity-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

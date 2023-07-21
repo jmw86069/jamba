@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
       </span>
     </div>
 
@@ -95,27 +95,31 @@ colors will be expanded into a gradient.</p></dd>
 
 <dt>gradientWtFactor</dt>
 <dd><p><code>numeric</code> fraction representing the amount to expand
-a color toward its maximum brightness and darkness. When
-<code>gradientWtFactor=NULL</code> this value is calculated based upon the
+a color toward its maximum brightness and darkness.
+It is recommended to use <code>dex</code> and not this argument.</p><ul><li><p>When <code>gradientWtFactor=NULL</code> this value is calculated based upon the
 number of colors requested, and the initial luminance in HCL
-space of the starting color. When multiple values are supplied,
-they are applied in order to each color gradient, and each color
-gradient is applied in the order the colors appear.</p></dd>
+space of the starting color.</p></li>
+<li><p>When <code>gradientWtFactor</code> is defined, values are recycled to
+<code>length(col)</code>, and can be independently applied to each color.</p></li>
+</ul></dd>
 
 
 <dt>dex</dt>
 <dd><p><code>numeric</code> value to apply dramatic dark expansion, where:</p><ul><li><p><code>dex &gt; 1</code> will make the gradient more dramatic, values</p></li>
-<li><p><code>dex &lt; 1</code> will make the gradient less dramatic.</p></li>
+<li><p><code>dex &lt; 1</code> will make the gradient less dramatic, and are considered
+fractions 1/x.</p></li>
+<li><p><code>dex &lt; 0</code> will make the gradient less dramatic, and values are
+internally converted to fractions using <code>1/(2 + abs(dex))</code></p></li>
 </ul></dd>
 
 
 <dt>reverseGradient</dt>
-<dd><p>logical whether to return light-to-dark gradient
+<dd><p><code>logical</code> whether to return light-to-dark gradient
 (TRUE) or dark-to-light gradient (FALSE).</p></dd>
 
 
 <dt>verbose</dt>
-<dd><p>logical whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> whether to print verbose output.</p></dd>
 
 
 <dt>...</dt>

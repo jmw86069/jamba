@@ -14,6 +14,7 @@ groupedAxis(
   do_abline = FALSE,
   abline_lty = "solid",
   abline_col = "grey40",
+  do_plot = TRUE,
   ...
 )
 }
@@ -51,8 +52,17 @@ of labels.}
 
 \item{abline_col}{\code{character} color used when \code{do_abline=TRUE}.}
 
+\item{do_plot}{\code{logical} whether to plot the resulting axis,
+as an option to suppress the output and do something else
+with the \code{data.frame} of coordinates returned by this function.}
+
 \item{...}{additional arguments are passed to \code{breaksByVector()}, and/or to
 \code{axis()}.}
+}
+\value{
+\code{data.frame} invisibly, which contains the relevant axis
+coordinates, labels, and whether the coordinate should
+appear with a tick mark.
 }
 \description{
 Draw grouped axis labels given a character vector.

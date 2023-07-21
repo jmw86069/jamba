@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
       </span>
     </div>
 
@@ -71,7 +71,8 @@
 <span>  defaultBaseColor <span class="op">=</span> <span class="st">"grey99"</span>,</span>
 <span>  reverseRamp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  gradientWtFactor <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span>,</span>
+<span>  gradientWtFactor <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dex <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  lens <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  divergent <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -86,7 +87,9 @@
 will be defined using these colors in order with <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>.</p></li>
 <li><p><code>character</code> vector length=1 with one R color.
 A color gradient is defined from <code>defaultBaseColor</code> to <code>col</code>
-using <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>.</p></li>
+using <code><a href="color2gradient.html">color2gradient()</a></code>. To adjust the range of light to dark
+luminance, use the <code>dex</code> argument, where higher values increase
+the range, and lower values decrease the range.</p></li>
 <li><p><code>character</code> vector length=1, with one recognized color ramp name:
 any color palette from <code>rownames(RColorBrewer::brewer.pal.info())</code>;
 any color palette function name from <code>viridis</code>;
@@ -148,7 +151,18 @@ a linear gradient between each color.</p></dd>
 <dt>gradientWtFactor</dt>
 <dd><p><code>numeric</code> value used to expand single color
 input to a gradient, using <code><a href="color2gradient.html">color2gradient()</a></code>, prior to making
-a full gradient to the <code>defaultBaseColor</code>.</p></dd>
+a full gradient to the <code>defaultBaseColor</code>.
+Note that <code>dex</code> is the preferred method for adjusting the range
+of light to dark for the given color <code>col</code>.</p></dd>
+
+
+<dt>dex</dt>
+<dd><p><code>numeric</code> darkness expansion factor, used only with input
+<code>col</code> is a single color, which is then split into a color gradient
+using <code>defaultBaseColor</code> by calling <code><a href="color2gradient.html">color2gradient()</a></code>.
+The <code>dex</code> factor adjusts the range of dark to light colors,
+where higher values for <code>dex</code> increase the range,
+making the changes more dramatic.</p></dd>
 
 
 <dt>lens, divergent</dt>

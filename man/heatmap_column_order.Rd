@@ -55,15 +55,12 @@ if (check_pkg_installed("ComplexHeatmap")) {
 
    # obtaining row order first causes a warning message
    hm1 <- ComplexHeatmap::Heatmap(mat);
-   heatmap_row_order(hm1)
-   ComplexHeatmap::draw(hm1);
 
    # best practice is to draw() and store output in an object
    # to ensure the row orders are absolutely fixed
-   hm2 <- ComplexHeatmap::Heatmap(mat, show_row_names=FALSE);
-   hm2d <- ComplexHeatmap::draw(hm2);
-   heatmap_row_order(hm2d)
-   heatmap_column_order(hm2d)
+   hm1_drawn <- ComplexHeatmap::draw(hm1);
+   heatmap_row_order(hm1_drawn)
+   heatmap_column_order(hm1_drawn)
 
 }
 

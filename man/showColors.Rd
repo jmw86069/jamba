@@ -76,7 +76,8 @@ showColors(getColorRamp("firebrick3"))
 if (suppressPackageStartupMessages(require(RColorBrewer))) {
    RColorBrewer_namelist <- rownames(RColorBrewer::brewer.pal.info);
    y <- lapply(nameVector(RColorBrewer_namelist), function(i){
-      j <- RColorBrewer::brewer.pal(20, i);
+      n <- RColorBrewer::brewer.pal.info[i, "maxcolors"]
+      j <- RColorBrewer::brewer.pal(n, i);
       nameVector(j, seq_along(j));
    });
    showColors(y, cexCellnote=0.6, cex.axis=0.7, main="Brewer Colors");

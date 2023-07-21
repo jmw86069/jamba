@@ -32,6 +32,8 @@ plotPolygonDensity(
   main = "Histogram distribution",
   xaxs = "i",
   yaxs = "i",
+  xaxt = "s",
+  yaxt = "s",
   xlab = "",
   ylab = "",
   log = NULL,
@@ -132,8 +134,8 @@ within each plot panel.}
 \code{x} is supplied as a single \code{numeric} vector. Otherwise each plot
 title uses the relevant \code{colnames(x)} value.}
 
-\item{xaxs, yaxs}{\code{character} string indicating the type of x-axis and
-y-axis to render, see \code{par()}.}
+\item{xaxs, yaxs, xaxt, yaxt}{\code{character} string indicating the type of
+x-axis and y-axis to render, see \code{par()}.}
 
 \item{xlab, ylab}{\code{character} labels for x-axis and y-axis, respectively.}
 
@@ -254,6 +256,15 @@ set.seed(123);
 plotPolygonDensity(x,
    highlightPoints=sample(which(abs(x) > 1), size=200),
    breaks=40,
+   main="breaks=40");
+
+# hide axis labels
+set.seed(123);
+plotPolygonDensity(x,
+   highlightPoints=sample(which(abs(x) > 1), size=200),
+   breaks=40,
+   xaxt="n",
+   yaxt="n",
    main="breaks=40");
 
 }

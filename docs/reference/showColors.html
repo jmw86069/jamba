@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.93.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
       </span>
     </div>
 
@@ -200,81 +200,12 @@ an entry in the <code>list</code>. Nothing fancy.</p>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>   <span class="va">RColorBrewer_namelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu">RColorBrewer</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal.info</a></span><span class="op">)</span>;</span></span>
 <span class="r-in"><span>   <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="va">RColorBrewer_namelist</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>      <span class="va">j</span> <span class="op">&lt;-</span> <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span><span class="fl">20</span>, <span class="va">i</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>      <span class="va">n</span> <span class="op">&lt;-</span> <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal.info</a></span><span class="op">[</span><span class="va">i</span>, <span class="st">"maxcolors"</span><span class="op">]</span></span></span>
+<span class="r-in"><span>      <span class="va">j</span> <span class="op">&lt;-</span> <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">i</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span>      <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="va">j</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">j</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span>   <span class="op">}</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span>   <span class="fu">showColors</span><span class="op">(</span><span class="va">y</span>, cexCellnote<span class="op">=</span><span class="fl">0.6</span>, cex.axis<span class="op">=</span><span class="fl">0.7</span>, main<span class="op">=</span><span class="st">"Brewer Colors"</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette BrBG is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette PiYG is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette PRGn is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette PuOr is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette RdBu is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette RdGy is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette RdYlBu is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette RdYlGn is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Spectral is 11</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Accent is 8</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Dark2 is 8</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Paired is 12</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Pastel1 is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Pastel2 is 8</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Set1 is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Set2 is 8</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Set3 is 12</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Blues is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette BuGn is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette BuPu is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette GnBu is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Greens is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Greys is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Oranges is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette OrRd is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette PuBu is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette PuBuGn is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette PuRd is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Purples is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette RdPu is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette Reds is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette YlGn is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette YlGnBu is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette YlOrBr is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>n too large, allowed maximum for palette YlOrRd is 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Returning the palette you asked for with that many colors</span>
 <span class="r-plt img"><img src="showColors-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>   <span class="co"># given one function name it will display discrete colors</span></span></span>

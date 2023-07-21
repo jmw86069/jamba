@@ -1,3 +1,24 @@
+# jamba 0.0.95.900
+
+## changes to existing functions
+
+* `groupedAxis()`
+
+   * now returns invisible `data.frame` with relevant coordinates.
+   * new argument `do_plot=TRUE` to allow for suppressing the plot
+   output and handling only the numeric values directly.
+   * Added unit tests.
+
+## bug fixes
+
+* `minorLogTicks()` resolved warnings.
+* `minorLogTicksAxis()` resolved warnings.
+* `shadowText()` resolved warnings.
+* `showColors()` resolved warnings in the examples.
+* `rbindList()` removed base R example that produced a warning.
+* `plotSmoothScatter()` removed warnings.
+
+
 # jamba version 0.0.94.900
 
 ## changes to existing functions
