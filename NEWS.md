@@ -1,3 +1,18 @@
+# jamba 0.0.96.900
+
+## changes to existing functions
+
+* `kable_coloring()`
+
+   * moved to its own R file for convenience
+
+## new functions
+
+* `shadowText_options()`
+
+   * intended to help manage shadowText settings which are stored
+   as `options()`.
+
 # jamba 0.0.95.900
 
 ## changes to existing functions
