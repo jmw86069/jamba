@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
       </span>
     </div>
 
@@ -59,6 +59,22 @@
 <div id="todo-for-jamba" class="section level1">
 
 <div class="section level2">
+<h2 id="id_10aug2023">10aug2023<a class="anchor" aria-label="anchor" href="#id_10aug2023"></a></h2>
+<ul><li>
+<p>DONE. <code><a href="reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code> and <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code></p>
+<ul><li>argument <code>colorSub</code> should accept <code>list</code> input, similar to <code><a href="reference/kable_coloring.html">kable_coloring()</a></code>. The <code>list</code> should be named by <code>colnames(x)</code> and accepts either a named <code>character</code> vector of colors so the names match values in the column, or a <code>function</code> that takes column values and returns a <code>character</code> vector of colors for each value in the column.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_08aug2023">08aug2023<a class="anchor" aria-label="anchor" href="#id_08aug2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/makeColorDarker.html">makeColorDarker()</a></code></p>
+<ul><li>consider new argument <code>dex</code> “darkness expansion factor” similar to its use in <code><a href="reference/color2gradient.html">color2gradient()</a></code>
+</li>
+<li>consider new argument <code>satex</code> “saturation expansion factor”</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
 <h2 id="id_11jul2023">11jul2023<a class="anchor" aria-label="anchor" href="#id_11jul2023"></a></h2>
 <ul><li>
 <p>DONE: <code><a href="reference/grepls.html">grepls()</a></code></p>
@@ -97,9 +113,9 @@
 <h2 id="id_23mar2023">23mar2023<a class="anchor" aria-label="anchor" href="#id_23mar2023"></a></h2>
 <ul><li>
 <p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code></p>
-<ul><li>Enable passing <code>sample_color_list</code> to colorize columns</li>
-<li>Allow coloring <code>numeric</code> columns, perhaps through <code>sample_color_list</code>? Using <code>function</code> is more effective than <code>colorSub</code> for numeric values.</li>
-<li>automate colorizing numeric columns by value, for example <code><a href="https://rdrr.io/pkg/platjam/man/df_to_numcolors.html" class="external-link">platjam::df_to_numcolors()</a></code> except invisible. Maybe an optional argument enabling/disabling this feature, but enabled by default?</li>
+<ul><li>DONE. Enable passing <code>sample_color_list</code> to colorize columns</li>
+<li>DONE. Allow coloring <code>numeric</code> columns, perhaps through <code>sample_color_list</code>? Using <code>function</code> is more effective than <code>colorSub</code> for numeric values.</li>
+<li>DONE. (By virtue of calling <code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code>.) Automate colorizing numeric columns by value, for example <code><a href="https://rdrr.io/pkg/platjam/man/df_to_numcolors.html" class="external-link">platjam::df_to_numcolors()</a></code> except invisible. Maybe an optional argument enabling/disabling this feature, but enabled by default?</li>
 <li>It should apply color to <code>row.names</code> when they are displayed. (Taken from 10jan2023 TODO item.)</li>
 <li>Use bold font by default for row names.</li>
 <li>Consider handling <code>matrix</code> input by using a color gradient to colorize <code>numeric</code> values.</li>

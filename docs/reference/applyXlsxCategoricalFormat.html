@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
       </span>
     </div>
 
@@ -93,12 +93,23 @@ or <code>Workbook</code> object defined in the <code>openxlsx</code> package. Wh
 
 <dt>rowRange, colRange</dt>
 <dd><p><code>integer</code> vectors of rows and columns
-to apply categorical colors in the Excel xlsx worksheet.</p></dd>
+to apply categorical colors in the Excel xlsx worksheet,
+passed as <code>openxlsx::readWorkbook(..., rows=rowRange, cols=colRange)</code>.
+This step defines which columns are read from each workbook,
+however when <code>colorSub</code> is provided as a <code>list</code> whose names
+are intended to match <code><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames()</a></code>, only matching colnames
+are processed.</p></dd>
 
 
 <dt>colorSub</dt>
-<dd><p>named <code>character</code> vector of valid R colors, whose
-names correspond to values in the worksheet cells.</p></dd>
+<dd><p>one of the following types of input:</p><ul><li><p>Named <code>character</code> vector of valid R colors, whose
+names correspond to values in worksheet cells.</p></li>
+<li><p>Named <code>list</code> whose names correspond to colnames one or more
+workbooks in <code>sheet</code>. Each list element should be a <code>character</code>
+vector named by column values, or color <code>function</code> that takes
+column values and returns a <code>character</code> vector of colors for
+each value.</p></li>
+</ul></dd>
 
 
 <dt>colorSubText</dt>
@@ -137,6 +148,22 @@ the specific cell color, for example the font size and font name.</p></dd>
 <dt>...</dt>
 <dd><p>additional arguments are ignored.</p></dd>
 
+
+<dt>style_coord_list</dt>
+<dd><p><code>list</code> named by unique hex R colors,
+containing <code>matrix</code> objects with colnames <code>c("row", "col")</code>
+with individual cell positions to apply the corresponding style</p></dd>
+
+
+<dt>styles_list</dt>
+<dd><p><code>list</code> named by hex R color, containing
+<code>openxlsx::style</code> objects using the corresponding color as
+the background fill color.</p></dd>
+
+
+<dt>wb, sheet, stack</dt>
+<dd><p>arguments passed to <code><a href="https://rdrr.io/pkg/openxlsx/man/addStyle.html" class="external-link">openxlsx::addStyle()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -148,6 +175,22 @@ is returned invisibly with <code><a href="https://rdrr.io/r/base/invisible.html"
 
 <p>can be used in argument <code>wb</code> to provide a speed boost when
 saving multiple sheets to the same file.</p>
+
+
+<p><code>list</code> named by the primary fill color of each cell,
+containing a <code>openxlsx::style</code> object suitable for use
+by <code><a href="https://rdrr.io/pkg/openxlsx/man/addStyle.html" class="external-link">openxlsx::addStyle()</a></code>.</p>
+
+
+<p><code>list</code> named by style, by default the hex color with no alpha
+where each element is a <code>matrix</code> with colnames <code>row</code> and <code>col</code></p>
+
+
+<p>indicating individual row/column coordinate positions.</p>
+
+
+<p><code>NULL</code>, this function is called for the by-product
+of adjusting</p>
     </div>
     <div id="details">
     <h2>Details</h2>

@@ -195,6 +195,7 @@ Other jam plot functions:
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
+\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},

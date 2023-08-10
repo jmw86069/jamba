@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
       </span>
     </div>
 
@@ -57,6 +57,56 @@
       <small>Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.96.900" id="jamba-0096900">jamba 0.0.96.900<a class="anchor" aria-label="anchor" href="#jamba-0096900"></a></h2>
+<p>The main update enables <code>colorSub</code> input as <code>list</code> for several functions: <code><a href="../reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>, <code><a href="../reference/kable_coloring.html">kable_coloring()</a></code>, and <code><a href="../reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>. This feature enables passing a color function, or color assignments that are specific to each column in the data. The companion function <code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code> takes a <code>data.frame</code> and returns a <code>list</code> of colors or color functions, one per column, suitable for use directly in the functions updated above. The <code>design2colors()</code> function will likely move into <code>colorjam</code>.</p>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-96-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-96-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code></p>
+<ul><li>argument <code>colorSub</code> now accepts a color <code>list</code> named by colnames, with either named <code>character</code> vector of colors for each column, or a <code>function</code> that takes column values and returns <code>character</code> colors for each value.</li>
+<li>the method for matching <code>names(colorSub)</code> to cell values is slightly updated, mainly affecting color assignments for <code>character</code> strings that contain whitespace and punctuation characters.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/writeOpenxlsx.html">writeOpenxlsx()</a></code></p>
+<ul><li>argument <code>colorSub</code> now accepts either <code>character</code> input as previously required, or now accepts <code>list</code> input named by <code>colnames(x)</code> whose list elements are either <code>character</code> vector of colors, or color <code>function</code>.</li>
+<li>Some internal processing is slightly altered to accomodate the change, <code><a href="../reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code> is called with one extra row to include the colnames, but it should be equivalent to previous behavior otherwise.</li>
+<li>The change means that value <code>"A"</code> can be colored red in one column, while <code>"A"</code> can be colored blue in another column. It also means that numeric columns can each have their own custom color function, which means it can exactly match a heatmap color function for example, instead of relying upon the limited conditional formatting available in MS Excel.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/kable_coloring.html">kable_coloring()</a></code></p>
+<ul><li><p>moved to its own R file for convenience</p></li>
+<li><p>removed dependency on dplyr</p></li>
+<li><p>changed <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code> to <code>check_pkg_available()</code> to avoid attaching the <code>kableExtra</code> package.</p></li>
+<li>
+<p>argument <code>colorSub</code> now accepts three types of input:</p>
+<ul><li>
+<code>character</code> vector of colors named by column values</li>
+<li>
+<code>function</code> that takes column values and returns colors</li>
+<li>
+<code>list</code> named by <code>colnames(df)</code>, defining columns in each column using <code>character</code> or <code>function</code> as described above.</li>
+</ul></li>
+<li><p><code>colorSub</code> as <code>list</code> input enables colorizing <code>numeric</code> columns by passing a color function: <code>circlize::colorRamp2(colors=x, breaks=y)</code></p></li>
+<li><p>new argument <code>align</code> to apply alignment per column, and retains proper alignment for numeric columns which are colorized (something kableExtra does not do by default).</p></li>
+<li><p>new argument <code>format.args</code> for <code>numeric</code> column formatting by default, and is maintained even when <code>numeric</code> columns are colorized (which is also not handled by kableExtra by default).</p></li>
+<li><p>new argument <code>border_left</code>,<code>border_right</code> which by default show a light grey left border per column</p></li>
+<li><p>new argument <code>extra_css</code> which by default turns off word-wrap per column</p></li>
+<li><p>new argument <code>row.names</code> passed to <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kableExtra::kable()</a></code> but repeated to help determine the number of columns used for the left border.</p></li>
+</ul></li>
+<li>
+<p><code><a href="../reference/unalpha.html">unalpha()</a></code></p>
+<ul><li>new argument <code>keepNA=FALSE</code> which allows <code>NA</code> conversion to <code>"#FFFFFF"</code> by <code><a href="https://rdrr.io/r/grDevices/col2rgb.html" class="external-link">grDevices::col2rgb()</a></code>; with new option <code>keepNA=TRUE</code> which returns <code>NA</code>.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-0-0-96-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-96-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/shadowText_options.html">shadowText_options()</a></code></p>
+<ul><li>intended to help manage shadowText settings which are stored as <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.95.900" id="jamba-0095900">jamba 0.0.95.900<a class="anchor" aria-label="anchor" href="#jamba-0095900"></a></h2>
 <div class="section level3">

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
       </span>
     </div>
 
@@ -63,9 +63,26 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">unalpha</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">unalpha</span><span class="op">(</span><span class="va">x</span>, keepNA <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>x</dt>
+<dd><p><code>character</code> vector of R colors</p></dd>
+
+
+<dt>keepNA</dt>
+<dd><p><code>logical</code> indicating whether <code>NA</code> values should be kept
+and therefore returned as <code>NA</code>.
+When <code>keepNA=FALSE</code> (default for backward compatibility) <code>NA</code>
+values are converted to <code>"#FFFFFF"</code> as done by <code><a href="https://rdrr.io/r/grDevices/col2rgb.html" class="external-link">grDevices::col2rgb()</a></code>.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>additional arguments are ignored.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -108,6 +125,16 @@ where applicable.</p>
 <code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">unalpha</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#FFFF00DD"</span>, <span class="st">"red"</span>, <span class="cn">NA</span>, <span class="st">"#0000FF"</span>, <span class="st">"transparent"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "#FFFF00" "#FF0000" "#FFFFFF" "#0000FF" "#FFFFFF"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">unalpha</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#FFFF00DD"</span>, <span class="st">"red"</span>, <span class="cn">NA</span>, <span class="st">"#0000FF"</span>, <span class="st">"transparent"</span><span class="op">)</span>, keepNA<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "#FFFF00" "#FF0000" NA        "#0000FF" "#FFFFFF"</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

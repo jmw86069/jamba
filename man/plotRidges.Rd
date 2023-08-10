@@ -101,6 +101,7 @@ Other jam plot functions:
 \code{\link{nullPlot}()},
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotSmoothScatter}()},
+\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},

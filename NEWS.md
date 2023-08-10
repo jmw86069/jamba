@@ -1,10 +1,73 @@
 # jamba 0.0.96.900
 
+The main update enables `colorSub` input as `list` for several functions:
+`writeOpenxlsx()`, `kable_coloring()`, and `applyXlsxCategoricalFormat()`.
+This feature enables passing a color function, or color assignments
+that are specific to each column in the data.
+The companion function `platjam::design2colors()` takes a `data.frame`
+and returns a `list` of colors or color functions, one per column,
+suitable for use directly in the functions updated above.
+The `design2colors()` function will likely move into `colorjam`.
+
 ## changes to existing functions
+
+* `applyXlsxCategoricalFormat()`
+
+   * argument `colorSub` now accepts a color `list` named by colnames,
+   with either named `character` vector of colors for each column,
+   or a `function` that takes column values and returns `character`
+   colors for each value.
+   * the method for matching `names(colorSub)` to cell values is slightly
+   updated, mainly affecting color assignments for `character` strings
+   that contain whitespace and punctuation characters.
+
+* `writeOpenxlsx()`
+
+   * argument `colorSub` now accepts either `character` input as previously
+   required, or now accepts `list` input named by `colnames(x)` whose
+   list elements are either `character` vector of colors, or color `function`.
+   * Some internal processing is slightly altered to accomodate the change,
+   `applyXlsxCategoricalFormat()` is called with one extra row to include
+   the colnames, but it should be equivalent to previous behavior otherwise.
+   * The change means that value `"A"` can be colored red in one column,
+   while `"A"` can be colored blue in another column. It also means that
+   numeric columns can each have their own custom color function, which
+   means it can exactly match a heatmap color function for example, instead
+   of relying upon the limited conditional formatting available in MS Excel.
 
 * `kable_coloring()`
 
    * moved to its own R file for convenience
+   * removed dependency on dplyr
+   * changed `require()` to `check_pkg_available()` to avoid
+   attaching the `kableExtra` package.
+   * argument `colorSub` now accepts three types of input:
+   
+      * `character` vector of colors named by column values
+      * `function` that takes column values and returns colors
+      * `list` named by `colnames(df)`, defining columns in each
+      column using `character` or `function` as described above.
+   
+   * `colorSub` as `list` input enables colorizing `numeric` columns
+   by passing a color function: `circlize::colorRamp2(colors=x, breaks=y)`
+   * new argument `align` to apply alignment per column, and retains proper
+   alignment for numeric columns which are colorized (something kableExtra
+   does not do by default).
+   * new argument `format.args` for `numeric` column formatting by default,
+   and is maintained even when `numeric` columns are colorized (which
+   is also not handled by kableExtra by default).
+   * new argument `border_left`,`border_right` which by default show a
+   light grey left border per column
+   * new argument `extra_css` which by default turns off word-wrap per column
+   * new argument `row.names` passed to `kableExtra::kable()` but repeated
+   to help determine the number of columns used for the left border.
+
+* `unalpha()`
+
+   * new argument `keepNA=FALSE` which allows `NA` conversion to `"#FFFFFF"`
+   by `grDevices::col2rgb()`; with new option `keepNA=TRUE` which
+   returns `NA`.
+
 
 ## new functions
 

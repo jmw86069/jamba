@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.95.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extend kableExtra colorization of Rmarkdown tables</h1>
-    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-colors.r" class="external-link"><code>R/jamba-colors.r</code></a></small>
+    <small class="dont-index">Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/R/jamba-kable-coloring.R" class="external-link"><code>R/jamba-kable-coloring.R</code></a></small>
     <div class="hidden name"><code>kable_coloring.Rd</code></div>
     </div>
 
@@ -70,6 +70,12 @@
 <span>  color_cells <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  row_color_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sep <span class="op">=</span> <span class="st">"_"</span>,</span>
+<span>  border_left <span class="op">=</span> <span class="st">"1px solid #DDDDDD"</span>,</span>
+<span>  border_right <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  extra_css <span class="op">=</span> <span class="st">"white-space: nowrap;"</span>,</span>
+<span>  format.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="cn">TRUE</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  align <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  return_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"kable"</span>, <span class="st">"data.frame"</span><span class="op">)</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -79,18 +85,29 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
-<dd><p>data.frame</p></dd>
+<dd><p><code>data.frame</code> input. Note that <code>kable</code> input is not supported.</p></dd>
 
 
 <dt>colorSub</dt>
-<dd><p>named vector of R colors, whose names match entries
-in the <code>data.frame</code> which are given these assigned colors.</p></dd>
+<dd><p>one of the following inputs:</p><ul><li><p><code>character</code> vector of R colors, whose names match entries
+in the <code>data.frame</code> which are given these assigned colors</p></li>
+<li><p><code>function</code> that takes column values as input, and returns
+a <code>character</code> vector with one color per value, using <code>NA</code>
+or <code>NULL</code> to indicate <code>"transparent"</code></p></li>
+<li><p><code>list</code> whose names match <code>colnames(df)</code>, where each entry
+contains either <code>character</code> or <code>function</code> option as described
+above. A <code>character</code> vector should be named by values expected
+in each column. A <code>function</code> should take column values as input,
+and return a <code>character</code> vector with same length of R colors.</p></li>
+</ul></dd>
 
 
 <dt>background_as_tile</dt>
-<dd><p>boolean defining whether a cell background
+<dd><p><code>logical</code> defining whether a cell background
 color will appear as a rounded tile if <code>TRUE</code>, or a rectangle
-if <code>FALSE</code>.</p></dd>
+if <code>FALSE</code>.
+Either way, the color does not fill the entire whitespace
+of the table cell, but only around the text itself.</p></dd>
 
 
 <dt>color_cells</dt>
@@ -98,34 +115,77 @@ if <code>FALSE</code>.</p></dd>
 
 
 <dt>row_color_by</dt>
-<dd><p>optional vector of <code>colnames</code> found in <code>df</code>
-indicating how to colorize entire rows of a table. The typical
-colorization by cell will not fill the whole cell per row, so
-this colorization can be helpful to fill the remaining area.</p></dd>
+<dd><p><code>character</code> vector with one or more <code>colnames</code>,
+indicating how to colorize entire rows of a table.
+When one column is defined, colors in <code>colorSub</code> are used as normal.
+When multiple columns are defined, values from each column are
+concatenated using <code>sep</code> delimiter. Then resulting values are
+compared with <code>colorSub</code>.</p></dd>
 
 
 <dt>sep</dt>
-<dd><p>character delimiter used to combine values in multiple
+<dd><p><code>character</code> delimiter used to combine values in multiple
 columns when <code>row_color_by</code> is supplied and contains multiple
 <code>colnames</code>. The delimited character strings are compared to
 <code>colorSub</code> to assign colors.</p></dd>
 
 
+<dt>border_left, border_right, extra_css</dt>
+<dd><p><code>character</code> values optionally
+passed to <code><a href="https://rdrr.io/pkg/kableExtra/man/column_spec.html" class="external-link">kableExtra::column_spec()</a></code> as a convenient way to apply
+borders for each column (<code>border_left</code>, <code>border_right</code>) or enable
+or disable word-wrapping by column. Some helpful examples:</p><ul><li><p><code>border_left=FALSE</code>: disables left border</p></li>
+<li><p><code>border_left="1px solid #DDDDDD"</code>: light gray 1 pixel left border</p></li>
+<li><p><code>border_right=FALSE</code>: disables right border</p></li>
+<li><p><code>border_right="1px solid #DDDDDD"</code>: light gray 1 pixel right border</p></li>
+<li><p><code>extra_css=NULL</code>: disables word-wrap</p></li>
+<li><p><code>extra_css="whitespace: nowrap;"</code>: enables text word-wrap</p></li>
+<li><p>when all options above contain only <code>FALSE</code> or <code>NULL</code>, then
+<code><a href="https://rdrr.io/pkg/kableExtra/man/column_spec.html" class="external-link">kableExtra::column_spec()</a></code> is not applied.</p></li>
+</ul></dd>
+
+
+<dt>format.args</dt>
+<dd><p><code>list</code> of arguments passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code>
+intended mainly for <code>numeric</code> columns.</p></dd>
+
+
+<dt>row.names</dt>
+<dd><p><code>logical</code> indicating whether to include <code>rownames(df)</code>.
+When <code>row.names=NA</code> the default is to display rownames if they
+are not <code>NULL</code> and not equal to <code>1:nrow(df)</code>.</p></dd>
+
+
+<dt>align</dt>
+<dd><p><code>character</code> passed to <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kableExtra::kable()</a></code> to define
+alignment of each column.</p></dd>
+
+
 <dt>return_type</dt>
-<dd><p>character string indicating the type of data
-to return. If <code>row_color_by</code> is supplied, then the only
-<code>"kable"</code> is allowed, otherwise <code>"data.frame"</code> is returned.
-Note that the <code>"kable"</code> option runs <code>%&gt;% row_spec()</code> which
-returns an object only usable in downstream <code>kable</code> calls.</p></dd>
+<dd><p><code>character</code> string indicating the type of data
+to return.</p><ul><li><p><code>return_type="kable"</code>: (default) returns object with class
+<code>"kableExtra", "knitr_kable"</code> suitable for downstream processing.</p></li>
+<li><p><code>return_type="data.frame"</code>: returns a <code>data.frame</code> whose cells
+contain HTML markup with corresponding colors defined.</p></li>
+</ul></dd>
 
 
 <dt>verbose</dt>
 <dd><p>boolean indicating whether to print verbose output.</p></dd>
 
+
+<dt>...</dt>
+<dd><p>additional arguments are passed to <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kableExtra::kable()</a></code>
+which allows the usual customizations on the initial call.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
+
+<p>object with class <code>"kableExtra", "knitr_kable"</code> suitable
+for rendering into RMarkdown, HTML, or other related formats.</p>
+
 
 <p>data.frame or kable data.frame dependent upon the
 <code>return_type</code> argument. Note that even the <code>data.frame</code> returned
@@ -139,7 +199,14 @@ available for use if the <code>kableExtra</code> package is installed. It is
 intended to allow specific color assignment of elements in a
 data.frame, but otherwise uses the <code>kableExtra</code> functions to
 apply those colors.</p>
-    </div>
+<p>The argument <code>colorSub</code> accepts:</p><ul><li><p><code>character</code> vector input where
+names should match column values</p></li>
+<li><p><code>function</code> that accepts column values and returns a <code>character</code>
+vector of colors of equal length</p></li>
+<li><p><code>list</code> input where names should match <code>colnames(df)</code>, and where
+each list element should contain either a <code>character</code> vector, or
+<code>function</code> as described above.</p></li>
+</ul></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other jam color functions: 
@@ -206,14 +273,86 @@ apply those colors.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Note the output will produce HTML code, which will</span></span></span>
-<span class="r-in"><span><span class="co"># open the Rstudio viewer when run inside Rstudio.</span></span></span>
-<span class="r-in"><span><span class="co">#kable_coloring(</span></span></span>
-<span class="r-in"><span><span class="co">#   df=data.frame(A=letters[1:5], B=LETTERS[1:5]),</span></span></span>
-<span class="r-in"><span><span class="co">#   colorSub=nameVector(rainbow(10), c(letters[1:5], LETTERS[1:5])),</span></span></span>
-<span class="r-in"><span><span class="co">#   row_color_by="B")</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">new_colorSub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   column_A<span class="op">=</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   column_B<span class="op">=</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   column_C<span class="op">=</span><span class="fu">circlize</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">colorRamp2</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      colors<span class="op">=</span><span class="fu"><a href="getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"Reds"</span>, n<span class="op">=</span><span class="fl">6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      breaks<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span> <span class="op">*</span> <span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">testdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>column_A<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   row.names<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   column_B<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   column_C<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span> <span class="op">*</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># kableExtra output with colored tiles inside table cells</span></span></span>
+<span class="r-in"><span><span class="va">kdf1</span> <span class="op">&lt;-</span> <span class="fu">kable_coloring</span><span class="op">(</span></span></span>
+<span class="r-in"><span>   knitr.table.format<span class="op">=</span><span class="st">"html"</span>,</span></span>
+<span class="r-in"><span>   df<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>column_A<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      row.names<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      column_B<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      column_C<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span> <span class="op">*</span> <span class="fl">1000</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   colorSub<span class="op">=</span><span class="va">new_colorSub</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">kdf1</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "kableExtra"  "knitr_kable"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"\n"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">knitr</span><span class="fu">:::</span><span class="fu">knit_print.knit_asis</span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/asis_output.html" class="external-link">asis_output</a></span><span class="op">(</span><span class="va">kdf1</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;table class=\"table\" style=\"margin-left: auto; margin-right: auto;\"&gt;\n &lt;thead&gt;\n  &lt;tr&gt;\n   &lt;th style=\"text-align:left;\"&gt;   &lt;/th&gt;\n   &lt;th style=\"text-align:left;\"&gt; column_A &lt;/th&gt;\n   &lt;th style=\"text-align:left;\"&gt; column_B &lt;/th&gt;\n   &lt;th style=\"text-align:right;\"&gt; column_C &lt;/th&gt;\n  &lt;/tr&gt;\n &lt;/thead&gt;\n&lt;tbody&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; A &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FF0000 !important;\"&gt;A&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CC00FF !important;\"&gt;A&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 201, 180, 1) !important;\"&gt;1,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; B &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CCFF00 !important;\"&gt;B&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #0066FF !important;\"&gt;B&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(251, 137, 105, 1) !important;\"&gt;2,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; C &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #00FF66 !important;\"&gt;C&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #00FF66 !important;\"&gt;C&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(239, 68, 49, 1) !important;\"&gt;3,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; D &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #0066FF !important;\"&gt;D&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CCFF00 !important;\"&gt;D&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(187, 19, 25, 1) !important;\"&gt;4,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; E &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CC00FF !important;\"&gt;E&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FF0000 !important;\"&gt;E&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(103, 0, 13, 1) !important;\"&gt;5,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"format")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "html"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "knit_asis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"knit_cacheable")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"\n"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># kableExtra output with colored rows</span></span></span>
+<span class="r-in"><span><span class="va">kdf2</span> <span class="op">&lt;-</span> <span class="fu">kable_coloring</span><span class="op">(</span></span></span>
+<span class="r-in"><span>   row_color_by<span class="op">=</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>   df<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>column_A<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      row.names<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      column_B<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      column_C<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span> <span class="op">*</span> <span class="fl">1000</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   colorSub<span class="op">=</span><span class="va">new_colorSub</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">kdf2</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "kableExtra"  "knitr_kable"</span>
+<span class="r-in"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/asis_output.html" class="external-link">asis_output</a></span><span class="op">(</span><span class="va">kdf2</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;table class=\"table\" style=\"margin-left: auto; margin-right: auto;\"&gt;\n &lt;thead&gt;\n  &lt;tr&gt;\n   &lt;th style=\"text-align:left;\"&gt;   &lt;/th&gt;\n   &lt;th style=\"text-align:left;\"&gt; column_A &lt;/th&gt;\n   &lt;th style=\"text-align:left;\"&gt; column_B &lt;/th&gt;\n   &lt;th style=\"text-align:right;\"&gt; column_C &lt;/th&gt;\n  &lt;/tr&gt;\n &lt;/thead&gt;\n&lt;tbody&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;color: rgba(0, 0, 0, 1) !important;background-color: rgba(252, 201, 180, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; A &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(0, 0, 0, 1) !important;background-color: rgba(252, 201, 180, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FF0000 !important;\"&gt;A&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(0, 0, 0, 1) !important;background-color: rgba(252, 201, 180, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CC00FF !important;\"&gt;A&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;color: rgba(0, 0, 0, 1) !important;background-color: rgba(252, 201, 180, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 201, 180, 1) !important;\"&gt;1,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;color: rgba(0, 0, 0, 1) !important;background-color: rgba(251, 137, 105, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; B &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(0, 0, 0, 1) !important;background-color: rgba(251, 137, 105, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CCFF00 !important;\"&gt;B&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(0, 0, 0, 1) !important;background-color: rgba(251, 137, 105, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #0066FF !important;\"&gt;B&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;color: rgba(0, 0, 0, 1) !important;background-color: rgba(251, 137, 105, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(251, 137, 105, 1) !important;\"&gt;2,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(239, 68, 49, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; C &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(239, 68, 49, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #00FF66 !important;\"&gt;C&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(239, 68, 49, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #00FF66 !important;\"&gt;C&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;color: rgba(255, 255, 255, 1) !important;background-color: rgba(239, 68, 49, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(239, 68, 49, 1) !important;\"&gt;3,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(187, 19, 25, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; D &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(187, 19, 25, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #0066FF !important;\"&gt;D&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(187, 19, 25, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CCFF00 !important;\"&gt;D&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;color: rgba(255, 255, 255, 1) !important;background-color: rgba(187, 19, 25, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(187, 19, 25, 1) !important;\"&gt;4,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(103, 0, 13, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; E &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(103, 0, 13, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CC00FF !important;\"&gt;E&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:left;color: rgba(255, 255, 255, 1) !important;background-color: rgba(103, 0, 13, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FF0000 !important;\"&gt;E&lt;/span&gt; &lt;/td&gt;\n   &lt;td style=\"text-align:right;color: rgba(255, 255, 255, 1) !important;background-color: rgba(103, 0, 13, 1) !important;border-left:1px solid #DDDDDD;white-space: nowrap;\"&gt; &lt;span style=\"     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(103, 0, 13, 1) !important;\"&gt;5,000&lt;/span&gt; &lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"format")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "html"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "knit_asis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"knit_cacheable")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># data.frame output is a regular data.frame with HTML contents</span></span></span>
+<span class="r-in"><span><span class="va">kdf3</span> <span class="op">&lt;-</span> <span class="fu">kable_coloring</span><span class="op">(</span></span></span>
+<span class="r-in"><span>   return_type<span class="op">=</span><span class="st">"data.frame"</span>,</span></span>
+<span class="r-in"><span>   df<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>column_A<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      row.names<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      column_B<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      column_C<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span> <span class="op">*</span> <span class="fl">1000</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   colorSub<span class="op">=</span><span class="va">new_colorSub</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">kdf3</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                 column_A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FF0000 !important;" &gt;A&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B       &lt;span style="     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CCFF00 !important;" &gt;B&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C       &lt;span style="     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #00FF66 !important;" &gt;C&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> D &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #0066FF !important;" &gt;D&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> E &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CC00FF !important;" &gt;E&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                 column_B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CC00FF !important;" &gt;A&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #0066FF !important;" &gt;B&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C       &lt;span style="     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #00FF66 !important;" &gt;C&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> D       &lt;span style="     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #CCFF00 !important;" &gt;D&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> E &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FF0000 !important;" &gt;E&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                  column_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A     &lt;span style="     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(252, 201, 180, 1) !important;" &gt;1,000&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B     &lt;span style="     color: rgba(0, 0, 0, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(251, 137, 105, 1) !important;" &gt;2,000&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(239, 68, 49, 1) !important;" &gt;3,000&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> D &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(187, 19, 25, 1) !important;" &gt;4,000&lt;/span&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> E  &lt;span style="     color: rgba(255, 255, 255, 1) !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(103, 0, 13, 1) !important;" &gt;5,000&lt;/span&gt;</span>
 </code></pre></div>
     </div>
   </div>

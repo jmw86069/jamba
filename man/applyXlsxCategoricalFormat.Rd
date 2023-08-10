@@ -27,10 +27,23 @@ or \code{Workbook} object defined in the \code{openxlsx} package. When
 \item{sheet}{\code{integer} index of the worksheet or worksheets.}
 
 \item{rowRange, colRange}{\code{integer} vectors of rows and columns
-to apply categorical colors in the Excel xlsx worksheet.}
+to apply categorical colors in the Excel xlsx worksheet,
+passed as \code{openxlsx::readWorkbook(..., rows=rowRange, cols=colRange)}.
+This step defines which columns are read from each workbook,
+however when \code{colorSub} is provided as a \code{list} whose names
+are intended to match \code{colnames()}, only matching colnames
+are processed.}
 
-\item{colorSub}{named \code{character} vector of valid R colors, whose
-names correspond to values in the worksheet cells.}
+\item{colorSub}{one of the following types of input:
+\itemize{
+\item Named \code{character} vector of valid R colors, whose
+names correspond to values in worksheet cells.
+\item Named \code{list} whose names correspond to colnames one or more
+workbooks in \code{sheet}. Each list element should be a \code{character}
+vector named by column values, or color \code{function} that takes
+column values and returns a \code{character} vector of colors for
+each value.
+}}
 
 \item{colorSubText}{optional \code{character} vector of colors, whose
 names correspond to values in the worksheet cells. In
@@ -54,12 +67,33 @@ the specific cell color, for example the font size and font name.}
 \item{verbose}{\code{logical} indicating whether to print verbose output.}
 
 \item{...}{additional arguments are ignored.}
+
+\item{style_coord_list}{\code{list} named by unique hex R colors,
+containing \code{matrix} objects with colnames \code{c("row", "col")}
+with individual cell positions to apply the corresponding style}
+
+\item{styles_list}{\code{list} named by hex R color, containing
+\code{openxlsx::style} objects using the corresponding color as
+the background fill color.}
+
+\item{wb, sheet, stack}{arguments passed to \code{openxlsx::addStyle()}}
 }
 \value{
 \code{Workbook} object as defined by the \code{openxlsx} package
 is returned invisibly with \code{invisible()}. This \code{Workbook}
 can be used in argument \code{wb} to provide a speed boost when
 saving multiple sheets to the same file.
+
+\code{list} named by the primary fill color of each cell,
+containing a \code{openxlsx::style} object suitable for use
+by \code{openxlsx::addStyle()}.
+
+\code{list} named by style, by default the hex color with no alpha
+where each element is a \code{matrix} with colnames \code{row} and \code{col}
+indicating individual row/column coordinate positions.
+
+\code{NULL}, this function is called for the by-product
+of adjusting
 }
 \description{
 Add categorical colors to Excel xlsx worksheets

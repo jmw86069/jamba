@@ -1,5 +1,24 @@
 # TODO for jamba
 
+## 10aug2023
+
+* DONE. `applyXlsxCategoricalFormat()` and `writeOpenxlsx()`
+
+   * argument `colorSub` should accept `list` input, similar to
+   `kable_coloring()`. The `list` should be named by `colnames(x)`
+   and accepts either a named `character` vector of colors so the
+   names match values in the column, or a `function` that takes
+   column values and returns a `character` vector of colors for
+   each value in the column.
+
+## 08aug2023
+
+* `makeColorDarker()`
+
+   * consider new argument `dex` "darkness expansion factor" similar
+   to its use in `color2gradient()`
+   * consider new argument `satex` "saturation expansion factor"
+
 ## 11jul2023
 
 * DONE: `grepls()`
@@ -67,10 +86,11 @@
 
 * `kable_coloring()`
 
-   * Enable passing `sample_color_list` to colorize columns
-   * Allow coloring `numeric` columns, perhaps through `sample_color_list`?
+   * DONE. Enable passing `sample_color_list` to colorize columns
+   * DONE. Allow coloring `numeric` columns, perhaps through `sample_color_list`?
    Using `function` is more effective than `colorSub` for numeric values.
-   * automate colorizing numeric columns by value, for example
+   * DONE. (By virtue of calling `platjam::design2colors()`.)
+   Automate colorizing numeric columns by value, for example
    `platjam::df_to_numcolors()` except invisible. Maybe an optional
    argument enabling/disabling this feature, but enabled by default?
    * It should apply color to `row.names` when they are displayed.

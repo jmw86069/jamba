@@ -4,7 +4,17 @@
 \alias{unalpha}
 \title{Remove alpha transparency from colors}
 \usage{
-unalpha(x, ...)
+unalpha(x, keepNA = FALSE, ...)
+}
+\arguments{
+\item{x}{\code{character} vector of R colors}
+
+\item{keepNA}{\code{logical} indicating whether \code{NA} values should be kept
+and therefore returned as \code{NA}.
+When \code{keepNA=FALSE} (default for backward compatibility) \code{NA}
+values are converted to \code{"#FFFFFF"} as done by \code{grDevices::col2rgb()}.}
+
+\item{...}{additional arguments are ignored.}
 }
 \value{
 character vector of R colors in hex format.
@@ -19,6 +29,12 @@ becomes \code{"#FF0000"}, or \code{"blue"} becomes \code{"#0000FF"}.
 
 It also silently converts R color names to hex format,
 where applicable.
+}
+\examples{
+unalpha(c("#FFFF00DD", "red", NA, "#0000FF", "transparent"))
+
+unalpha(c("#FFFF00DD", "red", NA, "#0000FF", "transparent"), keepNA=TRUE)
+
 }
 \seealso{
 Other jam color functions: 

@@ -2003,18 +2003,37 @@ warpRamp <- function
 #' It also silently converts R color names to hex format,
 #' where applicable.
 #'
+#' @param x `character` vector of R colors
+#' @param keepNA `logical` indicating whether `NA` values should be kept
+#'   and therefore returned as `NA`.
+#'   When `keepNA=FALSE` (default for backward compatibility) `NA`
+#'   values are converted to `"#FFFFFF"` as done by `grDevices::col2rgb()`.
+#' @param ... additional arguments are ignored.
+#'
 #' @return character vector of R colors in hex format.
 #'
 #' @family jam color functions
 #'
+#' @examples
+#' unalpha(c("#FFFF00DD", "red", NA, "#0000FF", "transparent"))
+#'
+#' unalpha(c("#FFFF00DD", "red", NA, "#0000FF", "transparent"), keepNA=TRUE)
+#'
 #' @export
 unalpha <- function
 (x,
+ keepNA=FALSE,
  ...)
 {
    ## Purpose is to remove alpha transparency from R colors.
    ## It also silently converts R color names to hex format.
+   if (length(x) == 0) {
+      return(x)
+   }
    iV <- rgb2col(col2rgb(x), alpha=FALSE);
+   if (TRUE %in% keepNA && any(is.na(x))) {
+      iV[is.na(x)] <- NA;
+   }
    if (length(names(x)) > 0) {
       names(iV) <- names(x);
    }
