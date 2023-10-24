@@ -49,6 +49,19 @@ to the output data.}
 
 \item{...}{additional parameters are sent to \code{stats::density()}.}
 }
+\value{
+\code{list} output equivalent to \code{density()}:
+\itemize{
+\item \code{x}: The \code{n} coordinates of the points where the density is
+estimated.
+\item \code{y}: The estimated density values, non-negative, but can be zero.
+\item \code{bw}: The bandidth used.
+\item \code{n}: The sample size after elimination of missing values.
+\item \code{call}: the call which produced the result.
+\item \code{data.name}: the deparsed name of the \code{x} argument.
+\item \code{has.na}: \code{logical} for compatibility, and always \code{FALSE}.
+}
+}
 \description{
 Calculate more detailed density of numeric values
 }
@@ -58,6 +71,28 @@ simply to provide a quick alternative that defaults to a higher
 level of detail. Detail can be adjusted using \code{densityBreaksFactor},
 where higher values will use a wider step size, thus lowering
 the detail in the output.
+
+Note that the density height is scaled by the total number of points,
+and can be adjusted with \code{weightFactor}. See Examples for how to
+scale the y-axis range similar to \code{density()}.
+}
+\examples{
+x <- c(rnorm(15000),
+   rnorm(5500)*0.25 + 1,
+   rnorm(12500)*0.5 + 2.5)
+plot(density(x))
+
+plot(breakDensity(x))
+
+plot(breakDensity(x, densityBreaksFactor=200))
+
+# trim values to show abrupt transitions
+x2 <- x[x > 0 & x < 4]
+plot(density(x2), lwd=2)
+lines(breakDensity(x2, weightFactor=1/length(x2)/10), col="red")
+legend("topright", c("density()", "breakDensity()"),
+   col=c("black", "red"), lwd=c(2, 1))
+
 }
 \seealso{
 Other jam practical functions: 
@@ -86,7 +121,6 @@ Other jam practical functions:
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
-\code{\link{printDebugI}()},
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},

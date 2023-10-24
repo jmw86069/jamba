@@ -15,6 +15,35 @@ getAxisLabel(
   ...
 )
 }
+\arguments{
+\item{i}{\code{numeric} axis value}
+
+\item{asValues}{\code{logical} indicating whether the value should be
+evaluated.}
+
+\item{logAxisType}{\code{character} string with the type of axis values:
+\itemize{
+\item \code{"normal"}: axis values as-is.
+\item \code{"flip"}: inverted axis values, for example where negative values
+should be displayed as negative log-transformed values.
+\item \code{"pvalue"}: for values transformed as \code{-log10(pvalue)}
+}}
+
+\item{logBase}{\code{numeric} logarithmic base}
+
+\item{base_limit}{\code{numeric} value indicating the minimum value that
+should be written as an exponential.}
+
+\item{offset}{\code{numeric} value of offset used for log transformation.}
+
+\item{symmetricZero}{\code{logical} indicating whether negative values
+should be displayed as negative log-transformed values.}
+
+\item{...}{additional arguments are ignored.}
+}
+\value{
+axis label as \code{character} or \code{expression} where necessary.
+}
 \description{
 Get axis label for minorLogTicks
 }
@@ -49,7 +78,6 @@ Other jam practical functions:
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
-\code{\link{printDebugI}()},
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},

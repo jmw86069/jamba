@@ -1,10 +1,86 @@
 # TODO for jamba
 
+## 24oct2023
+
+* DONE. `printDebug()`
+
+   * DONE. debug issue where `htmlOut=TRUE` inserts multiple newlines `<br/>`
+   * DONE. add convenience function: `printDebugHtml()` for use in RMarkdown,
+   which enables `htmlOut=TRUE` and `comment=FALSE` by default.
+
+## 03oct2023
+
+* DELAYED: consider migrating `printDebug()` to use `cli::cli_alert_info()`
+
+   * **Downside:** It does not print HTML output inside RMarkdown, instead
+   falls back to uncolorized output. Oh well, color is the primary motivation.
+   It also does not use fancy bullets in HTML, another cool feature lost.
+   * Could be useful to employ the pattern of time/date stamp, and color-coding
+   * potential benefit is that output could use R recommended methods
+   
+      * E.g. messaging, warnings, errors, etc.
+      * Added features: inline markup; bullets; icons; word wrap;
+      * Therefore output could be silenced using standard approaches.
+      * It offers some improved formatting: bullets, icons, emojis, etc.
+      (but not in HTML output.)
+      * unclear if colorization is readily configurable, or if better to
+      use `cli` patterns
+      * To print a message:
+      ```R
+      save_file <- "output_file.txt";
+      cli::cli_alert_info("Saved to: '{.field {save_file}}'.")
+      cli::cli_alert("Saved to: '{.field {save_file}}'.")
+      {options("warn"=FALSE)
+      cli::cli_alert_warning("Saved to: '{.field {save_file}}'.")}
+      cli::cli_alert_success("Saved to: '{.field {save_file}}'.")
+      ```
+
+## 28sep2023
+
+* `writeOpenxlsx()`
+
+   * consider adding `pctColumns`,`pctRule`,`pctColors` for percentage values
+   * Consider updates when `startRow` is not 1, to write data into
+   an existing workbook sheet? Driving use case is to organize multiple small
+   `data.frame` into the same worksheet. It might therefore need a header row?
+
+## 27aug2023
+
+* `setPrompt()`
+
+   * Debug why the prompt is not defined in color when called inside RMarkdown.
+
+## 22aug2023
+
+* `sdim()`
+
+   * Consider option to print object size beside each row. This option
+   would incur a performance hit, but could be useful for understanding
+   which object components consume the most memory. Data in general is
+   getting larger, and it could be helpful when trimming down unnecessary
+   duplication of data in object `list` context for example.
+   * Consider some way to indicate when an object is `S4`, which means
+   its names are `slotNames()` and not just `names()`. Unclear how it
+   would work in `ssdim()` where multiple `data.frame` results are intended
+   to be stackable by columns, and would require the same `colnames()`.
+   Find somewhere to indicate whether `slotNames()` or `names()` are shown.
+   * Add more methods to recognize `names(x)`.
+   * Find simple test cases that can test S3 or S4 objects.
+
+## 17aug2023
+
+* `printDebug()`
+
+   * DONE. argument `comment` should take optional `character` string
+   to use as prefix.
+   * consider calling `cli::format_message` for tidyverse-compliant
+   R messages and warnings.
+
 ## 10aug2023
 
 * DONE. `applyXlsxCategoricalFormat()` and `writeOpenxlsx()`
 
-   * argument `colorSub` should accept `list` input, similar to
+   * DONE. argument `colorSub` should accept `list` input, similar to
    `kable_coloring()`. The `list` should be named by `colnames(x)`
    and accepts either a named `character` vector of colors so the
    names match values in the column, or a `function` that takes

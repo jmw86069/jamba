@@ -204,6 +204,11 @@ if \code{x} is supplied as a multi-column matrix.}
 \item{...}{additional arguments are passed to relevant internal
 functions.}
 }
+\value{
+invisible \code{list} with density and histogram data output,
+however this function is called for the by-product of its plot
+output.
+}
 \description{
 Plot distribution and histogram overlay
 }
@@ -212,23 +217,26 @@ This function is a wrapper around \code{graphics::hist()} and
 \code{stats::density()}, with enough customization to cover
 most of the situations that need customization.
 
-For example \code{log="x"} will automatically log-scale the x-axis,
+For example \code{log="x"} will automatically log-transform the x-axis,
 keeping the histogram bars uniformly sized. Alternatively,
 \code{xScale="sqrt"} will square root transform the data, and
 transform the x-axis while keeping the numeric values constant.
 
-It also takes
-care of scaling the density height to be reasonably similar to
+It also scales the density profile height to be similar to
 the histogram bar height, using the 99th quantile of the y-axis
 value, which helps prevent outlier peaks from dominating the
 y-axis range, thus obscuring interesting smaller features.
 
 If supplied with a data matrix, this function will create a layout
-with ncol(x) panels, and plot the distribution of each column
+with \code{ncol(x)} panels, and plot the distribution of each column
 in its own panel, using categorical colors from
 \code{colorjam::rainbowJam()}.
 
-By default NA values are ignored, and the distributions are the
+For a similar style using ggplot2, see \code{plotRidges()}, which displays
+only the density profile for each sample, but in a much more scalable
+format for larger numbers of columns.
+
+By default NA values are ignored, and the distributions represent
 non-NA values.
 
 Colors can be controlled using the parameter \code{col}, but can

@@ -46,9 +46,12 @@ Invisibly returns a numeric vector of axis tick positions,
 named by the display label.
 The axis values are in square root space while the labels represent
 the normal space values.
+
+invisible \code{list} with axis positions, and corresponding labels.
 }
 \description{
-Determine square root axis tick mark positions
+Determine square root axis tick mark positions, including positive
+and negative range values.
 }
 \details{
 This function calculates positions for tick marks for data
@@ -57,6 +60,11 @@ transformation like \code{sqrt(abs(x)) * sign(x)}.
 
 The main goal of this function is to provide reasonably placed
 tick marks using integer values.
+}
+\examples{
+plot(-3:3*10, -3:3*10, xaxt="n")
+sqrtAxis(1)
+
 }
 \seealso{
 Other jam plot functions: 

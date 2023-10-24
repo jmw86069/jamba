@@ -54,7 +54,7 @@ make_html_styles <- function
 
    ## Process style
    if (length(style) > 0 && igrepHas("matrix", class(style))) {
-      if (verbose) {
+      if (verbose > 1) {
          print(paste0("make_html_styles(): ",
             "Handling argument style as matrix."))
       }
@@ -69,7 +69,7 @@ make_html_styles <- function
       styleV <- rep(styleV, length.out=length(text));
       styleNA <- rep(styleNA, length.out=length(text));
    } else {
-      if (verbose) {
+      if (verbose > 1) {
          print(paste0("make_html_styles(): ",
             "Handling argument style as vector."))
       }
@@ -83,7 +83,7 @@ make_html_styles <- function
 
    ## Process bg_style
    if (length(bg_style) > 0 && igrepHas("matrix", class(bg_style))) {
-      if (verbose) {
+      if (verbose > 1) {
          print(paste0("make_html_styles(): ",
             "Handling argument bg_style as matrix."))
       }
@@ -98,7 +98,7 @@ make_html_styles <- function
       bg_styleV <- rep(bg_styleV, length.out=length(text));
       bg_styleNA <- rep(bg_styleNA, length.out=length(text));
    } else {
-      if (verbose) {
+      if (verbose > 1) {
          print(paste0("make_html_styles(): ",
             "Handling argument bg_style as vector."))
       }
@@ -124,7 +124,7 @@ make_html_styles <- function
 
    ## Apply Crange, Lrange only when bg_style is NA
    if (any(bg_styleNA & !styleNA)) {
-      if (verbose) {
+      if (verbose > 1) {
          print(paste0("make_html_styles(): ",
             "applyCLrange()"));
          print(paste0("make_html_styles(): ",
@@ -173,7 +173,7 @@ make_html_styles <- function
       iStyle <- styleV[i];
       ibgStyle <- bg_style[i];
       if (styleNA[i] && bg_styleNA[i]) {
-         if (verbose) {
+         if (verbose > 1) {
             print(paste0("make_html_styles(): ",
                "No style applied to text:",
                iText));
@@ -183,7 +183,7 @@ make_html_styles <- function
          ## Combine bg with contrasting fg color
          bg_contrast <- setTextContrastColor(ibgStyle,
             useGrey=5);
-         if (verbose) {
+         if (verbose > 1) {
             print(paste0("make_html_styles(): ",
                "bg style and contrasting fg style applied to text:",
                iText));
@@ -200,7 +200,7 @@ make_html_styles <- function
             '</span>');
       } else if (!styleNA[i] && !bg_styleNA[i]) {
          ## Combine bg with fg color
-         if (verbose) {
+         if (verbose > 1) {
             print(paste0("make_html_styles(): ",
                "bg style and fg style applied to text:",
                iText));
@@ -213,12 +213,12 @@ make_html_styles <- function
             iText,
             '</span>');
       } else {
-         if (verbose) {
+         if (verbose > 1) {
             print(paste0("make_html_styles(): ",
                "fg style applied to text:",
                iText));
          }
-         if (verbose) {
+         if (verbose > 1) {
             print(paste0("make_html_styles(): ",
                "iStyle:"));
             print(iStyle);
@@ -232,5 +232,10 @@ make_html_styles <- function
             '</span>');
       }
    });
+   if (verbose) {
+      print(paste0("make_html_styles(): ",
+         "iVals: ", cPaste(paste0("'", iVals, "'"), sep="; ")))
+   }
+   iVals
 
 }

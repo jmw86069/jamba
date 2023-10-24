@@ -170,7 +170,6 @@ Other jam practical functions:
 \code{\link{mergeAllXY}()},
 \code{\link{middle}()},
 \code{\link{newestFile}()},
-\code{\link{printDebugI}()},
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},

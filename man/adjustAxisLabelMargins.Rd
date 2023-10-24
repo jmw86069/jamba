@@ -32,17 +32,25 @@ calculating the string width of labels in inches.}
 
 \item{...}{additional parameters are ignored.}
 }
+\value{
+invisible \code{numeric} margin size in inches, corresponding
+to the requested \code{margin} from \code{par("mai")}.
+}
 \description{
-Adjust axis label margins
+Adjust axis label margins to accommodate axis labels
 }
 \details{
 This function takes a vector of axis labels, and the margin where they
 will be used, and adjusts the relevant axis margin to accomodate the
 label size, up to a maximum fraction of the figure size as defined by
-\code{maxFig}. It currently assumes labels are placed perpendicular to
-the axis, e.g. \code{las=2} when using \code{\link[graphics]{text}}.
+\code{maxFig}.
 
-Note this function does not render labels in the figure.
+Labels are assumed to be perpendicular to the axis, for example
+argument \code{las=2} when using \code{graphics::text()}.
+
+Note this function does not render labels in the figure, and therefore
+does not revert axis margins to their original size. That process
+should be performed separately.
 }
 \examples{
 xlabs <- paste0("item_", (1:20));

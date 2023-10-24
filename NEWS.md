@@ -1,3 +1,35 @@
+# jamba 0.0.98.900
+
+## updates to existing functions
+
+* `printDebug()`
+
+   * removed erroneous additional newline `"<br/>"` with `htmlOut=TRUE`
+   * new arg default `comment=!htmlOut` so `htmlOut=TRUE` by default turns off
+   the comment prefix. Usually HTML output is for RMarkdown, where the comment
+   prefix causes the text to become a heading, where the RMarkdown chunk
+   option uses `results='asis'`.
+
+## new functions
+
+* `printDebugHtml()`
+
+   * simple wrapper to `printDebug()` intended for HTML output,
+   using options `htmlOut=TRUE` and `comment=FALSE` specifically
+   for RMarkdown output using chunk option `results='asis'`.
+
+# jamba 0.0.97.900
+
+## updates to existing functions
+
+* More functions were updated for CRAN compliance, removing `:::`,
+including `@examples` and `@returns`.
+
+* `printDebug()`
+
+   * more arguments use `options()` for potential overrides
+   * removed errant argument `x` which was ignored anyway
+
 # jamba 0.0.96.900
 
 The main update enables `colorSub` input as `list` for several functions:

@@ -2619,19 +2619,24 @@ mixedSorts <- function
 
 #' relist a vector which allows re-ordered names
 #'
-#' relist a vector which allows re-ordered names
+#' relist a vector which imposes the model object list structure while
+#' allowing vector elements and names to be re-ordered
 #'
 #' This function is a simple update to `utils::relist()`
-#' that allows updating the names of each list element.
+#' that allows the order of vectors to change, alongside the
+#' correct names for each element.
+#'
 #' More specifically, this function does not replace the
 #' updated names with the corresponding names from
-#' the list `skeleton`, as is the case in
-#' `utils:::relist.default()`.
+#' the list `skeleton`, as is the case in default implementation of
+#' `utils::relist()`.
 #'
-#' It is somewhat surprising that `utils::relist()` is
-#' simply a nested for loop, instead of `rapply()` or some
-#' fancy vectorized alternative. That said, the function works,
-#' and there is much to be commended for functions that work.
+#' This function is called by `mixedSorts()` which iteratively calls
+#' `mixedOrder()` on each vector component of the input `list`,
+#' and permits nested lists. The result is a single sorted vector
+#' which is split into the `list` components, then relist-ed to
+#' the original structure. During the process, it is important
+#' to retain vector names in the order defined by `mixedOrder()`.
 #'
 #' @return `list` object with the same structure as the `skeleton`.
 #'
@@ -2645,6 +2650,49 @@ mixedSorts <- function
 #'    Specifically, when `skeleton` is a `vector`, the
 #'    `names(x)` are maintained without change.
 #' @param ... additional arguments are ignored.
+#'
+#' @examples
+#' # generate nested list
+#' x <- list(A=nameVector(LETTERS[3:1]),
+#'    B=list(
+#'       E=nameVector(LETTERS[10:7]),
+#'       D=nameVector(LETTERS[5:4])),
+#'    C=list(
+#'       G=nameVector(LETTERS[19:16]),
+#'       F=nameVector(LETTERS[15:11]),
+#'       H=list(
+#'          I=nameVector(LETTERS[22:20]))
+#'       ))
+#' x
+#'
+#' # unlisted vector of items
+#' xu <- unlist(unname(x))
+#' # unlisted vector of names
+#' xun <- unname(jam_rapply(x, names));
+#' names(xu) <- xun;
+#'
+#' # recursive list element lengths
+#' xrn <- jam_rapply(x, length);
+#' # define factor in order of list structure
+#' xn <- factor(
+#'    rep(names(xrn),
+#'       xrn),
+#'    levels=names(xrn));
+#'
+#' # re-create the original list
+#' xu_new <- unlist(unname(split(xu, xn)))
+#' xnew <- relist_named(xu_new, x);
+#' xnew
+#'
+#' # re-order elements
+#' k <- mixedOrder(xu_new);
+#' xuk <- unlist(unname(split(xu[k], xn[k])))
+#' xk <- relist_named(xuk, x);
+#' xk
+#'
+#' # the default relist() function does not support this use case
+#' xdefault <- relist(xuk, x);
+#' xdefault
 #'
 #' @export
 relist_named <- function

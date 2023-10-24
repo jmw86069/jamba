@@ -102,10 +102,9 @@ which allows the usual customizations on the initial call.}
 object with class \verb{"kableExtra", "knitr_kable"} suitable
 for rendering into RMarkdown, HTML, or other related formats.
 
-data.frame or kable data.frame dependent upon the
+\code{data.frame} or class with \code{"kableExtra"} dependent upon the
 \code{return_type} argument. Note that even the \code{data.frame} returned
-will have colors encoded into each cell, so it will likely
-be difficult to manipulate.
+will have colors encoded into each cell using HTML.
 }
 \description{
 Extend kableExtra colorization of Rmarkdown tables
@@ -150,9 +149,7 @@ kdf1 <- kable_coloring(
       column_C=1:5 * 1000),
    colorSub=new_colorSub)
 print(class(kdf1));
-cat("\n")
-knitr:::knit_print.knit_asis(knitr::asis_output(kdf1));
-cat("\n")
+kdf1;
 
 # kableExtra output with colored rows
 kdf2 <- kable_coloring(
@@ -163,7 +160,7 @@ kdf2 <- kable_coloring(
       column_C=1:5 * 1000),
    colorSub=new_colorSub)
 class(kdf2);
-knitr::asis_output(kdf2);
+kdf2;
 
 # data.frame output is a regular data.frame with HTML contents
 kdf3 <- kable_coloring(
@@ -228,7 +225,6 @@ Other jam practical functions:
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
-\code{\link{printDebugI}()},
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},

@@ -46,7 +46,6 @@ Other jam practical functions:
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
-\code{\link{printDebugI}()},
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},

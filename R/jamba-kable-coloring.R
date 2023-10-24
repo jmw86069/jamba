@@ -79,10 +79,9 @@
 #' @param ... additional arguments are passed to `kableExtra::kable()`
 #'    which allows the usual customizations on the initial call.
 #'
-#' @return data.frame or kable data.frame dependent upon the
+#' @returns `data.frame` or class with `"kableExtra"` dependent upon the
 #'    `return_type` argument. Note that even the `data.frame` returned
-#'    will have colors encoded into each cell, so it will likely
-#'    be difficult to manipulate.
+#'    will have colors encoded into each cell using HTML.
 #'
 #' @examplesIf all(check_pkg_installed(c("circlize", "kableExtra")))
 #' new_colorSub <- list(
@@ -105,9 +104,7 @@
 #'       column_C=1:5 * 1000),
 #'    colorSub=new_colorSub)
 #' print(class(kdf1));
-#' cat("\n")
-#' knitr:::knit_print.knit_asis(knitr::asis_output(kdf1));
-#' cat("\n")
+#' kdf1;
 #'
 #' # kableExtra output with colored rows
 #' kdf2 <- kable_coloring(
@@ -118,7 +115,7 @@
 #'       column_C=1:5 * 1000),
 #'    colorSub=new_colorSub)
 #' class(kdf2);
-#' knitr::asis_output(kdf2);
+#' kdf2;
 #'
 #' # data.frame output is a regular data.frame with HTML contents
 #' kdf3 <- kable_coloring(

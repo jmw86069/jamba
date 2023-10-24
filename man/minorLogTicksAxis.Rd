@@ -98,13 +98,20 @@ the content for custom control.}
 \item{verbose}{logical indicating whether to print verbose output.}
 }
 \value{
-A list with vectors of majorLabels, majorTicks, minorLabels,
-minorTicks, and allLabelsDF which is a \code{data.frame} containing
-all axis tick positions, with corresponding labels.
+\code{list} with vectors:
+\itemize{
+\item \code{majorLabels}: \code{character} vector of major axis labels
+\item \code{majorTicks}: \code{numeric} vector of major axis tick positions
+\item \code{minorLabels}: \code{character} vector of minor axis labels
+\item \code{minorTicks}: \code{numeric} vector of minor axis tick positions
+\item \code{allLabelsDF}: \code{data.frame} containing all axis tick
+positions and corresponding labels.
+}
 }
 \description{
 Display major and minor tick marks for log-scale axis,
-with optional offset for proper labeling of \code{log2(1+x)}.
+with optional offset for proper labeling of \code{log2(1+x)}
+with numeric offset.
 }
 \details{
 This function displays log units on the axis of an

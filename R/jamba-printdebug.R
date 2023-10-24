@@ -10,19 +10,23 @@
 #' because color helps identify.
 #'
 #' By default, output has the following configurable properties:
-#' * each line begins with a comment '#' characters
-#' with argument `comment=TRUE` or `options("jam.comment"=TRUE)` so that
-#' the output can be copied and pasted and without causing new commands
-#' to be run.
-#' * each line includes time and date stamp (`timeStamp=TRUE`)
-#' * each line formats `numeric` values (`formatNumbers=TRUE` or
-#' `options("jam.formatNumbers"=TRUE)`)
-#' * each `list` is printed with its own foreground color (`fgText`)
-#' and background color (`bgText`), recycled to accommodate all `list`
-#' arguments to be printed; within each list, the color brightness
-#' is adjusted for slightly lighter and darker color to delineate
-#' each item in the vector. The lightness effect is used to help
-#' visualize multiple values.
+#'
+#' * each line begins with a comment, controlled by default
+#' `comment=getOption("jam.comment", TRUE)` which by default uses `"##"`,
+#' but which can be defined to use a different prefix, or `FALSE`
+#' for no prefix at all.
+#' * each line includes time and date stamp controlled by
+#' `timeStamp=getOption("jam.timeStamp", TRUE)` which by default includes the
+#' current time and date.
+#' * each line formats `numeric` values, controlled by
+#' `formatNumbers=getOption("jam.formatNumbers", TRUE)`, which determines
+#' whether to apply arguments `big.mark` and `small.mark` to make numeric
+#' values more readable.
+#' * each entry in `...` is printed with its own foreground color `fgText`,
+#' background color `bgText`, with a slight lighter/darker dithering effect
+#' to add minor visual distinction for multiple values.
+#' * Values in each `vector` are concatenated by `sep=","` by default.
+#' * Each `list` is concatenated by `collapse=""` by default.
 #'
 #' Additional convenience rules:
 #' * For convenience, when the last `...` argument is a `character` vector
@@ -97,7 +101,8 @@
 #'    `printDebugI()`, the values for `fgText` and `bgText` are reversed.
 #' @param fgTime `character` R color to colorize the time
 #' @param timeStamp `logical` whether to include a time stamp in output
-#' @param comment `logical` whether to prefix output with '##' as a comment
+#' @param comment `logical` whether to prefix output with '## ' as a comment,
+#'    or `character` string used as a prefix.
 #' @param formatNumbers `logical` whether to format numbers using
 #'    `format()` which controls the number of digits displayed, and is
 #'    default. When `formatNumbers=FALSE` sometimes `numeric` values
@@ -180,8 +185,8 @@
 #'    to determine the best mechanism to use for things like RMarkdown
 #'    rendering, and R-shiny app rendering.
 #'
-#' @return This function is called for the by-product of printing
-#'    debug output, it returns `invisible(NULL)`, no output.
+#' @returns `NULL` invisibly, this function is called for the side effect
+#'    of printing output using `cat()`.
 #'
 #' @family jam practical functions
 #'
@@ -219,30 +224,30 @@
 #' @export
 printDebug <- function
 (...,
- fgText=NULL,#c("orange", "lightblue"),
- fgDefault=c("darkorange1", "dodgerblue"),
+ fgText=NULL,
+ fgDefault=getOption("jam.fgDefault", c("darkorange1", "dodgerblue")),
  bgText=NULL,
- fgTime="cyan",
- timeStamp=TRUE,
- comment=getOption("jam.comment", TRUE),
+ fgTime=getOption("jam.fgTime", "cyan2"),
+ timeStamp=getOption("jam.timeStamp", TRUE),
+ comment=getOption("jam.comment", !htmlOut),
  formatNumbers=getOption("jam.formatNumbers", TRUE),
  trim=getOption("jam.trim", TRUE),
- digits=NULL,
- nsmall=0L,
+ digits=getOption("jam.digits"),
+ nsmall=getOption("jam.nsmall", 0L),
  justify="left",
- big.mark=getOption("jam.big.mark", ""),
- small.mark=getOption("jam.small.mark", ""),
+ big.mark=getOption("jam.big.mark", ","),
+ small.mark=getOption("jam.small.mark", "."),
  zero.print=NULL,
  width=NULL,
- doColor=NULL,
+ doColor=getOption("jam.doColor"),
  splitComments=FALSE,
- collapse="",
- sep=",",
+ collapse=getOption("jam.collapse", ""),
+ sep=getOption("jam.sep", ","),
  doReset=NULL,
  detectColors=TRUE,
  dex=2,
- darkFactor=c(1,1.5),
- sFactor=c(1,1.5),
+ darkFactor=c(1, 1.5),
+ sFactor=c(1, 1.5),
  lightMode=checkLightMode(),
  Crange=getOption("jam.Crange"),
  Lrange=getOption("jam.Lrange"),
@@ -256,8 +261,7 @@ printDebug <- function
  file=getOption("jam.file", ""),
  append=getOption("jam.append", TRUE),
  invert=getOption("jam.invert", FALSE),
- htmlOut=getOption("jam.htmlOut", FALSE),
- x)
+ htmlOut=getOption("jam.htmlOut", FALSE))
 {
    ## Purpose is to wrapper a print() function with optional time-date stamp
    ## suppressPackageStartupMessages(testit())
@@ -278,11 +282,26 @@ printDebug <- function
    ## replaceNULL will change any NULL entries to this value, suggested to be "NULL"
    ## to make NULL entries visible
    ##
+   # validate comment argument
+   if (length(comment) == 0) {
+      comment <- FALSE;
+   } else {
+      comment <- head(comment, 1)
+      if (is.logical(comment)) {
+         if (TRUE %in% comment) {
+            comment <- "## ";
+         } else {
+            comment <- "";
+         }
+      } else {
+         comment <- as.character(comment)
+      }
+   }
    if (byLine) {
       collapse <- "\n";
    }
    if (is.numeric(indent)) {
-      indent <- paste0(rep(" ", round(indent)),
+      indent <- paste0(rep(" ", length.out=floor(head(indent, 1))),
          collapse="");
    }
 
@@ -292,7 +311,7 @@ printDebug <- function
    ## - availability of the package crayon
    ## - availability of the package xterm256
    ## - the given preference doColor value (1=xterm256, 2=crayon, 0=no color, everything else is pickem)
-   if (htmlOut) {
+   if (TRUE %in% htmlOut) {
       doColor <- 1;
    } else {
       hasCrayon <- check_pkg_installed("crayon")
@@ -431,7 +450,7 @@ printDebug <- function
       }
       ## Optionally apply crayon::reset() to delimiter sep
       if (length(doReset) == 0) {
-         if (!crayon::has_style(sep)) {
+         if (!crayon::has_style(sep) && doColor == 2) {
             if (verbose) {
                printDebug("printDebug(): ",
                   c("applied ", "sep <- crayon::reset(sep)"),
@@ -439,7 +458,7 @@ printDebug <- function
             }
             sep <- crayon::reset(sep);
          }
-      } else if (doReset) {
+      } else if (doReset && doColor == 2) {
          if (!crayon::has_style(sep)) {
             sep <- crayon::reset(sep);
             if (verbose) {
@@ -583,7 +602,7 @@ printDebug <- function
             i[-length(i)] <- paste0(i[-length(i)], sep);
          }
          ## apply final color reset
-         if (doColor) {
+         if (doColor == 2) {
             i[length(i)] <- paste0(i[length(i)], crayon::reset(""));
          }
          i;
@@ -655,8 +674,8 @@ printDebug <- function
          printString <- c(timeStampValue,
             indent,
             printValue);
-         if (comment) {
-            printString <- c("## ", printString);
+         if (length(comment) > 0 && nchar(comment) > 0) {
+            printString <- c(comment, printString);
          }
          cat(printString, "\n",
             file=file,
@@ -704,11 +723,14 @@ printDebug <- function
          printString <- c(timeStampValue,
             indent,
             printValue);
-         if (comment) {
-            printString <- c("## ", printString);
+         if (length(comment) > 0 && nchar(comment) > 0) {
+            printString <- c(comment, printString);
          }
          # Note addition of <br> for newline
-         cat(paste0(printString, "<br/>\n"),
+         cat(
+            paste0(
+               cPaste(printString, sep=""),
+               "<br/>\n"),
             file=file,
             append=append);
       } else {
@@ -734,8 +756,8 @@ printDebug <- function
          printString <- c(timeStampValue,
             indent,
             printValue);
-         if (comment) {
-            printString <- c("#  ", printString);
+         if (length(comment) > 0 && nchar(comment) > 0) {
+            printString <- c(comment, printString);
          }
          cat(printString, "\n",
             file=file,
@@ -755,6 +777,11 @@ printDebug <- function
 #'
 #' @family jam practical functions
 #'
+#' @returns `NULL` invisibly, this function is called for the side effect
+#'    of printing output using `cat()`.
+#'
+#' @rdname printDebug
+#'
 #' @export
 printDebugI <- function
 (...,
@@ -764,3 +791,34 @@ printDebugI <- function
       invert=invert);
 }
 
+
+#' print colorized output to HTML
+#'
+#' print colorized output to HTML
+#'
+#' This function prints colorized output in HTML form, using the
+#' same logic as `printDebug` except by default the output is HTML.
+#' The intended use is for RMarkdown with chunk option `results='asis'`,
+#' which causes the HTML code to be interpreted directly as HTML.
+#'
+#' This function internally calls `printDebug()` which then calls
+#' `make_html_styles()`. The text is surrounded by `<span color='#FFFFFF'>`
+#' HTML formatting.
+#'
+#' @family jam practical functions
+#'
+#' @returns `NULL` invisibly, this function is called for the side effect
+#'    of printing output using `cat()`.
+#'
+#' @rdname printDebug
+#'
+#' @export
+printDebugHtml <- function
+(...,
+ htmlOut=TRUE,
+ comment=FALSE)
+{
+   printDebug(...,
+      htmlOut=htmlOut,
+      comment=comment);
+}

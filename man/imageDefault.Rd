@@ -112,6 +112,10 @@ by default TRUE when useRaster=TRUE.}
 \item{verbose}{logical whether to enable verbose output, useful for
 debugging.}
 }
+\value{
+\code{list} composed of elements suitable to call
+\code{graphics::image.default()}.
+}
 \description{
 Display a color raster image
 }

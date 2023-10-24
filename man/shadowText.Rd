@@ -80,6 +80,10 @@ label independently, multiple calls to \code{\link[graphics]{text}} or
 only accept up to two values, and those two values affect all label
 positioning.}
 }
+\value{
+invisible \code{list} of components used to call \code{graphics::text()},
+including: x, y, allColors, allLabels, cex, font.
+}
 \description{
 Draw text with shadow border
 }

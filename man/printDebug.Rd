@@ -2,29 +2,31 @@
 % Please edit documentation in R/jamba-printdebug.R
 \name{printDebug}
 \alias{printDebug}
+\alias{printDebugI}
+\alias{printDebugHtml}
 \title{print colorized output to R console}
 \usage{
 printDebug(
   ...,
   fgText = NULL,
-  fgDefault = c("darkorange1", "dodgerblue"),
+  fgDefault = getOption("jam.fgDefault", c("darkorange1", "dodgerblue")),
   bgText = NULL,
-  fgTime = "cyan",
-  timeStamp = TRUE,
-  comment = getOption("jam.comment", TRUE),
+  fgTime = getOption("jam.fgTime", "cyan2"),
+  timeStamp = getOption("jam.timeStamp", TRUE),
+  comment = getOption("jam.comment", !htmlOut),
   formatNumbers = getOption("jam.formatNumbers", TRUE),
   trim = getOption("jam.trim", TRUE),
-  digits = NULL,
-  nsmall = 0L,
+  digits = getOption("jam.digits"),
+  nsmall = getOption("jam.nsmall", 0L),
   justify = "left",
-  big.mark = getOption("jam.big.mark", ""),
-  small.mark = getOption("jam.small.mark", ""),
+  big.mark = getOption("jam.big.mark", ","),
+  small.mark = getOption("jam.small.mark", "."),
   zero.print = NULL,
   width = NULL,
-  doColor = NULL,
+  doColor = getOption("jam.doColor"),
   splitComments = FALSE,
-  collapse = "",
-  sep = ",",
+  collapse = getOption("jam.collapse", ""),
+  sep = getOption("jam.sep", ","),
   doReset = NULL,
   detectColors = TRUE,
   dex = 2,
@@ -43,9 +45,12 @@ printDebug(
   file = getOption("jam.file", ""),
   append = getOption("jam.append", TRUE),
   invert = getOption("jam.invert", FALSE),
-  htmlOut = getOption("jam.htmlOut", FALSE),
-  x
+  htmlOut = getOption("jam.htmlOut", FALSE)
 )
+
+printDebugI(..., invert = TRUE)
+
+printDebugHtml(..., htmlOut = TRUE, comment = FALSE)
 }
 \arguments{
 \item{...}{\code{character}, \code{factor}, \code{numeric} or compatible atomic vectors
@@ -99,7 +104,8 @@ which is default. When \code{invert=TRUE}, which is default for
 
 \item{timeStamp}{\code{logical} whether to include a time stamp in output}
 
-\item{comment}{\code{logical} whether to prefix output with '##' as a comment}
+\item{comment}{\code{logical} whether to prefix output with '## ' as a comment,
+or \code{character} string used as a prefix.}
 
 \item{formatNumbers}{\code{logical} whether to format numbers using
 \code{format()} which controls the number of digits displayed, and is
@@ -206,11 +212,21 @@ to determine the best mechanism to use for things like RMarkdown
 rendering, and R-shiny app rendering.}
 }
 \value{
-This function is called for the by-product of printing
-debug output, it returns \code{invisible(NULL)}, no output.
+\code{NULL} invisibly, this function is called for the side effect
+of printing output using \code{cat()}.
+
+\code{NULL} invisibly, this function is called for the side effect
+of printing output using \code{cat()}.
+
+\code{NULL} invisibly, this function is called for the side effect
+of printing output using \code{cat()}.
 }
 \description{
 print colorized output to R console
+
+print colorized output to R console, inverted
+
+print colorized output to HTML
 }
 \details{
 This function prints colorized output to the R console, with some
@@ -221,19 +237,22 @@ because color helps identify.
 
 By default, output has the following configurable properties:
 \itemize{
-\item each line begins with a comment '#' characters
-with argument \code{comment=TRUE} or \code{options("jam.comment"=TRUE)} so that
-the output can be copied and pasted and without causing new commands
-to be run.
-\item each line includes time and date stamp (\code{timeStamp=TRUE})
-\item each line formats \code{numeric} values (\code{formatNumbers=TRUE} or
-\code{options("jam.formatNumbers"=TRUE)})
-\item each \code{list} is printed with its own foreground color (\code{fgText})
-and background color (\code{bgText}), recycled to accommodate all \code{list}
-arguments to be printed; within each list, the color brightness
-is adjusted for slightly lighter and darker color to delineate
-each item in the vector. The lightness effect is used to help
-visualize multiple values.
+\item each line begins with a comment, controlled by default
+\code{comment=getOption("jam.comment", TRUE)} which by default uses \code{"##"},
+but which can be defined to use a different prefix, or \code{FALSE}
+for no prefix at all.
+\item each line includes time and date stamp controlled by
+\code{timeStamp=getOption("jam.timeStamp", TRUE)} which by default includes the
+current time and date.
+\item each line formats \code{numeric} values, controlled by
+\code{formatNumbers=getOption("jam.formatNumbers", TRUE)}, which determines
+whether to apply arguments \code{big.mark} and \code{small.mark} to make numeric
+values more readable.
+\item each entry in \code{...} is printed with its own foreground color \code{fgText},
+background color \code{bgText}, with a slight lighter/darker dithering effect
+to add minor visual distinction for multiple values.
+\item Values in each \code{vector} are concatenated by \code{sep=","} by default.
+\item Each \code{list} is concatenated by \code{collapse=""} by default.
 }
 
 Additional convenience rules:
@@ -266,6 +285,19 @@ Then define a global option to turn off the comment prefix in
 For colorized text, it may require \code{"html_output"} rendering of the
 \code{.Rmd} Rmarkdown file, as well as this option to enable HTML formatting
 by \code{printDebug()}: \code{options("jam.htmlOut"=TRUE)}.
+
+This function prints colorized output to the R console, using the
+same logic as \code{printDebug} except by default the color is inverted
+so the default \code{fgText} colors are applied to the background.
+
+This function prints colorized output in HTML form, using the
+same logic as \code{printDebug} except by default the output is HTML.
+The intended use is for RMarkdown with chunk option \code{results='asis'},
+which causes the HTML code to be interpreted directly as HTML.
+
+This function internally calls \code{printDebug()} which then calls
+\code{make_html_styles()}. The text is surrounded by \verb{<span color='#FFFFFF'>}
+HTML formatting.
 }
 \examples{
 printDebug("Testing ", "default ", "printDebug().");
@@ -327,7 +359,78 @@ Other jam practical functions:
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
-\code{\link{printDebugI}()},
+\code{\link{renameColumn}()},
+\code{\link{rmInfinite}()},
+\code{\link{rmNAs}()},
+\code{\link{rmNA}()},
+\code{\link{rmNULL}()},
+\code{\link{sclass}()},
+\code{\link{sdim}()},
+\code{\link{setPrompt}()}
+
+Other jam practical functions: 
+\code{\link{breakDensity}()},
+\code{\link{checkLightMode}()},
+\code{\link{check_pkg_installed}()},
+\code{\link{colNum2excelName}()},
+\code{\link{color_dither}()},
+\code{\link{diff_functions}()},
+\code{\link{exp2signed}()},
+\code{\link{fileInfo}()},
+\code{\link{fixYellow}()},
+\code{\link{getAxisLabel}()},
+\code{\link{handleArgsText}()},
+\code{\link{heads}()},
+\code{\link{isFALSEV}()},
+\code{\link{isTRUEV}()},
+\code{\link{jamba}},
+\code{\link{jargs}()},
+\code{\link{kable_coloring}()},
+\code{\link{lldf}()},
+\code{\link{log2signed}()},
+\code{\link{make_html_styles}()},
+\code{\link{make_styles}()},
+\code{\link{match_unique}()},
+\code{\link{mergeAllXY}()},
+\code{\link{middle}()},
+\code{\link{minorLogTicks}()},
+\code{\link{newestFile}()},
+\code{\link{renameColumn}()},
+\code{\link{rmInfinite}()},
+\code{\link{rmNAs}()},
+\code{\link{rmNA}()},
+\code{\link{rmNULL}()},
+\code{\link{sclass}()},
+\code{\link{sdim}()},
+\code{\link{setPrompt}()}
+
+Other jam practical functions: 
+\code{\link{breakDensity}()},
+\code{\link{checkLightMode}()},
+\code{\link{check_pkg_installed}()},
+\code{\link{colNum2excelName}()},
+\code{\link{color_dither}()},
+\code{\link{diff_functions}()},
+\code{\link{exp2signed}()},
+\code{\link{fileInfo}()},
+\code{\link{fixYellow}()},
+\code{\link{getAxisLabel}()},
+\code{\link{handleArgsText}()},
+\code{\link{heads}()},
+\code{\link{isFALSEV}()},
+\code{\link{isTRUEV}()},
+\code{\link{jamba}},
+\code{\link{jargs}()},
+\code{\link{kable_coloring}()},
+\code{\link{lldf}()},
+\code{\link{log2signed}()},
+\code{\link{make_html_styles}()},
+\code{\link{make_styles}()},
+\code{\link{match_unique}()},
+\code{\link{mergeAllXY}()},
+\code{\link{middle}()},
+\code{\link{minorLogTicks}()},
+\code{\link{newestFile}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
 \code{\link{rmNAs}()},

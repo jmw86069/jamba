@@ -1153,6 +1153,9 @@ usrBox <- function
 #'
 #' @family jam plot functions
 #'
+#' @returns `list` composed of elements suitable to call
+#'    `graphics::image.default()`.
+#'
 #' @seealso \code{\link[graphics]{image}}
 #'
 #' @examples
@@ -1570,7 +1573,8 @@ imageDefault <- function
       zc <- col[zi + 1L];
       dim(zc) <- dim(z);
       zc <- t(zc)[ncol(zc):1L, , drop=FALSE];
-      rasterImage(image=as.raster(zc),
+      graphics::rasterImage(
+         image=as.raster(zc),
          xleft=min(x),
          ybottom=min(y),
          xright=max(x),
@@ -1667,6 +1671,9 @@ imageDefault <- function
 #'    \code{\link{shadowText}} must be made. Other parameters like \code{adj}
 #'    only accept up to two values, and those two values affect all label
 #'    positioning.
+#'
+#' @returns invisible `list` of components used to call `graphics::text()`,
+#'    including: x, y, allColors, allLabels, cex, font.
 #'
 #' @examples
 #' shadowText(doTest=TRUE);
@@ -1857,21 +1864,30 @@ shadowText <- function
       cex=cex,
       font=font,
       ...);
-   return(invisible(list(allX=allX, allY=allY, allColors=allColors,
-      allLabels=allLabels)));
+   return(invisible(list(
+      allX=allX,
+      allY=allY,
+      allColors=allColors,
+      allLabels=allLabels,
+      cex=cex,
+      font=font)));
 }
 
 #' Adjust axis label margins
 #'
-#' Adjust axis label margins
+#' Adjust axis label margins to accommodate axis labels
 #'
 #' This function takes a vector of axis labels, and the margin where they
 #' will be used, and adjusts the relevant axis margin to accomodate the
 #' label size, up to a maximum fraction of the figure size as defined by
-#' \code{maxFig}. It currently assumes labels are placed perpendicular to
-#' the axis, e.g. \code{las=2} when using \code{\link[graphics]{text}}.
+#' `maxFig`.
 #'
-#' Note this function does not render labels in the figure.
+#' Labels are assumed to be perpendicular to the axis, for example
+#' argument `las=2` when using `graphics::text()`.
+#'
+#' Note this function does not render labels in the figure, and therefore
+#' does not revert axis margins to their original size. That process
+#' should be performed separately.
 #'
 #' @family jam plot functions
 #'
@@ -1886,6 +1902,9 @@ shadowText <- function
 #'    calculating the string width of labels in inches.
 #' @param prefix character string used to add whitespace around the axis label.
 #' @param ... additional parameters are ignored.
+#'
+#' @returns invisible `numeric` margin size in inches, corresponding
+#'    to the requested `margin` from `par("mai")`.
 #'
 #' @examples
 #' xlabs <- paste0("item_", (1:20));
@@ -1957,23 +1976,26 @@ adjustAxisLabelMargins <- function
 #' `stats::density()`, with enough customization to cover
 #' most of the situations that need customization.
 #'
-#' For example `log="x"` will automatically log-scale the x-axis,
+#' For example `log="x"` will automatically log-transform the x-axis,
 #' keeping the histogram bars uniformly sized. Alternatively,
 #' `xScale="sqrt"` will square root transform the data, and
 #' transform the x-axis while keeping the numeric values constant.
 #'
-#' It also takes
-#' care of scaling the density height to be reasonably similar to
+#' It also scales the density profile height to be similar to
 #' the histogram bar height, using the 99th quantile of the y-axis
 #' value, which helps prevent outlier peaks from dominating the
 #' y-axis range, thus obscuring interesting smaller features.
 #'
 #' If supplied with a data matrix, this function will create a layout
-#' with ncol(x) panels, and plot the distribution of each column
+#' with `ncol(x)` panels, and plot the distribution of each column
 #' in its own panel, using categorical colors from
 #' `colorjam::rainbowJam()`.
 #'
-#' By default NA values are ignored, and the distributions are the
+#' For a similar style using ggplot2, see `plotRidges()`, which displays
+#' only the density profile for each sample, but in a much more scalable
+#' format for larger numbers of columns.
+#'
+#' By default NA values are ignored, and the distributions represent
 #' non-NA values.
 #'
 #' Colors can be controlled using the parameter `col`, but can
@@ -1981,6 +2003,10 @@ adjustAxisLabelMargins <- function
 #' with `polyCol`.
 #'
 #' @family jam plot functions
+#'
+#' @returns invisible `list` with density and histogram data output,
+#'    however this function is called for the by-product of its plot
+#'    output.
 #'
 #' @param x `numeric` vector, or `numeric` matrix. When a matrix is
 #'    provided, each column in the matrix is used as its own data source.
@@ -2642,7 +2668,8 @@ plotPolygonDensity <- function
 
 #' Determine square root axis tick mark positions
 #'
-#' Determine square root axis tick mark positions
+#' Determine square root axis tick mark positions, including positive
+#' and negative range values.
 #'
 #' This function calculates positions for tick marks for data
 #' that has been transformed with `sqrt()`, specifically a directional
@@ -2658,6 +2685,8 @@ plotPolygonDensity <- function
 #' the normal space values.
 #'
 #' @family jam plot functions
+#'
+#' @returns invisible `list` with axis positions, and corresponding labels.
 #'
 #' @param side integer value indicating the axis position, as used
 #'    by `axis()`, 1=bottom, 2=left, 3=top, 4=right.
@@ -2675,6 +2704,10 @@ plotPolygonDensity <- function
 #'    the axis, by default `las=2` plots labels rotated
 #'    perpendicular to the axis.
 #' @param ... additional parameters are passed to `pretty()`.
+#'
+#' @examples
+#' plot(-3:3*10, -3:3*10, xaxt="n")
+#' sqrtAxis(1)
 #'
 #' @export
 sqrtAxis <- function
@@ -2767,6 +2800,10 @@ sqrtAxis <- function
 #' where higher values will use a wider step size, thus lowering
 #' the detail in the output.
 #'
+#' Note that the density height is scaled by the total number of points,
+#' and can be adjusted with `weightFactor`. See Examples for how to
+#' scale the y-axis range similar to `density()`.
+#'
 #' @family jam practical functions
 #'
 #' @param x numeric vector
@@ -2788,6 +2825,33 @@ sqrtAxis <- function
 #'    to the output data.
 #' @param verbose logical indicating whether to print verbose output.
 #' @param ... additional parameters are sent to `stats::density()`.
+#'
+#' @returns `list` output equivalent to `density()`:
+#'    * `x`: The `n` coordinates of the points where the density is
+#'    estimated.
+#'    * `y`: The estimated density values, non-negative, but can be zero.
+#'    * `bw`: The bandidth used.
+#'    * `n`: The sample size after elimination of missing values.
+#'    * `call`: the call which produced the result.
+#'    * `data.name`: the deparsed name of the `x` argument.
+#'    * `has.na`: `logical` for compatibility, and always `FALSE`.
+#'
+#' @examples
+#' x <- c(rnorm(15000),
+#'    rnorm(5500)*0.25 + 1,
+#'    rnorm(12500)*0.5 + 2.5)
+#' plot(density(x))
+#'
+#' plot(breakDensity(x))
+#'
+#' plot(breakDensity(x, densityBreaksFactor=200))
+#'
+#' # trim values to show abrupt transitions
+#' x2 <- x[x > 0 & x < 4]
+#' plot(density(x2), lwd=2)
+#' lines(breakDensity(x2, weightFactor=1/length(x2)/10), col="red")
+#' legend("topright", c("density()", "breakDensity()"),
+#'    col=c("black", "red"), lwd=c(2, 1))
 #'
 #' @export
 breakDensity <- function
@@ -2879,7 +2943,8 @@ breakDensity <- function
 #' Display major and minor tick marks for log-scale axis
 #'
 #' Display major and minor tick marks for log-scale axis,
-#' with optional offset for proper labeling of `log2(1+x)`.
+#' with optional offset for proper labeling of `log2(1+x)`
+#' with numeric offset.
 #'
 #' This function displays log units on the axis of an
 #' existing base R plot. It calls `jamba::minorLogTicks()` which
@@ -2914,10 +2979,13 @@ breakDensity <- function
 #' that scenario has little meaning. This behavior can be turned
 #' off by setting `symmetricZero=FALSE`.
 #'
-#' @return
-#' A list with vectors of majorLabels, majorTicks, minorLabels,
-#' minorTicks, and allLabelsDF which is a `data.frame` containing
-#' all axis tick positions, with corresponding labels.
+#' @returns `list` with vectors:
+#'    * `majorLabels`: `character` vector of major axis labels
+#'    * `majorTicks`: `numeric` vector of major axis tick positions
+#'    * `minorLabels`: `character` vector of minor axis labels
+#'    * `minorTicks`: `numeric` vector of minor axis tick positions
+#'    * `allLabelsDF`: `data.frame` containing all axis tick
+#'    positions and corresponding labels.
 #'
 #' @family jam plot functions
 #'
@@ -3600,12 +3668,32 @@ minorLogTicks <- function
 #' This function is intended to be called internally by
 #' `jamba::minorLogTicks()`.
 #'
+#' @returns axis label as `character` or `expression` where necessary.
+#'
+#' @param i `numeric` axis value
+#' @param asValues `logical` indicating whether the value should be
+#'    evaluated.
+#' @param logAxisType `character` string with the type of axis values:
+#'    * `"normal"`: axis values as-is.
+#'    * `"flip"`: inverted axis values, for example where negative values
+#'    should be displayed as negative log-transformed values.
+#'    * `"pvalue"`: for values transformed as `-log10(pvalue)`
+#' @param logBase `numeric` logarithmic base
+#' @param base_limit `numeric` value indicating the minimum value that
+#'    should be written as an exponential.
+#' @param offset `numeric` value of offset used for log transformation.
+#' @param symmetricZero `logical` indicating whether negative values
+#'    should be displayed as negative log-transformed values.
+#' @param ... additional arguments are ignored.
+#'
 #' @family jam practical functions
 #'
 getAxisLabel <- function
 (i,
  asValues,
- logAxisType=c("normal", "flip", "pvalue"),
+ logAxisType=c("normal",
+    "flip",
+    "pvalue"),
  logBase,
  base_limit=2,
  offset=0,

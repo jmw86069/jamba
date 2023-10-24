@@ -1,9 +1,20 @@
 
 # Prepare for CRAN release
 
+### Function documentation
+
+* All functions must contain `@returns`
+* Most or all functions should contain `@examples`
+
+
+### Unit tests
+
+* All or most key functions should include unit tests for basic functionality.
+
+
 ### Code changes for CRAN compliance
 
-* Remove use of `:::`, replace with call to exported function,
+* DONE. Remove use of `:::`, replace with call to exported function,
 or internal function that performs equivalent task.
 
    * DONE: `grDevices:::.smoothScatterCalcDensity()` - is a wrapper for
@@ -11,7 +22,7 @@ or internal function that performs equivalent task.
    * DONE: `RColorBrewer:::namelist` - should be removed, RColorBrewer is not
    in Imports, but in Suggests. Use manually-encoded method to recognize
    valid RColorBrewer color names. (`jamba-showcolors.R:52`)
-   * `utils:::relist.default()` - remove reference in help docs, see
+   * DONE: `utils:::relist.default()` - remove reference in help docs, see
    `jamba-string.r:2411`.
    * DONE: `base:::merge.data.frame()` - manually recognize argument names,
    see `jamba.r:4632`.
