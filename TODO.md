@@ -1,5 +1,54 @@
 # TODO for jamba
 
+## 22mar2024
+
+* DONE. `writeOpenxlsx()`, `applyXlsxCategoricalFormat()`
+
+   * It appears to be applying categorical colors to incorrect columns,
+   as if they are out of sync.
+
+* `setPrompt()` does not enable color when run inside RMarkdown.
+
+## 24jan2024
+
+* `reload_rmarkdown_cache()`
+
+   * Accept cache directory even when there is a subdirectory
+   such as `"project_cache/html/"`. It should also accept `"project_cache"`,
+   and detect the presence of the subdirectory `"html"`.
+   * Question: Are there other potential subdirectory names and
+   is the subdirectory based upon the RMarkdown output format?
+   See https://bookdown.org/yihui/rmarkdown-cookbook/cache-path.html,
+   yes: `"html"`, `"latex"`, `"docx"`.
+
+* `kable_coloring()`
+
+   * Consider options similar to `writeOpenxlsx()`: highlightColumns,
+   pvalueColumns, fcColumns, lfcColumns, numColumns, intColumns,
+   in order of interest. The highlighting could be easy and useful.
+
+## 10jan2024
+
+* `heatmap_column_order()`
+
+   * Current: When `HeatmapList` is supplied with multiple heatmaps,
+   by default it returns only the column order for the first heatmap.
+   * Future: It should give option to return column order for individual
+   heatmaps, or across all heatmaps.
+
+## 17nov2023
+
+* `writeOpenxlsx()`
+
+   * Consider adding optional multi-row headers
+   * Consider adding ability to save table into an existing workbook
+   starting at certain row,column position.
+   
+      * This feature could also be used to enable multi-row headers, and
+      multi-column row annotations, for example saving a `SummarizedExperiment`
+      or `matrix` object that contains rownames, and separate row annotations.
+      
+
 ## 24oct2023
 
 * DONE. `printDebug()`

@@ -755,7 +755,7 @@ writeOpenxlsx <- function
                "applyXlsxCategoricalFormat applyColumns:",
                applyColumns,
                ", startRow:", startRow,
-               ", rowRange:", seq_len(nrow(x)));
+               ", rowRange:", range(seq_len(nrow(x))));
          }
          wb <- applyXlsxCategoricalFormat(xlsxFile=wb,
             sheet=sheetName,
@@ -1462,6 +1462,7 @@ applyXlsxCategoricalFormat <- function
    (style_coord_list,
     styles_list,
     wb,
+    colRange,
     sheet,
     stack=TRUE,
     verbose=FALSE,
@@ -1480,6 +1481,7 @@ applyXlsxCategoricalFormat <- function
          }
          doRow <- style_coords[,"row"];
          doCol <- style_coords[,"col"];
+         doCol <- colRange[style_coords[,"col"]];
          if (verbose) {
             printDebug("     openxlsx::addStyle()",
                " in vectorized mode for style: ",
@@ -1507,7 +1509,7 @@ applyXlsxCategoricalFormat <- function
    wb_changed <- FALSE;
    if (verbose) {
       printDebug("applyXlsxCategoricalFormat(): ",
-         "rowRange:", rowRange,
+         "range(rowRange):", range(rowRange),
          ", colRange:", colRange);
    }
    for (sheet in sheets) {
@@ -1523,10 +1525,6 @@ applyXlsxCategoricalFormat <- function
          skipEmptyRows=FALSE,
          colNames=FALSE,
          ...);
-      # df <- openxlsx::readWorkbook(wb,
-      #    sheet=sheet,
-      #    skipEmptyCols=FALSE,
-      #    ...);
       if (verbose) {
          printDebug("applyXlsxCategoricalFormat(): ",
             "head(df, 50):");
@@ -1536,7 +1534,9 @@ applyXlsxCategoricalFormat <- function
       if (is.null(rowRange)) {
          rowRange <- seq_len(nrow(df));
       }
-      if (is.null(colRange)) {
+      # 0.0.99.900 - data is only loaded for colRange
+      # so we should always use seq_len(ncol(df))
+      if (length(colRange) == 0) {
          colRange <- seq_len(ncol(df));
       }
       if (verbose) {
@@ -1554,7 +1554,6 @@ applyXlsxCategoricalFormat <- function
          # edit names(colorSub) to Excel-friendly format
          # Note that duplicated names(colorSub) are not supported
          names(colorSub) <- prep_xlsx_match_value(names(colorSub))
-         # printDebug("df_names: ", df_names);printDebug("names(colorSub): ", names(colorSub));# debug
          df_match <- which(df_names %in% names(colorSub));
          # # if any colnames match, process color assignments
          if (any(df_match)) {
@@ -1581,7 +1580,6 @@ applyXlsxCategoricalFormat <- function
             rangeMatch <- matrix(ncol=ncol(df), nrow=nrow(df), data="");
             rangeMatch[, df_match] <- dfcol_colors
             retVals$rangeMatch <- rangeMatch;
-            # printDebug("rangeMatch:");print(rangeMatch);# debug
 
             # call method to create styles for matching colors
             # Note: potential issue when document contains zillion colors,
@@ -1603,6 +1601,7 @@ applyXlsxCategoricalFormat <- function
             addRes <- apply_matching_styles(style_coord_list=style_coord_list,
                styles_list=styles_list,
                wb=wb,
+               colRange=colRange,
                sheet=sheet,
                stack=stack,
                verbose=verbose)
@@ -1614,9 +1613,6 @@ applyXlsxCategoricalFormat <- function
       # Processing atomic colorSub
       if (is.atomic(colorSub)) {
          rangeM <- as.matrix(df);
-         # printDebug("rangeM:");print(rangeM);# debug
-         # rangeM <- rbind(colnames(df)[colRange],
-         #    as.matrix(df[,colRange,drop=FALSE]))[rowRange+1,,drop=FALSE];
          colnames(rangeM) <- colRange;
          rownames(rangeM) <- rowRange;
          ## Allow colorizing NA entries
@@ -1627,9 +1623,6 @@ applyXlsxCategoricalFormat <- function
          ## Optionally clean up some cell fields before matching
          if (trimCatNames) {
             rangeM[] <- prep_xlsx_match_value(rangeM)
-            # rangeM[!is.na(rangeM)] <- gsub("^[-_() ]+|[-_() ]+$",
-            #    "",
-            #    rangeM[!is.na(rangeM)]);
          }
 
          ## Identify which colorSub entries are found
@@ -1673,7 +1666,6 @@ applyXlsxCategoricalFormat <- function
             # 0.0.96.900: simplify method to obtain coordinates for each style
             style_coord_list <- define_matching_style_cells(rangeMatch)
             retVals$style_coord_list <- style_coord_list;
-            # printDebug("style_coord_list:");print(style_coord_list);# debug
             if (verbose) {
                printDebug("   Applying colorSub formatting with addStyle()");
                printDebug("   length(style_coord_list): ",
@@ -1685,6 +1677,7 @@ applyXlsxCategoricalFormat <- function
             addRes <- apply_matching_styles(style_coord_list=style_coord_list,
                styles_list=colorSubStyles,
                wb=wb,
+               colRange=colRange,
                sheet=sheet,
                stack=stack,
                verbose=verbose)

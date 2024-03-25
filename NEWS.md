@@ -1,3 +1,17 @@
+# jamba 0.0.99.900
+
+## Bug fixes
+
+* `writeOpenxlsx()`, `applyXlsxCategoricalColor()`
+
+   * Fixed bug which caused categorical colors to be applied out of sync
+   with columns in the `data.frame`, when called via `writeOpenxlsx()`.
+   It was caused by using the option `colRange` to apply the categorical
+   colors to a subset of data, providing substantial speed but at the
+   expense of columns becoming out of sync for columns which were not
+   continuously categorically colored starting at column 1.
+   The bug is fixed.
+
 # jamba 0.0.98.900
 
 ## updates to existing functions
