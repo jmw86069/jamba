@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.100.900</span>
       </span>
     </div>
 
@@ -59,10 +59,143 @@
 <div id="todo-for-jamba" class="section level1">
 
 <div class="section level2">
+<h2 id="id_04jun2024">04jun2024<a class="anchor" aria-label="anchor" href="#id_04jun2024"></a></h2>
+<ul><li>
+<p>DONE. <code><a href="reference/heatmap_column_order.html">heatmap_column_order()</a></code>, <code><a href="reference/heatmap_row_order.html">heatmap_row_order()</a></code></p>
+<ul><li>
+<p>Error seen with <code>HeatmapList</code> (after drawing a list of heatmaps) where there are multiple annotation heatmaps preceding the “main” heatmap. The preceding heatmaps do not have the row or column order, which causes it to fail.</p>
+<ul><li>The solution is to use the first entry with class <code>Heatmap</code> in the <code>HeatmapList</code> as <code>hm@ht_list</code>.</li>
+<li>Also add new argument to select a specific heatmap.</li>
+</ul></li>
+</ul></li>
+<li>
+<p>DONE. <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code></p>
+<ul><li>Fix handling of <code>"mtime"</code>, <code>"POSIXct"</code>, <code>"POSIXt"</code>, <code>"Date"</code> classes which cannot be converted to <code>data.frame</code>.</li>
+</ul></li>
+<li>
+<p><code><a href="reference/sdim.html">sdim()</a></code> and <code><a href="reference/sdim.html">ssdim()</a></code></p>
+<ul><li>When input is an <code>array</code> that contains <code>list</code> data, it returns the <code><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths()</a></code> of the list elements, but it should return the dimensions of the enclosing <code>array</code>.</li>
+</ul></li>
+<li><p>Prepare more urgently for CRAN or Bioconductor submission.</p></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_27may2024">27may2024<a class="anchor" aria-label="anchor" href="#id_27may2024"></a></h2>
+<ul><li>
+<p><code>heatmap_column_group_labels()</code></p>
+<ul><li>Fix bug when there is only one <code>column_split</code> values, which should enable drawing a box around the entire heatmap, with or without group lines and group labels. Error: <code>"Viewport 'expression_heatmap_body_1_7' was not found"</code>
+</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_22mar2024">22mar2024<a class="anchor" aria-label="anchor" href="#id_22mar2024"></a></h2>
+<ul><li>
+<p>DONE. <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>, <code><a href="reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code></p>
+<ul><li>It appears to be applying categorical colors to incorrect columns, as if they are out of sync.</li>
+</ul></li>
+<li><p><code><a href="reference/setPrompt.html">setPrompt()</a></code> does not enable color when run inside RMarkdown.</p></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_24jan2024">24jan2024<a class="anchor" aria-label="anchor" href="#id_24jan2024"></a></h2>
+<ul><li>
+<p><code><a href="reference/reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code></p>
+<ul><li>Accept cache directory even when there is a subdirectory such as <code>"project_cache/html/"</code>. It should also accept <code>"project_cache"</code>, and detect the presence of the subdirectory <code>"html"</code>.</li>
+<li>Question: Are there other potential subdirectory names and is the subdirectory based upon the RMarkdown output format? See <a href="https://bookdown.org/yihui/rmarkdown-cookbook/cache-path.html" class="external-link uri">https://bookdown.org/yihui/rmarkdown-cookbook/cache-path.html</a>, yes: <code>"html"</code>, <code>"latex"</code>, <code>"docx"</code>.</li>
+</ul></li>
+<li>
+<p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code></p>
+<ul><li>Consider options similar to <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>: highlightColumns, pvalueColumns, fcColumns, lfcColumns, numColumns, intColumns, in order of interest. The highlighting could be easy and useful.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_10jan2024">10jan2024<a class="anchor" aria-label="anchor" href="#id_10jan2024"></a></h2>
+<ul><li>
+<p><code><a href="reference/heatmap_column_order.html">heatmap_column_order()</a></code></p>
+<ul><li>Current: When <code>HeatmapList</code> is supplied with multiple heatmaps, by default it returns only the column order for the first heatmap.</li>
+<li>Future: It should give option to return column order for individual heatmaps, or across all heatmaps.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_17nov2023">17nov2023<a class="anchor" aria-label="anchor" href="#id_17nov2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code></p>
+<ul><li><p>Consider adding optional multi-row headers</p></li>
+<li>
+<p>Consider adding ability to save table into an existing workbook starting at certain row,column position.</p>
+<ul><li>This feature could also be used to enable multi-row headers, and multi-column row annotations, for example saving a <code>SummarizedExperiment</code> or <code>matrix</code> object that contains rownames, and separate row annotations.</li>
+</ul></li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_24oct2023">24oct2023<a class="anchor" aria-label="anchor" href="#id_24oct2023"></a></h2>
+<ul><li>
+<p>DONE. <code><a href="reference/printDebug.html">printDebug()</a></code></p>
+<ul><li>DONE. debug issue where <code>htmlOut=TRUE</code> inserts multiple newlines <code>&lt;br/&gt;</code>
+</li>
+<li>DONE. add convenience function: <code><a href="reference/printDebug.html">printDebugHtml()</a></code> for use in RMarkdown, which enables <code>htmlOut=TRUE</code> and <code>comment=FALSE</code> by default.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_03oct2023">03oct2023<a class="anchor" aria-label="anchor" href="#id_03oct2023"></a></h2>
+<ul><li>
+<p>DELAYED: consider migrating <code><a href="reference/printDebug.html">printDebug()</a></code> to use <code><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli::cli_alert_info()</a></code></p>
+<ul><li><p><strong>Downside:</strong> It does not print HTML output inside RMarkdown, instead falls back to uncolorized output. Oh well, color is the primary motivation. It also does not use fancy bullets in HTML, another cool feature lost.</p></li>
+<li><p>Could be useful to employ the pattern of time/date stamp, and color-coding</p></li>
+<li>
+<p>potential benefit is that output could use R recommended methods</p>
+<ul><li>E.g. messaging, warnings, errors, etc.</li>
+<li>Added features: inline markup; bullets; icons; word wrap;</li>
+<li>Therefore output could be silenced using standard approaches.</li>
+<li>It offers some improved formatting: bullets, icons, emojis, etc. (but not in HTML output.)</li>
+<li>unclear if colorization is readily configurable, or if better to use <code>cli</code> patterns</li>
+<li>To print a message:</li>
+</ul><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">save_file</span> <span class="op">&lt;-</span> <span class="st">"output_file.txt"</span>;</span>
+<span><span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_info</a></span><span class="op">(</span><span class="st">"Saved to: '{.field {save_file}}'."</span><span class="op">)</span></span>
+<span><span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert</a></span><span class="op">(</span><span class="st">"Saved to: '{.field {save_file}}'."</span><span class="op">)</span></span>
+<span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"warn"</span><span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_warning</a></span><span class="op">(</span><span class="st">"Saved to: '{.field {save_file}}'."</span><span class="op">)</span><span class="op">}</span></span>
+<span><span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_success</a></span><span class="op">(</span><span class="st">"Saved to: '{.field {save_file}}'."</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_28sep2023">28sep2023<a class="anchor" aria-label="anchor" href="#id_28sep2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code></p>
+<ul><li>consider adding <code>pctColumns</code>,<code>pctRule</code>,<code>pctColors</code> for percentage values</li>
+<li>Consider updates when <code>startRow</code> is not 1, to write data into an existing workbook sheet? Driving use case is to organize multiple small <code>data.frame</code> into the same worksheet. It might therefore need a header row?</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_27aug2023">27aug2023<a class="anchor" aria-label="anchor" href="#id_27aug2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/setPrompt.html">setPrompt()</a></code></p>
+<ul><li>Debug why the prompt is not defined in color when called inside RMarkdown.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_22aug2023">22aug2023<a class="anchor" aria-label="anchor" href="#id_22aug2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/sdim.html">sdim()</a></code></p>
+<ul><li>Consider option to print object size beside each row. This option would incur a performance hit, but could be useful for understanding which object components consume the most memory. Data in general is getting larger, and it could be helpful when trimming down unnecessary duplication of data in object <code>list</code> context for example.</li>
+<li>Consider some way to indicate when an object is <code>S4</code>, which means its names are <code>slotNames()</code> and not just <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code>. Unclear how it would work in <code><a href="reference/sdim.html">ssdim()</a></code> where multiple <code>data.frame</code> results are intended to be stackable by columns, and would require the same <code><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames()</a></code>. Find somewhere to indicate whether <code>slotNames()</code> or <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code> are shown.</li>
+<li>Add more methods to recognize <code>names(x)</code>.</li>
+<li>Find simple test cases that can test S3 or S4 objects.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_17aug2023">17aug2023<a class="anchor" aria-label="anchor" href="#id_17aug2023"></a></h2>
+<ul><li>
+<p><code><a href="reference/printDebug.html">printDebug()</a></code></p>
+<ul><li>DONE. argument <code>comment</code> should take optional <code>character</code> string to use as prefix.</li>
+<li>consider calling <code><a href="https://cli.r-lib.org/reference/format_error.html" class="external-link">cli::format_message</a></code> for tidyverse-compliant R messages and warnings.</li>
+</ul></li>
+</ul></div>
+<div class="section level2">
 <h2 id="id_10aug2023">10aug2023<a class="anchor" aria-label="anchor" href="#id_10aug2023"></a></h2>
 <ul><li>
 <p>DONE. <code><a href="reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code> and <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code></p>
-<ul><li>argument <code>colorSub</code> should accept <code>list</code> input, similar to <code><a href="reference/kable_coloring.html">kable_coloring()</a></code>. The <code>list</code> should be named by <code>colnames(x)</code> and accepts either a named <code>character</code> vector of colors so the names match values in the column, or a <code>function</code> that takes column values and returns a <code>character</code> vector of colors for each value in the column.</li>
+<ul><li>DONE. argument <code>colorSub</code> should accept <code>list</code> input, similar to <code><a href="reference/kable_coloring.html">kable_coloring()</a></code>. The <code>list</code> should be named by <code>colnames(x)</code> and accepts either a named <code>character</code> vector of colors so the names match values in the column, or a <code>function</code> that takes column values and returns a <code>character</code> vector of colors for each value in the column.</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
@@ -99,12 +232,12 @@
 <div class="section level2">
 <h2 id="id_12jun2023">12jun2023<a class="anchor" aria-label="anchor" href="#id_12jun2023"></a></h2>
 <ul><li>
-<p><code><a href="reference/printDebug.html">printDebug()</a></code>, <code><a href="reference/printDebugI.html">printDebugI()</a></code></p>
+<p><code><a href="reference/printDebug.html">printDebug()</a></code>, <code><a href="reference/printDebug.html">printDebugI()</a></code></p>
 <ul><li>Atomic elements with empty names <code>(NA, "", "^[\t ]+$")</code> (whitespace) should be printed using the element value and not its name. Currently, names are printed when they exist, but no attention is given to whether the names are empty. Unclear whether the expected/correct behavior would be to print all values, or a mixture of non-empty-names/values-instead-of-empty-names. For now, go with the second option, printing names when non-empty, and element values otherwise.</li>
 <li>Consider argument <code>names_and_values=TRUE</code> which would optionally display names above values as used with <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>. In this case, the names would be printed inverted (or when empty, the name would not be visible), and values would be printed using the same color but not inverted.</li>
 </ul></li>
 <li>
-<p>RMarkdown use with colorized text output: <code><a href="reference/printDebug.html">printDebug()</a></code>, <code><a href="reference/printDebugI.html">printDebugI()</a></code>.</p>
+<p>RMarkdown use with colorized text output: <code><a href="reference/printDebug.html">printDebug()</a></code>, <code><a href="reference/printDebug.html">printDebugI()</a></code>.</p>
 <ul><li>Investigate how <code><a href="https://pkgdown.r-lib.org/reference/build_articles.html" class="external-link">pkgdown::build_article()</a></code> is able to produce RMarkdown/HTML output that includes colored text from <code><a href="reference/printDebug.html">printDebug()</a></code>, but <code><a href="https://rdrr.io/pkg/knitr/man/output_hooks.html" class="external-link">knitr::render_markdown()</a></code> only captures color when using block option <code>results='asis'</code>.</li>
 <li>Default yaml options include: <code>pkgdown: as_is: true</code>, so maybe it is preferred to keep <code>results='asis'</code>?</li>
 </ul></li>
@@ -170,10 +303,10 @@
 <p><code><a href="reference/jargs.html">jargs()</a></code></p>
 <ul><li>
 <p>it fails when functions follow the troubled paradigm for generics, e.g.:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>some_func <span class="ot">&lt;-</span> <span class="cf">function</span>(object, ...){</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>   .local <span class="ot">&lt;-</span> <span class="cf">function</span>(object, arg1, arg2, arg3);</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>   <span class="fu">.local</span>(object, ...)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>some_func <span class="ot">&lt;-</span> <span class="cf">function</span>(object, ...){</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>   .local <span class="ot">&lt;-</span> <span class="cf">function</span>(object, arg1, arg2, arg3);</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>   <span class="fu">.local</span>(object, ...)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>}</span></code></pre></div>
 </li>
 <li><p>Design idea: Figure out a way to “sniff” out these arguments.</p></li>
 <li><p>Eval the function body, look for function named <code>.local</code></p></li>
@@ -342,7 +475,7 @@
 <li>Might need to remove some non-essential functions: <code>"jamrandom"</code>, <code>"jamitall"</code>?</li>
 </ul></li>
 <li>
-<p><code><a href="reference/printDebug.html">printDebug()</a></code> and <code><a href="reference/printDebugI.html">printDebugI()</a></code> changes:</p>
+<p><code><a href="reference/printDebug.html">printDebug()</a></code> and <code><a href="reference/printDebug.html">printDebugI()</a></code> changes:</p>
 <ul><li>consider detecting “state” when run inside RMarkdown, although currently seems to require the R block options include <code>results='asis'</code> to enable color, which also requires <code>htmlOut=TRUE</code>.</li>
 <li>
 <code>htmlOut=TRUE</code> does not de-colorize before applying the delimiter; also by default should remove comment prefix.</li>
@@ -586,13 +719,13 @@
 <div class="section level3">
 <h3 id="rbindlist">rbindList<a class="anchor" aria-label="anchor" href="#rbindlist"></a></h3>
 <ul><li>optional recursive operation, in the event of a nested list of data.frames, it should recurse through the list, calling rbindList() on each list element and progressive build up one resulting data.frame or matrix.</li>
-<li>optional ability to handle different colnames; alternative is to review <code><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> as potential replacement.</li>
+<li>optional ability to handle different colnames; alternative is to review <code><a href="https://rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> as potential replacement.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="imagebycolors">imageByColors<a class="anchor" aria-label="anchor" href="#imagebycolors"></a></h3>
 <ul><li>new argument <code>cellnoteColor</code> to define specific cellnote text color, currently uses <code><a href="reference/setTextContrastColor.html">setTextContrastColor()</a></code> but should be able to define custom colors. (Setup for print colorized text data.frame using similar input.)</li>
 <li>optional boolean parameter to transpose the image, i.e. t(x) and if applicable t(cellnote).</li>
-<li>optionally draw boxes around grouped labels, a visual indicator of groups of cells sharing one label. Care should be taken not to enable this functionality with a large table containing no grouped labels, or even with any scenario resulting in “too many boxes”. This option likely needs SpatialPolygons and some related function like <code><a href="https://rdrr.io/pkg/rgeos/man/rgeos-deprecated.html" class="external-link">rgeos::gUnion()</a></code>. Is <code>rgeos</code> a reasonable package dependency, or is that too heavy for this purpose?</li>
+<li>optionally draw boxes around grouped labels, a visual indicator of groups of cells sharing one label. Care should be taken not to enable this functionality with a large table containing no grouped labels, or even with any scenario resulting in “too many boxes”.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="color-brightness-and-saturation-handling">color brightness and saturation handling<a class="anchor" aria-label="anchor" href="#color-brightness-and-saturation-handling"></a></h3>

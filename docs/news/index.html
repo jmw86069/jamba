@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.100.900</span>
       </span>
     </div>
 
@@ -57,6 +57,76 @@
       <small>Source: <a href="http://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.100.900" id="jamba-00100900">jamba 0.0.100.900<a class="anchor" aria-label="anchor" href="#jamba-00100900"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-100-900">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-100-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/mmixedOrder.html">mmixedOrder()</a></code>, <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code></p>
+<ul><li>fixed error when sorting class <code>"Date"</code>, <code>"POSIXct"</code>, or <code>"POSIXt"</code>. Previous these columns either caused an error, or were not sorted. Now these columns are handled as <code>numeric</code> columns, and are converted using <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric()</a></code>. Further, the actual error arose from converting a <code>list</code> to <code>data.frame</code> which failed for class <code>"octmode"</code>. This step is avoided, since <code><a href="../reference/mmixedOrder.html">mmixedOrder()</a></code> operates the same with <code>list</code> input anyway. An example is added to <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> using output from <code><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info()</a></code>.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-0-0-100-900">Changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-100-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/heatmap_row_order.html">heatmap_row_order()</a></code>, <code><a href="../reference/heatmap_column_order.html">heatmap_column_order()</a></code></p>
+<ul><li>new argument <code>which_heatmap</code> which allows for returning the row or column order of a specific heatmap, when <code>HeatmapList</code> is provided. It works with horizontal side-by-side heatmap orientation, and vertical top-over-bottom heatmap orientation.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/breaksByVector.html">breaksByVector()</a></code></p>
+<ul><li>Fixed order of <code>class(x)</code> to be <code>any(X %in% class(x))</code>.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/rgb2col.html">rgb2col()</a></code></p>
+<ul><li>Minor change when detecting <code>class(red)</code> to reverse the order to <code>"RGB" %in% class(red)</code> in case <code>red</code> has multiple classes.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/pasteByRowOrdered.html">pasteByRowOrdered()</a></code></p>
+<ul><li>Minor change to allow columns to have multiple classes, so they are handled accordingly. Should only affect when <code>keepOrder=TRUE</code>, which checks for presence of <code>"character"</code> columns.</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.99.900" id="jamba-0099900">jamba 0.0.99.900<a class="anchor" aria-label="anchor" href="#jamba-0099900"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-99-900">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-99-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>, <code>applyXlsxCategoricalColor()</code></p>
+<ul><li>Fixed bug which caused categorical colors to be applied out of sync with columns in the <code>data.frame</code>, when called via <code><a href="../reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>. It was caused by using the option <code>colRange</code> to apply the categorical colors to a subset of data, providing substantial speed but at the expense of columns becoming out of sync for columns which were not continuously categorically colored starting at column 1. The bug is fixed.</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.98.900" id="jamba-0098900">jamba 0.0.98.900<a class="anchor" aria-label="anchor" href="#jamba-0098900"></a></h2>
+<div class="section level3">
+<h3 id="updates-to-existing-functions-0-0-98-900">updates to existing functions<a class="anchor" aria-label="anchor" href="#updates-to-existing-functions-0-0-98-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/printDebug.html">printDebug()</a></code></p>
+<ul><li>removed erroneous additional newline <code>"&lt;br/&gt;"</code> with <code>htmlOut=TRUE</code>
+</li>
+<li>new arg default <code>comment=!htmlOut</code> so <code>htmlOut=TRUE</code> by default turns off the comment prefix. Usually HTML output is for RMarkdown, where the comment prefix causes the text to become a heading, where the RMarkdown chunk option uses <code>results='asis'</code>.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-0-0-98-900">new functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-98-900"></a></h3>
+<ul><li>
+<p><code><a href="../reference/printDebug.html">printDebugHtml()</a></code></p>
+<ul><li>simple wrapper to <code><a href="../reference/printDebug.html">printDebug()</a></code> intended for HTML output, using options <code>htmlOut=TRUE</code> and <code>comment=FALSE</code> specifically for RMarkdown output using chunk option <code>results='asis'</code>.</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.97.900" id="jamba-0097900">jamba 0.0.97.900<a class="anchor" aria-label="anchor" href="#jamba-0097900"></a></h2>
+<div class="section level3">
+<h3 id="updates-to-existing-functions-0-0-97-900">updates to existing functions<a class="anchor" aria-label="anchor" href="#updates-to-existing-functions-0-0-97-900"></a></h3>
+<ul><li><p>More functions were updated for CRAN compliance, removing <code>:::</code>, including <code>@examples</code> and <code>@returns</code>.</p></li>
+<li>
+<p><code><a href="../reference/printDebug.html">printDebug()</a></code></p>
+<ul><li>more arguments use <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> for potential overrides</li>
+<li>removed errant argument <code>x</code> which was ignored anyway</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.96.900" id="jamba-0096900">jamba 0.0.96.900<a class="anchor" aria-label="anchor" href="#jamba-0096900"></a></h2>
 <p>The main update enables <code>colorSub</code> input as <code>list</code> for several functions: <code><a href="../reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>, <code><a href="../reference/kable_coloring.html">kable_coloring()</a></code>, and <code><a href="../reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>. This feature enables passing a color function, or color assignments that are specific to each column in the data. The companion function <code><a href="https://rdrr.io/pkg/platjam/man/design2colors.html" class="external-link">platjam::design2colors()</a></code> takes a <code>data.frame</code> and returns a <code>list</code> of colors or color functions, one per column, suitable for use directly in the functions updated above. The <code>design2colors()</code> function will likely move into <code>colorjam</code>.</p>
@@ -1006,7 +1076,7 @@
 <ul><li>
 <code><a href="../reference/printDebug.html">printDebug()</a></code> has a new argument, largely silent, <code>doReset</code> which defines whether to apply an additional color reset to the delimiter argument <code>sep</code>. Previously the delimiter inherited the color from the previous text, but now by default the delimiter style is reset, giving more clear distinction between multiple values.</li>
 <li>
-<code><a href="../reference/printDebug.html">printDebug()</a></code> now properly applies the Crange and Lrange values when lightMode is TRUE, which means it limits the brightness of text colors on a light background, to ensure enough contrast to read the text. When using <code><a href="../reference/printDebugI.html">printDebugI()</a></code> the background color is not adjusted, and the foreground (text) color is set using <code><a href="../reference/setTextContrastColor.html">setTextContrastColor()</a></code>, meaning either white or black depending upon the background brightness.</li>
+<code><a href="../reference/printDebug.html">printDebug()</a></code> now properly applies the Crange and Lrange values when lightMode is TRUE, which means it limits the brightness of text colors on a light background, to ensure enough contrast to read the text. When using <code><a href="../reference/printDebug.html">printDebugI()</a></code> the background color is not adjusted, and the foreground (text) color is set using <code><a href="../reference/setTextContrastColor.html">setTextContrastColor()</a></code>, meaning either white or black depending upon the background brightness.</li>
 <li>
 <code><a href="../reference/setCLranges.html">setCLranges()</a></code> and <code><a href="../reference/make_styles.html">make_styles()</a></code> were updated to apply options <code>"jam.Crange"</code>, <code>"jam.Lrange"</code> only when those options were <code>NULL</code>, otherwise leave them as-is.</li>
 <li>
@@ -1086,7 +1156,7 @@
 <ul><li>
 <code><a href="../reference/sdim.html">sdima()</a></code> and <code><a href="../reference/sdim.html">ssdima()</a></code> are equivalent to <code><a href="../reference/sdim.html">sdim()</a></code> and <code><a href="../reference/sdim.html">ssdim()</a></code> except that they operate on <code>attributes(x)</code>. I somehow found myself constantly typing <code>sdim(attributes(x))</code> and finally had enough of that.</li>
 <li>
-<code><a href="../reference/printDebugI.html">printDebugI()</a></code> is a shortcut to <code>printDebug(..., invert=TRUE)</code>, intended to be a quick way to use inverted colors, to colorize the background instead of the text. Note that <code><a href="../reference/printDebug.html">printDebug()</a></code> applies a color range restriction, to make sure the text contrasts with either light or dark background. When <code>invert=TRUE</code> the background color is not restricted, instead the foreground text uses <code><a href="../reference/setTextContrastColor.html">setTextContrastColor()</a></code> to determine a suitable contrasting color for the text and its corresponding background color.</li>
+<code><a href="../reference/printDebug.html">printDebugI()</a></code> is a shortcut to <code>printDebug(..., invert=TRUE)</code>, intended to be a quick way to use inverted colors, to colorize the background instead of the text. Note that <code><a href="../reference/printDebug.html">printDebug()</a></code> applies a color range restriction, to make sure the text contrasts with either light or dark background. When <code>invert=TRUE</code> the background color is not restricted, instead the foreground text uses <code><a href="../reference/setTextContrastColor.html">setTextContrastColor()</a></code> to determine a suitable contrasting color for the text and its corresponding background color.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-to-existing-functions-0-0-45-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-45-900"></a></h3>

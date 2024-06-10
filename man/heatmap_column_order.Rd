@@ -4,11 +4,21 @@
 \alias{heatmap_column_order}
 \title{Return Heatmap column order from ComplexHeatmap heatmap object}
 \usage{
-heatmap_column_order(hm)
+heatmap_column_order(hm, which_heatmap = NULL)
 }
 \arguments{
 \item{hm}{\code{Heatmap} or \code{HeatmapList} object as defined by the
 Bioconductor package via \code{ComplexHeatmap::Heatmap()}.}
+
+\item{which_heatmap}{used to specify a specific heatmap with \code{hm} is
+provided as a \code{HeatmapList}. When \code{NULL} (default) the first heatmap
+in \code{hm@ht_list} is used. When one value is supplied, only that heatmap
+is used. When multiple values are supplied, a \code{list} is returned.
+Input can be either:
+\itemize{
+\item \code{numeric} - indicating the heatmap number in \code{hm@ht_list}
+\item \code{character} - indicating the heatmap name seen in \code{names(hm@ht_list)}
+}}
 }
 \value{
 output depends upon the heatmap:
@@ -59,9 +69,56 @@ if (check_pkg_installed("ComplexHeatmap")) {
    # best practice is to draw() and store output in an object
    # to ensure the row orders are absolutely fixed
    hm1_drawn <- ComplexHeatmap::draw(hm1);
-   heatmap_row_order(hm1_drawn)
-   heatmap_column_order(hm1_drawn)
+   print(heatmap_row_order(hm1_drawn))
+   print(heatmap_column_order(hm1_drawn))
 
+   # row and column split
+   hm1_split <- ComplexHeatmap::Heatmap(mat,
+      column_split=3, row_split=3, border=TRUE);
+   hm1_split_drawn <- ComplexHeatmap::draw(hm1_split);
+   print(heatmap_row_order(hm1_split_drawn))
+   print(heatmap_column_order(hm1_split_drawn))
+
+   # display two heatmaps side-by-side
+   mat2 <- mat + rnorm(18*24);
+   hm2 <- ComplexHeatmap::Heatmap(mat2, border=TRUE, row_split=4);
+
+   hm1hm2_drawn <- ComplexHeatmap::draw(hm1_split + hm2,
+      ht_gap=grid::unit(1, "cm"));
+   print(heatmap_row_order(hm1hm2_drawn))
+   print(heatmap_row_order(hm1hm2_drawn, which_heatmap=2))
+   # by default the order uses the first heatmap
+   print(heatmap_column_order(hm1hm2_drawn))
+   # the second heatmap can be returned
+   print(heatmap_column_order(hm1hm2_drawn, which_heatmap=2))
+   # or a list of heatmap orders can be returned
+   print(heatmap_column_order(hm1hm2_drawn, which_heatmap=1:2))
+
+   # stacked vertical heatmaps
+   hm1hm2_drawn_tall <- ComplexHeatmap::draw(ComplexHeatmap::`\%v\%`(hm1_split, hm2),
+      ht_gap=grid::unit(1, "cm"));
+   print(heatmap_row_order(hm1hm2_drawn))
+   print(heatmap_row_order(hm1hm2_drawn, which_heatmap=2))
+   print(heatmap_row_order(hm1hm2_drawn, which_heatmap=1:2))
+   print(heatmap_row_order(hm1hm2_drawn, which_heatmap=names(hm1hm2_drawn@ht_list)))
+
+   # annotation heatmap
+   ha <- ComplexHeatmap::rowAnnotation(left=rownames(mat))
+   ha_drawn <- ComplexHeatmap::draw(ha + hm1)
+   print(sdim(ha_drawn@ht_list))
+   print(heatmap_row_order(ha_drawn))
+   print(heatmap_column_order(ha_drawn))
+
+   # stacked vertical heatmaps with top annotation
+   ta <- ComplexHeatmap::HeatmapAnnotation(top=colnames(mat))
+   hm1_ha <- ComplexHeatmap::Heatmap(mat,
+      left_annotation=ha,
+      column_split=3, row_split=3, border=TRUE);
+   hm1hm2_drawn_tall <- ComplexHeatmap::draw(ComplexHeatmap::`\%v\%`(ta, ComplexHeatmap::`\%v\%`(hm1_ha, hm2)),
+      ht_gap=grid::unit(1, "cm"));
+   print(sdim(hm1hm2_drawn_tall@ht_list))
+   print(heatmap_row_order(hm1hm2_drawn_tall))
+   print(heatmap_row_order(hm1hm2_drawn_tall, 2))
 }
 
 }

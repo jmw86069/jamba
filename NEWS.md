@@ -1,3 +1,42 @@
+# jamba 0.0.100.900
+
+## Bug fixes
+
+* `mmixedOrder()`, `mixedSortDF()`
+
+   * fixed error when sorting class `"Date"`, `"POSIXct"`, or `"POSIXt"`.
+   Previous these columns either caused an error, or were not sorted.
+   Now these columns are handled as `numeric` columns, and are
+   converted using `as.numeric()`.
+   Further, the actual error arose from converting a `list` to `data.frame`
+   which failed for class `"octmode"`. This step is avoided, since
+   `mmixedOrder()` operates the same with `list` input anyway.
+   An example is added to `mixedSortDF()` using output from  `file.info()`.
+
+## Changes to existing functions
+
+* `heatmap_row_order()`, `heatmap_column_order()`
+
+   * new argument `which_heatmap` which allows for returning the row
+   or column order of a specific heatmap, when `HeatmapList` is provided.
+   It works with horizontal side-by-side heatmap orientation, and vertical
+   top-over-bottom heatmap orientation.
+
+* `breaksByVector()`
+
+   * Fixed order of `class(x)` to be `any(X %in% class(x))`.
+
+* `rgb2col()`
+
+   * Minor change when detecting `class(red)` to reverse the order
+   to `"RGB" %in% class(red)` in case `red` has multiple classes.
+
+* `pasteByRowOrdered()`
+
+   * Minor change to allow columns to have multiple classes, so
+   they are handled accordingly. Should only affect when `keepOrder=TRUE`,
+   which checks for presence of `"character"` columns.
+
 # jamba 0.0.99.900
 
 ## Bug fixes

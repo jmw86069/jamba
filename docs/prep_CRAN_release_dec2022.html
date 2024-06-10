@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.100.900</span>
       </span>
     </div>
 
@@ -59,13 +59,23 @@
 <div id="prepare-for-cran-release" class="section level1">
 
 <div class="section level3">
+<h3 id="function-documentation">Function documentation<a class="anchor" aria-label="anchor" href="#function-documentation"></a></h3>
+<ul><li>All functions must contain <code>@returns</code>
+</li>
+<li>Most or all functions should contain <code>@examples</code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="unit-tests">Unit tests<a class="anchor" aria-label="anchor" href="#unit-tests"></a></h3>
+<ul><li>All or most key functions should include unit tests for basic functionality.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="code-changes-for-cran-compliance">Code changes for CRAN compliance<a class="anchor" aria-label="anchor" href="#code-changes-for-cran-compliance"></a></h3>
 <ul><li>
-<p>Remove use of <code>:::</code>, replace with call to exported function, or internal function that performs equivalent task.</p>
+<p>DONE. Remove use of <code>:::</code>, replace with call to exported function, or internal function that performs equivalent task.</p>
 <ul><li>DONE: <code>grDevices:::.smoothScatterCalcDensity()</code> - is a wrapper for <code><a href="https://rdrr.io/pkg/KernSmooth/man/bkde2D.html" class="external-link">KernSmooth::bkde2D()</a></code> so can be replaced with internal Jam function.</li>
 <li>DONE: <code>RColorBrewer:::namelist</code> - should be removed, RColorBrewer is not in Imports, but in Suggests. Use manually-encoded method to recognize valid RColorBrewer color names. (<code>jamba-showcolors.R:52</code>)</li>
-<li>
-<code>utils:::relist.default()</code> - remove reference in help docs, see <code>jamba-string.r:2411</code>.</li>
+<li>DONE: <code>utils:::relist.default()</code> - remove reference in help docs, see <code>jamba-string.r:2411</code>.</li>
 <li>DONE: <code>base:::merge.data.frame()</code> - manually recognize argument names, see <code>jamba.r:4632</code>.</li>
 </ul></li>
 <li>

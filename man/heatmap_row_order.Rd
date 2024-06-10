@@ -4,7 +4,7 @@
 \alias{heatmap_row_order}
 \title{Return Heatmap row order from ComplexHeatmap heatmap object}
 \usage{
-heatmap_row_order(hm)
+heatmap_row_order(hm, which_heatmap = NULL)
 }
 \arguments{
 \item{hm}{\code{Heatmap} or \code{HeatmapList} object as defined by the
@@ -51,24 +51,7 @@ therefore the row order is absolutely final, not subject
 to potential randomness during clustering.
 }
 \examples{
-if (check_pkg_installed("ComplexHeatmap")) {
-   set.seed(123);
-
-   mat <- matrix(rnorm(18 * 24),
-      ncol=24);
-   rownames(mat) <- paste0("row", seq_len(18))
-   colnames(mat) <- paste0("column", seq_len(24))
-
-   # obtaining row order first causes a warning message
-   hm1 <- ComplexHeatmap::Heatmap(mat);
-
-   # best practice is to draw() and store output in an object
-   # to ensure the row orders are absolutely fixed
-   hm1_drawn <- ComplexHeatmap::draw(hm1);
-   heatmap_row_order(hm1_drawn)
-   heatmap_column_order(hm1_drawn)
-
-}
+# See heatmap_column_order() for examples
 
 }
 \seealso{

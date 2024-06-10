@@ -142,9 +142,7 @@ In general, if a large rectangular set of cells contains the same label,
 and cell colors, the resulting label will be positioned in the
 center. However, when the square is not symmetric, the label will be
 grouped only where consecutive columns contain the same groups of
-consecutive rows for a given label. In theory one could use polygon
-functions from the \code{sp} or \code{rgeos} package to detect contiguous
-polygons, and position the label in the center of those polygons.
+consecutive rows for a given label.
 
 It is helpful to rotate labels partially to prevent overlaps, e.g.
 srtCellnote=10 or srtCellnote=80.

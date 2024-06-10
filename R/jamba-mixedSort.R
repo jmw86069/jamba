@@ -821,8 +821,8 @@ mmixedOrder <- function
             iSign);
       }
       if (is.numeric(i) ||
-         any(class(i) %in% c("numeric")) ||
-         (any(class(i) %in% c("factor", "ordered") &&
+         any(c("numeric", "POSIXct", "POSIXt", "Date") %in% class(i)) ||
+         (any(c("factor", "ordered") %in% class(i) &&
                TRUE %in% honorFactor))) {
          as.numeric(i) * iSign;
       } else {
@@ -978,6 +978,12 @@ mmixedOrder <- function
 #' mixedSortDF(m, byCols="rownames")
 #'
 #' mixedSortDF(data.frame(factor1=factor(c("Cnot9", "Cnot8", "Cnot10"))), honorFactor=FALSE)
+#'
+#' # test date columns
+#' testfiles <- system.file(package="jamba", c("TODO.md", "README.md", "NEWS.md"))
+#' testinfo <- file.info(testfiles)
+#' testinfo
+#' mixedSortDF(testinfo, byCols="mtime")
 #'
 #' @export
 mixedSortDF <- function
@@ -1200,20 +1206,16 @@ mixedSortDF <- function
 
    ## mmixedOrder() to determine row order
    dfOrder <- mmixedOrder(
-      data.frame(
-         check.names=FALSE,
-         stringsAsFactors=FALSE,
-         rmNULL(c(
-            data.frame(
-               check.names=FALSE,
-               stringsAsFactors=FALSE,
-               df),
-            data.frame(
-               check.names=FALSE,
-               stringsAsFactors=FALSE,
-               rowNamesX=rownames(df)))
-            )
-      )[, byCols, drop=FALSE],
+      rmNULL(c(
+         data.frame(
+            check.names=FALSE,
+            stringsAsFactors=FALSE,
+            df),
+         data.frame(
+            check.names=FALSE,
+            stringsAsFactors=FALSE,
+            rowNamesX=rownames(df)))
+      )[byCols],
       decreasing=decreasing,
       na.last=na.last,
       blanksFirst=blanksFirst,

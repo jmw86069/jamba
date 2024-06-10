@@ -160,6 +160,12 @@ mixedSortDF(m, byCols="rownames")
 
 mixedSortDF(data.frame(factor1=factor(c("Cnot9", "Cnot8", "Cnot10"))), honorFactor=FALSE)
 
+# test date columns
+testfiles <- system.file(package="jamba", c("TODO.md", "README.md", "NEWS.md"))
+testinfo <- file.info(testfiles)
+testinfo
+mixedSortDF(testinfo, byCols="mtime")
+
 }
 \seealso{
 Other jam sort functions: 

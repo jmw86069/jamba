@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.100.900</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">hm</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">hm</span>, which_heatmap <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -71,6 +71,16 @@
     <dl><dt>hm</dt>
 <dd><p><code>Heatmap</code> or <code>HeatmapList</code> object as defined by the
 Bioconductor package via <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code>.</p></dd>
+
+
+<dt>which_heatmap</dt>
+<dd><p>used to specify a specific heatmap with <code>hm</code> is
+provided as a <code>HeatmapList</code>. When <code>NULL</code> (default) the first heatmap
+in <code>hm@ht_list</code> is used. When one value is supplied, only that heatmap
+is used. When multiple values are supplied, a <code>list</code> is returned.
+Input can be either:</p><ul><li><p><code>numeric</code> - indicating the heatmap number in <code>hm@ht_list</code></p></li>
+<li><p><code>character</code> - indicating the heatmap name seen in <code>names(hm@ht_list)</code></p></li>
+</ul></dd>
 
 </dl></div>
     <div id="value">
@@ -126,11 +136,62 @@ for markdown formatting.</p>
 <span class="r-in"><span>   <span class="co"># best practice is to draw() and store output in an object</span></span></span>
 <span class="r-in"><span>   <span class="co"># to ensure the row orders are absolutely fixed</span></span></span>
 <span class="r-in"><span>   <span class="va">hm1_drawn</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm1</span><span class="op">)</span>;</span></span>
-<span class="r-in"><span>   <span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1_drawn</span><span class="op">)</span></span></span>
-<span class="r-in"><span>   <span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">hm1_drawn</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">hm1_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="co"># row and column split</span></span></span>
+<span class="r-in"><span>   <span class="va">hm1_split</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">mat</span>,</span></span>
+<span class="r-in"><span>      column_split<span class="op">=</span><span class="fl">3</span>, row_split<span class="op">=</span><span class="fl">3</span>, border<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="va">hm1_split_drawn</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm1_split</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1_split_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">hm1_split_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="co"># display two heatmaps side-by-side</span></span></span>
+<span class="r-in"><span>   <span class="va">mat2</span> <span class="op">&lt;-</span> <span class="va">mat</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">18</span><span class="op">*</span><span class="fl">24</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="va">hm2</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">mat2</span>, border<span class="op">=</span><span class="cn">TRUE</span>, row_split<span class="op">=</span><span class="fl">4</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="va">hm1hm2_drawn</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">hm1_split</span> <span class="op">+</span> <span class="va">hm2</span>,</span></span>
+<span class="r-in"><span>      ht_gap<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1hm2_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1hm2_drawn</span>, which_heatmap<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="co"># by default the order uses the first heatmap</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">hm1hm2_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="co"># the second heatmap can be returned</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">hm1hm2_drawn</span>, which_heatmap<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="co"># or a list of heatmap orders can be returned</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">hm1hm2_drawn</span>, which_heatmap<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="co"># stacked vertical heatmaps</span></span></span>
+<span class="r-in"><span>   <span class="va">hm1hm2_drawn_tall</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu">`%v%`</span><span class="op">(</span><span class="va">hm1_split</span>, <span class="va">hm2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      ht_gap<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1hm2_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1hm2_drawn</span>, which_heatmap<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1hm2_drawn</span>, which_heatmap<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1hm2_drawn</span>, which_heatmap<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">hm1hm2_drawn</span><span class="op">@</span><span class="va">ht_list</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="co"># annotation heatmap</span></span></span>
+<span class="r-in"><span>   <span class="va">ha</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/rowAnnotation.html" class="external-link">rowAnnotation</a></span><span class="op">(</span>left<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="va">ha_drawn</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="va">ha</span> <span class="op">+</span> <span class="va">hm1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="sdim.html">sdim</a></span><span class="op">(</span><span class="va">ha_drawn</span><span class="op">@</span><span class="va">ht_list</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">ha_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">heatmap_column_order</span><span class="op">(</span><span class="va">ha_drawn</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>   <span class="co"># stacked vertical heatmaps with top annotation</span></span></span>
+<span class="r-in"><span>   <span class="va">ta</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/HeatmapAnnotation.html" class="external-link">HeatmapAnnotation</a></span><span class="op">(</span>top<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="va">hm1_ha</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">Heatmap</a></span><span class="op">(</span><span class="va">mat</span>,</span></span>
+<span class="r-in"><span>      left_annotation<span class="op">=</span><span class="va">ha</span>,</span></span>
+<span class="r-in"><span>      column_split<span class="op">=</span><span class="fl">3</span>, row_split<span class="op">=</span><span class="fl">3</span>, border<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="va">hm1hm2_drawn_tall</span> <span class="op">&lt;-</span> <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">draw</a></span><span class="op">(</span><span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu">`%v%`</span><span class="op">(</span><span class="va">ta</span>, <span class="fu">ComplexHeatmap</span><span class="fu">::</span><span class="fu">`%v%`</span><span class="op">(</span><span class="va">hm1_ha</span>, <span class="va">hm2</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      ht_gap<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="sdim.html">sdim</a></span><span class="op">(</span><span class="va">hm1hm2_drawn_tall</span><span class="op">@</span><span class="va">ht_list</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1hm2_drawn_tall</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="heatmap_row_order.html">heatmap_row_order</a></span><span class="op">(</span><span class="va">hm1hm2_drawn_tall</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="heatmap_column_order-1.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row16    row2   row12    row7   row17    row9    row8    row1   row18    row5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row16"  "row2" "row12"  "row7" "row17"  "row9"  "row8"  "row1" "row18"  "row5" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row4    row3    row6   row11   row14   row15   row13   row10 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row4"  "row3"  "row6" "row11" "row14" "row15" "row13" "row10" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   column15    column1   column17    column6    column9   column23   column14 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "column15"  "column1" "column17"  "column6"  "column9" "column23" "column14" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   column10    column4   column11    column7   column18   column12   column21 </span>
@@ -139,6 +200,232 @@ for markdown formatting.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "column19" "column24" "column13"  "column8" "column16"  "column5"  "column2" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    column3   column22   column20 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  "column3" "column22" "column20" </span>
+<span class="r-plt img"><img src="heatmap_column_order-2.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column10    column4    column7   column11    column1   column15    column6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column10"  "column4"  "column7" "column11"  "column1" "column15"  "column6" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column17    column9   column14   column23 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column17"  "column9" "column14" "column23" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    column2    column5   column16   column20    column3   column22 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "column2"  "column5" "column16" "column20"  "column3" "column22" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    column8   column13   column24   column19   column21   column12   column18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "column8" "column13" "column24" "column19" "column21" "column12" "column18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-plt img"><img src="heatmap_column_order-3.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column10    column4    column7   column11    column1   column15    column6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column10"  "column4"  "column7" "column11"  "column1" "column15"  "column6" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column17    column9   column14   column23 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column17"  "column9" "column14" "column23" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    column2    column5   column16   column20    column3   column22 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "column2"  "column5" "column16" "column20"  "column3" "column22" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    column8   column13   column24   column19   column21   column12   column18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "column8" "column13" "column24" "column19" "column21" "column12" "column18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column18   column21   column19    column2   column16    column5   column24 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column18" "column21" "column19"  "column2" "column16"  "column5" "column24" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column13    column3    column7   column11   column20   column15   column17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column13"  "column3"  "column7" "column11" "column20" "column15" "column17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column23   column12   column14   column22    column1    column6    column4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column23" "column12" "column14" "column22"  "column1"  "column6"  "column4" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column10    column8    column9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column10"  "column8"  "column9" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column10    column4    column7   column11    column1   column15    column6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column10"  "column4"  "column7" "column11"  "column1" "column15"  "column6" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column17    column9   column14   column23 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column17"  "column9" "column14" "column23" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    column2    column5   column16   column20    column3   column22 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "column2"  "column5" "column16" "column20"  "column3" "column22" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    column8   column13   column24   column19   column21   column12   column18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "column8" "column13" "column24" "column19" "column21" "column12" "column18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column18   column21   column19    column2   column16    column5   column24 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column18" "column21" "column19"  "column2" "column16"  "column5" "column24" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column13    column3    column7   column11   column20   column15   column17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column13"  "column3"  "column7" "column11" "column20" "column15" "column17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column23   column12   column14   column22    column1    column6    column4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column23" "column12" "column14" "column22"  "column1"  "column6"  "column4" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column10    column8    column9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column10"  "column8"  "column9" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-plt img"><img src="heatmap_column_order-4.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5[[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_4$`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $matrix_5[[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-plt img"><img src="heatmap_column_order-5.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      rows cols             class</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> heatmap_annotation_0    1      HeatmapAnnotation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> matrix_3               18   24           Heatmap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row16    row2   row12    row7   row17    row9    row8    row1   row18    row5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row16"  "row2" "row12"  "row7" "row17"  "row9"  "row8"  "row1" "row18"  "row5" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row4    row3    row6   row11   row14   row15   row13   row10 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row4"  "row3"  "row6" "row11" "row14" "row15" "row13" "row10" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column15    column1   column17    column6    column9   column23   column14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column15"  "column1" "column17"  "column6"  "column9" "column23" "column14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column10    column4   column11    column7   column18   column12   column21 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column10"  "column4" "column11"  "column7" "column18" "column12" "column21" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column19   column24   column13    column8   column16    column5    column2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "column19" "column24" "column13"  "column8" "column16"  "column5"  "column2" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    column3   column22   column20 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "column3" "column22" "column20" </span>
+<span class="r-plt img"><img src="heatmap_column_order-6.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      rows cols             class</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> heatmap_annotation_1    1      HeatmapAnnotation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> matrix_6               18   24           Heatmap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> matrix_5               18   24           Heatmap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`1`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row2   row16   row12    row1    row8    row9    row7   row17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "row2" "row16" "row12"  "row1"  "row8"  "row9"  "row7" "row17" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`2`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row18" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`3`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row10   row13   row15    row4    row5    row3    row6   row11   row14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "row10" "row13" "row15"  "row4"  "row5"  "row3"  "row6" "row11" "row14" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

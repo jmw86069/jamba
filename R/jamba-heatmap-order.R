@@ -42,28 +42,12 @@
 #'    Bioconductor package via `ComplexHeatmap::Heatmap()`.
 #'
 #' @examples
-#' if (check_pkg_installed("ComplexHeatmap")) {
-#'    set.seed(123);
-#'
-#'    mat <- matrix(rnorm(18 * 24),
-#'       ncol=24);
-#'    rownames(mat) <- paste0("row", seq_len(18))
-#'    colnames(mat) <- paste0("column", seq_len(24))
-#'
-#'    # obtaining row order first causes a warning message
-#'    hm1 <- ComplexHeatmap::Heatmap(mat);
-#'
-#'    # best practice is to draw() and store output in an object
-#'    # to ensure the row orders are absolutely fixed
-#'    hm1_drawn <- ComplexHeatmap::draw(hm1);
-#'    heatmap_row_order(hm1_drawn)
-#'    heatmap_column_order(hm1_drawn)
-#'
-#' }
+#' # See heatmap_column_order() for examples
 #'
 #' @export
 heatmap_row_order <- function
-(hm)
+(hm,
+ which_heatmap=NULL)
 {
    # TODO:
    # 1. Consider making this function work without calling ComplexHeatmap:
@@ -89,7 +73,34 @@ heatmap_row_order <- function
          "BiocManageer can be installed with with \"install.packages('BiocManager')\"."));
    }
    if ("HeatmapList" %in% class(hm)) {
-      hm <- hm@ht_list[[1]];
+      # convert logical to numeric vector
+      if (is.logical(which_heatmap)) {
+         which_heatmap <- which(which_heatmap);
+      }
+      # force character to match existing heatmap names
+      if (is.character(which_heatmap)) {
+         which_heatmap <- intersect(which_heatmap, names(hm@ht_list))
+      }
+      if (length(which_heatmap) == 0) {
+         hm_sdim <- sdim(hm@ht_list);
+         which_heatmap <- match("Heatmap", hm_sdim$class)
+         hm <- hm@ht_list[[which_heatmap]];
+      } else if (length(which_heatmap) == 1) {
+         hm <- hm@ht_list[[which_heatmap]];
+      } else {
+         if (is.numeric(which_heatmap)) {
+            hm_sdim <- subset(sdim(hm@ht_list), !grepl("Annotation", class));
+            hm_names <- rmNA(nameVector(rownames(hm_sdim)[which_heatmap]))
+         } else {
+            # hm_names <- nameVectorN(hm@ht_list);
+            hm_names <- nameVector(which_heatmap)
+         }
+         hm_orders <- lapply(hm_names, function(hm_name){
+            heatmap_row_order(hm=hm,
+               which_heatmap=hm_name)
+         })
+         return(hm_orders)
+      }
    }
 
    x_row_order <- ComplexHeatmap::row_order(hm);
@@ -151,6 +162,14 @@ heatmap_row_order <- function
 #'
 #' @param hm `Heatmap` or `HeatmapList` object as defined by the
 #'    Bioconductor package via `ComplexHeatmap::Heatmap()`.
+#' @param which_heatmap used to specify a specific heatmap with `hm` is
+#'    provided as a `HeatmapList`. When `NULL` (default) the first heatmap
+#'    in `hm@ht_list` is used. When one value is supplied, only that heatmap
+#'    is used. When multiple values are supplied, a `list` is returned.
+#'    Input can be either:
+#'    * `numeric` - indicating the heatmap number in `hm@ht_list`
+#'    * `character` - indicating the heatmap name seen in `names(hm@ht_list)`
+#'
 #'
 #' @examples
 #' if (check_pkg_installed("ComplexHeatmap")) {
@@ -167,14 +186,62 @@ heatmap_row_order <- function
 #'    # best practice is to draw() and store output in an object
 #'    # to ensure the row orders are absolutely fixed
 #'    hm1_drawn <- ComplexHeatmap::draw(hm1);
-#'    heatmap_row_order(hm1_drawn)
-#'    heatmap_column_order(hm1_drawn)
+#'    print(heatmap_row_order(hm1_drawn))
+#'    print(heatmap_column_order(hm1_drawn))
 #'
+#'    # row and column split
+#'    hm1_split <- ComplexHeatmap::Heatmap(mat,
+#'       column_split=3, row_split=3, border=TRUE);
+#'    hm1_split_drawn <- ComplexHeatmap::draw(hm1_split);
+#'    print(heatmap_row_order(hm1_split_drawn))
+#'    print(heatmap_column_order(hm1_split_drawn))
+#'
+#'    # display two heatmaps side-by-side
+#'    mat2 <- mat + rnorm(18*24);
+#'    hm2 <- ComplexHeatmap::Heatmap(mat2, border=TRUE, row_split=4);
+#'
+#'    hm1hm2_drawn <- ComplexHeatmap::draw(hm1_split + hm2,
+#'       ht_gap=grid::unit(1, "cm"));
+#'    print(heatmap_row_order(hm1hm2_drawn))
+#'    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=2))
+#'    # by default the order uses the first heatmap
+#'    print(heatmap_column_order(hm1hm2_drawn))
+#'    # the second heatmap can be returned
+#'    print(heatmap_column_order(hm1hm2_drawn, which_heatmap=2))
+#'    # or a list of heatmap orders can be returned
+#'    print(heatmap_column_order(hm1hm2_drawn, which_heatmap=1:2))
+#'
+#'    # stacked vertical heatmaps
+#'    hm1hm2_drawn_tall <- ComplexHeatmap::draw(ComplexHeatmap::`%v%`(hm1_split, hm2),
+#'       ht_gap=grid::unit(1, "cm"));
+#'    print(heatmap_row_order(hm1hm2_drawn))
+#'    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=2))
+#'    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=1:2))
+#'    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=names(hm1hm2_drawn@ht_list)))
+#'
+#'    # annotation heatmap
+#'    ha <- ComplexHeatmap::rowAnnotation(left=rownames(mat))
+#'    ha_drawn <- ComplexHeatmap::draw(ha + hm1)
+#'    print(sdim(ha_drawn@ht_list))
+#'    print(heatmap_row_order(ha_drawn))
+#'    print(heatmap_column_order(ha_drawn))
+#'
+#'    # stacked vertical heatmaps with top annotation
+#'    ta <- ComplexHeatmap::HeatmapAnnotation(top=colnames(mat))
+#'    hm1_ha <- ComplexHeatmap::Heatmap(mat,
+#'       left_annotation=ha,
+#'       column_split=3, row_split=3, border=TRUE);
+#'    hm1hm2_drawn_tall <- ComplexHeatmap::draw(ComplexHeatmap::`%v%`(ta, ComplexHeatmap::`%v%`(hm1_ha, hm2)),
+#'       ht_gap=grid::unit(1, "cm"));
+#'    print(sdim(hm1hm2_drawn_tall@ht_list))
+#'    print(heatmap_row_order(hm1hm2_drawn_tall))
+#'    print(heatmap_row_order(hm1hm2_drawn_tall, 2))
 #' }
 #'
 #' @export
 heatmap_column_order <- function
-(hm)
+(hm,
+ which_heatmap=NULL)
 {
    ##
    # validate input class and ComplexHeatmap package
@@ -189,7 +256,34 @@ heatmap_column_order <- function
          "BiocManageer can be installed with with \"install.packages('BiocManager')\"."));
    }
    if ("HeatmapList" %in% class(hm)) {
-      hm <- hm@ht_list[[1]];
+      # convert logical to numeric vector
+      if (is.logical(which_heatmap)) {
+         which_heatmap <- which(which_heatmap);
+      }
+      # force character to match existing heatmap names
+      if (is.character(which_heatmap)) {
+         which_heatmap <- intersect(which_heatmap, names(hm@ht_list))
+      }
+      if (length(which_heatmap) == 0) {
+         hm_sdim <- sdim(hm@ht_list);
+         which_heatmap <- match("Heatmap", hm_sdim$class)
+         hm <- hm@ht_list[[which_heatmap]];
+      } else if (length(which_heatmap) == 1) {
+         hm <- hm@ht_list[[which_heatmap]];
+      } else {
+         if (is.numeric(which_heatmap)) {
+            hm_sdim <- subset(sdim(hm@ht_list), !grepl("Annotation", class));
+            hm_names <- rmNA(nameVector(rownames(hm_sdim)[which_heatmap]))
+         } else {
+            # hm_names <- nameVectorN(hm@ht_list);
+            hm_names <- nameVector(which_heatmap)
+         }
+         hm_orders <- lapply(hm_names, function(hm_name){
+            heatmap_column_order(hm=hm,
+               which_heatmap=hm_name)
+         })
+         return(hm_orders)
+      }
    }
    x_column_order <- ComplexHeatmap::column_order(hm);
    x <- lapply(x_column_order, function(i){

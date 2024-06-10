@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.100.900</span>
       </span>
     </div>
 
@@ -75,6 +75,53 @@
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>i</dt>
+<dd><p><code>numeric</code> axis value</p></dd>
+
+
+<dt>asValues</dt>
+<dd><p><code>logical</code> indicating whether the value should be
+evaluated.</p></dd>
+
+
+<dt>logAxisType</dt>
+<dd><p><code>character</code> string with the type of axis values:</p><ul><li><p><code>"normal"</code>: axis values as-is.</p></li>
+<li><p><code>"flip"</code>: inverted axis values, for example where negative values
+should be displayed as negative log-transformed values.</p></li>
+<li><p><code>"pvalue"</code>: for values transformed as <code>-log10(pvalue)</code></p></li>
+</ul></dd>
+
+
+<dt>logBase</dt>
+<dd><p><code>numeric</code> logarithmic base</p></dd>
+
+
+<dt>base_limit</dt>
+<dd><p><code>numeric</code> value indicating the minimum value that
+should be written as an exponential.</p></dd>
+
+
+<dt>offset</dt>
+<dd><p><code>numeric</code> value of offset used for log transformation.</p></dd>
+
+
+<dt>symmetricZero</dt>
+<dd><p><code>logical</code> indicating whether negative values
+should be displayed as negative log-transformed values.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>additional arguments are ignored.</p></dd>
+
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>axis label as <code>character</code> or <code>expression</code> where necessary.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>This function is intended to be called internally by
@@ -108,7 +155,6 @@
 <code><a href="middle.html">middle</a>()</code>,
 <code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
 <code><a href="newestFile.html">newestFile</a>()</code>,
-<code><a href="printDebugI.html">printDebugI</a>()</code>,
 <code><a href="printDebug.html">printDebug</a>()</code>,
 <code><a href="renameColumn.html">renameColumn</a>()</code>,
 <code><a href="rmInfinite.html">rmInfinite</a>()</code>,

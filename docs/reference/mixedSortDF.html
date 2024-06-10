@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.100.900</span>
       </span>
     </div>
 
@@ -244,6 +244,8 @@ determine row order.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># output with mixedSortDF()</span></span></span>
 <span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>;</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       group   miRNA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4       Air  miR-1b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       Air  miR-12</span>
@@ -263,6 +265,8 @@ determine row order.</p>
 <span class="r-in"><span><span class="co"># now the sort properly keeps the group factor levels in order,</span></span></span>
 <span class="r-in"><span><span class="co"># which also sorting the miRNA names in their proper order.</span></span></span>
 <span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   groupfactor   miRNA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6     Control   miR-2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3     Control miR-122</span>
@@ -293,6 +297,7 @@ determine row order.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># sort by including rownames</span></span></span>
 <span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">x</span>, byCols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rownames"</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    l1 l2 L1 L2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   g  k  G  V</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   c  k  C  U</span>
@@ -305,6 +310,8 @@ determine row order.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9   f  l  F  V</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  b  l  B  U</span>
 <span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">x</span>, byCols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"L2"</span>, <span class="st">"-rownames"</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    l1 l2 L1 L2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  b  l  B  U</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8   d  l  D  U</span>
@@ -327,23 +334,73 @@ determine row order.</p>
 <span class="r-in"><span><span class="co"># add rownames</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"a"</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a    1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c    2    3</span>
 <span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="st">"-rownames"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c    2    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a    1    4</span>
 <span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">m</span>, byCols<span class="op">=</span><span class="st">"rownames"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [,1] [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a    1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c    2    3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>factor1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cnot9"</span>, <span class="st">"Cnot8"</span>, <span class="st">"Cnot10"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, honorFactor<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'length(x) = 2 &gt; 1' in coercion to 'logical(1)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   factor1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   Cnot8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   Cnot9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3  Cnot10</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># test date columns</span></span></span>
+<span class="r-in"><span><span class="va">testfiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"jamba"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TODO.md"</span>, <span class="st">"README.md"</span>, <span class="st">"NEWS.md"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">testinfo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">testfiles</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">testinfo</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                              size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 106174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            isdir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            mode</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md  644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                          mtime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 2024-06-10 13:42:47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                          ctime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 2024-06-10 13:42:50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                          atime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 2024-06-10 13:42:47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            uid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            gid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md  20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                             uname</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md wardjm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            grname</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md  staff</span>
+<span class="r-in"><span><span class="fu">mixedSortDF</span><span class="op">(</span><span class="va">testinfo</span>, byCols<span class="op">=</span><span class="st">"mtime"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                              size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 106174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            isdir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            mode</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md  644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                          mtime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 2024-06-10 13:42:47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                          ctime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 2024-06-10 13:42:50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                          atime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 2024-06-10 13:42:47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            uid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md 505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            gid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md  20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                             uname</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md wardjm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            grname</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /private/var/folders/1v/hbvdjhy1293cvqlm7n6l_hxw0000gs/T/Rtmphg9J6i/temp_libpathf97849a49351/jamba/NEWS.md  staff</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

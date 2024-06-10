@@ -750,7 +750,7 @@ rgb2col <- function
          redCols <- 1:min(c(ncol(red),4));
          colnames(red)[redCols] <- c("red", "green", "blue", "alpha")[redCols];
       }
-      if (is.matrix(red) || is.data.frame(red) || class(red) %in% c("RGB")) {
+      if (is.matrix(red) || is.data.frame(red) || any(c("RGB") %in% class(red))) {
          red <- data.matrix(red);
          red[is.na(red)] <- 0;
          ## Note we allow red, green, blue, and yellow, the latter is allowed

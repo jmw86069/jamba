@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jamba</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.96.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.100.900</span>
       </span>
     </div>
 
@@ -337,25 +337,35 @@ if <code>x</code> is supplied as a multi-column matrix.</p></dd>
 functions.</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>invisible <code>list</code> with density and histogram data output,
+however this function is called for the by-product of its plot
+output.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>This function is a wrapper around <code><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">graphics::hist()</a></code> and
 <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">stats::density()</a></code>, with enough customization to cover
 most of the situations that need customization.</p>
-<p>For example <code>log="x"</code> will automatically log-scale the x-axis,
+<p>For example <code>log="x"</code> will automatically log-transform the x-axis,
 keeping the histogram bars uniformly sized. Alternatively,
 <code>xScale="sqrt"</code> will square root transform the data, and
 transform the x-axis while keeping the numeric values constant.</p>
-<p>It also takes
-care of scaling the density height to be reasonably similar to
+<p>It also scales the density profile height to be similar to
 the histogram bar height, using the 99th quantile of the y-axis
 value, which helps prevent outlier peaks from dominating the
 y-axis range, thus obscuring interesting smaller features.</p>
 <p>If supplied with a data matrix, this function will create a layout
-with ncol(x) panels, and plot the distribution of each column
+with <code>ncol(x)</code> panels, and plot the distribution of each column
 in its own panel, using categorical colors from
 <code><a href="https://rdrr.io/pkg/colorjam/man/rainbowJam.html" class="external-link">colorjam::rainbowJam()</a></code>.</p>
-<p>By default NA values are ignored, and the distributions are the
+<p>For a similar style using ggplot2, see <code><a href="plotRidges.html">plotRidges()</a></code>, which displays
+only the density profile for each sample, but in a much more scalable
+format for larger numbers of columns.</p>
+<p>By default NA values are ignored, and the distributions represent
 non-NA values.</p>
 <p>Colors can be controlled using the parameter <code>col</code>, but can
 be specifically defined for bars with <code>barCol</code> and the polygon

@@ -1,5 +1,40 @@
 # TODO for jamba
 
+## 04jun2024
+
+* DONE. `heatmap_column_order()`, `heatmap_row_order()`
+
+   * Error seen with `HeatmapList` (after drawing a list of heatmaps)
+   where there are multiple annotation heatmaps preceding the "main" heatmap.
+   The preceding heatmaps do not have the row or column order, which causes
+   it to fail.
+   
+      * The solution is to use the first entry with class `Heatmap` in the
+      `HeatmapList` as `hm@ht_list`.
+      * Also add new argument to select a specific heatmap.
+
+* DONE. `mixedSortDF()`
+
+   * Fix handling of `"mtime"`, `"POSIXct"`, `"POSIXt"`, `"Date"` classes
+   which cannot be converted to `data.frame`.
+
+* `sdim()` and `ssdim()`
+
+   * When input is an `array` that contains `list` data, it returns the
+   `lengths()` of the list elements, but it should return the dimensions
+   of the enclosing `array`.
+
+* Prepare more urgently for CRAN or Bioconductor submission.
+
+## 27may2024
+
+* `heatmap_column_group_labels()`
+
+   * Fix bug when there is only one `column_split` values, which should
+   enable drawing a box around the entire heatmap, with or without
+   group lines and group labels. Error:
+   `"Viewport 'expression_heatmap_body_1_7' was not found"`
+
 ## 22mar2024
 
 * DONE. `writeOpenxlsx()`, `applyXlsxCategoricalFormat()`
@@ -874,9 +909,6 @@ colors. (Setup for print colorized text data.frame using similar input.)
    groups of cells sharing one label. Care should be taken not to enable
    this functionality with a large table containing no grouped labels, or
    even with any scenario resulting in "too many boxes".
-   This option likely needs SpatialPolygons and some related
-   function like `rgeos::gUnion()`. Is `rgeos` a reasonable package
-   dependency, or is that too heavy for this purpose?
 
 ### color brightness and saturation handling
 

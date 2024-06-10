@@ -1,9 +1,13 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.99.900
+Version: 0.0.100.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
-Description: Jam Base methods.
+Description: Jam Base methods. Efficient alphanumeric sort for vector,
+    list, data.frame. Import/export wrappers to Excel xlsx files.
+    Efficient operations for row-wise paste, paste or sort of lists.
+    Enhanced plot smooth scatter, plot density, image by color.
+    Convenient get 
     mixedSort, mixedSortDF: efficient alphanumeric sort.
     jargs: formatted, colorized function arguments.
     writeOpenxlsx, readOpenxlsx: Excel export with clean formatting by column.

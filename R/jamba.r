@@ -858,7 +858,7 @@ breaksByVector <- function
    ## between the middle.
    ##
    ## Use the base::rle() function instead of IRanges::Rle()
-   if (any(class(x) %in% c("factor", "ordered"))) {
+   if (any(c("factor", "ordered") %in% class(x))) {
       x <- nameVector(as.character(x),
          names(x),
          makeNamesFunc=c);
@@ -4096,8 +4096,8 @@ pasteByRowOrdered <- function
 
    # optionally convert non-factor columns to factor with levels
    # based upon the order of existing unique values
-   if (length(keepOrder) > 0 && keepOrder) {
-      reorder_cols <- sclass(x) %in% c("character");
+   if (length(keepOrder) > 0 && any(keepOrder)) {
+      reorder_cols <- grepl("character", ignore.case=TRUE, cPaste(sclass(x)));
       if (any(reorder_cols)) {
          for (i in which(reorder_cols)) {
             x[[i]] <- factor(x[[i]],
