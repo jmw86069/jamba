@@ -1,5 +1,37 @@
 # TODO for jamba
 
+## 20jun2024
+
+* `setPrompt()`
+
+   * consider option to include date and/or date-time stamp.
+   Similar to a bash prompt style.
+   Current default:
+   `{project-name}-R-4.2.3_processid>`
+   Suggested date option 1:
+   `{project-name}-{20jun2024}-R-4.2.3_processid>`
+   Suggested datetime option 1:
+   `{project-name}-{20jun2024}-R-4.2.3_processid>`
+
+
+   * Side notes for available date string options for `POSIXct`, `POSIXt`:
+   
+      * `%c` uses full time and date: `"Sun Jun  9 01:45:53 2024"`
+      * `%H` is the hour in 24H scale with leading zero
+      * `%I` is the hour in 12H scale with leading zero
+      * `%p` indicates `"AM"` or `"PM"`
+      * (Is there no representation for AM/PM?)
+      * `%M` is the minute with leading zero
+      * `%S` is the second with leading zero
+      * `%T` is equivalent to `"%H:%M:%S"`
+      * `%t` is replaced by a `tab`
+
+* `getDate()`
+
+   * Consider allowing `dateFormat` to be a jam option:
+   `options("jam.dateFormat")`.
+   Bonus point if `asDate()` can recognize a variety of common formats.
+
 ## 04jun2024
 
 * DONE. `heatmap_column_order()`, `heatmap_row_order()`

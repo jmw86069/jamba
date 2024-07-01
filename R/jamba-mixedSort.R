@@ -822,8 +822,8 @@ mmixedOrder <- function
       }
       if (is.numeric(i) ||
          any(c("numeric", "POSIXct", "POSIXt", "Date") %in% class(i)) ||
-         (any(c("factor", "ordered") %in% class(i) &&
-               TRUE %in% honorFactor))) {
+         (any(c("factor", "ordered") %in% class(i)) &&
+            TRUE %in% honorFactor)) {
          as.numeric(i) * iSign;
       } else {
          x2u <- unique(i);

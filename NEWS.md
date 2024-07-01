@@ -1,3 +1,12 @@
+# jamba 0.0.101.900
+
+## Bug fixes
+
+* `mmixedOrder()`
+
+   * Fixed mis-placed parentheses in conditional statement, affecting only
+   `factor` columns. Apparently introduced with `0.0.100.900` below.
+
 # jamba 0.0.100.900
 
 ## Bug fixes
