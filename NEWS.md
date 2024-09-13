@@ -1,3 +1,18 @@
+# jamba 0.0.102.900
+
+## Bug fixes
+
+* `kable_coloring()`
+
+   * It was not properly enforcing HTML output, causing HTML tags
+   to appear as HTML tags, and not colorize the text for example.
+   * Added test coverage for this scenario.
+
+* `plotRidges()` now works properly with single vector, single column,
+and any input without `rownames()` or `colnames()`.
+* `plotPolygonDensity()` now properly reverts any changes to `par()`,
+such as `"mfrow"` and axis settings `"xaxs"` and `"yaxs"`.
+
 # jamba 0.0.101.900
 
 ## Bug fixes

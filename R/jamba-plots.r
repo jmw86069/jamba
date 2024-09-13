@@ -2148,6 +2148,11 @@ adjustAxisLabelMargins <- function
 #'    yaxt="n",
 #'    main="breaks=40");
 #'
+#' # multiple columns
+#' set.seed(123);
+#' xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
+#' plotPolygonDensity(xm, breaks=20)
+#'
 #' @export
 plotPolygonDensity <- function
 (x,
@@ -2230,7 +2235,9 @@ plotPolygonDensity <- function
    }
 
    ## Optionally, if the input data is a multi-color matrix, split into separate panels
-   if (igrepHas("matrix|data.*frame|tibble|data.table", class(x)) && ncol(x) > 1 && usePanels) {
+   if (igrepHas("matrix|data.*frame|tibble|data.table", class(x)) &&
+         ncol(x) > 1 &&
+         TRUE %in% usePanels) {
       ## ablineV will include abline(s) in each panel
       if (!is.null(ablineV)) {
          ablineV <- rep(ablineV, length.out=ncol(x));
@@ -2238,10 +2245,14 @@ plotPolygonDensity <- function
 
       newMfrow <- decideMfrow(ncol(x));
       if (useOnePanel) {
-         newMfrow <- c(1,1);
+         newMfrow <- c(1, 1);
       }
       if (doPar) {
          origMfrow <- par("mfrow"=newMfrow);
+         # ensure the mfrow value is reversed properly
+         on.exit(par(origMfrow),
+            add=TRUE,
+            after=FALSE);
       }
       if (length(barCol) == ncol(x)) {
          panelColors <- barCol;
@@ -2359,13 +2370,14 @@ plotPolygonDensity <- function
             fill=alpha2col(panelColors, alpha=colAlphas[2]),
             border=alpha2col(panelColors, alpha=colAlphas[3]));
       }
-      if (doPar) {
-         par(newMfrow);
-      }
       invisible(d1);
    } else {
       ##
       oPar <- par("xaxs"=xaxs, "yaxs"=yaxs);
+      # ensure xaxs, yaxs are reversed properly
+      on.exit(par(oPar),
+         add=TRUE,
+         after=FALSE);
       #if (is.null(bw) & is.null(width)) {
       #   bw <- "ucv";
       #}

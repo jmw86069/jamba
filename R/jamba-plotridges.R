@@ -52,6 +52,16 @@
 #'    `ggridges::geom_density_ridges2()`.
 #' @param ... additional arguments are ignored.
 #'
+#' @examples
+#' # multiple columns
+#' set.seed(123);
+#' xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
+#' plotRidges(xm)
+#'
+#' set.seed(123);
+#' x <- rnorm(2000)
+#' plotRidges(x)
+#'
 #' @export
 plotRidges <- function
 (x,
@@ -81,6 +91,9 @@ plotRidges <- function
 
    # convert list to tall ggplot2 format
    if (is.list(x)) {
+      if (length(names(x)) == 0) {
+         names(x) <- as.character(seq_along(x));
+      }
       xtall <- lapply(names(x), function(i){
          xi <- x[[i]];
          if (!is.matrix(xi) && is.atomic(xi)) {
@@ -98,6 +111,9 @@ plotRidges <- function
          );
       });
       x <- rbindList(xtall);
+      if (length(rownames(x)) == 0) {
+         rownames(x) <- seq_len(nrow(x));
+      }
    } else {
       # convert vector to matrix
       if (!is.matrix(x) && is.atomic(x)) {
@@ -108,6 +124,12 @@ plotRidges <- function
             padInteger(seq_len(nrow(x))));
       }
 
+      if (length(rownames(x)) == 0) {
+         rownames(x) <- seq_len(nrow(x));
+      }
+      if (length(colnames(x)) == 0) {
+         colnames(x) <- seq_len(ncol(x));
+      }
       # convert matrix to tall ggplot2 format
       if (is.matrix(x)) {
          x <- data.frame(

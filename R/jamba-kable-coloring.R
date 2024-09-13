@@ -9,6 +9,9 @@
 #' data.frame, but otherwise uses the `kableExtra` functions to
 #' apply those colors.
 #'
+#' The use case is to provide colorized HTML output for RMarkdown,
+#' it has not been tested with other `format` output.
+#'
 #' The argument `colorSub` accepts:
 #'
 #' * `character` vector input where
@@ -19,8 +22,9 @@
 #' each list element should contain either a `character` vector, or
 #' `function` as described above.
 #'
-#' @returns object with class `"kableExtra", "knitr_kable"` suitable
-#'    for rendering into RMarkdown, HTML, or other related formats.
+#' @returns object with class `c("kableExtra", "knitr_kable")` by default
+#'    when `return_type="kable"`, suitable to render inside an RMarkdown
+#'    or HTML context. Or returns `data.frame` when `return_type="data.frame"`.
 #'
 #' @param df `data.frame` input. Note that `kable` input is not supported.
 #' @param colorSub one of the following inputs:
@@ -34,12 +38,14 @@
 #'    above. A `character` vector should be named by values expected
 #'    in each column. A `function` should take column values as input,
 #'    and return a `character` vector with same length of R colors.
-#' @param background_as_tile `logical` defining whether a cell background
-#'    color will appear as a rounded tile if `TRUE`, or a rectangle
-#'    if `FALSE`.
+#' @param background_as_tile `logical` default `TRUE`, whether the
+#'    cell background color will appear as a rounded tile (`TRUE`)
+#'    or a rectangle (`FALSE`).
 #'    Either way, the color does not fill the entire whitespace
 #'    of the table cell, but only around the text itself.
-#' @param color_cells boolean indicating whether to color individual cells
+#' @param color_cells `logical` indicating whether to color individual cells,
+#'    default `TRUE`. This may be `FALSE` when also applying `row_color_by`,
+#'    so the entire row will be colorized.
 #' @param row_color_by `character` vector with one or more `colnames`,
 #'    indicating how to colorize entire rows of a table.
 #'    When one column is defined, colors in `colorSub` are used as normal.
@@ -62,7 +68,10 @@
 #'    * `extra_css="whitespace: nowrap;"`: enables text word-wrap
 #'    * when all options above contain only `FALSE` or `NULL`, then
 #'    `kableExtra::column_spec()` is not applied.
-#' @param format.args `list` of arguments passed to `format()`
+#' @param format `character` passed to `knitr::kable()`, default `"html"`
+#'    which is the intended format for most scenarios.
+#'    It can be set to `NULL` to enable auto-detection of the format.
+#' @param format.args `list` of arguments passed to `base::format()`
 #'    intended mainly for `numeric` columns.
 #' @param row.names `logical` indicating whether to include `rownames(df)`.
 #'    When `row.names=NA` the default is to display rownames if they
@@ -97,11 +106,7 @@
 #'
 #' # kableExtra output with colored tiles inside table cells
 #' kdf1 <- kable_coloring(
-#'    knitr.table.format="html",
-#'    df=data.frame(column_A=LETTERS[1:5],
-#'       row.names=LETTERS[1:5],
-#'       column_B=LETTERS[1:5],
-#'       column_C=1:5 * 1000),
+#'    df=testdf,
 #'    colorSub=new_colorSub)
 #' print(class(kdf1));
 #' kdf1;
@@ -109,10 +114,7 @@
 #' # kableExtra output with colored rows
 #' kdf2 <- kable_coloring(
 #'    row_color_by=3,
-#'    df=data.frame(column_A=LETTERS[1:5],
-#'       row.names=LETTERS[1:5],
-#'       column_B=LETTERS[1:5],
-#'       column_C=1:5 * 1000),
+#'    df=testdf,
 #'    colorSub=new_colorSub)
 #' class(kdf2);
 #' kdf2;
@@ -120,10 +122,7 @@
 #' # data.frame output is a regular data.frame with HTML contents
 #' kdf3 <- kable_coloring(
 #'    return_type="data.frame",
-#'    df=data.frame(column_A=LETTERS[1:5],
-#'       row.names=LETTERS[1:5],
-#'       column_B=LETTERS[1:5],
-#'       column_C=1:5 * 1000),
+#'    df=testdf,
 #'    colorSub=new_colorSub)
 #' kdf3;
 #'
@@ -141,6 +140,7 @@ kable_coloring <- function
  border_left="1px solid #DDDDDD",
  border_right=FALSE,
  extra_css="white-space: nowrap;",
+ format="html",
  format.args=list(
     trim=TRUE,
     big.mark=","),
@@ -187,7 +187,7 @@ kable_coloring <- function
       }
    }
 
-   if (color_cells) {
+   if (TRUE %in% color_cells) {
       for (i in colnames(df)) {
          if (length(colorSub) > 0 && is.list(colorSub)) {
             # colorSub as color_list, named by colnames(df)
@@ -207,8 +207,9 @@ kable_coloring <- function
                }
                column_values <- df[[i]];
                if (is.numeric(column_values) && length(format.args) > 0) {
-                  column_values <- do.call(format, c(list(x=column_values),
-                     format.args))
+                  column_values <- do.call(base::format,
+                     c(list(x=column_values),
+                        format.args));
                }
                df[[i]] <- kableExtra::cell_spec(
                   x=column_values,
@@ -251,6 +252,7 @@ kable_coloring <- function
       df <- kableExtra::kable_styling(
          kableExtra::kable(x=df,
             escape=FALSE,
+            format=format,
             format.args=format.args,
             align=align,
             row.names=row.names,
@@ -358,6 +360,7 @@ kable_coloring <- function
       (length(border_left) > 0 && !FALSE %in% border_left) ||
          (length(border_right) > 0 && !FALSE %in% border_right))
    if ("kable" %in% return_type &&
+         !"latex" %in% format &&
          TRUE %in% do_column_spec) {
       if (length(border_left) == 0) {
          border_left <- FALSE;

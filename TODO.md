@@ -1,5 +1,161 @@
 # TODO for jamba
 
+## 13sep2024
+
+* DONE. `kable_coloring()`
+
+   * Fix bug where HTML tables show the HTML tags with escapes,
+   something to do with `format="html"` not being included by default.
+
+## 04sep2024
+
+* `plotRidges()` - make it work when there is only one column.
+* `plotPolygonDensity()` - make it reset the `par("mfrow")` after plotting.
+
+## 13aug204
+
+* `reload_rmarkdown_cache()`
+
+   * The path should accept the base RMarkdown cache and find the proper
+   subdirectory: `"./html"` or other relevant subdirectory names.
+   * Currently stops with: `"No .rdata files found in directory."`
+
+* Use `options` package to handle Jam-related package options
+
+   * See: https://github.com/dgkf/options `options::define_option()`
+   * Manages options, default values, ect.
+   * Also creates documentation for `jamba::options` with all options,
+   defaults, and descriptions.
+   * Low overhead dependencies, only imports `utils`.
+   * Add this stub:
+   ```
+   #' @eval options::as_roxygen_docs()
+   NULL
+   ```
+   * Current options:
+   
+      * `shadowText()`: `jam.shadow`, jam.shadow.r, jam.shadow.n,
+      jam.shadowColor, jam.alphaShadow, `jam.outline`, jam.alphaOutline
+      * `printDebug()`: jam.fgDefault, jam.fgTime, jam.timeStamp,
+      `jam.comment`, `jam.htmlOut`,
+      * `jam.formatNumbers`, jam.trim, jam.digits, jam.nsmall,
+      jam.big.mark, jam.small.mark
+      * jam.doColor, jam.sep, jam.file, jam.append, jam.invert
+      * color-related: `jam.lightMode`, jam.Crange, jam.Lrange, jam.Cgrey,
+      jam.adjustRgb, `jam.model` (hcl, polarLUV, polarLAB)
+      * jam.stopClasses
+
+## 31jul2024
+
+* `tcount()`
+
+   * Pass `...` to `table(x)`, using `table(x, ...)` instead.
+   The change will allow things like `useNA="ifany"`, or custom `exclude`.
+   * Require input `x` is atomic `is.atomic(x)` to prevent weirdness
+   with `list` or `data.frame` input.
+   * Consider how to handle `table(x, y)` or `table(data.frame)`
+
+## 09jul2024
+
+* Consider `rsdim()` as scalable extension to `sdim()` and `ssdim()`
+
+   * Goal is to permit `sdim()` logic on deeper nested objects than two levels.
+   * Consider `sdim()` new argument `indent`, to help print nested `sdim()`.
+
+* Consider new function: `remakeNames()`
+
+   * Alternate to `makeNames()` that removes the version suffix, then
+   reapplies a new suffix.
+   * Optional `recursive=TRUE` to trim multiple suffix versions,
+   for example `c("A_v1", "A_v1_v1", "A_v1_v2")` would eventually become
+   `c("A", "A", "A")`.
+   * Motivation is to prevent entries from being version-versioned,
+   `c("A", "A_v1", "A_v1")` would become `c("A", "A_v1_v1", "A_v1_v2")`.
+   A preferred option may be to consider the input as `c("A", "A", "A")`,
+   then version those values to create: `c("A_v1", "A_v2", "A_v3")`.
+   * The other motivation is to avoid having to "fix problems" within
+   `makeNames()` when it could potentially create duplicates:
+   `makeNames(c("A", "A", "A_v1"))` would output `c("A_v1", "A_v2", "A_v1")`,
+   see below.
+
+* Consider new function: `unmakeNames()`
+
+   * Its purpose is to remove previous version suffix created by `makeNames()`.
+
+* `makeNames()`
+
+   * Resolve potential bug when the versioned name repeats a pre-existing
+   value, for example `makeNames(c("A", "A", "A_v1"))` would create
+   two entries `"NA_v1"`.
+   * Three potential methods:
+   
+      1. "Reset versions":
+      
+         * Basically, any entry that has previously been versioned,
+         causing newly versioned entries to fail, should be un-versioned,
+         then re-versioned so it will succeed.
+         * Added benefit that versions will be in order they appear
+         in the output.
+         * This process would be iterative:
+         
+            * All duplicated values would trigger `unmakeNames()` to remove
+            the version suffix. All values with the same un-versioned value
+            (which could use the input vector rather than actually
+            un-versioning) would then be re-versioned together as a set.
+            * This step could inadvertently create new duplicates, causing
+            the process to occur again, and so on. It will eventually stop,
+            given a finite input set.
+         
+         * `makeNames(c("A", "A", "A_v1"))` would change the `"A_v1"` entry
+         to `"A"`, after which the output becomes `c("A_v1", "A_v2", "A_v3")`.
+         * This option unfortunately changes entries, which can be confusing.
+         For example, the entry which was originally `"A_v1"` is not the
+         final entry called `"A_v1"`.
+      
+      2. "Append versions":
+      
+         * Basically if there are any duplicates after `makeNames()`,
+         it calls `makeNames()` again iteratively until all entries
+         are unique.
+         * This option unfortunately appends multiple suffix versions.
+         * It has one benefit that data might be traceable. This suffices
+         `"_v1_v1"` and `"_v1_v2"` suggests that both entries were
+         previously `"_v1"`.
+         * It has slight risk of getting stuck in an iterative loop, with
+         input data that already has multiple layers of versioning.
+         * Example:
+         `makeNames(c("A", "A", "A_v1"))` produces `c("A_v1", "A_v2", "A_v1")`,
+         then `c("A_v1_v1", "A_v2", "A_v1_v2")`.
+
+   3. "Keep existing versions":
+   
+      * More complicated logic. Keep existing versions as-is, and
+      increment to the next available un-used version number.
+      * If input data is already versioned, keep it as-is without change,
+      unless there are duplicates among versioned values, in which case
+      handle as usual.
+      * Previously unversioned values which become duplicates should
+      skip that version number. For example `makeNames(c("A", "A", "A_v2"))`
+      should produce `c("A_v1", "A_v3", "A_v2")`.
+      * The algorithm:
+      Check for duplicates after versioning. If none, then end.
+      If duplicates, by definition there must be only one from input,
+      and only one created by versioning.
+      Keep the entry that already existed, re-assign the other one.
+      If there were two `c("A_v2", "A_v2")` input entries, they would have
+      been versioned already to create `c("A_v2_v1", "A_v2_v2")`.
+      The desired output is that multiple `"A"` entries should skip the
+      `"_v2"` version if `"A_v2"` already exists, and continue with
+      `"_v3"` and so on.
+      The tricky part is that multiple versions could be assigned.
+      So for 15 duplicates of `"A"` where `"A_v7"` and `"A_v11"` were
+      already assigned, the method would know to create `15 + 2` suffix
+      values, since there are 15 duplicated entries, but 2 existing entries.
+      Then remove `"_v7"` and `"_v11"` because they already exist.
+      It then assigns the remaining values in order.
+      
+
+
 ## 20jun2024
 
 * `setPrompt()`

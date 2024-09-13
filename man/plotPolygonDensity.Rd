@@ -275,6 +275,11 @@ plotPolygonDensity(x,
    yaxt="n",
    main="breaks=40");
 
+# multiple columns
+set.seed(123);
+xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
+plotPolygonDensity(xm, breaks=20)
+
 }
 \seealso{
 Other jam plot functions: 

@@ -14,6 +14,7 @@ kable_coloring(
   border_left = "1px solid #DDDDDD",
   border_right = FALSE,
   extra_css = "white-space: nowrap;",
+  format = "html",
   format.args = list(trim = TRUE, big.mark = ","),
   row.names = NA,
   align = NULL,
@@ -39,13 +40,15 @@ in each column. A \code{function} should take column values as input,
 and return a \code{character} vector with same length of R colors.
 }}
 
-\item{background_as_tile}{\code{logical} defining whether a cell background
-color will appear as a rounded tile if \code{TRUE}, or a rectangle
-if \code{FALSE}.
+\item{background_as_tile}{\code{logical} default \code{TRUE}, whether the
+cell background color will appear as a rounded tile (\code{TRUE})
+or a rectangle (\code{FALSE}).
 Either way, the color does not fill the entire whitespace
 of the table cell, but only around the text itself.}
 
-\item{color_cells}{boolean indicating whether to color individual cells}
+\item{color_cells}{\code{logical} indicating whether to color individual cells,
+default \code{TRUE}. This may be \code{FALSE} when also applying \code{row_color_by},
+so the entire row will be colorized.}
 
 \item{row_color_by}{\code{character} vector with one or more \code{colnames},
 indicating how to colorize entire rows of a table.
@@ -74,7 +77,11 @@ or disable word-wrapping by column. Some helpful examples:
 \code{kableExtra::column_spec()} is not applied.
 }}
 
-\item{format.args}{\code{list} of arguments passed to \code{format()}
+\item{format}{\code{character} passed to \code{knitr::kable()}, default \code{"html"}
+which is the intended format for most scenarios.
+It can be set to \code{NULL} to enable auto-detection of the format.}
+
+\item{format.args}{\code{list} of arguments passed to \code{base::format()}
 intended mainly for \code{numeric} columns.}
 
 \item{row.names}{\code{logical} indicating whether to include \code{rownames(df)}.
@@ -99,8 +106,9 @@ contain HTML markup with corresponding colors defined.
 which allows the usual customizations on the initial call.}
 }
 \value{
-object with class \verb{"kableExtra", "knitr_kable"} suitable
-for rendering into RMarkdown, HTML, or other related formats.
+object with class \code{c("kableExtra", "knitr_kable")} by default
+when \code{return_type="kable"}, suitable to render inside an RMarkdown
+or HTML context. Or returns \code{data.frame} when \code{return_type="data.frame"}.
 
 \code{data.frame} or class with \code{"kableExtra"} dependent upon the
 \code{return_type} argument. Note that even the \code{data.frame} returned
@@ -115,6 +123,9 @@ available for use if the \code{kableExtra} package is installed. It is
 intended to allow specific color assignment of elements in a
 data.frame, but otherwise uses the \code{kableExtra} functions to
 apply those colors.
+
+The use case is to provide colorized HTML output for RMarkdown,
+it has not been tested with other \code{format} output.
 
 The argument \code{colorSub} accepts:
 \itemize{
@@ -142,11 +153,7 @@ testdf <- data.frame(column_A=LETTERS[1:5],
 
 # kableExtra output with colored tiles inside table cells
 kdf1 <- kable_coloring(
-   knitr.table.format="html",
-   df=data.frame(column_A=LETTERS[1:5],
-      row.names=LETTERS[1:5],
-      column_B=LETTERS[1:5],
-      column_C=1:5 * 1000),
+   df=testdf,
    colorSub=new_colorSub)
 print(class(kdf1));
 kdf1;
@@ -154,10 +161,7 @@ kdf1;
 # kableExtra output with colored rows
 kdf2 <- kable_coloring(
    row_color_by=3,
-   df=data.frame(column_A=LETTERS[1:5],
-      row.names=LETTERS[1:5],
-      column_B=LETTERS[1:5],
-      column_C=1:5 * 1000),
+   df=testdf,
    colorSub=new_colorSub)
 class(kdf2);
 kdf2;
@@ -165,10 +169,7 @@ kdf2;
 # data.frame output is a regular data.frame with HTML contents
 kdf3 <- kable_coloring(
    return_type="data.frame",
-   df=data.frame(column_A=LETTERS[1:5],
-      row.names=LETTERS[1:5],
-      column_B=LETTERS[1:5],
-      column_C=1:5 * 1000),
+   df=testdf,
    colorSub=new_colorSub)
 kdf3;
 \dontshow{\}) # examplesIf}
