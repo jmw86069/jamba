@@ -29,19 +29,54 @@ index values. The sheet names are determined with
 \code{openxlsx::getSheetNames()}.}
 
 \item{startRow}{\code{integer} indicating the row number to start
-importing each \code{sheet}. Note that \code{startRow} can be a vector
+importing each \code{sheet}.
+\itemize{
+\item Note \code{startRow} can be a vector
 with length \code{length(sheet)}, to specify the \code{startRow} for
-each \code{sheet}.}
+each \code{sheet}.
+\item Note \code{startRow} is ignored when \code{rows} is defined for the same sheet,
+to minimize confusion about using both togetheer.
+}}
+
+\item{startCol}{\code{integer} indicating the first column number to retain
+after importing each \code{sheet}.
+\itemize{
+\item Note \code{startCol} can be a vector with length \code{length(sheet)},
+to specify the \code{startCol} for each \code{sheet}.
+\item Note \code{startCol} is ignored when \code{cols} is defined for the same sheet,
+to minimize confusion about using both togetheer.
+}}
 
 \item{rows}{\code{integer} vector indicating specific rows to import
-for each \code{sheet}. To specify different \code{rows} for each \code{sheet},
-supply \code{rows} as a \code{list} of \code{integer} vectors.}
+for each \code{sheet}.
+\itemize{
+\item To specify different \code{rows} for each \code{sheet},
+supply \code{rows} as a \code{list} of \code{integer} vectors.
+\item Note that when \code{rows} is defined for a sheet, it will be used
+and \code{startRow} will be ignored for that same sheet.
+}}
+
+\item{cols}{\code{integer} vector indicating specific column numbers to import
+for each \code{sheet}.
+\itemize{
+\item To specify different \code{cols} for each \code{sheet}, supply \code{cols}
+as a \code{list} of \code{integer} vectors.
+\item Note that when \code{cols} is defined for a sheet, it will be used
+and \code{startCol} will be ignored for that same sheet.
+}}
 
 \item{check.names}{\code{logical} indicating whether to call \code{make.names()}
-on the \code{colnames} of each \code{data.frame}.}
+on the \code{colnames} of each \code{data.frame}.
+\itemize{
+\item Note that \code{openxlsx::read.xlsx()} does not honor \code{check.names=FALSE},
+so a workaround is applied which loads a single line
+without column headers, in order to obtain the same data without
+mangling column headers. If this process fails, another workaround
+is to use \code{startRow=2} (one higher than previous) and \code{colNames=FALSE}.
+}}
 
 \item{check_header}{\code{logical} indicating whether to test for presence
-of header rows, which are not column headers.
+of header rows, which may be multi-line column headers.
 When \code{check_header=TRUE}, this
 method simply tests for the presence of rows that have \code{ncol}
 different than the remaining rows of data in the given sheet.

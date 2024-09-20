@@ -1891,16 +1891,39 @@ set_xlsx_rowheights <- function
 #'    index values. The sheet names are determined with
 #'    `openxlsx::getSheetNames()`.
 #' @param startRow `integer` indicating the row number to start
-#'    importing each `sheet`. Note that `startRow` can be a vector
+#'    importing each `sheet`.
+#'    * Note `startRow` can be a vector
 #'    with length `length(sheet)`, to specify the `startRow` for
 #'    each `sheet`.
+#'    * Note `startRow` is ignored when `rows` is defined for the same sheet,
+#'    to minimize confusion about using both togetheer.
 #' @param rows `integer` vector indicating specific rows to import
-#'    for each `sheet`. To specify different `rows` for each `sheet`,
+#'    for each `sheet`.
+#'    * To specify different `rows` for each `sheet`,
 #'    supply `rows` as a `list` of `integer` vectors.
+#'    * Note that when `rows` is defined for a sheet, it will be used
+#'    and `startRow` will be ignored for that same sheet.
+#' @param startCol `integer` indicating the first column number to retain
+#'    after importing each `sheet`.
+#'    * Note `startCol` can be a vector with length `length(sheet)`,
+#'    to specify the `startCol` for each `sheet`.
+#'    * Note `startCol` is ignored when `cols` is defined for the same sheet,
+#'    to minimize confusion about using both togetheer.
+#' @param cols `integer` vector indicating specific column numbers to import
+#'    for each `sheet`.
+#'    * To specify different `cols` for each `sheet`, supply `cols`
+#'    as a `list` of `integer` vectors.
+#'    * Note that when `cols` is defined for a sheet, it will be used
+#'    and `startCol` will be ignored for that same sheet.
 #' @param check.names `logical` indicating whether to call `make.names()`
 #'    on the `colnames` of each `data.frame`.
+#'    * Note that `openxlsx::read.xlsx()` does not honor `check.names=FALSE`,
+#'    so a workaround is applied which loads a single line
+#'    without column headers, in order to obtain the same data without
+#'    mangling column headers. If this process fails, another workaround
+#'    is to use `startRow=2` (one higher than previous) and `colNames=FALSE`.
 #' @param check_header `logical` indicating whether to test for presence
-#'    of header rows, which are not column headers.
+#'    of header rows, which may be multi-line column headers.
 #'    When `check_header=TRUE`, this
 #'    method simply tests for the presence of rows that have `ncol`
 #'    different than the remaining rows of data in the given sheet.
@@ -1964,6 +1987,16 @@ readOpenxlsx <- function
    if (length(rows) < length(sheet)) {
       rows <- rep(rows, length.out=length(sheet));
    }
+   # recycle cols to length(sheet)
+   if (length(cols) == 0) {
+      cols <- list(NULL);
+   }
+   if (!is.list(cols)) {
+      cols <- list(cols);
+   }
+   if (length(cols) < length(sheet)) {
+      cols <- rep(cols, length.out=length(sheet));
+   }
 
    sheet_idx <- nameVector(seq_along(sheet),
       names(sheet));
@@ -1974,29 +2007,34 @@ readOpenxlsx <- function
             "reading sheet:",
             i);
       }
-      irows <- rows[[j]];
-      icols <- cols[[j]];
-      istartRow <- head(startRow[[j]], 1)
-      istartCol <- head(startCol[[j]], 1);
-
-      # Adjustment when both startRow and rows are defined
-      if (length(istartRow) > 0 && length(irows) > 0) {
-         istartRow <- min(irows);
-      }
-      if (length(istartRow) == 0) {
+      # rows
+      irows <- rmNA(rows[[j]]);
+      istartRow <- rmNA(naValue=1, head(startRow[[j]], 1));
+      if (length(istartRow) == 0 || any(istartRow < 1)) {
          istartRow <- 1;
       }
-      if (length(istartCol) > 0 && length(icols) > 0) {
-         istartCol <- min(icols);
+      # Adjustment when both startRow and rows are defined
+      if (length(irows) > 0 && is.numeric(irows)) {
+         istartRow <- min(irows);
       }
-      if (length(istartCol) == 0) {
+      # cols
+      icols <- rmNA(cols[[j]]);
+      istartCol <- rmNA(naValue=1, head(startCol[[j]], 1));
+      if (length(istartCol) == 0 || any(istartCol < 1)) {
          istartCol <- 1;
       }
+      # Adjustment when both startCol and cols are defined
+      if (length(icols) > 0 && is.numeric(icols)) {
+         istartCol <- min(icols);
+      }
+
       if (verbose) {
          printDebug(#"readOpenxlsx(): ",
             indent=3,
-            "rows:", irows, ", cols:", icols,
-            ", startRow:", istartRow, ", startCol:", istartCol)
+            "rows:", irows,
+            ", startRow:", istartRow,
+            ", cols:", icols,
+            ", startCol:", istartCol)
       }
 
       # optionally check for header rows
@@ -2008,10 +2046,8 @@ readOpenxlsx <- function
          test_data_rows <- list();
          if (length(irows) > 0) {
             test_rows <- head(irows, check_header_n);
-         } else if (length(istartRow) > 0) {
-            test_rows <- seq_len(check_header_n) + istartRow - 1;
          } else {
-            test_rows <- seq_len(check_header_n);
+            test_rows <- seq(from=istartRow, length.out=check_header_n);
          }
          for (irow in test_rows) {
             if (verbose) {
@@ -2111,8 +2147,8 @@ readOpenxlsx <- function
          rows=irows,
          cols=icols,
          ...);
-      # apply optional startCol
-      if (istartCol > 1) {
+      # apply optional startCol only if icols is not already being used
+      if (istartCol > 1 && length(icols) == 0) {
          if (ncol(idf) < istartCol) {
             idf <- NULL;
          } else {
@@ -2126,11 +2162,7 @@ readOpenxlsx <- function
       # column headers to become mangled.
       if (length(check.names) > 0 && !check.names) {
          if (length(irows) > 0) {
-            if (length(istartRow) > 0) {
-               k <- irows[istartRow];
-            } else {
-               k <- head(irows, 1);
-            }
+            k <- head(irows, 1);
          } else if (length(istartRow) > 0) {
             k <- istartRow;
          } else {

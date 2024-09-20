@@ -1,3 +1,15 @@
+# jamba 0.0.103.900
+
+## Bug fixes
+
+* `readOpenxlsx()`
+
+   * Bug was caused when using `startRow` and `rows` causing the column 
+   headers to use the `rows[startRow]` which was not as intended.
+   The logic is now to use `rows` when present, or `startRow` otherwise,
+   never both. The help docs now describe this distinction.
+   The same logic is applied to `cols` and `startCol`.
+
 # jamba 0.0.102.900
 
 ## Bug fixes
