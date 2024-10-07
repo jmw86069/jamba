@@ -1,3 +1,20 @@
+# jamba 0.0.104.900
+
+## changes to existing functions
+
+* `rowGroupMeans()` and `rowRmMadOutliers()`
+
+   * New argument `includeAttributes=FALSE` turns off default attributes
+   with number of replicates, but can be re-enabled when needed.
+   * Both functions now also support SparseMatrix objects from Matrix,
+   which helps when using `Seurat` and `SingleCellExperiment` objects.
+   * Both functions will use `matrixStats`, `sparseMatrixStats`, or
+   `base` R summary functions based upon the object type and
+   installed packages.
+   * Added tests for both function to cover the basics.
+
+* Updated all tests to remove deprecated `testthat::context()`.
+
 # jamba 0.0.103.900
 
 ## Bug fixes

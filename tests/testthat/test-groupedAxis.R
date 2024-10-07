@@ -1,5 +1,4 @@
 
-context("groupedAxis")
 
 testthat::test_that("groupedAxis grouped", {
    test_vector <- rep(c("DMSO", "Etop"), c(2, 3))

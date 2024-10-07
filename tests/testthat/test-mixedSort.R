@@ -1,5 +1,4 @@
 
-context("mixedSort")
 
 # test when input is a character vector
 testthat::test_that("mixedSort character vectors", {
@@ -87,9 +86,6 @@ testthat::test_that("mixedSort factor vectors", {
    })
 })
 
-
-
-context("mixedSorts")
 
 # test mixedSorts() in list context
 testthat::test_that("mixedSorts_factor", {

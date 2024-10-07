@@ -1,5 +1,4 @@
 
-context("getColorRamp")
 
 # test when input is an R color or hex color
 testthat::test_that("getColorRamp with multiple color input", {

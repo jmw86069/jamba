@@ -1,13 +1,10 @@
 
-context("makeNames")
-
-
-exons <- makeNames(rep("exon", 3), suffix="");
-exons1 <- paste0("exon", 1:3)
-E <- makeNames(rep(exons, c(2,3,1)), numberStyle="letters", suffix="");
-E1 <- paste0("exon", c(1, 1, 2, 2, 2, 3), c("a", "b", "a", "b", "c", ""))
 
 testthat::test_that("makeNames", {
+   exons <- makeNames(rep("exon", 3), suffix="");
+   exons1 <- paste0("exon", 1:3)
+   E <- makeNames(rep(exons, c(2,3,1)), numberStyle="letters", suffix="");
+   E1 <- paste0("exon", c(1, 1, 2, 2, 2, 3), c("a", "b", "a", "b", "c", ""))
    # test vector
    V <- rep(LETTERS[1:3], c(2,3,1));
    # expected output vectors
@@ -52,8 +49,6 @@ testthat::test_that("makeNames exon names", {
       exons_expected)
 })
 
-
-context("nameVector")
 
 testthat::test_that("nameVector", {
    # test data

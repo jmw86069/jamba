@@ -1,5 +1,4 @@
 
-context("cPaste")
 
 testthat::test_that("cPaste", {
    L <- list(

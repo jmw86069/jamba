@@ -90,6 +90,9 @@
 #'    contain one colname for each factor level, with NA values used
 #'    to fill empty factor levels. This mechanism can be helpful to
 #'    ensure that output matrices have consistent colnames.
+#' @param includeAttributes `logical` indicating whether to include
+#'    attributes with `"n"` number of replicates per group, and `"nLabel"`
+#'    with replicate label in `n=#` form.
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional parameters are passed to `rowStatsFunc`,
 #'    and if `rmOutliers=TRUE` to `jamba::rowRmMadOutliers()`.
@@ -114,6 +117,7 @@ rowGroupMeans <- function
  groupOrder=c("same",
     "sort"),
  keepNULLlevels=FALSE,
+ includeAttributes=FALSE,
  verbose=FALSE,
  ...)
 {
@@ -176,11 +180,71 @@ rowGroupMeans <- function
       }
    }
 
+   ## Define row functions
+   # 0.0.104.900 - support sparse Matrix objects
+   # inherits(x, "sparseMatrix")
+   is_sparse <- FALSE;
+   use_fn_type <- "base";
+   # fn_rowMedians <- matrixStats::rowMedians
+   if (length(rowStatsFunc) > 0) {
+      use_fn_type <- "custom";
+   }
+   if (inherits(x, "sparseMatrix")) {
+      is_sparse <- TRUE;
+      if (check_pkg_installed("sparseMatrixStats")) {
+         use_fn_type <- "sparseMatrixStats";
+         fn_rowMedians <- sparseMatrixStats::rowMedians
+         fn_rowMeans <- sparseMatrixStats::rowMeans
+         rowStatsFunc <- fn_rowMeans;
+         if (TRUE %in% useMedian) {
+            rowStatsFunc <- fn_rowMedians;
+         }
+      }
+   } else if (check_pkg_installed("matrixStats")) {
+      use_fn_type <- "matrixStats";
+      fn_rowMedians <- matrixStats::rowMedians
+      fn_rowMeans <- base::rowMeans
+      rowStatsFunc <- fn_rowMeans;
+      if (TRUE %in% useMedian) {
+         rowStatsFunc <- fn_rowMedians;
+      }
+   }
+   if ("base" %in% use_fn_type) {
+      fn_rowMedians <- function(x, ...){
+         apply(x, 1, function(i){
+            median(i,
+               ...)
+         })
+      }
+      fn_rowMeans <- function(x, ...){
+         apply(x, 1, function(i){
+            mean(i,
+               ...)
+         })
+      }
+      rowStatsFunc <- fn_rowMeans;
+      if (TRUE %in% useMedian) {
+         rowStatsFunc <- fn_rowMedians;
+      }
+   }
+   if (verbose) {
+      printDebug("rowGroupMeans(): ",
+         "Using stat functions from:",
+         use_fn_type);
+   }
    # optionally calculate cross-group MAD values
    rowMadValues <- NULL;
    minDiff <- NULL;
    if (rmOutliers && length(madFactor) > 0 && crossGroupMad) {
-      if (check_pkg_installed("matrixStats")) {
+      if (verbose) {
+         printDebug("rowGroupMeans(): ",
+            "Applying rmOutliers with crossGroupMad")
+      }
+      if ("sparseMatrixStats" %in% use_fn_type) {
+         mad_rowStatsFunc <- function(x, ...){
+            sparseMatrixStats::rowMads(x,
+               na.rm=TRUE)}
+      } else if ("matrixStats" %in% use_fn_type) {
          mad_rowStatsFunc <- function(x, ...){
             matrixStats::rowMads(x,
                na.rm=TRUE)}
@@ -190,64 +254,56 @@ rowGroupMeans <- function
                mad(i,
                   na.rm=TRUE)})
          }
-         rowMedians <- function(x, ...) {
-            apply(x, 1, function(i){
-               median(i,
-                  na.rm=TRUE,
-                  ...)
-            })
-         }
       }
       x_mads <- rowGroupMeans(x=x,
          groups=groups,
          returnType="output",
-         rowStatsFunc=mad_rowStatsFunc);
+         rowStatsFunc=mad_rowStatsFunc,
+         verbose=verbose);
       x_mads[x_mads == 0] <- NA;
       # take median of each row group MAD value
-      rowMadValues <- rowMedians(x_mads,
+      rowMadValues <- fn_rowMedians(x_mads,
          na.rm=TRUE);
       minDiff <- median(rowMadValues[rowMadValues > 0],
          na.rm=TRUE);
    }
 
-   # iterate each group and perform calculations
+   # iterate each group and apply rowStatsFunc
    x2L <- tapply(X=colnames(x),
       INDEX=groups,
       simplify=FALSE,
       FUN=function(i){
-         iM <- x[,i,drop=FALSE];
+         iM <- x[, i, drop=FALSE];
          if (rmOutliers && length(madFactor) > 0) {
             ## Optionally filter for outliers before aggregation
             iM <- rowRmMadOutliers(iM,
                madFactor=madFactor,
                rowMadValues=rowMadValues,
                minDiff=minDiff,
+               verbose=verbose,
                ...);
          }
-         if (returnType %in% "input") {
+         if ("input" %in% returnType) {
             return(iM);
          }
+         ## All logic now applies rowStatsFunc
          if (length(rowStatsFunc) > 0) {
             ## If given a custom function, use it and not anything else
-            iV <- rowStatsFunc(iM, ...);
-         } else if (useMedian) {
-            if (check_pkg_installed("matrixStats")) {
-               iV <- matrixStats::rowMedians(iM,
-                  na.rm=na.rm);
-            } else {
-               iV <- apply(iM, 1, function(i){
-                  median(i,
-                     na.rm=na.rm);
-               });
-            }
+            iV <- rowStatsFunc(iM,
+               na.rm=na.rm,
+               ...);
          } else {
-            iV <- rowMeans(iM,
-               na.rm=na.rm);
+            # unnecessary
+            stop("rowStatsFunc was not properly defined.")
          }
          if (length(rownames(iM)) > 0) {
-            names(iV) <- rownames(iM);
+            if (is.vector(iV)) {
+               names(iV) <- rownames(iM);
+            } else if (is.matrix(iV)) {
+               rownames(iV) <- rownames(iM);
+            }
          }
-         if (verbose) {
+         if (verbose > 1) {
             printDebug("rowGroupMeans(): ",
                "columns:",
                i,
@@ -261,6 +317,7 @@ rowGroupMeans <- function
          printDebug("rowGroupMeans(): ",
             "keeping NULL factor levels, converting to NA.");
       }
+      # jamba::rmNULL() is used to force jamba function
       x2 <- do.call(cbind,
          jamba::rmNULL(x2L,
             nullValue=NA));
@@ -269,7 +326,7 @@ rowGroupMeans <- function
    }
 
    ## Return the replicate count as an attribute
-   if ("output" %in% returnType) {
+   if ("output" %in% returnType && TRUE %in% includeAttributes) {
       try({
          nReps <- nameVector(rmNA(naValue=0,
             tcount(groups)[colnames(x2)]),
@@ -277,6 +334,10 @@ rowGroupMeans <- function
          nRepsLabel <- nameVector(paste0("n=", nReps), colnames(x2));
          attr(x2, "n") <- nReps;
          attr(x2, "nLabel") <- nRepsLabel;
+         if (verbose > 1) {
+            printDebug("rowGroupMeans(): ",
+               "Added n and nLabel as attributes.");
+         }
       });
    }
 
@@ -290,13 +351,14 @@ rowGroupRmOutliers <- function
 (x,
  groups,
  na.rm=TRUE,
+ rmOutliers=TRUE,
  crossGroupMad=TRUE,
  madFactor=5,
- rmOutliers=TRUE,
  returnType=c("input"),
  groupOrder=c("same",
     "sort"),
  keepNULLlevels=FALSE,
+ includeAttributes=FALSE,
  verbose=FALSE,
  ...)
 {
@@ -312,6 +374,7 @@ rowGroupRmOutliers <- function
       returnType=returnType,
       groupOrder=groupOrder,
       keepNULLlevels=keepNULLlevels,
+      includeAttributes=includeAttributes,
       verbose=verbose,
       ...);
 }
@@ -486,6 +549,30 @@ rowRmMadOutliers <- function
       minDiff <- 0;
    }
 
+   # define custom functions based upon object type and packages available
+   use_fn_type <- "base";
+   if (inherits(x, "sparseMatrix")) {
+      is_sparse <- TRUE;
+      if (check_pkg_installed("sparseMatrixStats")) {
+         use_fn_type <- "sparseMatrixStats";
+         fn_rowMads <- sparseMatrixStats::rowMads
+         fn_rowMedians <- sparseMatrixStats::rowMedians
+         fn_rowSums <- sparseMatrixStats::rowSums2
+      }
+   } else if (check_pkg_installed("matrixStats")) {
+      use_fn_type <- "matrixStats";
+      fn_rowMads <- matrixStats::rowMads
+      fn_rowMedians <- matrixStats::rowMedians
+      fn_rowSums <- base::rowSums
+   }
+   if ("base" %in% use_fn_type) {
+      fn_rowMads <- function(x, ...) {
+         apply(x, 1, function(i){mad(i, ...)})}
+      fn_rowMedians <- function(x, ...) {
+         apply(x, 1, function(i){median(i, ...)})}
+      fn_rowSums <- base::rowSums
+   }
+
    # re-use MAD values, or calculate MAD values per row
    if (length(rowMadValues) > 0) {
       if (length(names(rowMadValues)) > 0 &&
@@ -502,22 +589,15 @@ rowRmMadOutliers <- function
          stop(paste0("rowMadValues must have length equal to nrow(x), ",
          "or all rownames(x) must be present in names(rowMadValues)."));
       }
-   } else if (check_pkg_installed("matrixStats")) {
-      xMads <- matrixStats::rowMads(x,
-         na.rm=na.rm);
    } else {
-      xMads <- apply(x, 1, mad, na.rm=na.rm);
+      xMads <- fn_rowMads(x,
+         na.rm=na.rm);
    }
 
    # calculate median and non-NA replicates per row
-   if (check_pkg_installed("matrixStats")) {
-      xMedians <- matrixStats::rowMedians(x,
-         na.rm=TRUE);
-      xReps <- rowSums(!is.na(x));
-   } else {
-      xMedians <- apply(x, 1, median, na.rm=TRUE);
-      xReps <- apply(!is.na(x1), 1, sum);
-   }
+   xMedians <- fn_rowMedians(x,
+      na.rm=TRUE);
+   xReps <- fn_rowSums(!is.na(x));
 
    # rowThresholds is the threshold difference from median for each row
    # and must be at least minDiff
@@ -527,7 +607,7 @@ rowRmMadOutliers <- function
    # set any points that exceed this threshold to NA
    x[abs(x - xMedians) > rowThresholds & xReps >= minReps] <- NA;
    x_NA_after <- sum(is.na(x));
-   if (includeAttributes) {
+   if (TRUE %in% includeAttributes) {
       rowTypes <- ifelse((xMads * madFactor) < minDiff,
          "minDiff",
          "madFactor");

@@ -1,5 +1,11 @@
 # TODO for jamba
 
+## 07oct2024
+
+* Consider support for `Matrix` sparse matrix objects, `CsparseMatrix`
+
+   * specifically for `rowGroupMeans()` which causes errors in `jamma`
+
 ## 13sep2024
 
 * DONE. `kable_coloring()`

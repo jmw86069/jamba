@@ -1,5 +1,4 @@
 
-context("gsubs")
 
 testthat::test_that("gsubs", {
    x <- c("one", "two", "three", "four");
@@ -14,8 +13,6 @@ testthat::test_that("gsubs", {
       list("ONE", "two", "three", "FOUR"))
 })
 
-
-context("gsubOrdered")
 
 testthat::test_that("gsubOrdered", {
    x <- c("one", "two", "three", "four");

@@ -1,5 +1,4 @@
 
-context("igrepHas")
 
 testthat::test_that("igrepHas", {
    # simple test vectors
@@ -31,7 +30,6 @@ testthat::test_that("igrepHas", {
       TRUE)
 })
 
-context("vigrep")
 
 testthat::test_that("vigrep_vgrep_igrep_provigrep", {
    # test vectors
@@ -66,7 +64,6 @@ testthat::test_that("vigrep_vgrep_igrep_provigrep", {
       c("CF", "BE", "AD", "DG", "EH"))
 })
 
-context("grepls")
 
 testthat::test_that("grepls", {
    testthat::expect_equal(

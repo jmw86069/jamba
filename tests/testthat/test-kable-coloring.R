@@ -1,5 +1,4 @@
 
-context("kable_coloring")
 
 testthat::test_that("kable_coloring basics", {
    # simple test vectors

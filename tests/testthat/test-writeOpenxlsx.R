@@ -1,5 +1,4 @@
 
-context("writeOpenxlsx_readOpenxlsx")
 
 testthat::test_that("writeOpenxlsx, startRow=1, startCol=1", {
    x <- data.frame(VARNAME=1:5,

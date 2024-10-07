@@ -1,7 +1,4 @@
 
-context("rbindList")
-
-
 testthat::test_that("rbindList atomic vectors", {
    # define test data
    L <- list(a=LETTERS[1:4], b=letters[1:3]);

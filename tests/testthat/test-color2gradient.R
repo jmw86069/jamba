@@ -1,5 +1,4 @@
 
-context("color2gradient")
 
 testthat::test_that("color2gradient using dex", {
    test_color1 <- c("red4", "gold1");

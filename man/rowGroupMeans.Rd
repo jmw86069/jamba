@@ -17,6 +17,7 @@ rowGroupMeans(
   rowStatsFunc = NULL,
   groupOrder = c("same", "sort"),
   keepNULLlevels = FALSE,
+  includeAttributes = FALSE,
   verbose = FALSE,
   ...
 )
@@ -25,12 +26,13 @@ rowGroupRmOutliers(
   x,
   groups,
   na.rm = TRUE,
+  rmOutliers = TRUE,
   crossGroupMad = TRUE,
   madFactor = 5,
-  rmOutliers = TRUE,
   returnType = c("input"),
   groupOrder = c("same", "sort"),
   keepNULLlevels = FALSE,
+  includeAttributes = FALSE,
   verbose = FALSE,
   ...
 )
@@ -87,6 +89,10 @@ When \code{TRUE} and \code{returnType="output"} the output matrix will
 contain one colname for each factor level, with NA values used
 to fill empty factor levels. This mechanism can be helpful to
 ensure that output matrices have consistent colnames.}
+
+\item{includeAttributes}{\code{logical} indicating whether to include
+attributes with \code{"n"} number of replicates per group, and \code{"nLabel"}
+with replicate label in \verb{n=#} form.}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output.}
 

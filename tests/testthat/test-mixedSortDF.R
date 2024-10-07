@@ -1,6 +1,4 @@
 
-context("mixedSortDF")
-
 
 testthat::test_that("mixedSortDF character", {
    # define test data
