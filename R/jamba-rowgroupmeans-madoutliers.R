@@ -194,7 +194,7 @@ rowGroupMeans <- function
       if (check_pkg_installed("sparseMatrixStats")) {
          use_fn_type <- "sparseMatrixStats";
          fn_rowMedians <- sparseMatrixStats::rowMedians
-         fn_rowMeans <- sparseMatrixStats::rowMeans
+         fn_rowMeans <- sparseMatrixStats::rowMeans2
          rowStatsFunc <- fn_rowMeans;
          if (TRUE %in% useMedian) {
             rowStatsFunc <- fn_rowMedians;
