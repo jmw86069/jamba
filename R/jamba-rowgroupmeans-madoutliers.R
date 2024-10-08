@@ -202,6 +202,7 @@ rowGroupMeans <- function
    } else if (check_pkg_installed("matrixStats")) {
       use_fn_type <- "matrixStats";
       fn_rowMedians <- matrixStats::rowMedians
+      # fn_rowMeans <- function(x, na.rm=TRUE){base::rowMeans(x, na.rm=na.rm)}
       fn_rowMeans <- base::rowMeans
       rowStatsFunc <- fn_rowMeans;
       if (TRUE %in% useMedian) {
@@ -289,8 +290,7 @@ rowGroupMeans <- function
          if (length(rowStatsFunc) > 0) {
             ## If given a custom function, use it and not anything else
             iV <- rowStatsFunc(iM,
-               na.rm=na.rm,
-               ...);
+               na.rm=na.rm);
          } else {
             # unnecessary
             stop("rowStatsFunc was not properly defined.")

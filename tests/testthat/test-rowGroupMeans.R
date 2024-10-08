@@ -126,10 +126,32 @@ testthat::test_that("rowGroupMeans custom rowStatsFunc", {
    x[, 5] <- x[, 5] + 1;
    groups <- rep(c("group1", "group2"), c(2, 3));
 
-   # median by default
+   # rowStatsFunc=rowSums
    testthat::expect_equal(
       as.vector(rowGroupMeans(x, groups=groups,
          rowStatsFunc=rowSums, includeAttributes=FALSE)),
       c(7, 9, 11, 13, 15, 49, 52, 55, 58, 61))
+
+   # with ellipses
+   testthat::expect_equal(
+      as.vector(rowGroupMeans(x, groups=groups,
+         dummy=1,
+         rowStatsFunc=rowSums, includeAttributes=FALSE)),
+      c(7, 9, 11, 13, 15, 49, 52, 55, 58, 61))
+
+   # with ellipses, useMedian=TRUE
+   testthat::expect_equal(
+      as.vector(rowGroupMeans(x, groups=groups,
+         dummy=1, useMedian=TRUE,
+         includeAttributes=FALSE)),
+      c(3.5, 4.5, 5.5, 6.5, 7.5, 16, 17, 18, 19, 20))
+
+   # with ellipses, useMedian=FALSE
+   testthat::expect_equal(
+      round(digits=2,
+         as.vector(rowGroupMeans(x, groups=groups,
+            dummy=1, useMedian=FALSE,
+            includeAttributes=FALSE))),
+      c(3.5, 4.5, 5.5, 6.5, 7.5, 16.33, 17.33, 18.33, 19.33, 20.33))
 
 })

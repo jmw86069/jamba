@@ -8,6 +8,8 @@
    added test cases to confirm.
    * Fixed regression when using `base::rowMeans()` when `matrixStats`
    is available, since it no longer exists in that package.
+   * Fixed regression by not passing `...` to `rowStatsFunc`, instead
+   it only passes `na.rm`. Added test case to confirm.
 
 # jamba 0.0.104.900
 
