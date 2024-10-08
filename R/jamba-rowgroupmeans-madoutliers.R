@@ -188,8 +188,7 @@ rowGroupMeans <- function
    # fn_rowMedians <- matrixStats::rowMedians
    if (length(rowStatsFunc) > 0) {
       use_fn_type <- "custom";
-   }
-   if (inherits(x, "sparseMatrix")) {
+   } else if (inherits(x, "sparseMatrix")) {
       is_sparse <- TRUE;
       if (check_pkg_installed("sparseMatrixStats")) {
          use_fn_type <- "sparseMatrixStats";
@@ -204,7 +203,6 @@ rowGroupMeans <- function
       use_fn_type <- "matrixStats";
       fn_rowMedians <- matrixStats::rowMedians
       fn_rowMeans <- base::rowMeans
-      rowStatsFunc <- fn_rowMeans;
       if (TRUE %in% useMedian) {
          rowStatsFunc <- fn_rowMedians;
       }

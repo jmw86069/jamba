@@ -1,3 +1,12 @@
+# jamba 0.0.104.950
+
+## bug fixes
+
+* `rowGroupMeans()`
+
+   * Fixed regression when using custom `rowStatsFunc`,
+   added test cases to confirm.
+
 # jamba 0.0.104.900
 
 ## changes to existing functions

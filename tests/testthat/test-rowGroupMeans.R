@@ -118,3 +118,18 @@ testthat::test_that("rowGroupMeans SparseMatrix", {
 
    }
 })
+
+testthat::test_that("rowGroupMeans custom rowStatsFunc", {
+   x <- matrix(1:25, ncol=5);
+   rownames(x) <- letters[1:5];
+   colnames(x) <- LETTERS[1:5];
+   x[, 5] <- x[, 5] + 1;
+   groups <- rep(c("group1", "group2"), c(2, 3));
+
+   # median by default
+   testthat::expect_equal(
+      as.vector(rowGroupMeans(x, groups=groups,
+         rowStatsFunc=rowSums, includeAttributes=FALSE)),
+      c(7, 9, 11, 13, 15, 49, 52, 55, 58, 61))
+
+})
