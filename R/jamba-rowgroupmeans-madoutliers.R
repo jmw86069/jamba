@@ -203,6 +203,7 @@ rowGroupMeans <- function
       use_fn_type <- "matrixStats";
       fn_rowMedians <- matrixStats::rowMedians
       fn_rowMeans <- base::rowMeans
+      rowStatsFunc <- fn_rowMeans;
       if (TRUE %in% useMedian) {
          rowStatsFunc <- fn_rowMedians;
       }

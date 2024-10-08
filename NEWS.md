@@ -1,4 +1,4 @@
-# jamba 0.0.104.950
+# jamba 0.0.105.900
 
 ## bug fixes
 
@@ -6,6 +6,8 @@
 
    * Fixed regression when using custom `rowStatsFunc`,
    added test cases to confirm.
+   * Fixed regression when using `base::rowMeans()` when `matrixStats`
+   is available, since it no longer exists in that package.
 
 # jamba 0.0.104.900
 
