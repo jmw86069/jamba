@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba.r
 \name{decideMfrow}
 \alias{decideMfrow}
-\title{Decide plot panel rows, columns for par(mfrow)}
+\title{Decide plot panel rows, columns for graphics::par(mfrow)}
 \usage{
 decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE, ...)
 }
@@ -27,14 +27,14 @@ the side of more rows than columns.}
 \value{
 \code{numeric} vector length=2, with the recommended number of plot
 rows and columns, respectively. It is intended to be used directly
-in this form: \code{par("mfrow"=decideMfrow(n=5))}
+in this form: \code{graphics::par("mfrow"=decideMfrow(n=5))}
 }
 \description{
-Decide plot panel rows, columns for par(mfrow)
+Decide plot panel rows, columns for graphics::par(mfrow)
 }
 \details{
 This function returns the recommended rows and columns of panels
-to be used in \code{par("mfrow")} with R base plotting. It attempts
+to be used in \code{graphics::par("mfrow")} with R base plotting. It attempts
 to use the device size and plot aspect ratio to keep panels roughly
 square. For example, a short-wide device would have more columns of panels
 than rows; a tall-thin device would have more rows than columns.
@@ -48,7 +48,7 @@ decideMfrow(n=6, doTest=TRUE);
 
 # a manual demonstration creating 6 panels
 n <- 6;
-par(mfrow=decideMfrow(n));
+graphics::par(mfrow=decideMfrow(n));
 for(i in seq_len(n)){
    nullPlot(plotAreaTitle=paste("Plot", i));
 }

@@ -57,12 +57,12 @@ K;
 # Here, we just add the name to the colnames, but anything
 # could be useful.
 lapply(K, function(i){
-    data.frame(mean=mean(i), median=median(i));
+    data.frame(mean=mean(i), median=stats::median(i));
  });
 
 # So the next step is to run lapply() on the names
 lapply(names(K), function(i){
-   iDF <- data.frame(mean=mean(K[[i]]), median=median(K[[i]]));
+   iDF <- data.frame(mean=mean(K[[i]]), median=stats::median(K[[i]]));
    colnames(iDF) <- paste(c("mean", "median"), i);
    iDF;
 })
@@ -72,7 +72,7 @@ lapply(names(K), function(i){
 # So we run lapply() on the named-names, which keeps the names in
 # the resulting list, and sends it into the function.
 lapply(nameVectorN(K), function(i){
-   iDF <- data.frame(mean=mean(K[[i]]), median=median(K[[i]]));
+   iDF <- data.frame(mean=mean(K[[i]]), median=stats::median(K[[i]]));
    colnames(iDF) <- paste(c("mean", "median"), i);
    iDF;
 });

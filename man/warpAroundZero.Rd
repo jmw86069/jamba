@@ -53,9 +53,9 @@ xMinus10 <- warpAroundZero(x, lens=-10);
 
 plot(x=x, y=xPlus10, type="b", pch=20, col="dodgerblue",
    main="Comparison of lens=+10 to lens=-10");
-points(x=x, y=xMinus10, type="b", pch=18, col="orangered");
-abline(h=0, v=0, col="grey", lty="dashed", a=0, b=1);
-legend("topleft",
+graphics::points(x=x, y=xMinus10, type="b", pch=18, col="orangered");
+graphics::abline(h=0, v=0, col="grey", lty="dashed", a=0, b=1);
+graphics::legend("topleft",
    legend=c("lens=+10", "lens=-10"),
    col=c("dodgerblue","orangered"),
    pch=c(20,18),
@@ -69,9 +69,9 @@ plot(x=x, y=xPlus10b5, type="b", pch=20, col="dodgerblue",
    main="Comparison of lens=+10 to lens=-10",
    ylim=c(-10,15),
    sub="baseline=+5");
-points(x=x, y=xMinus10b5, type="b", pch=18, col="orangered");
-abline(h=5, v=5, col="grey", lty="dashed", a=0, b=1);
-legend("topleft",
+graphics::points(x=x, y=xMinus10b5, type="b", pch=18, col="orangered");
+graphics::abline(h=5, v=5, col="grey", lty="dashed", a=0, b=1);
+graphics::legend("topleft",
    legend=c("lens=+10", "lens=-10"),
    col=c("dodgerblue","orangered"),
    pch=c(20,18),

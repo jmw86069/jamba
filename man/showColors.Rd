@@ -73,7 +73,7 @@ showColors(x);
 
 showColors(getColorRamp("firebrick3"))
 
-if (suppressPackageStartupMessages(require(RColorBrewer))) {
+if (requireNamespace("RColorBrewer", quietly=TRUE)) {
    RColorBrewer_namelist <- rownames(RColorBrewer::brewer.pal.info);
    y <- lapply(nameVector(RColorBrewer_namelist), function(i){
       n <- RColorBrewer::brewer.pal.info[i, "maxcolors"]
@@ -82,15 +82,15 @@ if (suppressPackageStartupMessages(require(RColorBrewer))) {
    });
    showColors(y, cexCellnote=0.6, cex.axis=0.7, main="Brewer Colors");
 }
-if (suppressPackageStartupMessages(require(viridis))) {
+if (requireNamespace("viridisLite", quietly=TRUE)) {
    # given one function name it will display discrete colors
-   showColors(viridis)
+   showColors(viridisLite::viridis)
    # a list of functions will show each function output
-   showColors(list(viridis=viridis,
-      inferno=inferno))
+   showColors(list(viridis=viridisLite::viridis,
+      inferno=viridisLite::inferno))
 
    # grab the full viridis color map
-   z <- rgb2col(viridis.map[,c("R","G","B")]);
+   z <- rgb2col(viridisLite::viridis.map[,c("R","G","B")]);
    # split the colors into a list
    viridis_names <- c(A="magma",
       B="inferno",
@@ -101,8 +101,8 @@ if (suppressPackageStartupMessages(require(viridis))) {
       G="mako",
       H="turbo")
    y <- split(z,
-      paste0(viridis.map$opt, ": ",
-      viridis_names[viridis.map$opt]));
+      paste0(viridisLite::viridis.map$opt, ": ",
+      viridis_names[viridisLite::viridis.map$opt]));
    showColors(y, labelCells=TRUE, xaxt="n", main="viridis.map colors");
 }
 
@@ -159,6 +159,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

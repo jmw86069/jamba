@@ -128,32 +128,32 @@ mlt <- minorLogTicks(1,
    offset=1,
    minTick=0);
 maj <- subset(mlt$allLabelsDF, type \%in\% "major");
-axis(1, las=2,
+graphics::axis(1, las=2,
    at=maj$tick, label=maj$text);
 min <- subset(mlt$allLabelsDF, type \%in\% "minor");
-axis(1, las=2, cex.axis=0.7,
+graphics::axis(1, las=2, cex.axis=0.7,
    at=min$tick, label=min$text,
    col="blue");
-text(x=log10(1+c(0,5,50,1000)), y=rep(1.7, 4),
+graphics::text(x=log10(1+c(0,5,50,1000)), y=rep(1.7, 4),
    label=c(0,5,50,1000), srt=90);
 
 nullPlot(xlim=c(-4,10), doMargins=FALSE);
-axis(3, las=2);
+graphics::axis(3, las=2);
 minorLogTicksAxis(1, logBase=2, displayBase=10, symmetricZero=TRUE);
 
 nullPlot(xlim=c(-4,10), doMargins=FALSE);
-axis(3, las=2);
+graphics::axis(3, las=2);
 minorLogTicksAxis(1, logBase=2, displayBase=10, offset=1);
-x2 <- rnorm(1000) * 40;
-d2 <- density(log2(1+abs(x2)) * ifelse(x2<0, -1, 1));
+x2 <- stats::rnorm(1000) * 40;
+d2 <- stats::density(log2(1+abs(x2)) * ifelse(x2<0, -1, 1));
 lines(x=d2$x, y=normScale(d2$y)+1, col="green4");
 
 nullPlot(xlim=c(0,10), doMargins=FALSE);
-axis(3, las=2);
+graphics::axis(3, las=2);
 minorLogTicksAxis(1, logBase=2, displayBase=10, offset=1);
 x1 <- c(0, 5, 15, 200);
-text(y=rep(1.0, 4), x=log2(1+x1), label=x1, srt=90, adj=c(0,0.5));
-points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
+graphics::text(y=rep(1.0, 4), x=log2(1+x1), label=x1, srt=90, adj=c(0,0.5));
+graphics::points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
 
 }
 \seealso{
@@ -163,7 +163,6 @@ Other jam practical functions:
 \code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
 \code{\link{color_dither}()},
-\code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},

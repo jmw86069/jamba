@@ -91,11 +91,11 @@ plot window using \code{ggplot2::ggplot()}.
 \dontshow{if ((requireNamespace("ggridges", quietly=TRUE))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # multiple columns
 set.seed(123);
-xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
+xm <- do.call(cbind, lapply(1:4, function(i){stats::rnorm(2000)}))
 plotRidges(xm)
 
 set.seed(123);
-x <- rnorm(2000)
+x <- stats::rnorm(2000)
 plotRidges(x)
 \dontshow{\}) # examplesIf}
 }

@@ -50,7 +50,7 @@
 #'    `FALSE` to calculate coordinates and return a `data.frame` of
 #'    label coordinates, which can then be manipulated before calling
 #'    `drawLabels()` again.
-#' @param xpd `logical` value compatible with `par("xpd")`, where NA allows labels
+#' @param xpd `logical` value compatible with `graphics::par("xpd")`, where NA allows labels
 #'    anywhere in the device region, TRUE retricts labels within the figure
 #'    region, and FALSE restricts labels within the plot region.
 #' @param preset `character` vector passed to `coordPresets()`
@@ -87,34 +87,34 @@
 #'
 #' @examples
 #' nullPlot(plotAreaTitle="");
-#' dl_topleft <- drawLabels(x=par("usr")[1],
-#'    y=par("usr")[4],
+#' dl_topleft <- drawLabels(x=graphics::par("usr")[1],
+#'    y=graphics::par("usr")[4],
 #'    txt="Top-left\nof plot",
 #'    preset="topleft",
 #'    boxColor="blue4");
 #'
-#' drawLabels(x=par("usr")[2],
-#'    y=par("usr")[3],
+#' drawLabels(x=graphics::par("usr")[2],
+#'    y=graphics::par("usr")[3],
 #'    txt="Bottom-right\nof plot",
 #'    preset="bottomright",
 #'    boxColor="green4");
 #'
-#' drawLabels(x=mean(par("usr")[1:2]),
-#'    y=mean(par("usr")[3:4]),
+#' drawLabels(x=mean(graphics::par("usr")[1:2]),
+#'    y=mean(graphics::par("usr")[3:4]),
 #'    txt="Center\nof plot",
 #'    preset="center",
 #'    boxColor="purple3");
 #'
-#' points(x=c(par("usr")[1], par("usr")[2],
-#'       mean(par("usr")[1:2])),
-#'    y=c(par("usr")[4], par("usr")[3],
-#'       mean(par("usr")[3:4])),
+#' graphics::points(x=c(graphics::par("usr")[1], graphics::par("usr")[2],
+#'       mean(graphics::par("usr")[1:2])),
+#'    y=c(graphics::par("usr")[4], graphics::par("usr")[3],
+#'       mean(graphics::par("usr")[3:4])),
 #'    pch=20,
 #'    col="red",
 #'    xpd=NA);
 #'
 #' nullPlot(plotAreaTitle="");
-#' title(main="place label across the full top plot panel", line=2.5)
+#' graphics::title(main="place label across the full top plot panel", line=2.5)
 #' dl_top <- drawLabels(
 #'    txt=c("preset='topright', adjPreset='topright', \npanelWidth='force'",
 #'       "preset='topright',\nadjPreset='bottomleft'",
@@ -125,16 +125,16 @@
 #'    boxColor=c("red4",
 #'       "blue4",
 #'       "purple3"));
-#' box(lwd=2);
+#' graphics::box(lwd=2);
 #'
-#' opar <- par("mfrow"=c(1, 3), "xpd"=TRUE);
-#' on.exit(par(opar));
+#' opar <- graphics::par("mfrow"=c(1, 3), "xpd"=TRUE);
+#' on.exit(graphics::par(opar));
 #' isub <- c(force="Always full panel width",
 #'    minimum="At least full panel width or larger",
 #'    maximum="No larger than panel width");
 #' for (i in c("force", "minimum", "maximum")) {
 #' nullPlot(plotAreaTitle="", doMargins=FALSE);
-#' title(main=paste0("panelWidth='", i, "'\n",
+#' graphics::title(main=paste0("panelWidth='", i, "'\n",
 #'    isub[i]));
 #' drawLabels(labelCex=1.2,
 #'    txt=c("Super-wide title across the top\npanelWidth='force'",
@@ -143,7 +143,7 @@
 #'    panelWidth=i,
 #'    boxColor="red4")
 #' }
-#' par("mfrow"=c(1, 1));
+#' graphics::par("mfrow"=c(1, 1));
 #'
 #' @export
 drawLabels <- function
@@ -237,10 +237,10 @@ drawLabels <- function
          x=x,
          y=y,
          txt=txt,
-         w=strwidth(txt,
+         w=graphics::strwidth(txt,
             font=font,
             cex=labelCex),
-         h=strheight(txt,
+         h=graphics::strheight(txt,
             font=font,
             cex=labelCex),
          hNudge=0,
@@ -261,8 +261,8 @@ drawLabels <- function
          ## First determine the height of the buffer between two lines of text
          labelCexU <- unique(newCoords$labelCex);
          labelCexUh <- sapply(labelCexU, function(iCex){
-            bufferH <- (strheight("|\n|", cex=iCex) -
-                  2*(strheight("|", cex=iCex)));
+            bufferH <- (graphics::strheight("|\n|", cex=iCex) -
+                  2*(graphics::strheight("|", cex=iCex)));
          });
          #labelCexUh[match(newCoords$labelCex, labelCexU)]
          if (jamba::igrepHas("\n$", newCoords$txt)) {
@@ -289,7 +289,7 @@ drawLabels <- function
             }
          }
          newCoords$adjY <- adjY;
-         newCoords$h <- strheight(newCoords$txt, cex=labelCex);
+         newCoords$h <- graphics::strheight(newCoords$txt, cex=labelCex);
       } else {
          newCoords$txt <- gsub("\n", "\n|", newCoords$txt);
       }
@@ -355,10 +355,10 @@ drawLabels <- function
 
    ## Add height and width if not supplied
    if (!"h" %in% names(newCoords)) {
-      newCoords$h <- strheight(txt, cex=labelCex*1.1);
+      newCoords$h <- graphics::strheight(txt, cex=labelCex*1.1);
    }
    if (!"w" %in% names(newCoords)) {
-      newCoords$w <- strwidth(txt, cex=labelCex*1.1);
+      newCoords$w <- graphics::strwidth(txt, cex=labelCex*1.1);
    }
 
    ## Optional panelWidth adjustment
@@ -369,7 +369,7 @@ drawLabels <- function
       newCoords$panelWidth <- "default";
    }
    if (any(!newCoords$panelWidth %in% "default")) {
-      panel_w <- diff(par("usr")[1:2]);
+      panel_w <- diff(graphics::par("usr")[1:2]);
       w <- newCoords$w;
       # mid_x <- newCoords$x + w * newCoords$adjX;
       newCoords$w <- ifelse(newCoords$panelWidth %in% "force",
@@ -462,7 +462,7 @@ drawLabels <- function
          jamba::printDebug("segmentLwd[whichLabels]: ",
             head(c(segmentLwd[whichLabels]), headN), c("orange", "lightblue"));
       }
-      segments(x0=sx0,
+      graphics::segments(x0=sx0,
          y0=sy0,
          x1=newCoords$lx[whichLabels],
          y1=newCoords$ly[whichLabels],
@@ -478,7 +478,7 @@ drawLabels <- function
    }
 
    ## The code below calculates the text to be the exact center of each box,
-   ## then forces the text() method below to use adj=c(0.5,0.5) which centers
+   ## then forces the graphics::text() method below to use adj=c(0.5,0.5) which centers
    ## the text exactly at this coordinate. Looks much nicer than other
    ## options.
    boxX1 <- newCoords$x;
@@ -499,7 +499,7 @@ drawLabels <- function
                boxY1[whichLabels][1], boxY2[whichLabels][1]));
       }
       ## Only draw boxes where there are characters to be printed
-      rect(xleft=boxX1[whichLabels],
+      graphics::rect(xleft=boxX1[whichLabels],
          ybottom=boxY1[whichLabels],
          xright=boxX2[whichLabels],
          ytop=boxY2[whichLabels],
@@ -515,7 +515,7 @@ drawLabels <- function
             "Printing labels head(txt): ",
             paste(head(txt), collapse=", "));
       }
-      text(x=textX[whichLabels],
+      graphics::text(x=textX[whichLabels],
          y=textY[whichLabels],
          font=font,
          labels=newCoords$txt[whichLabels],
@@ -542,8 +542,8 @@ drawLabels <- function
 #'
 #' When `preset` is `"default"`, the original `x,y` coordinates
 #' are used. Otherwise the `x,y` coordinates are defined using the
-#' plot region coordinates, where `"left"` uses `par("usr")[1]`,
-#' and `"top"` uses `par("usr")[4]`.
+#' plot region coordinates, where `"left"` uses `graphics::par("usr")[1]`,
+#' and `"top"` uses `graphics::par("usr")[4]`.
 #'
 #' When `adjPreset` is `"default"` it will use the `preset` to
 #' define a reciprocal text placement. For example when `preset="topright"`
@@ -605,13 +605,13 @@ drawLabels <- function
 #'
 #' # make sure to prepare the plot region first
 #' jamba::nullPlot(plotAreaTitle="");
-#' points(cp1$x, cp1$y, pch=20, cex=2, col="red");
+#' graphics::points(cp1$x, cp1$y, pch=20, cex=2, col="red");
 #'
 #' # unfortunately graphics::text() does not have vectorized adj
 #' # so it must iterate each row
-#' title(main="text() is not vectorized, text is adjacent to edges")
+#' graphics::title(main="graphics::text() is not vectorized, text is adjacent to edges")
 #' for (i in seq_along(presetV)) {
-#'    text(cp1$x[i], cp1$y[i],
+#'    graphics::text(cp1$x[i], cp1$y[i],
 #'       labels=presetV[i],
 #'       adj=c(cp1$adjX[i], cp1$adjY[i]));
 #' }
@@ -619,19 +619,19 @@ drawLabels <- function
 #' # drawLabels() will be vectorized for unique adj subsets
 #' # and adds a small buffer around text
 #' jamba::nullPlot(plotAreaTitle="");
-#' title(main="drawLabels() is vectorized, includes small buffer")
+#' graphics::title(main="drawLabels() is vectorized, includes small buffer")
 #' drawLabels(txt=presetV,
 #'    preset=presetV)
 #'
 #' jamba::nullPlot(plotAreaTitle="");
-#' title(main="drawLabels() can place labels outside plot edges")
+#' graphics::title(main="drawLabels() can place labels outside plot edges")
 #' drawLabels(txt=presetV,
 #'    preset=presetV,
 #'    adjPreset=presetV)
 #'
 #' # drawLabels() is vectorized for example
 #' jamba::nullPlot(plotAreaTitle="");
-#' title(main="Use adjPreset to position labels at a center point")
+#' graphics::title(main="Use adjPreset to position labels at a center point")
 #' presetV2 <- c("topleft",
 #'    "topright",
 #'    "bottomleft",
@@ -640,7 +640,7 @@ drawLabels <- function
 #'    adjPreset=presetV2,
 #'    adjOffsetX=0.1,
 #'    adjOffsetY=0.4);
-#' points(cp2$x,
+#' graphics::points(cp2$x,
 #'    cp2$y,
 #'    pch=20,
 #'    cex=2,
@@ -656,7 +656,7 @@ drawLabels <- function
 #'    ly=rep(1.5, 4))
 #'
 #' # demonstrate margin coordinates
-#' par("oma"=c(1, 1, 1, 1));
+#' graphics::par("oma"=c(1, 1, 1, 1));
 #' nullPlot(xlim=c(0, 1), ylim=c(1, 5));
 #' cpxy <- coordPresets(rep(c("top", "bottom", "left", "right"), each=2),
 #'    preset_type=rep(c("plot", "figure"), 4));
@@ -664,10 +664,10 @@ drawLabels <- function
 #'    txt=c("top label relative to figure",
 #'       "top label relative to plot"),
 #'    preset_type=c("figure", "plot"))
-#' points(cpxy$x, cpxy$y, cex=2,
+#' graphics::points(cpxy$x, cpxy$y, cex=2,
 #'    col="red4", bg="red1", xpd=NA,
 #'    pch=rep(c(21, 23), 4))
-#' par("oma"=c(0, 0, 0, 0));
+#' graphics::par("oma"=c(0, 0, 0, 0));
 #'
 #' @export
 coordPresets <- function
@@ -704,7 +704,7 @@ coordPresets <- function
       preset,
       adjPreset
    )));
-   parUsr <- par("usr");
+   parUsr <- graphics::par("usr");
    if (length(x) == 0) {
       x <- mean(parUsr[1:2]);
    }
@@ -795,9 +795,9 @@ coordPresets <- function
    if (any("figure" %in% preset_type &
          any(c("left", "right", "top", "bottom") %in% preset))) {
       # plot range in in ches
-      parpin <- par("pin")
+      parpin <- graphics::par("pin")
       # plot margin in inches
-      parmai <- par("mai");
+      parmai <- graphics::par("mai");
       # x coord range per inch
       xcoord_inch <- diff(parUsr[1:2]) / parpin[1];
       # y coordinate range

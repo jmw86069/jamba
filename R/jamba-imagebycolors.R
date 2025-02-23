@@ -63,8 +63,8 @@
 #'    which uses either white or black depending upon the brightness of
 #'    the background color.
 #' @param cexCellnote,srtCellnote,fontCellnote numeric vectors, with values
-#'    applied to cellnote text to be compatible with par("cex"), par("srt"),
-#'    and par("font"), respectively. If supplied a matrix or data.frame with
+#'    applied to cellnote text to be compatible with graphics::par("cex"), graphics::par("srt"),
+#'    and graphics::par("font"), respectively. If supplied a matrix or data.frame with
 #'    it is used as-is or expanded to equivalent dimensions of \code{x}.
 #'    If the vector is named by colnames(x) then it is applied
 #'    by column in order, otherwise it is applied by row, with values recycled
@@ -98,14 +98,14 @@
 #' @param interpolate logical whether to implement image interpolation,
 #'    by default TRUE when useRaster=TRUE.
 #' @param verbose logical whether to print verbose output.
-#' @param xpd NULLL or logical used for \code{par("xpd")} to define whether
-#'    to crop displayed output to the plot area. If xpd=NULL then par("xpd")
-#'    will not be modified, otherwise par("xpd"=xpd) will be defined while
+#' @param xpd NULLL or logical used for \code{graphics::par("xpd")} to define whether
+#'    to crop displayed output to the plot area. If xpd=NULL then graphics::par("xpd")
+#'    will not be modified, otherwise graphics::par("xpd"=xpd) will be defined while
 #'    adding any cell notes, then reverted to its previous value afterward.
 #'    This parameter is mainly useful when cellnote labels may overhang the
 #'    plot space, and would be cropped and not visible if
-#'    \code{par("xpd"=TRUE)}.
-#' @param bty `character` used to control box type, default `par("bty")`
+#'    \code{graphics::par("xpd"=TRUE)}.
+#' @param bty `character` used to control box type, default `graphics::par("bty")`
 #' @param flip `character` string, default "none", with optional axis flip:
 #'    * none: perform no axis flip
 #'    * x: flip x-axis orientation
@@ -159,7 +159,7 @@ imageByColors <- function
  interpolate=getOption("interpolate", TRUE),
  verbose=FALSE,
  xpd=NULL,
- bty=par("bty"),
+ bty=graphics::par("bty"),
  flip=c("none","y","x","xy"),
  keepTextAlpha=FALSE,
  doTest=FALSE,
@@ -176,10 +176,10 @@ imageByColors <- function
    ## series of cells have the same label.  Currently only supported for
    ## columns, not rows
    ##
-   ## if xpd=NULL then par("xpd") will not be modified,
-   ## otherwise par("xpd"=xpd) will be defined while
+   ## if xpd=NULL then graphics::par("xpd") will not be modified,
+   ## otherwise graphics::par("xpd"=xpd) will be defined while
    ## adding any cell notes, then reverted to its previous value afterward.
-   ## if xpd=FALSE then par("xpd") will be modified to par("xpd"=FALSE) while
+   ## if xpd=FALSE then graphics::par("xpd") will be modified to graphics::par("xpd"=FALSE) while
    ## adding any cell notes, then reverted to its previous value afterward.
    ## The intent
    ##
@@ -236,8 +236,8 @@ imageByColors <- function
       dimnames=dimnames(x));
    if (doPlot) {
       if (adjustMargins && (!xaxt %in% "n" || !yaxt %in% "n")) {
-         parmar <- par("mar");
-         #on.exit(par("mar"=parmar));
+         parmar <- graphics::par("mar");
+         #on.exit(graphics::par("mar"=parmar));
          if (!xaxt %in% "n") {
             adjustAxisLabelMargins(x=colnames(x),
                margin=1,
@@ -485,12 +485,12 @@ imageByColors <- function
          print(head(srtCellnoteDF));
       }
       if (!is.null(xpd)) {
-         parXpd <- par("xpd");
-         par("xpd"=xpd);
+         parXpd <- graphics::par("xpd");
+         graphics::par("xpd"=xpd);
       }
-      ## srt can be set only once per text() call, so we must loop through
+      ## srt can be set only once per graphics::text() call, so we must loop through
       ## each srtCellnote value
-      ## Text can only be customized once per text() call, so for every combination of
+      ## Text can only be customized once per graphics::text() call, so for every combination of
       ## srt, font, and cex, we must run this function again
       srtCellnoteDF[,"textKey"] <- pasteByRow(srtCellnoteDF[,c("cexCellnote",
          "srtCellnote", "fontCellnote")], sep="_");
@@ -501,7 +501,7 @@ imageByColors <- function
                   printDebug("textKey:", head(srtCellnoteDF[iRow,"textKey"], 1),
                      ", iRow:", head(iRow));
                }
-               text(x=srtCellnoteDF[iRow,"cellX"],
+               graphics::text(x=srtCellnoteDF[iRow,"cellX"],
                   y=srtCellnoteDF[iRow,"cellY"],
                   labels=srtCellnoteDF[iRow,"celltext"],
                   pos=NULL,
@@ -516,16 +516,16 @@ imageByColors <- function
             });
       }
       if (!is.null(xpd)) {
-         par("xpd"=parXpd);
+         graphics::par("xpd"=parXpd);
       }
    }
    ## Print column and row labels if defined
    if (doPlot) {
       if (!xaxt %in% "n" && !is.null(colnames(x))) {
-         axis(1, las=2, at=1:ncol(x), labels=colnames(x), ...);
+         graphics::axis(1, las=2, at=1:ncol(x), labels=colnames(x), ...);
       }
       if (!yaxt %in% "n" && !is.null(rownames(x))) {
-         axis(2, las=2, at=1:nrow(x), labels=rownames(x), ...);
+         graphics::axis(2, las=2, at=1:nrow(x), labels=rownames(x), ...);
       }
       graphics::box(bty=bty,
          ...);

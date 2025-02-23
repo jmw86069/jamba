@@ -19,7 +19,7 @@ groupedAxis(
 )
 }
 \arguments{
-\item{side}{\code{integer} indicating the axis side, passed to \code{axis()}.
+\item{side}{\code{integer} indicating the axis side, passed to \code{graphics::axis()}.
 1=bottom, 2=left, 3=top, 4=right.}
 
 \item{x}{\code{character} vector of axis labels}
@@ -35,7 +35,7 @@ with no bracket bounding the entries.
 }}
 
 \item{las}{\code{integer} indicating whether labels should be perpendicular,
-see \code{par("las")}.}
+see \code{graphics::par("las")}.}
 
 \item{returnFractions}{\code{logical} passed to \code{breaksByVector()} to calculate
 label positions. Set \code{returnFractions=FALSE} and all labels will only
@@ -43,11 +43,11 @@ appear at integer locations on the axis.}
 
 \item{nudge}{\code{numeric} adjustment for labels away from the plot border.}
 
-\item{do_abline}{\code{logical} indicating whether to draw \code{abline()} lines
+\item{do_abline}{\code{logical} indicating whether to draw \code{graphics::abline()} lines
 inside the plot to indicate the exact breakpoints between each group
 of labels.}
 
-\item{abline_lty}{line type compatible with \code{par("lty")}, used when
+\item{abline_lty}{line type compatible with \code{graphics::par("lty")}, used when
 \code{do_abline=TRUE}.}
 
 \item{abline_col}{\code{character} color used when \code{do_abline=TRUE}.}
@@ -57,7 +57,7 @@ as an option to suppress the output and do something else
 with the \code{data.frame} of coordinates returned by this function.}
 
 \item{...}{additional arguments are passed to \code{breaksByVector()}, and/or to
-\code{axis()}.}
+\code{graphics::axis()}.}
 }
 \value{
 \code{data.frame} invisibly, which contains the relevant axis
@@ -73,7 +73,7 @@ axis labels. It is intended where character labels are spaced
 at integer steps, and some labels are expected to be repeated.
 }
 \examples{
-par("mar"=c(4,4,6,6));
+graphics::par("mar"=c(4,4,6,6));
 b <- rep(LETTERS[1:5], c(2,3,5,4,3));
 b2 <- c(b[1:2], makeNames(b[3:5]), b[6:16]);
 nullPlot(doBoxes=FALSE,
@@ -86,10 +86,10 @@ groupedAxis(2, b, group_style="grouped");
 groupedAxis(2, b, group_style="centered");
 groupedAxis(3, b2, do_abline=TRUE);
 groupedAxis(4, b2, group_style="grouped");
-mtext(side=1, "group_style='partial_grouped'", line=2, las=0);
-mtext(side=2, "group_style='grouped'", line=2, las=0);
-mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
-mtext(side=4, "group_style='grouped'", line=2, las=0);
+graphics::mtext(side=1, "group_style='partial_grouped'", line=2, las=0);
+graphics::mtext(side=2, "group_style='grouped'", line=2, las=0);
+graphics::mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
+graphics::mtext(side=4, "group_style='grouped'", line=2, las=0);
 
 }
 \seealso{

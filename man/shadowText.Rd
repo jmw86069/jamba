@@ -19,15 +19,15 @@ shadowText(
   shadowColor = getOption("jam.shadowColor", "black"),
   alphaShadow = getOption("jam.alphaShadow", 0.2),
   shadowOrder = c("each", "all"),
-  cex = par("cex"),
-  font = par("font"),
+  cex = graphics::par("cex"),
+  font = graphics::par("font"),
   doTest = FALSE,
   ...
 )
 }
 \arguments{
 \item{x, y}{numeric coordinates, either as vectors x and y, or x as a
-two-color matrix recognized by \code{\link[grDevices]{xy.coords}}.}
+two-color matrix recognized by \code{grDevices::xy.coords()}.}
 
 \item{labels}{vector of labels to display at the corresponding xy
 coordinates.}
@@ -36,31 +36,31 @@ coordinates.}
 and shadow color (if \code{shadow=TRUE}), for each
 element in \code{labels}. Colors are applied in order, and recycled to
 \code{length(labels)} as needed. By default \code{bg} will choose
-a contrasting color, based upon \code{\link{setTextContrastColor}}.
+a contrasting color, based upon \code{setTextContrastColor()}.
 Also by default, the shadow is "black" true to its name, since it is
 expected to darken the area around it.}
 
 \item{r}{the outline radius, expressed as a fraction of the width of the
-character "A" as returned by \code{\link[graphics]{strwidth}}.}
+character "A" as returned by \code{graphics::strwidth()}.}
 
 \item{offset}{the outline offset position in xy coordinates, expressed
 as a fraction of the width of the character "A" as returned by
-\code{\link[graphics]{strwidth}}, and \code{\link[graphics]{strheight}},
+\code{graphics::strwidth()}, and \code{graphics::strheight()},
 respectively.
 The offset is only applied when \code{shadow=TRUE} to enable the shadow
 effect.}
 
-\item{n}{the number of steps around the label used to create the outline.
+\item{n}{\code{numeric} steps around the label used to create the outline.
 A higher number may be useful for very large font sizes, otherwise 8
 is a reasonably good balance between detail and the number of labels
 added.}
 
-\item{outline}{logical whether to enable outline drawing.}
+\item{outline}{\code{logical} whether to enable outline drawing.}
 
-\item{alphaOutline, alphaShadow}{alpha transparency to use for the outline
-and shadow colors, respectively.}
+\item{alphaOutline, alphaShadow}{\code{numeric} alpha transparency to use
+for the outline and shadow colors, respectively.}
 
-\item{shadow}{logical whether to enable shadow drawing.}
+\item{shadow}{\code{logical} whether to enable shadow drawing.}
 
 \item{shadowOrder}{\code{character} value indicating when shadows are drawn
 relative to drawing labels: \code{"each"} draws each shadow with each label,
@@ -68,11 +68,11 @@ so that shadows will overlap previous labels; \code{"all"} draws all shadows
 first then all labels, so labels will always appear above all
 shadows. See examples.}
 
-\item{cex}{\code{numeric} scalar applied to font size, default \code{par("cex")}.}
+\item{cex}{\code{numeric} scalar applied to font size, default \code{graphics::par("cex")}.}
 
-\item{font}{\code{character} applied to font family, default \code{par("font")}.}
+\item{font}{\code{character} applied to font family, default \code{graphics::par("font")}.}
 
-\item{doTest}{logical whether to create a visual example of output. Note
+\item{doTest}{\code{logical} whether to create a visual example of output. Note
 that it calls \code{\link{usrBox}} to color the plot area, and the
 background can be overridden with something like \code{fill="navy"}.}
 
@@ -113,16 +113,16 @@ shadowText(doTest=TRUE, fill="navy");
 shadowText(doTest=TRUE, fill="red4");
 
 # example showing labels with overlapping shadows
-opar <- par("mfrow"=c(1, 2))
+opar <- graphics::par("mfrow"=c(1, 2))
 nullPlot(doBoxes=FALSE);
-title(main="shadowOrder='each'");
+graphics::title(main="shadowOrder='each'");
 shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
    labels=c("one", "two"), cex=c(2, 4), shadowOrder="each")
 nullPlot(doBoxes=FALSE);
-title(main="shadowOrder='all'");
+graphics::title(main="shadowOrder='all'");
 shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
    labels=c("one", "two"), cex=c(2, 4), shadowOrder="all")
-par(opar)
+graphics::par(opar)
 
 }
 \seealso{

@@ -6,9 +6,9 @@
 \usage{
 getPlotAspect(
   type = c("coords", "plot", "device"),
-  parUsr = par("usr"),
-  parPin = par("pin"),
-  parDin = par("din"),
+  parUsr = graphics::par("usr"),
+  parPin = graphics::par("pin"),
+  parDin = graphics::par("din"),
   ...
 )
 }
@@ -29,11 +29,11 @@ panels, margins, and plot areas.}
 }}
 
 \item{parUsr, parPin, parDin}{\code{numeric} values equivalent to their
-respective \code{par()} output, from \code{par("usr")},
-\code{par("pin")}, and \code{par("din")}. Values can be
+respective \code{graphics::par()} output, from \code{graphics::par("usr")},
+\code{graphics::par("pin")}, and \code{graphics::par("din")}. Values can be
 supplied directly, which among other things, prevents opening a
 graphical device if one is not already opened. Any call to
-\code{par()} will otherwise cause a graphic device to be opened,
+\code{graphics::par()} will otherwise cause a graphic device to be opened,
 which may not be desired on a headless R server.}
 
 \item{...}{additional parameters are ignored.}
@@ -46,12 +46,12 @@ type, see the \code{type} argument.
 Get aspect ratio for coordinates, plot, or device
 }
 \examples{
-par("mfrow"=c(2,4));
+graphics::par("mfrow"=c(2,4));
 for (i in 1:8) {
    nullPlot(plotAreaTitle=paste("Plot", i), xlim=c(1,100), ylim=c(1,10),
       doMargins=FALSE);
-   axis(1, las=2);
-   axis(2, las=2);
+   graphics::axis(1, las=2);
+   graphics::axis(2, las=2);
 }
 getPlotAspect("coords");
 getPlotAspect("plot");

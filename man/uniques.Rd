@@ -61,11 +61,11 @@ L1;
 uniques(L1);
 
 if (1 == 1) {
-if (suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
+if (requireNamespace("IRanges", quietly=TRUE)) {
    printDebug("Bioc CompressedList:");
    print(system.time(uniques(rep(L1, 10000), useBioc=TRUE)));
 }
-if (suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
+if (requireNamespace("S4Vectors", quietly=TRUE)) {
    printDebug("Bioc SimpleList:");
    print(system.time(uniques(rep(L1, 10000), useSimpleBioc=TRUE)));
 }

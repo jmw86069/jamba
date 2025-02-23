@@ -40,8 +40,8 @@ showColors(list(x=x,
    xhex=xhex),
    groupCellnotes=FALSE)
 
-opar <- par("mfrow"=c(4, 4));
-on.exit(par(opar));
+opar <- graphics::par("mfrow"=c(4, 4));
+on.exit(graphics::par(opar));
 for (H in seq(from=0, to=360, length.out=17)[-17]) {
 S <- 75;
 Lseq <- seq(from=15, to=95, by=10);
@@ -85,6 +85,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

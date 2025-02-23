@@ -141,8 +141,8 @@ each list element should contain either a \code{character} vector, or
 \examples{
 \dontshow{if (all(check_pkg_installed(c("circlize", "kableExtra")))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 new_colorSub <- list(
-   column_A=nameVector(rainbow(5), LETTERS[1:5]),
-   column_B=nameVector(rev(rainbow(5)), LETTERS[1:5]),
+   column_A=nameVector(rainbow2(5), LETTERS[1:5]),
+   column_B=nameVector(rev(rainbow2(5)), LETTERS[1:5]),
    column_C=circlize::colorRamp2(
       colors=getColorRamp("Reds", n=6),
       breaks=0:5 * 1000))
@@ -193,6 +193,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},
@@ -206,7 +207,6 @@ Other jam practical functions:
 \code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
 \code{\link{color_dither}()},
-\code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},

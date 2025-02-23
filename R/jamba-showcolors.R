@@ -50,7 +50,7 @@
 #'
 #' showColors(getColorRamp("firebrick3"))
 #'
-#' if (suppressPackageStartupMessages(require(RColorBrewer))) {
+#' if (requireNamespace("RColorBrewer", quietly=TRUE)) {
 #'    RColorBrewer_namelist <- rownames(RColorBrewer::brewer.pal.info);
 #'    y <- lapply(nameVector(RColorBrewer_namelist), function(i){
 #'       n <- RColorBrewer::brewer.pal.info[i, "maxcolors"]
@@ -59,15 +59,15 @@
 #'    });
 #'    showColors(y, cexCellnote=0.6, cex.axis=0.7, main="Brewer Colors");
 #' }
-#' if (suppressPackageStartupMessages(require(viridis))) {
+#' if (requireNamespace("viridisLite", quietly=TRUE)) {
 #'    # given one function name it will display discrete colors
-#'    showColors(viridis)
+#'    showColors(viridisLite::viridis)
 #'    # a list of functions will show each function output
-#'    showColors(list(viridis=viridis,
-#'       inferno=inferno))
+#'    showColors(list(viridis=viridisLite::viridis,
+#'       inferno=viridisLite::inferno))
 #'
 #'    # grab the full viridis color map
-#'    z <- rgb2col(viridis.map[,c("R","G","B")]);
+#'    z <- rgb2col(viridisLite::viridis.map[,c("R","G","B")]);
 #'    # split the colors into a list
 #'    viridis_names <- c(A="magma",
 #'       B="inferno",
@@ -78,8 +78,8 @@
 #'       G="mako",
 #'       H="turbo")
 #'    y <- split(z,
-#'       paste0(viridis.map$opt, ": ",
-#'       viridis_names[viridis.map$opt]));
+#'       paste0(viridisLite::viridis.map$opt, ": ",
+#'       viridis_names[viridisLite::viridis.map$opt]));
 #'    showColors(y, labelCells=TRUE, xaxt="n", main="viridis.map colors");
 #' }
 #'
@@ -124,7 +124,7 @@ showColors <- function
                   if ("matrix" %in% class(attr(f, "colors"))) {
                      # previous version of circlize stored rgb matrix
                      nameVector(
-                        rgb(attr(f, "colors")),
+                        grDevices::rgb(attr(f, "colors")),
                         format(digits=2, br))
                   } else {
                      # recent version of circlize stores hex values
@@ -248,8 +248,8 @@ showColors <- function
    if (TRUE %in% doPlot) {
       if (TRUE %in% transpose) {
          if (adjustMargins) {
-            opar <- par("mar"=par("mar"));
-            on.exit(par(opar));
+            opar <- graphics::par("mar"=graphics::par("mar"));
+            on.exit(graphics::par(opar));
             ## Detect string width to adjust margins
             adjustAxisLabelMargins(x=rownames(xM),
                margin=1,
@@ -272,8 +272,8 @@ showColors <- function
             ...);
       } else {
          if (adjustMargins) {
-            opar <- par("mar"=par("mar"));
-            on.exit(par(opar));
+            opar <- graphics::par("mar"=graphics::par("mar"));
+            on.exit(graphics::par(opar));
             ## Detect string width to adjust margins
             adjustAxisLabelMargins(x=colnames(xM),
                margin=1,

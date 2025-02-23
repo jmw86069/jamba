@@ -23,7 +23,7 @@ plotPolygonDensity(
   breaks = 100,
   width = NULL,
   densityBreaksFactor = 3,
-  axisFunc = axis,
+  axisFunc = graphics::axis,
   bty = "l",
   cex.axis = 1.5,
   doPar = TRUE,
@@ -112,15 +112,15 @@ value in \code{x}. Passed to \code{breakDensity()}.}
 \item{densityBreaksFactor}{\code{numeric} scaling factor to control
 the level of detail in the density, passed to \code{breakDensity()}.}
 
-\item{axisFunc}{\code{function} optionally used in place of \code{axis()} to define
+\item{axisFunc}{\code{function} optionally used in place of \code{graphics::axis()} to define
 axis labels.}
 
 \item{bty}{\code{character} string used to define the plot box shape,
-see \code{box()}.}
+see \code{graphics::box()}.}
 
 \item{cex.axis}{\code{numeric} scalar to adjust axis label font size.}
 
-\item{doPar}{\code{logical} indicating whether to apply \code{par()}, specifically
+\item{doPar}{\code{logical} indicating whether to apply \code{graphics::par()}, specifically
 when \code{x} is supplied as a multi-column matrix. When \code{doPar=FALSE},
 no panels nor margin adjustments are made at all.}
 
@@ -135,7 +135,7 @@ within each plot panel.}
 title uses the relevant \code{colnames(x)} value.}
 
 \item{xaxs, yaxs, xaxt, yaxt}{\code{character} string indicating the type of
-x-axis and y-axis to render, see \code{par()}.}
+x-axis and y-axis to render, see \code{graphics::par()}.}
 
 \item{xlab, ylab}{\code{character} labels for x-axis and y-axis, respectively.}
 
@@ -232,8 +232,7 @@ y-axis range, thus obscuring interesting smaller features.
 
 If supplied with a data matrix, this function will create a layout
 with \code{ncol(x)} panels, and plot the distribution of each column
-in its own panel, using categorical colors from
-\code{colorjam::rainbowJam()}.
+in its own panel, using categorical colors from \code{rainbow2()}.
 
 For a similar style using ggplot2, see \code{plotRidges()}, which displays
 only the density profile for each sample, but in a much more scalable
@@ -249,7 +248,7 @@ with \code{polyCol}.
 \examples{
 # basic density plot
 set.seed(123);
-x <- rnorm(2000);
+x <- stats::rnorm(2000);
 plotPolygonDensity(x, main="basic polygon density plot");
 
 # fewer breaks
@@ -258,7 +257,7 @@ plotPolygonDensity(x,
    main="breaks=20");
 
 # log-scaled x-axis
-plotPolygonDensity(10^(3+rnorm(2000)), log="x",
+plotPolygonDensity(10^(3+stats::rnorm(2000)), log="x",
    breaks=50,
    main="log-scaled x-axis");
 
@@ -280,7 +279,7 @@ plotPolygonDensity(x,
 
 # multiple columns
 set.seed(123);
-xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
+xm <- do.call(cbind, lapply(1:4, function(i){stats::rnorm(2000)}))
 plotPolygonDensity(xm, breaks=20)
 
 }

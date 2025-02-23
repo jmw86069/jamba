@@ -74,7 +74,7 @@ showColors(color_dither(x))
 
 showColors(color_dither(x, direction=-1))
 
-x <- vigrep("^green[0-9]", colors())
+x <- vigrep("^green[0-9]", grDevices::colors())
 showColors(color_dither(x))
 showColors(color_dither(x, direction=-1, returnType="list"))
 
@@ -94,7 +94,6 @@ Other jam practical functions:
 \code{\link{checkLightMode}()},
 \code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
-\code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},

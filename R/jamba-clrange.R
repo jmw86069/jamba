@@ -36,8 +36,7 @@ checkLightMode <- function
          lightMode <- (jam_lightMode %in% c(1, "TRUE"));
       } else if (Sys.getenv("RSTUDIO") == 1) {
          ## Use rstudioapi if available
-         if (suppressWarnings(suppressPackageStartupMessages(
-            require(rstudioapi)))) {
+         if (requireNamespace("rstudioapi", quietly=TRUE)) {
             if (rstudioapi::isAvailable() && rstudioapi::hasFun("getThemeInfo")) {
                theme <- rstudioapi::getThemeInfo();
                lightMode <- !(theme$dark);
@@ -542,7 +541,7 @@ applyCLrange <- function
 #'    meet the expected format, the input `HCL` is returned unchanged.
 #'
 #' @examples
-#' yellows <- vigrep("yellow", colors());
+#' yellows <- vigrep("yellow", grDevices::colors());
 #' yellowsHCL <- col2hcl(yellows);
 #' fixedYellowsHCL <- fixYellowHue(yellowsHCL);
 #' fixedYellows <- hcl2col(fixedYellowsHCL);
@@ -596,7 +595,7 @@ fixYellowHue <- function
 #' `col` is returned unchanged.
 #'
 #' @param col R color, either in hex color format or using values from
-#'    `colors()`.
+#'    `grDevices::colors()`.
 #' @param Hrange numeric vector whose range defines the region of hues
 #'    to be adjusted. By default hues between 80 and 90 are adjusted. If
 #'    NULL, `HCL` is return unchanged.
@@ -616,7 +615,7 @@ fixYellowHue <- function
 #' @family jam color functions
 #'
 #' @examples
-#' yellows <- vigrep("yellow", colors());
+#' yellows <- vigrep("yellow", grDevices::colors());
 #' fixedYellows <- fixYellow(yellows);
 #' showColors(list(yellows=yellows,
 #'    fixedYellows=fixedYellows));

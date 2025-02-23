@@ -71,7 +71,7 @@
 #' nullPlot(doBoxes=FALSE, xlim=c(-1, 4), ylim=c(-1, 4), asp=1);
 #' usrBox(fill="grey")
 #' cex <- 1.2
-#' axis(1);axis(2, las=2)
+#' graphics::axis(1);graphics::axis(2, las=2)
 #' shadowText_options(preset="default")
 #' shadowText(x=0, y=3, "default", cex=cex)
 #' shadowText_options(preset="bold")

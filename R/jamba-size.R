@@ -5,7 +5,7 @@
 #'
 #' This function returns human-readable size based upon `numeric` input.
 #' Alternatively, when input is any other R object, it calls
-#' `object.size()` to produce a single `numeric` value which is then
+#' `utils::object.size()` to produce a single `numeric` value which is then
 #' used to produce human-readable size.
 #'
 #' The default behavior is to report computer size in bytes, where
@@ -21,7 +21,7 @@
 #'
 #' @param x `numeric` vector, class `object_size` which is converted
 #'    to `numeric`, any other R object is converted to a single `numeric`
-#'    value using `object.size()`.
+#'    value using `utils::object.size()`.
 #' @param digits `integer` number of digits used by `base::format()` when
 #'    formatting the number to create a character string
 #' @param abbreviateUnits `logical`, default TRUE,  whether to print
@@ -63,12 +63,12 @@ asSize <- function
    if (length(x) == 0) {
       return(character(0))
    }
-   # non-numeric input is converted to numeric using object.size()
+   # non-numeric input is converted to numeric using utils::object.size()
    if ("object_size" %in% class(x)) {
       x <- as.numeric(x);
    }
    if (!is.numeric(x)) {
-      x <- object.size(x)
+      x <- utils::object.size(x)
    }
 
    ## unitType is typically "byte" but can be any relevant unit, e.g.

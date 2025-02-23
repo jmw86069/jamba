@@ -68,30 +68,30 @@ adjustAxisLabelMargins(ylabs, 2);
 adjustAxisLabelMargins(bb2$useLabels, 1);
 nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
    doBoxes=FALSE, doUsrBox=TRUE);
-axis(2, las=2, at=c(1,2), ylabs);
-text(y=2, x=seq_along(b), b);
-text(y=1, x=bb2$labelPoints, bb2$useLabels);
+graphics::axis(2, las=2, at=c(1,2), ylabs);
+graphics::text(y=2, x=seq_along(b), b);
+graphics::text(y=1, x=bb2$labelPoints, bb2$useLabels);
 
 ## Print axis labels in the center of each group
-axis(3,
+graphics::axis(3,
    las=2,
    at=bb2$labelPoints,
    labels=bb2$useLabels);
 
 ## indicate each region
 for (i in seq_along(bb2$breakPoints)) {
-   axis(1,
+   graphics::axis(1,
       at=c(c(0, bb2$breakPoints)[i]+0.8, bb2$breakPoints[i]+0.2),
       labels=c("", ""));
 }
 ## place the label centered in each region without adding tick marks
-axis(1,
+graphics::axis(1,
    las=2,
    tick=FALSE,
    at=bb2$labelPoints,
    labels=bb2$useLabels);
 ## abline to indicate the boundaries, if needed
-abline(v=c(0, bb2$breakPoints) + 0.5,
+graphics::abline(v=c(0, bb2$breakPoints) + 0.5,
    lty="dashed",
    col="blue");
 

@@ -31,8 +31,8 @@
 #'    xhex=xhex),
 #'    groupCellnotes=FALSE)
 #'
-#' opar <- par("mfrow"=c(4, 4));
-#' on.exit(par(opar));
+#' opar <- graphics::par("mfrow"=c(4, 4));
+#' on.exit(graphics::par(opar));
 #' for (H in seq(from=0, to=360, length.out=17)[-17]) {
 #' S <- 75;
 #' Lseq <- seq(from=15, to=95, by=10);
@@ -64,7 +64,7 @@ col2hsl <- function
  ...)
 {
    ## Purpose is to convert R color to hsl
-   ## R color can be a hex string or color name from colors()
+   ## R color can be a hex string or color name from grDevices::colors()
    if (!requireNamespace("farver", quietly=TRUE)) {
       stop("The farver package is required.");
    }

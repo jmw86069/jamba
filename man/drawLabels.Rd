@@ -85,7 +85,7 @@ the background box color.}
 label coordinates, which can then be manipulated before calling
 \code{drawLabels()} again.}
 
-\item{xpd}{\code{logical} value compatible with \code{par("xpd")}, where NA allows labels
+\item{xpd}{\code{logical} value compatible with \code{graphics::par("xpd")}, where NA allows labels
 anywhere in the device region, TRUE retricts labels within the figure
 region, and FALSE restricts labels within the plot region.}
 
@@ -150,34 +150,34 @@ example axis labels.
 }
 \examples{
 nullPlot(plotAreaTitle="");
-dl_topleft <- drawLabels(x=par("usr")[1],
-   y=par("usr")[4],
+dl_topleft <- drawLabels(x=graphics::par("usr")[1],
+   y=graphics::par("usr")[4],
    txt="Top-left\nof plot",
    preset="topleft",
    boxColor="blue4");
 
-drawLabels(x=par("usr")[2],
-   y=par("usr")[3],
+drawLabels(x=graphics::par("usr")[2],
+   y=graphics::par("usr")[3],
    txt="Bottom-right\nof plot",
    preset="bottomright",
    boxColor="green4");
 
-drawLabels(x=mean(par("usr")[1:2]),
-   y=mean(par("usr")[3:4]),
+drawLabels(x=mean(graphics::par("usr")[1:2]),
+   y=mean(graphics::par("usr")[3:4]),
    txt="Center\nof plot",
    preset="center",
    boxColor="purple3");
 
-points(x=c(par("usr")[1], par("usr")[2],
-      mean(par("usr")[1:2])),
-   y=c(par("usr")[4], par("usr")[3],
-      mean(par("usr")[3:4])),
+graphics::points(x=c(graphics::par("usr")[1], graphics::par("usr")[2],
+      mean(graphics::par("usr")[1:2])),
+   y=c(graphics::par("usr")[4], graphics::par("usr")[3],
+      mean(graphics::par("usr")[3:4])),
    pch=20,
    col="red",
    xpd=NA);
 
 nullPlot(plotAreaTitle="");
-title(main="place label across the full top plot panel", line=2.5)
+graphics::title(main="place label across the full top plot panel", line=2.5)
 dl_top <- drawLabels(
    txt=c("preset='topright', adjPreset='topright', \npanelWidth='force'",
       "preset='topright',\nadjPreset='bottomleft'",
@@ -188,16 +188,16 @@ dl_top <- drawLabels(
    boxColor=c("red4",
       "blue4",
       "purple3"));
-box(lwd=2);
+graphics::box(lwd=2);
 
-opar <- par("mfrow"=c(1, 3), "xpd"=TRUE);
-on.exit(par(opar));
+opar <- graphics::par("mfrow"=c(1, 3), "xpd"=TRUE);
+on.exit(graphics::par(opar));
 isub <- c(force="Always full panel width",
    minimum="At least full panel width or larger",
    maximum="No larger than panel width");
 for (i in c("force", "minimum", "maximum")) {
 nullPlot(plotAreaTitle="", doMargins=FALSE);
-title(main=paste0("panelWidth='", i, "'\n",
+graphics::title(main=paste0("panelWidth='", i, "'\n",
    isub[i]));
 drawLabels(labelCex=1.2,
    txt=c("Super-wide title across the top\npanelWidth='force'",
@@ -206,7 +206,7 @@ drawLabels(labelCex=1.2,
    panelWidth=i,
    boxColor="red4")
 }
-par("mfrow"=c(1, 1));
+graphics::par("mfrow"=c(1, 1));
 
 }
 \seealso{

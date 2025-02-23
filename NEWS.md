@@ -11,6 +11,11 @@ necessary for the user Added circlize to Enhances.
 * Fixed test for rowGroupMeans() with sparse Matrix.
 * Fixed `uniques()` for mixed list input when `useBioc=FALSE`, factor and
 character together converted factor to integer then character.
+* removed colorjam from Enhances, sigh, since it is only on Github and
+not cleanly available for CRAN checking. Once colorjam is available,
+it will be supported by jamba again.
+* Added `rainbow2()` as a cheap alternative to `colorjam::rainbowJam()`,
+and quick drop-in replacement for `grDevices::rainbow()`.
 
 # jamba 0.0.105.900
 

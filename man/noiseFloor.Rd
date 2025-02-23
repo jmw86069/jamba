@@ -63,8 +63,8 @@ of numeric values from the floor for illustrative purposes.
 \examples{
 # start with some random data
 n <- 2000;
-x1 <- rnorm(n);
-y1 <- rnorm(n);
+x1 <- stats::rnorm(n);
+y1 <- stats::rnorm(n);
 
 # apply noise floor and ceiling
 x2 <- noiseFloor(x1, minimum=-2, ceiling=2);
@@ -76,12 +76,12 @@ xm3 <- noiseFloor(xm,
    minimum=-2, newValue=-3,
    ceiling=2, newCeiling=3);
 
-parMfrow <- par("mfrow");
-par("mfrow"=c(2,2));
+parMfrow <- graphics::par("mfrow");
+graphics::par("mfrow"=c(2,2));
 plotSmoothScatter(x1, y1);
 plotSmoothScatter(x2, y2);
 plotSmoothScatter(xm3);
-par("mfrow"=parMfrow);
+graphics::par("mfrow"=parMfrow);
 
 }
 \seealso{

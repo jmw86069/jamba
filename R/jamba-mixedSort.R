@@ -126,9 +126,6 @@ mixedSort <- function
    ## for example
    ## c("miR-10", "miR-9") should sort the same as
    ## c("miR_10", "miR_9")
-   #if (!require(gtools)) {
-   #   stop("This mixedSort() function requires the mixedorder() function from the gtools package.");
-   #}
    ## sortByName=TRUE will sort the vector using the names, returning the
    ## original vector
    ##

@@ -137,10 +137,10 @@ the corresponding non-NA value in the opposing axis. The driving use
 was plotting gene fold changes from two experiments, where the two
 experiments may not have measured the same genes.}
 
-\item{xaxt}{\code{character} value compatible with par(xaxt), used to control
+\item{xaxt}{\code{character} value compatible with graphics::par(xaxt), used to control
 the x-axis range, similar to its use in \code{plot()} generic functions.}
 
-\item{yaxt}{\code{character} value compatible with par(yaxt), used to control
+\item{yaxt}{\code{character} value compatible with graphics::par(yaxt), used to control
 the y-axis range, similar to its use in \code{plot()} generic functions.}
 
 \item{add}{\code{logical} whether to add to an existing active R plot, or create
@@ -158,7 +158,7 @@ the existing plot device is re-used.
 \item When \code{add=FALSE} and \code{asp} is defined with \code{numeric} value,
 a new plot device is opened using \code{plot.window()}, and the \code{xlim}
 and \code{ylim} values are passed to that function. As a result the
-\code{par("usr")} values are used to define \code{xlim} and \code{ylim} for the
+\code{graphics::par("usr")} values are used to define \code{xlim} and \code{ylim} for the
 purpose of determining visible points, relevant to \code{applyRangeCeiling}.
 }}
 

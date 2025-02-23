@@ -101,7 +101,7 @@
 #'    and if `rmOutliers=TRUE` to `jamba::rowRmMadOutliers()`.
 #'
 #' @examples
-#' x <- matrix(ncol=9, rnorm(90));
+#' x <- matrix(ncol=9, stats::rnorm(90));
 #' colnames(x) <- LETTERS[1:9];
 #' rowGroupMeans(x, groups=rep(letters[1:3], each=3))
 #'
@@ -128,7 +128,7 @@ rowGroupMeans <- function
    ##
    ## If rmOutliers==TRUE and madFactor is not NULL, then replicates within each group will
    ## be tested for outliers using rowRmMadOutliers().  madFactor represents the fold threshold
-   ## from the mad() of each group, for each row, and a default of 5 is fairly lenient in that it
+   ## from the stats::mad() of each group, for each row, and a default of 5 is fairly lenient in that it
    ## only filters outliers when one point is 5 times the MAD away from median.
    ## rmOutliers=FALSE, madFactor=5,
    ##
@@ -147,11 +147,7 @@ rowGroupMeans <- function
    groupOrder <- match.arg(groupOrder);
 
    returnType <- match.arg(returnType);
-   #if (useMedian || rmOutliers) {
-   #if (!suppressPackageStartupMessages(require(matrixStats))) {
-   #   stop("The matrixStats package is required for rowMADs().");
-   #}
-   #}
+
    if (verbose && rmOutliers && length(madFactor) > 0) {
       printDebug("rowGroupMeans(): ",
          "running with rmOutliers=",
@@ -215,7 +211,7 @@ rowGroupMeans <- function
    if ("base" %in% use_fn_type) {
       fn_rowMedians <- function(x, ...){
          apply(x, 1, function(i){
-            median(i,
+            stats::median(i,
                ...)
          })
       }
@@ -254,7 +250,7 @@ rowGroupMeans <- function
       } else {
          mad_rowStatsFunc <- function(x, ...){
             apply(x, 1, function(i){
-               mad(i,
+               stats::mad(i,
                   na.rm=TRUE)})
          }
       }
@@ -267,7 +263,7 @@ rowGroupMeans <- function
       # take median of each row group MAD value
       rowMadValues <- fn_rowMedians(x_mads,
          na.rm=TRUE);
-      minDiff <- median(rowMadValues[rowMadValues > 0],
+      minDiff <- stats::median(rowMadValues[rowMadValues > 0],
          na.rm=TRUE);
    }
 
@@ -411,7 +407,7 @@ rowGroupRmOutliers <- function
 #' median to be at least 0.01 to be eligible to be an outlier point.
 #'
 #' One option to define `minDiff` from the data is to use:
-#' `minDiff <- median(rowMads(x))`
+#' `minDiff <- stats::median(rowMads(x))`
 #'
 #' In this case, the threshold is defined by the median difference
 #' from median across all rows.
@@ -506,7 +502,7 @@ rowGroupRmOutliers <- function
 #'
 #' @examples
 #' set.seed(123);
-#' x <- matrix(ncol=5, rnorm(25))*5 + 10;
+#' x <- matrix(ncol=5, stats::rnorm(25))*5 + 10;
 #' ## Define some outlier points
 #' x[1:2,3] <- x[1:2,3]*5 + 50;
 #' x[2:3,2] <- x[2:3,2]*5 - 100;
@@ -569,9 +565,9 @@ rowRmMadOutliers <- function
    }
    if ("base" %in% use_fn_type) {
       fn_rowMads <- function(x, ...) {
-         apply(x, 1, function(i){mad(i, ...)})}
+         apply(x, 1, function(i){stats::mad(i, ...)})}
       fn_rowMedians <- function(x, ...) {
-         apply(x, 1, function(i){median(i, ...)})}
+         apply(x, 1, function(i){stats::median(i, ...)})}
       fn_rowSums <- base::rowSums
    }
 

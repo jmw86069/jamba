@@ -192,16 +192,16 @@
 #' set.seed(123);
 #' \dontrun{
 #'    set.seed(123);
-#'    lfc <- -3:3 + rnorm(7)/3;
+#'    lfc <- -3:3 + stats::rnorm(7)/3;
 #'    colorSub <- nameVector(
-#'       rainbow(7, s=c(0.8, 1), v=c(0.8, 1)),
+#'       rainbow2(7),
 #'       LETTERS[1:7])
 #'    df <- data.frame(name=LETTERS[1:7],
 #'       int=round(4^(1:7)),
-#'       num=(1:7)*4-2 + rnorm(7),
+#'       num=(1:7)*4-2 + stats::rnorm(7),
 #'       fold=2^abs(lfc)*sign(lfc),
 #'       lfc=lfc,
-#'       pvalue=10^(-1:-7 + rnorm(7)),
+#'       pvalue=10^(-1:-7 + stats::rnorm(7)),
 #'       hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 #'    df;
 #'    writeOpenxlsx(x=df,
@@ -290,7 +290,7 @@ writeOpenxlsx <- function
 {
    ## Purpose is to use openxlsx::writeDataTable() to write .xlsx files
    ##
-   if (!suppressPackageStartupMessages(require(openxlsx))) {
+   if (!requireNamespace("openxlsx", quietly=TRUE)) {
       stop("The openxlsx package is required for writeOpenxlsx().");
    }
    if (length(wb) > 0) {
@@ -383,13 +383,13 @@ writeOpenxlsx <- function
 
    ## Make sure colors are in hex format
    headerColors <- gsub("(#......)..", "\\1",
-      rgb2col(col2rgb(headerColors)));
+      rgb2col(grDevices::col2rgb(headerColors)));
    columnColors <- gsub("(#......)..", "\\1",
-      rgb2col(col2rgb(columnColors)));
+      rgb2col(grDevices::col2rgb(columnColors)));
    highlightHeaderColors <- gsub("(#......)..", "\\1",
-      rgb2col(col2rgb(highlightHeaderColors)));
+      rgb2col(grDevices::col2rgb(highlightHeaderColors)));
    highlightColors <- gsub("(#......)..", "\\1",
-      rgb2col(col2rgb(highlightColors)));
+      rgb2col(grDevices::col2rgb(highlightColors)));
    if (verbose) {
       printDebug("writeOpenxlsx(): ",
          "headerColors:", headerColors,
@@ -1000,7 +1000,7 @@ applyXlsxConditionalFormat <- function
    ## overwrite=TRUE will overwrite the original file
    ## overwrite=FALSE will create a new file
    ##
-   if (!suppressPackageStartupMessages(require(openxlsx))) {
+   if (!requireNamespace("openxlsx", quietly=TRUE)) {
       stop("The openxlsx package is required for applyXlsxConditionalFormat().");
    }
 
@@ -1279,7 +1279,7 @@ applyXlsxConditionalFormat <- function
 #'       sheetName="test_jamba");
 #'
 #'    colorSub <- nameVector(
-#'       rainbow(5, s=c(0.8, 1), v=c(0.8, 1)),
+#'       rainbow2(5, s=c(0.8, 1), v=c(0.8, 1)),
 #'       LETTERS[1:5]);
 #'    applyXlsxCategoricalFormat(
 #'       xlsxFile="jamba_test.xlsx",
@@ -1571,7 +1571,7 @@ applyXlsxCategoricalFormat <- function
                icolors <- colorSub[[df_name]];
                if (is.function(icolors)) {
                   df_values <- c(NA,
-                     read.table(text=df[[dfcol]][-1],
+                     utils::read.table(text=df[[dfcol]][-1],
                         stringsAsFactors=FALSE)[[1]])
                   dfcol_colors <- rmNA(unalpha(icolors(df_values), keepNA=TRUE),
                      naValue="")
@@ -1963,7 +1963,7 @@ readOpenxlsx <- function
  verbose=FALSE,
  ...)
 {
-   if (!suppressPackageStartupMessages(require(openxlsx))) {
+   if (!requireNamespace("openxlsx", quietly=TRUE)) {
       stop("The openxlsx package is required for readOpenxlsx().");
    }
    if (length(xlsx) == 0 || !file.exists(xlsx)) {

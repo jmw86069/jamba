@@ -100,17 +100,17 @@ colorL <- lapply(nameVector(c(1, 0.9, 0.8, 0.6, 0.3)), function(i){
 jamba::showColors(colorL,
    groupCellnotes=FALSE,
    srtCellnote=seq(from=15, to=-15, length.out=5));
-title(ylab="alpha", line=1.5);
+graphics::title(ylab="alpha", line=1.5);
 
 # change background to dark blue
-opar <- par("bg"="navy",
+opar <- graphics::par("bg"="navy",
    "col"="white",
    "col.axis"="white");
 jamba::showColors(colorL,
    groupCellnotes=FALSE,
    srtCellnote=seq(from=15, to=-15, length.out=5))
-title(ylab="alpha", line=1.5);
-par(opar);
+graphics::title(ylab="alpha", line=1.5);
+graphics::par(opar);
 
 # Example using transparency and drawLabels()
 bg <- "blue4";
@@ -150,6 +150,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{showColors}()},

@@ -7,7 +7,7 @@
 usrBox(
   fill = "#FFFF9966",
   label = NULL,
-  parUsr = par("usr"),
+  parUsr = graphics::par("usr"),
   debug = FALSE,
   ...
 )
@@ -19,7 +19,7 @@ usrBox(
 plot space, default \code{NULL}}
 
 \item{parUsr}{\code{numeric} vector length 4, indicating the R plot space,
-consistent with \code{par("usr")}. It can thus be used to define a
+consistent with \code{graphics::par("usr")}. It can thus be used to define a
 different area, though using the \code{\link[graphics]{rect}} function
 directly seems more appropriate.}
 
@@ -37,7 +37,7 @@ can be useful to indicate the active plot area while allowing pre-drawn
 plot elements to be shown, or can be useful precursor to provide a colored
 background for the plot.
 
-The plot space is defined using \code{par("usr")} and therefore requires
+The plot space is defined using \code{graphics::par("usr")} and therefore requires
 an active R device is already opened.
 }
 \examples{

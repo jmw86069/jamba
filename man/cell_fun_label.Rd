@@ -93,7 +93,7 @@ requires a slightly different method.
 \examples{
 \dontshow{if ((check_pkg_installed("ComplexHeatmap"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-m <- matrix(rnorm(16)*2, ncol=4)
+m <- matrix(stats::rnorm(16)*2, ncol=4)
 colnames(m) <- LETTERS[1:4]
 rownames(m) <- letters[1:4]
 #col_hm <- circlize::colorRamp2(breaks=(-2:2) * 2,

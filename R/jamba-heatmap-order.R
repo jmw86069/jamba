@@ -177,7 +177,7 @@ heatmap_row_order <- function
 #' if (check_pkg_installed("ComplexHeatmap")) {
 #'    set.seed(123);
 #'
-#'    mat <- matrix(rnorm(18 * 24),
+#'    mat <- matrix(stats::rnorm(18 * 24),
 #'       ncol=24);
 #'    rownames(mat) <- paste0("row", seq_len(18))
 #'    colnames(mat) <- paste0("column", seq_len(24))
@@ -199,7 +199,7 @@ heatmap_row_order <- function
 #'    print(heatmap_column_order(hm1_split_drawn))
 #'
 #'    # display two heatmaps side-by-side
-#'    mat2 <- mat + rnorm(18*24);
+#'    mat2 <- mat + stats::rnorm(18*24);
 #'    hm2 <- ComplexHeatmap::Heatmap(mat2, border=TRUE, row_split=4);
 #'
 #'    hm1hm2_drawn <- ComplexHeatmap::draw(hm1_split + hm2,

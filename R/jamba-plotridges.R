@@ -55,11 +55,11 @@
 #' @examplesIf (requireNamespace("ggridges", quietly=TRUE))
 #' # multiple columns
 #' set.seed(123);
-#' xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
+#' xm <- do.call(cbind, lapply(1:4, function(i){stats::rnorm(2000)}))
 #' plotRidges(xm)
 #'
 #' set.seed(123);
-#' x <- rnorm(2000)
+#' x <- stats::rnorm(2000)
 #' plotRidges(x)
 #'
 #' @export
@@ -147,16 +147,15 @@ plotRidges <- function
 
    if (length(color_sub) < length(levels(x$column))) {
       n <- length(levels(x$column));
-      if (requireNamespace("colorjam", quietly=TRUE)) {
+      # if (requireNamespace("colorjam", quietly=TRUE)) {
+      #    color_sub <- nameVector(
+      #       colorjam::rainbowJam(n=n),
+      #       rev(levels(x$column)));
+      # } else {
          color_sub <- nameVector(
-            colorjam::rainbowJam(n=n),
+            unalpha(rainbow2(n=n)),
             rev(levels(x$column)));
-      } else {
-         color_sub <- nameVector(
-            unalpha(rainbow(n=n,
-               s=rep(c(1, 0.4), length.out=n))),
-            rev(levels(x$column)));
-      }
+      # }
    } else if (length(names(color_sub)) == 0) {
       color_sub <- rep(color_sub,
          length.out=length(levels(x$column)));
@@ -186,10 +185,10 @@ plotRidges <- function
          values=jamba::makeColorDarker(color_sub,
             darkFactor=1.5)) +
       ggplot2::scale_fill_manual(values=color_sub);
-   if (requireNamespace("colorjam", quietly=TRUE)) {
-      gg <- gg +
-         colorjam::theme_jam();
-   }
+   # if (requireNamespace("colorjam", quietly=TRUE)) {
+   #    gg <- gg +
+   #       colorjam::theme_jam();
+   # }
    if (share_bandwidth) {
       gg <- gg +
          ggridges::geom_density_ridges2(

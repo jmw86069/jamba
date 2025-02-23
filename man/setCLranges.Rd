@@ -113,6 +113,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setTextContrastColor}()},
 \code{\link{showColors}()},

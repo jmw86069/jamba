@@ -7,8 +7,8 @@
 hsv2col(hsvValue, ...)
 }
 \arguments{
-\item{hsvValue}{HSV matrix, with rownames c("h","s","v") in any order,
-and optionally "alpha" rowname for alpha transparency.}
+\item{hsvValue}{\code{numeric} HSV matrix, with rownames c("h","s","v")
+in any order, and optionally "alpha" rowname for alpha transparency.}
 
 \item{...}{additional arguments are ignored.}
 }
@@ -16,11 +16,11 @@ and optionally "alpha" rowname for alpha transparency.}
 Converts a HSV color matrix to R hex color
 }
 \details{
-This function augments the \code{\link[grDevices]{hsv}} function in that it handles
-output from \code{\link[grDevices]{rgb2hsv}} or \code{\link{col2hsv}}, sufficient to
+This function augments the \code{grDevices::hsv()} function in that it handles
+output from \code{grDevices::rgb2hsv()} or \code{col2hsv()}, sufficient to
 run a series of conversion functions, e.g. \code{hsv2col(col2hsv("red"))}.
 This function also maintains alpha transparency, which is not maintained
-by the \code{\link[grDevices]{hsv}} function.
+by the \code{grDevices::hsv()} function.
 }
 \examples{
 # start with a color vector
@@ -53,6 +53,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

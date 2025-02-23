@@ -57,11 +57,11 @@ being shown in the heatmap. In short, this function enhances
 colors.
 }
 \examples{
-BuRd <- rev(brewer.pal(11, "RdBu"));
+BuRd <- rev(RColorBrewer::brewer.pal(11, "RdBu"));
 BuRdPlus5 <- warpRamp(BuRd, lens=2, plot=TRUE);
 BuRdMinus5 <- warpRamp(BuRd, lens=-2, plot=TRUE);
 
-Reds <- brewer.pal(9, "Reds");
+Reds <- RColorBrewer::brewer.pal(9, "Reds");
 RedsL <- lapply(nameVector(c(-10,-5,-2,0,2,5,10)), function(lens){
    warpRamp(Reds, lens=lens, divergent=FALSE)
 });
@@ -88,6 +88,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

@@ -8,8 +8,8 @@ adjustAxisLabelMargins(
   x,
   margin = 1,
   maxFig = 1/2,
-  cex = par("cex"),
-  cex.axis = par("cex.axis"),
+  cex = graphics::par("cex"),
+  cex.axis = graphics::par("cex.axis"),
   prefix = "-- -- ",
   ...
 )
@@ -18,7 +18,7 @@ adjustAxisLabelMargins(
 \item{x}{\code{character} vector of axis labels}
 
 \item{margin}{\code{integer} value indicating which margin to adjust,
-using the order by \code{par("mar")}, 1=bottom, 2=left, 3=top,
+using the order by \code{graphics::par("mar")}, 1=bottom, 2=left, 3=top,
 4=right.}
 
 \item{maxFig}{\code{numeric} fraction less than 1, indicating the maximum
@@ -28,7 +28,7 @@ large results in an error otherwise.}
 \item{cex}{\code{numeric} or NULL, sent to \code{graphics::strwidth()} when
 calculating the string width of labels in inches.}
 
-\item{cex.axis}{\code{numeric}, default uses par("cex.axis"), to define the
+\item{cex.axis}{\code{numeric}, default uses graphics::par("cex.axis"), to define the
 axis label size.}
 
 \item{prefix}{\code{character} string used to add whitespace around the axis label.}
@@ -37,7 +37,7 @@ axis label size.}
 }
 \value{
 invisible \code{numeric} margin size in inches, corresponding
-to the requested \code{margin} from \code{par("mai")}.
+to the requested \code{margin} from \code{graphics::par("mai")}.
 }
 \description{
 Adjust axis label margins to accommodate axis labels
@@ -61,15 +61,15 @@ ylabs <- paste0("rownum_", (1:20));
 adjustAxisLabelMargins(xlabs, 1);
 adjustAxisLabelMargins(ylabs, 2);
 nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
-axis(1, at=1:20, labels=xlabs, las=2);
-axis(2, at=1:20, labels=ylabs, las=2);
+graphics::axis(1, at=1:20, labels=xlabs, las=2);
+graphics::axis(2, at=1:20, labels=ylabs, las=2);
 
-par("mar"=c(5,4,4,2));
+graphics::par("mar"=c(5,4,4,2));
 adjustAxisLabelMargins(xlabs, 3);
 adjustAxisLabelMargins(ylabs, 4);
 nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
-axis(3, at=1:20, labels=xlabs, las=2);
-axis(4, at=1:20, labels=ylabs, las=2);
+graphics::axis(3, at=1:20, labels=xlabs, las=2);
+graphics::axis(4, at=1:20, labels=ylabs, las=2);
 
 }
 \seealso{

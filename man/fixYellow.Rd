@@ -8,7 +8,7 @@ fixYellow(col, Hrange = c(70, 100), Hshift = -20, fixup = TRUE, ...)
 }
 \arguments{
 \item{col}{R color, either in hex color format or using values from
-\code{colors()}.}
+\code{grDevices::colors()}.}
 
 \item{Hrange}{numeric vector whose range defines the region of hues
 to be adjusted. By default hues between 80 and 90 are adjusted. If
@@ -43,7 +43,7 @@ any of the values \code{col}, \code{Hrange}, or \code{Hshift} are length 0, the 
 \code{col} is returned unchanged.
 }
 \examples{
-yellows <- vigrep("yellow", colors());
+yellows <- vigrep("yellow", grDevices::colors());
 fixedYellows <- fixYellow(yellows);
 showColors(list(yellows=yellows,
    fixedYellows=fixedYellows));
@@ -56,7 +56,6 @@ Other jam practical functions:
 \code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
 \code{\link{color_dither}()},
-\code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
@@ -102,6 +101,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

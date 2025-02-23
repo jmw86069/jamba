@@ -75,8 +75,8 @@ using preset terms like "bottomright", "center".
 
 When \code{preset} is \code{"default"}, the original \verb{x,y} coordinates
 are used. Otherwise the \verb{x,y} coordinates are defined using the
-plot region coordinates, where \code{"left"} uses \code{par("usr")[1]},
-and \code{"top"} uses \code{par("usr")[4]}.
+plot region coordinates, where \code{"left"} uses \code{graphics::par("usr")[1]},
+and \code{"top"} uses \code{graphics::par("usr")[4]}.
 
 When \code{adjPreset} is \code{"default"} it will use the \code{preset} to
 define a reciprocal text placement. For example when \code{preset="topright"}
@@ -105,13 +105,13 @@ cp1;
 
 # make sure to prepare the plot region first
 jamba::nullPlot(plotAreaTitle="");
-points(cp1$x, cp1$y, pch=20, cex=2, col="red");
+graphics::points(cp1$x, cp1$y, pch=20, cex=2, col="red");
 
 # unfortunately graphics::text() does not have vectorized adj
 # so it must iterate each row
-title(main="text() is not vectorized, text is adjacent to edges")
+graphics::title(main="graphics::text() is not vectorized, text is adjacent to edges")
 for (i in seq_along(presetV)) {
-   text(cp1$x[i], cp1$y[i],
+   graphics::text(cp1$x[i], cp1$y[i],
       labels=presetV[i],
       adj=c(cp1$adjX[i], cp1$adjY[i]));
 }
@@ -119,19 +119,19 @@ for (i in seq_along(presetV)) {
 # drawLabels() will be vectorized for unique adj subsets
 # and adds a small buffer around text
 jamba::nullPlot(plotAreaTitle="");
-title(main="drawLabels() is vectorized, includes small buffer")
+graphics::title(main="drawLabels() is vectorized, includes small buffer")
 drawLabels(txt=presetV,
    preset=presetV)
 
 jamba::nullPlot(plotAreaTitle="");
-title(main="drawLabels() can place labels outside plot edges")
+graphics::title(main="drawLabels() can place labels outside plot edges")
 drawLabels(txt=presetV,
    preset=presetV,
    adjPreset=presetV)
 
 # drawLabels() is vectorized for example
 jamba::nullPlot(plotAreaTitle="");
-title(main="Use adjPreset to position labels at a center point")
+graphics::title(main="Use adjPreset to position labels at a center point")
 presetV2 <- c("topleft",
    "topright",
    "bottomleft",
@@ -140,7 +140,7 @@ cp2 <- coordPresets(preset="center",
    adjPreset=presetV2,
    adjOffsetX=0.1,
    adjOffsetY=0.4);
-points(cp2$x,
+graphics::points(cp2$x,
    cp2$y,
    pch=20,
    cex=2,
@@ -156,7 +156,7 @@ drawLabels(x=cp2$x,
    ly=rep(1.5, 4))
 
 # demonstrate margin coordinates
-par("oma"=c(1, 1, 1, 1));
+graphics::par("oma"=c(1, 1, 1, 1));
 nullPlot(xlim=c(0, 1), ylim=c(1, 5));
 cpxy <- coordPresets(rep(c("top", "bottom", "left", "right"), each=2),
    preset_type=rep(c("plot", "figure"), 4));
@@ -164,10 +164,10 @@ drawLabels(preset=c("top", "top"),
    txt=c("top label relative to figure",
       "top label relative to plot"),
    preset_type=c("figure", "plot"))
-points(cpxy$x, cpxy$y, cex=2,
+graphics::points(cpxy$x, cpxy$y, cex=2,
    col="red4", bg="red1", xpd=NA,
    pch=rep(c(21, 23), 4))
-par("oma"=c(0, 0, 0, 0));
+graphics::par("oma"=c(0, 0, 0, 0));
 
 }
 \seealso{

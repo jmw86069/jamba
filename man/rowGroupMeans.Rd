@@ -153,7 +153,7 @@ substituted for outlier points. Outlier detection and
 removal is performed by \code{jamba::rowRmMadOutliers()}.
 }
 \examples{
-x <- matrix(ncol=9, rnorm(90));
+x <- matrix(ncol=9, stats::rnorm(90));
 colnames(x) <- LETTERS[1:9];
 rowGroupMeans(x, groups=rep(letters[1:3], each=3))
 

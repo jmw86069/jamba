@@ -50,7 +50,7 @@ to the output data.}
 \item{...}{additional parameters are sent to \code{stats::density()}.}
 }
 \value{
-\code{list} output equivalent to \code{density()}:
+\code{list} output equivalent to \code{stats::density()}:
 \itemize{
 \item \code{x}: The \code{n} coordinates of the points where the density is
 estimated.
@@ -74,13 +74,13 @@ the detail in the output.
 
 Note that the density height is scaled by the total number of points,
 and can be adjusted with \code{weightFactor}. See Examples for how to
-scale the y-axis range similar to \code{density()}.
+scale the y-axis range similar to \code{stats::density()}.
 }
 \examples{
-x <- c(rnorm(15000),
-   rnorm(5500)*0.25 + 1,
-   rnorm(12500)*0.5 + 2.5)
-plot(density(x))
+x <- c(stats::rnorm(15000),
+   stats::rnorm(5500)*0.25 + 1,
+   stats::rnorm(12500)*0.5 + 2.5)
+plot(stats::density(x))
 
 plot(breakDensity(x))
 
@@ -88,9 +88,9 @@ plot(breakDensity(x, densityBreaksFactor=200))
 
 # trim values to show abrupt transitions
 x2 <- x[x > 0 & x < 4]
-plot(density(x2), lwd=2)
+plot(stats::density(x2), lwd=2)
 lines(breakDensity(x2, weightFactor=1/length(x2)/10), col="red")
-legend("topright", c("density()", "breakDensity()"),
+graphics::legend("topright", c("stats::density()", "breakDensity()"),
    col=c("black", "red"), lwd=c(2, 1))
 
 }
@@ -100,7 +100,6 @@ Other jam practical functions:
 \code{\link{check_pkg_installed}()},
 \code{\link{colNum2excelName}()},
 \code{\link{color_dither}()},
-\code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},

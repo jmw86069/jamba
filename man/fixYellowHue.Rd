@@ -41,7 +41,7 @@ any of the values \code{HCL}, \code{Hrange}, or \code{Hshift} are length 0, the 
 \code{HCL} is returned unchanged.
 }
 \examples{
-yellows <- vigrep("yellow", colors());
+yellows <- vigrep("yellow", grDevices::colors());
 yellowsHCL <- col2hcl(yellows);
 fixedYellowsHCL <- fixYellowHue(yellowsHCL);
 fixedYellows <- hcl2col(fixedYellowsHCL);
@@ -68,6 +68,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

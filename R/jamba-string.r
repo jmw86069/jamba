@@ -774,10 +774,10 @@ makeNames <- function
    if (any(dupes)) {
       xSubDupes <- table(x[dupes]) + 1;
       maxCt <- max(c(1,xSubDupes));
-      xSubOnes <- setNames(rep(1, sum(!dupes)), x[!dupes]);
+      xSubOnes <- stats::setNames(rep(1, sum(!dupes)), x[!dupes]);
       xSub <- c(xSubOnes, xSubDupes);
    } else {
-      xSub <- setNames(rep(1, sum(!dupes)), x[!dupes]);
+      xSub <- stats::setNames(rep(1, sum(!dupes)), x[!dupes]);
       maxCt <- 1;
    }
    ## version 0.0.34.900 and previous used the method below
@@ -1007,12 +1007,12 @@ nameVector <- function
 #' # Here, we just add the name to the colnames, but anything
 #' # could be useful.
 #' lapply(K, function(i){
-#'     data.frame(mean=mean(i), median=median(i));
+#'     data.frame(mean=mean(i), median=stats::median(i));
 #'  });
 #'
 #' # So the next step is to run lapply() on the names
 #' lapply(names(K), function(i){
-#'    iDF <- data.frame(mean=mean(K[[i]]), median=median(K[[i]]));
+#'    iDF <- data.frame(mean=mean(K[[i]]), median=stats::median(K[[i]]));
 #'    colnames(iDF) <- paste(c("mean", "median"), i);
 #'    iDF;
 #' })
@@ -1022,7 +1022,7 @@ nameVector <- function
 #' # So we run lapply() on the named-names, which keeps the names in
 #' # the resulting list, and sends it into the function.
 #' lapply(nameVectorN(K), function(i){
-#'    iDF <- data.frame(mean=mean(K[[i]]), median=median(K[[i]]));
+#'    iDF <- data.frame(mean=mean(K[[i]]), median=stats::median(K[[i]]));
 #'    colnames(iDF) <- paste(c("mean", "median"), i);
 #'    iDF;
 #' });
@@ -1291,11 +1291,11 @@ rmInfinite <- function
 #' uniques(L1);
 #'
 #' if (1 == 1) {
-#' if (suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
+#' if (requireNamespace("IRanges", quietly=TRUE)) {
 #'    printDebug("Bioc CompressedList:");
 #'    print(system.time(uniques(rep(L1, 10000), useBioc=TRUE)));
 #' }
-#' if (suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
+#' if (requireNamespace("S4Vectors", quietly=TRUE)) {
 #'    printDebug("Bioc SimpleList:");
 #'    print(system.time(uniques(rep(L1, 10000), useSimpleBioc=TRUE)));
 #' }
@@ -1320,14 +1320,12 @@ uniques <- function
    ##
    ## keepNames=TRUE will keep the first name for the each duplicated entry
    if (useBioc || useSimpleBioc) {
-      # if (!suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
       if (!requireNamespace("S4Vectors", quietly=TRUE)) {
          useSimpleBioc <- FALSE;
          useBioc <- FALSE;
       }
    }
    if (useBioc) {
-      # if (!suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
       if (!requireNamespace("IRanges", quietly=TRUE)) {
          useBioc <- FALSE;
       }
@@ -1593,8 +1591,7 @@ cPaste <- function
       return("");
    }
    if (TRUE %in% useBioc &&
-         !suppressWarnings(suppressPackageStartupMessages(
-            require("S4Vectors")))) {
+         requireNamespace("S4Vectors", quietly=TRUE)) {
       if (verbose) {
          warning(paste0("cPaste() is substantially faster when",
             " Bioconductor package S4Vectors is installed."));

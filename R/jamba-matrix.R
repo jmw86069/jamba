@@ -45,9 +45,9 @@
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
-#' m <- matrix(rainbow(9), ncol=3);
+#' m <- matrix(rainbow2(9), ncol=3);
 #' m2 <- fix_matrix_ratio(m);
-#' par("mfrow"=c(1,3));
+#' graphics::par("mfrow"=c(1,3));
 #' imageByColors(m, useRaster=FALSE,
 #'    main="m\nuseRaster=FALSE");
 #' imageByColors(m, useRaster=TRUE, fixRasterRatio=FALSE,
@@ -55,11 +55,11 @@
 #' imageByColors(m2, useRaster=TRUE, fixRasterRatio=FALSE,
 #'    main="m2\nuseRaster=FALSE\nfixRasterRatio=FALSE");
 #'
-#' m <- matrix(colors()[1:90], ncol=3)
+#' m <- matrix(grDevices::colors()[1:90], ncol=3)
 #' dim(m)
 #' m2 <- fix_matrix_ratio(m);
 #' dim(m2);
-#' par("mfrow"=c(1,4));
+#' graphics::par("mfrow"=c(1,4));
 #' imageByColors(m, useRaster=FALSE,
 #'    main="m\nuseRaster=FALSE");
 #' imageByColors(m, useRaster=TRUE, interpolate=FALSE,
@@ -68,10 +68,10 @@
 #'    main="m\nuseRaster=TRUE\ninterpolate=TRUE");
 #' imageByColors(m2, useRaster=TRUE, fixRasterRatio=FALSE,
 #'    main="fix_matrix_ratio(m)\nuseRaster=TRUE\ninterpolate=TRUE");
-#' par("mfrow"=c(1,1));
+#' graphics::par("mfrow"=c(1,1));
 #'
 #' ## Complicated example showing the effect of interpolate=TRUE
-#' testHeatdata <- matrix(rnorm(90000), ncol=9)[,1:9];
+#' testHeatdata <- matrix(stats::rnorm(90000), ncol=9)[,1:9];
 #' testHeatdata <- testHeatdata[order(testHeatdata[,5]),];
 #' g1 <- seq(from=10, to=10000, by=1000);
 #' testHeatdata[g1+rep(1:3, each=length(g1)),] <- 9;
@@ -84,12 +84,12 @@
 #' testHeatdata[g2+rep(1:3, each=length(g2)), c(3,7)] <- 10;
 #' testHeatdata <- testHeatdata[10000:1,];
 #' col <- getColorRamp("RdBu_r", n=15, lens=1, trimRamp=c(4,1));
-#' par("mfrow"=c(1,2));
+#' graphics::par("mfrow"=c(1,2));
 #' image.default(z=t(testHeatdata), col=col, useRaster=TRUE, interpolate=FALSE,
 #'    main="image.default(..., useRaster=TRUE,\ninterpolate=FALSE)");
 #' imageDefault(z=t(testHeatdata), col=col, useRaster=TRUE,
 #'    main="imageDefault(..., useRaster=TRUE,\ninterpolate=TRUE)");
-#' par("mfrow"=c(1,1));
+#' graphics::par("mfrow"=c(1,1));
 #'
 #' @family jam numeric functions
 #'

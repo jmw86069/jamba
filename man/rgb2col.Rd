@@ -60,7 +60,7 @@ Convert RGB color matrix to R color
 \details{
 This function intends to augment the \code{\link[grDevices]{rgb}} function, which
 does not handle output from \code{\link[grDevices]{col2rgb}}. The goal is to handle
-multiple color conversions, e.g. \code{rgb2col(col2rgb("red"))}. This
+multiple color conversions, e.g. \code{rgb2col(grDevices::col2rgb("red"))}. This
 function also maintains alpha transparency when supplied.
 
 The output is named either by names(red), rownames(red), or if supplied,
@@ -96,10 +96,10 @@ colorV <- c("#FF000055", "#00339999");
 
 # Show the output of rgb2col
 # make sure to include alpha=TRUE to maintain alpha transparency
-col2rgb(colorV, alpha=TRUE);
+grDevices::col2rgb(colorV, alpha=TRUE);
 
 # confirm we can convert from RGB back to the same colors
-rgb2col(col2rgb(colorV, alpha=TRUE));
+rgb2col(grDevices::col2rgb(colorV, alpha=TRUE));
 
 }
 \seealso{
@@ -122,6 +122,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},
 \code{\link{showColors}()},

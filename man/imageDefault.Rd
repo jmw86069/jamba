@@ -53,21 +53,21 @@ where NA values are allowed.}
 \item{add}{\code{logical} whether to add to an existing active R plot, or create
 a new plot window.}
 
-\item{xaxs}{\code{character} value compatible with par(xaxs), mainly useful
+\item{xaxs}{\code{character} value compatible with graphics::par(xaxs), mainly useful
 for suppressing the x-axis, in order to produce a custom x-axis
 range, most useful to restrict the axis range expansion done by R
 by default.}
 
-\item{yaxs}{\code{character} value compatible with par(yaxs), mainly useful
+\item{yaxs}{\code{character} value compatible with graphics::par(yaxs), mainly useful
 for suppressing the y-axis, in order to produce a custom y-axis
 range, most useful to restrict the axis range expansion done by R
 by default.}
 
-\item{xaxt}{\code{character} value compatible with par(xaxt), mainly useful
+\item{xaxt}{\code{character} value compatible with graphics::par(xaxt), mainly useful
 for suppressing the x-axis, in order to produce a custom x-axis
 by other mechanisms, e.g. log-scaled x-axis tick marks.}
 
-\item{yaxt}{\code{character} value compatible with par(yaxt), mainly useful
+\item{yaxt}{\code{character} value compatible with graphics::par(yaxt), mainly useful
 for suppressing the y-axis, in order to produce a custom y-axis
 by other mechanisms, e.g. log-scaled y-axis tick marks.}
 

@@ -31,10 +31,9 @@ using \code{color2gradient()}. To adjust the range of light to dark
 luminance, use the \code{dex} argument, where higher values increase
 the range, and lower values decrease the range.
 \item \code{character} vector length=1, with one recognized color ramp name:
-any color palette from \code{rownames(RColorBrewer::brewer.pal.info())};
-any color palette function name from \code{viridis};
-any color palette from \code{colorjam::jam_linear()} or
-\code{colorjam::jam_divergent()}.
+any color palette from RColorBrewer, for example
+\code{rownames(RColorBrewer::brewer.pal.info())};
+any color palette function name from \code{viridisLite}.
 \item \code{character} vector length=1, with one color function name,
 for example \code{col="rainbow_hcl"}. Input is equivalent to supplying
 one color \code{function}, see below.
@@ -185,7 +184,7 @@ RdBu_r <- getColorRamp("RdBu_r");
 colorList <- c(colorList, list(RdBu=RdBu, RdBu_r=RdBu_r));
 showColors(RdBu);
 
-if (suppressPackageStartupMessages(require("viridisLite"))) {
+if (requireNamespace("viridisLite", quietly=TRUE)) {
    viridisV <- getColorRamp("viridis");
    colorList <- c(colorList, list(viridis=viridisV));
 }
@@ -218,6 +217,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

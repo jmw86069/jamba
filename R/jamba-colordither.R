@@ -46,7 +46,7 @@
 #'
 #' showColors(color_dither(x, direction=-1))
 #'
-#' x <- vigrep("^green[0-9]", colors())
+#' x <- vigrep("^green[0-9]", grDevices::colors())
 #' showColors(color_dither(x))
 #' showColors(color_dither(x, direction=-1, returnType="list"))
 #'

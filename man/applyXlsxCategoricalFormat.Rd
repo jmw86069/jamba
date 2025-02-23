@@ -101,7 +101,7 @@ to define a specific color for the cell text.
       sheetName="test_jamba");
 
    colorSub <- nameVector(
-      rainbow(5, s=c(0.8, 1), v=c(0.8, 1)),
+      rainbow2(5, s=c(0.8, 1), v=c(0.8, 1)),
       LETTERS[1:5]);
    applyXlsxCategoricalFormat(
       xlsxFile="jamba_test.xlsx",

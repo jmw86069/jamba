@@ -22,7 +22,7 @@ alpha range should be 255. By default maxValue=1 is returned.}
 Define the alpha transparency per R color
 }
 \examples{
-par("mfrow"=c(2,2));
+graphics::par("mfrow"=c(2,2));
 for (alpha in c(1, 0.8, 0.5, 0.2)) {
    nullPlot(plotAreaTitle=paste0("alpha=", alpha),
       doMargins=FALSE);
@@ -50,6 +50,7 @@ Other jam color functions:
 \code{\link{makeColorDarker}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

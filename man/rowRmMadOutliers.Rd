@@ -120,7 +120,7 @@ median to be at least 0.01 to be eligible to be an outlier point.
 }
 
 One option to define \code{minDiff} from the data is to use:
-\code{minDiff <- median(rowMads(x))}
+\code{minDiff <- stats::median(rowMads(x))}
 
 In this case, the threshold is defined by the median difference
 from median across all rows.
@@ -156,7 +156,7 @@ within each sample group.
 }
 \examples{
 set.seed(123);
-x <- matrix(ncol=5, rnorm(25))*5 + 10;
+x <- matrix(ncol=5, stats::rnorm(25))*5 + 10;
 ## Define some outlier points
 x[1:2,3] <- x[1:2,3]*5 + 50;
 x[2:3,2] <- x[2:3,2]*5 - 100;

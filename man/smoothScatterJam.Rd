@@ -9,22 +9,23 @@ smoothScatterJam(
   y = NULL,
   nbin = 256,
   bandwidth,
-  colramp = colorRampPalette(c("white", "lightblue", "blue", "orange", "orangered2")),
+  colramp = grDevices::colorRampPalette(c("white", "lightblue", "blue", "orange",
+    "orangered2")),
   nrpoints = 100,
   pch = ".",
   cex = 1,
   col = "black",
   transformation = function(x) x^0.25,
-  postPlotHook = box,
+  postPlotHook = graphics::box,
   xlab = NULL,
   ylab = NULL,
   xlim,
   ylim,
   add = FALSE,
-  xaxs = par("xaxs"),
-  yaxs = par("yaxs"),
-  xaxt = par("xaxt"),
-  yaxt = par("yaxt"),
+  xaxs = graphics::par("xaxs"),
+  yaxs = graphics::par("yaxs"),
+  xaxt = graphics::par("xaxt"),
+  yaxt = graphics::par("yaxt"),
   useRaster = NULL,
   ...
 )
@@ -82,21 +83,21 @@ information atop the image plot, for example contours, labels, etc.}
 \item{add}{\code{logical} whether to add to an existing active R plot, or create
 a new plot window.}
 
-\item{xaxs}{\code{character} value compatible with \code{par("xaxs")}, mainly useful
+\item{xaxs}{\code{character} value compatible with \code{graphics::par("xaxs")}, mainly useful
 for suppressing the x-axis, in order to produce a custom x-axis
 range, most useful to restrict the axis range expansion done by R
 by default.}
 
-\item{yaxs}{\code{character} value compatible with \code{par("yaxs")}, mainly useful
+\item{yaxs}{\code{character} value compatible with \code{graphics::par("yaxs")}, mainly useful
 for suppressing the y-axis, in order to produce a custom y-axis
 range, most useful to restrict the axis range expansion done by R
 by default.}
 
-\item{xaxt}{\code{character} value compatible with \code{par("xaxt")}, mainly useful
+\item{xaxt}{\code{character} value compatible with \code{graphics::par("xaxt")}, mainly useful
 for suppressing the x-axis, in order to produce a custom x-axis
 by other mechanisms, e.g. log-scaled x-axis tick marks.}
 
-\item{yaxt}{\code{character} value compatible with \code{par("yaxt")}, mainly useful
+\item{yaxt}{\code{character} value compatible with \code{graphics::par("yaxt")}, mainly useful
 for suppressing the y-axis, in order to produce a custom y-axis
 by other mechanisms, e.g. log-scaled y-axis tick marks.}
 
@@ -106,7 +107,7 @@ If NULL, it determines whether to produce a raster image within the
 \code{imageDefault()} function, which checks the options
 using \code{getOption("preferRaster", FALSE)} to determine among
 other things, whether the user prefers raster images, and if the
-\code{dev.capabilities()} supports raster.}
+\code{grDevices::dev.capabilities()} supports raster.}
 
 \item{...}{additional arguments are passed to \code{imageDefault()} and
 optionally to \code{plotPlotHook()} when supplied.}

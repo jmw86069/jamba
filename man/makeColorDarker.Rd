@@ -70,12 +70,12 @@ plot(x=c(1,2,1,2), y=c(1,2,2,1), pch=21,
    xaxt="n", yaxt="n", xlab="", ylab="",
    xlim=c(0.5,2.5), ylim=c(0.5,2.5),
    bg=colorV, col=colorVdark2, cex=4, lwd=2);
-points(x=c(1,2,1,2), y=c(1,2,2,1), pch=20, cex=4,
+graphics::points(x=c(1,2,1,2), y=c(1,2,2,1), pch=20, cex=4,
    col=colorVlite2);
 
 # Making a color lighter can make it easier to add labels
 # The setTextContrastColor() function also helps.
-text(x=c(1,2,1,2), y=c(1,2,2,1), 1:4,
+graphics::text(x=c(1,2,1,2), y=c(1,2,2,1), 1:4,
    col=setTextContrastColor(colorVlite2));
 
 }
@@ -98,6 +98,7 @@ Other jam color functions:
 \code{\link{kable_coloring}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
+\code{\link{rainbow2}()},
 \code{\link{rgb2col}()},
 \code{\link{setCLranges}()},
 \code{\link{setTextContrastColor}()},

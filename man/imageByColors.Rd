@@ -24,7 +24,7 @@ imageByColors(
   interpolate = getOption("interpolate", TRUE),
   verbose = FALSE,
   xpd = NULL,
-  bty = par("bty"),
+  bty = graphics::par("bty"),
   flip = c("none", "y", "x", "xy"),
   keepTextAlpha = FALSE,
   doTest = FALSE,
@@ -58,8 +58,8 @@ which uses either white or black depending upon the brightness of
 the background color.}
 
 \item{cexCellnote, srtCellnote, fontCellnote}{numeric vectors, with values
-applied to cellnote text to be compatible with par("cex"), par("srt"),
-and par("font"), respectively. If supplied a matrix or data.frame with
+applied to cellnote text to be compatible with graphics::par("cex"), graphics::par("srt"),
+and graphics::par("font"), respectively. If supplied a matrix or data.frame with
 it is used as-is or expanded to equivalent dimensions of \code{x}.
 If the vector is named by colnames(x) then it is applied
 by column in order, otherwise it is applied by row, with values recycled
@@ -101,15 +101,15 @@ by default TRUE when useRaster=TRUE.}
 
 \item{verbose}{logical whether to print verbose output.}
 
-\item{xpd}{NULLL or logical used for \code{par("xpd")} to define whether
-to crop displayed output to the plot area. If xpd=NULL then par("xpd")
-will not be modified, otherwise par("xpd"=xpd) will be defined while
+\item{xpd}{NULLL or logical used for \code{graphics::par("xpd")} to define whether
+to crop displayed output to the plot area. If xpd=NULL then graphics::par("xpd")
+will not be modified, otherwise graphics::par("xpd"=xpd) will be defined while
 adding any cell notes, then reverted to its previous value afterward.
 This parameter is mainly useful when cellnote labels may overhang the
 plot space, and would be cropped and not visible if
-\code{par("xpd"=TRUE)}.}
+\code{graphics::par("xpd"=TRUE)}.}
 
-\item{bty}{\code{character} used to control box type, default \code{par("bty")}}
+\item{bty}{\code{character} used to control box type, default \code{graphics::par("bty")}}
 
 \item{flip}{\code{character} string, default "none", with optional axis flip:
 \itemize{

@@ -156,11 +156,11 @@ make_html_styles <- function
 
    if (1 == 2) {
       ## Convert each style to rgb color
-      style <- col2rgb(styleV, alpha=TRUE);
+      style <- grDevices::col2rgb(styleV, alpha=TRUE);
       if (any(styleNA)) {
          style[,styleNA] <- NA;
       }
-      bg_style <- col2rgb(bg_styleV, alpha=TRUE);
+      bg_style <- grDevices::col2rgb(bg_styleV, alpha=TRUE);
       if (any(bg_styleNA)) {
          bg_style[,bg_styleNA] <- NA;
       }

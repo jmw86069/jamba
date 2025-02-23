@@ -518,7 +518,7 @@ setPrompt <- function
 #'
 #' # since the data.frame contains colors, we display using
 #' # imageByColors()
-#' par("mar"=c(5,10,4,2));
+#' graphics::par("mar"=c(5,10,4,2));
 #' imageByColors(df2, cellnote=df2);
 #'
 #' @export
@@ -687,30 +687,30 @@ pasteByRow <- function
 #' adjustAxisLabelMargins(bb2$useLabels, 1);
 #' nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
 #'    doBoxes=FALSE, doUsrBox=TRUE);
-#' axis(2, las=2, at=c(1,2), ylabs);
-#' text(y=2, x=seq_along(b), b);
-#' text(y=1, x=bb2$labelPoints, bb2$useLabels);
+#' graphics::axis(2, las=2, at=c(1,2), ylabs);
+#' graphics::text(y=2, x=seq_along(b), b);
+#' graphics::text(y=1, x=bb2$labelPoints, bb2$useLabels);
 #'
 #' ## Print axis labels in the center of each group
-#' axis(3,
+#' graphics::axis(3,
 #'    las=2,
 #'    at=bb2$labelPoints,
 #'    labels=bb2$useLabels);
 #'
 #' ## indicate each region
 #' for (i in seq_along(bb2$breakPoints)) {
-#'    axis(1,
+#'    graphics::axis(1,
 #'       at=c(c(0, bb2$breakPoints)[i]+0.8, bb2$breakPoints[i]+0.2),
 #'       labels=c("", ""));
 #' }
 #' ## place the label centered in each region without adding tick marks
-#' axis(1,
+#' graphics::axis(1,
 #'    las=2,
 #'    tick=FALSE,
 #'    at=bb2$labelPoints,
 #'    labels=bb2$useLabels);
 #' ## abline to indicate the boundaries, if needed
-#' abline(v=c(0, bb2$breakPoints) + 0.5,
+#' graphics::abline(v=c(0, bb2$breakPoints) + 0.5,
 #'    lty="dashed",
 #'    col="blue");
 #'
@@ -792,7 +792,7 @@ breaksByVector <- function
 #'    appear with a tick mark.
 #'
 #' @examples
-#' par("mar"=c(4,4,6,6));
+#' graphics::par("mar"=c(4,4,6,6));
 #' b <- rep(LETTERS[1:5], c(2,3,5,4,3));
 #' b2 <- c(b[1:2], makeNames(b[3:5]), b[6:16]);
 #' nullPlot(doBoxes=FALSE,
@@ -805,12 +805,12 @@ breaksByVector <- function
 #' groupedAxis(2, b, group_style="centered");
 #' groupedAxis(3, b2, do_abline=TRUE);
 #' groupedAxis(4, b2, group_style="grouped");
-#' mtext(side=1, "group_style='partial_grouped'", line=2, las=0);
-#' mtext(side=2, "group_style='grouped'", line=2, las=0);
-#' mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
-#' mtext(side=4, "group_style='grouped'", line=2, las=0);
+#' graphics::mtext(side=1, "group_style='partial_grouped'", line=2, las=0);
+#' graphics::mtext(side=2, "group_style='grouped'", line=2, las=0);
+#' graphics::mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
+#' graphics::mtext(side=4, "group_style='grouped'", line=2, las=0);
 #'
-#' @param side `integer` indicating the axis side, passed to `axis()`.
+#' @param side `integer` indicating the axis side, passed to `graphics::axis()`.
 #'    1=bottom, 2=left, 3=top, 4=right.
 #' @param x `character` vector of axis labels
 #' @param group_style `character` string indicating the style of label:
@@ -821,22 +821,22 @@ breaksByVector <- function
 #'    * `"centered"` - only labels the center of each group of repeated entries
 #'    with no bracket bounding the entries.
 #' @param las `integer` indicating whether labels should be perpendicular,
-#'    see `par("las")`.
+#'    see `graphics::par("las")`.
 #' @param returnFractions `logical` passed to `breaksByVector()` to calculate
 #'    label positions. Set `returnFractions=FALSE` and all labels will only
 #'    appear at integer locations on the axis.
 #' @param nudge `numeric` adjustment for labels away from the plot border.
-#' @param do_abline `logical` indicating whether to draw `abline()` lines
+#' @param do_abline `logical` indicating whether to draw `graphics::abline()` lines
 #'    inside the plot to indicate the exact breakpoints between each group
 #'    of labels.
-#' @param abline_lty line type compatible with `par("lty")`, used when
+#' @param abline_lty line type compatible with `graphics::par("lty")`, used when
 #'    `do_abline=TRUE`.
 #' @param abline_col `character` color used when `do_abline=TRUE`.
 #' @param do_plot `logical` whether to plot the resulting axis,
 #'    as an option to suppress the output and do something else
 #'    with the `data.frame` of coordinates returned by this function.
 #' @param ... additional arguments are passed to `breaksByVector()`, and/or to
-#'    `axis()`.
+#'    `graphics::axis()`.
 #'
 #' @export
 groupedAxis <- function
@@ -885,7 +885,7 @@ groupedAxis <- function
                axis_group=1)[0, , drop=FALSE]
          })
          if (TRUE %in% do_plot) {
-            axis(side=side,
+            graphics::axis(side=side,
                las=las,
                at=bb2$labelPoints,
                labels=bb2$useLabels,
@@ -905,7 +905,7 @@ groupedAxis <- function
                   axis_side=side,
                   axis_group=i)
                if (TRUE %in% do_plot) {
-                  axis(side=side,
+                  graphics::axis(side=side,
                      at=x1,
                      labels=c(""),
                      ...);
@@ -922,7 +922,7 @@ groupedAxis <- function
                   axis_side=side,
                   axis_group=i)
                if (TRUE %in% do_plot) {
-                  axis(side=side,
+                  graphics::axis(side=side,
                      at=c(
                         x1 - nudge,
                         x2 + nudge),
@@ -966,7 +966,7 @@ groupedAxis <- function
             byCols=c("axis_group", "axis_at"))
 
          if (TRUE %in% do_plot) {
-            axis(side=side,
+            graphics::axis(side=side,
                las=las,
                tick=FALSE,
                at=bb2$labelPoints,
@@ -979,13 +979,13 @@ groupedAxis <- function
    ## abline to indicate the boundaries, if needed
    if (TRUE %in% do_abline && TRUE %in% do_plot) {
       if (any(c(1,3) %in% sides)) {
-         abline(v=c(0, bb2$breakPoints) + 0.5,
+         graphics::abline(v=c(0, bb2$breakPoints) + 0.5,
             lty=abline_lty,
             col=abline_col,
             ...);
       }
       if (any(c(2,4) %in% sides)) {
-         abline(h=c(0, bb2$breakPoints) + 0.5,
+         graphics::abline(h=c(0, bb2$breakPoints) + 0.5,
             lty=abline_lty,
             col=abline_col,
             ...);
@@ -1087,12 +1087,12 @@ colNum2excelName <- function
    return(excelColName);
 }
 
-#' Decide plot panel rows, columns for par(mfrow)
+#' Decide plot panel rows, columns for graphics::par(mfrow)
 #'
-#' Decide plot panel rows, columns for par(mfrow)
+#' Decide plot panel rows, columns for graphics::par(mfrow)
 #'
 #' This function returns the recommended rows and columns of panels
-#' to be used in `par("mfrow")` with R base plotting. It attempts
+#' to be used in `graphics::par("mfrow")` with R base plotting. It attempts
 #' to use the device size and plot aspect ratio to keep panels roughly
 #' square. For example, a short-wide device would have more columns of panels
 #' than rows; a tall-thin device would have more rows than columns.
@@ -1102,7 +1102,7 @@ colNum2excelName <- function
 #'
 #' @return `numeric` vector length=2, with the recommended number of plot
 #'    rows and columns, respectively. It is intended to be used directly
-#'    in this form: `par("mfrow"=decideMfrow(n=5))`
+#'    in this form: `graphics::par("mfrow"=decideMfrow(n=5))`
 #'
 #' @family jam plot functions
 #'
@@ -1126,7 +1126,7 @@ colNum2excelName <- function
 #'
 #' # a manual demonstration creating 6 panels
 #' n <- 6;
-#' par(mfrow=decideMfrow(n));
+#' graphics::par(mfrow=decideMfrow(n));
 #' for(i in seq_len(n)){
 #'    nullPlot(plotAreaTitle=paste("Plot", i));
 #' }
@@ -1154,9 +1154,9 @@ decideMfrow <- function
    }
    ## Optionally provide a visual test
    if (doTest) {
-      oPar <- par(no.readonly=TRUE);
-      on.exit(par(oPar));
-      par("mfrow"=c(n1, n2));
+      oPar <- graphics::par(no.readonly=TRUE);
+      on.exit(graphics::par(oPar));
+      graphics::par("mfrow"=c(n1, n2));
       for(i in seq_len(n)){
          nullPlot(plotAreaTitle=paste("Plot", i));
       }
@@ -1188,21 +1188,21 @@ decideMfrow <- function
 #'          panels, margins, and plot areas.}
 #'    }
 #' @param parUsr,parPin,parDin `numeric` values equivalent to their
-#'    respective `par()` output, from `par("usr")`,
-#'    `par("pin")`, and `par("din")`. Values can be
+#'    respective `graphics::par()` output, from `graphics::par("usr")`,
+#'    `graphics::par("pin")`, and `graphics::par("din")`. Values can be
 #'    supplied directly, which among other things, prevents opening a
 #'    graphical device if one is not already opened. Any call to
-#'    `par()` will otherwise cause a graphic device to be opened,
+#'    `graphics::par()` will otherwise cause a graphic device to be opened,
 #'    which may not be desired on a headless R server.
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
-#' par("mfrow"=c(2,4));
+#' graphics::par("mfrow"=c(2,4));
 #' for (i in 1:8) {
 #'    nullPlot(plotAreaTitle=paste("Plot", i), xlim=c(1,100), ylim=c(1,10),
 #'       doMargins=FALSE);
-#'    axis(1, las=2);
-#'    axis(2, las=2);
+#'    graphics::axis(1, las=2);
+#'    graphics::axis(2, las=2);
 #' }
 #' getPlotAspect("coords");
 #' getPlotAspect("plot");
@@ -1211,9 +1211,9 @@ decideMfrow <- function
 #' @export
 getPlotAspect <- function
 (type=c("coords", "plot", "device"),
- parUsr=par("usr"),
- parPin=par("pin"),
- parDin=par("din"),
+ parUsr=graphics::par("usr"),
+ parPin=graphics::par("pin"),
+ parDin=graphics::par("din"),
  ...)
 {
    ## Purpose is to get the plot aspect ratio, given an open
@@ -1489,7 +1489,7 @@ make_styles <- function
    if (length(text) == 0) {
       return(text);
    }
-   if (!suppressWarnings(suppressPackageStartupMessages(require(crayon)))) {
+   if (!requireNamespace("crayon", quietly=TRUE)) {
       ## If crayon is not available, return text without style. So sad.
       return(text);
    }
@@ -1654,11 +1654,11 @@ make_styles <- function
          paste(bg_styleV, collapse=",")));
    }
    ## Convert to rgb
-   style <- col2rgb(styleV, alpha=TRUE);
+   style <- grDevices::col2rgb(styleV, alpha=TRUE);
    if (any(styleNA)) {
       style[,styleNA] <- NA;
    }
-   bg_style <- col2rgb(bg_styleV, alpha=TRUE);
+   bg_style <- grDevices::col2rgb(bg_styleV, alpha=TRUE);
    if (any(bg_styleNA)) {
       bg_style[,bg_styleNA] <- NA;
    }
@@ -1778,7 +1778,7 @@ make_styles <- function
                iText));
          }
          if (isTransparent[i]) {
-            iStyle <- col2rgb(colorTransparent, alpha=TRUE);
+            iStyle <- grDevices::col2rgb(colorTransparent, alpha=TRUE);
          }
          if (verbose) {
             print(paste0("make_styles(): ",
@@ -1936,7 +1936,7 @@ jargs <- function
    }
 
    if (useColor) {
-      if (suppressWarnings(suppressPackageStartupMessages(require(crayon)))) {
+      if (requireNamespace("crayon", quietly=TRUE)) {
          useCrayon <- TRUE;
       } else {
          if (verbose) {
@@ -2255,15 +2255,15 @@ handleArgsText <- function
                   fgText=c("orange", "aquamarine1"),
                   Crange=Crange,Lrange=Lrange,adjustRgb=adjustRgb);
             }
-            if (suppressWarnings(suppressPackageStartupMessages(require(colorjam)))) {
-               arg_colors <- colorjam::vals2colorLevels(argTextA[whichMid],
-                  divergent=TRUE,
-                  lens=50,
-                  col=getColorRamp("RdBu_r", trimRamp=c(3, 3)));
-            } else {
+            # if (requireNamespace("colorjam", quietly=TRUE)) {
+            #    arg_colors <- colorjam::vals2colorLevels(argTextA[whichMid],
+            #       divergent=TRUE,
+            #       lens=50,
+            #       col=getColorRamp("RdBu_r", trimRamp=c(3, 3)));
+            # } else {
                arg_colors <- rep(c("skyblue","mediumslateblue"),
                   length.out=length(argTextA[whichMid]));
-            }
+            # }
             names(arg_colors) <- as.character(whichMid);
             argTextA[whichMid] <- sapply(whichMid, function(j1){
                j <- argTextA[[j1]];
@@ -2727,8 +2727,8 @@ handleArgsText <- function
 #' @examples
 #' # start with some random data
 #' n <- 2000;
-#' x1 <- rnorm(n);
-#' y1 <- rnorm(n);
+#' x1 <- stats::rnorm(n);
+#' y1 <- stats::rnorm(n);
 #'
 #' # apply noise floor and ceiling
 #' x2 <- noiseFloor(x1, minimum=-2, ceiling=2);
@@ -2740,12 +2740,12 @@ handleArgsText <- function
 #'    minimum=-2, newValue=-3,
 #'    ceiling=2, newCeiling=3);
 #'
-#' parMfrow <- par("mfrow");
-#' par("mfrow"=c(2,2));
+#' parMfrow <- graphics::par("mfrow");
+#' graphics::par("mfrow"=c(2,2));
 #' plotSmoothScatter(x1, y1);
 #' plotSmoothScatter(x2, y2);
 #' plotSmoothScatter(xm3);
-#' par("mfrow"=parMfrow);
+#' graphics::par("mfrow"=parMfrow);
 #'
 #' @export
 noiseFloor <- function
@@ -3523,9 +3523,9 @@ normScale <- function
 #'
 #' plot(x=x, y=xPlus10, type="b", pch=20, col="dodgerblue",
 #'    main="Comparison of lens=+10 to lens=-10");
-#' points(x=x, y=xMinus10, type="b", pch=18, col="orangered");
-#' abline(h=0, v=0, col="grey", lty="dashed", a=0, b=1);
-#' legend("topleft",
+#' graphics::points(x=x, y=xMinus10, type="b", pch=18, col="orangered");
+#' graphics::abline(h=0, v=0, col="grey", lty="dashed", a=0, b=1);
+#' graphics::legend("topleft",
 #'    legend=c("lens=+10", "lens=-10"),
 #'    col=c("dodgerblue","orangered"),
 #'    pch=c(20,18),
@@ -3539,9 +3539,9 @@ normScale <- function
 #'    main="Comparison of lens=+10 to lens=-10",
 #'    ylim=c(-10,15),
 #'    sub="baseline=+5");
-#' points(x=x, y=xMinus10b5, type="b", pch=18, col="orangered");
-#' abline(h=5, v=5, col="grey", lty="dashed", a=0, b=1);
-#' legend("topleft",
+#' graphics::points(x=x, y=xMinus10b5, type="b", pch=18, col="orangered");
+#' graphics::abline(h=5, v=5, col="grey", lty="dashed", a=0, b=1);
+#' graphics::legend("topleft",
 #'    legend=c("lens=+10", "lens=-10"),
 #'    col=c("dodgerblue","orangered"),
 #'    pch=c(20,18),
@@ -3583,10 +3583,10 @@ warpAroundZero <- function
       from=-1,
       to=1);
    if (lens > 0) {
-      y1 <- approx(x=y1, y=x1, xout=x1)$y;
+      y1 <- stats::approx(x=y1, y=x1, xout=x1)$y;
    }
 
-   approx(x=x1 * (xCeiling),
+   stats::approx(x=x1 * (xCeiling),
       y=y1 * (xCeiling),
       xout=x)$y + baseline;
 }

@@ -283,16 +283,16 @@ A screenshot of the file produced by the example is shown below.
 set.seed(123);
 \dontrun{
    set.seed(123);
-   lfc <- -3:3 + rnorm(7)/3;
+   lfc <- -3:3 + stats::rnorm(7)/3;
    colorSub <- nameVector(
-      rainbow(7, s=c(0.8, 1), v=c(0.8, 1)),
+      rainbow2(7),
       LETTERS[1:7])
    df <- data.frame(name=LETTERS[1:7],
       int=round(4^(1:7)),
-      num=(1:7)*4-2 + rnorm(7),
+      num=(1:7)*4-2 + stats::rnorm(7),
       fold=2^abs(lfc)*sign(lfc),
       lfc=lfc,
-      pvalue=10^(-1:-7 + rnorm(7)),
+      pvalue=10^(-1:-7 + stats::rnorm(7)),
       hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
    df;
    writeOpenxlsx(x=df,

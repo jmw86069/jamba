@@ -37,7 +37,7 @@ minorLogTicksAxis(
 3=top, 4=right.}
 
 \item{lims}{NULL or numeric range for which the axis tick marks
-will be determined. If NULL then the corresponding \code{par("usr")}
+will be determined. If NULL then the corresponding \code{graphics::par("usr")}
 will be used.}
 
 \item{logBase}{numeric value indicating the log base units, which
@@ -64,7 +64,7 @@ labeled \code{-4} to indicate a negative four fold change. If
 
 \item{majorCex, minorCex}{the base text size factors, relative
 to cex=1 for default text size. These factors are applied in
-addition to existing \code{par("cex")} values, preserving any
+addition to existing \code{graphics::par("cex")} values, preserving any
 global text size defined there.}
 
 \item{doMajor, doLabels, doMinorLabels}{\code{logical}, default TRUE, to display

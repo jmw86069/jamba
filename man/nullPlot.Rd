@@ -12,7 +12,7 @@ nullPlot(
   col = "transparent",
   xlim = c(1, 2),
   ylim = c(1, 2),
-  las = par("las"),
+  las = graphics::par("las"),
   doBoxes = TRUE,
   doUsrBox = doBoxes,
   fill = "#FFFF9966",

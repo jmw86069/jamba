@@ -18,7 +18,7 @@ sqrtAxis(
 }
 \arguments{
 \item{side}{integer value indicating the axis position, as used
-by \code{axis()}, 1=bottom, 2=left, 3=top, 4=right.}
+by \code{graphics::axis()}, 1=bottom, 2=left, 3=top, 4=right.}
 
 \item{x}{optional numeric vector representing the numeric range
 to be labeled.}
@@ -35,7 +35,7 @@ visually distinguish numbers larger than 1000.}
 \item{plot}{logical indicating whether to plot the axis tick
 marks and labels.}
 
-\item{las, cex.axis}{numeric values passed to \code{axis()} when drawing
+\item{las, cex.axis}{numeric values passed to \code{graphics::axis()} when drawing
 the axis, by default \code{las=2} plots labels rotated
 perpendicular to the axis.}
 

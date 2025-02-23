@@ -128,9 +128,9 @@
 #'    the corresponding non-NA value in the opposing axis. The driving use
 #'    was plotting gene fold changes from two experiments, where the two
 #'    experiments may not have measured the same genes.
-#' @param xaxt `character` value compatible with par(xaxt), used to control
+#' @param xaxt `character` value compatible with graphics::par(xaxt), used to control
 #'    the x-axis range, similar to its use in `plot()` generic functions.
-#' @param yaxt `character` value compatible with par(yaxt), used to control
+#' @param yaxt `character` value compatible with graphics::par(yaxt), used to control
 #'    the y-axis range, similar to its use in `plot()` generic functions.
 #' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
@@ -145,7 +145,7 @@
 #'    * When `add=FALSE` and `asp` is defined with `numeric` value,
 #'    a new plot device is opened using `plot.window()`, and the `xlim`
 #'    and `ylim` values are passed to that function. As a result the
-#'    `par("usr")` values are used to define `xlim` and `ylim` for the
+#'    `graphics::par("usr")` values are used to define `xlim` and `ylim` for the
 #'    purpose of determining visible points, relevant to `applyRangeCeiling`.
 #' @param applyRangeCeiling `logical` indicating how to handle points outside
 #'    the visible plot range. Valid values:
@@ -212,10 +212,10 @@ plotSmoothScatter <- function
  verbose=FALSE,
  ...)
 {
-   ## Purpose is to wrapper the smoothScatter() function in order to increase
+   ## Purpose is to wrapper the graphics::smoothScatter() function in order to increase
    ## the apparent detail by adjusting the bandwidth parameters in a somewhat
    ## more automated/intuitive way than the default parameters.
-   ## Now, the smoothScatter() function uses some default number, which results
+   ## Now, the graphics::smoothScatter() function uses some default number, which results
    ## in a low amount of detail, and in my opinion loses important features.
    ## To see an example of the difference, and hopefully the visual improvement,
    ## run this function plotSmoothScatter(doTest=TRUE)
@@ -257,8 +257,8 @@ plotSmoothScatter <- function
    if (doTest) {
       ## create somewhat noisy correlation data
       n <- 20000;
-      x <- matrix(ncol=2, data=rnorm(n*2));
-      x[,2] <- x[,1] + rnorm(n)*0.1;
+      x <- matrix(ncol=2, data=stats::rnorm(n*2));
+      x[,2] <- x[,1] + stats::rnorm(n)*0.1;
 
       ## Add secondary line offset from the main correlation
       ## using 5% the original data
@@ -268,11 +268,11 @@ plotSmoothScatter <- function
       n1 <- 3000;
       x2 <- rbind(x, xSub);
       n2 <- sample(seq_len(nrow(x2)), n1);
-      x2[n2,2] <- x2[n2,1] + rnorm(n1) * 0.6;
-      #oPar <- par(no.readonly=TRUE);
-      oPar <- par("mfrow"=c(2,2), "mar"=c(2,3,4,1));
-      on.exit(par(oPar));
-      smoothScatter(x2,
+      x2[n2,2] <- x2[n2,1] + stats::rnorm(n1) * 0.6;
+      #oPar <- graphics::par(no.readonly=TRUE);
+      oPar <- graphics::par("mfrow"=c(2,2), "mar"=c(2,3,4,1));
+      on.exit(graphics::par(oPar));
+      graphics::smoothScatter(x2,
          main="smoothScatter default\n(using colramp blues9)",
          asp=asp,
          ylab="",
@@ -284,7 +284,7 @@ plotSmoothScatter <- function
          asp=asp,
          ...);
       plotSmoothScatter(x2,
-         colramp=c("white", blues9),
+         colramp=c("white", grDevices::blues9),
          fillBackground=fillBackground,
          main="plotSmoothScatter\n(using colramp blues9)",
          asp=asp,
@@ -301,12 +301,12 @@ plotSmoothScatter <- function
       return(invisible(x2));
    }
 
-   ## use xy.coords()
+   ## use grDevices::xy.coords()
    xlabel <- if (!missing(x))
       deparse(substitute(x));
    ylabel <- if (length(y) > 0)
       deparse(substitute(y));
-   xy <- xy.coords(x=x,
+   xy <- grDevices::xy.coords(x=x,
       y=y,
       xlab=xlabel,
       ylab=ylabel,
@@ -340,14 +340,14 @@ plotSmoothScatter <- function
 
    if (length(xlim) == 0) {
       if (TRUE %in% add && exists(".Devices")) {
-         xlim <- range(par("usr")[1:2], na.rm=TRUE);
+         xlim <- range(graphics::par("usr")[1:2], na.rm=TRUE);
       } else {
          xlim <- range(x, na.rm=TRUE);
       }
    }
    if (length(ylim) == 0) {
       if (TRUE %in% add && exists(".Devices")) {
-         ylim <- range(par("usr")[3:4], na.rm=TRUE);
+         ylim <- range(graphics::par("usr")[3:4], na.rm=TRUE);
       } else {
          ylim <- range(y, na.rm=TRUE);
       }
@@ -374,7 +374,7 @@ plotSmoothScatter <- function
          "ylim: ", ylim4);
    }
 
-   ## Adjust for uneven plot aspect ratio, by using the plot par("pin")
+   ## Adjust for uneven plot aspect ratio, by using the plot graphics::par("pin")
    ## which contains the actual dimensions.
    ## Note that it does not require the actual coordinates of the plot,
    ## just the relative size of the display
@@ -394,7 +394,7 @@ plotSmoothScatter <- function
             # border="transparent",
             ...);
          # use grid.rect since it scales when plot is resized
-         abline(h=mean(ylim4), col="transparent")
+         graphics::abline(h=mean(ylim4), col="transparent")
          grid::grid.rect(gp=grid::gpar(
             fill=head(colramp(11), 1)))
       } else {
@@ -410,7 +410,7 @@ plotSmoothScatter <- function
             ...);
       }
       if (length(asp) == 1) {
-         parUsr <- par("usr");
+         parUsr <- graphics::par("usr");
          xlim4 <- parUsr[1:2]
          ylim4 <- parUsr[3:4]
          if (TRUE) {
@@ -422,11 +422,11 @@ plotSmoothScatter <- function
                "ylim: ", ylim4);
          }
       }
-      axis(1, las=1, xaxt=xaxt);
-      axis(2, las=2, yaxt=yaxt);
+      graphics::axis(1, las=1, xaxt=xaxt);
+      graphics::axis(2, las=2, yaxt=yaxt);
       if ((length(xlab) > 0 && nchar(xlab) > 0) ||
             (length(ylab) > 0 && nchar(ylab) > 0)) {
-         title(xlab=xlab,
+         graphics::title(xlab=xlab,
             ylab=ylab,
             ...);
       }
@@ -434,12 +434,12 @@ plotSmoothScatter <- function
       # add=TRUE
       # so xlim,ylim are already defined
       if (fillBackground) {
-         abline(h=mean(ylim4), col="transparent")
+         graphics::abline(h=mean(ylim4), col="transparent")
          grid::grid.rect(
             gp=grid::gpar(
                fill=head(colramp(11), 1)))
       }
-      parUsr <- par("usr");
+      parUsr <- graphics::par("usr");
       xlim4 <- parUsr[1:2]
       ylim4 <- parUsr[3:4]
       if (TRUE) {
@@ -454,7 +454,7 @@ plotSmoothScatter <- function
 
 
    ## Determine resolution of 2D density, and of pixel display
-   pin1 <- par("pin")[1] / par("pin")[2];
+   pin1 <- graphics::par("pin")[1] / graphics::par("pin")[2];
    if (length(bandwidthN) > 0) {
       bandwidthN <- rep(bandwidthN, length.out=2);
       bandwidthXY <- c(diff(xlim4)/bandwidthN[1],
@@ -465,16 +465,16 @@ plotSmoothScatter <- function
          bwpi <- 30;
       }
       bandwidthXY <- c(
-         diff(xlim4) / (par("pin")[1] * bwpi),
-         diff(ylim4) / (par("pin")[2] * bwpi));
+         diff(xlim4) / (graphics::par("pin")[1] * bwpi),
+         diff(ylim4) / (graphics::par("pin")[2] * bwpi));
    }
    if (length(nbin) == 0) {
       if (length(binpi) == 0) {
          binpi <- 50;
       }
       nbin <- c(
-         round(par("pin")[1] * binpi),
-         round(par("pin")[2] * binpi));
+         round(graphics::par("pin")[1] * binpi),
+         round(graphics::par("pin")[2] * binpi));
    }
    if (verbose) {
       jamba::printDebug("plotSmoothScatter(): ",
@@ -573,18 +573,18 @@ plotSmoothScatter <- function
 #' @param ylim `numeric` y-axis range for the plot
 #' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
-#' @param xaxs `character` value compatible with `par("xaxs")`, mainly useful
+#' @param xaxs `character` value compatible with `graphics::par("xaxs")`, mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    range, most useful to restrict the axis range expansion done by R
 #'    by default.
-#' @param yaxs `character` value compatible with `par("yaxs")`, mainly useful
+#' @param yaxs `character` value compatible with `graphics::par("yaxs")`, mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    range, most useful to restrict the axis range expansion done by R
 #'    by default.
-#' @param xaxt `character` value compatible with `par("xaxt")`, mainly useful
+#' @param xaxt `character` value compatible with `graphics::par("xaxt")`, mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    by other mechanisms, e.g. log-scaled x-axis tick marks.
-#' @param yaxt `character` value compatible with `par("yaxt")`, mainly useful
+#' @param yaxt `character` value compatible with `graphics::par("yaxt")`, mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    by other mechanisms, e.g. log-scaled y-axis tick marks.
 #' @param useRaster `NULL` or `logical` indicating whether to invoke
@@ -593,7 +593,7 @@ plotSmoothScatter <- function
 #'    `imageDefault()` function, which checks the options
 #'    using `getOption("preferRaster", FALSE)` to determine among
 #'    other things, whether the user prefers raster images, and if the
-#'    `dev.capabilities()` supports raster.
+#'    `grDevices::dev.capabilities()` supports raster.
 #' @param ... additional arguments are passed to `imageDefault()` and
 #'    optionally to `plotPlotHook()` when supplied.
 #'
@@ -615,16 +615,16 @@ smoothScatterJam <- function
  cex=1,
  col="black",
  transformation=function(x) x^0.25,
- postPlotHook=box,
+ postPlotHook=graphics::box,
  xlab=NULL,
  ylab=NULL,
  xlim,
  ylim,
  add=FALSE,
- xaxs=par("xaxs"),
- yaxs=par("yaxs"),
- xaxt=par("xaxt"),
- yaxt=par("yaxt"),
+ xaxs=graphics::par("xaxs"),
+ yaxs=graphics::par("yaxs"),
+ xaxt=graphics::par("xaxt"),
+ yaxt=graphics::par("yaxt"),
  useRaster=NULL,
  ...)
 {
@@ -636,9 +636,6 @@ smoothScatterJam <- function
    ## useful for drawing a box around the plot, or performing
    ## other customizations.
    ##
-   if (!suppressPackageStartupMessages(require(grDevices))) {
-      stop("smoothScatterJam() requires the grDevices package.");
-   }
    if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) !=1)) {
       stop("'nrpoints' should be numeric scalar with value >= 0.");
    }
@@ -648,7 +645,7 @@ smoothScatterJam <- function
    ylabel <- if (!missing(y)) {
       deparse(substitute(y));
    }
-   xy <- xy.coords(x, y, xlabel, ylabel);
+   xy <- grDevices::xy.coords(x, y, xlabel, ylabel);
    xlab <- if (is.null(xlab)) {
       xy$xlab;
    } else {
@@ -727,7 +724,7 @@ smoothScatterJam <- function
       ixm <- 1L + as.integer((nx - 1) * (x[, 1] - xm[1])/(xm[nx] - xm[1]));
       iym <- 1L + as.integer((ny - 1) * (x[, 2] - ym[1])/(ym[ny] - ym[1]));
       sel <- order(dens[cbind(ixm, iym)])[seq_len(nrpoints)];
-      points(x[sel,, drop=FALSE],
+      graphics::points(x[sel,, drop=FALSE],
          pch=pch,
          cex=cex,
          col=col);
@@ -802,7 +799,7 @@ nullPlot <- function
  col="transparent",
  xlim=c(1,2),
  ylim=c(1,2),
- las=par("las"),
+ las=graphics::par("las"),
  doBoxes=TRUE,
  doUsrBox=doBoxes,
  fill="#FFFF9966",
@@ -848,10 +845,10 @@ nullPlot <- function
    marginUnit <- match.arg(marginUnit);
 
    if (showMarginsOnly) {
-      parUsr <- par("usr");
+      parUsr <- graphics::par("usr");
       ylim <- parUsr[3:4];
       xlim <- parUsr[1:2];
-      points(range(xlim),
+      graphics::points(range(xlim),
          range(ylim),
          xaxt=xaxt,
          yaxt=yaxt,
@@ -885,10 +882,10 @@ nullPlot <- function
          ...);
    }
    if (doBoxes) {
-      box("plot",
+      graphics::box("plot",
          col="darkred");
 
-      box("figure",
+      graphics::box("figure",
          lty="dashed",
          col="navy");
 
@@ -896,15 +893,15 @@ nullPlot <- function
       if (doMargins) {
          if ("lines" %in% marginUnit) {
             # lines
-            Margins <- par("mar");
+            Margins <- graphics::par("mar");
             MarginTerm <- "mar";
-            OMargins <- par("oma");
+            OMargins <- graphics::par("oma");
             OMarginTerm <- "oma";
          } else {
             # inches
-            Margins <- par("mai");
+            Margins <- graphics::par("mai");
             MarginTerm <- "mai";
-            OMargins <- par("omi");
+            OMargins <- graphics::par("omi");
             OMarginTerm <- "omi";
          }
          MarginsN <- Margins;
@@ -930,7 +927,7 @@ nullPlot <- function
             plotLas <- 1;
          }
          if (MarginsN[3] < 1) {
-            mtext(paste0("Margin", MarginsText),
+            graphics::mtext(paste0("Margin", MarginsText),
                NORTH<-3,
                line=-1,
                cex=0.7,
@@ -938,7 +935,7 @@ nullPlot <- function
                las=plotLas,
                adj=plotLas-1);
          } else {
-            mtext(paste0("Margin", MarginsText),
+            graphics::mtext(paste0("Margin", MarginsText),
                SOUTH<-3,
                line=1,
                cex=0.7,
@@ -947,10 +944,10 @@ nullPlot <- function
                adj=plotLas-1);
          }
 
-         box("inner", lty="dotted", col="darkgreen", lwd=3);
+         graphics::box("inner", lty="dotted", col="darkgreen", lwd=3);
          if (any(OMargins > 0)) {
             if (OMargins[1] >= 1) {
-               mtext(paste0("Outer Margin Area", OMarginsText),
+               graphics::mtext(paste0("Outer Margin Area", OMarginsText),
                   SOUTH<-1,
                   line=0,
                   adj=1.0,
@@ -959,7 +956,7 @@ nullPlot <- function
                   outer=TRUE,
                   las=plotLas);
             } else {
-               mtext(paste0("Outer Margin Area", OMarginsText),
+               graphics::mtext(paste0("Outer Margin Area", OMarginsText),
                   SOUTH<-1,
                   line=-1,
                   adj=1.0,
@@ -969,14 +966,14 @@ nullPlot <- function
                   las=plotLas);
             }
          }
-         box("outer", lty="solid", col="darkgreen");
+         graphics::box("outer", lty="solid", col="darkgreen");
 
          ## Text: vector of strings in mtext call
          lapply(1:4, function(i){
             if (MarginsV[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
-               par("las"=newLas);
-               mtext(paste0(MarginTerm, "[", i, "]",
+               graphics::par("las"=newLas);
+               graphics::mtext(paste0(MarginTerm, "[", i, "]",
                      plotNumPrefix, "=",
                      MarginsV[i]),
                   side=i,
@@ -987,12 +984,12 @@ nullPlot <- function
                   las=newLas);
             }
          });
-         par("las"=1);
+         graphics::par("las"=1);
          lapply(1:4, function(i){
             if (OMarginsV[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
-               par("las"=newLas);
-               mtext(paste0("oma[", i, "]",
+               graphics::par("las"=newLas);
+               graphics::mtext(paste0("oma[", i, "]",
                      plotNumPrefix, "=",
                      OMarginsV[i]),
                   i,
@@ -1005,25 +1002,25 @@ nullPlot <- function
                   las=newLas);
             }
          });
-         par("las"=1);
+         graphics::par("las"=1);
       }
 
       ## Print a title in the center of the plot region
-      iXpd <- par("xpd");
-      on.exit(par("xpd"=iXpd));
-      par("xpd"=NA);
-      text(x=mean(range(xlim)),
+      iXpd <- graphics::par("xpd");
+      on.exit(graphics::par("xpd"=iXpd));
+      graphics::par("xpd"=NA);
+      graphics::text(x=mean(range(xlim)),
          y=mean(range(ylim)),
          labels=plotAreaTitle,
          col="darkred",
          cex=2,
          srt=plotSrt);
-      par("xpd"=iXpd);
+      graphics::par("xpd"=iXpd);
 
       ## Print axis labels
       if (doAxes) {
-         axis(1, las=las, col="darkred", col.axis="darkred", ...);
-         axis(2, las=las, col="darkred", col.axis="darkred", ...);
+         graphics::axis(1, las=las, col="darkred", col.axis="darkred", ...);
+         graphics::axis(2, las=las, col="darkred", col.axis="darkred", ...);
       }
    }
 }
@@ -1038,14 +1035,14 @@ nullPlot <- function
 #' plot elements to be shown, or can be useful precursor to provide a colored
 #' background for the plot.
 #'
-#' The plot space is defined using \code{par("usr")} and therefore requires
+#' The plot space is defined using \code{graphics::par("usr")} and therefore requires
 #' an active R device is already opened.
 #'
 #' @param fill `character` R color used to fill the background of the plot
 #' @param label `character` text optionally used to label the center of the
 #'    plot space, default `NULL`
 #' @param parUsr `numeric` vector length 4, indicating the R plot space,
-#'    consistent with \code{par("usr")}. It can thus be used to define a
+#'    consistent with \code{graphics::par("usr")}. It can thus be used to define a
 #'    different area, though using the \code{\link[graphics]{rect}} function
 #'    directly seems more appropriate.
 #' @param debug `logical` whether to print the parUsr value being used.
@@ -1062,19 +1059,19 @@ nullPlot <- function
 usrBox <- function
 (fill="#FFFF9966",
  label=NULL,
- parUsr=par("usr"),
+ parUsr=graphics::par("usr"),
  debug=FALSE,
  ...)
 {
    ## Purpose is to draw a rectangle, filled transparent yellow,
-   ## showing the par("usr") area as defined by R.
+   ## showing the graphics::par("usr") area as defined by R.
    ## This function can also be used to change the plot background color.
    if (debug) {
       printDebug("parUsr: ", c(format(digits=2, parUsr)), c("orange", "lightblue"));
    }
-   rect(col=fill, parUsr[1], parUsr[3], parUsr[2], parUsr[4], ...);
+   graphics::rect(col=fill, parUsr[1], parUsr[3], parUsr[2], parUsr[4], ...);
    if (!is.null(label)) {
-      text(mean(parUsr[c(1,2)]), mean(parUsr[c(3,4)]), label, ...);
+      graphics::text(mean(parUsr[c(1,2)]), mean(parUsr[c(3,4)]), label, ...);
    }
 }
 
@@ -1104,18 +1101,18 @@ usrBox <- function
 #' @param col `character` vector of colors to be mapped to values in z.
 #' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
-#' @param xaxs `character` value compatible with par(xaxs), mainly useful
+#' @param xaxs `character` value compatible with graphics::par(xaxs), mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    range, most useful to restrict the axis range expansion done by R
 #'    by default.
-#' @param yaxs `character` value compatible with par(yaxs), mainly useful
+#' @param yaxs `character` value compatible with graphics::par(yaxs), mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    range, most useful to restrict the axis range expansion done by R
 #'    by default.
-#' @param xaxt `character` value compatible with par(xaxt), mainly useful
+#' @param xaxt `character` value compatible with graphics::par(xaxt), mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    by other mechanisms, e.g. log-scaled x-axis tick marks.
-#' @param yaxt `character` value compatible with par(yaxt), mainly useful
+#' @param yaxt `character` value compatible with graphics::par(yaxt), mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    by other mechanisms, e.g. log-scaled y-axis tick marks.
 #' @param ylab `character` label for the y-axis
@@ -1399,10 +1396,10 @@ imageDefault <- function
          ...);
    }
    if (length(x) <= 1) {
-      x <- par("usr")[1:2];
+      x <- graphics::par("usr")[1:2];
    }
    if (length(y) <= 1) {
-      y <- par("usr")[3:4];
+      y <- graphics::par("usr")[3:4];
    }
    if (length(x) != nrow(z) + 1 || length(y) != ncol(z) + 1) {
       stop("dimensions of z are not length(x)(-1) times length(y)(-1)");
@@ -1435,7 +1432,7 @@ imageDefault <- function
       useRaster <- getOption("preferRaster", FALSE);
       if (useRaster) {
          useRaster <- FALSE;
-         ras <- dev.capabilities("raster");
+         ras <- grDevices::dev.capabilities("raster");
          if (identical(ras, "yes")) {
             useRaster <- TRUE;
          }
@@ -1570,7 +1567,7 @@ imageDefault <- function
          stop("useRaster=TRUE can only be used with a regular grid");
       }
       if (!is.character(col)) {
-         p <- palette();
+         p <- grDevices::palette();
          pl <- length(p);
          col <- as.integer(col);
          col[col < 1L] <- NA_integer_;
@@ -1580,7 +1577,7 @@ imageDefault <- function
       dim(zc) <- dim(z);
       zc <- t(zc)[ncol(zc):1L, , drop=FALSE];
       graphics::rasterImage(
-         image=as.raster(zc),
+         image=grDevices::as.raster(zc),
          xleft=min(x),
          ybottom=min(y),
          xright=max(x),
@@ -1635,33 +1632,33 @@ imageDefault <- function
 #' @family jam plot functions
 #'
 #' @param x,y numeric coordinates, either as vectors x and y, or x as a
-#' two-color matrix recognized by \code{\link[grDevices]{xy.coords}}.
+#' two-color matrix recognized by `grDevices::xy.coords()`.
 #' @param labels vector of labels to display at the corresponding xy
 #'    coordinates.
 #' @param col,bg,shadowColor the label color, and background (outline) color,
-#'    and shadow color (if \code{shadow=TRUE}), for each
-#'    element in \code{labels}. Colors are applied in order, and recycled to
-#'    \code{length(labels)} as needed. By default \code{bg} will choose
-#'    a contrasting color, based upon \code{\link{setTextContrastColor}}.
+#'    and shadow color (if `shadow=TRUE`), for each
+#'    element in `labels`. Colors are applied in order, and recycled to
+#'    `length(labels)` as needed. By default `bg` will choose
+#'    a contrasting color, based upon `setTextContrastColor()`.
 #'    Also by default, the shadow is "black" true to its name, since it is
 #'    expected to darken the area around it.
 #' @param r the outline radius, expressed as a fraction of the width of the
-#'    character "A" as returned by \code{\link[graphics]{strwidth}}.
+#'    character "A" as returned by `graphics::strwidth()`.
 #' @param offset the outline offset position in xy coordinates, expressed
 #'    as a fraction of the width of the character "A" as returned by
-#'    \code{\link[graphics]{strwidth}}, and \code{\link[graphics]{strheight}},
+#'    `graphics::strwidth()`, and `graphics::strheight()`,
 #'    respectively.
-#'    The offset is only applied when \code{shadow=TRUE} to enable the shadow
+#'    The offset is only applied when `shadow=TRUE` to enable the shadow
 #'    effect.
-#' @param n the number of steps around the label used to create the outline.
+#' @param n `numeric` steps around the label used to create the outline.
 #'    A higher number may be useful for very large font sizes, otherwise 8
 #'    is a reasonably good balance between detail and the number of labels
 #'    added.
-#' @param outline logical whether to enable outline drawing.
-#' @param shadow logical whether to enable shadow drawing.
-#' @param alphaOutline,alphaShadow alpha transparency to use for the outline
-#'    and shadow colors, respectively.
-#' @param doTest logical whether to create a visual example of output. Note
+#' @param outline `logical` whether to enable outline drawing.
+#' @param shadow `logical` whether to enable shadow drawing.
+#' @param alphaOutline,alphaShadow `numeric` alpha transparency to use
+#'    for the outline and shadow colors, respectively.
+#' @param doTest `logical` whether to create a visual example of output. Note
 #'    that it calls \code{\link{usrBox}} to color the plot area, and the
 #'    background can be overridden with something like \code{fill="navy"}.
 #' @param shadowOrder `character` value indicating when shadows are drawn
@@ -1669,8 +1666,8 @@ imageDefault <- function
 #'    so that shadows will overlap previous labels; `"all"` draws all shadows
 #'    first then all labels, so labels will always appear above all
 #'    shadows. See examples.
-#' @param cex `numeric` scalar applied to font size, default `par("cex")`.
-#' @param font `character` applied to font family, default `par("font")`.
+#' @param cex `numeric` scalar applied to font size, default `graphics::par("cex")`.
+#' @param font `character` applied to font family, default `graphics::par("font")`.
 #' @param ... other parameters are passed to \code{\link[graphics]{text}}.
 #'    Note that certain parameters are not vectorized in that function,
 #'    such as \code{srt} which requires only a fixed value. To rotate each
@@ -1688,16 +1685,16 @@ imageDefault <- function
 #' shadowText(doTest=TRUE, fill="red4");
 #'
 #' # example showing labels with overlapping shadows
-#' opar <- par("mfrow"=c(1, 2))
+#' opar <- graphics::par("mfrow"=c(1, 2))
 #' nullPlot(doBoxes=FALSE);
-#' title(main="shadowOrder='each'");
+#' graphics::title(main="shadowOrder='each'");
 #' shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
 #'    labels=c("one", "two"), cex=c(2, 4), shadowOrder="each")
 #' nullPlot(doBoxes=FALSE);
-#' title(main="shadowOrder='all'");
+#' graphics::title(main="shadowOrder='all'");
 #' shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
 #'    labels=c("one", "two"), cex=c(2, 4), shadowOrder="all")
-#' par(opar)
+#' graphics::par(opar)
 #'
 #' @export
 shadowText <- function
@@ -1715,8 +1712,8 @@ shadowText <- function
  shadowColor=getOption("jam.shadowColor", "black"),
  alphaShadow=getOption("jam.alphaShadow", 0.2),
  shadowOrder=c("each", "all"),
- cex=par("cex"),
- font=par("font"),
+ cex=graphics::par("cex"),
+ font=graphics::par("font"),
  doTest=FALSE,
  ...)
 {
@@ -1794,15 +1791,15 @@ shadowText <- function
    cex <- rep(cex, length.out=length(labels));
    font <- rep(font, length.out=length(labels));
    bg <- rep(bg, length.out=length(labels));
-   xy <- xy.coords(x, y);
-   xo <- r * strwidth("A");
-   yo <- r * strheight("A");
+   xy <- grDevices::xy.coords(x, y);
+   xo <- r * graphics::strwidth("A");
+   yo <- r * graphics::strheight("A");
    if (length(offset) == 0) {
       offset <- c(0.15, 0.15);
    }
    offset <- rep(offset, length.out=2);
-   offsetX <- offset[1] * strwidth("A");
-   offsetY <- offset[2] * strheight("A");
+   offsetX <- offset[1] * graphics::strwidth("A");
+   offsetY <- offset[2] * graphics::strheight("A");
 
    ## Angular sequence with n steps
    theta <- tail(seq(0, 2*pi, length.out=n+1), -1);
@@ -1863,7 +1860,7 @@ shadowText <- function
    #allFont <- rep(font, n+1);
    #allSrt <- rep(srt, n+1);
 
-   ## Draw labels with one text() call to make it vectorized
+   ## Draw labels with one graphics::text() call to make it vectorized
    graphics::text(x=c(allX),
       y=c(allY),
       labels=c(allLabels),
@@ -1900,20 +1897,20 @@ shadowText <- function
 #'
 #' @param x `character` vector of axis labels
 #' @param margin `integer` value indicating which margin to adjust,
-#'    using the order by \code{par("mar")}, 1=bottom, 2=left, 3=top,
+#'    using the order by \code{graphics::par("mar")}, 1=bottom, 2=left, 3=top,
 #'    4=right.
 #' @param maxFig `numeric` fraction less than 1, indicating the maximum
 #'    size of margin relative to the figure size. Setting margins too
 #'    large results in an error otherwise.
 #' @param cex `numeric` or NULL, sent to `graphics::strwidth()` when
 #'    calculating the string width of labels in inches.
-#' @param cex.axis `numeric`, default uses par("cex.axis"), to define the
+#' @param cex.axis `numeric`, default uses graphics::par("cex.axis"), to define the
 #'    axis label size.
 #' @param prefix `character` string used to add whitespace around the axis label.
 #' @param ... additional parameters are ignored.
 #'
 #' @returns invisible `numeric` margin size in inches, corresponding
-#'    to the requested `margin` from `par("mai")`.
+#'    to the requested `margin` from `graphics::par("mai")`.
 #'
 #' @examples
 #' xlabs <- paste0("item_", (1:20));
@@ -1921,23 +1918,23 @@ shadowText <- function
 #' adjustAxisLabelMargins(xlabs, 1);
 #' adjustAxisLabelMargins(ylabs, 2);
 #' nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
-#' axis(1, at=1:20, labels=xlabs, las=2);
-#' axis(2, at=1:20, labels=ylabs, las=2);
+#' graphics::axis(1, at=1:20, labels=xlabs, las=2);
+#' graphics::axis(2, at=1:20, labels=ylabs, las=2);
 #'
-#' par("mar"=c(5,4,4,2));
+#' graphics::par("mar"=c(5,4,4,2));
 #' adjustAxisLabelMargins(xlabs, 3);
 #' adjustAxisLabelMargins(ylabs, 4);
 #' nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
-#' axis(3, at=1:20, labels=xlabs, las=2);
-#' axis(4, at=1:20, labels=ylabs, las=2);
+#' graphics::axis(3, at=1:20, labels=xlabs, las=2);
+#' graphics::axis(4, at=1:20, labels=ylabs, las=2);
 #'
 #' @export
 adjustAxisLabelMargins <- function
 (x,
  margin=1,
  maxFig=1/2,
- cex=par("cex"),
- cex.axis=par("cex.axis"),
+ cex=graphics::par("cex"),
+ cex.axis=graphics::par("cex.axis"),
  prefix="-- -- ",
  ...)
 {
@@ -1946,24 +1943,24 @@ adjustAxisLabelMargins <- function
    ##
    ## x is a vector of axis labels
    ##
-   ## par("mai") and par("fin") are used, with units="inches", which allows
+   ## graphics::par("mai") and graphics::par("fin") are used, with units="inches", which allows
    ## the calculations to remain unaware of plot coordinates.
    ##
-   ## The margin values refer to the order from par("mar"),
+   ## The margin values refer to the order from graphics::par("mar"),
    ## 1-bottom, 2-left, 3-top, 4-right
-   ## Note: If a plot device is not already open, the call to strwidth()
+   ## Note: If a plot device is not already open, the call to graphics::strwidth()
    ## will open one if possible. If not possible, an error will be thrown
-   ## from strwidth().
+   ## from graphics::strwidth().
    if (!margin %in% c(1,2,3,4)) {
       stop("adjustAxisLabelMargins() requires margin to be one of c(1,2,3,4).");
    }
 
    ## Get plot and figure sizes in inches
-   parMai <- par("mai");
-   parFin <- par("fin");
+   parMai <- graphics::par("mai");
+   parFin <- graphics::par("fin");
    cex_use <- cex * cex.axis;
    maxWidth <- max(
-      strwidth(paste(prefix, x),
+      graphics::strwidth(paste(prefix, x),
          units="inches",
          cex=cex_use) + 0.2,
       na.rm=TRUE);
@@ -1972,7 +1969,7 @@ adjustAxisLabelMargins <- function
    refMargin <- 2-(margin %% 2);
    parMaiNew <- min(c(maxWidth, parFin[refMargin]*maxFig));
    parMai[margin] <- parMaiNew;
-   par("mai"=parMai);
+   graphics::par("mai"=parMai);
    invisible(parMaiNew);
 }
 
@@ -1997,8 +1994,7 @@ adjustAxisLabelMargins <- function
 #'
 #' If supplied with a data matrix, this function will create a layout
 #' with `ncol(x)` panels, and plot the distribution of each column
-#' in its own panel, using categorical colors from
-#' `colorjam::rainbowJam()`.
+#' in its own panel, using categorical colors from `rainbow2()`.
 #'
 #' For a similar style using ggplot2, see `plotRidges()`, which displays
 #' only the density profile for each sample, but in a much more scalable
@@ -2057,12 +2053,12 @@ adjustAxisLabelMargins <- function
 #' @param width `numeric` passed to `breakDensity()`.
 #' @param densityBreaksFactor `numeric` scaling factor to control
 #'    the level of detail in the density, passed to `breakDensity()`.
-#' @param axisFunc `function` optionally used in place of `axis()` to define
+#' @param axisFunc `function` optionally used in place of `graphics::axis()` to define
 #'    axis labels.
 #' @param bty `character` string used to define the plot box shape,
-#'    see `box()`.
+#'    see `graphics::box()`.
 #' @param cex.axis `numeric` scalar to adjust axis label font size.
-#' @param doPar `logical` indicating whether to apply `par()`, specifically
+#' @param doPar `logical` indicating whether to apply `graphics::par()`, specifically
 #'    when `x` is supplied as a multi-column matrix. When `doPar=FALSE`,
 #'    no panels nor margin adjustments are made at all.
 #' @param heightFactor `numeric` value indicating the height of the y-axis
@@ -2073,7 +2069,7 @@ adjustAxisLabelMargins <- function
 #'    `x` is supplied as a single `numeric` vector. Otherwise each plot
 #'    title uses the relevant `colnames(x)` value.
 #' @param xaxs,yaxs,xaxt,yaxt `character` string indicating the type of
-#'    x-axis and y-axis to render, see `par()`.
+#'    x-axis and y-axis to render, see `graphics::par()`.
 #' @param xlab,ylab `character` labels for x-axis and y-axis, respectively.
 #' @param log `character` vector, optionally containing `"x"` and/or `"y"` to
 #'    to indicate which axes are log-transformed. If `"x" %in% log`
@@ -2130,7 +2126,7 @@ adjustAxisLabelMargins <- function
 #' @examples
 #' # basic density plot
 #' set.seed(123);
-#' x <- rnorm(2000);
+#' x <- stats::rnorm(2000);
 #' plotPolygonDensity(x, main="basic polygon density plot");
 #'
 #' # fewer breaks
@@ -2139,7 +2135,7 @@ adjustAxisLabelMargins <- function
 #'    main="breaks=20");
 #'
 #' # log-scaled x-axis
-#' plotPolygonDensity(10^(3+rnorm(2000)), log="x",
+#' plotPolygonDensity(10^(3+stats::rnorm(2000)), log="x",
 #'    breaks=50,
 #'    main="log-scaled x-axis");
 #'
@@ -2161,7 +2157,7 @@ adjustAxisLabelMargins <- function
 #'
 #' # multiple columns
 #' set.seed(123);
-#' xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
+#' xm <- do.call(cbind, lapply(1:4, function(i){stats::rnorm(2000)}))
 #' plotPolygonDensity(xm, breaks=20)
 #'
 #' @export
@@ -2184,7 +2180,7 @@ plotPolygonDensity <- function
  breaks=100,
  width=NULL,
  densityBreaksFactor=3,
- axisFunc=axis,
+ axisFunc=graphics::axis,
  bty="l",
  cex.axis=1.5,
  doPar=TRUE,
@@ -2217,7 +2213,7 @@ plotPolygonDensity <- function
  verbose=FALSE,
  ...)
 {
-   ## Purpose is to wrapper a plot(density(x)) and polygon() method
+   ## Purpose is to wrapper a plot(stats::density(x)) and graphics::polygon() method
    ## for pretty filled density plots
    ##
    ## log="x" will impose log10 scale to the x-axis, and display log-axis tick marks
@@ -2235,7 +2231,7 @@ plotPolygonDensity <- function
    ##
    xScale <- match.arg(xScale);
 
-   ## ablineV will include abline(s) in each panel
+   ## ablineV will include graphics::abline(s) in each panel
    if (!is.null(ablineV)) {
       ablineVcol <- rep(ablineVcol, length.out=length(ablineV));
       ablineVlty <- rep(ablineVlty, length.out=length(ablineV));
@@ -2249,7 +2245,7 @@ plotPolygonDensity <- function
    if (igrepHas("matrix|data.*frame|tibble|data.table", class(x)) &&
          ncol(x) > 1 &&
          TRUE %in% usePanels) {
-      ## ablineV will include abline(s) in each panel
+      ## ablineV will include graphics::abline(s) in each panel
       if (!is.null(ablineV)) {
          ablineV <- rep(ablineV, length.out=ncol(x));
       }
@@ -2259,21 +2255,23 @@ plotPolygonDensity <- function
          newMfrow <- c(1, 1);
       }
       if (doPar) {
-         origMfrow <- par("mfrow"=newMfrow);
+         origMfrow <- graphics::par("mfrow"=newMfrow);
          # ensure the mfrow value is reversed properly
-         on.exit(par(origMfrow),
+         on.exit(graphics::par(origMfrow),
             add=TRUE,
             after=FALSE);
       }
       if (length(barCol) == ncol(x)) {
          panelColors <- barCol;
       } else {
-         if (check_pkg_installed("colorjam")) {
-            panelColors <- colorjam::rainbowJam(ncol(x));
-         } else {
-            panelColors <- sample(unvigrep("gr[ae]y|white|black|[34]$", colors()),
-               size=ncol(x));
-         }
+         # if (check_pkg_installed("colorjam")) {
+         #    panelColors <- colorjam::rainbowJam(ncol(x));
+         # } else {
+            panelColors <- rainbow2(ncol(x));
+            # panelColors <- sample(unvigrep("gr[ae]y|white|black|[34]$",
+            #    grDevices::colors()),
+            #    size=ncol(x));
+         # }
       }
       if (length(colnames(x)) == 0) {
          colnames(x) <- makeNames(rep("column", ncol(x)), suffix="_");
@@ -2294,7 +2292,7 @@ plotPolygonDensity <- function
       }
 
       ## Get common set of breaks
-      #hx <- hist(x, breaks=breaks, plot=FALSE, ...);
+      #hx <- graphics::hist(x, breaks=breaks, plot=FALSE, ...);
       #breaks <- hx$breaks;
       ## Iterate each column
       # recycle xlim if present
@@ -2375,7 +2373,7 @@ plotPolygonDensity <- function
          d2;
       });
       if (useOnePanel && ncol(x) > 1) {
-         legend("top",
+         graphics::legend("top",
             inset=c(0,0.05),
             legend=colnames(x),
             fill=alpha2col(panelColors, alpha=colAlphas[2]),
@@ -2384,9 +2382,9 @@ plotPolygonDensity <- function
       invisible(d1);
    } else {
       ##
-      oPar <- par("xaxs"=xaxs, "yaxs"=yaxs);
+      oPar <- graphics::par("xaxs"=xaxs, "yaxs"=yaxs);
       # ensure xaxs, yaxs are reversed properly
-      on.exit(par(oPar),
+      on.exit(graphics::par(oPar),
          add=TRUE,
          after=FALSE);
       #if (is.null(bw) & is.null(width)) {
@@ -2434,7 +2432,7 @@ plotPolygonDensity <- function
             x <- rmNA(x);
          }
          if (add) {
-            hx <- call_fn_ellipsis(hist.default,
+            hx <- call_fn_ellipsis(graphics::hist.default,
                x=x,
                breaks=breaks,
                col=barCol,
@@ -2449,7 +2447,7 @@ plotPolygonDensity <- function
                add=add,
                ...);
          } else {
-            hx <- call_fn_ellipsis(hist.default,
+            hx <- call_fn_ellipsis(graphics::hist.default,
                x=x,
                breaks=breaks,
                plot=FALSE,
@@ -2461,7 +2459,7 @@ plotPolygonDensity <- function
                ylimQuantile > 0 &&
                max(hx$counts) > 0) {
                ylim <- c(0,
-                  quantile(hx$counts, c(ylimQuantile)));
+                  stats::quantile(hx$counts, c(ylimQuantile)));
             }
             if (length(xlim) == 0) {
                xlim <- range(hx$breaks, na.rm=TRUE);
@@ -2523,11 +2521,11 @@ plotPolygonDensity <- function
                } else {
                   #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
                   ## Slight change to use the plot region instead of the histogram region
-                  atPretty <- pretty(par("usr")[1:2],
+                  atPretty <- pretty(graphics::par("usr")[1:2],
                      u5.bias=u5.bias,
                      n=pretty.n,
                      ...);
-                  #axis(1, at=atPretty, labels=atPretty, las=las, ...);
+                  #graphics::axis(1, at=atPretty, labels=atPretty, las=las, ...);
                   axisFunc(1,
                      at=atPretty,
                      las=las,
@@ -2540,7 +2538,7 @@ plotPolygonDensity <- function
                   }
                }
             }
-            box(bty=bty);
+            graphics::box(bty=bty);
          }
       } else {
          hx <- NULL;
@@ -2559,7 +2557,7 @@ plotPolygonDensity <- function
             ...);
          if (doHistogram) {
             maxHistY <- max(hx$counts, na.rm=TRUE);
-            maxHistY <- par("usr")[4];
+            maxHistY <- graphics::par("usr")[4];
             if (verbose) {
                printDebug("plotPolygonDensity(): ",
                   "Re-scaled y to histogram height maxHistY:",
@@ -2568,8 +2566,8 @@ plotPolygonDensity <- function
             ## Scale the y-axis to match the histogram
             xout <- (head(hx$breaks, -1) + tail(hx$breaks, -1))/2;
             xu <- match(unique(dx$x), dx$x);
-            dy <- approx(x=dx$x[xu], y=dx$y[xu], xout=xout)$y;
-            dScale <- median(hx$counts[hx$counts > 0] / dy[hx$counts > 0]);
+            dy <- stats::approx(x=dx$x[xu], y=dx$y[xu], xout=xout)$y;
+            dScale <- stats::median(hx$counts[hx$counts > 0] / dy[hx$counts > 0]);
             dx$y <- dx$y * dScale;
             #dx$y <- normScale(dx$y,
             #   from=0,
@@ -2616,7 +2614,7 @@ plotPolygonDensity <- function
             } else {
                #atPretty <- pretty(hx$breaks, u5.bias=u5.bias, n=pretty.n, ...);
                ## Slight change to use the plot region instead of the histogram region
-               atPretty <- pretty(par("usr")[1:2],
+               atPretty <- pretty(graphics::par("usr")[1:2],
                   u5.bias=u5.bias,
                   n=pretty.n,
                   ...);
@@ -2634,7 +2632,7 @@ plotPolygonDensity <- function
          }
       }
       if (doPolygon) {
-         polygon(dx,
+         graphics::polygon(dx,
             col=polyCol,
             border=polyBorder,
             lwd=lwd,
@@ -2648,7 +2646,7 @@ plotPolygonDensity <- function
                printDebug("plotPolygonDensity(): ",
                   "Plotting highlightPoints.");
             }
-            hxh <- call_fn_ellipsis(hist.default,
+            hxh <- call_fn_ellipsis(graphics::hist.default,
                x=x[highlightPoints],
                breaks=hx$breaks,
                col=highlightCol,
@@ -2664,21 +2662,21 @@ plotPolygonDensity <- function
       }
 
       if (!is.null(ablineV)) {
-         call_fn_ellipsis(abline,
+         call_fn_ellipsis(graphics::abline,
             v=ablineV,
             col=ablineVcol,
             lty=ablineVlty,
             ...);
       }
       if (!is.null(ablineH)) {
-         call_fn_ellipsis(abline,
+         call_fn_ellipsis(graphics::abline,
             h=ablineH,
             col=ablineHcol,
             lty=ablineHlty,
             ...);
       }
       if (doPar) {
-         par(oPar);
+         graphics::par(oPar);
       }
       invisible(list(d=dx,
          hist=hx,
@@ -2712,7 +2710,7 @@ plotPolygonDensity <- function
 #' @returns invisible `list` with axis positions, and corresponding labels.
 #'
 #' @param side integer value indicating the axis position, as used
-#'    by `axis()`, 1=bottom, 2=left, 3=top, 4=right.
+#'    by `graphics::axis()`, 1=bottom, 2=left, 3=top, 4=right.
 #' @param x optional numeric vector representing the numeric range
 #'    to be labeled.
 #' @param pretty.n numeric value indicating the number of desired
@@ -2723,7 +2721,7 @@ plotPolygonDensity <- function
 #'    visually distinguish numbers larger than 1000.
 #' @param plot logical indicating whether to plot the axis tick
 #'    marks and labels.
-#' @param las,cex.axis numeric values passed to `axis()` when drawing
+#' @param las,cex.axis numeric values passed to `graphics::axis()` when drawing
 #'    the axis, by default `las=2` plots labels rotated
 #'    perpendicular to the axis.
 #' @param ... additional parameters are passed to `pretty()`.
@@ -2756,9 +2754,9 @@ sqrtAxis <- function
       side <- 0;
    }
    if (1 %in% side) {
-      xRange <- par("usr")[1:2];
+      xRange <- graphics::par("usr")[1:2];
    } else if (2 %in% side) {
-      xRange <- par("usr")[3:4];
+      xRange <- graphics::par("usr")[3:4];
    } else if (length(x) > 0) {
       xRange <- range(x, na.rm=TRUE);
    }
@@ -2802,7 +2800,7 @@ sqrtAxis <- function
    ## Transform to square root space
    atSqrt <- sqrt(abs(atPretty))*sign(atPretty);
    if (plot) {
-      axis(side=side,
+      graphics::axis(side=side,
          at=atSqrt,
          labels=xLabel,
          las=las,
@@ -2825,7 +2823,7 @@ sqrtAxis <- function
 #'
 #' Note that the density height is scaled by the total number of points,
 #' and can be adjusted with `weightFactor`. See Examples for how to
-#' scale the y-axis range similar to `density()`.
+#' scale the y-axis range similar to `stats::density()`.
 #'
 #' @family jam practical functions
 #'
@@ -2849,7 +2847,7 @@ sqrtAxis <- function
 #' @param verbose logical indicating whether to print verbose output.
 #' @param ... additional parameters are sent to `stats::density()`.
 #'
-#' @returns `list` output equivalent to `density()`:
+#' @returns `list` output equivalent to `stats::density()`:
 #'    * `x`: The `n` coordinates of the points where the density is
 #'    estimated.
 #'    * `y`: The estimated density values, non-negative, but can be zero.
@@ -2860,10 +2858,10 @@ sqrtAxis <- function
 #'    * `has.na`: `logical` for compatibility, and always `FALSE`.
 #'
 #' @examples
-#' x <- c(rnorm(15000),
-#'    rnorm(5500)*0.25 + 1,
-#'    rnorm(12500)*0.5 + 2.5)
-#' plot(density(x))
+#' x <- c(stats::rnorm(15000),
+#'    stats::rnorm(5500)*0.25 + 1,
+#'    stats::rnorm(12500)*0.5 + 2.5)
+#' plot(stats::density(x))
 #'
 #' plot(breakDensity(x))
 #'
@@ -2871,9 +2869,9 @@ sqrtAxis <- function
 #'
 #' # trim values to show abrupt transitions
 #' x2 <- x[x > 0 & x < 4]
-#' plot(density(x2), lwd=2)
+#' plot(stats::density(x2), lwd=2)
 #' lines(breakDensity(x2, weightFactor=1/length(x2)/10), col="red")
-#' legend("topright", c("density()", "breakDensity()"),
+#' graphics::legend("topright", c("stats::density()", "breakDensity()"),
 #'    col=c("black", "red"), lwd=c(2, 1))
 #'
 #' @export
@@ -2890,12 +2888,12 @@ breakDensity <- function
  verbose=FALSE,
  ...)
 {
-   ## Purpose is to provide slightly more granular density() than
+   ## Purpose is to provide slightly more granular stats::density() than
    ## the default provides
    ##
-   ## bw can be a custom density kernel, see density() for details
+   ## bw can be a custom density kernel, see stats::density() for details
    ##
-   ## width can be the width supplied to density() but if NULL
+   ## width can be the width supplied to stats::density() but if NULL
    ## then this function calculates a reasonable width based upon
    ## the data content
    ##
@@ -2919,7 +2917,7 @@ breakDensity <- function
          if (length(breaks) == 1) {
             width <- diff(range(x))/(breaks) * densityBreaksFactor;
          } else {
-            width <- diff(range(x))/(median(diff(breaks))) * densityBreaksFactor;
+            width <- diff(range(x))/(stats::median(diff(breaks))) * densityBreaksFactor;
          }
       }
       if (verbose) {
@@ -2930,12 +2928,12 @@ breakDensity <- function
             "breaks:",
             formatC(breaks, format="g", digits=3));
       }
-      dx <- density(x,
+      dx <- stats::density(x,
          width=width,
          weight=weightFactor,
          ...);
    } else {
-      dx <- density(x,
+      dx <- stats::density(x,
          width=width,
          weight=weightFactor,
          bw=bw,
@@ -3015,7 +3013,7 @@ breakDensity <- function
 #' @param side integer indicating the axis side, 1=bottom, 2=left,
 #'    3=top, 4=right.
 #' @param lims NULL or numeric range for which the axis tick marks
-#'    will be determined. If NULL then the corresponding `par("usr")`
+#'    will be determined. If NULL then the corresponding `graphics::par("usr")`
 #'    will be used.
 #' @param logBase numeric value indicating the log base units, which
 #'    will be used similar to how `base` is used in `log(x, base)`.
@@ -3056,7 +3054,7 @@ breakDensity <- function
 #'    the content for custom control.
 #' @param majorCex,minorCex the base text size factors, relative
 #'    to cex=1 for default text size. These factors are applied in
-#'    addition to existing `par("cex")` values, preserving any
+#'    addition to existing `graphics::par("cex")` values, preserving any
 #'    global text size defined there.
 #' @param doMajor,doLabels,doMinorLabels `logical`, default TRUE, to display
 #'    each type of label. Major labels appear at log base positions,
@@ -3204,9 +3202,9 @@ minorLogTicksAxis <- function
       if (!doLabels) {
          majorLabels <- FALSE;
       }
-      axis(side,
+      graphics::axis(side,
          at=majorTicks,
-         tcl=par("tcl")*majorCex*cex,
+         tcl=graphics::par("tcl")*majorCex*cex,
          labels=majorLabels,
          padj=padj[2],
          cex.axis=majorCex*cex,
@@ -3218,9 +3216,9 @@ minorLogTicksAxis <- function
    if (!doMinorLabels) {
       minorLabels <- FALSE;
    }
-   axis(side,
+   graphics::axis(side,
       at=minorTicks,
-      tcl=par("tcl")*minorCex*cex,
+      tcl=graphics::par("tcl")*minorCex*cex,
       labels=minorLabels,
       padj=padj[1],
       cex.axis=minorCex*cex,
@@ -3228,7 +3226,7 @@ minorLogTicksAxis <- function
       col.ticks=col.ticks,
       las=las,
       ...);
-   axis(side,
+   graphics::axis(side,
       at=range(c(majorTicks, minorTicks)),
       labels=FALSE,
       col=col,
@@ -3281,32 +3279,32 @@ minorLogTicksAxis <- function
 #'    offset=1,
 #'    minTick=0);
 #' maj <- subset(mlt$allLabelsDF, type %in% "major");
-#' axis(1, las=2,
+#' graphics::axis(1, las=2,
 #'    at=maj$tick, label=maj$text);
 #' min <- subset(mlt$allLabelsDF, type %in% "minor");
-#' axis(1, las=2, cex.axis=0.7,
+#' graphics::axis(1, las=2, cex.axis=0.7,
 #'    at=min$tick, label=min$text,
 #'    col="blue");
-#' text(x=log10(1+c(0,5,50,1000)), y=rep(1.7, 4),
+#' graphics::text(x=log10(1+c(0,5,50,1000)), y=rep(1.7, 4),
 #'    label=c(0,5,50,1000), srt=90);
 #'
 #' nullPlot(xlim=c(-4,10), doMargins=FALSE);
-#' axis(3, las=2);
+#' graphics::axis(3, las=2);
 #' minorLogTicksAxis(1, logBase=2, displayBase=10, symmetricZero=TRUE);
 #'
 #' nullPlot(xlim=c(-4,10), doMargins=FALSE);
-#' axis(3, las=2);
+#' graphics::axis(3, las=2);
 #' minorLogTicksAxis(1, logBase=2, displayBase=10, offset=1);
-#' x2 <- rnorm(1000) * 40;
-#' d2 <- density(log2(1+abs(x2)) * ifelse(x2<0, -1, 1));
+#' x2 <- stats::rnorm(1000) * 40;
+#' d2 <- stats::density(log2(1+abs(x2)) * ifelse(x2<0, -1, 1));
 #' lines(x=d2$x, y=normScale(d2$y)+1, col="green4");
 #'
 #' nullPlot(xlim=c(0,10), doMargins=FALSE);
-#' axis(3, las=2);
+#' graphics::axis(3, las=2);
 #' minorLogTicksAxis(1, logBase=2, displayBase=10, offset=1);
 #' x1 <- c(0, 5, 15, 200);
-#' text(y=rep(1.0, 4), x=log2(1+x1), label=x1, srt=90, adj=c(0,0.5));
-#' points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
+#' graphics::text(y=rep(1.0, 4), x=log2(1+x1), label=x1, srt=90, adj=c(0,0.5));
+#' graphics::points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
 #'
 #' @param side `integer` value indicating which axis to produce tick
 #'    marks, 1=bottom, 2=left, 3=top, 4=right.
@@ -3400,7 +3398,7 @@ minorLogTicks <- function
       if (length(side) == 0) {
          stop("minorLogTicks requires either axis (which axis), or lims (range of values) to be defined.");
       }
-      lims <- par("usr");
+      lims <- graphics::par("usr");
       if(side %in% c(1,3)) {
          lims <- lims[1:2];
       } else {
@@ -3670,8 +3668,8 @@ minorLogTicks <- function
    minorTicks <- unname(minorTicks);
 
    ## if the axis is log transformed, we must exponentiate the values for plotting to work properly
-   if ((side %in% c(1,3) && par("xlog")) ||
-         (side %in% c(2,4) && par("ylog"))) {
+   if ((side %in% c(1,3) && graphics::par("xlog")) ||
+         (side %in% c(2,4) && graphics::par("ylog"))) {
       if (verbose) {
          printDebug("minorLogTicks(): ",
             "Exponentiating axis coordinates.");

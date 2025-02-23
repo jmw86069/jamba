@@ -320,7 +320,6 @@ printDebug <- function
       doColor <- 1;
    } else {
       hasCrayon <- check_pkg_installed("crayon")
-      # hasCrayon <- as.character(suppressWarnings(suppressPackageStartupMessages(require(crayon))));
       if (is.null(doColor)) {
          if (hasCrayon %in% "TRUE") {
             doColor <- 2;

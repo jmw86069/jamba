@@ -18,7 +18,7 @@ asSize(
 \arguments{
 \item{x}{\code{numeric} vector, class \code{object_size} which is converted
 to \code{numeric}, any other R object is converted to a single \code{numeric}
-value using \code{object.size()}.}
+value using \code{utils::object.size()}.}
 
 \item{digits}{\code{integer} number of digits used by \code{base::format()} when
 formatting the number to create a character string}
@@ -56,7 +56,7 @@ convert numeric value or R object to human-readable size
 \details{
 This function returns human-readable size based upon \code{numeric} input.
 Alternatively, when input is any other R object, it calls
-\code{object.size()} to produce a single \code{numeric} value which is then
+\code{utils::object.size()} to produce a single \code{numeric} value which is then
 used to produce human-readable size.
 
 The default behavior is to report computer size in bytes, where

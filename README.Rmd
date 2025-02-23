@@ -28,7 +28,7 @@ analysis and visualization.
 A full online function reference is available via the pkgdown
 documentation:
 
-[Full jamba command reference](https://jmw86069.github.io/jamba)
+[Full jamba command reference](https://jmw86069.github.io/jamba/)
 
 Functions are categorized, some examples are listed below:
 

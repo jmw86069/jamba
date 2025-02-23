@@ -86,17 +86,17 @@
 #' jamba::showColors(colorL,
 #'    groupCellnotes=FALSE,
 #'    srtCellnote=seq(from=15, to=-15, length.out=5));
-#' title(ylab="alpha", line=1.5);
+#' graphics::title(ylab="alpha", line=1.5);
 #'
 #' # change background to dark blue
-#' opar <- par("bg"="navy",
+#' opar <- graphics::par("bg"="navy",
 #'    "col"="white",
 #'    "col.axis"="white");
 #' jamba::showColors(colorL,
 #'    groupCellnotes=FALSE,
 #'    srtCellnote=seq(from=15, to=-15, length.out=5))
-#' title(ylab="alpha", line=1.5);
-#' par(opar);
+#' graphics::title(ylab="alpha", line=1.5);
+#' graphics::par(opar);
 #'
 #' # Example using transparency and drawLabels()
 #' bg <- "blue4";
@@ -150,23 +150,23 @@ setTextContrastColor <- function
    useGrey[useGrey > 100] <- 100;
 
    greyVals <- abs(c(0,-100) + useGrey);
-   bwColors <- rgb2col(col2rgb(paste0("grey", greyVals)));
+   bwColors <- rgb2col(grDevices::col2rgb(paste0("grey", greyVals)));
 
    if (length(bg) == 0) {
-      if (length(dev.list()) > 0) {
-         bg <- par("bg");
+      if (length(grDevices::dev.list()) > 0) {
+         bg <- graphics::par("bg");
       } else {
          bg <- "white";
       }
    }
 
    if (colorModel %in% "rgb") {
-      colRgbMean <- colMeans(col2rgb(color));
+      colRgbMean <- colMeans(grDevices::col2rgb(color));
       if (any(col2alpha(unique(color)) < 1)) {
          ## If any color is transparent, use weighted mean with the
          ## background color
          colWeight <- col2alpha(color);
-         colRgbBg <- colMeans(col2rgb(bg));
+         colRgbBg <- colMeans(grDevices::col2rgb(bg));
          colRgbMean <- (colRgbMean * colWeight + colRgbBg * (1 - colWeight));
       }
       iColor <- ifelse(colRgbMean > rgbCutoff,
@@ -231,7 +231,7 @@ col2hcl <- function
  ...)
 {
    ## Purpose is to convert R color to HCL
-   ## R color can be a hex string or color name from colors()
+   ## R color can be a hex string or color name from grDevices::colors()
    model <- head(model, 1);
    if ("jam.model" %in% names(options())) {
       model <- getOption("jam.model");
@@ -255,7 +255,7 @@ col2hcl <- function
       stop("The colorspace package is required.");
    }
 
-   x1 <- col2rgb(x);
+   x1 <- grDevices::col2rgb(x);
    a1 <- col2alpha(x);
    x2 <- colorspace::sRGB(t(x1)[,1:3,drop=FALSE]/maxColorValue);
    ## Note: spatstat overrides coords() with a generic function but
@@ -509,7 +509,7 @@ col2alpha <- function
       return(x);
    }
    xNA <- is.na(x);
-   alphaValues <- col2rgb(x, alpha=TRUE)["alpha",]/255*maxValue;
+   alphaValues <- grDevices::col2rgb(x, alpha=TRUE)["alpha",]/255*maxValue;
    alphaValues[xNA] <- 0;
    return(alphaValues);
 }
@@ -529,7 +529,7 @@ col2alpha <- function
 #' @family jam color functions
 #'
 #' @examples
-#' par("mfrow"=c(2,2));
+#' graphics::par("mfrow"=c(2,2));
 #' for (alpha in c(1, 0.8, 0.5, 0.2)) {
 #'    nullPlot(plotAreaTitle=paste0("alpha=", alpha),
 #'       doMargins=FALSE);
@@ -551,7 +551,7 @@ alpha2col <- function
    }
    xNA <- is.na(x);
    alpha <- rep(alpha, length.out=length(x));
-   rgbx <- rgb2col(rbind(col2rgb(x, alpha=FALSE), alpha=alpha*(255/maxValue)),
+   rgbx <- rgb2col(rbind(grDevices::col2rgb(x, alpha=FALSE), alpha=alpha*(255/maxValue)),
       maxColorValue=255);
    if (!is.null(names(x))) {
       names(rgbx) <- names(x);
@@ -564,14 +564,14 @@ alpha2col <- function
 #'
 #' Converts a HSV color matrix to R hex color
 #'
-#' This function augments the \code{\link[grDevices]{hsv}} function in that it handles
-#' output from \code{\link[grDevices]{rgb2hsv}} or \code{\link{col2hsv}}, sufficient to
-#' run a series of conversion functions, e.g. \code{hsv2col(col2hsv("red"))}.
+#' This function augments the `grDevices::hsv()` function in that it handles
+#' output from `grDevices::rgb2hsv()` or `col2hsv()`, sufficient to
+#' run a series of conversion functions, e.g. `hsv2col(col2hsv("red"))`.
 #' This function also maintains alpha transparency, which is not maintained
-#' by the \code{\link[grDevices]{hsv}} function.
+#' by the `grDevices::hsv()` function.
 #'
-#' @param hsvValue HSV matrix, with rownames c("h","s","v") in any order,
-#'    and optionally "alpha" rowname for alpha transparency.
+#' @param hsvValue `numeric` HSV matrix, with rownames c("h","s","v")
+#'    in any order, and optionally "alpha" rowname for alpha transparency.
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
@@ -600,14 +600,14 @@ hsv2col <- function
    ## This function also allows value above 1, which have the effect of reducing
    ## the saturation.
    if (all(is.null(dim(hsvValue)))) {
-      do.call(hsv, hsvValue, ...);
+      do.call(grDevices::hsv, hsvValue, ...);
    } else {
       if (!"alpha" %in% rownames(hsvValue)) {
          hsvValue <- rbind(hsvValue,
             matrix(nrow=1, rep(1, ncol(hsvValue)),
                dimnames=c("alpha",list(colnames(hsvValue)))));
       }
-      hsv(h=hsvValue["h",],
+      grDevices::hsv(h=hsvValue["h",],
          s=hsvValue["s",],
          v=hsvValue["v",],
          alpha=hsvValue["alpha",]);
@@ -646,10 +646,10 @@ col2hsv <- function
 (x, ...)
 {
    ## Purpose is to use col2rgb and rgb2hsv2 to convert colors to an hsv matrix
-   rgbColors <- col2rgb(x, alpha=TRUE);
-   hsvValues <- rgb2hsv(rgbColors[1:3,,drop=FALSE]);
+   rgbColors <- grDevices::col2rgb(x, alpha=TRUE);
+   hsvValues <- grDevices::rgb2hsv(rgbColors[1:3,,drop=FALSE]);
    return(rbind(
-      rgb2hsv(rgbColors[1:3,,drop=FALSE]),
+      grDevices::rgb2hsv(rgbColors[1:3,,drop=FALSE]),
       rgbColors["alpha",,drop=FALSE]/255));
 }
 
@@ -659,7 +659,7 @@ col2hsv <- function
 #'
 #' This function intends to augment the \code{\link[grDevices]{rgb}} function, which
 #' does not handle output from \code{\link[grDevices]{col2rgb}}. The goal is to handle
-#' multiple color conversions, e.g. \code{rgb2col(col2rgb("red"))}. This
+#' multiple color conversions, e.g. \code{rgb2col(grDevices::col2rgb("red"))}. This
 #' function also maintains alpha transparency when supplied.
 #'
 #' The output is named either by names(red), rownames(red), or if supplied,
@@ -723,10 +723,10 @@ col2hsv <- function
 #'
 #' # Show the output of rgb2col
 #' # make sure to include alpha=TRUE to maintain alpha transparency
-#' col2rgb(colorV, alpha=TRUE);
+#' grDevices::col2rgb(colorV, alpha=TRUE);
 #'
 #' # confirm we can convert from RGB back to the same colors
-#' rgb2col(col2rgb(colorV, alpha=TRUE));
+#' rgb2col(grDevices::col2rgb(colorV, alpha=TRUE));
 #'
 #' @family jam color functions
 #'
@@ -743,8 +743,8 @@ rgb2col <- function
  ...)
 {
    ## Purpose is to augment the function rgb() which does not handle output
-   ## from col2rgb().
-   ## The goal is to be able to run rgb2col(col2rgb()) and have it return
+   ## from grDevices::col2rgb().
+   ## The goal is to be able to run rgb2col(grDevices::col2rgb()) and have it return
    ## the original colors.
    ##
    ## input here can be a matrix with columns c("red", "green", "blue") or
@@ -929,12 +929,12 @@ rgb2col <- function
 #'    xaxt="n", yaxt="n", xlab="", ylab="",
 #'    xlim=c(0.5,2.5), ylim=c(0.5,2.5),
 #'    bg=colorV, col=colorVdark2, cex=4, lwd=2);
-#' points(x=c(1,2,1,2), y=c(1,2,2,1), pch=20, cex=4,
+#' graphics::points(x=c(1,2,1,2), y=c(1,2,2,1), pch=20, cex=4,
 #'    col=colorVlite2);
 #'
 #' # Making a color lighter can make it easier to add labels
 #' # The setTextContrastColor() function also helps.
-#' text(x=c(1,2,1,2), y=c(1,2,2,1), 1:4,
+#' graphics::text(x=c(1,2,1,2), y=c(1,2,2,1), 1:4,
 #'    col=setTextContrastColor(colorVlite2));
 #'
 #' @family jam color functions
@@ -1126,7 +1126,7 @@ makeColorDarker <- function
          ## crude fix so grey doesn't become brown by mistake
          newS[j[2] == 0] <- 0;
          tryCatch({
-            hsv1 <- hsv(h=j[1], s=newS, v=newV, alpha=i[4]/255);
+            hsv1 <- grDevices::hsv(h=j[1], s=newS, v=newV, alpha=i[4]/255);
             hsv1;
          }, error=function(e){
             printDebug("Error: ", cPaste(e), fgText=c("yellow", "red"));
@@ -1135,8 +1135,9 @@ makeColorDarker <- function
                          ", v: ", format(digits=2, newV),
                          ", oldV: ", format(digits=2, j[3]),
                          ", darkFactor: ", format(digits=2, darkFactor),
-                         ", alpha: ", format(digits=2, i[4]/255), c("orange", "lightblue") );
-            hsv(h=j[1], s=newS, v=newV, alpha=i[4]/255);
+                         ", alpha: ", format(digits=2, i[4]/255),
+               c("orange", "lightblue") );
+            grDevices::hsv(h=j[1], s=newS, v=newV, alpha=i[4]/255);
          })
       });
    }
@@ -1233,10 +1234,9 @@ makeColorDarker <- function
 #'    luminance, use the `dex` argument, where higher values increase
 #'    the range, and lower values decrease the range.
 #'    * `character` vector length=1, with one recognized color ramp name:
-#'    any color palette from `rownames(RColorBrewer::brewer.pal.info())`;
-#'    any color palette function name from `viridis`;
-#'    any color palette from `colorjam::jam_linear()` or
-#'    `colorjam::jam_divergent()`.
+#'    any color palette from RColorBrewer, for example
+#'    `rownames(RColorBrewer::brewer.pal.info())`;
+#'    any color palette function name from `viridisLite`.
 #'    * `character` vector length=1, with one color function name,
 #'    for example `col="rainbow_hcl"`. Input is equivalent to supplying
 #'    one color `function`, see below.
@@ -1415,29 +1415,29 @@ getColorRamp <- function
                   RColorBrewer::brewer.pal(brewerN, col))(n);
             }
          }
-      } else if (length(col) == 1 &&
-            requireNamespace("colorjam", quietly=TRUE) &&
-            (col %in% names(colorjam::jam_linear) ||
-            col %in% names(colorjam::jam_divergent)) ) {
-         #######################################
-         ## colorjam gradient
-         if (verbose) {
-            printDebug("getColorRamp(): ",
-               "colorjam color gradient:",
-               paste0(col, "."));
-         }
-         if (col %in% names(colorjam::jam_linear)) {
-            colset <- colorjam::jam_linear[[col]];
-         } else if (col %in% names(colorjam::jam_divergent)) {
-            colset <- colorjam::jam_divergent[[col]];
-         }
-         colorFunc <- function(n){
-            if (n == length(colset)) {
-               colset
-            } else {
-               grDevices::colorRampPalette(colset)(n);
-            }
-         }
+      # } else if (length(col) == 1 &&
+      #       requireNamespace("colorjam", quietly=TRUE) &&
+      #       (col %in% names(colorjam::jam_linear) ||
+      #       col %in% names(colorjam::jam_divergent)) ) {
+      #    #######################################
+      #    ## colorjam gradient
+      #    if (verbose) {
+      #       printDebug("getColorRamp(): ",
+      #          "colorjam color gradient:",
+      #          paste0(col, "."));
+      #    }
+      #    if (col %in% names(colorjam::jam_linear)) {
+      #       colset <- colorjam::jam_linear[[col]];
+      #    } else if (col %in% names(colorjam::jam_divergent)) {
+      #       colset <- colorjam::jam_divergent[[col]];
+      #    }
+      #    colorFunc <- function(n){
+      #       if (n == length(colset)) {
+      #          colset
+      #       } else {
+      #          grDevices::colorRampPalette(colset)(n);
+      #       }
+      #    }
       } else {
          ## If given one or more colors, use them to create a color ramp
          if (verbose) {
@@ -1629,7 +1629,7 @@ isColor <- function
  ...)
 {
    ## Purpose is to check if a given text string is a valid R color
-   allColors <- colors();
+   allColors <- grDevices::colors();
    grepString <- "^#[0-9A-F]{6}$|^#[0-9A-F]{8}$|^#[0-9A-F]{3}$|transparent";
    validSet <- c(igrep(grepString, x), which(x %in% allColors));
    validBoolean <- nameVector(seq_along(x) %in% validSet, x,
@@ -1859,23 +1859,23 @@ color2gradient <- function
       }
       sValue <- hsvValues["s",1];
       vValue <- hsvValues["v",1];
-      sRange <- approx(x=unique(c(
-            weighted.mean(c(sMax, sValue), w=c(wtFactor, 1)),
+      sRange <- stats::approx(x=unique(c(
+            stats::weighted.mean(c(sMax, sValue), w=c(wtFactor, 1)),
             sValue,
-            weighted.mean(c(sMin, sValue), w=c(wtFactor, 1)))),
+            stats::weighted.mean(c(sMin, sValue), w=c(wtFactor, 1)))),
          n=iLen)$y;
       ## Keep grey as grey and not some random muddy color
       if (sValue == 0) {
          sRange <- sRange - sRange;
       }
-      vRange <- approx(x=unique(c(
-            weighted.mean(c(vMin, vValue), w=c(wtFactor, 1)),
+      vRange <- stats::approx(x=unique(c(
+            stats::weighted.mean(c(vMin, vValue), w=c(wtFactor, 1)),
             vValue,
-            weighted.mean(c(vMax, vValue), w=c(wtFactor, 1)))),
+            stats::weighted.mean(c(vMax, vValue), w=c(wtFactor, 1)))),
          n=iLen)$y;
       hRange <- rep(hsvValues["h",1], iLen);
       alphaRange <- rep(hsvValues["alpha",1], iLen);
-      newColors <- hsv(h=hRange,
+      newColors <- grDevices::hsv(h=hRange,
          s=sRange,
          v=vRange,
          alpha=alphaRange);
@@ -1953,11 +1953,11 @@ color2gradient <- function
 #' @family jam color functions
 #'
 #' @examples
-#' BuRd <- rev(brewer.pal(11, "RdBu"));
+#' BuRd <- rev(RColorBrewer::brewer.pal(11, "RdBu"));
 #' BuRdPlus5 <- warpRamp(BuRd, lens=2, plot=TRUE);
 #' BuRdMinus5 <- warpRamp(BuRd, lens=-2, plot=TRUE);
 #'
-#' Reds <- brewer.pal(9, "Reds");
+#' Reds <- RColorBrewer::brewer.pal(9, "Reds");
 #' RedsL <- lapply(nameVector(c(-10,-5,-2,0,2,5,10)), function(lens){
 #'    warpRamp(Reds, lens=lens, divergent=FALSE)
 #' });
@@ -2052,7 +2052,7 @@ unalpha <- function
    if (length(x) == 0) {
       return(x)
    }
-   iV <- rgb2col(col2rgb(x), alpha=FALSE);
+   iV <- rgb2col(grDevices::col2rgb(x), alpha=FALSE);
    if (TRUE %in% keepNA && any(is.na(x))) {
       iV[is.na(x)] <- NA;
    }

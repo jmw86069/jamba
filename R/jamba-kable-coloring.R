@@ -94,8 +94,8 @@
 #'
 #' @examplesIf all(check_pkg_installed(c("circlize", "kableExtra")))
 #' new_colorSub <- list(
-#'    column_A=nameVector(rainbow(5), LETTERS[1:5]),
-#'    column_B=nameVector(rev(rainbow(5)), LETTERS[1:5]),
+#'    column_A=nameVector(rainbow2(5), LETTERS[1:5]),
+#'    column_B=nameVector(rev(rainbow2(5)), LETTERS[1:5]),
 #'    column_C=circlize::colorRamp2(
 #'       colors=getColorRamp("Reds", n=6),
 #'       breaks=0:5 * 1000))
