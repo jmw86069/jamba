@@ -18,47 +18,50 @@
 #'
 #' @family jam plot functions
 #'
-#' @param newCoords optional `data.frame` typically as a result of
+#' @param newCoords `data.frame` optional, typically as a result of
 #'    a previous call to `drawLabels()`. In general, it should contain
 #'    colnames equivalent to the function parameters of `drawLabels()`.
-#' @param x,y vector of x- and y- coordinates.
-#' @param txt character vector of labels, length equal to `x` and `y`.
-#' @param lx,ly optional vector of segment endpoint coordinates, used
+#' @param x,y `numeric` vector of x- and y- coordinates.
+#' @param txt `character` vector of labels, length equal to `x` and `y`.
+#' @param lx,ly `numeric` optional vector of segment endpoint coordinates, used
 #'    to draw a line from x,y coordinates to the segment lx,ly coordinate.
-#' @param segmentLwd,segmentCol vector of segment line widths, and colors,
-#'    respectively. Each vector will be recycled to `length(txt)` as
-#'    needed.
-#' @param drawSegments logical whether to draw segments, where applicable.
-#' @param boxBorderColor vector of colors used for the box border around
-#'    each label.
-#' @param boxColor vector of colors used for the box background behind
-#'    each label.
-#' @param boxLwd vector of box line widths, sent to `graphics::rect()`,
-#'    this vector will be recycled to `length(txt)`.
-#' @param drawBox logical whether to draw boxes behind each text label.
-#' @param drawLabels logical whether to draw each text label.
-#' @param font vector of font values as described in `graphics::par()`,
-#'    where 1=normal, 2=bold, 3=italics, 4=bold-italics.
-#' @param labelCex vector of cex values used for text labels. This vector
-#'    will be recycled to `length(txt)` as needed.
-#' @param boxCexAdjust numeric vector length=2, used to expand the x-width
+#' @param segmentLwd,segmentCol `numeric` vector of segment line widths,
+#'    and `character` colors, respectively.
+#'    Each vector will be recycled to `length(txt)` as needed.
+#' @param drawSegments `logical` whether to draw segments, where applicable.
+#' @param boxBorderColor `character` vector of colors used for the
+#'    box border around each label.
+#' @param boxColor `character` vector of colors used for the box background
+#'    behind each label.
+#' @param boxLwd `numeric` vector of box line widths, sent to
+#'    `graphics::rect()`, this vector will be recycled to `length(txt)`.
+#' @param drawBox `logical` whether to draw boxes behind each text label.
+#' @param drawLabels `logical` whether to draw each text label.
+#' @param font `integer` vector of font values as described in
+#'    `graphics::par()`, where 1=normal, 2=bold, 3=italics, 4=bold-italics.
+#' @param labelCex `numeric` vector of cex values used for text labels,
+#'    recycled to `length(txt)` as needed.
+#' @param boxCexAdjust `numeric` vector length=2, used to expand the x-width
 #'    and y-height of the box around around text labels.
-#' @param labelCol vector of label colors, by default it calls
+#' @param labelCol `character` vector of label colors, by default it calls
 #'    `jamba::setTextContrastColor()` to generate a color to contrast
 #'    the background box color.
-#' @param doPlot logical whether to perform any plot operations. Set
+#' @param doPlot `logical` whether to perform any plot operations. Set
 #'    `FALSE` to calculate coordinates and return a `data.frame` of
 #'    label coordinates, which can then be manipulated before calling
 #'    `drawLabels()` again.
-#' @param xpd value compatible with `par("xpd")`, where NA allows labels
+#' @param xpd `logical` value compatible with `par("xpd")`, where NA allows labels
 #'    anywhere in the device region, TRUE retricts labels within the figure
 #'    region, and FALSE restricts labels within the plot region.
-#' @param preset vector of text values used to position text labels relative
+#' @param preset `character` vector passed to `coordPresets()`
+#'    used to position text labels relative
 #'    to the x,y coordinate, where "topleft" will position the label so the
 #'    entire label box is top-left of the point, therefore the point will be
 #'    at the bottom-right corner of the label box. When `preset` is anything
 #'    by `"none"` the `adjX` and `adjY` values are ignored.
-#' @param adjX,adjY the text adjustment of labels relative to the x,y
+#' @param preset_type,adjPreset `character` passed to `coordPresets()` to
+#'    define orientation of each label relative to the `x`,`y` coordinate.
+#' @param adjX,adjY `numeric` the text adjustment of labels relative to the x,y
 #'    coordinate. The values are recycled to `length(txt)`.
 #' @param panelWidth `character` string or vector, recycled to the number
 #'    of labels to be displayed. The argument indicates whether to size
@@ -75,9 +78,9 @@
 #'    necessary to fit the text label
 #'    * `"maximum"` size label to the text label width, but no larger than
 #'    the plot panel width
-#' @param trimReturns logical whether to trim leading and trailing return
+#' @param trimReturns `logical` whether to trim leading and trailing return
 #'    (newline) characters from labels.
-#' @param verbose logical whether to print verbose output.
+#' @param verbose `logical` whether to print verbose output.
 #' @param ... additional arguments are passed to `graphics::segments()` when
 #'    segments are drawn, to `graphics::rect()` when label boxes are drawn,
 #'    and to `graphics::text()` when text labels are drawn.
@@ -207,7 +210,8 @@ drawLabels <- function
          jamba::printDebug("drawLabels(): ",
             "Creating new coordinates data.frame");
       }
-      if (jamba::igrepHas("top|bottom|left|right|center", c(preset, adjPreset))) {
+      if (jamba::igrepHas("top|bottom|left|right|center",
+         c(preset, adjPreset))) {
          if (verbose) {
             jamba::printDebug("drawLabels(): ",
                "Processing non-default preset and adjPreset values.");

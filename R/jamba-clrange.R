@@ -16,8 +16,9 @@
 #'
 #' @family jam practical functions
 #'
-#' @param lightMode logical or NULL, indicating whether the lightMode
+#' @param lightMode `logical` or NULL, indicating whether the lightMode
 #'    parameter has been defined in the function call.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' checkLightMode(TRUE);
@@ -35,7 +36,8 @@ checkLightMode <- function
          lightMode <- (jam_lightMode %in% c(1, "TRUE"));
       } else if (Sys.getenv("RSTUDIO") == 1) {
          ## Use rstudioapi if available
-         if (suppressWarnings(suppressPackageStartupMessages(require(rstudioapi)))) {
+         if (suppressWarnings(suppressPackageStartupMessages(
+            require(rstudioapi)))) {
             if (rstudioapi::isAvailable() && rstudioapi::hasFun("getThemeInfo")) {
                theme <- rstudioapi::getThemeInfo();
                lightMode <- !(theme$dark);
@@ -600,6 +602,8 @@ fixYellowHue <- function
 #'    NULL, `HCL` is return unchanged.
 #' @param Hshift numeric value length one, used to adjust the hue of colors
 #'    within the range `Hrange`. If NULL, `HCL` is return unchanged.
+#' @param fixup `logical`, default TRUE, whether to apply fixup to
+#'    the resulting color, passed to `hcl2col()`
 #' @param ... additional arguments are passed to `col2hcl()`, and
 #'    `hcl2col()`.
 #'

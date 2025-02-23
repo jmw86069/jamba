@@ -57,10 +57,16 @@ when \code{ignore.case=TRUE}, using mixed case as a tiebreaker.}
 \item{sortByName}{\code{logical} whether to sort the vector x by names(x) instead
 of sorting by x itself.}
 
+\item{na.rm}{\code{logical}, default FALSE, indicating whether to remove
+NA values.}
+
 \item{verbose}{\code{logical} whether to print verbose output.}
 
 \item{NAlast}{\code{logical} deprecated in favor of argument \code{na.last}
 for consistency with \code{base::sort()}.}
+
+\item{honorFactor}{\code{logical}, default TRUE, used to enforce factor level
+sort order, when FALSE it sorts as \code{character}.}
 
 \item{xclass}{\code{character} vector of classes in \code{x}, used for slight
 optimization to re-use this vector if it has already been
@@ -69,6 +75,9 @@ defined for \code{x}. When \code{NULL} it is created within this function.}
 \item{indent}{\code{numeric} used only when \code{verbose=TRUE} to determine
 the number of spaces indented for verbose output, passed to
 \code{printDebug()}.}
+
+\item{debug}{\code{logical}, default FALSE, whether to print detailed
+debug output.}
 
 \item{...}{additional parameters are sent to \code{\link{mixedOrder}}.}
 }
@@ -176,44 +185,44 @@ mixedSorts(L0, na.rm=TRUE)
 \seealso{
 Other jam sort functions: 
 \code{\link{mixedOrder}()},
-\code{\link{mixedSortDF}()},
 \code{\link{mixedSort}()},
+\code{\link{mixedSortDF}()},
 \code{\link{mmixedOrder}()}
 
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
-\code{\link{mixedSortDF}()},
 \code{\link{mixedSort}()},
+\code{\link{mixedSortDF}()},
 \code{\link{mmixedOrder}()},
-\code{\link{nameVectorN}()},
 \code{\link{nameVector}()},
+\code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}
 
 Other jam list functions: 
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

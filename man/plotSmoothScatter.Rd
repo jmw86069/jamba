@@ -240,7 +240,7 @@ x <- plotSmoothScatter(doTest=TRUE);
 
 # so it can be plotted again with different settings
 colnames(x) <- c("column_1", "column_2")
-plotSmoothScatter(x, colramp="inferno");
+plotSmoothScatter(x, colramp="RdBu_r");
 
 }
 \seealso{
@@ -257,8 +257,8 @@ Other jam plot functions:
 \code{\link{nullPlot}()},
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotRidges}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},

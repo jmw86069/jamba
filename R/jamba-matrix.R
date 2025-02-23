@@ -85,58 +85,11 @@
 #' testHeatdata <- testHeatdata[10000:1,];
 #' col <- getColorRamp("RdBu_r", n=15, lens=1, trimRamp=c(4,1));
 #' par("mfrow"=c(1,2));
-#' image.default(z=t(testHeatdata), col=col, useRaster=TRUE,
+#' image.default(z=t(testHeatdata), col=col, useRaster=TRUE, interpolate=FALSE,
 #'    main="image.default(..., useRaster=TRUE,\ninterpolate=FALSE)");
 #' imageDefault(z=t(testHeatdata), col=col, useRaster=TRUE,
 #'    main="imageDefault(..., useRaster=TRUE,\ninterpolate=TRUE)");
 #' par("mfrow"=c(1,1));
-#'
-#' m2r <- as.raster(m2);
-#' nullPlot(xaxs="i", yaxs="i",
-#'    main="using rasterImage()");
-#' rasterImage(m2r, xleft=1, xright=2, ybottom=1, ytop=2);
-#'
-#' if (require(grid)) {
-#'    testHeatdata2 <- testHeatdata[10000:1,,drop=FALSE];
-#'    testHeatdata2[] <- circlize::colorRamp2(breaks=seq(from=-10, to=10, length.out=25),
-#'       colors=getColorRamp("RdBu_r", n=25))(testHeatdata2);
-#'    testHeatdata2 <- fix_matrix_ratio(testHeatdata2);
-#'    m2r <- as.raster(testHeatdata2);
-#'    par("mfrow"=c(1,1));
-#'    nullPlot(xaxs="i", yaxs="i",
-#'       doBoxes=FALSE);
-#'    grid::grid.raster(m2r,
-#'       x=grid::unit(0.5, "npc"),
-#'       y=grid::unit(0.5, "npc"),
-#'       height=grid::unit(1, "npc"),
-#'       width=grid::unit(1, "npc"),
-#'       interpolate=FALSE);
-#'    title(main="using grid.raster(..., interpolate=FALSE)")
-#'    nullPlot(xaxs="i", yaxs="i",
-#'       doBoxes=FALSE);
-#'    grid::grid.raster(m2r,
-#'       x=grid::unit(0.5, "npc"),
-#'       y=grid::unit(0.5, "npc"),
-#'       height=grid::unit(1, "npc"),
-#'       width=grid::unit(1, "npc"),
-#'       interpolate=TRUE);
-#'    title(main="using grid.raster(..., interpolate=TRUE)")
-#' }
-#'
-#' ## Example showing usr coordinates for grid.raster()
-#' if (require(gridBase)) {
-#'    nullPlot(xaxs="i", yaxs="i",
-#'       main="gridBase grid.raster(..., interpolate=TRUE)");
-#'    vps <- gridBase::baseViewports();
-#'    grid::pushViewport(vps$inner, vps$figure, vps$plot);
-#'    grid::grid.raster(m2r,
-#'       x=grid::unit(1.5, "native"),
-#'       y=grid::unit(1.5, "native"),
-#'       height=grid::unit(1, "native"),
-#'       width=grid::unit(1, "native"),
-#'       interpolate=TRUE);
-#'    grid::popViewport(3);
-#' }
 #'
 #' @family jam numeric functions
 #'

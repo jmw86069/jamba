@@ -15,20 +15,23 @@ adjustAxisLabelMargins(
 )
 }
 \arguments{
-\item{x}{vector of axis labels}
+\item{x}{\code{character} vector of axis labels}
 
-\item{margin}{single integer value indicating which margin to adjust,
+\item{margin}{\code{integer} value indicating which margin to adjust,
 using the order by \code{par("mar")}, 1=bottom, 2=left, 3=top,
 4=right.}
 
-\item{maxFig}{fraction less than 1, indicating the maximum size of margin
-relative to the figure size. Setting margins too large results in an
-error otherwise.}
+\item{maxFig}{\code{numeric} fraction less than 1, indicating the maximum
+size of margin relative to the figure size. Setting margins too
+large results in an error otherwise.}
 
-\item{cex}{numeric or NULL, sent to \code{\link[graphics]{strwidth}} when
+\item{cex}{\code{numeric} or NULL, sent to \code{graphics::strwidth()} when
 calculating the string width of labels in inches.}
 
-\item{prefix}{character string used to add whitespace around the axis label.}
+\item{cex.axis}{\code{numeric}, default uses par("cex.axis"), to define the
+axis label size.}
+
+\item{prefix}{\code{character} string used to add whitespace around the axis label.}
 
 \item{...}{additional parameters are ignored.}
 }
@@ -83,8 +86,8 @@ Other jam plot functions:
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},

@@ -6,6 +6,7 @@
 #'
 #' @family jam practical functions
 #' @family jam color functions
+#' @inheritParams make_styles
 #'
 #' @export
 make_html_styles <- function

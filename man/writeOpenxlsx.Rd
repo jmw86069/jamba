@@ -90,6 +90,14 @@ Excel xlsx worksheet name. At this time (version 0.0.29.900) the
 sheetName is restricted to 31 characters, with no puntuation except
 "-" and "_".}
 
+\item{startRow, startCol}{\code{integer} indicating the row and column number
+to start with the top,left cell written to the worksheet,
+default are 1.}
+
+\item{append}{\code{logical} default FALSE, whether to append to file (TRUE),
+or to write over an existing file. The \code{append=TRUE} is useful when
+adding a worksheet to an existing file.}
+
 \item{headerColors, columnColors, highlightHeaderColors, highlightColors, borderColor, borderPosition}{default values for the Excel worksheet background and border
 colors. As of version 0.0.29.900, colors must use Excel-valid
 color names.}
@@ -183,6 +191,9 @@ to the total number of columns required. Note that when
 \code{keepRownames=TRUE}, the first column will contain \code{rownames(x)},
 therefore the length of \code{colWidths} in that case will be
 \code{ncol(x) + 1}.}
+
+\item{wrapCells}{\code{logical} default FALSE, indicating whether to
+enable word-wrap within cells.}
 
 \item{wrapHeaders}{\code{logical} indicating whether to enable word wrap
 for column headers, which is helpful when \code{autoWidth=TRUE} since

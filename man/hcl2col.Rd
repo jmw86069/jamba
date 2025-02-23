@@ -49,6 +49,15 @@ be used from \code{x["alpha",]}.}
 unknown non-linear transformation for colors outside the color gamut.
 It is here is an option for comparison, and if specifically needed.}
 
+\item{model}{\code{character} string indicating the color model to use:
+\itemize{
+\item hcl (default) uses \code{farver}
+\item polarLUV uses \code{colorspace} polarLUV
+\item polarLAB uses `colorspace polarLAB
+}}
+
+\item{verbose}{\code{logical} whether to print verbose output.}
+
 \item{...}{other arguments are ignored.}
 }
 \value{
@@ -92,8 +101,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hsl2col}()},
 \code{\link{hsv2col}()},

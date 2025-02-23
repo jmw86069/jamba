@@ -65,7 +65,7 @@ col2hsl <- function
 {
    ## Purpose is to convert R color to hsl
    ## R color can be a hex string or color name from colors()
-   if (!check_pkg_installed("farver")) {
+   if (!requireNamespace("farver", quietly=TRUE)) {
       stop("The farver package is required.");
    }
 
@@ -92,30 +92,14 @@ col2hsl <- function
 #' `model="hcl"` is equivalent to using `model="polarLUV"` and
 #' `fixup=TRUE`, except that it should be much faster.
 #'
-#' @param x matrix of colors, with rownames `"H"`, `"C"`, `"L"`, or if not
-#'    supplied it looks for vectors `H`, `C`, and `L` accordingly. It can
-#'    alternatively be supplied as an object of class `polarLUV`.
-#' @param H,C,L numeric vectors supplied as an alternative to `x`, with
+#' @param x `numeric` matrix of colors, with rownames `"H"`, `"S"`, `"L"`,
+#'    or if not supplied it looks for vectors `H`, `S`, and `L` accordingly.
+#' @param H,S,L `numeric` vectors supplied as an alternative to `x`, with
 #'    ranges 0 to 360, 0 to 100, and 0 to 100, respectively.
-#' @param maxColorValue numeric value indicating the maximum RGB values,
-#'    typically scaling values to a range of 0 to 255, from the default
-#'    returned range of 0 to 1. In general, this value should not be
-#'    modified.
-#' @param ceiling numeric value indicating the maximum values allowed for
-#'    `R`, `G`, and `B` after conversion by `colorspace::as(x, "RGB")`.
-#'    This ceiling is applied after the `maxColorValue` is used to scale
-#'    numeric values, and is intended to correct for the occurrence of
-#'    values above 255, which would be outside the typical color gamut
-#'    allowed for RGB colors used in R. In general, this value should not
-#'    be modified.
-#' @param alpha optional vector of alpha values. If not supplied, and if
-#'    `x` is supplied as a matrix with rowname `"alpha"`, then values will
-#'    be used from `x["alpha",]`.
-#' @param fixup boolean indicating whether to use
-#'    `colorspace::hex(...,fixup=TRUE)` for conversion to R hex colors,
-#'    **which is not recommended** since this conversion applies some
-#'    unknown non-linear transformation for colors outside the color gamut.
-#'    It is here is an option for comparison, and if specifically needed.
+#' @param alpha `numeric` vector of alpha values, default NULL.
+#'    If not supplied, and if `x` is supplied as a matrix with
+#'    rowname `"alpha"`, then values will be used from `x["alpha",]`.
+#' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... other arguments are ignored.
 #'
 #' @return vector of R colors, or where the input was NA, then NA
@@ -152,7 +136,7 @@ hsl2col <- function
  ...)
 {
    ## Purpose is to convert HSL back to an R hex color string
-   if (!check_pkg_installed("farver")) {
+   if (!requireNamespace("farver", quietly=TRUE)) {
       stop("The farver package is required.");
    }
 

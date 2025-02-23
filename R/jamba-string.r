@@ -26,6 +26,7 @@
 #' @param minCount integer minimum number of matches required to return TRUE.
 #' @param naToBlank logical whether to convert NA to blank, instead of
 #'    allowing grep to handle NA values as-is.
+#' @param ... additional arguments are ignored.
 #'
 #' @return logical indicating whether the grep match criteria were met,
 #'    TRUE indicates the grep pattern was present in minCount or more
@@ -503,6 +504,7 @@ proigrep <- function
 #' @param returnDF `logical` whether to return a data.frame, by default FALSE,
 #'    a matrix is returned.
 #' @param verbose `logical` whether to print verbose output during processing.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' L <- list(a=LETTERS[1:4], b=letters[1:3]);
@@ -677,6 +679,7 @@ rbindList <- function
 #'    If keepNA is FALSE, then NA values will remain NA, thus causing some
 #'    names to become `<NA>`, which can cause problems with some downstream
 #'    functions which assume all names are either NULL or non-NA.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' V <- rep(LETTERS[1:3], c(2,3,1));
@@ -880,20 +883,21 @@ makeNames <- function
 #'
 #' @family jam string functions
 #'
-#' @param x vector input, or data.frame, matrix, or tibble with two columns,
-#'    the second column is used to name values in the first column.
-#' @param y NULL or character vector of names. If NULL then x is used.
+#' @param x `character` vector, or `data.frame` or equivalent
+#'    (matrix, or tibble) with two columns, the second column
+#'    is used to name values in the first column.
+#' @param y `character` or NULL, with names. If NULL then x is used.
 #'    Note that y is recycled to the length of x, prior to being sent
 #'    to the makeNamesFunc.
 #'    In fringe cases, y can be a matrix, data.frame, or tibble, in which
-#'    case \code{\link{pasteByRow}} will be used to create a character string
+#'    case `pasteByRow()` will be used to create a character string
 #'    to be used for vector names. Note this case is activated only when x
 #'    is not a two column matrix, data.frame, or tibble.
-#' @param makeNamesFunc function to make names unique, by default
-#'    \code{\link{makeNames}} which ensures names are unique.
-#' @param ... passed to \code{\link{makeNamesFunc}}, or to
-#'    \code{\link{pasteByRow}} if y is a two column data.frame, matrix, or
-#'    tibble. Thus, \code{sep} can be defined here as a delimiter between
+#' @param makeNamesFunc `function` to make names unique, by default
+#'    `makeNames()` which ensures names are unique.
+#' @param ... passed to `makeNamesFunc`, or to
+#'    `pasteByRow()` if y is a two column data.frame, matrix, or
+#'    tibble. Thus, `sep` can be defined here as a delimiter between
 #'    column values.
 #'
 #' @examples
@@ -980,9 +984,11 @@ nameVector <- function
 #'
 #' @family jam string functions
 #'
-#' @param x vector or any object which has names available via \code{names(x)}
-#' @param makeNamesFunc function used to create unique names, in the event that
+#' @param x `character` vector or any object which has names available
+#'    `names(x)`.
+#' @param makeNamesFunc `function` used to create unique names, in the event that
 #'    the names(x) are not unique.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' # a simple integer vector with character names
@@ -1052,7 +1058,10 @@ nameVectorN <- function
 #'
 #' @family jam practical functions
 #'
-#' @param x list or other object which may contain NULL.
+#' @param x `list` or other object which may contain NULL.
+#' @param nullValue `character` optional replacement value, default NULL,
+#'    which causes the entry to be removed.
+#' @param ... additional arguments are ignored.
 #'
 #' @examples
 #' x <- list(A=1:6, B=NULL, C=letters[11:16]);
@@ -1061,7 +1070,8 @@ nameVectorN <- function
 #'
 #' @export
 rmNULL <- function
-(x, nullValue=NULL,
+(x,
+ nullValue=NULL,
  ...)
 {
    ## Purpose is similar to rmNA() which can also perform this function,
@@ -1259,10 +1269,16 @@ rmInfinite <- function
 #' @param incomparables see [unique()] for details, this value is only
 #'    sent to `S4Vectors::unique()` when the Bioconductor package
 #'    `S4Vectors` is installed, and is ignored otherwise for efficiency.
-#' @param useBioc boolean indicating whether this function should try
-#'    to use `S4Vectors::unique()` when the Bioconductor package
-#'    `S4Vectors` is installed, otherwise it will use a somewhat less
-#'    efficient bulk operation.
+#' @param useBioc `logical`, default TRUE,  indicating whether this
+#'    function should try to use `S4Vectors::unique()` when the
+#'    Bioconductor package `S4Vectors` is installed, otherwise it will
+#'    use a somewhat less efficient bulk operation.
+#' @param useSimpleBioc `logical`, default FALSE, whether to use a legacy
+#'    mechanism with `S4Vectors` and is maintained for edge cases where
+#'    it might be faster.
+#' @param xclass `character` optional vector of classes, used to invoke
+#'    optimized logic when the class is known upfront.
+#' @param ... additional arguments are ignored.
 #'
 #' @family jam string functions
 #' @family jam list functions
@@ -1305,14 +1321,14 @@ uniques <- function
    ## keepNames=TRUE will keep the first name for the each duplicated entry
    if (useBioc || useSimpleBioc) {
       # if (!suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
-      if (!check_pkg_installed("S4Vectors")) {
+      if (!requireNamespace("S4Vectors", quietly=TRUE)) {
          useSimpleBioc <- FALSE;
          useBioc <- FALSE;
       }
    }
    if (useBioc) {
       # if (!suppressWarnings(suppressPackageStartupMessages(require(IRanges)))) {
-      if (!check_pkg_installed("IRanges")) {
+      if (!requireNamespace("IRanges", quietly=TRUE)) {
          useBioc <- FALSE;
       }
    }
@@ -1345,28 +1361,39 @@ uniques <- function
       for (xclassu in xclassesu) {
          xclassidx <- which(xclass %in% xclassu);
          if ("character" %in% xclassu) {
-            xlist[xclassidx] <- as.list(unique(IRanges::CharacterList(x[xclassidx]),
+            xlist[xclassidx] <- as.list(unique(
+               IRanges::CharacterList(x[xclassidx]),
                incomparables=incomparables))
          } else if ("factor" %in% xclassu) {
-            xlist[xclassidx] <- as.list(unique(IRanges::FactorList(x[xclassidx]),
+            xlist[xclassidx] <- as.list(unique(
+               IRanges::FactorList(x[xclassidx]),
                incomparables=incomparables))
          } else if ("integer" %in% xclassu) {
-            xlist[xclassidx] <- as.list(unique(IRanges::IntegerList(x[xclassidx]),
+            xlist[xclassidx] <- as.list(unique(
+               IRanges::IntegerList(x[xclassidx]),
                incomparables=incomparables))
          } else if ("logical" %in% xclassu) {
-            xlist[xclassidx] <- as.list(unique(IRanges::LogicalList(x[xclassidx]),
+            xlist[xclassidx] <- as.list(unique(
+               IRanges::LogicalList(x[xclassidx]),
                incomparables=incomparables))
          } else if ("raw" %in% xclassu) {
-            xlist[xclassidx] <- as.list(unique(IRanges::RawList(x[xclassidx]),
+            xlist[xclassidx] <- as.list(unique(
+               IRanges::RawList(x[xclassidx]),
                incomparables=incomparables))
          } else if ("Rle" %in% xclassu) {
-            xlist[xclassidx] <- as.list(unique(IRanges::RleList(x[xclassidx]),
+            xlist[xclassidx] <- as.list(unique(
+               IRanges::RleList(x[xclassidx]),
                incomparables=incomparables))
          } else if ("complex" %in% xclassu) {
-            xlist[xclassidx] <- as.list(unique(IRanges::ComplexList(x[xclassidx]),
+            xlist[xclassidx] <- as.list(unique(
+               IRanges::ComplexList(x[xclassidx]),
                incomparables=incomparables))
-         } else if ("GRanges" %in% xclassu) {
-            xlist[xclassidx] <- lapply(unique(GenomicRanges::GRangesList(x[xclassidx])), function(gr){gr});
+         } else if ("GRanges" %in% xclassu &&
+               requireNamespace("GenomicRanges", quietly=TRUE)) {
+            xlist[xclassidx] <- lapply(
+               unique(GenomicRanges::GRangesList(x[xclassidx])), function(gr){
+                  gr
+               });
          } else {
             xlist[xclassidx] <- lapply(x[xclassidx], unique);
          }
@@ -1375,7 +1402,44 @@ uniques <- function
       return(xlist);
    } else if (!keepNames) {
       lapply(x, unique);
+   } else if (length(xclass) == 0 || length(unique(xclass)) > 1) {
+      # new class-sensitive approach
+      if (length(xclass) == 0) {
+         xclass <- sclass(x);
+      }
+      if (is.list(xclass)) {
+         xclass <- cPaste(xclass,
+            checkClass=FALSE,
+            useBioc=useBioc,
+            ...)
+      }
+      if (any(grepl(",", xclass))) {
+         xclass <- gsub(",.*$", "", xclass);
+      }
+      xlist <- list();
+      xclassesu <- unique(xclass);
+      for (xclassu in xclassesu) {
+         xclassidx <- which(xclass %in% xclassu);
+         if (xclassu %in% c("character", "factor",
+            "numeric", "integer", "logical")) {
+            xlist[xclassidx] <- uniques(x[xclassidx],
+               xclass=rep(xclassu, length(xclassidx)))
+         } else {
+            tryCatch({
+               xlist[xclassidx] <- uniques(x[xclassidx],
+                  xclass=rep(xclassu, length(xclassidx)))
+            }, error=function(e){
+               errmsg <- paste0("Class not supported by uniques(): ",
+                  xclassu);
+               stop(errmsg);
+            })
+         }
+      }
+      names(xlist) <- xNames;
+      return(xlist);
+
    } else {
+      # non-Bioc method when only one class is involved
       xu <- unlist(unname(x),
          use.names=TRUE);
       if (length(xNames) == 0) {
@@ -1404,25 +1468,25 @@ uniques <- function
 #' Paste a list of vectors into a character vector, with values
 #' delimited by default with a comma.
 #'
-#' This function is essentially a wrapper for [S4Vectors::unstrsplit()]
+#' This function is essentially a wrapper for `S4Vectors::unstrsplit()`
 #' except that it also optionally applies uniqueness to each vector
-#' in the list, and sorts values in each vector using [mixedOrder()].
+#' in the list, and sorts values in each vector using `mixedOrder()`.
 #'
 #' The sorting and uniqueness is applied to the `unlist`ed vector of
 #' values, which is substantially faster than any `apply` family function
-#' equivalent. The uniqueness is performed by [uniques()], which itself
+#' equivalent. The uniqueness is performed by `uniques()`, which itself
 #' will use `S4Vectors::unique()` if available.
 #'
 #' @return character vector with the same names and in the same order
 #'    as the input list `x`.
 #'
-#' @param x input `list` of vectors
+#' @param x `list` of vectors
 #' @param sep `character` delimiter used to paste multiple values together
 #' @param doSort `logical` indicating whether to sort each vector
 #'    using [mixedOrder()].
 #' @param makeUnique `logical` indicating whether to make each vector in
 #'    the input list unique before pasting its values together.
-#' @param na.rm boolean indicating whether to remove NA values from
+#' @param na.rm `logical` indicating whether to remove NA values from
 #'    each vector in the input list. When `na.rm` is `TRUE` and a
 #'    list element contains only `NA` values, the resulting string
 #'    will be `""`.
@@ -1433,6 +1497,9 @@ uniques <- function
 #'    are converted to factors. Note that this step combines overall
 #'    factor levels, and non-factors will be ordered using
 #'    `base::order()` instead of `jamba::mixedOrder()` (for now.)
+#' @param checkClass `logical`, default TRUE, whether to check the class
+#'    of each vector in the input list. When FALSE it assumes all entries
+#'    are `character`, which is fastest, but does not honor factor order.
 #' @param useBioc `logical` indicating whether this function should try
 #'    to use `S4Vectors::unstrsplit()` when the Bioconductor package
 #'    `S4Vectors` is installed, otherwise it will use a less
@@ -1443,6 +1510,7 @@ uniques <- function
 #'    `factor` vector should be sorted in factor level order.
 #'    When `honorFactor=FALSE` then even `factor` vectors are sorted
 #'    as if they were `character` vectors, ignoring the factor levels.
+#' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are passed to `mixedOrder()` when
 #'    `doSort=TRUE`.
 #'
@@ -1524,8 +1592,13 @@ cPaste <- function
    if (length(x) == 0) {
       return("");
    }
-   if (!suppressWarnings(suppressPackageStartupMessages(require(S4Vectors)))) {
-      warn("cPaste() is substantially faster when Bioconductor package S4Vectors is installed.");
+   if (TRUE %in% useBioc &&
+         !suppressWarnings(suppressPackageStartupMessages(
+            require("S4Vectors")))) {
+      if (verbose) {
+         warning(paste0("cPaste() is substantially faster when",
+            " Bioconductor package S4Vectors is installed."));
+      }
       #stop("The IRanges package is required by cPaste() for the CharacterList class.");
       useBioc <- FALSE;
    }
@@ -1720,7 +1793,7 @@ cPaste <- function
 #' Paste a list of vectors into a character vector, with values sorted
 #' then delimited by default with a comma.
 #'
-#' This function is convenient a wrapper for `cPaste(.., doSort=TRUE)`.
+#' This function is convenient a wrapper for `cPaste(..., doSort=TRUE)`.
 #'
 #' @inheritParams cPaste
 #'
@@ -1757,7 +1830,7 @@ cPasteS <- function
 #' Paste a list of vectors into a character vector, with unique values
 #' sorted then delimited by default with a comma.
 #'
-#' This function is convenient a wrapper for `cPaste(.., doSort=TRUE, makeUnique=TRUE)`.
+#' This function is convenient a wrapper for `cPaste(..., doSort=TRUE, makeUnique=TRUE)`.
 #'
 #' @inheritParams cPaste
 #'
@@ -1793,7 +1866,7 @@ cPasteSU <- function
 #' Paste a list of vectors into a character vector of unique values,
 #' usually delimited by a comma.
 #'
-#' This function is convenient a wrapper for `cPaste(.., makeUnique=TRUE)`.
+#' This function is convenient a wrapper for `cPaste(..., makeUnique=TRUE)`.
 #'
 #' @inheritParams cPaste
 #'
@@ -1829,7 +1902,7 @@ cPasteUnique <- function
 #' Paste a list of vectors into a character vector of unique values,
 #' usually delimited by a comma.
 #'
-#' This function is convenient a wrapper for `cPaste(.., makeUnique=TRUE)`.
+#' This function is convenient a wrapper for `cPaste(..., makeUnique=TRUE)`.
 #'
 #' @inheritParams cPaste
 #'
@@ -1872,7 +1945,7 @@ cPasteU <- function
 #'
 #' This function will also recognize input objects `GRanges`,
 #' `ucscData`, and `IRanges`, which store annotation in `DataFrame`
-#' accessible via `IRanges::values()`. Note the `IRanges` package
+#' accessible via `S4Vectors::values()`. Note the `IRanges` package
 #' is required, for its generic function `values()`.
 #'
 #' The values supplied in `to` and `from` are converted from `factor`
@@ -1883,7 +1956,7 @@ cPasteU <- function
 #' @return `data.frame` or object equivalent to the input `x`,
 #'    with columns `from` renamed to values in `to`. For genomic
 #'    ranges objects such as `GRanges` and `IRanges`, the colnames
-#'    are updated in `IRanges::values(x)`.
+#'    are updated in `S4Vectors::values(x)`.
 #'
 #' @family jam practical functions
 #'
@@ -1895,6 +1968,8 @@ cPasteU <- function
 #' @param to `character` vector with `length(to) == length(from)`
 #'    corresponding to the target name for any colnames that
 #'    match `from`.
+#' @param verbose `logical` indicating whether to print verbose output.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' df <- data.frame(A=1:5, B=6:10, C=11:15);
@@ -1945,8 +2020,8 @@ renameColumn <- function
             "Input data requires the IRanges Bioconductor package,",
             "install with BiocManager::install('IRanges')"));
       }
-      renameSet <- which(from %in% colnames(IRanges::values(x)) & from != to);
-      renameWhich <- match(from[renameSet], colnames(IRanges::values(x)));
+      renameSet <- which(from %in% colnames(S4Vectors::values(x)) & from != to);
+      renameWhich <- match(from[renameSet], colnames(S4Vectors::values(x)));
       if (verbose) {
          printDebug("renameColumn(): ",
             "Renaming ",
@@ -1954,7 +2029,7 @@ renameColumn <- function
             " columns.");
       }
       if (length(renameWhich) > 0) {
-         colnames(IRanges::values(x))[renameWhich] <- to[renameSet];
+         colnames(S4Vectors::values(x))[renameWhich] <- to[renameSet];
       }
    } else {
       renameSet <- which(from %in% colnames(x) & from != to);
@@ -2068,6 +2143,7 @@ fillBlanks <- function
 #'    be rounded to the nearest integer value prior to `base::format()`.
 #'    This option is intended to hide decimal values where they are not
 #'    informative.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' x <- c(1234, 1234.56, 1234567.89);
@@ -2251,6 +2327,12 @@ jam_rapply <- function
 #' @param indent `numeric` used only when `verbose=TRUE` to determine
 #'    the number of spaces indented for verbose output, passed to
 #'    `printDebug()`.
+#' @param honorFactor `logical`, default TRUE, used to enforce factor level
+#'    sort order, when FALSE it sorts as `character`.
+#' @param na.rm `logical`, default FALSE, indicating whether to remove
+#'    NA values.
+#' @param debug `logical`, default FALSE, whether to print detailed
+#'    debug output.
 #'
 #' @examples
 #' # set up an example list of mixed alpha-numeric strings
@@ -2928,15 +3010,15 @@ gsubOrdered <- function
 #'
 #' @family jam string functions
 #'
-#' @param pattern character vector of patterns
-#' @param replacement character vector of replacements
-#' @param x character vector with input data to be curated
-#' @param ignore.case logical indicating whether to perform
+#' @param pattern `character` vector of patterns
+#' @param replacement `character` vector of replacements
+#' @param x `character` vector with input data to be curated
+#' @param ignore.case `logical` indicating whether to perform
 #'    pattern matching in case-insensitive manner, where
 #'    `ignore.case=TRUE` will ignore the uppercase/lowercase
 #'    distinction.
-#' @param replace_multiple logical vector indicating whether to perform
-#'    global substitution, where `replace_multiple=FALSE` will
+#' @param replaceMultiple `logical` vector indicating whether to perform
+#'    global substitution, where `replaceMultiple=FALSE` will
 #'    only replace the first occurrence of the pattern, using
 #'    `base::sub()`. Note that this vector can refer to individual
 #'    entries in `pattern`.

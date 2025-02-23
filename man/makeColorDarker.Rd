@@ -15,6 +15,29 @@ makeColorDarker(
   ...
 )
 }
+\arguments{
+\item{hexColor}{\code{character} vector of colors to adjust}
+
+\item{darkFactor}{\code{numeric} value to adjust darkness, values above 1
+make the color darker, values below 1 (or below 0) make the color
+brighter.}
+
+\item{sFactor}{\code{numeric} value to adjust saturation, values above 1
+become more saturated.}
+
+\item{fixAlpha}{\code{numeric}, default NULL, to assign a fixed alpha
+transparency value, where 0 is transparent and 1 is opaque.}
+
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
+
+\item{keepNA}{\code{logical}, default FALSE, whether to keep NA values
+as NA values in the output, otherwise NA values are considered grey
+input.}
+
+\item{useMethod}{\code{integer} with two alternate methods, \code{1} is default.}
+
+\item{...}{Additional arguments are ignored.}
+}
 \description{
 Makes R colors darker or lighter based upon darkFactor
 }
@@ -65,8 +88,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hcl2col}()},
 \code{\link{hsl2col}()},

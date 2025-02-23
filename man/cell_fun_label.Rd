@@ -42,6 +42,17 @@ be abbreviated using \code{jamba::asSize(..., kiloSize=1000)} which
 effectively reduces large numbers to \code{k} for thousands, \code{M} for
 millions (M for Mega), \code{G} for billions (G for Giga), etc.}
 
+\item{show}{\code{integer} used when \code{m} is supplied as a \code{list} of matrices,
+in which case \code{show} is used to define which values should be used
+as cell labels. By default, all matrices are used.}
+
+\item{rot}{\code{numeric} value used to rotate cell label text, default 0
+is horizontal.}
+
+\item{sep}{\code{character} string, default \code{"\\n"} newline, used when
+there are multiple labels per cell, which also requires
+\code{m} as a list, and \code{show} is \code{NULL} or has multiple values.}
+
 \item{verbose}{\code{logical} indicating whether to print verbose output,
 specifically printing label information for position \verb{(1, 1)}.
 This output will only be seen when rendering or building the
@@ -80,19 +91,17 @@ to use \code{gridtext} for custom markdown formatting. That process
 requires a slightly different method.
 }
 \examples{
-# Examples require ComplexHeatmap Bioconductor/github package
-# github:jokergoo/ComplexHeatmap
-if (check_pkg_installed("ComplexHeatmap")) {
+\dontshow{if ((check_pkg_installed("ComplexHeatmap"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 m <- matrix(rnorm(16)*2, ncol=4)
 colnames(m) <- LETTERS[1:4]
 rownames(m) <- letters[1:4]
-col_hm <- circlize::colorRamp2(breaks=(-2:2) * 2,
-   colors=c("navy", "dodgerblue", "white", "tomato", "red4"))
+#col_hm <- circlize::colorRamp2(breaks=(-2:2) * 2,
+#   colors=c("navy", "dodgerblue", "white", "tomato", "red4"))
 
 # the heatmap can be created in one step
 hm <- ComplexHeatmap::Heatmap(m,
-   col=col_hm,
+   #col=col_hm,
    heatmap_legend_param=list(
       color_bar="discrete",
       border=TRUE,
@@ -110,8 +119,7 @@ hm2 <- ComplexHeatmap::Heatmap(m,
    col=col_hm,
    cell_fun=cell_fun)
 ComplexHeatmap::draw(hm2)
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other jam heatmap functions: 

@@ -1,5 +1,79 @@
 # TODO for jamba
 
+## 13feb2025
+
+* `asSize()` should call `object.size()` first when the input object
+is not already `numeric`.
+
+## 27jan2025
+
+* `readOpenxlsx()`
+
+   * Fix `rows`,`cols` arguments to subset rows and columns imported.
+   * Handle multi-row headers formally:
+   
+      * Consider method to define specific header rows, instead of hoping
+      they are detected correctly.
+      * Define multi-row header delimiter, default `"_"`.
+      * Fix/Improve handling of multi-row headers via `check_header=TRUE`.
+      Currently doesn't work as intended.
+   
+         * "default": When multiple rows are "header", then delimit each row
+         value into new column header.
+         * "extend": As above, except when leading fields are `NA`, use
+         most recent non-NA value as header, thus "extending" that header
+         field to the next column. For example grouped columns, where the
+         group name is only present in the first row,column of the group.
+
+## 11dec2024
+
+* `writeOpenxlsx()`
+
+   * Consider `startRow`,`startCol` (`startColumn`) to define where
+   to begin saving worksheet data.
+   * Related, consider optional multi-row headers.
+   Bonus points: merge cells for consecutive repeated headings,
+   but (probably) not on the lowest/last header row.
+
+* One more revamp to `rainbowJam()` to improve default colors.
+Too much pink, too much "beige", and too few of the colors we love.
+
+   * Design idea is to take `named_colors`, arrayed in rank order of hue
+   (by degrees) and literally reassign color hue by the popularity of
+   named colors. People don't name nearly as many greens as they name
+   red-orange-yellow, which is partly because green hues are not easily
+   resolved in detail.
+   * (So green should not be nearly 1/3 the color wheel!)
+   RGB wheel:
+   `color_pie(jamba::hsv2col(rbind(h=seq(0, to=1, by=0.01), s=1, v=1)))`
+
+* Update `named_colors`
+
+## 09dec2024
+
+* `setTextContrastColor()` - consider option `jam.hclCutoff` or
+`jam.L_threshold` to control the breaking point for light/dark text.
+* `hcl2col()` - fix `alpha` argument input, currently ignored.
+* `shadowText()`
+
+   * Apply more arguments in vectorized form: pos,adj
+
+* `kable_coloring()`
+
+   * Consider option to hide all borders (top/bottom/left/right).
+   * Consider optional `text_color_sub` to control the text color,
+   to support `venndir::textvenn()` output where some labels use fill color,
+   other labels use font color.
+
+## 24nov2024
+
+* Fix error in `cPaste()` when `S4Vectors` is not installed.
+
+## 01nov2024
+
+* `jargs()` - consider word-wrapping when there are numerous items,
+see: `jargs(multienrichjam::fixSetLabels, "words")`.
+
 ## 07oct2024
 
 * Consider support for `Matrix` sparse matrix objects, `CsparseMatrix`

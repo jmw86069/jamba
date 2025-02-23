@@ -97,7 +97,7 @@ columns of a \code{data.frame}.
 order alphanumeric values keeping numeric values in proper order
 }
 \details{
-This function is a refactor of \code{gtools::mixedorder()} which was
+This function is a refactor of \code{gtools} mixedorder() which was
 the source of inspiration for this function, thanks to Gregory R. Warnes!
 This function was designed to improve the efficiency for large vectors,
 and to handle special cases slightly differently. It was driven by some
@@ -131,7 +131,7 @@ returning the list where each vector is independently sorted.}
 of columns used during the sort.}
 }
 
-Extra thanks to Gregory R. Warnes for the \code{gtools::mixedorder()}
+Extra thanks to Gregory R. Warnes for the \code{gtools} mixedorder()
 that proved to be so useful it ultimately inspired this function.
 }
 \examples{
@@ -181,34 +181,34 @@ factor1[mixedOrder(factor1, honorFactor=TRUE)]
 \code{gtools::mixedorder()}, \code{gtools::mixedsort()}
 
 Other jam sort functions: 
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()}
 
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()},
-\code{\link{nameVectorN}()},
 \code{\link{nameVector}()},
+\code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},

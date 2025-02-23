@@ -24,6 +24,8 @@ Calculate scatter plot point density
 \details{
 This function is called internally by \code{plotSmoothScatter()},
 and is an equivalent replacement for
-\code{grDevices:::.smoothScatterCalcDensity()}.
+\code{grDevices} non-exported function .smoothScatterCalcDensity(),
+understandably a requirement by CRAN. A package should not rely
+on another package hidden function.
 }
 \concept{jam internal functions}

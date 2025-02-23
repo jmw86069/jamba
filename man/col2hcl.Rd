@@ -12,18 +12,22 @@ col2hcl(
 )
 }
 \arguments{
-\item{x}{R compatible color, either a color name, or hex value, or
+\item{x}{\code{character} R compatible color, either a color name, hex value, or
 a mixture of the two. Any value compatible with
-\code{\link[grDevices]{col2rgb}}.}
+\code{grDevices::col2rgb()}.}
 
-\item{model}{the color model to use, from \code{"polarLUV"} for the
-standard R conventional HCL, and \code{"polarLAB"} which uses the
-LAB-based HCL values.}
+\item{maxColorValue}{\code{numeric} maximum value to return, useful
+when the downstream alpha range should be 255.
+By default maxValue=1 is returned.}
+
+\item{model}{\code{character} color model to use
+\itemize{
+\item \code{"hcl"} to use \code{farver} HCL
+\item \code{"polarLUV"} for the standard R conventional HCL,
+\item \code{"polarLAB"} which uses the LAB-based HCL values.
+}}
 
 \item{...}{additional arguments are ignored.}
-
-\item{maxValue}{numeric maximum value to return, useful when the downstream
-alpha range should be 255. By default maxValue=1 is returned.}
 }
 \description{
 convert R color to HCL color matrix
@@ -53,8 +57,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hcl2col}()},
 \code{\link{hsl2col}()},

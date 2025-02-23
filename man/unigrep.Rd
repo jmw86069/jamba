@@ -31,9 +31,9 @@ igrep("D", V);
 \seealso{
 Other jam grep functions: 
 \code{\link{grepls}()},
+\code{\link{igrep}()},
 \code{\link{igrepHas}()},
 \code{\link{igrepl}()},
-\code{\link{igrep}()},
 \code{\link{provigrep}()},
 \code{\link{unvigrep}()},
 \code{\link{vgrep}()},

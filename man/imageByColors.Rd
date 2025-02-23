@@ -109,6 +109,16 @@ This parameter is mainly useful when cellnote labels may overhang the
 plot space, and would be cropped and not visible if
 \code{par("xpd"=TRUE)}.}
 
+\item{bty}{\code{character} used to control box type, default \code{par("bty")}}
+
+\item{flip}{\code{character} string, default "none", with optional axis flip:
+\itemize{
+\item none: perform no axis flip
+\item x: flip x-axis orientation
+\item y: flip y-axis orientation
+\item xy: flip both x- and y-axis orientation
+}}
+
 \item{keepTextAlpha}{logical passed to \code{\link{setTextContrastColor}}
 indicating whether the text label color should inherit the alpha
 transparency from the background color. If TRUE then fully transparent
@@ -116,6 +126,11 @@ background colors will not have a visible label.}
 
 \item{doTest}{logical whether to run a test showing basic features of
 \code{imageByColors}.}
+
+\item{add}{\code{logical}, default FALSE, whether to add to an existing
+device, otherwise it creates a new plot.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \description{
 Display color raster image using a matrix of colors
@@ -193,8 +208,8 @@ Other jam plot functions:
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},

@@ -95,12 +95,14 @@ if (check_pkg_installed("ComplexHeatmap")) {
    print(heatmap_column_order(hm1hm2_drawn, which_heatmap=1:2))
 
    # stacked vertical heatmaps
-   hm1hm2_drawn_tall <- ComplexHeatmap::draw(ComplexHeatmap::`\%v\%`(hm1_split, hm2),
+   hm1hm2_drawn_tall <- ComplexHeatmap::draw(
+      ComplexHeatmap::`\%v\%`(hm1_split, hm2),
       ht_gap=grid::unit(1, "cm"));
    print(heatmap_row_order(hm1hm2_drawn))
    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=2))
    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=1:2))
-   print(heatmap_row_order(hm1hm2_drawn, which_heatmap=names(hm1hm2_drawn@ht_list)))
+   print(heatmap_row_order(hm1hm2_drawn,
+      which_heatmap=names(hm1hm2_drawn@ht_list)))
 
    # annotation heatmap
    ha <- ComplexHeatmap::rowAnnotation(left=rownames(mat))
@@ -114,7 +116,9 @@ if (check_pkg_installed("ComplexHeatmap")) {
    hm1_ha <- ComplexHeatmap::Heatmap(mat,
       left_annotation=ha,
       column_split=3, row_split=3, border=TRUE);
-   hm1hm2_drawn_tall <- ComplexHeatmap::draw(ComplexHeatmap::`\%v\%`(ta, ComplexHeatmap::`\%v\%`(hm1_ha, hm2)),
+   hm1hm2_drawn_tall <- ComplexHeatmap::draw(
+      ComplexHeatmap::`\%v\%`(ta,
+         ComplexHeatmap::`\%v\%`(hm1_ha, hm2)),
       ht_gap=grid::unit(1, "cm"));
    print(sdim(hm1hm2_drawn_tall@ht_list))
    print(heatmap_row_order(hm1hm2_drawn_tall))

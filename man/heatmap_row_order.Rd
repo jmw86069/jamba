@@ -9,6 +9,9 @@ heatmap_row_order(hm, which_heatmap = NULL)
 \arguments{
 \item{hm}{\code{Heatmap} or \code{HeatmapList} object as defined by the
 Bioconductor package via \code{ComplexHeatmap::Heatmap()}.}
+
+\item{which_heatmap}{\code{integer}, default NULL, used when the input
+is a \code{HeatmapList} with multiple heatmaps.}
 }
 \value{
 output depends upon the heatmap:

@@ -15,37 +15,19 @@ hsl2col(
 )
 }
 \arguments{
-\item{x}{matrix of colors, with rownames \code{"H"}, \code{"C"}, \code{"L"}, or if not
-supplied it looks for vectors \code{H}, \code{C}, and \code{L} accordingly. It can
-alternatively be supplied as an object of class \code{polarLUV}.}
+\item{x}{\code{numeric} matrix of colors, with rownames \code{"H"}, \code{"S"}, \code{"L"},
+or if not supplied it looks for vectors \code{H}, \code{S}, and \code{L} accordingly.}
 
-\item{H, C, L}{numeric vectors supplied as an alternative to \code{x}, with
+\item{H, S, L}{\code{numeric} vectors supplied as an alternative to \code{x}, with
 ranges 0 to 360, 0 to 100, and 0 to 100, respectively.}
 
-\item{alpha}{optional vector of alpha values. If not supplied, and if
-\code{x} is supplied as a matrix with rowname \code{"alpha"}, then values will
-be used from \code{x["alpha",]}.}
+\item{alpha}{\code{numeric} vector of alpha values, default NULL.
+If not supplied, and if \code{x} is supplied as a matrix with
+rowname \code{"alpha"}, then values will be used from \code{x["alpha",]}.}
+
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
 
 \item{...}{other arguments are ignored.}
-
-\item{maxColorValue}{numeric value indicating the maximum RGB values,
-typically scaling values to a range of 0 to 255, from the default
-returned range of 0 to 1. In general, this value should not be
-modified.}
-
-\item{ceiling}{numeric value indicating the maximum values allowed for
-\code{R}, \code{G}, and \code{B} after conversion by \code{colorspace::as(x, "RGB")}.
-This ceiling is applied after the \code{maxColorValue} is used to scale
-numeric values, and is intended to correct for the occurrence of
-values above 255, which would be outside the typical color gamut
-allowed for RGB colors used in R. In general, this value should not
-be modified.}
-
-\item{fixup}{boolean indicating whether to use
-\code{colorspace::hex(...,fixup=TRUE)} for conversion to R hex colors,
-\strong{which is not recommended} since this conversion applies some
-unknown non-linear transformation for colors outside the color gamut.
-It is here is an option for comparison, and if specifically needed.}
 }
 \value{
 vector of R colors, or where the input was NA, then NA
@@ -92,8 +74,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hcl2col}()},
 \code{\link{hsv2col}()},

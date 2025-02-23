@@ -39,7 +39,7 @@ any color palette from \code{colorjam::jam_linear()} or
 for example \code{col="rainbow_hcl"}. Input is equivalent to supplying
 one color \code{function}, see below.
 \item \code{function} whose first argument expects \code{integer} number of colors
-to return, for example \code{col=viridis::viridis} defines the function
+to return, for example \code{col=viridisLite::viridis} defines the function
 itself as input.
 \item \code{function} derived from \code{circlize::colorRamp2()},  recognized
 by having attribute names \code{"breaks"} and \code{"colors"}. Note that
@@ -179,15 +179,13 @@ BuOr <- getColorRamp(c("dodgerblue","grey10","orange"));
 showColors(BuOr);
 colorList <- list(red4=red4, BuOr=BuOr);
 
-# If RColorBrewer is available, use a brewer name
-if (suppressPackageStartupMessages(require(RColorBrewer))) {
-   RdBu <- getColorRamp("RdBu");
-   RdBu_r <- getColorRamp("RdBu_r");
-   colorList <- c(colorList, list(RdBu=RdBu, RdBu_r=RdBu_r));
-   showColors(RdBu);
-}
+# From RColorBrewer use a brewer name
+RdBu <- getColorRamp("RdBu");
+RdBu_r <- getColorRamp("RdBu_r");
+colorList <- c(colorList, list(RdBu=RdBu, RdBu_r=RdBu_r));
+showColors(RdBu);
 
-if (suppressPackageStartupMessages(require(viridis))) {
+if (suppressPackageStartupMessages(require("viridisLite"))) {
    viridisV <- getColorRamp("viridis");
    colorList <- c(colorList, list(viridis=viridisV));
 }
@@ -210,8 +208,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{hcl2col}()},
 \code{\link{hsl2col}()},
 \code{\link{hsv2col}()},

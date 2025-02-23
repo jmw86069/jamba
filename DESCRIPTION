@@ -1,49 +1,49 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.105.900
+Version: 0.0.106.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
-Description: Jam Base methods. Efficient alphanumeric sort for vector,
-    list, data.frame. Import/export wrappers to Excel xlsx files.
-    Efficient operations for row-wise paste, paste or sort of lists.
-    Enhanced plot smooth scatter, plot density, image by color.
-    Convenient get 
-    mixedSort, mixedSortDF: efficient alphanumeric sort.
-    jargs: formatted, colorized function arguments.
-    writeOpenxlsx, readOpenxlsx: Excel export with clean formatting by column.
-    pasteByRow, pasteByRowOrdered: data.frame to vector, optionally as factor.
-    cPaste, cPasteS, cPasteU: efficient paste for list of vectors, optional
-    sort and unique.
-    sdim, ssdim: formatted summary of dimensions for S3 objects, lists,
-    S4 objects by slot, or nested lists.
-    vigrep, vgrep, provigrep: value-return, case-insensitive grep,
-    progressive pattern grep.
-    plotSmoothScatter: smooth scatter plot with finer detail.
-    plotPolygonDensity, plotRidges: plot one or more densities.
-    imageDefault: rasterized image plots.
-    imageByColors: data.frame to color image.
-    getColorRamp, showColors: versatile color palettes, and display.
-    rbindList: list to data.frame without filling empty cells.
-    makeNames, nameVector: configurable unique names assigned to vectors.
-    printDebug: colorized console messaging.
+Description: Jam base functions for bioinformatics, alphanumeric sort,
+    make and assign unique names, print colorized output,
+    reload Rmarkdown cache, import-export styled Excel worksheets,
+    rasterized smooth scatter and image,
+    delimit list values to vector, efficient list manipulations,
+    color ramp and contrast, console enhancements.
 biocViews:
 Depends: R (>= 3.0.0)
-Imports: colorspace,
+Imports: 
+    colorspace,
     KernSmooth,
     farver,
-    colorspace,
-    grDevices
+    grDevices,
+    methods,
+    graphics,
+    stats,
+    utils,
+    RColorBrewer,
+    withr,
+    IRanges
 Suggests: 
+    crayon,
     knitr,
     rmarkdown,
-    RColorBrewer,
-    viridisLite,
-    crayon,
-    matrixStats,
-    S4Vectors,
-    openxlsx,
-    ComplexHeatmap,
     testthat (>= 3.0.0)
+Enhances:
+    S4Vectors,
+    matrixStats,
+    openxlsx,
+    viridisLite,
+    ComplexHeatmap,
+    circlize,
+    GenomicRanges,
+    ggplot2,
+    ggridges,
+    igraph,
+    kableExtra,
+    pryr,
+    rstudioapi,
+    sparseMatrixStats,
+    colorjam
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -51,5 +51,5 @@ URL: http://github.com/jmw86069/jamba
 BugReports: http://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Config/testthat/edition: 3

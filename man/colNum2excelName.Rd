@@ -16,6 +16,8 @@ be of almost any length, with any content.}
 \item{zeroVal}{\code{character} single-digit to be used whenever \code{x==0}, or as a
 prefix for negative values. In theory there should be no negative
 input values, but this basic mechanism is used to handle the possibility.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \value{
 \code{character} vector with length(x)
@@ -49,14 +51,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -71,8 +71,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},

@@ -105,12 +105,21 @@
 #'    This parameter is mainly useful when cellnote labels may overhang the
 #'    plot space, and would be cropped and not visible if
 #'    \code{par("xpd"=TRUE)}.
+#' @param bty `character` used to control box type, default `par("bty")`
+#' @param flip `character` string, default "none", with optional axis flip:
+#'    * none: perform no axis flip
+#'    * x: flip x-axis orientation
+#'    * y: flip y-axis orientation
+#'    * xy: flip both x- and y-axis orientation
 #' @param doTest logical whether to run a test showing basic features of
 #'    \code{imageByColors}.
 #' @param keepTextAlpha logical passed to \code{\link{setTextContrastColor}}
 #'    indicating whether the text label color should inherit the alpha
 #'    transparency from the background color. If TRUE then fully transparent
 #'    background colors will not have a visible label.
+#' @param add `logical`, default FALSE, whether to add to an existing
+#'    device, otherwise it creates a new plot.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' a1 <- c("red4","blue")[c(1,1,2)];

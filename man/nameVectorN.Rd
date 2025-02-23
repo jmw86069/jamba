@@ -7,10 +7,13 @@
 nameVectorN(x, makeNamesFunc = makeNames, ...)
 }
 \arguments{
-\item{x}{vector or any object which has names available via \code{names(x)}}
+\item{x}{\code{character} vector or any object which has names available
+\code{names(x)}.}
 
-\item{makeNamesFunc}{function used to create unique names, in the event that
+\item{makeNamesFunc}{\code{function} used to create unique names, in the event that
 the names(x) are not unique.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \value{
 vector of names, whose names are uniquely assigned using
@@ -79,26 +82,26 @@ lapply(nameVectorN(K), function(i){
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()},
 \code{\link{nameVector}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},

@@ -25,6 +25,10 @@ so the \code{envir} and \code{items} should be compatible.}
 in the output \code{data.frame}. Note that these items should be
 available in the environment \code{envir}.}
 
+\item{use_utils_objectsize}{\code{logical}, default TRUE, whether to prefer
+\code{utils::object.size()}, otherwise it will attempt to use
+\code{pryr::object_size()} if the package is installed.}
+
 \item{all.names}{\code{logical} passed to \code{base::ls()} indicating whether
 to include all names, where \code{all.names=TRUE} will include
 hidden objects whose name begin with \code{"."} such as \code{".First"}.}
@@ -62,14 +66,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{log2signed}()},
@@ -83,8 +85,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},

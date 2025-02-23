@@ -36,6 +36,42 @@ testthat::test_that("cPasteU", {
       cPasteU_L)
 })
 
+testthat::test_that("cPasteU_nonBioc", {
+   L <- list(
+      entryA=c("miR-112", "miR-12", "miR-112"),
+      entryB=factor(c("A","B","A","B"),
+         levels=c("B","A")),
+      entryC=factor(c("C","A","B","B","C"),
+         levels=c("A","B","C")),
+      entryNULL=NULL)
+   cPasteU_L <- c(
+      entryA="miR-112,miR-12",
+      entryB="A,B",
+      entryC="C,A,B",
+      entryNULL="")
+   testthat::expect_equal(
+      cPasteU(L, useBioc=FALSE),
+      cPasteU_L)
+})
+
+testthat::test_that("cPasteU_nonBioc_simpleBioc", {
+   L <- list(
+      entryA=c("miR-112", "miR-12", "miR-112"),
+      entryB=factor(c("A","B","A","B"),
+         levels=c("B","A")),
+      entryC=factor(c("C","A","B","B","C"),
+         levels=c("A","B","C")),
+      entryNULL=NULL)
+   cPasteU_L <- c(
+      entryA="miR-112,miR-12",
+      entryB="A,B",
+      entryC="C,A,B",
+      entryNULL="")
+   testthat::expect_equal(
+      cPasteU(L, useBioc=FALSE, useSimpleBioc=TRUE),
+      cPasteU_L)
+})
+
 testthat::test_that("cPasteS", {
    L <- list(
       entryA=c("miR-112", "miR-12", "miR-112"),

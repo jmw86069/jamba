@@ -70,7 +70,7 @@ for color gradients to be applied.}
 \item{fcType, lfcType, hitType, intType, numType, pvalueType}{character string indicating the type of conditional rule to apply,
 which in most cases should be "colourScale" which allows three numeric
 thresholds, and three corresponding colors. For other allowed values,
-see \code{\link{openxlsx::conditionalFormatting}}.}
+see \code{openxlsx::conditionalFormatting()}.}
 
 \item{verbose}{logical indicating whether to print verbose output.}
 

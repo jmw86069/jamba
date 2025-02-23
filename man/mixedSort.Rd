@@ -50,6 +50,10 @@ sorted by factor level.}
 \item{useCaseTiebreak}{\code{logical} indicating whether to break ties
 when \code{ignore.case=TRUE}, using mixed case as a tiebreaker.}
 
+\item{honorFactor}{\code{logical}, default TRUE, indicating whether to honor
+factor level order in the output, otherwise when FALSE it sorts
+as \code{character}.}
+
 \item{sortByName}{\code{logical} whether to sort the vector x by names(x) instead
 of sorting by x itself.}
 
@@ -68,7 +72,7 @@ for consistency with \code{base::sort()}.}
 sort alphanumeric values keeping numeric values in proper order
 }
 \details{
-This function is a refactor of \code{gtools::mixedsort()}, a clever bit of
+This function is a refactor of \code{gtools} mixedsort(), a clever bit of
 R coding from the \code{gtools} package. It was extended to make it slightly
 faster, and to handle special cases slightly differently.
 It was driven by the need to sort gene symbols, miRNA symbols, chromosome
@@ -76,8 +80,8 @@ names, all with proper numeric order, for example:
 
 \describe{
 \item{test set:}{miR-12,miR-1,miR-122,miR-1b,mir-1a}
-\item{\code{gtools::mixedsort}:}{miR-122,miR-12,miR-1,miR-1a,mir-1b}
-\item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-12,miR-122}
+\item{gtools::mixedsort:}{miR-122,miR-12,miR-1,miR-1a,mir-1b}
+\item{mixedSort:}{miR-1,miR-1a,miR-1b,miR-12,miR-122}
 }
 
 The function does not by default recognize negative numbers as negative,
@@ -145,11 +149,11 @@ Other jam sort functions:
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
@@ -159,12 +163,12 @@ Other jam string functions:
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
 \code{\link{mmixedOrder}()},
-\code{\link{nameVectorN}()},
 \code{\link{nameVector}()},
+\code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},

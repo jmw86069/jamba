@@ -94,6 +94,11 @@ is defined by \code{setTextContrastColor()} in order to define a contrasting
 text color.
 }}
 
+\item{fgDefault}{\code{character} defaults to
+\code{getOption("jam.fgDefault", c("darkorange1", "dodgerblue"))}, and
+is used when colors are not defined by \code{fgText} or by the
+input \code{...} values.}
+
 \item{bgText}{\code{vector} of R colors, or \code{list} of vectors, used to define
 the background color, using the same approach described for \code{fgText}.
 Note that \code{NULL} or \code{NA} defines the absence of any background color,
@@ -191,6 +196,8 @@ using collapse to combine them onto one line.}
 output. When \code{numeric} it is rounded to integer, then this many
 character spaces \code{" "} are concatenated together to define the
 indent width. Note that the \code{indent} text is not colorized.}
+
+\item{keepNA}{\code{logical}, default TRUE, whether to keep and print NA values.}
 
 \item{file}{argument passed to \code{cat()} to send output to a file or
 compatible output of \code{cat()}.}
@@ -340,14 +347,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -361,8 +366,8 @@ Other jam practical functions:
 \code{\link{newestFile}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},
@@ -376,14 +381,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -397,8 +400,8 @@ Other jam practical functions:
 \code{\link{newestFile}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},
@@ -412,14 +415,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -433,8 +434,8 @@ Other jam practical functions:
 \code{\link{newestFile}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},

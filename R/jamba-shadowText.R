@@ -1,15 +1,15 @@
 
 #' Get and set options for shadowText
-#' 
+#'
 #' Get and set options for shadowText
-#' 
+#'
 #' This function is intended to be a convenient method to get and set
 #' options to be used with `jamba::shadowText()`.
 #' This function stores the resulting values in `options()` for
 #' use by `shadowText()`.
-#' 
+#'
 #' @family jam plot functions
-#' 
+#'
 #' @param r `numeric` radius used for outline or shadow
 #' @param n `numeric` number of shadow steps to render around each text label
 #' @param outline `logical` indicating whether to render shadowText
@@ -64,11 +64,9 @@
 #'    * `"bold white shadow"`: same as "bold shadow" with white shadow
 #'    * `"bold black shadow"`: same as "bold shadow" with black shadow
 #'    * `"bold both"`: same as "bold" except also enables bold shadow
-#' @param reset `logical` indicating whether to reset values to their
-#'    respective defaults, prior to applying any other updates
 #' @param verbose `logical` indicating whether to print verbose output
 #' @param ... additional arguments are ignored.
-#' 
+#'
 #' @examples
 #' nullPlot(doBoxes=FALSE, xlim=c(-1, 4), ylim=c(-1, 4), asp=1);
 #' usrBox(fill="grey")
@@ -99,7 +97,7 @@
 #' shadowText(x=1.5, y=0.5, col="blue3", "bold both", cex=cex, font=2)
 #' shadowText(x=1.5, y=0, col="indianred1", "bold both", cex=cex, font=2)
 #' shadowText_options(preset="default")
-#' 
+#'
 #' @returns `list` with the following options for `shadowText()`:
 #'    * jam.shadow.r
 #'    * jam.shadow.n
@@ -108,7 +106,7 @@
 #'    * jam.shadow
 #'    * jam.shadowColor
 #'    * jam.alphaShadow
-#'    
+#'
 #' @export
 shadowText_options <- function
 (r=getOption("jam.shadow.r", 0.15),
@@ -146,7 +144,7 @@ shadowText_options <- function
       shadow=FALSE,
       shadowColor="black",
       alphaShadow=0.2)
-   
+
    # define list with values
    shadowText_values <- list(
       r=r,
@@ -156,7 +154,7 @@ shadowText_options <- function
       shadow=shadow,
       shadowColor=shadowColor)
 
-   
+
    if (preset %in% c("default", "both")) {
       shadowText_values <- list(
          r=0.15,
@@ -221,7 +219,7 @@ shadowText_options <- function
       printDebug("shadowText_options(): ",
          "applied preset: '", preset, "'");
    }
-   
+
    # optionally apply expansion factors
    if (length(r_ex) > 0 && !1 %in% head(r_ex, 1)) {
       shadowText_values$r <- shadowText_values$r * head(r_ex, 1);
@@ -244,7 +242,7 @@ shadowText_options <- function
             "applied alpha_ex: ", r_ex, ".");
       }
    }
-   
+
    # now update options
    options("jam.shadow.r"=shadowText_values$r)
    options("jam.shadow.n"=shadowText_values$n)
@@ -265,6 +263,6 @@ shadowText_options <- function
             fgText=c("darkorange1", "dodgerblue"));
       }
    }
-   
+
    return(invisible(shadowText_values))
 }

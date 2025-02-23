@@ -23,6 +23,8 @@ configured with defaults intended for integer values.}
 be rounded to the nearest integer value prior to \code{base::format()}.
 This option is intended to hide decimal values where they are not
 informative.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \value{
 character vector if \code{x} is a vector, or if \code{x} is a matrix
@@ -49,26 +51,26 @@ formatInt(x, forceInteger=FALSE);
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()},
-\code{\link{nameVectorN}()},
 \code{\link{nameVector}()},
+\code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},

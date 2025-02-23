@@ -7,7 +7,12 @@
 rmNULL(x, nullValue = NULL, ...)
 }
 \arguments{
-\item{x}{list or other object which may contain NULL.}
+\item{x}{\code{list} or other object which may contain NULL.}
+
+\item{nullValue}{\code{character} optional replacement value, default NULL,
+which causes the entry to be removed.}
+
+\item{...}{additional arguments are ignored.}
 }
 \value{
 list with NULL entries either removed, or replaced with nullValue.
@@ -38,14 +43,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -60,8 +63,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},
 \code{\link{setPrompt}()}

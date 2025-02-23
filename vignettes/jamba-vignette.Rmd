@@ -342,56 +342,36 @@ showColors(vigrep("red", colors()))
 
 ### `mixedSort()`, `mixedSortDF()`, `mixedOrder()`
 
-The `gtools` package implemented a function `gtools::mixedsort()`
-which aimed to sort character vectors similar to GNU version sort
-(`gsort -V`), where numeric values within an alphanumeric
-string would be sorted in proper numerical order.
+Motivted by `gtools` function `gtools::mixedsort()`, props to
+Gregory R. Warnes for that!
 
-The `mixedSort()` is an optimization and extension, driven by the
-desire to sort tens of thousands of gene symbols (and micro-RNAs, miRNA)
-efficiently and based upon known order. Also, because miRNA nomenclature
-includes a dash '-' character, numbers are not assumed to be negative
-by default, but this behavior can be controlled.
+The `mixedSort()` functions provide efficient version-type sorting
+of alphanumeric character strings, with some customization to handle
+common gene symbol formats.
 
 For example "miR-2" should sort before "miR-11", and after "miR-1".
 
 
 ```{r mixedSort, echo=FALSE, results='asis'}
-if (suppressPackageStartupMessages(require(gtools))) {
-    x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
-    df <- data.frame(sort=sort(x),
-        gtools_mixedsort=gtools::mixedsort(x),
-        mixedSort=mixedSort(x));
-} else {
-    x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
-    df <- data.frame(sort=sort(x),
-        mixedSort=mixedSort(x));
-}
+x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
+df <- data.frame(sort=sort(x),
+   mixedSort=mixedSort(x));
 df;
 ```
 
-Note: it took roughly 12 seconds to sort 43,000 gene symbols using
-`gtools::mixedsort()`, and roughly 0.5 seconds using `mixedSort()`.
+Note, previous alphanumeric sort took 12 seconds for 43,000 values,
+`mixedSort()` took about 0.5 seconds.
 
-The `mixedOrder()` function is actually the core ordering algorithm,
-called by `mixedSort()`. The `mixedOrder()` function does not fully behave
-like `order()`, in that `order()` accepts a list of vectors as one type of input,
-and applies the order logic to each list iteratively, in order break ties.
-Instead the `mmixedOrder()` function was implemented to serve that purpose.
-
-For the most part, `mixedSort()` or `mixedSortDF()` should fulfill
-most use cases.
 
 ### `mixedSortDF()`
 
-The `mixedSortDF()` function is a convenient wrapper around `mmixedOrder()`
-applied to data.frames. It sorts columns in a specified order, maintaining
-ties in each column, and breaking ties as warranted in subsequent columns.
-It has the added benefit of maintaining factor order, so a `data.frame`
-that contains a column of factors with a specified order will maintain that
-order during the sort process. This behavior is especially useful when
-sorting a `data.frame` with experiment design, where each column may contain
-an ordered factor indicating the proper sample group ordering.
+`mixedSortDF()` applies `mixedSort()` to columns of a `data.frame` or
+equivalent (matrix, tibble, etc.). It honors factor order where defined,
+applying `mixedSort()` on `character` values otherwise.
+
+It is especially useful when sorting a `data.frame` by experiment design,
+where each column may contain ordered factors and other alphanumeric
+values.
 
 ```{r mixedSortDF1, echo=TRUE, results='asis'}
 x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
@@ -408,18 +388,15 @@ df2sorted;
 
 ### `setPrompt()`
 
-`setPrompt()` is a simple function that creates an R prompt
-which includes the project name, R version, and current process ID.
-When possible, the prompt uses color text.
+`setPrompt()` is a convenience function for R console and RStudio work,
+it creates a colorized R prompt with useful info:
+project name, R version, and process ID (PID). The PID may be useful
+if *ahem* the R session is hung during processing, or out of memory, etc.
 
-It is especially helpful if you find yourself working on
-multiple active R projects at the same time. For me, the more visual
-reminders the better!
-
-The process ID is particularly helpful if one R session becomes inactive,
-and if there are other active R sessions open. The process ID is the best
-way to identify the specific task so it can be killed.
-
+Ultimately, the prompt is useful when there are multiple active R sessions,
+it's designed to help recognize which is which. And when things go awry,
+the PID is helpful to know which R process is the culprit. Sometimes
+it is not clear enough.
 
 ```{r setPrompt, echo=TRUE}
 setPrompt("jambaVignette");
@@ -430,35 +407,32 @@ setPrompt("jambaVignette");
 
 ### `writeOpenxlsx()`
 
-`writeOpenxlsx()` is intended to make several capabilities of
-the amazing `openxlsx` package convenient.
+`writeOpenxlsx()` is a convenient wrapper for the amazing `openxlsx`,
+to automate numeric formatting, column color, font size, text alignment.
+When saving to Excel, you want all the details to look pretty, and
+to be usable without having to configure it later.
 
-If you ever found yourself saving data to Excel, then opening
-the file to apply numerous custom options -- this function
-is aimed at you! For Excel files with multiple worksheets,
-it quickly becomes tedious to apply all options consistently
-to each worksheet.
+It has presets for certain data types, with default numeric formatting,
+and conditional color-coding by default:
+* P-values
+* fold change, log fold change
+* numeric values
+* integer values
+* highlight columns (bold font)
 
-The capabilities are described below:
+It configures some defaults:
+* column headers have filtering enabled
+* striped column and header colors
+* freeze pane and row to keep the header visible
+* column widths
+* word wrap, or not
+* header row height
+* categorical colors when defined
 
-* Apply style to "known" numeric types: P-value, fold change,
-log fold change, integer, decimal. The style includes the number
-of decimal places, consistent left- and right-alignment, and the
-font size.
-* Apply conditional color formatting to each of the above, using
-sensible defaults.
-* Apply categorical colors to cell backgrounds, if supplied
-with a named vector of colors.
-* Enable Excel filtering for the top row of headings
-* Fix the top row with the "Freeze panes" Excel option.
-The left columns can also be frozen.
-* Expand the top row height to 4x the height of subsequent
-rows.
-* The function can also save multiple worksheets to the same
-`.xlsx` file.
-* Optionally include rownames -- if you ever saved an Excel file
-only to realize later that it did not include the rownames...
-well yeah, you're welcome.
+Some nice extras:
+* save one or more worksheets to the same file
+* optionally include rownames
+
 
 ### `vigrep()`, `provigrep()`, `igrep()`, `igrepHas()`
 
@@ -478,39 +452,23 @@ if any value in a vector matches the pattern.
 ### `gsubOrdered()`
 
 `gsubOrdered()` is an extension to `gsub()` that preserves
-factor order of the input data, by creating new ordered factor
-levels using the same `gsub()` replacement. If you have
-experimental factors in a specific order, want to maintain
-that order while making changes to the labels themselves,
-this function is for you.
+factor order of the input data, creating new ordered factor
+levels using the same `gsub()` replacement. Much more useful
+than you might think!
 
 
 ### `pasteByRow()` and `pasteByRowOrdered()`
 
 `pasteByRow()` is a lightweight by efficient method
 for combining multiple columns into one character string.
-After numerous benchmark tests, it appears the fastest
-method for combining columns in a `data.frame` with
-10,000 or more rows of data, was to run a series of
-`paste()` operations. Every row-based method is far
-worse, probably because the `paste()` method is
-vectorized and scales well.
-
-However, this function also provides some convenient
-defaults, like skipping empty columns, and trimming
-leading and trailing blank entries.
-
-I use this function frequently to make sample group
-labels, combining values from a `data.frame` with
-multiple columns containing experimental factors.
+There are other approaches, however this function is among
+the fastest, especially 10000 rows or more, and allows "ignoring"
+empty cells in the output, and trimming leading/trailing blanks.
 
 `pasteByRowOrdered()` is an extension of `pasteByRow()`
-that maintains factor level order of each column,
-and creates combined factor levels in that same
-consistent order. If your `data.frame` contains
-experimental factors with a defined order, this
-function will produce a factor where those
-orders are also maintained.
+that also maintains factor level order of each column.
+Again, super useful to make labels that honor factor level
+order, for example with experimental designs.
 
 ```{r, paste_order}
 a1 <- factor(c("mutant", "control")[c(1,1,2)],
@@ -531,23 +489,22 @@ mixedSortDF(df3, byCols="pasteByRowOrdered")
 
 ### `makeNames()`, `nameVector()`, `nameVectorN()`
 
-Again, I use these functions daily, to create unique
-names from a character vector, using a controlled vocabulary.
+Create unique names with controlled versioning options.
 
-`makeNames()` simply returns unique names, for
+`makeNames()` returns unique names, by default for
 duplicated values it uses the suffix style `_v1`, `_v2`, `_v3`.
 The suffix can be controlled, whether to add a suffix to
 singlet entries, what number to start with, etc.
 
-`nameVector()` uses a vector to name itself, returning
-the same vector with names assigned by `makeNames()`.
-This function is helpful when used in an `lapply()`
-because it enforces unique names which are returned
-in the output `list` from the `lapply()`.
+`nameVector()` is similar to `setNames()` except that it
+secretly runs `makeNames()`, and when only provided with
+a vector, the vector is used to define names.
+Named vectors are convenient with `lapply()` type list
+functions, because names are used in the returned `list`.
 
-`nameVectorN()` creates a named vector of the vector names.
-I use it frequently in `lapply()` functions to control
-the names of the output `list`.
+`nameVectorN()` creates a named vector of the vector names,
+useful with `lapply()` when you need to know the element name
+in the function call.
 
 ```{r, make_names}
 x <- rep(head(letters, 4), c(2,4,1,5));
@@ -567,24 +524,17 @@ lapply(nameVectorN(y), function(i){
 
 ### `cPaste()`, `cPasteSU()`, `cPasteU()`
 
-`cPaste()` is an efficient implementation intended
-to concatenate values using a delimiter, similar to
-`paste(x, collapse=",")`, except in a `list` context.
-After numerous benchmark tests, there was no faster
-implementation than the one from the Bioconductor
-`S4Vectors` package, which provides `S4Vectors::unstrsplit()`.
+`cPaste()` concatenates vectors in a list, using a delimiter,
+and it is among the fastest methods at the time it was developed.
+It extends `paste(x, collapse=",")`, while optionally calling
+`unique()` or `mixedSort()` in vectorized context.
 
-`cPasteU()` makes the values unique, inside each vector
-of the list.
+When available, it calls upon `S4Vectors::unstrsplit()` which
+provides a great boost of speed.
 
-`cPasteSU()` applies `mixedSort()` after making the
-values in each vector unique.
-
-The `mixedSort()` and `unique()` functions are applied
-in extended vector form, so each are applied only once
-even when operating on a long list of vectors,
-for example a list with >10,000 character vectors
-should take less than 1 second.
+* `cPasteU()` calls `unique()` for each vector (vectorized).
+* `cPasteS()` applies `mixedSort()` to each vector (vectorized).
+* `cPasteSU()` spplies sort and unique.
 
 These functions are very useful when operating on
 a list of gene symbols. For example, a vector of
@@ -619,10 +569,9 @@ data.frame(cPaste=cPaste(x),
 Jam extension to `args()`.
 
 If you ever used `args()` and found it difficult to read the
-jumble of function argument names, this function is for you!
-
-Also, if you ever work with functions that have a lot of
-arguments, you can search arguments by pattern.
+jumble of function argument names, this function is for you.
+Nothing special, but it puts each argument on a new line.
+It also allows searching by substring.
 
 ```{r, jargs}
 jargs(plotSmoothScatter)
@@ -655,5 +604,5 @@ L2 <- list(List1=L,
    List2=L);
 
 sdim(L2);
-ssdim(L2);
+ssdim(L2)
 ```

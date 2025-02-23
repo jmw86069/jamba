@@ -47,26 +47,31 @@
 #'    be abbreviated using `jamba::asSize(..., kiloSize=1000)` which
 #'    effectively reduces large numbers to `k` for thousands, `M` for
 #'    millions (M for Mega), `G` for billions (G for Giga), etc.
+#' @param show `integer` used when `m` is supplied as a `list` of matrices,
+#'    in which case `show` is used to define which values should be used
+#'    as cell labels. By default, all matrices are used.
+#' @param rot `numeric` value used to rotate cell label text, default 0
+#'    is horizontal.
+#' @param sep `character` string, default `"\n"` newline, used when
+#'    there are multiple labels per cell, which also requires
+#'    `m` as a list, and `show` is `NULL` or has multiple values.
 #' @param verbose `logical` indicating whether to print verbose output,
 #'    specifically printing label information for position `(1, 1)`.
 #'    This output will only be seen when rendering or building the
 #'    Heatmap object.
 #' @param ... additional arguments are ignored.
 #'
-#' @examples
-#' # Examples require ComplexHeatmap Bioconductor/github package
-#' # github:jokergoo/ComplexHeatmap
-#' if (check_pkg_installed("ComplexHeatmap")) {
+#' @examplesIf (check_pkg_installed("ComplexHeatmap"))
 #'
 #' m <- matrix(rnorm(16)*2, ncol=4)
 #' colnames(m) <- LETTERS[1:4]
 #' rownames(m) <- letters[1:4]
-#' col_hm <- circlize::colorRamp2(breaks=(-2:2) * 2,
-#'    colors=c("navy", "dodgerblue", "white", "tomato", "red4"))
+#' #col_hm <- circlize::colorRamp2(breaks=(-2:2) * 2,
+#' #   colors=c("navy", "dodgerblue", "white", "tomato", "red4"))
 #'
 #' # the heatmap can be created in one step
 #' hm <- ComplexHeatmap::Heatmap(m,
-#'    col=col_hm,
+#'    #col=col_hm,
 #'    heatmap_legend_param=list(
 #'       color_bar="discrete",
 #'       border=TRUE,
@@ -84,7 +89,6 @@
 #'    col=col_hm,
 #'    cell_fun=cell_fun)
 #' ComplexHeatmap::draw(hm2)
-#' }
 #'
 #' @export
 cell_fun_label <- function

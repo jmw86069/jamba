@@ -17,7 +17,7 @@ cPasteS(
 )
 }
 \arguments{
-\item{x}{input \code{list} of vectors}
+\item{x}{\code{list} of vectors}
 
 \item{sep}{\code{character} delimiter used to paste multiple values together}
 
@@ -27,7 +27,7 @@ using \code{\link[=mixedOrder]{mixedOrder()}}.}
 \item{makeUnique}{\code{logical} indicating whether to make each vector in
 the input list unique before pasting its values together.}
 
-\item{na.rm}{boolean indicating whether to remove NA values from
+\item{na.rm}{\code{logical} indicating whether to remove NA values from
 each vector in the input list. When \code{na.rm} is \code{TRUE} and a
 list element contains only \code{NA} values, the resulting string
 will be \code{""}.}
@@ -39,6 +39,10 @@ keeping factor level order. When
 are converted to factors. Note that this step combines overall
 factor levels, and non-factors will be ordered using
 \code{base::order()} instead of \code{jamba::mixedOrder()} (for now.)}
+
+\item{checkClass}{\code{logical}, default TRUE, whether to check the class
+of each vector in the input list. When FALSE it assumes all entries
+are \code{character}, which is fastest, but does not honor factor order.}
 
 \item{useBioc}{\code{logical} indicating whether this function should try
 to use \code{S4Vectors::unstrsplit()} when the Bioconductor package
@@ -53,42 +57,42 @@ Paste a list of vectors into a character vector, with values sorted
 then delimited by default with a comma.
 }
 \details{
-This function is convenient a wrapper for \code{cPaste(.., doSort=TRUE)}.
+This function is convenient a wrapper for \code{cPaste(..., doSort=TRUE)}.
 }
 \seealso{
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()},
-\code{\link{nameVectorN}()},
 \code{\link{nameVector}()},
+\code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}
 
 Other jam list functions: 
-\code{\link{cPasteSU}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

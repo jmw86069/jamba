@@ -7,11 +7,13 @@
 col2alpha(x, maxValue = 1, ...)
 }
 \arguments{
-\item{x}{R compatible color, either a color name, or hex value, or
-a mixture of the two. Any value compatible with \code{\link[grDevices]{col2rgb}}.}
+\item{x}{\code{character} R compatible color, either a color name, hex value, or
+a mixture of the two. Any value compatible with \code{grDevices::col2rgb()}.}
 
-\item{maxValue}{numeric maximum value to return, useful when the downstream
+\item{maxValue}{\code{numeric} maximum value to return, useful when the downstream
 alpha range should be 255. By default maxValue=1 is returned.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \description{
 Return the alpha transparency per R color
@@ -24,8 +26,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hcl2col}()},
 \code{\link{hsl2col}()},

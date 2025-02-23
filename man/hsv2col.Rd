@@ -9,6 +9,8 @@ hsv2col(hsvValue, ...)
 \arguments{
 \item{hsvValue}{HSV matrix, with rownames c("h","s","v") in any order,
 and optionally "alpha" rowname for alpha transparency.}
+
+\item{...}{additional arguments are ignored.}
 }
 \description{
 Converts a HSV color matrix to R hex color
@@ -41,8 +43,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hcl2col}()},
 \code{\link{hsl2col}()},

@@ -53,10 +53,12 @@
 #'    either as a character vector, or a factor. See the parameter
 #'    `groupOrder` for ordering of group labels in the output
 #'    data matrix.
-#' @param useMedian `logical` indicating whether the default
+#' @param na.rm `logical`, default TRUE, passed to the stats func
+#'    to ignore NA values.
+#' @param useMedian `logical`, default TRUE,  indicating whether the default
 #'    stat should be "mean" or "median".
-#' @param rmOutliers `logical` indicating whether to apply outlier
-#'    detection and removal.
+#' @param rmOutliers `logical`, default FALSE, indicating whether to
+#'    apply outlier detection and removal.
 #' @param crossGroupMad `logical` indicating whether to calculate
 #'    row MAD values using the median across groups for each row.
 #'    The median is calculated using non-NA and non-zero row group
@@ -69,14 +71,15 @@
 #'    will take the MAD value for a group multiplied by 5,
 #'    5*MAD, as a threshold for outliers. So any points more than
 #'    5*MAD distance from the median per group are outliers.
-#' @param returnType `character` value indicating the return data
-#'    type, `"output"` returns one summary stat value per group, per row;
-#'    `"input"` is useful when `rmOutliers=TRUE` in that it returns
+#' @param returnType `character`, default "output", the return data type:
+#'    * `"output"` returns one summary stat value per group, per row;
+#'    * `"input"` is useful when `rmOutliers=TRUE` in that it returns
 #'    a matrix with the same dimensions as the input, except with
 #'    outlier points replaced with NA.
-#' @param rowStatsFunc optional `function` which takes a numeric matrix
+#' @param rowStatsFunc `function`, default NULL, which takes a numeric matrix
 #'    as input, and returns a numeric vector equal to the number of
-#'    rows of the input data matrix. Examples: `base::rowMeans()`,
+#'    rows of the input data matrix. When supplied, `useMedian` is ignored.
+#'    Examples: `base::rowMeans()`,
 #'    `matrixStats::rowMedians()`, `matrixStats::rowMads`.
 #' @param groupOrder `character` string indicating how character group
 #'    labels are ordered in the final data matrix, when `returnType="output"`.
@@ -84,13 +87,13 @@
 #'    in that order. Otherwise, `"same"` keeps groups in the same
 #'    order they appear in the input matrix; `"sort"` applies
 #'    `jamba::mixedSort()` to the labels.
-#' @param keepNULLlevels `logical` indicating whether to keep factor
+#' @param keepNULLlevels `logical`, default FALSE,  whether to keep factor
 #'    levels even when there are no corresponding columns in `x`.
 #'    When `TRUE` and `returnType="output"` the output matrix will
 #'    contain one colname for each factor level, with NA values used
 #'    to fill empty factor levels. This mechanism can be helpful to
 #'    ensure that output matrices have consistent colnames.
-#' @param includeAttributes `logical` indicating whether to include
+#' @param includeAttributes `logical`, default FALSE, whether to include
 #'    attributes with `"n"` number of replicates per group, and `"nLabel"`
 #'    with replicate label in `n=#` form.
 #' @param verbose `logical` indicating whether to print verbose output.
@@ -190,7 +193,7 @@ rowGroupMeans <- function
       use_fn_type <- "custom";
    } else if (inherits(x, "sparseMatrix")) {
       is_sparse <- TRUE;
-      if (check_pkg_installed("sparseMatrixStats")) {
+      if (requireNamespace("sparseMatrixStats", quietly=TRUE)) {
          use_fn_type <- "sparseMatrixStats";
          fn_rowMedians <- sparseMatrixStats::rowMedians
          fn_rowMeans <- sparseMatrixStats::rowMeans2
@@ -199,7 +202,7 @@ rowGroupMeans <- function
             rowStatsFunc <- fn_rowMedians;
          }
       }
-   } else if (check_pkg_installed("matrixStats")) {
+   } else if (requireNamespace("matrixStats", quietly=TRUE)) {
       use_fn_type <- "matrixStats";
       fn_rowMedians <- matrixStats::rowMedians
       # fn_rowMeans <- function(x, na.rm=TRUE){base::rowMeans(x, na.rm=na.rm)}

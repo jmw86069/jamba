@@ -1,3 +1,17 @@
+# jamba 0.0.106.900
+
+## changes
+
+* Added methods, withr to Imports. Moved RColorBrewer to Imports.
+* Moved many packages to Enhances so they will not be installed unless
+necessary for the user Added circlize to Enhances.
+* Trimmed DESCRIPTION to CRAN guidance.
+* `cPaste()` fixed error when `S4Vector` is not installed.
+* `asSize()` enhanced docs, accepts R object and runs `object.size()`. Tests.
+* Fixed test for rowGroupMeans() with sparse Matrix.
+* Fixed `uniques()` for mixed list input when `useBioc=FALSE`, factor and
+character together converted factor to integer then character.
+
 # jamba 0.0.105.900
 
 ## bug fixes

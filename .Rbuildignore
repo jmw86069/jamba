@@ -1,8 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^READMEOLD\.Rmd$
+^README\.Rmd$
 ^README-.*\.png$
 ^docs$
 ^_pkgdown\.yml$
 prep_CRAN_release_dec2022.md
 ^LICENSE\.md$
+^TODO.*

@@ -25,6 +25,8 @@ useful for consistency. When \code{xCeiling} is not supplied, the
 maximum difference from \code{baseline} is used. When \code{xCeiling} is
 defined, and \code{baseline} is non-zero, the effective value used
 is \code{(xCeiling - baseline)}.}
+
+\item{...}{additional arguments are ignored.}
 }
 \description{
 Warp a vector of numeric values relative to zero

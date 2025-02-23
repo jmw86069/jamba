@@ -74,6 +74,8 @@ values.}
 
 \item{debug}{\code{integer} value, greater than 0 will cause debug-type verbose
 output, useful because parameters are hard!}
+
+\item{...}{Additional arguments are installed.}
 }
 \description{
 Show R function arguments jam-style
@@ -126,14 +128,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
@@ -147,8 +147,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},

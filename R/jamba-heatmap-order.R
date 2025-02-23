@@ -40,6 +40,8 @@
 #'
 #' @param hm `Heatmap` or `HeatmapList` object as defined by the
 #'    Bioconductor package via `ComplexHeatmap::Heatmap()`.
+#' @param which_heatmap `integer`, default NULL, used when the input
+#'    is a `HeatmapList` with multiple heatmaps.
 #'
 #' @examples
 #' # See heatmap_column_order() for examples
@@ -212,12 +214,14 @@ heatmap_row_order <- function
 #'    print(heatmap_column_order(hm1hm2_drawn, which_heatmap=1:2))
 #'
 #'    # stacked vertical heatmaps
-#'    hm1hm2_drawn_tall <- ComplexHeatmap::draw(ComplexHeatmap::`%v%`(hm1_split, hm2),
+#'    hm1hm2_drawn_tall <- ComplexHeatmap::draw(
+#'       ComplexHeatmap::`%v%`(hm1_split, hm2),
 #'       ht_gap=grid::unit(1, "cm"));
 #'    print(heatmap_row_order(hm1hm2_drawn))
 #'    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=2))
 #'    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=1:2))
-#'    print(heatmap_row_order(hm1hm2_drawn, which_heatmap=names(hm1hm2_drawn@ht_list)))
+#'    print(heatmap_row_order(hm1hm2_drawn,
+#'       which_heatmap=names(hm1hm2_drawn@ht_list)))
 #'
 #'    # annotation heatmap
 #'    ha <- ComplexHeatmap::rowAnnotation(left=rownames(mat))
@@ -231,7 +235,9 @@ heatmap_row_order <- function
 #'    hm1_ha <- ComplexHeatmap::Heatmap(mat,
 #'       left_annotation=ha,
 #'       column_split=3, row_split=3, border=TRUE);
-#'    hm1hm2_drawn_tall <- ComplexHeatmap::draw(ComplexHeatmap::`%v%`(ta, ComplexHeatmap::`%v%`(hm1_ha, hm2)),
+#'    hm1hm2_drawn_tall <- ComplexHeatmap::draw(
+#'       ComplexHeatmap::`%v%`(ta,
+#'          ComplexHeatmap::`%v%`(hm1_ha, hm2)),
 #'       ht_gap=grid::unit(1, "cm"));
 #'    print(sdim(hm1hm2_drawn_tall@ht_list))
 #'    print(heatmap_row_order(hm1hm2_drawn_tall))
@@ -251,9 +257,11 @@ heatmap_column_order <- function
          "from the ComplexHeatmap Bioconductor package."));
    }
    if (!check_pkg_installed("ComplexHeatmap")) {
-      stop(paste("This function requires the ComplexHeatmap Bioconductor package.",
+      stop(paste(
+         "This function requires the ComplexHeatmap Bioconductor package.",
          "Install with \"BiocManager::install('ComplexHeatmap')\".",
-         "BiocManageer can be installed with with \"install.packages('BiocManager')\"."));
+         "BiocManager can be installed with",
+         "\"install.packages('BiocManager')\"."));
    }
    if ("HeatmapList" %in% class(hm)) {
       # convert logical to numeric vector

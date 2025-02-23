@@ -25,7 +25,7 @@
 #' @param direction `numeric` that defines the initial direction,
 #'    where values >= 0 start by making colors lighter, and values < 0
 #'    make colors darker.
-#' @param Lmax,L_min `numeric` values that define the permitted range
+#' @param L_max,L_min `numeric` values that define the permitted range
 #'    of L values in HSL color space, which ranges from 0 to 100.
 #' @param returnType `character` string that defines the output of this
 #'    function:

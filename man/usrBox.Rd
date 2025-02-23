@@ -9,22 +9,23 @@ usrBox(
   label = NULL,
   parUsr = par("usr"),
   debug = FALSE,
-  add = FALSE,
   ...
 )
 }
 \arguments{
-\item{fill}{character R color used to fill the background of the plot}
+\item{fill}{\code{character} R color used to fill the background of the plot}
 
-\item{label}{character text optionally used to label the center of the
-plot space.}
+\item{label}{\code{character} text optionally used to label the center of the
+plot space, default \code{NULL}}
 
-\item{parUsr}{numeric vector length 4, indicating the R plot space,
+\item{parUsr}{\code{numeric} vector length 4, indicating the R plot space,
 consistent with \code{par("usr")}. It can thus be used to define a
 different area, though using the \code{\link[graphics]{rect}} function
 directly seems more appropriate.}
 
-\item{debug}{logical whether to print the parUsr value being used.}
+\item{debug}{\code{logical} whether to print the parUsr value being used.}
+
+\item{...}{additional arguments are ignored.}
 }
 \description{
 Draw colored box indicating the active R plot space
@@ -60,8 +61,8 @@ Other jam plot functions:
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()}

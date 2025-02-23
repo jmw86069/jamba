@@ -20,6 +20,9 @@
 #' @param items optional `character` vector of items to include
 #'    in the output `data.frame`. Note that these items should be
 #'    available in the environment `envir`.
+#' @param use_utils_objectsize `logical`, default TRUE, whether to prefer
+#'    `utils::object.size()`, otherwise it will attempt to use
+#'    `pryr::object_size()` if the package is installed.
 #' @param all.names `logical` passed to `base::ls()` indicating whether
 #'    to include all names, where `all.names=TRUE` will include
 #'    hidden objects whose name begin with `"."` such as `".First"`.
@@ -46,7 +49,7 @@ lldf <- function
 {
    # light check for pryr package without using require()
    if (!use_utils_objectsize &&
-         nchar(system.file(package="pryr")) > 0) {
+         requireNamespace("pryr", quietly=TRUE)) {
       osfun <- pryr::object_size;
    } else {
       osfun <- utils::object.size;

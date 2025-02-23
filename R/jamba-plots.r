@@ -180,7 +180,7 @@
 #'
 #' # so it can be plotted again with different settings
 #' colnames(x) <- c("column_1", "column_2")
-#' plotSmoothScatter(x, colramp="inferno");
+#' plotSmoothScatter(x, colramp="RdBu_r");
 #'
 #' @export
 plotSmoothScatter <- function
@@ -273,20 +273,20 @@ plotSmoothScatter <- function
       oPar <- par("mfrow"=c(2,2), "mar"=c(2,3,4,1));
       on.exit(par(oPar));
       smoothScatter(x2,
-         main="smoothScatter default (using colramp blues9)",
+         main="smoothScatter default\n(using colramp blues9)",
          asp=asp,
          ylab="",
          xlab="");
       plotSmoothScatter(x2,
          colramp=colramp,
          fillBackground=fillBackground,
-         main="plotSmoothScatter",
+         main="plotSmoothScatter\ndefault",
          asp=asp,
          ...);
       plotSmoothScatter(x2,
          colramp=c("white", blues9),
          fillBackground=fillBackground,
-         main="plotSmoothScatter (using colramp blues9)",
+         main="plotSmoothScatter\n(using colramp blues9)",
          asp=asp,
          ...);
       xy <- plotSmoothScatter(x2,
@@ -295,7 +295,7 @@ plotSmoothScatter <- function
          bandwidthN=bandwidthN * 1.5,
          binpi=binpi * 1.5,
          fillBackground=fillBackground,
-         main="plotSmoothScatter with increased bandwidth and bin",
+         main="plotSmoothScatter\nwith increased bandwidth and bin",
          asp=asp,
          ...);
       return(invisible(x2));
@@ -605,7 +605,7 @@ smoothScatterJam <- function
  y=NULL,
  nbin=256,
  bandwidth,
- colramp=colorRampPalette(c("white",
+ colramp=grDevices::colorRampPalette(c("white",
     "lightblue",
     "blue",
     "orange",
@@ -740,7 +740,7 @@ smoothScatterJam <- function
 #' Create a blank plot with optional labels for margins
 #'
 #' This function creates an empty plot space, using the current
-#' \code{\link[graphics]{par}} settings for margins, text size, etc. By default
+#' `graphics::par()` settings for margins, text size, etc. By default
 #' it displays a box around the plot window, and labels the margins and
 #' plot area for review. It can be useful as a visual display of various
 #' base graphics settings, or to create an empty plot window with pre-defined
@@ -748,48 +748,46 @@ smoothScatterJam <- function
 #' which uses a defined background color, which can be a useful precursor to
 #' drawing an image density which may not cover the whole plot space.
 #'
-#' The doBoxes=TRUE functionality was adapted from Earl F. Glynn's margin
-#' tutorial:
-#' \link{http://research.stowers.org/mcm/efg/R/Graphics/Basics/mar-oma/index.htm}
-#' with much respect for his effective visual.
-#'
 #' @family jam plot functions
 #'
-#' @param xaxt character value compatible with \code{options(xaxt)}
-#' @param yaxt character value compatible with \code{options(xaxt)}
-#' @param xlab character x-axis label
-#' @param ylab character y-axis label
-#' @param col character colors passed to \code{plot()}
-#' @param xlim numeric x-axis range
-#' @param ylim numeric y-axis range
-#' @param las integer value indicating whether axis labels should be
+#' @param xaxt `character` value compatible with`options("xaxt")`
+#' @param yaxt `character` value compatible with `options("xaxt")`
+#' @param xlab `character` x-axis label
+#' @param ylab `character` y-axis label
+#' @param col `character` colors passed to `plot()`
+#' @param xlim `numeric` x-axis range
+#' @param ylim `numeric` y-axis range
+#' @param las `integer` value indicating whether axis labels should be
 #'    parallel (1) or perpendicular (2) to the axis line.
-#' @param doBoxes logical whether to draw annotated boxes around the plot
+#' @param doBoxes `logical` whether to draw annotated boxes around the plot
 #'    and inner and outer margins.
-#' @param doUsrBox logical whether to draw a colored bow indicating the
-#'    exact plot space, using the function \code{\link{usrBox}}.
-#' @param fill character R color used to fill the background of the plot
-#'    as used by \code{\link{usrBox}}.
-#' @param doAxes logical whether to draw default x- and y-axes.
-#' @param doMargins logical whether to label margins, only active when
+#' @param doUsrBox `logical` whether to draw a colored bow indicating the
+#'    exact plot space, using the function `usrBox()`.
+#' @param fill `character` R color used to fill the background of the plot
+#'    as used by `usrBox()`.
+#' @param doAxes `logical` whether to draw default x- and y-axes.
+#' @param doMargins `logical` whether to label margins, only active when
 #'    doBoxes=TRUE.
-#' @param plotAreaTitle character label printed in the center of the plot
+#' @param marginUnit `character` indicating the units used for margin labels.
+#' @param plotAreaTitle `character` label printed in the center of the plot
 #'    area.
 #' @param plotSrt numeric angle for the plotAreaTitle, which is good for
 #'    labeling this plot with vertical text when displaying a plot panel
 #'    inside a grid layout, where the plot is taller than it is wide.
-#' @param plotNumPrefix character or integer label appended as suffix to
+#' @param plotNumPrefix `character` or integer label appended as suffix to
 #'    margin labels, which is useful when annotating multiple plots in a
 #'    grid layout, where labels are sometimes quite close together. This
 #'    label is but a simple attempt to sidestep the real problem of fitting
 #'    labels inside each visual component.
-#' @param bty character passed to the basic \code{plot()} function, usually
-#'    bty="n" suppresses the default box, which can then be optionally drawn
-#'    based upon the doBoxes parameter.
-#' @param showMarginsOnly logical whether to create a new plot or to annotate
+#' @param bty `character` passed `plot()`, default `"n"` suppresses
+#'    the default box, which can then be optionally drawn
+#'    based upon the `doBoxes` parameter.
+#' @param showMarginsOnly `logical` whether to create a new plot or to annotate
 #'    an existing active plot.
-#' @param add logical whether to add to an existing active R plot, or create
+#' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
+#' @param ... additional arguments are ignored.
+#'
 #' @examples
 #' nullPlot()
 #'
@@ -1043,14 +1041,15 @@ nullPlot <- function
 #' The plot space is defined using \code{par("usr")} and therefore requires
 #' an active R device is already opened.
 #'
-#' @param fill character R color used to fill the background of the plot
-#' @param label character text optionally used to label the center of the
-#'    plot space.
-#' @param parUsr numeric vector length 4, indicating the R plot space,
+#' @param fill `character` R color used to fill the background of the plot
+#' @param label `character` text optionally used to label the center of the
+#'    plot space, default `NULL`
+#' @param parUsr `numeric` vector length 4, indicating the R plot space,
 #'    consistent with \code{par("usr")}. It can thus be used to define a
 #'    different area, though using the \code{\link[graphics]{rect}} function
 #'    directly seems more appropriate.
-#' @param debug logical whether to print the parUsr value being used.
+#' @param debug `logical` whether to print the parUsr value being used.
+#' @param ... additional arguments are ignored.
 #'
 #' @family jam plot functions
 #'
@@ -1065,7 +1064,6 @@ usrBox <- function
  label=NULL,
  parUsr=par("usr"),
  debug=FALSE,
- add=FALSE,
  ...)
 {
    ## Purpose is to draw a rectangle, filled transparent yellow,
@@ -1094,62 +1092,70 @@ usrBox <- function
 #' known in the default \code{\link[graphics]{image}} function as \code{oldstyle=TRUE}.
 #' For consistency, \code{imageDefault} will only accept \code{oldstyle=TRUE}.
 #'
-#' @param x location of grid lines at which the intervals in z are measured.
-#' @param y location of grid lines at which the intervals in z are measured.
-#' @param z numeric or logical matrix containing the values to be plotted,
+#' @param x `numeric` location of grid lines at which the intervals
+#'    in z are measured.
+#' @param y `numeric` location of grid lines at which the intervals
+#'    in z are measured.
+#' @param z `numeric` or logical matrix containing the values to be plotted,
 #'    where NA values are allowed.
-#' @param zlim numeric range allowed for values in z.
-#' @param xlim numeric range to plot on the x-axis, by default the x range.
-#' @param ylim numeric range to plot on the y-axis, by default the y range.
-#' @param col character vector of colors to be mapped to values in z.
-#' @param add logical whether to add to an existing active R plot, or create
+#' @param zlim `numeric` range allowed for values in z.
+#' @param xlim `numeric` range to plot on the x-axis, by default the x range.
+#' @param ylim `numeric` range to plot on the y-axis, by default the y range.
+#' @param col `character` vector of colors to be mapped to values in z.
+#' @param add `logical` whether to add to an existing active R plot, or create
 #'    a new plot window.
-#' @param xaxs character value compatible with par(xaxs), mainly useful
+#' @param xaxs `character` value compatible with par(xaxs), mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    range, most useful to restrict the axis range expansion done by R
 #'    by default.
-#' @param yaxs character value compatible with par(yaxs), mainly useful
+#' @param yaxs `character` value compatible with par(yaxs), mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    range, most useful to restrict the axis range expansion done by R
 #'    by default.
-#' @param xaxt character value compatible with par(xaxt), mainly useful
+#' @param xaxt `character` value compatible with par(xaxt), mainly useful
 #'    for suppressing the x-axis, in order to produce a custom x-axis
 #'    by other mechanisms, e.g. log-scaled x-axis tick marks.
-#' @param yaxt character value compatible with par(yaxt), mainly useful
+#' @param yaxt `character` value compatible with par(yaxt), mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    by other mechanisms, e.g. log-scaled y-axis tick marks.
-#' @param ylab character label for the y-axis
-#' @param xlab character label for the x-axis
-#' @param breaks numeric vector of breakpoints for colors.
-#' @param oldstyle logical whether to delineate axis coordinates with an
+#' @param ylab `character` label for the y-axis
+#' @param xlab `character` label for the x-axis
+#' @param breaks `numeric` vector of breakpoints for colors.
+#' @param flip `character` string, default "none", with optional axis flip:
+#'    * none: perform no axis flip
+#'    * x: flip x-axis orientation
+#'    * y: flip y-axis orientation
+#'    * xy: flip both x- and y-axis orientation
+#' @param oldstyle `logical` whether to delineate axis coordinates with an
 #'    integer spacing for each column and row. Note: the only allowed parameter
 #'    is TRUE, since useRaster=TRUE requires it. Therefore, this function
 #'    for consistency will only output this format.
-#' @param useRaster logical whether to force raster image scaling, which
+#' @param useRaster `logical` whether to force raster image scaling, which
 #'    is especially useful for large data matrices. In this case a bitmap
 #'    raster image is created instead of polygons, then the bitmap is scaled
 #'    to fit the plot space. Otherwise, individual polygons can be obscured
 #'    on monitor screens, or may result in an extremely large file size when
 #'    writing to vector image format such as PDF or SVG.
-#' @param fixRasterRatio logical whether to implement a simple workaround
+#' @param fixRasterRatio `logical` whether to implement a simple workaround
 #'    to the requirement for square pixels, in the event the x- and y-axis
 #'    dimensions are not roughly equal.
-#' @param maxRatioFix integer maximum number of times any axis may be
+#' @param maxRatioFix `integer` maximum number of times any axis may be
 #'    replicated to create a matrix of roughly equal x- and y-axis dimensions.
-#' @param minRasterMultiple integer minimum number of times the x- and y-axis
+#' @param minRasterMultiple `integer` minimum number of times the x- and y-axis
 #'    will be duplicated, which is mostly useful when creating useRaster=TRUE
 #'    for small matrix sizes, otherwise the result will be quite blurry. For
 #'    example, minRasterMultiple=10 will duplicate each axis 10 times. Values
 #'    are aplied to rows then columns. These values are automatically defined
 #'    if minRasterMultiple is NULL and rasterTarget is not NULL.
-#' @param rasterTarget integer number of cells below which cells are duplicated
+#' @param rasterTarget `integer` number of cells below which cells are duplicated
 #'    in order to maintain detail. The default 200 defines
 #'    minRasterMultiple=c(1,1) if there are 200 rows and 200 columns, or
 #'    minRasterMultiple=c(1,100) if there are 200 rows but 2 columns.
-#' @param interpolate logical whether to implement image interpolation,
+#' @param interpolate `logical` whether to implement image interpolation,
 #'    by default TRUE when useRaster=TRUE.
-#' @param verbose logical whether to enable verbose output, useful for
+#' @param verbose `logical` whether to enable verbose output, useful for
 #'    debugging.
+#' @param ... Additional arguments are ignored.
 #'
 #' @family jam plot functions
 #'
@@ -1178,7 +1184,7 @@ imageDefault <- function
  xlab,
  ylab,
  breaks,
- flip=c("none","x","y","xy"),
+ flip=c("none", "x", "y", "xy"),
  oldstyle=TRUE,
  useRaster=NULL,
  fixRasterRatio=TRUE,
@@ -1597,7 +1603,6 @@ imageDefault <- function
          oldstyle=oldstyle,
          useRaster=FALSE,
          ...)
-      # .External.graphics(graphics:::C_image, x, y, zi, col);
       return(invisible(list(
          x=x,
          y=y,
@@ -1664,6 +1669,8 @@ imageDefault <- function
 #'    so that shadows will overlap previous labels; `"all"` draws all shadows
 #'    first then all labels, so labels will always appear above all
 #'    shadows. See examples.
+#' @param cex `numeric` scalar applied to font size, default `par("cex")`.
+#' @param font `character` applied to font family, default `par("font")`.
 #' @param ... other parameters are passed to \code{\link[graphics]{text}}.
 #'    Note that certain parameters are not vectorized in that function,
 #'    such as \code{srt} which requires only a fixed value. To rotate each
@@ -1891,16 +1898,18 @@ shadowText <- function
 #'
 #' @family jam plot functions
 #'
-#' @param x vector of axis labels
-#' @param margin single integer value indicating which margin to adjust,
+#' @param x `character` vector of axis labels
+#' @param margin `integer` value indicating which margin to adjust,
 #'    using the order by \code{par("mar")}, 1=bottom, 2=left, 3=top,
 #'    4=right.
-#' @param maxFig fraction less than 1, indicating the maximum size of margin
-#'    relative to the figure size. Setting margins too large results in an
-#'    error otherwise.
-#' @param cex numeric or NULL, sent to \code{\link[graphics]{strwidth}} when
+#' @param maxFig `numeric` fraction less than 1, indicating the maximum
+#'    size of margin relative to the figure size. Setting margins too
+#'    large results in an error otherwise.
+#' @param cex `numeric` or NULL, sent to `graphics::strwidth()` when
 #'    calculating the string width of labels in inches.
-#' @param prefix character string used to add whitespace around the axis label.
+#' @param cex.axis `numeric`, default uses par("cex.axis"), to define the
+#'    axis label size.
+#' @param prefix `character` string used to add whitespace around the axis label.
 #' @param ... additional parameters are ignored.
 #'
 #' @returns invisible `numeric` margin size in inches, corresponding
@@ -2086,6 +2095,8 @@ adjustAxisLabelMargins <- function
 #'    vertical and horizontal positions, respectively.
 #'    These values are mostly helpful in multi-panel plots,
 #'    to draw consistent reference lines on each panel.
+#' @param ablineVcol,ablineHcol, default"#44444499", with the abline
+#'    color, used when `ablineV` or `ablineH` are supplied, respectively.
 #' @param ablineVlty,ablineHlty `numeric` or `character` indicating the
 #'    line type to use for `ablineV` and `ablineH`, respectively.
 #' @param removeNA `logical` indicating whether to remove NA values
@@ -3047,10 +3058,17 @@ breakDensity <- function
 #'    to cex=1 for default text size. These factors are applied in
 #'    addition to existing `par("cex")` values, preserving any
 #'    global text size defined there.
+#' @param doMajor,doLabels,doMinorLabels `logical`, default TRUE, to display
+#'    each type of label. Major labels appear at log base positions,
+#'    minor labels appear as intermediate values.
+#' @param asValues `logical`, default TRUE, whether to print the
+#'    exponentiated value, otherwise FALSE will print the log value.
+#' @param logStep `integer` the number of log units per "step", typically `1`.
 #' @param cex,col,col.ticks,las parameters used for axis label size,
 #'    axis label colors,
 #'    axis tick mark colors, and label text orientation, respectively.
 #' @param verbose logical indicating whether to print verbose output.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' plotPolygonDensity(0:100, breaks=100);
@@ -3290,22 +3308,22 @@ minorLogTicksAxis <- function
 #' text(y=rep(1.0, 4), x=log2(1+x1), label=x1, srt=90, adj=c(0,0.5));
 #' points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
 #'
-#' @param side integer value indicating which axis to produce tick
+#' @param side `integer` value indicating which axis to produce tick
 #'    marks, 1=bottom, 2=left, 3=top, 4=right.
-#' @param lims numeric vector length=2, indicating specific numeric
+#' @param lims `numeric` vector length=2, indicating specific numeric
 #'    range to use for tick marks.
-#' @param logBase numeric value indicating the logarithmic base, assumed
+#' @param logBase `numeric` value indicating the logarithmic base, assumed
 #'    to be applied to the numeric `lims` limits, or the axis range,
 #'    previously.
-#' @param displayBase numeric value indicating the base used to position
+#' @param displayBase `numeric` value indicating the base used to position
 #'    axis labels, typically `displayBase=10` is used to draw labels
 #'    at typical positions.
-#' @param logStep integer value indicating the number of log steps
+#' @param logStep `integer` value indicating the number of log steps
 #'    between major axis label positions. Typically `logStep=1` will
 #'    draw a label every log position based upon `displayBase`, for
 #'    example `displayBase=10` and `logStep=1` will use `c(1,10,100,1000)`;
 #'    and `displayBase=10` and `logStep=2` would use `c(1,100,10000)`.
-#' @param minorWhich integer vector of values to label, where those
+#' @param minorWhich `integer` vector of values to label, where those
 #'    integer values are between 1 and `displayBase`, for example
 #'    `displayBase=10` may label only `c(2,5)`, which implies minor
 #'    tick labels at `c(2, 5, 20, 50, 200, 500)`. Any minor labels
@@ -3313,20 +3331,28 @@ minorLogTicksAxis <- function
 #'    By default, when `displayBase=2`, `minorWhich=c(1.5)` which has the
 #'    effect of drawing one minor label between each two-fold
 #'    major tick label.
-#' @param asValues logical indicating whether to create exponentiated
+#' @param asValues `logical` indicating whether to create exponentiated
 #'    numeric labels. When `asValues=FALSE`, it creates `expression` objects
 #'    which include the exponential value. Use `asValues=FALSE` and
 #'    `logAxisType="pvalue"` to draw P-value labels.
-#' @param offset numeric value added during log transformation, typically
+#' @param offset `numeric` value added during log transformation, typically
 #'    of the form `log(1 + x)` where `offset=1`. The offset is used to
 #'    determine the accurate numeric label such that values of `0` are
 #'    properly labeled by the original numeric value.
-#' @param symmetricZero logical indicating whether numeric values
+#' @param symmetricZero `logical` indicating whether numeric values
 #'    are symmetric around zero. For example, log fold changes should
 #'    use `symmetricZero=TRUE` which ensures a log2 value of `-2` is
 #'    labeled `-4` to indicate a negative four fold change. If
 #'    `symmetricZero=FALSE` a log2 value of `-2` would be labeled
 #'    `0.0625`.
+#' @param col,col.ticks `character` color used for the axis label, and
+#'    axis tick marks, respectively, default "black".
+#' @param combine `logical`, default FALSE, whether to combine major and
+#'    minor ticks into one continuous set of major tick marks.
+#' @param logAxisType `character` string indicating the type of log axis:
+#'    * normal: typical axis style and orientation
+#'    * flipped: used for reverse orientation
+#'    * pvalue: used for `-log10(pvalue)` orientation.
 #' @param verbose logical indicating whether to print verbose output.
 #' @param ... additional parameters are ignored.
 #'
@@ -3474,7 +3500,7 @@ minorLogTicks <- function
    ## Confirm that the labels are unique
    cleanLTdf <- function(df) {
       df <- df[rev(seq_len(nrow(df))),,drop=FALSE];
-      df <- subset(df, !(is.infinite(tick) | is.na(tick)));
+      df <- subset(df, !(is.infinite(df$tick) | is.na(df$tick)));
       df <- df[match(unique(df$label), df$label),,drop=FALSE];
       df <- df[match(unique(df$tick), df$tick),,drop=FALSE];
       df <- df[rev(seq_len(nrow(df))),,drop=FALSE];

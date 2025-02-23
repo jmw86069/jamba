@@ -84,6 +84,14 @@
 #'    Excel xlsx worksheet name. At this time (version 0.0.29.900) the
 #'    sheetName is restricted to 31 characters, with no puntuation except
 #'    "-" and "_".
+#' @param startRow,startCol `integer` indicating the row and column number
+#'    to start with the top,left cell written to the worksheet,
+#'    default are 1.
+#' @param append `logical` default FALSE, whether to append to file (TRUE),
+#'    or to write over an existing file. The `append=TRUE` is useful when
+#'    adding a worksheet to an existing file.
+#' @param wrapCells `logical` default FALSE, indicating whether to
+#'    enable word-wrap within cells.
 #' @param headerColors,columnColors,highlightHeaderColors,highlightColors,borderColor,borderPosition
 #'    default values for the Excel worksheet background and border
 #'    colors. As of version 0.0.29.900, colors must use Excel-valid
@@ -908,7 +916,7 @@ writeOpenxlsx <- function
 #'    character string indicating the type of conditional rule to apply,
 #'    which in most cases should be "colourScale" which allows three numeric
 #'    thresholds, and three corresponding colors. For other allowed values,
-#'    see \code{\link{openxlsx::conditionalFormatting}}.
+#'    see `openxlsx::conditionalFormatting()`.
 #' @param verbose logical indicating whether to print verbose output.
 #' @param startRow integer indicating which row to begin applying conditional
 #'    formatting. In most cases startRow=2, which allows one row for column
@@ -1372,9 +1380,9 @@ applyXlsxCategoricalFormat <- function
    }
 
    ## Internal custom wrapper function to create xlsx styles
-   #' @returns `list` named by the primary fill color of each cell,
-   #'    containing a `openxlsx::style` object suitable for use
-   #'    by `openxlsx::addStyle()`.
+   ##' @returns `list` named by the primary fill color of each cell,
+   ##'    containing a `openxlsx::style` object suitable for use
+   ##'    by `openxlsx::addStyle()`.
    create_matching_styles <- function
    (colorSub,
     colorSubText=NULL,
@@ -1422,9 +1430,9 @@ applyXlsxCategoricalFormat <- function
       colorSubStyles
    }
    ## Internal function to get row/cell coordinates for each unique color
-   #' @returns `list` named by style, by default the hex color with no alpha
-   #'    where each element is a `matrix` with colnames `row` and `col`
-   #'    indicating individual row/column coordinate positions.
+   ##' @returns `list` named by style, by default the hex color with no alpha
+   ##'    where each element is a `matrix` with colnames `row` and `col`
+   ##'    indicating individual row/column coordinate positions.
    define_matching_style_cells <- function
    (rangeMatch)
    {
@@ -1447,17 +1455,17 @@ applyXlsxCategoricalFormat <- function
       return(catRes)
    }
    ## Internal function to apply styles to cell coordinates
-   #' @param style_coord_list `list` named by unique hex R colors,
-   #'    containing `matrix` objects with colnames `c("row", "col")`
-   #'    with individual cell positions to apply the corresponding style
-   #' @param styles_list `list` named by hex R color, containing
-   #'    `openxlsx::style` objects using the corresponding color as
-   #'    the background fill color.
-   #' @param wb,sheet,stack arguments passed to `openxlsx::addStyle()`
-   #' @param verbose `logical` indicating whether to print verbose output.
-   #'
-   #' @returns `NULL`, this function is called for the by-product
-   #'    of adjusting
+   ## param style_coord_list `list` named by unique hex R colors,
+   ##    containing `matrix` objects with colnames `c("row", "col")`
+   ##    with individual cell positions to apply the corresponding style
+   ## param styles_list `list` named by hex R color, containing
+   ##    `openxlsx::style` objects using the corresponding color as
+   ##    the background fill color.
+   ## param wb,sheet,stack arguments passed to `openxlsx::addStyle()`
+   ## param verbose `logical` indicating whether to print verbose output.
+   ##
+   ## returns `NULL`, this function is called for the by-product
+   ##    of adjusting
    apply_matching_styles <- function
    (style_coord_list,
     styles_list,
@@ -1955,6 +1963,9 @@ readOpenxlsx <- function
  verbose=FALSE,
  ...)
 {
+   if (!suppressPackageStartupMessages(require(openxlsx))) {
+      stop("The openxlsx package is required for readOpenxlsx().");
+   }
    if (length(xlsx) == 0 || !file.exists(xlsx)) {
       stop("xlsx file not found.");
    }

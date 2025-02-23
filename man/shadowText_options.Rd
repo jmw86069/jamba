@@ -90,9 +90,6 @@ from this preset, except with custom color.
 \item{verbose}{\code{logical} indicating whether to print verbose output}
 
 \item{...}{additional arguments are ignored.}
-
-\item{reset}{\code{logical} indicating whether to reset values to their
-respective defaults, prior to applying any other updates}
 }
 \value{
 \code{list} with the following options for \code{shadowText()}:

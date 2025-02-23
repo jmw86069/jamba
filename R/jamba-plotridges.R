@@ -52,7 +52,7 @@
 #'    `ggridges::geom_density_ridges2()`.
 #' @param ... additional arguments are ignored.
 #'
-#' @examples
+#' @examplesIf (requireNamespace("ggridges", quietly=TRUE))
 #' # multiple columns
 #' set.seed(123);
 #' xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
@@ -147,7 +147,7 @@ plotRidges <- function
 
    if (length(color_sub) < length(levels(x$column))) {
       n <- length(levels(x$column));
-      if (check_pkg_installed("colorjam")) {
+      if (requireNamespace("colorjam", quietly=TRUE)) {
          color_sub <- nameVector(
             colorjam::rainbowJam(n=n),
             rev(levels(x$column)));
@@ -175,16 +175,21 @@ plotRidges <- function
 
    ###########################################
    # prepare ggplot output
+   x[, "column"] <- x$column;
+   x[, "value"] <- x$value;
    gg <- ggplot2::ggplot(x,
       ggplot2::aes(x=value,
          y=column,
          color=column,
          fill=column)) +
-      colorjam::theme_jam() +
       ggplot2::scale_color_manual(
          values=jamba::makeColorDarker(color_sub,
             darkFactor=1.5)) +
       ggplot2::scale_fill_manual(values=color_sub);
+   if (requireNamespace("colorjam", quietly=TRUE)) {
+      gg <- gg +
+         colorjam::theme_jam();
+   }
    if (share_bandwidth) {
       gg <- gg +
          ggridges::geom_density_ridges2(

@@ -3,7 +3,7 @@
 #'
 #' sort alphanumeric values keeping numeric values in proper order
 #'
-#' This function is a refactor of `gtools::mixedsort()`, a clever bit of
+#' This function is a refactor of `gtools` mixedsort(), a clever bit of
 #' R coding from the `gtools` package. It was extended to make it slightly
 #' faster, and to handle special cases slightly differently.
 #' It was driven by the need to sort gene symbols, miRNA symbols, chromosome
@@ -11,8 +11,8 @@
 #'
 #' \describe{
 #'    \item{test set:}{miR-12,miR-1,miR-122,miR-1b,mir-1a}
-#'    \item{\code{gtools::mixedsort}:}{miR-122,miR-12,miR-1,miR-1a,mir-1b}
-#'    \item{\code{mixedSort}:}{miR-1,miR-1a,miR-1b,miR-12,miR-122}
+#'    \item{gtools::mixedsort:}{miR-122,miR-12,miR-1,miR-1a,mir-1b}
+#'    \item{mixedSort:}{miR-1,miR-1a,miR-1b,miR-12,miR-122}
 #' }
 #'
 #' The function does not by default recognize negative numbers as negative,
@@ -76,6 +76,9 @@
 #'    sorted by factor level.
 #' @param useCaseTiebreak `logical` indicating whether to break ties
 #'    when `ignore.case=TRUE`, using mixed case as a tiebreaker.
+#' @param honorFactor `logical`, default TRUE, indicating whether to honor
+#'    factor level order in the output, otherwise when FALSE it sorts
+#'    as `character`.
 #' @param sortByName `logical` whether to sort the vector x by names(x) instead
 #'    of sorting by x itself.
 #' @param verbose `logical` whether to print verbose output.
@@ -163,7 +166,7 @@ mixedSort <- function
 #'
 #' order alphanumeric values keeping numeric values in proper order
 #'
-#' This function is a refactor of `gtools::mixedorder()` which was
+#' This function is a refactor of `gtools` mixedorder() which was
 #' the source of inspiration for this function, thanks to Gregory R. Warnes!
 #' This function was designed to improve the efficiency for large vectors,
 #' and to handle special cases slightly differently. It was driven by some
@@ -198,7 +201,7 @@ mixedSort <- function
 #'    of columns used during the sort.}
 #' }
 #'
-#' Extra thanks to Gregory R. Warnes for the `gtools::mixedorder()`
+#' Extra thanks to Gregory R. Warnes for the `gtools` mixedorder()
 #' that proved to be so useful it ultimately inspired this function.
 #'
 #' @return `integer` vector of orders derived from x,
@@ -741,6 +744,11 @@ mixedOrder <- function
 #'    By default, in the event only one matrix object is supplied,
 #'    this conversion is performed, in order to define a sort order based upon
 #'    each column in order, consistent with behavior of `data.frame` input.
+#' @param decreasing `logical`, default FALSE, used to reverse the sort order.
+#' @param NAlast `logical` deprecated in favor of argument `na.last`
+#'    for consistency with `base::sort()`.
+#' @param honorFactor `logical`, default TRUE, used to enforce factor level
+#'    sort order, when FALSE it sorts as `character`.
 #'
 #' @family jam string functions
 #'
@@ -917,9 +925,12 @@ mmixedOrder <- function
 #'    will be returned in the same order they were provided in `df`.
 #' @param verbose `logical` whether to print verbose output. When
 #'    `verbose=2` there is slightly more verbose output.
-#' @param blanksFirst,na.last,keepNegative,keepInfinite,keepDecimal,ignore.case,useCaseTiebreak,sortByName
+#' @param blanksFirst,keepNegative,keepInfinite,keepDecimal,ignore.case,useCaseTiebreak,sortByName
 #'    arguments passed to `mmixedOrder()`, except `sortByName` which is not
 #'    passed along.
+#' @param honorFactor `logical`, default TRUE, indicating whether to honor
+#'    factor level order in the output, otherwise when FALSE it sorts
+#'    as `character`.
 #' @param ... additional arguments passed to `mmixedOrder()` for custom
 #'    sort options as described in `mixedSort()`.
 #'

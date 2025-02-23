@@ -22,7 +22,7 @@ return the classes of a list of objects
 This function takes a \code{list} and returns the classes for each
 object in the list. In the event an object class has multiple values,
 the returned object is a list, otherwise is a vector.
-If \code{x} is an S4 object, then \code{slotNames(x)} is used, and
+If \code{x} is an S4 object, then \code{methods::slotNames(x)} is used, and
 the class is returned for each S4 slot.
 
 When \code{x} is a \code{data.frame}, \code{data.table}, \code{tibble}, or similar
@@ -53,14 +53,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -75,18 +73,18 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sdim}()},
 \code{\link{setPrompt}()}
 
 Other jam list functions: 
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

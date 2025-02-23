@@ -20,7 +20,7 @@ cPaste(
 )
 }
 \arguments{
-\item{x}{input \code{list} of vectors}
+\item{x}{\code{list} of vectors}
 
 \item{sep}{\code{character} delimiter used to paste multiple values together}
 
@@ -30,7 +30,7 @@ using \code{\link[=mixedOrder]{mixedOrder()}}.}
 \item{makeUnique}{\code{logical} indicating whether to make each vector in
 the input list unique before pasting its values together.}
 
-\item{na.rm}{boolean indicating whether to remove NA values from
+\item{na.rm}{\code{logical} indicating whether to remove NA values from
 each vector in the input list. When \code{na.rm} is \code{TRUE} and a
 list element contains only \code{NA} values, the resulting string
 will be \code{""}.}
@@ -42,6 +42,10 @@ keeping factor level order. When
 are converted to factors. Note that this step combines overall
 factor levels, and non-factors will be ordered using
 \code{base::order()} instead of \code{jamba::mixedOrder()} (for now.)}
+
+\item{checkClass}{\code{logical}, default TRUE, whether to check the class
+of each vector in the input list. When FALSE it assumes all entries
+are \code{character}, which is fastest, but does not honor factor order.}
 
 \item{useBioc}{\code{logical} indicating whether this function should try
 to use \code{S4Vectors::unstrsplit()} when the Bioconductor package
@@ -56,6 +60,8 @@ legacy process used by \code{cPaste()}.}
 When \code{honorFactor=FALSE} then even \code{factor} vectors are sorted
 as if they were \code{character} vectors, ignoring the factor levels.}
 
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
+
 \item{...}{additional arguments are passed to \code{mixedOrder()} when
 \code{doSort=TRUE}.}
 }
@@ -68,13 +74,13 @@ Paste a list of vectors into a character vector, with values
 delimited by default with a comma.
 }
 \details{
-This function is essentially a wrapper for \code{\link[S4Vectors:character-utils]{S4Vectors::unstrsplit()}}
+This function is essentially a wrapper for \code{S4Vectors::unstrsplit()}
 except that it also optionally applies uniqueness to each vector
-in the list, and sorts values in each vector using \code{\link[=mixedOrder]{mixedOrder()}}.
+in the list, and sorts values in each vector using \code{mixedOrder()}.
 
 The sorting and uniqueness is applied to the \code{unlist}ed vector of
 values, which is substantially faster than any \code{apply} family function
-equivalent. The uniqueness is performed by \code{\link[=uniques]{uniques()}}, which itself
+equivalent. The uniqueness is performed by \code{uniques()}, which itself
 will use \code{S4Vectors::unique()} if available.
 }
 \examples{
@@ -138,36 +144,36 @@ levels(unlist(L[c(2,3)]))
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
 \code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
+\code{\link{cPasteSU}()},
 \code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()},
-\code{\link{nameVectorN}()},
 \code{\link{nameVector}()},
+\code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},
 \code{\link{uniques}()}
 
 Other jam list functions: 
-\code{\link{cPasteSU}()},
 \code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
+\code{\link{cPasteSU}()},
 \code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

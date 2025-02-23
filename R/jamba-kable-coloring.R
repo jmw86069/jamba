@@ -155,7 +155,7 @@ kable_coloring <- function
    ## required to colorize text fields in a data.frame
    ##
    ## The input is expected to be a data.frame
-   if (!check_pkg_installed("kableExtra")) {
+   if (!requireNamespace("kableExtra", quietly=TRUE)) {
       stop("kable_coloring() requires the kableExtra package.");
    }
    return_type <- match.arg(return_type);
@@ -340,7 +340,7 @@ kable_coloring <- function
             printDebug("kable_coloring(): ",
                "colorizing rows:",
                which_rows,
-               closestRcolor(row_color),
+               row_color,
                fgText=c("orange",
                   "lightblue",
                   "orange",

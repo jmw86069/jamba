@@ -24,10 +24,19 @@ names in the returned results.}
 sent to \code{S4Vectors::unique()} when the Bioconductor package
 \code{S4Vectors} is installed, and is ignored otherwise for efficiency.}
 
-\item{useBioc}{boolean indicating whether this function should try
-to use \code{S4Vectors::unique()} when the Bioconductor package
-\code{S4Vectors} is installed, otherwise it will use a somewhat less
-efficient bulk operation.}
+\item{useBioc}{\code{logical}, default TRUE,  indicating whether this
+function should try to use \code{S4Vectors::unique()} when the
+Bioconductor package \code{S4Vectors} is installed, otherwise it will
+use a somewhat less efficient bulk operation.}
+
+\item{useSimpleBioc}{\code{logical}, default FALSE, whether to use a legacy
+mechanism with \code{S4Vectors} and is maintained for edge cases where
+it might be faster.}
+
+\item{xclass}{\code{character} optional vector of classes, used to invoke
+optimized logic when the class is known upfront.}
+
+\item{...}{additional arguments are ignored.}
 }
 \value{
 \code{list} with unique values in each list element.
@@ -71,37 +80,37 @@ print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=TRUE)));
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()},
-\code{\link{nameVectorN}()},
 \code{\link{nameVector}()},
+\code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()}
 
 Other jam list functions: 
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

@@ -14,25 +14,25 @@ gsubs(
 )
 }
 \arguments{
-\item{pattern}{character vector of patterns}
+\item{pattern}{\code{character} vector of patterns}
 
-\item{replacement}{character vector of replacements}
+\item{replacement}{\code{character} vector of replacements}
 
-\item{x}{character vector with input data to be curated}
+\item{x}{\code{character} vector with input data to be curated}
 
-\item{ignore.case}{logical indicating whether to perform
+\item{ignore.case}{\code{logical} indicating whether to perform
 pattern matching in case-insensitive manner, where
 \code{ignore.case=TRUE} will ignore the uppercase/lowercase
 distinction.}
 
-\item{...}{additional arguments are passed to \code{base::gsub()}
-or \code{base::sub()}.}
-
-\item{replace_multiple}{logical vector indicating whether to perform
-global substitution, where \code{replace_multiple=FALSE} will
+\item{replaceMultiple}{\code{logical} vector indicating whether to perform
+global substitution, where \code{replaceMultiple=FALSE} will
 only replace the first occurrence of the pattern, using
 \code{base::sub()}. Note that this vector can refer to individual
 entries in \code{pattern}.}
+
+\item{...}{additional arguments are passed to \code{base::gsub()}
+or \code{base::sub()}.}
 }
 \value{
 \code{character} vector when input \code{x} is an atomic vector,
@@ -72,26 +72,26 @@ replaced with \code{character} values at output, consistent with \code{gsub()}.
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()},
-\code{\link{nameVectorN}()},
 \code{\link{nameVector}()},
+\code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},

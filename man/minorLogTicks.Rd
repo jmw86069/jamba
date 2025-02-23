@@ -23,27 +23,27 @@ minorLogTicks(
 )
 }
 \arguments{
-\item{side}{integer value indicating which axis to produce tick
+\item{side}{\code{integer} value indicating which axis to produce tick
 marks, 1=bottom, 2=left, 3=top, 4=right.}
 
-\item{lims}{numeric vector length=2, indicating specific numeric
+\item{lims}{\code{numeric} vector length=2, indicating specific numeric
 range to use for tick marks.}
 
-\item{logBase}{numeric value indicating the logarithmic base, assumed
+\item{logBase}{\code{numeric} value indicating the logarithmic base, assumed
 to be applied to the numeric \code{lims} limits, or the axis range,
 previously.}
 
-\item{displayBase}{numeric value indicating the base used to position
+\item{displayBase}{\code{numeric} value indicating the base used to position
 axis labels, typically \code{displayBase=10} is used to draw labels
 at typical positions.}
 
-\item{logStep}{integer value indicating the number of log steps
+\item{logStep}{\code{integer} value indicating the number of log steps
 between major axis label positions. Typically \code{logStep=1} will
 draw a label every log position based upon \code{displayBase}, for
 example \code{displayBase=10} and \code{logStep=1} will use \code{c(1,10,100,1000)};
 and \code{displayBase=10} and \code{logStep=2} would use \code{c(1,100,10000)}.}
 
-\item{minorWhich}{integer vector of values to label, where those
+\item{minorWhich}{\code{integer} vector of values to label, where those
 integer values are between 1 and \code{displayBase}, for example
 \code{displayBase=10} may label only \code{c(2,5)}, which implies minor
 tick labels at \code{c(2, 5, 20, 50, 200, 500)}. Any minor labels
@@ -52,22 +52,35 @@ By default, when \code{displayBase=2}, \code{minorWhich=c(1.5)} which has the
 effect of drawing one minor label between each two-fold
 major tick label.}
 
-\item{asValues}{logical indicating whether to create exponentiated
+\item{asValues}{\code{logical} indicating whether to create exponentiated
 numeric labels. When \code{asValues=FALSE}, it creates \code{expression} objects
 which include the exponential value. Use \code{asValues=FALSE} and
 \code{logAxisType="pvalue"} to draw P-value labels.}
 
-\item{offset}{numeric value added during log transformation, typically
+\item{offset}{\code{numeric} value added during log transformation, typically
 of the form \code{log(1 + x)} where \code{offset=1}. The offset is used to
 determine the accurate numeric label such that values of \code{0} are
 properly labeled by the original numeric value.}
 
-\item{symmetricZero}{logical indicating whether numeric values
+\item{symmetricZero}{\code{logical} indicating whether numeric values
 are symmetric around zero. For example, log fold changes should
 use \code{symmetricZero=TRUE} which ensures a log2 value of \code{-2} is
 labeled \code{-4} to indicate a negative four fold change. If
 \code{symmetricZero=FALSE} a log2 value of \code{-2} would be labeled
 \code{0.0625}.}
+
+\item{col, col.ticks}{\code{character} color used for the axis label, and
+axis tick marks, respectively, default "black".}
+
+\item{combine}{\code{logical}, default FALSE, whether to combine major and
+minor ticks into one continuous set of major tick marks.}
+
+\item{logAxisType}{\code{character} string indicating the type of log axis:
+\itemize{
+\item normal: typical axis style and orientation
+\item flipped: used for reverse orientation
+\item pvalue: used for \code{-log10(pvalue)} orientation.
+}}
 
 \item{verbose}{logical indicating whether to print verbose output.}
 
@@ -152,14 +165,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -173,8 +184,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},

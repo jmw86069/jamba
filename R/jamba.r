@@ -1,126 +1,5 @@
 #'
-#' jamba: Jam Base Methods
-#'
-#' The jamba package contains several jam base functions
-#' which are re-usable for routine R analysis work, and are
-#' important dependencies for other Jam R packages.
-#'
-#' The goal will be to
-#' maintain these methods as lightweight as possible, so
-#' their inclusion in an analysis workflow will not incur
-#' a noticeable burden.
-#'
-#' The sections and functions below are not comprehensive, but
-#' provide examples of useful functions. The most highly-used functions
-#' are: [printDebug()], [vigrep()], [nameVector()] with [makeNames()],
-#' [pasteByRow()], [showColors()].
-#'
-#' @section plot functions:
-#'    * Enhanced [graphics::smoothScatter()] with [plotSmoothScatter()].
-#'    * Enhanced [graphics::image()] with [imageDefault()]
-#'    for rasterized heatmaps that preserve aspect ratio for non-square
-#'    images; [imageByColors()] for `data.frame` of colors and optional
-#'    labels, which by default places unique labels centered within a block of
-#'    repeated values.
-#'    * Quick color display [showColors()] for vector or list of color vectors.
-#'    * Quick blank plot [nullPlot()] with optional labeling of margins.
-#'    * Log-scaled axis labels `minorLogTicksAxis()`.
-#'    * Text labels using a border outline [shadowText()] for visible contrast.
-#'    * Base plot wrappers [getPlotAspect()], [decideMfrow()].
-#'
-#' @section string functions:
-#'    * Alphanumeric sort with [mixedSort()], [mixedOrder()], [mixedSortDF()]
-#'    * Custom wrappers to [grep()] for value-return [vgrep()], [vigrep()];
-#'    case-insensitive pattern search [igrep()], [vigrep()];
-#'    and grep with an ordered vector of patterns [provigrep()], [proigrep()].
-#'    * Name manipulations: make unique names with defined syntax
-#'    [makeNames()]; applying names to a vector [nameVector()];
-#'    named vector of names [nameVectorN()] useful with [lapply()].
-#'    * Row-wise concatenation from `data.frame` or `matrix` [pasteByRow()]
-#'    optionally skipping blank values; list to matrix without filling
-#'    missing values [rbindList()].
-#'    * Sorted [base::table()] with optional filter [tcount()].
-#'
-#' @section color functions:
-#'    * Color interconversion functions designed to be reversible, e.g.
-#'    [col2hcl()] and [col2hcl()].
-#'    * Set text contrast color for labels on colored background
-#'    [setTextContrastColor()].
-#'    * Color wrapper functions [makeColorDarker()], [getColorRamp()],
-#'    [showColors()].
-#'
-#' @section miscellaneous helper functions:
-#'    * Colored text output [printDebug()], colored R prompt [setPrompt()],
-#'    vectorized text styling [make_styles()].
-#'    * Interconversion from degrees to radians [deg2rad()], [rad2deg()].
-#'    * Simple date string functions [getDate()], [asDate()],
-#'    [dateToDaysOld()], [isDate()], [fileInfo()].
-#'    * Padding character strings or integers with leading or trailing
-#'    values [padString()], [padInteger()].
-#'    * Removing or editing missing values in place: [rmNA()],
-#'    [rmNULL()], [rmInfinite()].
-#'
-#' @section Jam options:
-#'    The `jamba` package recognizes some global options, but limits these
-#'    options to include only non-analysis options. For example, no global
-#'    option should change the numerical manipulation of data.
-#'    * `jam.lightMode` - boolean, defines whether the text background
-#'       is light (`TRUE` is bright) or dark (`FALSE` is dark) mainly for the
-#'       purpose of restricting text output colors from `printDebug` so
-#'       they have visible contrast.
-#'    * `jam.adjustRgb` - numerical setting used as a small adjustment of
-#'       colors used by the `crayon` functions to produce ANSI color text.
-#'
-#' @family jam practical functions
-#'
-#' @docType package
-#' @name jamba
-NULL
 
-#' file information in data.frame format
-#'
-#' file information in data.frame format
-#'
-#' This function is a minor extension to `file.info()` in that it
-#' adds the filename as a proper colname, and "size" which contains a text
-#' file size.
-#'
-#' @return `data.frame` with file information, including "filename" and "size"
-#'    as additional colnames as compared to `file.info()` output.
-#'
-#' @param fileList character vector with one or more file paths.
-#'
-#' @family jam practical functions
-#'
-#' @export
-fileInfo <- function
-(fileList,
- ...)
-{
-   # Purpose is to wrapper file.info() so it returns a pretty tabular
-   # summary for one or more files.
-   # One cool pattern to follow is to list files contained within a package:
-   # colsHead(fileInfo(list.files(path=find.package("jamba"), full.names=TRUE)))
-   fileList <- path.expand(fileList);
-   fi1 <- file.info(fileList, ...);
-
-   # convert size to readable label
-   fi1[,"size"] <- asSize(fi1[,"size"]);
-
-   fi1 <- data.frame(
-      check.names=FALSE,
-      stringsAsFactors=FALSE,
-      "filename"=rownames(fi1),
-      fi1);
-
-   # Left-justify the text by right-padding with spaces
-   # making it easier to read
-   fi1$filename <- format(
-      fi1$filename,
-      justify="left")
-
-   return(fi1);
-}
 
 #' prefix integers with leading zeros
 #'
@@ -1147,6 +1026,7 @@ groupedAxis <- function
 #' @param zeroVal `character` single-digit to be used whenever `x==0`, or as a
 #'    prefix for negative values. In theory there should be no negative
 #'    input values, but this basic mechanism is used to handle the possibility.
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' colNum2excelName(1:30)
@@ -1514,9 +1394,10 @@ tcount2 <- function
 #'    styles. When this argument is not NULL, it applies both the foreground
 #'    `style` and background `bg_style` together, and therefore ignores
 #'    `Crange` and `Lrange` settings.
-#' @param colors `integer` number of colors allowed for console output.
-#' @param satCutoff `numeric` cutoff for color saturation, below which a color
-#'    is considered grey and the ANSI greyscale color set is used.
+#' @param colors `integer`, default NULL, number of colors for console output,
+#'    when NULL it calls `crayon::num_colors()` to detect console
+#'    capabilities.
+#' @param grey `logical`, default FALSE, whether to use greyscale.
 #' @param Cgrey `numeric` chroma (C) value, which defines grey colors at or
 #'    below this chroma. Any colors at or below the grey cutoff will have
 #'    use ANSI greyscale coloring. To disable, set `Cgrey=-1`.
@@ -1563,7 +1444,7 @@ make_styles <- function
  bg=FALSE,
  bg_style=NULL,
  grey=FALSE,
- colors=num_colors(),
+ colors=NULL,
  Cgrey=getOption("jam.Cgrey", 5),
  lightMode=NULL,
  Crange=getOption("jam.Crange"),
@@ -1618,6 +1499,9 @@ make_styles <- function
       setOptions <- as.character(setOptions);
    }
 
+   if (length(colors) == 0) {
+      colors <- crayon::num_colors()
+   }
    if (length(Cgrey) == 0) {
       Cgrey <- -1;
    }
@@ -1866,10 +1750,10 @@ make_styles <- function
                ", bg_contrast:", bg_contrast,
                ", rgb2col(ibgStyle):", rgb2col(ibgStyle)));
          }
-         make_style(rgb2col(ibgStyle),
+         crayon::make_style(rgb2col(ibgStyle),
             bg=TRUE,
             colors=colors)(
-               make_style(bg_contrast,
+               crayon::make_style(bg_contrast,
                   bg=FALSE,
                   colors=colors)(iText)
             );
@@ -1880,10 +1764,10 @@ make_styles <- function
                "bg style and fg style applied to text:",
                iText));
          }
-         make_style(rgb2col(ibgStyle),
+         crayon::make_style(rgb2col(ibgStyle),
             bg=TRUE,
             colors=colors)(
-               make_style(rgb2col(iStyle),
+               crayon::make_style(rgb2col(iStyle),
                   bg=FALSE,
                   colors=colors)(iText)
             );
@@ -1907,7 +1791,7 @@ make_styles <- function
             print(paste0("make_styles(): ",
                "iGrey:", iGrey));
          }
-         make_style(rgb2col(iStyle),
+         crayon::make_style(rgb2col(iStyle),
             bg=bg[i],
             colors=colors,
             grey=iGrey)(iText);
@@ -1997,6 +1881,7 @@ make_styles <- function
 #' @param verbose `logical` whether to print verbose output.
 #' @param debug `integer` value, greater than 0 will cause debug-type verbose
 #'    output, useful because parameters are hard!
+#' @param ... Additional arguments are installed.
 #'
 #' @examples
 #' args(jargs)
@@ -2163,6 +2048,7 @@ jargs <- function
 #' @param useCollapseBase `character` string used to separate multiple
 #'    values in a vector which is not split across multiple lines.
 #' @param level `integer` indicating the level of depth in iterative parsing.
+#' @param ... Additional arguments are ignored.
 #'
 handleArgsText <- function
 (argTextA,
@@ -2588,7 +2474,9 @@ handleArgsText <- function
          deTextA[whichMid] <- as.character(deTextA[whichMid]);
          deTextA[whichEnds] <- as.character(deTextA[whichEnds]);
       }
-      aText <- paste(i, paste(deTextA, collapse=" "), sep=" = ");
+      # 0.0.106.900 - 'i' was replaced with 'name' since 'i' does not exist
+      # aText <- paste(i, paste(deTextA, collapse=" "), sep=" = ");
+      aText <- paste(name, paste(deTextA, collapse=" "), sep=" = ");
    } else if ("logical" %in% class(argTextA)) {
       ##
       ## Class is logical, we colorize TRUE and FALSE
@@ -2956,7 +2844,7 @@ deg2rad <- function
 #'
 #' This function prints the dimensions of a list of objects, usually a `list`
 #' of `data.frame` objects, but extended to handle more complicated lists,
-#' including even S4 object `slotNames()`.
+#' including even S4 object `methods::slotNames()`.
 #'
 #' Over time, more object types will be made compatible with this function.
 #' Currently, `igraph` objects will print the number of nodes and edges, but
@@ -2968,7 +2856,7 @@ deg2rad <- function
 #'    * an S3 atomic object, which returns only the length
 #'    * a single multi-dimensional object such as `data.frame`, `matrix`,
 #'    `array`, `tibble`, or similar, which returns only its dimensions.
-#'    * an `S4` object in which case it used `slotNames(x)`
+#'    * an `S4` object in which case it used `methods::slotNames(x)`
 #'    to traverse the object structure
 #'    * an `"environment"` object, in which case `ls(envir=x)` is
 #'    used to traverse the object structure.
@@ -2976,10 +2864,11 @@ deg2rad <- function
 #'    `S4Vectors` package, it will attempt to use the proper subset
 #'    functions from `S4Vectors` via `names(x)`, but that process only works
 #'    properly if the `S4Vectors` package is previously loaded,
-#'    otherwise it reverts to using `slotNames(x)`.
+#'    otherwise it reverts to using `methods::slotNames(x)`.
 #' @param includeClass `logical` indicating whether to print the class of
-#'    each element in the input \code{x} object. Note that for S4 objects,
-#'    each element will be the object returned for each of \code{slotNames(x)}.
+#'    each element in the input `x` object. Note that for S4 objects,
+#'    each element will be the object returned for each of
+#'    `methods::slotNames(x)`.
 #' @param doFormat `logical` indicating whether to format the dimensions using
 #'    \code{format(...,big.mark=",")}, which is mainly useful for extremely
 #'    large dimensions. This parameter should probably become more broadly
@@ -3095,7 +2984,7 @@ sdim <- function
 
    ## Special case for S4 objects with only one slotName ".Data"
    if (isS4(x)) {
-      sn1 <- slotNames(x);
+      sn1 <- methods::slotNames(x);
       xn1 <- names(x);
       if (".Data" %in% sn1 && length(sn1) == 1) {
          if (verbose) {
@@ -3103,7 +2992,7 @@ sdim <- function
                "Coercing S4 class using ",
                "list(x@.Data)");
          }
-         xl <- slot(x, ".Data");
+         xl <- methods::slot(x, ".Data");
          ## If there are no names, and the names(x) are the
          ## proper length, assign names(x) to the list we create.
          if (length(names(xl)) == 0 && length(xl) == length(xn1)) {
@@ -3135,7 +3024,7 @@ sdim <- function
                "names(x)");
          }
       } else {
-         sn1 <- nameVector(slotNames(x));
+         sn1 <- nameVector(methods::slotNames(x));
          if (verbose) {
             printDebug("sdim(): ",
                "Coercing S4 class using ",
@@ -3146,7 +3035,7 @@ sdim <- function
          if (is_List) {
             i <- x[[sni]];
          } else {
-            i <- slot(x, sni);
+            i <- methods::slot(x, sni);
          }
          iDim <- getDim(i,
             doFormat=doFormat,
@@ -3286,7 +3175,7 @@ ssdim <- function
 
    ## Special case for S4 objects with only one slotName ".Data"
    if (isS4(x)) {
-      sn1 <- slotNames(x);
+      sn1 <- methods::slotNames(x);
       xn1 <- names(x);
       if (".Data" %in% sn1 && length(sn1) == 1) {
          if (verbose) {
@@ -3294,7 +3183,7 @@ ssdim <- function
                "Coercing S4 class using ",
                "list(x@.Data)");
          }
-         xl <- slot(x, ".Data");
+         xl <- methods::slot(x, ".Data");
          ## If there are no names, and the names(x) are the
          ## proper length, assign names(x) to the list we create.
          if (length(names(xl)) == 0 && length(xl) == length(xn1)) {
@@ -3335,13 +3224,13 @@ ssdim <- function
                verbose=verbose);
          });
       } else {
-         lapply(nameVector(slotNames(x)), function(iName){
+         lapply(nameVector(methods::slotNames(x)), function(iName){
             if (verbose) {
                printDebug("ssdim(): ",
                   "slotName iName:",
                   iName);
             }
-            sdim(slot(x, iName),
+            sdim(methods::slot(x, iName),
                includeClass=includeClass,
                doFormat=doFormat,
                big.mark=big.mark,
@@ -3402,7 +3291,7 @@ ssdim <- function
 #' This function takes a `list` and returns the classes for each
 #' object in the list. In the event an object class has multiple values,
 #' the returned object is a list, otherwise is a vector.
-#' If `x` is an S4 object, then `slotNames(x)` is used, and
+#' If `x` is an S4 object, then `methods::slotNames(x)` is used, and
 #' the class is returned for each S4 slot.
 #'
 #' When `x` is a `data.frame`, `data.table`, `tibble`, or similar
@@ -3442,18 +3331,18 @@ sclass <- function
    ## If the object is not "list" class, and has slotNames(x), then
    ## they will be used instead
    if (isS4(x)) {
-      sn1 <- slotNames(x);
+      sn1 <- methods::slotNames(x);
       xn1 <- names(x);
       if (".Data" %in% sn1 && length(sn1) == 1) {
          ## Special case of x@.Data containing a list
-         xl <- slot(x, ".Data");
+         xl <- methods::slot(x, ".Data");
          if (length(xl) == length(xn1)) {
             names(xl) <- xn1;
          }
          x <- xl;
       } else {
          sd1 <- sapply(sn1, function(sni){
-            class(slot(x, sni));
+            class(methods::slot(x, sni));
          });
       }
    }
@@ -3623,6 +3512,7 @@ normScale <- function
 #'    maximum difference from `baseline` is used. When `xCeiling` is
 #'    defined, and `baseline` is non-zero, the effective value used
 #'    is `(xCeiling - baseline)`.
+#' @param ... additional arguments are ignored.
 #'
 #' @family jam numeric functions
 #'
@@ -4317,6 +4207,8 @@ mergeAllXY <- function
 #'    used to define names.
 #' @param unnamedBase `character` value used as a base for naming any
 #'    un-named lists, using the format `makeNamesFunc(rep(unnamedBase, n))`.
+#' @param parentName `character` with optional prefix, used as parent name,
+#'    default is NULL.
 #' @param sep `character` delimiter used between nested list names.
 #' @param makeNamesFunc `function` that takes a character vector and returns
 #'    non-duplicated character vector of equal length. By default it
@@ -4556,7 +4448,7 @@ log2signed <- function
 #' @return numeric vector of exponentiated values.
 #'
 #' @param x `numeric` vector
-#' @param numeric `offset`, subtracted from exponentiated values
+#' @param offset `numeric` subtracted from exponentiated values
 #'    prior to multiplying by the `sign(x)`.
 #' @param base `numeric` value indicating the logarithmic base used.
 #'    For example `base=2` indicates values were transformed using
@@ -4641,7 +4533,7 @@ heads <- function
       return(x)
    }
    if (length(x) == 1) {
-      x[[1]] <- head(x[[1]], n=head(n, 1), ..,);
+      x[[1]] <- head(x[[1]], n=head(n, 1), ...);
       return(x);
    }
    if (!is.atomic(x[[1]]) || !is.atomic(x[[(length(x))]])) {

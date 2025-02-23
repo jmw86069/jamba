@@ -37,65 +37,69 @@ drawLabels(
 )
 }
 \arguments{
-\item{txt}{character vector of labels, length equal to \code{x} and \code{y}.}
+\item{txt}{\code{character} vector of labels, length equal to \code{x} and \code{y}.}
 
-\item{newCoords}{optional \code{data.frame} typically as a result of
+\item{newCoords}{\code{data.frame} optional, typically as a result of
 a previous call to \code{drawLabels()}. In general, it should contain
 colnames equivalent to the function parameters of \code{drawLabels()}.}
 
-\item{x, y}{vector of x- and y- coordinates.}
+\item{x, y}{\code{numeric} vector of x- and y- coordinates.}
 
-\item{lx, ly}{optional vector of segment endpoint coordinates, used
+\item{lx, ly}{\code{numeric} optional vector of segment endpoint coordinates, used
 to draw a line from x,y coordinates to the segment lx,ly coordinate.}
 
-\item{segmentLwd, segmentCol}{vector of segment line widths, and colors,
-respectively. Each vector will be recycled to \code{length(txt)} as
-needed.}
+\item{segmentLwd, segmentCol}{\code{numeric} vector of segment line widths,
+and \code{character} colors, respectively.
+Each vector will be recycled to \code{length(txt)} as needed.}
 
-\item{drawSegments}{logical whether to draw segments, where applicable.}
+\item{drawSegments}{\code{logical} whether to draw segments, where applicable.}
 
-\item{boxBorderColor}{vector of colors used for the box border around
-each label.}
+\item{boxBorderColor}{\code{character} vector of colors used for the
+box border around each label.}
 
-\item{boxColor}{vector of colors used for the box background behind
-each label.}
+\item{boxColor}{\code{character} vector of colors used for the box background
+behind each label.}
 
-\item{boxLwd}{vector of box line widths, sent to \code{graphics::rect()},
-this vector will be recycled to \code{length(txt)}.}
+\item{boxLwd}{\code{numeric} vector of box line widths, sent to
+\code{graphics::rect()}, this vector will be recycled to \code{length(txt)}.}
 
-\item{drawBox}{logical whether to draw boxes behind each text label.}
+\item{drawBox}{\code{logical} whether to draw boxes behind each text label.}
 
-\item{drawLabels}{logical whether to draw each text label.}
+\item{drawLabels}{\code{logical} whether to draw each text label.}
 
-\item{font}{vector of font values as described in \code{graphics::par()},
-where 1=normal, 2=bold, 3=italics, 4=bold-italics.}
+\item{font}{\code{integer} vector of font values as described in
+\code{graphics::par()}, where 1=normal, 2=bold, 3=italics, 4=bold-italics.}
 
-\item{labelCex}{vector of cex values used for text labels. This vector
-will be recycled to \code{length(txt)} as needed.}
+\item{labelCex}{\code{numeric} vector of cex values used for text labels,
+recycled to \code{length(txt)} as needed.}
 
-\item{boxCexAdjust}{numeric vector length=2, used to expand the x-width
+\item{boxCexAdjust}{\code{numeric} vector length=2, used to expand the x-width
 and y-height of the box around around text labels.}
 
-\item{labelCol}{vector of label colors, by default it calls
+\item{labelCol}{\code{character} vector of label colors, by default it calls
 \code{jamba::setTextContrastColor()} to generate a color to contrast
 the background box color.}
 
-\item{doPlot}{logical whether to perform any plot operations. Set
+\item{doPlot}{\code{logical} whether to perform any plot operations. Set
 \code{FALSE} to calculate coordinates and return a \code{data.frame} of
 label coordinates, which can then be manipulated before calling
 \code{drawLabels()} again.}
 
-\item{xpd}{value compatible with \code{par("xpd")}, where NA allows labels
+\item{xpd}{\code{logical} value compatible with \code{par("xpd")}, where NA allows labels
 anywhere in the device region, TRUE retricts labels within the figure
 region, and FALSE restricts labels within the plot region.}
 
-\item{preset}{vector of text values used to position text labels relative
+\item{preset}{\code{character} vector passed to \code{coordPresets()}
+used to position text labels relative
 to the x,y coordinate, where "topleft" will position the label so the
 entire label box is top-left of the point, therefore the point will be
 at the bottom-right corner of the label box. When \code{preset} is anything
 by \code{"none"} the \code{adjX} and \code{adjY} values are ignored.}
 
-\item{adjX, adjY}{the text adjustment of labels relative to the x,y
+\item{preset_type, adjPreset}{\code{character} passed to \code{coordPresets()} to
+define orientation of each label relative to the \code{x},\code{y} coordinate.}
+
+\item{adjX, adjY}{\code{numeric} the text adjustment of labels relative to the x,y
 coordinate. The values are recycled to \code{length(txt)}.}
 
 \item{panelWidth}{\code{character} string or vector, recycled to the number
@@ -116,10 +120,10 @@ necessary to fit the text label
 the plot panel width
 }}
 
-\item{trimReturns}{logical whether to trim leading and trailing return
+\item{trimReturns}{\code{logical} whether to trim leading and trailing return
 (newline) characters from labels.}
 
-\item{verbose}{logical whether to print verbose output.}
+\item{verbose}{\code{logical} whether to print verbose output.}
 
 \item{...}{additional arguments are passed to \code{graphics::segments()} when
 segments are drawn, to \code{graphics::rect()} when label boxes are drawn,
@@ -219,8 +223,8 @@ Other jam plot functions:
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},

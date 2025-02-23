@@ -7,22 +7,23 @@
 nameVector(x, y = NULL, makeNamesFunc = makeNames, ...)
 }
 \arguments{
-\item{x}{vector input, or data.frame, matrix, or tibble with two columns,
-the second column is used to name values in the first column.}
+\item{x}{\code{character} vector, or \code{data.frame} or equivalent
+(matrix, or tibble) with two columns, the second column
+is used to name values in the first column.}
 
-\item{y}{NULL or character vector of names. If NULL then x is used.
+\item{y}{\code{character} or NULL, with names. If NULL then x is used.
 Note that y is recycled to the length of x, prior to being sent
 to the makeNamesFunc.
 In fringe cases, y can be a matrix, data.frame, or tibble, in which
-case \code{\link{pasteByRow}} will be used to create a character string
+case \code{pasteByRow()} will be used to create a character string
 to be used for vector names. Note this case is activated only when x
 is not a two column matrix, data.frame, or tibble.}
 
-\item{makeNamesFunc}{function to make names unique, by default
-\code{\link{makeNames}} which ensures names are unique.}
+\item{makeNamesFunc}{\code{function} to make names unique, by default
+\code{makeNames()} which ensures names are unique.}
 
-\item{...}{passed to \code{\link{makeNamesFunc}}, or to
-\code{\link{pasteByRow}} if y is a two column data.frame, matrix, or
+\item{...}{passed to \code{makeNamesFunc}, or to
+\code{pasteByRow()} if y is a two column data.frame, matrix, or
 tibble. Thus, \code{sep} can be defined here as a delimiter between
 column values.}
 }
@@ -70,26 +71,26 @@ nameVector(V, df);
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
 \code{\link{mixedOrder}()},
+\code{\link{mixedSort}()},
 \code{\link{mixedSortDF}()},
 \code{\link{mixedSorts}()},
-\code{\link{mixedSort}()},
 \code{\link{mmixedOrder}()},
 \code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
 \code{\link{padString}()},
-\code{\link{pasteByRowOrdered}()},
 \code{\link{pasteByRow}()},
+\code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
 \code{\link{ucfirst}()},

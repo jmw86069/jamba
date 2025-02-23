@@ -17,12 +17,16 @@ Any values that do not match \code{colnames(x)} are ignored.}
 \item{to}{\code{character} vector with \code{length(to) == length(from)}
 corresponding to the target name for any colnames that
 match \code{from}.}
+
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \value{
 \code{data.frame} or object equivalent to the input \code{x},
 with columns \code{from} renamed to values in \code{to}. For genomic
 ranges objects such as \code{GRanges} and \code{IRanges}, the colnames
-are updated in \code{IRanges::values(x)}.
+are updated in \code{S4Vectors::values(x)}.
 }
 \description{
 Rename columns in a data.frame, matrix, tibble, or GRanges object
@@ -36,7 +40,7 @@ function again without problem.
 
 This function will also recognize input objects \code{GRanges},
 \code{ucscData}, and \code{IRanges}, which store annotation in \code{DataFrame}
-accessible via \code{IRanges::values()}. Note the \code{IRanges} package
+accessible via \code{S4Vectors::values()}. Note the \code{IRanges} package
 is required, for its generic function \code{values()}.
 
 The values supplied in \code{to} and \code{from} are converted from \code{factor}
@@ -65,14 +69,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -86,8 +88,8 @@ Other jam practical functions:
 \code{\link{newestFile}()},
 \code{\link{printDebug}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},

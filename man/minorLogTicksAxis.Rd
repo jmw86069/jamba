@@ -67,6 +67,13 @@ to cex=1 for default text size. These factors are applied in
 addition to existing \code{par("cex")} values, preserving any
 global text size defined there.}
 
+\item{doMajor, doLabels, doMinorLabels}{\code{logical}, default TRUE, to display
+each type of label. Major labels appear at log base positions,
+minor labels appear as intermediate values.}
+
+\item{asValues}{\code{logical}, default TRUE, whether to print the
+exponentiated value, otherwise FALSE will print the log value.}
+
 \item{padj}{numeric vector length 2, which is used to position
 axis labels for the minor and major labels, respectively. For
 example, \code{padj=c(0,1)} will position minor labels just to the
@@ -87,6 +94,8 @@ minor tick marks and labels to the \code{c(2,5)} position. For log2
 units only, the second label is defined at 1.5, which shows
 minor labels at \code{c(3, 6, 12)}, which are \code{1.5 * c(2, 4, 8)}.}
 
+\item{logStep}{\code{integer} the number of log units per "step", typically \code{1}.}
+
 \item{cex, col, col.ticks, las}{parameters used for axis label size,
 axis label colors,
 axis tick mark colors, and label text orientation, respectively.}
@@ -96,6 +105,8 @@ axis tick mark colors, and label text orientation, respectively.}
 the content for custom control.}
 
 \item{verbose}{logical indicating whether to print verbose output.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \value{
 \code{list} with vectors:
@@ -189,8 +200,8 @@ Other jam plot functions:
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},

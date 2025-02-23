@@ -28,6 +28,9 @@ used to define names.}
 \item{unnamedBase}{\code{character} value used as a base for naming any
 un-named lists, using the format \code{makeNamesFunc(rep(unnamedBase, n))}.}
 
+\item{parentName}{\code{character} with optional prefix, used as parent name,
+default is NULL.}
+
 \item{sep}{\code{character} delimiter used between nested list names.}
 
 \item{makeNamesFunc}{\code{function} that takes a character vector and returns
@@ -93,11 +96,11 @@ unnestList(lapply(nameVector(c("base","graphics")), packageVersion))
 }
 \seealso{
 Other jam list functions: 
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

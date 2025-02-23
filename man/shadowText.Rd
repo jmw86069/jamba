@@ -68,6 +68,10 @@ so that shadows will overlap previous labels; \code{"all"} draws all shadows
 first then all labels, so labels will always appear above all
 shadows. See examples.}
 
+\item{cex}{\code{numeric} scalar applied to font size, default \code{par("cex")}.}
+
+\item{font}{\code{character} applied to font family, default \code{par("font")}.}
+
 \item{doTest}{logical whether to create a visual example of output. Note
 that it calls \code{\link{usrBox}} to color the plot area, and the
 background can be overridden with something like \code{fill="navy"}.}

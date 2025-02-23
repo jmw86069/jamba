@@ -166,6 +166,9 @@ vertical and horizontal positions, respectively.
 These values are mostly helpful in multi-panel plots,
 to draw consistent reference lines on each panel.}
 
+\item{ablineVcol, ablineHcol, }{default"#44444499", with the abline
+color, used when \code{ablineV} or \code{ablineH} are supplied, respectively.}
+
 \item{ablineVlty, ablineHlty}{\code{numeric} or \code{character} indicating the
 line type to use for \code{ablineV} and \code{ablineH}, respectively.}
 
@@ -295,8 +298,8 @@ Other jam plot functions:
 \code{\link{nullPlot}()},
 \code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},

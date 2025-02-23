@@ -48,6 +48,8 @@ each row of the matrix or data.frame.}
 a matrix is returned.}
 
 \item{verbose}{\code{logical} whether to print verbose output during processing.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \value{
 \code{matrix} unless \code{returnDF=TRUE} in which the output is coerced
@@ -85,11 +87,11 @@ rbindList(L, returnDF=TRUE);
 }
 \seealso{
 Other jam list functions: 
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

@@ -22,6 +22,9 @@ color_dither(
 \item{L_diff}{\code{numeric} value added or subtracted from the L in HSL
 color space for each color, until contrast is at least \code{min_contrast}.}
 
+\item{L_max, L_min}{\code{numeric} values that define the permitted range
+of L values in HSL color space, which ranges from 0 to 100.}
+
 \item{min_contrast}{\code{numeric} minimum contrast as defined by
 \code{colorspace::contrast_ratio()} for the input and potential output
 color.}
@@ -44,9 +47,6 @@ and output colors together in each vector.
 using \code{showColors()}.}
 
 \item{...}{additional arguments are ignored.}
-
-\item{Lmax, L_min}{\code{numeric} values that define the permitted range
-of L values in HSL color space, which ranges from 0 to 100.}
 }
 \value{
 format defined by argument \code{returnType}:
@@ -96,14 +96,12 @@ Other jam practical functions:
 \code{\link{colNum2excelName}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -118,8 +116,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},

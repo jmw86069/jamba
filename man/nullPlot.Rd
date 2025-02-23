@@ -29,77 +29,76 @@ nullPlot(
 )
 }
 \arguments{
-\item{xaxt}{character value compatible with \code{options(xaxt)}}
+\item{xaxt}{\code{character} value compatible with\code{options("xaxt")}}
 
-\item{yaxt}{character value compatible with \code{options(xaxt)}}
+\item{yaxt}{\code{character} value compatible with \code{options("xaxt")}}
 
-\item{xlab}{character x-axis label}
+\item{xlab}{\code{character} x-axis label}
 
-\item{ylab}{character y-axis label}
+\item{ylab}{\code{character} y-axis label}
 
-\item{col}{character colors passed to \code{plot()}}
+\item{col}{\code{character} colors passed to \code{plot()}}
 
-\item{xlim}{numeric x-axis range}
+\item{xlim}{\code{numeric} x-axis range}
 
-\item{ylim}{numeric y-axis range}
+\item{ylim}{\code{numeric} y-axis range}
 
-\item{las}{integer value indicating whether axis labels should be
+\item{las}{\code{integer} value indicating whether axis labels should be
 parallel (1) or perpendicular (2) to the axis line.}
 
-\item{doBoxes}{logical whether to draw annotated boxes around the plot
+\item{doBoxes}{\code{logical} whether to draw annotated boxes around the plot
 and inner and outer margins.}
 
-\item{doUsrBox}{logical whether to draw a colored bow indicating the
-exact plot space, using the function \code{\link{usrBox}}.}
+\item{doUsrBox}{\code{logical} whether to draw a colored bow indicating the
+exact plot space, using the function \code{usrBox()}.}
 
-\item{fill}{character R color used to fill the background of the plot
-as used by \code{\link{usrBox}}.}
+\item{fill}{\code{character} R color used to fill the background of the plot
+as used by \code{usrBox()}.}
 
-\item{doAxes}{logical whether to draw default x- and y-axes.}
+\item{doAxes}{\code{logical} whether to draw default x- and y-axes.}
 
-\item{doMargins}{logical whether to label margins, only active when
+\item{doMargins}{\code{logical} whether to label margins, only active when
 doBoxes=TRUE.}
 
-\item{plotAreaTitle}{character label printed in the center of the plot
+\item{marginUnit}{\code{character} indicating the units used for margin labels.}
+
+\item{plotAreaTitle}{\code{character} label printed in the center of the plot
 area.}
 
 \item{plotSrt}{numeric angle for the plotAreaTitle, which is good for
 labeling this plot with vertical text when displaying a plot panel
 inside a grid layout, where the plot is taller than it is wide.}
 
-\item{plotNumPrefix}{character or integer label appended as suffix to
+\item{plotNumPrefix}{\code{character} or integer label appended as suffix to
 margin labels, which is useful when annotating multiple plots in a
 grid layout, where labels are sometimes quite close together. This
 label is but a simple attempt to sidestep the real problem of fitting
 labels inside each visual component.}
 
-\item{bty}{character passed to the basic \code{plot()} function, usually
-bty="n" suppresses the default box, which can then be optionally drawn
-based upon the doBoxes parameter.}
+\item{bty}{\code{character} passed \code{plot()}, default \code{"n"} suppresses
+the default box, which can then be optionally drawn
+based upon the \code{doBoxes} parameter.}
 
-\item{showMarginsOnly}{logical whether to create a new plot or to annotate
+\item{showMarginsOnly}{\code{logical} whether to create a new plot or to annotate
 an existing active plot.}
 
-\item{add}{logical whether to add to an existing active R plot, or create
+\item{add}{\code{logical} whether to add to an existing active R plot, or create
 a new plot window.}
+
+\item{...}{additional arguments are ignored.}
 }
 \description{
 Create a blank plot with optional labels for margins
 }
 \details{
 This function creates an empty plot space, using the current
-\code{\link[graphics]{par}} settings for margins, text size, etc. By default
+\code{graphics::par()} settings for margins, text size, etc. By default
 it displays a box around the plot window, and labels the margins and
 plot area for review. It can be useful as a visual display of various
 base graphics settings, or to create an empty plot window with pre-defined
 axis ranges. Lastly, one can use this function to create a "blank" plot
 which uses a defined background color, which can be a useful precursor to
 drawing an image density which may not cover the whole plot space.
-
-The doBoxes=TRUE functionality was adapted from Earl F. Glynn's margin
-tutorial:
-\link{http://research.stowers.org/mcm/efg/R/Graphics/Basics/mar-oma/index.htm}
-with much respect for his effective visual.
 }
 \examples{
 nullPlot()
@@ -121,8 +120,8 @@ Other jam plot functions:
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotRidges}()},
 \code{\link{plotSmoothScatter}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},

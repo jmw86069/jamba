@@ -10,7 +10,7 @@ make_styles(
   bg = FALSE,
   bg_style = NULL,
   grey = FALSE,
-  colors = num_colors(),
+  colors = NULL,
   Cgrey = getOption("jam.Cgrey", 5),
   lightMode = NULL,
   Crange = getOption("jam.Crange"),
@@ -44,7 +44,11 @@ styles. When this argument is not NULL, it applies both the foreground
 \code{style} and background \code{bg_style} together, and therefore ignores
 \code{Crange} and \code{Lrange} settings.}
 
-\item{colors}{\code{integer} number of colors allowed for console output.}
+\item{grey}{\code{logical}, default FALSE, whether to use greyscale.}
+
+\item{colors}{\code{integer}, default NULL, number of colors for console output,
+when NULL it calls \code{crayon::num_colors()} to detect console
+capabilities.}
 
 \item{Cgrey}{\code{numeric} chroma (C) value, which defines grey colors at or
 below this chroma. Any colors at or below the grey cutoff will have
@@ -96,9 +100,6 @@ the ratio of square roots.  alphaPower=100 for minimal adjustment.}
 \item{verbose}{\code{logical} indicating whether to print verbose output}
 
 \item{...}{additional parameters are ignored}
-
-\item{satCutoff}{\code{numeric} cutoff for color saturation, below which a color
-is considered grey and the ANSI greyscale color set is used.}
 }
 \value{
 \code{character} vector with the same length as \code{text} input vector, where
@@ -123,14 +124,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -144,8 +143,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},
@@ -159,8 +158,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hcl2col}()},
 \code{\link{hsl2col}()},

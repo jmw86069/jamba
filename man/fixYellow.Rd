@@ -17,6 +17,9 @@ NULL, \code{HCL} is return unchanged.}
 \item{Hshift}{numeric value length one, used to adjust the hue of colors
 within the range \code{Hrange}. If NULL, \code{HCL} is return unchanged.}
 
+\item{fixup}{\code{logical}, default TRUE, whether to apply fixup to
+the resulting color, passed to \code{hcl2col()}}
+
 \item{...}{additional arguments are passed to \code{col2hcl()}, and
 \code{hcl2col()}.}
 }
@@ -55,13 +58,11 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -76,8 +77,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},

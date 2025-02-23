@@ -51,7 +51,7 @@ lists or simple list
 \item an S3 atomic object, which returns only the length
 \item a single multi-dimensional object such as \code{data.frame}, \code{matrix},
 \code{array}, \code{tibble}, or similar, which returns only its dimensions.
-\item an \code{S4} object in which case it used \code{slotNames(x)}
+\item an \code{S4} object in which case it used \code{methods::slotNames(x)}
 to traverse the object structure
 \item an \code{"environment"} object, in which case \code{ls(envir=x)} is
 used to traverse the object structure.
@@ -59,12 +59,13 @@ used to traverse the object structure.
 \code{S4Vectors} package, it will attempt to use the proper subset
 functions from \code{S4Vectors} via \code{names(x)}, but that process only works
 properly if the \code{S4Vectors} package is previously loaded,
-otherwise it reverts to using \code{slotNames(x)}.
+otherwise it reverts to using \code{methods::slotNames(x)}.
 }}
 
 \item{includeClass}{\code{logical} indicating whether to print the class of
 each element in the input \code{x} object. Note that for S4 objects,
-each element will be the object returned for each of \code{slotNames(x)}.}
+each element will be the object returned for each of
+\code{methods::slotNames(x)}.}
 
 \item{doFormat}{\code{logical} indicating whether to format the dimensions using
 \code{format(...,big.mark=",")}, which is mainly useful for extremely
@@ -123,7 +124,7 @@ elements.
 
 This function prints the dimensions of a list of objects, usually a \code{list}
 of \code{data.frame} objects, but extended to handle more complicated lists,
-including even S4 object \code{slotNames()}.
+including even S4 object \code{methods::slotNames()}.
 
 Over time, more object types will be made compatible with this function.
 Currently, \code{igraph} objects will print the number of nodes and edges, but
@@ -157,14 +158,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
 \code{\link{exp2signed}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -179,18 +178,18 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{setPrompt}()}
 
 Other jam list functions: 
-\code{\link{cPasteSU}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteUnique}()},
-\code{\link{cPasteU}()},
 \code{\link{cPaste}()},
+\code{\link{cPasteS}()},
+\code{\link{cPasteSU}()},
+\code{\link{cPasteU}()},
+\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

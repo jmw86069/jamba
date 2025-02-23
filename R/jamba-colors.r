@@ -206,14 +206,16 @@ setTextContrastColor <- function
 #' `model="hcl"` is equivalent to using `model="polarLUV"` and
 #' `fixup=TRUE`, except that it should be much faster.
 #'
-#' @param x R compatible color, either a color name, or hex value, or
+#' @param x `character` R compatible color, either a color name, hex value, or
 #'    a mixture of the two. Any value compatible with
-#'    \code{\link[grDevices]{col2rgb}}.
-#' @param maxValue numeric maximum value to return, useful when the downstream
-#'    alpha range should be 255. By default maxValue=1 is returned.
-#' @param model the color model to use, from `"polarLUV"` for the
-#'    standard R conventional HCL, and `"polarLAB"` which uses the
-#'    LAB-based HCL values.
+#'    `grDevices::col2rgb()`.
+#' @param maxColorValue `numeric` maximum value to return, useful
+#'    when the downstream alpha range should be 255.
+#'    By default maxValue=1 is returned.
+#' @param model `character` color model to use
+#'    * `"hcl"` to use `farver` HCL
+#'    * `"polarLUV"` for the standard R conventional HCL,
+#'    * `"polarLAB"` which uses the LAB-based HCL values.
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
@@ -234,7 +236,8 @@ col2hcl <- function
    if ("jam.model" %in% names(options())) {
       model <- getOption("jam.model");
    }
-   if ("hcl" %in% model && !suppressWarnings(suppressPackageStartupMessages(require(farver)))) {
+   if ("hcl" %in% model &&
+         !requireNamespace("farver", quietly=TRUE)) {
       model <- "polarLUV";
       fixup <- TRUE;
    }
@@ -248,7 +251,7 @@ col2hcl <- function
       rownames(x3)[1:3] <- toupper(rownames(x3)[1:3]);
       return(x3);
    }
-   if (!suppressWarnings(suppressPackageStartupMessages(require(colorspace)))) {
+   if (!requireNamespace("colorspace", quietly=TRUE)) {
       stop("The colorspace package is required.");
    }
 
@@ -307,6 +310,11 @@ col2hcl <- function
 #'    **which is not recommended** since this conversion applies some
 #'    unknown non-linear transformation for colors outside the color gamut.
 #'    It is here is an option for comparison, and if specifically needed.
+#' @param model `character` string indicating the color model to use:
+#'    * hcl (default) uses `farver`
+#'    * polarLUV uses `colorspace` polarLUV
+#'    * polarLAB uses `colorspace polarLAB
+#' @param verbose `logical` whether to print verbose output.
 #' @param ... other arguments are ignored.
 #'
 #' @return vector of R colors, or where the input was NA, then NA
@@ -338,17 +346,17 @@ hcl2col <- function
  maxColorValue=255,
  alpha=NULL,
  fixup=TRUE,
- model=getOption("jam.model", c("hcl","polarLUV","polarLAB")),
+ model=getOption("jam.model", c("hcl", "polarLUV", "polarLAB")),
  verbose=FALSE,
  ...)
 {
    ## Purpose is to convert HCL back to an R hex color string
    ## Note that this function uses the colorspace HCL, which differs from the
    ## used by the built-in R method hcl()
-   if (!suppressWarnings(suppressPackageStartupMessages(require(colorspace)))) {
+   if (!requireNamespace("colorspace", quietly=TRUE)) {
       stop("hcl2col() requires the colorspace package.");
    }
-   if (!suppressWarnings(suppressPackageStartupMessages(require(matrixStats)))) {
+   if (!requireNamespace("matrixStats", quietly=TRUE)) {
       useMatrixStats <- TRUE;
    } else {
       useMatrixStats <- FALSE;
@@ -357,8 +365,8 @@ hcl2col <- function
    if (length(model) == 0) {
       model <- "hcl";
    }
-   if ("hcl" %in% model && !suppressWarnings(suppressPackageStartupMessages(require(farver)))) {
-      #jamba::printDebug("The farver package is required for model '", "hcl", "'.");
+   if ("hcl" %in% model &&
+         !requireNamespace("farver", quietly=TRUE)) {
       model <- "polarLUV";
       fixup <- TRUE;
    }
@@ -439,7 +447,7 @@ hcl2col <- function
          from="hcl");
       names(xCol) <- xnames;
    } else if (length(fixup) > 0) {
-      xCol <- hex(x2, fixup=fixup);
+      xCol <- colorspace::hex(x2, fixup=fixup);
       xCol <- alpha2col(xCol, alpha=a1, maxValue=255);
       names(xCol) <- xnames;
    } else {
@@ -453,7 +461,7 @@ hcl2col <- function
             adjustNA=TRUE),
          digits=3);
       if (useMatrixStats) {
-         x3colMax <- colMaxs(x3, na.rm=TRUE);
+         x3colMax <- matrixStats::colMaxs(x3, na.rm=TRUE);
       } else {
          x3colMax <- apply(x3, 2, max, na.rm=TRUE);
       }
@@ -480,10 +488,11 @@ hcl2col <- function
 #'
 #' Return the alpha transparency per R color
 #'
-#' @param x R compatible color, either a color name, or hex value, or
-#'    a mixture of the two. Any value compatible with \code{\link[grDevices]{col2rgb}}.
-#' @param maxValue numeric maximum value to return, useful when the downstream
+#' @param x `character` R compatible color, either a color name, hex value, or
+#'    a mixture of the two. Any value compatible with `grDevices::col2rgb()`.
+#' @param maxValue `numeric` maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
+#' @param ... Additional arguments are ignored.
 #'
 #' @family jam color functions
 #'
@@ -515,6 +524,7 @@ col2alpha <- function
 #'    recycled to length(x) as needed.
 #' @param maxValue numeric maximum value to return, useful when the downstream
 #'    alpha range should be 255. By default maxValue=1 is returned.
+#' @param ... Additional arguments are ignored.
 #'
 #' @family jam color functions
 #'
@@ -562,6 +572,7 @@ alpha2col <- function
 #'
 #' @param hsvValue HSV matrix, with rownames c("h","s","v") in any order,
 #'    and optionally "alpha" rowname for alpha transparency.
+#' @param ... additional arguments are ignored.
 #'
 #' @examples
 #' # start with a color vector
@@ -676,16 +687,16 @@ col2hsv <- function
 #' in order: remove alpha; set alpha to 0; set alpha to 1; set alpha
 #' to the same as the input color.
 #'
-#' @param red numeric vector of red values; or RGB numeric matrix with
+#' @param red `numeric` vector of red values; or RGB numeric matrix with
 #'    rownames c("red","green","blue") in any order, with optional rowname
 #'    "alpha"; or character strings with comma-separated rgb values, in
 #'    format "100,20,10". The latter input is designed to handle web rgb
 #'    values.
-#' @param green numeric vector, or when red is a matrix or comma-delimited
+#' @param green `numeric` vector, or when red is a matrix or comma-delimited
 #'    character string, this parameter is ignored.
-#' @param blue numeric vector, or when red is a matrix or comma-delimited
+#' @param blue `numeric` vector, or when red is a matrix or comma-delimited
 #'    character string, this parameter is ignored.
-#' @param alpha numeric vector, or when red is a matrix or comma-delimited
+#' @param alpha `numeric` vector, or when red is a matrix or comma-delimited
 #'    character string, this parameter is ignored. Alpha values are always
 #'    expected in range `[0,1]`, even when `maxColorValue` is higher
 #'    than `1`. When `alpha` is `FALSE`, the alpha transparency is removed.
@@ -694,13 +705,16 @@ col2hsv <- function
 #'    to represent `TRUE` for alpha values to be kept without change, and
 #'    use `-1` or any negative number to indicate alpha values to remove
 #'    from the output.
-#' @param maxColorValue numeric maximum value for colors. If NULL then it
+#' @param names `character`, default NULL, with optional names to apply
+#'    to output colors.
+#' @param maxColorValue `numeric` maximum value for colors. If NULL then it
 #'    defaults to 1 unless there are values above 1, in which case it defaults
 #'    to 255.
-#' @param keepNA logical whether to keep NA values, returning NA for any
+#' @param keepNA `logical` whether to keep NA values, returning NA for any
 #'    input where red, green, and/or blue are NA. If keepNA==FALSE then it
 #'    substitutes 0 for any NA values.
-#' @param verbose logical indicating whether to print verbose output
+#' @param verbose `logical` indicating whether to print verbose output
+#' @param ... Additional arguments are ignored.
 #'
 #' @examples
 #' # start with a color vector
@@ -925,6 +939,21 @@ rgb2col <- function
 #'
 #' @family jam color functions
 #'
+#' @param hexColor `character` vector of colors to adjust
+#' @param darkFactor `numeric` value to adjust darkness, values above 1
+#'    make the color darker, values below 1 (or below 0) make the color
+#'    brighter.
+#' @param sFactor `numeric` value to adjust saturation, values above 1
+#'    become more saturated.
+#' @param fixAlpha `numeric`, default NULL, to assign a fixed alpha
+#'    transparency value, where 0 is transparent and 1 is opaque.
+#' @param verbose `logical` indicating whether to print verbose output.
+#' @param keepNA `logical`, default FALSE, whether to keep NA values
+#'    as NA values in the output, otherwise NA values are considered grey
+#'    input.
+#' @param useMethod `integer` with two alternate methods, `1` is default.
+#' @param ... Additional arguments are ignored.
+#'
 #' @export
 makeColorDarker <- function
 (hexColor,
@@ -990,12 +1019,6 @@ makeColorDarker <- function
    rownames(hexColorUniq) <- pasteByRow(hexColorUniq[,hexColnames,drop=FALSE],
       sep="_");
    hexMatrix <- grDevices::col2rgb(hexColorUniq[,"hexColor"], alpha=TRUE);
-   if (verbose) {
-      printDebug("hexColorUniq:");
-      ch(hexColorUniq);
-      printDebug("hexMatrix:");
-      ch(hexMatrix);
-   }
 
    darkFactors <- hexColorUniq[,"darkFactor"];
    sFactors <- hexColorUniq[,"sFactor"];
@@ -1218,7 +1241,7 @@ makeColorDarker <- function
 #'    for example `col="rainbow_hcl"`. Input is equivalent to supplying
 #'    one color `function`, see below.
 #'    * `function` whose first argument expects `integer` number of colors
-#'    to return, for example `col=viridis::viridis` defines the function
+#'    to return, for example `col=viridisLite::viridis` defines the function
 #'    itself as input.
 #'    * `function` derived from `circlize::colorRamp2()`,  recognized
 #'    by having attribute names `"breaks"` and `"colors"`. Note that
@@ -1277,15 +1300,13 @@ makeColorDarker <- function
 #' showColors(BuOr);
 #' colorList <- list(red4=red4, BuOr=BuOr);
 #'
-#' # If RColorBrewer is available, use a brewer name
-#' if (suppressPackageStartupMessages(require(RColorBrewer))) {
-#'    RdBu <- getColorRamp("RdBu");
-#'    RdBu_r <- getColorRamp("RdBu_r");
-#'    colorList <- c(colorList, list(RdBu=RdBu, RdBu_r=RdBu_r));
-#'    showColors(RdBu);
-#' }
+#' # From RColorBrewer use a brewer name
+#' RdBu <- getColorRamp("RdBu");
+#' RdBu_r <- getColorRamp("RdBu_r");
+#' colorList <- c(colorList, list(RdBu=RdBu, RdBu_r=RdBu_r));
+#' showColors(RdBu);
 #'
-#' if (suppressPackageStartupMessages(require(viridis))) {
+#' if (requireNamespace("viridisLite", quietly=TRUE)) {
 #'    viridisV <- getColorRamp("viridis");
 #'    colorList <- c(colorList, list(viridis=viridisV));
 #' }
@@ -1356,8 +1377,7 @@ getColorRamp <- function
             col %in% viridis_colors) {
          #######################################
          ## Viridis package color handling
-         if (!suppressWarnings(
-            suppressPackageStartupMessages(require(viridisLite)))) {
+         if (!requireNamespace("viridisLite", quietly=TRUE)) {
             stop(paste0("The viridisLite package is required for color ramps: ",
                cPaste(viridis_colors, sep=", ")));
          }
@@ -1367,9 +1387,10 @@ getColorRamp <- function
                col);
          }
          colorFunc <- get(col,
-            mode="function");
+            asNamespace("viridisLite"),
+            mode="function")
       } else if (length(col) == 1 &&
-            check_pkg_installed("RColorBrewer") &&
+            requireNamespace("RColorBrewer", quietly=TRUE) &&
             col %in% rownames(RColorBrewer::brewer.pal.info)) {
          #######################################
          ## Brewer Colors
@@ -1378,9 +1399,9 @@ getColorRamp <- function
                "RColorBrewer color palette:",
                col);
          }
-         brewerN <- RColorBrewer::brewer.pal.info[col,"maxcolors"];
+         brewerN <- RColorBrewer::brewer.pal.info[col, "maxcolors"];
          if (lens != 0 && length(divergent) == 0) {
-            if ("div" %in% RColorBrewer::brewer.pal.info[col,"category"]) {
+            if ("div" %in% RColorBrewer::brewer.pal.info[col, "category"]) {
                divergent <- TRUE;
             } else {
                divergent <- FALSE;
@@ -1390,11 +1411,12 @@ getColorRamp <- function
             if (n <= brewerN) {
                RColorBrewer::brewer.pal(n, col);
             } else {
-               colorRampPalette(RColorBrewer::brewer.pal(brewerN, col))(n);
+               grDevices::colorRampPalette(
+                  RColorBrewer::brewer.pal(brewerN, col))(n);
             }
          }
       } else if (length(col) == 1 &&
-            check_pkg_installed("colorjam") &&
+            requireNamespace("colorjam", quietly=TRUE) &&
             (col %in% names(colorjam::jam_linear) ||
             col %in% names(colorjam::jam_divergent)) ) {
          #######################################
@@ -1413,7 +1435,7 @@ getColorRamp <- function
             if (n == length(colset)) {
                colset
             } else {
-               colorRampPalette(colset)(n);
+               grDevices::colorRampPalette(colset)(n);
             }
          }
       } else {
@@ -1440,7 +1462,7 @@ getColorRamp <- function
                      "Using defaultBaseColor, color to make a gradient.");
                }
             }
-            colorFunc <- colorRampPalette(colset, alpha=alpha);
+            colorFunc <- grDevices::colorRampPalette(colset, alpha=alpha);
          } else {
             ## Check if we are supplied a function name
             if (verbose) {
@@ -1482,7 +1504,7 @@ getColorRamp <- function
       if (all(c("colors", "breaks") %in% names(attributes(col)))) {
          # circlize::colorRamp2() color function
          # convert to colorRampPalette color function
-         colorFunc <- colorRampPalette(rgb2col(attr(col, "colors")))
+         colorFunc <- grDevices::colorRampPalette(rgb2col(attr(col, "colors")))
       } else {
          # color function with N argument
          if (verbose) {
@@ -1494,9 +1516,9 @@ getColorRamp <- function
    } else {
       if (verbose) {
          printDebug("getColorRamp(): ",
-            "unrecognized color input, using colorRampPalette() anyway.");
+            "unrecognized color input, using grDevices::colorRampPalette() anyway.");
       }
-      colorFunc <- colorRampPalette(col, alpha=alpha);
+      colorFunc <- grDevices::colorRampPalette(col, alpha=alpha);
    }
 
    #############################################
@@ -1522,7 +1544,7 @@ getColorRamp <- function
          cols <- applyTrimRamp(cols, trimRamp);
       }
       if (length(cols) != n) {
-         cols <- colorRampPalette(cols, alpha=alpha)(n);
+         cols <- grDevices::colorRampPalette(cols, alpha=alpha)(n);
       }
    } else {
       ## Get color function
@@ -1561,7 +1583,7 @@ getColorRamp <- function
             if (sum(trimRamp) > 0) {
                cols <- applyTrimRamp(cols, trimRamp);
             }
-            cols <- colorRampPalette(cols, alpha=alpha);
+            cols <- grDevices::colorRampPalette(cols, alpha=alpha);
          }
       } else {
          if (length(gradientN) > 0) {
@@ -1579,7 +1601,7 @@ getColorRamp <- function
             printDebug("reverseRamp:", reverseRamp)
             cols <- rev(cols);
          }
-         cols <- colorRampPalette(cols, alpha=alpha);
+         cols <- grDevices::colorRampPalette(cols, alpha=alpha);
       }
    }
    ###########
@@ -1957,7 +1979,7 @@ warpRamp <- function
 
    ## Expand the color ramp by expandFactor
    newN <- round(length(ramp) * expandFactor - (expandFactor-1));
-   rampExp <- colorRampPalette(ramp)(newN);
+   rampExp <- grDevices::colorRampPalette(ramp)(newN);
 
    ## Define a numeric sequence to warp
    rampN <- seq_along(ramp);

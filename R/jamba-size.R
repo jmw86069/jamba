@@ -1,37 +1,45 @@
 
-#' convert numeric value to size
+#' convert numeric value or R object to human-readable size
 #'
-#' convert numeric value to size
+#' convert numeric value or R object to human-readable size
 #'
-#' This function is intended to provide the inverse of `asSize()`
-#' by converting an abbreviated size into a full numeric value.
+#' This function returns human-readable size based upon `numeric` input.
+#' Alternatively, when input is any other R object, it calls
+#' `object.size()` to produce a single `numeric` value which is then
+#' used to produce human-readable size.
 #'
-#' It makes one simplifying assumption, that the first character in
-#' the unit is enough to determine the unit. This assumption also means
-#' the units are currently case-sensitive.
+#' The default behavior is to report computer size in bytes, where
+#' 1024 is considered "kilo", however argument `kiloSize` can be
+#' used to produce values where `kiloSize=1000` which is suitable
+#' for monetary and other scientific values.
 #'
-#' @return `character` vector representing human-friendly sizes.
+#' @return `character` vector representing human-friendly size,
+#'    based upon the `kiloSize` argument to determine whether to
+#'    report byte (1024) or scientific (1000) units.
 #'
 #' @family jam string functions
 #'
-#' @param x numeric vector
-#' @param humanFriendly logical, currently only TRUE is accepted, whether to
-#'    include human-friendly units to the output.
-#' @param digits integer number of digits used by \code{\link[base]{format}} when
+#' @param x `numeric` vector, class `object_size` which is converted
+#'    to `numeric`, any other R object is converted to a single `numeric`
+#'    value using `object.size()`.
+#' @param digits `integer` number of digits used by `base::format()` when
 #'    formatting the number to create a character string
-#' @param abbreviateUnits logical whether to print abbreviated units, for
-#'    example using k, M, G, T, P instead of kilo, mega, Giga, Tera, Peta,
-#'    respectively.
-#' @param unitType character string indicating the base unit of measure,
+#' @param abbreviateUnits `logical`, default TRUE,  whether to print
+#'    abbreviated units, for example using k, M, G, T, P instead of
+#'    kilo, mega, Giga, Tera, Peta, respectively.
+#' @param unitType `character` string indicating the base unit of measure,
 #'    by default "bytes". Note that trailing "s" is removed when the number
 #'    is singular.
-#' @param unitAbbrev character string indicating an abbreviated base unit,
-#'    by default it uses the first character from \code{unitType}.
-#' @param kiloSize numeric number of base units when converting from one
-#'    base unit, to one "kilo" base unit. For file sizes, this value is 1024,
-#'    but for other purposes this value may be 1000.
-#' @param sep delimiter used between the numeric value and the unit.
-#' @param ... other parameters passed to \code{\link[base]{format}}.
+#' @param unitAbbrev `character` string indicating an abbreviated base unit,
+#'    by default it uses the first character from `unitType.`
+#' @param kiloSize `numeric`, default 1024,  number of base units when
+#'    converting from to one "kilo" base unit. For computer-based size
+#'    such as file size and object size, this value is 1024.
+#'    For other purposes, such as scientific or monetary numbers, this
+#'    value should usually be 1000.
+#' @param sep `delimiter` used between the numeric value and the unit,
+#'    default " ".
+#' @param ... other parameters passed to `base::format()`.
 #'
 #' @examples
 #' asSize(c(1, 10,2010,22000,52200))
@@ -43,7 +51,6 @@
 #' @export
 asSize <- function
 (x,
- humanFriendly=TRUE,
  digits=3,
  abbreviateUnits=TRUE,
  unitType="bytes",
@@ -52,8 +59,18 @@ asSize <- function
  sep=" ",
  ...)
 {
-   ## Prints a numerical value as if it were a computer object size
-   ##
+   # validate input
+   if (length(x) == 0) {
+      return(character(0))
+   }
+   # non-numeric input is converted to numeric using object.size()
+   if ("object_size" %in% class(x)) {
+      x <- as.numeric(x);
+   }
+   if (!is.numeric(x)) {
+      x <- object.size(x)
+   }
+
    ## unitType is typically "byte" but can be any relevant unit, e.g.
    ## unitType="" and kiloSize=1000 will convert to user-friendly
    ## numerical values, so 4500 becomes 4.5k
@@ -72,9 +89,8 @@ asSize <- function
    } else {
       sizeUnits <- paste0(c("", "kilo", "Mega", "Giga", "Tera", "Peta"),
          unitType);
-   }
-   if ("object_size" %in% class(x)) {
-      x <- as.numeric(x);
+      sizeUnitsX <- nameVector(c(0, 1, 2, 3, 4, 5),
+         sizeUnits);
    }
    xUnits <- rep("", length(x));
    xValues <- x;
@@ -102,7 +118,7 @@ asSize <- function
    ## Style 2: decimals are independent per value
    xValuesV <- sapply(xValues, function(i){
       format(trim=TRUE,
-         digits=2,
+         digits=digits,
          i);
    });
 
@@ -263,42 +279,4 @@ sizeAsNum <- function
    }
    return(x_value);
 
-   xUnits <- rep("", length(x));
-   xValues <- x;
-   ## Iterate through large to small values, progressively dividing out
-   ## orders of magnitude until the result fits within the range available
-   for (i in names(rev(sizeUnitsX))) {
-      sizeUnitsXi <- sizeUnitsX[names(sizeUnitsX) %in% i];
-      whichX <- (!is.na(x) &
-            xUnits %in% "" &
-            x >= kiloSize^sizeUnitsXi);
-      xUnits[whichX] <- i;
-      xValues[whichX] <- x[whichX] / kiloSize^sizeUnitsXi;
-   }
-   ## If we have zeros, and we have a unit defined for zero, we use that
-   ## to describe the zeros, e.g. "0 bytes"
-   if (any(sizeUnitsX == 0) && any(!is.na(xValues) & xValues == 0)) {
-      xUnits[!is.na(xValues) & xValues == 0] <- names(which(sizeUnitsX == 0));
-   }
-   ## If we have values==1, remove trailing 's', a common pet peeve of mine
-   xOnes <- which(!is.na(xValues) & xValues == 1);
-   if (length(xOnes) > 0) {
-      xUnits[xOnes] <- gsub("([^s])s$", "\\1", xUnits[xOnes]);
-   }
-
-   ## Style 2: decimals are independent per value
-   xValuesV <- sapply(xValues, function(i){
-      format(trim=TRUE,
-         digits=2,
-         i);
-   });
-
-   ## Create one label
-   newX <- gsub("[ ]+$", "",
-      paste(xValuesV,
-         xUnits,
-         sep=sep));
-   newX[is.na(x)] <- NA;
-
-   return(newX);
 }

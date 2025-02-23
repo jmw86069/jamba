@@ -15,6 +15,8 @@ recycled to length(x) as needed.}
 
 \item{maxValue}{numeric maximum value to return, useful when the downstream
 alpha range should be 255. By default maxValue=1 is returned.}
+
+\item{...}{Additional arguments are ignored.}
 }
 \description{
 Define the alpha transparency per R color
@@ -37,8 +39,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hcl2col}()},
 \code{\link{hsl2col}()},

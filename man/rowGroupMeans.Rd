@@ -45,11 +45,14 @@ either as a character vector, or a factor. See the parameter
 \code{groupOrder} for ordering of group labels in the output
 data matrix.}
 
-\item{useMedian}{\code{logical} indicating whether the default
+\item{na.rm}{\code{logical}, default TRUE, passed to the stats func
+to ignore NA values.}
+
+\item{useMedian}{\code{logical}, default TRUE,  indicating whether the default
 stat should be "mean" or "median".}
 
-\item{rmOutliers}{\code{logical} indicating whether to apply outlier
-detection and removal.}
+\item{rmOutliers}{\code{logical}, default FALSE, indicating whether to
+apply outlier detection and removal.}
 
 \item{crossGroupMad}{\code{logical} indicating whether to calculate
 row MAD values using the median across groups for each row.
@@ -65,15 +68,18 @@ will take the MAD value for a group multiplied by 5,
 5\emph{MAD, as a threshold for outliers. So any points more than
 5}MAD distance from the median per group are outliers.}
 
-\item{returnType}{\code{character} value indicating the return data
-type, \code{"output"} returns one summary stat value per group, per row;
-\code{"input"} is useful when \code{rmOutliers=TRUE} in that it returns
+\item{returnType}{\code{character}, default "output", the return data type:
+\itemize{
+\item \code{"output"} returns one summary stat value per group, per row;
+\item \code{"input"} is useful when \code{rmOutliers=TRUE} in that it returns
 a matrix with the same dimensions as the input, except with
-outlier points replaced with NA.}
+outlier points replaced with NA.
+}}
 
-\item{rowStatsFunc}{optional \code{function} which takes a numeric matrix
+\item{rowStatsFunc}{\code{function}, default NULL, which takes a numeric matrix
 as input, and returns a numeric vector equal to the number of
-rows of the input data matrix. Examples: \code{base::rowMeans()},
+rows of the input data matrix. When supplied, \code{useMedian} is ignored.
+Examples: \code{base::rowMeans()},
 \code{matrixStats::rowMedians()}, \code{matrixStats::rowMads}.}
 
 \item{groupOrder}{\code{character} string indicating how character group
@@ -83,14 +89,14 @@ in that order. Otherwise, \code{"same"} keeps groups in the same
 order they appear in the input matrix; \code{"sort"} applies
 \code{jamba::mixedSort()} to the labels.}
 
-\item{keepNULLlevels}{\code{logical} indicating whether to keep factor
+\item{keepNULLlevels}{\code{logical}, default FALSE,  whether to keep factor
 levels even when there are no corresponding columns in \code{x}.
 When \code{TRUE} and \code{returnType="output"} the output matrix will
 contain one colname for each factor level, with NA values used
 to fill empty factor levels. This mechanism can be helpful to
 ensure that output matrices have consistent colnames.}
 
-\item{includeAttributes}{\code{logical} indicating whether to include
+\item{includeAttributes}{\code{logical}, default FALSE, whether to include
 attributes with \code{"n"} number of replicates per group, and \code{"nLabel"}
 with replicate label in \verb{n=#} form.}
 

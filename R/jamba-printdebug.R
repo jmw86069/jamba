@@ -94,6 +94,10 @@
 #'    reversed, and if the resulting `fgText` is `NULL` then its color
 #'    is defined by `setTextContrastColor()` in order to define a contrasting
 #'    text color.
+#' @param fgDefault `character` defaults to
+#'    `getOption("jam.fgDefault", c("darkorange1", "dodgerblue"))`, and
+#'    is used when colors are not defined by `fgText` or by the
+#'    input `...` values.
 #' @param bgText `vector` of R colors, or `list` of vectors, used to define
 #'    the background color, using the same approach described for `fgText`.
 #'    Note that `NULL` or `NA` defines the absence of any background color,
@@ -169,6 +173,7 @@
 #'    output. When `numeric` it is rounded to integer, then this many
 #'    character spaces `" "` are concatenated together to define the
 #'    indent width. Note that the `indent` text is not colorized.
+#' @param keepNA `logical`, default TRUE, whether to keep and print NA values.
 #' @param file argument passed to `cat()` to send output to a file or
 #'    compatible output of `cat()`.
 #' @param append `logical` whether to append output, passed to `cat()`

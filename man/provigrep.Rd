@@ -123,9 +123,9 @@ proigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, maxValues=1)
 \seealso{
 Other jam grep functions: 
 \code{\link{grepls}()},
+\code{\link{igrep}()},
 \code{\link{igrepHas}()},
 \code{\link{igrepl}()},
-\code{\link{igrep}()},
 \code{\link{unigrep}()},
 \code{\link{unvigrep}()},
 \code{\link{vgrep}()},

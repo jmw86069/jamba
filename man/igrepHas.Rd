@@ -25,6 +25,8 @@ in case-insensitive mode.}
 
 \item{naToBlank}{logical whether to convert NA to blank, instead of
 allowing grep to handle NA values as-is.}
+
+\item{...}{additional arguments are ignored.}
 }
 \value{
 logical indicating whether the grep match criteria were met,
@@ -53,8 +55,8 @@ igrepHas("matrix", a);
 
 Other jam grep functions: 
 \code{\link{grepls}()},
-\code{\link{igrepl}()},
 \code{\link{igrep}()},
+\code{\link{igrepl}()},
 \code{\link{provigrep}()},
 \code{\link{unigrep}()},
 \code{\link{unvigrep}()},

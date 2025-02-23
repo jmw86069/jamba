@@ -5,7 +5,9 @@
 #'
 #' This function is called internally by `plotSmoothScatter()`,
 #' and is an equivalent replacement for
-#' `grDevices:::.smoothScatterCalcDensity()`.
+#' `grDevices` non-exported function .smoothScatterCalcDensity(),
+#' understandably a requirement by CRAN. A package should not rely
+#' on another package hidden function.
 #'
 #' @param x `numeric` matrix with two columns representing x,y coordinates.
 #' @param nbin `integer` number of bins to subdivide the scatterplot,

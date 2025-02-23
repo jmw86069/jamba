@@ -88,6 +88,7 @@ This function plots each item as a ridgeline plot in the same
 plot window using \code{ggplot2::ggplot()}.
 }
 \examples{
+\dontshow{if ((requireNamespace("ggridges", quietly=TRUE))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # multiple columns
 set.seed(123);
 xm <- do.call(cbind, lapply(1:4, function(i){rnorm(2000)}))
@@ -96,7 +97,7 @@ plotRidges(xm)
 set.seed(123);
 x <- rnorm(2000)
 plotRidges(x)
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other jam plot functions: 
@@ -112,8 +113,8 @@ Other jam plot functions:
 \code{\link{nullPlot}()},
 \code{\link{plotPolygonDensity}()},
 \code{\link{plotSmoothScatter}()},
-\code{\link{shadowText_options}()},
 \code{\link{shadowText}()},
+\code{\link{shadowText_options}()},
 \code{\link{showColors}()},
 \code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},

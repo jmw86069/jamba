@@ -67,7 +67,7 @@ testthat::test_that("rowGroupMeans SparseMatrix", {
       rownames(x) <- letters[1:5];
       colnames(x) <- LETTERS[1:5];
       x[, 5] <- x[, 5] + 1;
-      x <- as(x, "CsparseMatrix");
+      x <- Matrix::Matrix(x, sparse=TRUE);
       groups <- rep(c("group1", "group2"), c(2, 3));
 
       # median by default

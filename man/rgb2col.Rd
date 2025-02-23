@@ -17,19 +17,19 @@ rgb2col(
 )
 }
 \arguments{
-\item{red}{numeric vector of red values; or RGB numeric matrix with
+\item{red}{\code{numeric} vector of red values; or RGB numeric matrix with
 rownames c("red","green","blue") in any order, with optional rowname
 "alpha"; or character strings with comma-separated rgb values, in
 format "100,20,10". The latter input is designed to handle web rgb
 values.}
 
-\item{green}{numeric vector, or when red is a matrix or comma-delimited
+\item{green}{\code{numeric} vector, or when red is a matrix or comma-delimited
 character string, this parameter is ignored.}
 
-\item{blue}{numeric vector, or when red is a matrix or comma-delimited
+\item{blue}{\code{numeric} vector, or when red is a matrix or comma-delimited
 character string, this parameter is ignored.}
 
-\item{alpha}{numeric vector, or when red is a matrix or comma-delimited
+\item{alpha}{\code{numeric} vector, or when red is a matrix or comma-delimited
 character string, this parameter is ignored. Alpha values are always
 expected in range \verb{[0,1]}, even when \code{maxColorValue} is higher
 than \code{1}. When \code{alpha} is \code{FALSE}, the alpha transparency is removed.
@@ -39,15 +39,20 @@ to represent \code{TRUE} for alpha values to be kept without change, and
 use \code{-1} or any negative number to indicate alpha values to remove
 from the output.}
 
-\item{maxColorValue}{numeric maximum value for colors. If NULL then it
+\item{names}{\code{character}, default NULL, with optional names to apply
+to output colors.}
+
+\item{maxColorValue}{\code{numeric} maximum value for colors. If NULL then it
 defaults to 1 unless there are values above 1, in which case it defaults
 to 255.}
 
-\item{keepNA}{logical whether to keep NA values, returning NA for any
+\item{keepNA}{\code{logical} whether to keep NA values, returning NA for any
 input where red, green, and/or blue are NA. If keepNA==FALSE then it
 substitutes 0 for any NA values.}
 
-\item{verbose}{logical indicating whether to print verbose output}
+\item{verbose}{\code{logical} indicating whether to print verbose output}
+
+\item{...}{Additional arguments are ignored.}
 }
 \description{
 Convert RGB color matrix to R color
@@ -106,8 +111,8 @@ Other jam color functions:
 \code{\link{col2hsl}()},
 \code{\link{col2hsv}()},
 \code{\link{color2gradient}()},
-\code{\link{fixYellowHue}()},
 \code{\link{fixYellow}()},
+\code{\link{fixYellowHue}()},
 \code{\link{getColorRamp}()},
 \code{\link{hcl2col}()},
 \code{\link{hsl2col}()},

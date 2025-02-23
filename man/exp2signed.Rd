@@ -9,14 +9,14 @@ exp2signed(x, offset = 1, base = 2, ...)
 \arguments{
 \item{x}{\code{numeric} vector}
 
+\item{offset}{\code{numeric} subtracted from exponentiated values
+prior to multiplying by the \code{sign(x)}.}
+
 \item{base}{\code{numeric} value indicating the logarithmic base used.
 For example \code{base=2} indicates values were transformed using
 \code{log2()}.}
 
 \item{...}{additional arguments are ignored.}
-
-\item{numeric}{\code{offset}, subtracted from exponentiated values
-prior to multiplying by the \code{sign(x)}.}
 }
 \value{
 numeric vector of exponentiated values.
@@ -52,14 +52,12 @@ Other jam practical functions:
 \code{\link{colNum2excelName}()},
 \code{\link{color_dither}()},
 \code{\link{diff_functions}()},
-\code{\link{fileInfo}()},
 \code{\link{fixYellow}()},
 \code{\link{getAxisLabel}()},
 \code{\link{handleArgsText}()},
 \code{\link{heads}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
-\code{\link{jamba}},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
@@ -74,8 +72,8 @@ Other jam practical functions:
 \code{\link{printDebug}()},
 \code{\link{renameColumn}()},
 \code{\link{rmInfinite}()},
-\code{\link{rmNAs}()},
 \code{\link{rmNA}()},
+\code{\link{rmNAs}()},
 \code{\link{rmNULL}()},
 \code{\link{sclass}()},
 \code{\link{sdim}()},
