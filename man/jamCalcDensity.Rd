@@ -28,4 +28,10 @@ and is an equivalent replacement for
 understandably a requirement by CRAN. A package should not rely
 on another package hidden function.
 }
+\seealso{
+Other jam internal functions: 
+\code{\link{make_html_styles}()},
+\code{\link{make_styles}()},
+\code{\link{smoothScatterJam}()}
+}
 \concept{jam internal functions}

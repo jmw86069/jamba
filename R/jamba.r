@@ -1330,38 +1330,6 @@ tcount <- function
    return(x1);
 }
 
-#' frequency of entries, ordered by frequency, minimum count 2
-#'
-#' frequency of entries, ordered by frequency, minimum count 2
-#'
-#' This function is a simple customization of `tcount()`
-#' with `minCount=2` so it only reports frequencies of `2` or higher.
-#'
-#' @return `integer` vector of counts, named by the unique input
-#'    values in `x`, by default limited to entries with frequency
-#'    `2` or higher.
-#'
-#' @family jam string functions
-#'
-#' @rdname tcount
-#'
-#' @export
-tcount2 <- function
-(x,
- minCount=2,
- doSort=TRUE,
- maxCount=NULL,
- nameSortFunc=sort,
- ...)
-{
-   x1 <- tcount(x=x,
-      minCount=minCount,
-      doSort=doSort,
-      maxCount=maxCount,
-      nameSortFunc=nameSortFunc,
-      ...)
-   return(x1)
-}
 
 #' vectorized make_styles for crayon output
 #'
@@ -1377,8 +1345,7 @@ tcount2 <- function
 #' the `style` defined at input. In short, a character vector as input,
 #' a colorized character vector as output.
 #'
-#' @family jam practical functions
-#' @family jam color functions
+#' @family jam internal functions
 #'
 #' @param style `character` vector of one or more styles. When `NULL` or `NA`,
 #'    no style is applied, except when `bg_style` is supplied
@@ -2888,7 +2855,6 @@ deg2rad <- function
 #'    values populated to the relevant dimensions, for example a character
 #'    vector will only populate the length.
 #'
-#' @family jam practical functions
 #' @family jam list functions
 #'
 #' @examples
@@ -3313,7 +3279,6 @@ ssdim <- function
 #' @param x an S3 object inheriting from class `list`, or an S4 object.
 #' @param ... additional parameters are ignored.
 #'
-#' @family jam practical functions
 #' @family jam list functions
 #'
 #' @examples
@@ -4021,7 +3986,6 @@ pasteByRowOrdered <- function
 #' and applies default arguments `all.x=TRUE` and `all.y=TRUE`
 #' for each merge operation to ensure that all rows are kept.
 #'
-#' @family jam practical functions
 #' @family jam list functions
 #'
 #' @return `data.frame` after iterative calls to `base::merge.data.frame()`.
@@ -4501,7 +4465,6 @@ exp2signed <- function
 #'
 #' @return `list` with at most `n` elements per vector.
 #'
-#' @family jam practical functions
 #' @family jam list functions
 #'
 #' @param x `list` of atomic vectors, assumed to be the same

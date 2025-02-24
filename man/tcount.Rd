@@ -2,21 +2,11 @@
 % Please edit documentation in R/jamba.r
 \name{tcount}
 \alias{tcount}
-\alias{tcount2}
 \title{frequency of entries, ordered by frequency}
 \usage{
 tcount(
   x,
   minCount = NULL,
-  doSort = TRUE,
-  maxCount = NULL,
-  nameSortFunc = sort,
-  ...
-)
-
-tcount2(
-  x,
-  minCount = 2,
   doSort = TRUE,
   maxCount = NULL,
   nameSortFunc = sort,
@@ -43,15 +33,9 @@ frequency. For example, one might use \code{mixedSort()}. If
 \value{
 \code{integer} vector of counts, named by the unique input
 values in \code{x}.
-
-\code{integer} vector of counts, named by the unique input
-values in \code{x}, by default limited to entries with frequency
-\code{2} or higher.
 }
 \description{
 frequency of entries, ordered by frequency
-
-frequency of entries, ordered by frequency, minimum count 2
 }
 \details{
 This function mimics output from \code{table()} with two key
@@ -65,9 +49,6 @@ in a particular technological assay. Transcript microarrays for example,
 can contain many replicated genes, but often only a handful of genes are
 highly replicated, while the rest are present only once or twice on the
 array.
-
-This function is a simple customization of \code{tcount()}
-with \code{minCount=2} so it only reports frequencies of \code{2} or higher.
 }
 \examples{
 testVector <- rep(c("one", "two", "three", "four"), c(1:4));
@@ -79,21 +60,11 @@ tcount(testVector, minCount=2);
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
-\code{\link{mixedOrder}()},
-\code{\link{mixedSort}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mixedSorts}()},
-\code{\link{mmixedOrder}()},
 \code{\link{nameVector}()},
 \code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
@@ -101,35 +72,6 @@ Other jam string functions:
 \code{\link{pasteByRow}()},
 \code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
-\code{\link{ucfirst}()},
-\code{\link{uniques}()}
-
-Other jam string functions: 
-\code{\link{asSize}()},
-\code{\link{breaksByVector}()},
-\code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
-\code{\link{fillBlanks}()},
-\code{\link{formatInt}()},
-\code{\link{gsubOrdered}()},
-\code{\link{gsubs}()},
-\code{\link{makeNames}()},
-\code{\link{mixedOrder}()},
-\code{\link{mixedSort}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mixedSorts}()},
-\code{\link{mmixedOrder}()},
-\code{\link{nameVector}()},
-\code{\link{nameVectorN}()},
-\code{\link{padInteger}()},
-\code{\link{padString}()},
-\code{\link{pasteByRow}()},
-\code{\link{pasteByRowOrdered}()},
-\code{\link{sizeAsNum}()},
-\code{\link{ucfirst}()},
-\code{\link{uniques}()}
+\code{\link{ucfirst}()}
 }
 \concept{jam string functions}

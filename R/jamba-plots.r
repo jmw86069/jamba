@@ -535,7 +535,7 @@ plotSmoothScatter <- function
 #' when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
 #' 10 units, but the y-axis spans 10,000 units.
 #'
-#' @family jam plot functions
+#' @family jam internal functions
 #'
 #' @param x `numeric` vector, or data matrix with two or  more columns.
 #' @param y `numeric` vector, or if data is supplied via x as a matrix, y
@@ -558,15 +558,16 @@ plotSmoothScatter <- function
 #'    is `nrpoints=0` to avoid additional clutter in the output,
 #'    and because the default argument `bandwidthN` usually indicates all
 #'    individual points.
-#' @param pch point shape used when `nrpoints>0`.
+#' @param pch `integer` point shape used when `nrpoints>0`.
 #' @param cex `numeric` point size expansion factor used when `nrpoints>0`.
 #' @param col `character` R color used when `nrpoints>0`.
 #' @param transformation `function` which converts point density to a number,
 #'    typically related to square root or cube root transformation.
-#' @param postPlotHook is `NULL` for no post-plot hook, or a `function` which
-#'    is called after producing the image plot. By default it is simply used
-#'    to draw a box around the image, but could be used to layer additional
-#'    information atop the image plot, for example contours, labels, etc.
+#' @param postPlotHook `function` or `NULL`, NULL default.
+#'    When `function` is supplied, it is called after producing the image.
+#'    By default it is simply used to draw a box around the image,
+#'    but could be used to layer additional information atop the image plot,
+#'    for example contours, labels, etc.
 #' @param xlab `character` x-axis label
 #' @param ylab `character` y-axis label
 #' @param xlim `numeric` x-axis range for the plot
@@ -1446,7 +1447,8 @@ imageDefault <- function
          "useRaster: ",
          useRaster);
    }
-   if (useRaster && fixRasterRatio) {
+   if (useRaster && fixRasterRatio > 1) {
+   } else if (useRaster && fixRasterRatio) {
       ## To try to deal with the raster function not handling the case of
       ## non-square data matrices, we'll try to make the data roughly square by
       ## duplicating some data
@@ -2917,7 +2919,8 @@ breakDensity <- function
          if (length(breaks) == 1) {
             width <- diff(range(x))/(breaks) * densityBreaksFactor;
          } else {
-            width <- diff(range(x))/(stats::median(diff(breaks))) * densityBreaksFactor;
+            width <- diff(range(x)) /
+               (stats::median(diff(breaks))) * densityBreaksFactor;
          }
       }
       if (verbose) {
@@ -2930,11 +2933,13 @@ breakDensity <- function
       }
       dx <- stats::density(x,
          width=width,
+         subdensity=TRUE,
          weight=weightFactor,
          ...);
    } else {
       dx <- stats::density(x,
          width=width,
+         subdensity=TRUE,
          weight=weightFactor,
          bw=bw,
          ...);

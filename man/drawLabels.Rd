@@ -32,6 +32,7 @@ drawLabels(
   adjY = 0.5,
   panelWidth = "default",
   trimReturns = TRUE,
+  text_fn = getOption("jam.text_fn", graphics::text),
   verbose = FALSE,
   ...
 )
@@ -123,6 +124,18 @@ the plot panel width
 \item{trimReturns}{\code{logical} whether to trim leading and trailing return
 (newline) characters from labels.}
 
+\item{text_fn}{\code{function} used to render text, by default it checks
+\code{getOption("jam.text_fn", graphics::text)} which then defaults
+to \code{graphics::text}.
+\itemize{
+\item This argument is specifically to enable \code{jamba::shadowText()},
+for example \code{text_fn=jamba::shadowText}.
+\item Previous to version 0.0.107.900, one could assign
+\code{text <- jamba::shadowText} however that option was removed
+to make jamba more compliant with recommended R code, and
+ready for CRAN.
+}}
+
 \item{verbose}{\code{logical} whether to print verbose output.}
 
 \item{...}{additional arguments are passed to \code{graphics::segments()} when
@@ -143,6 +156,8 @@ This function takes a vector of coordinates and text labels,
 and draws the labels with colored rectangles around each label
 on the plot. Each label can have unique font, cex, and color,
 and are drawn using vectorized operations.
+
+To enable shadow text include argument: \code{text_fn=jamba::shadowText}
 
 TODO: In future allow rotated text labels. Not that useful within
 a plot panel, but sometimes useful when draw outside a plot, for
@@ -226,7 +241,6 @@ Other jam plot functions:
 \code{\link{shadowText}()},
 \code{\link{shadowText_options}()},
 \code{\link{showColors}()},
-\code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},
 \code{\link{usrBox}()}
 }

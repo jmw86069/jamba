@@ -189,34 +189,6 @@ Other jam sort functions:
 \code{\link{mixedSortDF}()},
 \code{\link{mmixedOrder}()}
 
-Other jam string functions: 
-\code{\link{asSize}()},
-\code{\link{breaksByVector}()},
-\code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
-\code{\link{fillBlanks}()},
-\code{\link{formatInt}()},
-\code{\link{gsubOrdered}()},
-\code{\link{gsubs}()},
-\code{\link{makeNames}()},
-\code{\link{mixedOrder}()},
-\code{\link{mixedSort}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mmixedOrder}()},
-\code{\link{nameVector}()},
-\code{\link{nameVectorN}()},
-\code{\link{padInteger}()},
-\code{\link{padString}()},
-\code{\link{pasteByRow}()},
-\code{\link{pasteByRowOrdered}()},
-\code{\link{sizeAsNum}()},
-\code{\link{tcount}()},
-\code{\link{ucfirst}()},
-\code{\link{uniques}()}
-
 Other jam list functions: 
 \code{\link{cPaste}()},
 \code{\link{cPasteS}()},
@@ -237,4 +209,3 @@ Other jam list functions:
 }
 \concept{jam list functions}
 \concept{jam sort functions}
-\concept{jam string functions}

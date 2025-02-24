@@ -161,7 +161,6 @@ Other jam plot functions:
 \code{\link{plotSmoothScatter}()},
 \code{\link{shadowText}()},
 \code{\link{showColors}()},
-\code{\link{smoothScatterJam}()},
 \code{\link{sqrtAxis}()},
 \code{\link{usrBox}()}
 }

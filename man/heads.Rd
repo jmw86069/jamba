@@ -42,39 +42,6 @@ heads(l, n=c(2, 1, 3, 5))
 
 }
 \seealso{
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{fixYellow}()},
-\code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{make_html_styles}()},
-\code{\link{make_styles}()},
-\code{\link{match_unique}()},
-\code{\link{mergeAllXY}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{printDebug}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{sclass}()},
-\code{\link{sdim}()},
-\code{\link{setPrompt}()}
-
 Other jam list functions: 
 \code{\link{cPaste}()},
 \code{\link{cPasteS}()},
@@ -94,4 +61,3 @@ Other jam list functions:
 \code{\link{unnestList}()}
 }
 \concept{jam list functions}
-\concept{jam practical functions}

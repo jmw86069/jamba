@@ -4,8 +4,8 @@
 #'
 #' Note this function is experimental.
 #'
-#' @family jam practical functions
-#' @family jam color functions
+#' @family jam internal functions
+#'
 #' @inheritParams make_styles
 #'
 #' @export

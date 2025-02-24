@@ -1,6 +1,6 @@
 Package: jamba
 Title: Jam Base Methods
-Version: 0.0.106.900
+Version: 0.0.107.900
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre"))
 Description: Jam base functions for bioinformatics, alphanumeric sort,
@@ -46,7 +46,7 @@ Enhances:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/jmw86069/jamba
+URL: https://jmw86069.github.io/jamba
 BugReports: https://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

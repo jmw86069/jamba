@@ -87,7 +87,6 @@ graphics::par("mfrow"=parMfrow);
 \seealso{
 Other jam numeric functions: 
 \code{\link{deg2rad}()},
-\code{\link{fix_matrix_ratio}()},
 \code{\link{normScale}()},
 \code{\link{rad2deg}()},
 \code{\link{rowGroupMeans}()},

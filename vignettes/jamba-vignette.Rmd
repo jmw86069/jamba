@@ -62,7 +62,7 @@ The test data shows a set of points not well-resolved with default
 `smoothScatter()`, but which is more clearly displayed with
 `plotSmoothScatter()`.
 
-```{r plotSmoothScatter, fig.show='hold'}
+```{r plotSmoothScatter, fig.show='hold', fig.alt="Example of smooth scatterplots using the default R function, and enhanced function in the jamba package."}
 plotSmoothScatter(doTest=TRUE);
 ```
 
@@ -89,7 +89,7 @@ table of repeated values, for example in experiment design.
 Here, we define a simple data.frame composed of colors, then use
 the data.frame to label itself:
 
-```{r imageByColors1, fig.show='hold'}
+```{r imageByColors1, fig.show='hold', fig.alt="Example color matrix as plotted using the image by colors function()"}
 a1 <- c("red","blue")[c(1,1,2)];
 b1 <- c("yellow","orange")[c(1,2,2)];
 c1 <- c("purple","orange")[c(1,2,2)];
@@ -101,7 +101,7 @@ imageByColors(df1, cellnote=df1);
 Labels can be independently rotated and resized, an
 arbitrary example is shown below:
 
-```{r imageByColors2, fig.show='hold'}
+```{r imageByColors2, fig.show='hold', fig.alt="Example color matrix with rotated and grouped labels as plotted using the image by colors function."}
 imageByColors(df1,
    cellnote=df1, 
    useRaster=TRUE,
@@ -136,7 +136,7 @@ while the underlying data can be any numeric base.
 
 Also note that zero values are represented as zero.
 
-```{r, log_ticks_1, fig.show='hold'}
+```{r, log_ticks_1, fig.show='hold', fig.alt="Example showing various forms of log tick axis labels."}
 expr <- 2^seq(from=0, to=17, length.out=20) - 1;
 par("mfrow"=c(2,2));
 layout(matrix(ncol=2, data=c(1,2,3,3)));
@@ -176,7 +176,7 @@ preferred to represent fold changes because
 it allows the "up" and "down" values to be symmetric.
 
 
-```{r, log_fc_ticks, fig.show='hold'}
+```{r, log_fc_ticks, fig.show='hold', fig.alt="Example showing log fold change ticks, using log2 scale with positive and negative values."}
 fr <- round(2^(0:14/2 - 3.5), digits=2);
 fc <- round(ifelse(fr < 1, -1/fr, fr), digits=2);
 fl <- paste0(format(fr, trim=TRUE),
@@ -241,7 +241,7 @@ makes two other options convenient:
 * transform the x-axis with either `log10(1+x)` or `sqrt()`,
 * display multiple panels for each column of a numeric matrix.
 
-```{r, plot_dens_log, fig.show='hold'}
+```{r, plot_dens_log, fig.show='hold', fig.alt="Example polygon density plot."}
 par("mar"=c(8,4,4,2), "mfrow"=c(2, 2));
 options("scipen"=7);
 plotPolygonDensity(10^(3+rnorm(2000)),
@@ -272,7 +272,9 @@ drawLabels(preset="bottom",
 way to add a label to a plot. The argument `preset` is used to
 place the label relative to the sides and corners of the plot.
 
-```{r, draw_labels, fig.show='hold'}
+Shown below `text_fn=jamba::shadowText` will enable shadow text output.
+
+```{r, draw_labels, fig.show='hold', fig.alt="Example showing text labels, and shadow text labels on a colored background."}
 par("mfrow"=c(1,1))
 plotPolygonDensity((3+rnorm(2000))^2,
    cex.axis=1,
@@ -281,6 +283,7 @@ plotPolygonDensity((3+rnorm(2000))^2,
    main="");
 drawLabels(preset="bottom",
    txt="sqrt-scaled x-axis",
+   text_fn=jamba::shadowText,
    labelCex=1.5)
 ```
 
@@ -326,13 +329,13 @@ The function alternates the brightness value and
 color saturation, so adjacent
 colors are more visibly distinct.
 
-```{r, get_color_ramp, fig.show='hold'}
+```{r, get_color_ramp, fig.show='hold', fig.alt="Example of color gradients using the Brewer package."}
 showColors(list(
    Reds=getColorRamp("Reds"),
    RdBu=getColorRamp("RdBu"),
    RdBu_r=getColorRamp("RdBu_r"),
-   `RdBu_r_warped x5`=warpRamp(getColorRamp("RdBu_r"), lens=5),
-   `RdBu_r_warped x-5`=warpRamp(getColorRamp("RdBu_r"), lens=-5)
+   `RdBu_r, lens=5`=warpRamp(getColorRamp("RdBu_r"), lens=5),
+   `RdBu_r, lens=-5`=warpRamp(getColorRamp("RdBu_r"), lens=-5)
    ));
 
 showColors(vigrep("red", colors()))

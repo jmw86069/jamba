@@ -26,7 +26,6 @@ rad2deg(c(pi*2, pi/2))
 \seealso{
 Other jam numeric functions: 
 \code{\link{deg2rad}()},
-\code{\link{fix_matrix_ratio}()},
 \code{\link{noiseFloor}()},
 \code{\link{normScale}()},
 \code{\link{rowGroupMeans}()},

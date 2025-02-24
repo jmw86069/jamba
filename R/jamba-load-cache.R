@@ -1,27 +1,36 @@
 
 #' Reload Rmarkdown cache
 #'
-#' Reload Rmarkdown cache in the order files were created
+#' Reload Rmarkdown cache in the order files were created, into an
+#' R environment
 #'
 #' This function is intended to help re-load Rmarkdown cache files
 #' created during the processing/rendering of an Rmarkdown file.
 #'
 #' By default, all cached R objects are loaded into the
-#' global environment `globalenv()`.
+#' global environment `globalenv()`, However,
+#' **it is recommended that `envir` is used to define a new environment**
+#' into which the cached session is loaded.
 #'
-#' It can be given an argumen `envir` to store R objects inside
-#' a specific `environment`.
+#' ```
+#' cache_env <- new.env()
+#' reload_rmarkdown_cache(cachedir, envir=cache_env)
+#' ```
 #'
-#' If supplied with `max_cache_name` then this function will only
-#' load the cache chunks in order, until it recognizes that
-#' chunk name. This option is intended to help restore the R
-#' data available for a particular Rmarkdown chunk.
+#' From then on, the cached data objects can be seen with `ls(cache_env)`
+#' and retrieved with `get("objectname", envir=cache_env)`.
+#'
+#' If supplied with `maxnum` or `max_cache_name` then the cache
+#' will be loaded only up to this point, and not beyond.
+#' The recommended method to determine the cache is to use `dryrun=TRUE`
+#' to view all sections, then to choose the `integer` number, or
+#' `character` name to define the maximum chunk to load.
 #'
 #' @return this function does not return data, but instead is called
 #'    for the by-product of loading data into the given `envir`
 #'    environment.
 #'
-#' @family jam utility functions
+#' @family jam practical functions
 #'
 #' @param dir `character` path to the directory that contains Rmarkdown
 #'    cache files. Each file is recognized by the file extension `".rdx"`.
@@ -48,12 +57,13 @@
 #'    * `ctime` sorts by file creation time, default
 #'    * `mtime` sorts by file modification time
 #' @param preferred_load_types `character` string indicating the preferred
-#'    load mechanism to use. By default it will use `lazyLoad()` if `.rdx/.rdb`
-#'    files are present, otherwise it falls back to using `load()` for `.RData`
-#'    files.
-#'    Remove `"lazyLoad"` to prevent lazy-loading of cached objects.
+#'    load mechanism to use.
+#'    By default either option is permitted, depending upon the files
+#'    present: it will use `lazyLoad()` if `.rdx/.rdb` files are present,
+#'    otherwise it falls back to using `load()` for `.RData` files.
 #'    * `"lazyLoad"` will try to use `lazyLoad()` to load `.rdx/.rdb` files
 #'    * `"load"` will try to use `load()` to load `.RData` files
+#'    * Remove `"lazyLoad"` to prevent lazy-loading of cached objects.
 #' @param dryrun `logical` indicating whether to perform a dry-run,
 #'    which prints messages but does not process the data.
 #' @param verbose `logical` indicating whether to print verbose output.

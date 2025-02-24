@@ -7,6 +7,8 @@
 #' on the plot. Each label can have unique font, cex, and color,
 #' and are drawn using vectorized operations.
 #'
+#' To enable shadow text include argument: `text_fn=jamba::shadowText`
+#'
 #' TODO: In future allow rotated text labels. Not that useful within
 #' a plot panel, but sometimes useful when draw outside a plot, for
 #' example axis labels.
@@ -80,6 +82,15 @@
 #'    the plot panel width
 #' @param trimReturns `logical` whether to trim leading and trailing return
 #'    (newline) characters from labels.
+#' @param text_fn `function` used to render text, by default it checks
+#'    `getOption("jam.text_fn", graphics::text)` which then defaults
+#'    to `graphics::text`.
+#'    * This argument is specifically to enable `jamba::shadowText()`,
+#'    for example `text_fn=jamba::shadowText`.
+#'    * Previous to version 0.0.107.900, one could assign
+#'    `text <- jamba::shadowText` however that option was removed
+#'    to make jamba more compliant with recommended R code, and
+#'    ready for CRAN.
 #' @param verbose `logical` whether to print verbose output.
 #' @param ... additional arguments are passed to `graphics::segments()` when
 #'    segments are drawn, to `graphics::rect()` when label boxes are drawn,
@@ -174,6 +185,7 @@ drawLabels <- function
  adjY=0.5,
  panelWidth="default",
  trimReturns=TRUE,
+ text_fn=getOption("jam.text_fn", graphics::text),
  verbose=FALSE,
  ...)
 {
@@ -515,7 +527,7 @@ drawLabels <- function
             "Printing labels head(txt): ",
             paste(head(txt), collapse=", "));
       }
-      graphics::text(x=textX[whichLabels],
+      text_fn(x=textX[whichLabels],
          y=textY[whichLabels],
          font=font,
          labels=newCoords$txt[whichLabels],

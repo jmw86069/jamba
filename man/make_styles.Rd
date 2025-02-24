@@ -116,64 +116,9 @@ This function is essentially a vectorized version of
 character strings with a vector of foreground and background styles.
 }
 \seealso{
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{fixYellow}()},
-\code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
-\code{\link{heads}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
+Other jam internal functions: 
+\code{\link{jamCalcDensity}()},
 \code{\link{make_html_styles}()},
-\code{\link{match_unique}()},
-\code{\link{mergeAllXY}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{printDebug}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{sclass}()},
-\code{\link{sdim}()},
-\code{\link{setPrompt}()}
-
-Other jam color functions: 
-\code{\link{alpha2col}()},
-\code{\link{applyCLrange}()},
-\code{\link{col2alpha}()},
-\code{\link{col2hcl}()},
-\code{\link{col2hsl}()},
-\code{\link{col2hsv}()},
-\code{\link{color2gradient}()},
-\code{\link{fixYellow}()},
-\code{\link{fixYellowHue}()},
-\code{\link{getColorRamp}()},
-\code{\link{hcl2col}()},
-\code{\link{hsl2col}()},
-\code{\link{hsv2col}()},
-\code{\link{isColor}()},
-\code{\link{kable_coloring}()},
-\code{\link{makeColorDarker}()},
-\code{\link{make_html_styles}()},
-\code{\link{rainbow2}()},
-\code{\link{rgb2col}()},
-\code{\link{setCLranges}()},
-\code{\link{setTextContrastColor}()},
-\code{\link{showColors}()},
-\code{\link{unalpha}()},
-\code{\link{warpRamp}()}
+\code{\link{smoothScatterJam}()}
 }
-\concept{jam color functions}
-\concept{jam practical functions}
+\concept{jam internal functions}

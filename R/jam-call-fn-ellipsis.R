@@ -22,7 +22,7 @@
 #'
 #' Note that arguments therefore must be named.
 #'
-#' @family jam utility functions
+#' @family jam practical functions
 #'
 #' @return output from `FUN()` when called with relevant named arguments
 #'    from ellipsis `...`

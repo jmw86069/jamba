@@ -1,468 +1,154 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/TODO.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/jamba-vignette.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/new_fn_notes.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/prep_CRAN_release_dec2022.html</loc>
-  </url>
-  <url>
-    <loc>/reference/adjustAxisLabelMargins.html</loc>
-  </url>
-  <url>
-    <loc>/reference/alpha2col.html</loc>
-  </url>
-  <url>
-    <loc>/reference/applyCLrange.html</loc>
-  </url>
-  <url>
-    <loc>/reference/applyXlsxCategoricalFormat.html</loc>
-  </url>
-  <url>
-    <loc>/reference/applyXlsxConditionalFormat.html</loc>
-  </url>
-  <url>
-    <loc>/reference/asDate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/asSize.html</loc>
-  </url>
-  <url>
-    <loc>/reference/breakDensity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/breaksByVector.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cPaste.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cPasteS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cPasteSU.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cPasteU.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cPasteUnique.html</loc>
-  </url>
-  <url>
-    <loc>/reference/call_fn_ellipsis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cell_fun_label.html</loc>
-  </url>
-  <url>
-    <loc>/reference/checkLightMode.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_pkg_installed.html</loc>
-  </url>
-  <url>
-    <loc>/reference/col2alpha.html</loc>
-  </url>
-  <url>
-    <loc>/reference/col2hcl.html</loc>
-  </url>
-  <url>
-    <loc>/reference/col2hsl.html</loc>
-  </url>
-  <url>
-    <loc>/reference/col2hsv.html</loc>
-  </url>
-  <url>
-    <loc>/reference/colNum2excelName.html</loc>
-  </url>
-  <url>
-    <loc>/reference/color2gradient.html</loc>
-  </url>
-  <url>
-    <loc>/reference/color_dither.html</loc>
-  </url>
-  <url>
-    <loc>/reference/coordPresets.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dateToDaysOld.html</loc>
-  </url>
-  <url>
-    <loc>/reference/decideMfrow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/deg2rad.html</loc>
-  </url>
-  <url>
-    <loc>/reference/diff_functions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/drawLabels.html</loc>
-  </url>
-  <url>
-    <loc>/reference/exp2signed.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fileInfo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fillBlanks.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fixYellow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fixYellowHue.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_matrix_ratio.html</loc>
-  </url>
-  <url>
-    <loc>/reference/formatInt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getAxisLabel.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getColorRamp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getDate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getPlotAspect.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grepls.html</loc>
-  </url>
-  <url>
-    <loc>/reference/groupedAxis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gsubOrdered.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gsubs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/handleArgsText.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hcl2col.html</loc>
-  </url>
-  <url>
-    <loc>/reference/heads.html</loc>
-  </url>
-  <url>
-    <loc>/reference/heatmap_column_order.html</loc>
-  </url>
-  <url>
-    <loc>/reference/heatmap_row_order.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hsl2col.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hsv2col.html</loc>
-  </url>
-  <url>
-    <loc>/reference/igrep.html</loc>
-  </url>
-  <url>
-    <loc>/reference/igrepHas.html</loc>
-  </url>
-  <url>
-    <loc>/reference/igrepl.html</loc>
-  </url>
-  <url>
-    <loc>/reference/imageByColors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/imageDefault.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/isColor.html</loc>
-  </url>
-  <url>
-    <loc>/reference/isFALSEV.html</loc>
-  </url>
-  <url>
-    <loc>/reference/isTRUEV.html</loc>
-  </url>
-  <url>
-    <loc>/reference/jamCalcDensity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/jam_rapply.html</loc>
-  </url>
-  <url>
-    <loc>/reference/jamba.html</loc>
-  </url>
-  <url>
-    <loc>/reference/jargs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/kable_coloring.html</loc>
-  </url>
-  <url>
-    <loc>/reference/list2df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/lldf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/log2signed.html</loc>
-  </url>
-  <url>
-    <loc>/reference/makeColorDarker.html</loc>
-  </url>
-  <url>
-    <loc>/reference/makeNames.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make_html_styles.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make_styles.html</loc>
-  </url>
-  <url>
-    <loc>/reference/match_unique.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mergeAllXY.html</loc>
-  </url>
-  <url>
-    <loc>/reference/middle.html</loc>
-  </url>
-  <url>
-    <loc>/reference/minorLogTicks.html</loc>
-  </url>
-  <url>
-    <loc>/reference/minorLogTicksAxis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mixedOrder.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mixedSort.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mixedSortDF.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mixedSorts.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mmixedOrder.html</loc>
-  </url>
-  <url>
-    <loc>/reference/nameVector.html</loc>
-  </url>
-  <url>
-    <loc>/reference/nameVectorN.html</loc>
-  </url>
-  <url>
-    <loc>/reference/newestFile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/noiseFloor.html</loc>
-  </url>
-  <url>
-    <loc>/reference/normScale.html</loc>
-  </url>
-  <url>
-    <loc>/reference/nullPlot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/padInteger.html</loc>
-  </url>
-  <url>
-    <loc>/reference/padString.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pasteByRow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pasteByRowOrdered.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotPolygonDensity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotRidges.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotSmoothScatter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/printDebug.html</loc>
-  </url>
-  <url>
-    <loc>/reference/printDebugI.html</loc>
-  </url>
-  <url>
-    <loc>/reference/provigrep.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rad2deg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rbindList.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readOpenxlsx.html</loc>
-  </url>
-  <url>
-    <loc>/reference/relist_named.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reload_rmarkdown_cache.html</loc>
-  </url>
-  <url>
-    <loc>/reference/renameColumn.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rgb2col.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rlengths.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rmInfinite.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rmNA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rmNAs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rmNULL.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rowGroupMeans.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rowRmMadOutliers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sclass.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sdim.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sdima.html</loc>
-  </url>
-  <url>
-    <loc>/reference/setCLranges.html</loc>
-  </url>
-  <url>
-    <loc>/reference/setPrompt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/setTextContrastColor.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_xlsx_colwidths.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_xlsx_rowheights.html</loc>
-  </url>
-  <url>
-    <loc>/reference/shadowText.html</loc>
-  </url>
-  <url>
-    <loc>/reference/shadowText_options.html</loc>
-  </url>
-  <url>
-    <loc>/reference/showColors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sizeAsNum.html</loc>
-  </url>
-  <url>
-    <loc>/reference/smoothScatterJam.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sqrtAxis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ssdim.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ssdima.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tcount.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tcount2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ucfirst.html</loc>
-  </url>
-  <url>
-    <loc>/reference/unalpha.html</loc>
-  </url>
-  <url>
-    <loc>/reference/unigrep.html</loc>
-  </url>
-  <url>
-    <loc>/reference/uniques.html</loc>
-  </url>
-  <url>
-    <loc>/reference/unnestList.html</loc>
-  </url>
-  <url>
-    <loc>/reference/unvigrep.html</loc>
-  </url>
-  <url>
-    <loc>/reference/usrBox.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vgrep.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vigrep.html</loc>
-  </url>
-  <url>
-    <loc>/reference/warpAroundZero.html</loc>
-  </url>
-  <url>
-    <loc>/reference/warpRamp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/writeOpenxlsx.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://jmw86069.github.io/jamba/404.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/LICENSE-text.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/LICENSE.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/TODO.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/articles/index.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/articles/jamba-vignette.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/authors.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/index.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/new_fn_notes.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/news/index.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/prep_CRAN_release_dec2022.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/adjustAxisLabelMargins.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/alpha2col.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/applyCLrange.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/applyXlsxCategoricalFormat.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/applyXlsxConditionalFormat.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/asDate.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/asSize.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/breakDensity.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/breaksByVector.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/cPaste.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/cPasteS.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/cPasteSU.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/cPasteU.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/cPasteUnique.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/call_fn_ellipsis.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/cell_fun_label.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/checkLightMode.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/check_pkg_installed.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/col2alpha.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/col2hcl.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/col2hsl.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/col2hsv.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/colNum2excelName.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/color2gradient.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/color_dither.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/coordPresets.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/dateToDaysOld.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/decideMfrow.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/deg2rad.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/diff_functions.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/drawLabels.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/exp2signed.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/fileInfo.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/fillBlanks.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/fixYellow.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/fixYellowHue.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/formatInt.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/getAxisLabel.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/getColorRamp.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/getDate.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/getPlotAspect.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/grepls.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/groupedAxis.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/gsubOrdered.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/gsubs.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/handleArgsText.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/hcl2col.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/heads.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/heatmap_column_order.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/heatmap_row_order.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/hsl2col.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/hsv2col.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/igrep.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/igrepHas.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/igrepl.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/imageByColors.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/imageDefault.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/index.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/isColor.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/isFALSEV.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/isTRUEV.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/jamCalcDensity.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/jam_rapply.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/jamba-package.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/jargs.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/kable_coloring.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/list2df.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/lldf.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/log2signed.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/makeColorDarker.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/makeNames.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/make_html_styles.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/make_styles.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/match_unique.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/mergeAllXY.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/middle.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/minorLogTicks.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/minorLogTicksAxis.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/mixedOrder.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/mixedSort.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/mixedSortDF.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/mixedSorts.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/mmixedOrder.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/nameVector.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/nameVectorN.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/newestFile.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/noiseFloor.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/normScale.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/nullPlot.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/padInteger.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/padString.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/pasteByRow.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/pasteByRowOrdered.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/plotPolygonDensity.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/plotRidges.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/plotSmoothScatter.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/printDebug.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/provigrep.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rad2deg.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rainbow2.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rbindList.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/readOpenxlsx.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/relist_named.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/reload_rmarkdown_cache.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/renameColumn.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rgb2col.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rlengths.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rmInfinite.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rmNA.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rmNAs.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rmNULL.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rowGroupMeans.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/rowRmMadOutliers.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/sclass.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/sdim.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/setCLranges.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/setPrompt.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/setTextContrastColor.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/set_xlsx_colwidths.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/set_xlsx_rowheights.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/shadowText.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/shadowText_options.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/showColors.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/sizeAsNum.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/smoothScatterJam.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/sqrtAxis.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/tcount.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/tcount2.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/ucfirst.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/unalpha.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/unigrep.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/uniques.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/unnestList.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/unvigrep.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/usrBox.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/vgrep.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/vigrep.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/warpAroundZero.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/warpRamp.html</loc></url>
+<url><loc>https://jmw86069.github.io/jamba/reference/writeOpenxlsx.html</loc></url>
 </urlset>
+

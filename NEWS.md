@@ -1,3 +1,24 @@
+# jamba 0.0.107.900
+
+## changes
+
+* Adjusted function families to improve organization.
+* Updated pkgdown site docs.
+* Silenced warning in `breakDensity()`
+* Added alt-text to vignette image output.
+
+## breaking changes
+
+* `drawLabels()`
+
+   * new argument `text_fn` used instead of relying upon
+   `text()` from global environment. It typically uses `graphics::text()`
+   but could be customized with `text <- jamba::shadowText` to
+   override default behavior. It only affects `multienrichjam`,
+   which will be updated accordingly.
+
+* Removed for disuse: `tcount2()`, `fix_matrix_ratio()`
+
 # jamba 0.0.106.900
 
 ## changes

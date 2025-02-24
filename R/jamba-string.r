@@ -1280,7 +1280,6 @@ rmInfinite <- function
 #'    optimized logic when the class is known upfront.
 #' @param ... additional arguments are ignored.
 #'
-#' @family jam string functions
 #' @family jam list functions
 #'
 #' @examples
@@ -1475,7 +1474,7 @@ uniques <- function
 #' equivalent. The uniqueness is performed by `uniques()`, which itself
 #' will use `S4Vectors::unique()` if available.
 #'
-#' @return character vector with the same names and in the same order
+#' @return `character` vector with the same names and in the same order
 #'    as the input list `x`.
 #'
 #' @param x `list` of vectors
@@ -1496,8 +1495,17 @@ uniques <- function
 #'    factor levels, and non-factors will be ordered using
 #'    `base::order()` instead of `jamba::mixedOrder()` (for now.)
 #' @param checkClass `logical`, default TRUE, whether to check the class
-#'    of each vector in the input list. When FALSE it assumes all entries
-#'    are `character`, which is fastest, but does not honor factor order.
+#'    of each vector in the input list.
+#'    * When TRUE, it confirms the class of each element in the `list`
+#'    before processing, to prevent conversion which may otherwise
+#'    lose information.
+#'    * For all cases when a known vector is split into a `list`,
+#'    `checkClass=FALSE` is preferred since there is only one class
+#'    in the resulting `list` elements. This approach is faster
+#'    especially for for large input lists, 10000 or more.
+#'    * When `checkClass=FALSE` it assumes all entries can be
+#'    coerced to `character`, which is fastest, but does not preserve
+#'    factor levels due to R coersion methods used by `unlist()`.
 #' @param useBioc `logical` indicating whether this function should try
 #'    to use `S4Vectors::unstrsplit()` when the Bioconductor package
 #'    `S4Vectors` is installed, otherwise it will use a less
@@ -1568,7 +1576,6 @@ uniques <- function
 #' cPasteSU(L, keepFactors=TRUE);
 #' levels(unlist(L[c(2,3)]))
 #'
-#' @family jam string functions
 #' @family jam list functions
 #'
 #' @export
@@ -1794,7 +1801,6 @@ cPaste <- function
 #'
 #' @inheritParams cPaste
 #'
-#' @family jam string functions
 #' @family jam list functions
 #'
 #' @export
@@ -1831,7 +1837,6 @@ cPasteS <- function
 #'
 #' @inheritParams cPaste
 #'
-#' @family jam string functions
 #' @family jam list functions
 #'
 #' @export
@@ -1867,7 +1872,6 @@ cPasteSU <- function
 #'
 #' @inheritParams cPaste
 #'
-#' @family jam string functions
 #' @family jam list functions
 #'
 #' @export
@@ -1903,7 +1907,6 @@ cPasteUnique <- function
 #'
 #' @inheritParams cPaste
 #'
-#' @family jam string functions
 #' @family jam list functions
 #'
 #' @export
@@ -2128,18 +2131,19 @@ fillBlanks <- function
 #' to display integer values as text strings. It will also return a
 #' matrix if the input is a matrix.
 #'
-#' @return character vector if `x` is a vector, or if `x` is a matrix
+#' @return `character` vector if `x` is a vector, or if `x` is a matrix
 #' a matrix will be returned.
 #'
 #' @family jam string functions
 #'
-#' @param x numeric vector or matrix
-#' @param big.mark,trim,scientific options sent to `base::format()` but
-#'    configured with defaults intended for integer values.
-#' @param forceInteger logical indicating whether numeric values should
-#'    be rounded to the nearest integer value prior to `base::format()`.
-#'    This option is intended to hide decimal values where they are not
-#'    informative.
+#' @param x `numeric` vector or matrix
+#' @param big.mark,trim,scientific passed to `base::format()` but
+#'    configured with defaults intended for integer values:
+#'    * `big.mark=","` adds comma between thousands.
+#'    * `trim=TRUE` to trim excess whitespace.
+#'    * `scientific=FALSE` to prevent exponential notation.
+#' @param forceInteger `logical`, default TRUE, whether to round `numeric`
+#'    to `integer` prior to calling `base::format()`.
 #' @param ... Additional arguments are ignored.
 #'
 #' @examples
@@ -2314,7 +2318,6 @@ jam_rapply <- function
 #' `list` structure representing `x` input.
 #'
 #' @family jam sort functions
-#' @family jam string functions
 #' @family jam list functions
 #'
 #' @inheritParams mixedSort

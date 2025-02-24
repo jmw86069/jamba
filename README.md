@@ -88,21 +88,23 @@ the amazing `ggplot2` package is not a smooth fit.
   margins
 - `plotSmoothScatter()` - smooth scatter `plot()` for point density,
   enhanced over `smoothScatter()`
-  ![](man/figures/README-plotSmoothScatter-1.png)<!-- -->
+  <img src="man/figures/README-plotSmoothScatter-1.png" alt="Example of smooth scatterplots using the default R function, and enhanced function in the jamba package."  />
 - `plotPolygonDensity()` - fast density/histogram plot for vector or
-  matrix ![](man/figures/README-plotPolygonDensity-1.png)<!-- -->
+  matrix
+  <img src="man/figures/README-plotPolygonDensity-1.png" alt="Example polygon density plot."  />
 - `imageDefault()` - enhanced `image()` that enables raster output with
   consistent pixel aspect ratio.
 - `imageByColors()` - wrapper to `image()` for a matrix or data.frame of
   colors, with optional labels
-  ![](man/figures/README-imageByColors-1.png)<!-- -->
+  <img src="man/figures/README-imageByColors-1.png" alt="Example color matrix as plotted using the image by colors function()"  />
 - `minorLogTicksAxis()` - log-transformed axis labels, flexible log
   base, and option for properly adjusted `log2(1 + x)` format.
 - `sqrtAxis()` - draw a square-root transformed axis, with proper
   labels.
 - `drawLabels()` - draw square colorized text labels
 - `shadowText()` - replacement for `text()` that draws shadows or
-  outlines. ![](man/figures/README-labels-1.png)<!-- -->
+  outlines.
+  <img src="man/figures/README-labels-1.png" alt="Example showing text labels, and shadow text labels on a colored background."  />
 - `groupedAxis()` - grouped axis labels to show regions/ranges
 - `decideMfrow()` - determine appropriate value for `par("mfrow")` for
   multipanel output in base R plotting.
@@ -133,7 +135,10 @@ every R plot.
 - `showColors()` - display a vector or list of colors
 - `fixYellow()` - adjust the weird green-yellow, by personal preference
 - `printDebug()` - pretty colorized text output using `crayon` package.
-  ![](man/figures/README-colorshow-1.png)<!-- -->
+- `rainbow2()` - rainbow categorical colors with enhanced visual
+  contrast.
+
+<img src="man/figures/README-colorshow-1.png" alt="Image showing a series of color palettes, adjusting contrast with lens, and expanding palettes with color2gradient()"  />
 
 ### List
 

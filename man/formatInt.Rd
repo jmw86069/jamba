@@ -14,20 +14,23 @@ formatInt(
 )
 }
 \arguments{
-\item{x}{numeric vector or matrix}
+\item{x}{\code{numeric} vector or matrix}
 
-\item{big.mark, trim, scientific}{options sent to \code{base::format()} but
-configured with defaults intended for integer values.}
+\item{big.mark, trim, scientific}{passed to \code{base::format()} but
+configured with defaults intended for integer values:
+\itemize{
+\item \code{big.mark=","} adds comma between thousands.
+\item \code{trim=TRUE} to trim excess whitespace.
+\item \code{scientific=FALSE} to prevent exponential notation.
+}}
 
-\item{forceInteger}{logical indicating whether numeric values should
-be rounded to the nearest integer value prior to \code{base::format()}.
-This option is intended to hide decimal values where they are not
-informative.}
+\item{forceInteger}{\code{logical}, default TRUE, whether to round \code{numeric}
+to \code{integer} prior to calling \code{base::format()}.}
 
 \item{...}{Additional arguments are ignored.}
 }
 \value{
-character vector if \code{x} is a vector, or if \code{x} is a matrix
+\code{character} vector if \code{x} is a vector, or if \code{x} is a matrix
 a matrix will be returned.
 }
 \description{
@@ -51,20 +54,10 @@ formatInt(x, forceInteger=FALSE);
 Other jam string functions: 
 \code{\link{asSize}()},
 \code{\link{breaksByVector}()},
-\code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
-\code{\link{mixedOrder}()},
-\code{\link{mixedSort}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mixedSorts}()},
-\code{\link{mmixedOrder}()},
 \code{\link{nameVector}()},
 \code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
@@ -73,7 +66,6 @@ Other jam string functions:
 \code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
-\code{\link{ucfirst}()},
-\code{\link{uniques}()}
+\code{\link{ucfirst}()}
 }
 \concept{jam string functions}

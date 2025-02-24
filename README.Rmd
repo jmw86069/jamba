@@ -104,7 +104,7 @@ the amazing `ggplot2` package is not a smooth fit.
 * `nullPlot()` - convenient "blank" base R plot, optionally displays margins
 * `plotSmoothScatter()` - smooth scatter `plot()` for point density, enhanced
 over `smoothScatter()`
-```{r, plotSmoothScatter, echo=FALSE}
+```{r, plotSmoothScatter, echo=FALSE, fig.alt="Example of smooth scatterplots using the default R function, and enhanced function in the jamba package."}
 require(jamba);
 set.seed(123);
 x <- matrix(ncol=2, data=rnorm(40000*2));
@@ -117,14 +117,14 @@ plotSmoothScatter(x, main="plotSmoothScatter()");
 par(opar);
 ```
 * `plotPolygonDensity()` - fast density/histogram plot for vector or matrix
-```{r, plotPolygonDensity, echo=FALSE}
+```{r, plotPolygonDensity, echo=FALSE, fig.alt="Example polygon density plot."}
 plotPolygonDensity(x[,1] - x[,2]);
 ```
 * `imageDefault()` - enhanced `image()` that enables raster output with
 consistent pixel aspect ratio.
 * `imageByColors()` - wrapper to `image()` for a matrix or data.frame of colors,
 with optional labels
-```{r, imageByColors, echo=FALSE}
+```{r, imageByColors, echo=FALSE, fig.alt="Example color matrix as plotted using the image by colors function()"}
 set.seed(23);
 opar <- par("mar"=c(1,1,1,1));
 m <- matrix(sample(colors(), 9), ncol=3)
@@ -136,16 +136,15 @@ option for properly adjusted `log2(1 + x)` format.
 * `sqrtAxis()` - draw a square-root transformed axis, with proper labels.
 * `drawLabels()` - draw square colorized text labels
 * `shadowText()` - replacement for `text()` that draws shadows or outlines.
-```{r, labels, echo=FALSE}
+```{r, labels, echo=FALSE, fig.alt="Example showing text labels, and shadow text labels on a colored background."}
 opar <- par("mar"=c(1,1,1,1));
 nullPlot(fill="navy", plotAreaTitle="", doMargins=FALSE);
-text <- shadowText;
 drawLabels(txt="shadowText() label",
   boxColor=alpha2col("palegoldenrod", 0.6),
   labelCol=setTextContrastColor(alpha2col("palegoldenrod", 0.6),
     bg="navy"),
+  text_fn=shadowText,
   x=1.6, y=1.3, labelCex=2);
-rm(text);
 drawLabels(txt="text() label",
   boxColor=alpha2col("palegoldenrod", 0.6),
   labelCol=setTextContrastColor(alpha2col("palegoldenrod", 0.6),
@@ -183,19 +182,25 @@ same for a vector
 * `showColors()` - display a vector or list of colors
 * `fixYellow()` - adjust the weird green-yellow, by personal preference
 * `printDebug()` - pretty colorized text output using `crayon` package.
-```{r, colorshow, echo=FALSE}
+* `rainbow2()` - rainbow categorical colors with enhanced visual contrast.
+
+```{r, colorshow, echo=FALSE, fig.height=6, fig.alt="Image showing a series of color palettes, adjusting contrast with lens, and expanding palettes with color2gradient()"}
 opar=par("mar"=c(1,1,1,1));
 rainbowv <- c("red","yellow","green","cyan","blue","magenta");
 colorlist <- list(
-  viridis_lens5=rep(each=2, getColorRamp("viridis", n=12, lens=5)),
-  viridis=rep(each=2, getColorRamp("viridis", n=12)),
-  `viridis_lens-5`=rep(each=2, getColorRamp("viridis", n=12, lens=-5)),
-  RdBu_r_lens5=rep(each=2, getColorRamp("RdBu_r", n=11, lens=5)),
-  RdBu_r=rep(each=2, getColorRamp("RdBu_r", n=11)),
-  `RdBu_r_lens-5`=rep(each=2, getColorRamp("RdBu_r", n=11, lens=-5)),
-  rainbow=rep(rainbowv, each=4),
-  rainbow_gradient2=rep(each=2, color2gradient(rainbowv, n=2, gradientWtFactor=1/3)),
-  rainbow_gradient4=color2gradient(rainbowv, n=4, gradientWtFactor=1/3)
+  `viridis`=rep(each=2, getColorRamp("viridis", n=12)),
+  `viridis lens=5`=rep(each=2, getColorRamp("viridis", n=12, lens=5)),
+  `viridis lens=-5`=rep(each=2, getColorRamp("viridis", n=12, lens=-5)),
+  `RdBu_r n=11`=rep(each=2, getColorRamp("RdBu_r", n=11)),
+  `RdBu_r lens=5`=rep(each=2, getColorRamp("RdBu_r", n=11, lens=5)),
+  `RdBu_r lens=-5`=rep(each=2, getColorRamp("RdBu_r", n=11, lens=-5)),
+  `rainbow(6)`=rep(rainbowv, each=4),
+  rainbow_gradient2=rep(each=2, color2gradient(rainbowv,
+    n=2, gradientWtFactor=1/3)),
+  rainbow_gradient4=color2gradient(rainbowv, n=4, gradientWtFactor=1/3),
+  `rainbow2(6)`=rep(rainbow2(6), each=4),
+  `rainbow2(12)`=rep(rainbow2(12), each=2),
+  `rainbow2(24)`=rainbow2(24)
 )
 showColors(colorlist, xaxt="n", labelCells=FALSE);
 par(opar);

@@ -611,7 +611,6 @@ fixYellowHue <- function
 #'    step in the conversion produces length 0, then the
 #'    original `col` is returned.
 #'
-#' @family jam practical functions
 #' @family jam color functions
 #'
 #' @examples

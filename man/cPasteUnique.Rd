@@ -41,8 +41,19 @@ factor levels, and non-factors will be ordered using
 \code{base::order()} instead of \code{jamba::mixedOrder()} (for now.)}
 
 \item{checkClass}{\code{logical}, default TRUE, whether to check the class
-of each vector in the input list. When FALSE it assumes all entries
-are \code{character}, which is fastest, but does not honor factor order.}
+of each vector in the input list.
+\itemize{
+\item When TRUE, it confirms the class of each element in the \code{list}
+before processing, to prevent conversion which may otherwise
+lose information.
+\item For all cases when a known vector is split into a \code{list},
+\code{checkClass=FALSE} is preferred since there is only one class
+in the resulting \code{list} elements. This approach is faster
+especially for for large input lists, 10000 or more.
+\item When \code{checkClass=FALSE} it assumes all entries can be
+coerced to \code{character}, which is fastest, but does not preserve
+factor levels due to R coersion methods used by \code{unlist()}.
+}}
 
 \item{useBioc}{\code{logical} indicating whether this function should try
 to use \code{S4Vectors::unstrsplit()} when the Bioconductor package
@@ -60,34 +71,6 @@ usually delimited by a comma.
 This function is convenient a wrapper for \code{cPaste(..., makeUnique=TRUE)}.
 }
 \seealso{
-Other jam string functions: 
-\code{\link{asSize}()},
-\code{\link{breaksByVector}()},
-\code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{fillBlanks}()},
-\code{\link{formatInt}()},
-\code{\link{gsubOrdered}()},
-\code{\link{gsubs}()},
-\code{\link{makeNames}()},
-\code{\link{mixedOrder}()},
-\code{\link{mixedSort}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mixedSorts}()},
-\code{\link{mmixedOrder}()},
-\code{\link{nameVector}()},
-\code{\link{nameVectorN}()},
-\code{\link{padInteger}()},
-\code{\link{padString}()},
-\code{\link{pasteByRow}()},
-\code{\link{pasteByRowOrdered}()},
-\code{\link{sizeAsNum}()},
-\code{\link{tcount}()},
-\code{\link{ucfirst}()},
-\code{\link{uniques}()}
-
 Other jam list functions: 
 \code{\link{cPaste}()},
 \code{\link{cPasteS}()},
@@ -107,4 +90,3 @@ Other jam list functions:
 \code{\link{unnestList}()}
 }
 \concept{jam list functions}
-\concept{jam string functions}

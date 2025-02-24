@@ -66,12 +66,12 @@
 #' m <- matrix(stats::rnorm(16)*2, ncol=4)
 #' colnames(m) <- LETTERS[1:4]
 #' rownames(m) <- letters[1:4]
-#' #col_hm <- circlize::colorRamp2(breaks=(-2:2) * 2,
-#' #   colors=c("navy", "dodgerblue", "white", "tomato", "red4"))
+#' col_hm <- circlize::colorRamp2(breaks=(-2:2) * 2,
+#'    colors=c("navy", "dodgerblue", "white", "tomato", "red4"))
 #'
 #' # the heatmap can be created in one step
 #' hm <- ComplexHeatmap::Heatmap(m,
-#'    #col=col_hm,
+#'    col=col_hm,
 #'    heatmap_legend_param=list(
 #'       color_bar="discrete",
 #'       border=TRUE,

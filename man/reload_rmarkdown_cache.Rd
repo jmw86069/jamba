@@ -49,13 +49,14 @@ some reason the \code{"__globals"} or \code{"__objects"} files are not present.
 }}
 
 \item{preferred_load_types}{\code{character} string indicating the preferred
-load mechanism to use. By default it will use \code{lazyLoad()} if \code{.rdx/.rdb}
-files are present, otherwise it falls back to using \code{load()} for \code{.RData}
-files.
-Remove \code{"lazyLoad"} to prevent lazy-loading of cached objects.
+load mechanism to use.
+By default either option is permitted, depending upon the files
+present: it will use \code{lazyLoad()} if \code{.rdx/.rdb} files are present,
+otherwise it falls back to using \code{load()} for \code{.RData} files.
 \itemize{
 \item \code{"lazyLoad"} will try to use \code{lazyLoad()} to load \code{.rdx/.rdb} files
 \item \code{"load"} will try to use \code{load()} to load \code{.RData} files
+\item Remove \code{"lazyLoad"} to prevent lazy-loading of cached objects.
 }}
 
 \item{dryrun}{\code{logical} indicating whether to perform a dry-run,
@@ -74,25 +75,58 @@ for the by-product of loading data into the given \code{envir}
 environment.
 }
 \description{
-Reload Rmarkdown cache in the order files were created
+Reload Rmarkdown cache in the order files were created, into an
+R environment
 }
 \details{
 This function is intended to help re-load Rmarkdown cache files
 created during the processing/rendering of an Rmarkdown file.
 
 By default, all cached R objects are loaded into the
-global environment \code{globalenv()}.
+global environment \code{globalenv()}, However,
+\strong{it is recommended that \code{envir} is used to define a new environment}
+into which the cached session is loaded.
 
-It can be given an argumen \code{envir} to store R objects inside
-a specific \code{environment}.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cache_env <- new.env()
+reload_rmarkdown_cache(cachedir, envir=cache_env)
+}\if{html}{\out{</div>}}
 
-If supplied with \code{max_cache_name} then this function will only
-load the cache chunks in order, until it recognizes that
-chunk name. This option is intended to help restore the R
-data available for a particular Rmarkdown chunk.
+From then on, the cached data objects can be seen with \code{ls(cache_env)}
+and retrieved with \code{get("objectname", envir=cache_env)}.
+
+If supplied with \code{maxnum} or \code{max_cache_name} then the cache
+will be loaded only up to this point, and not beyond.
+The recommended method to determine the cache is to use \code{dryrun=TRUE}
+to view all sections, then to choose the \code{integer} number, or
+\code{character} name to define the maximum chunk to load.
 }
 \seealso{
-Other jam utility functions: 
-\code{\link{call_fn_ellipsis}()}
+Other jam practical functions: 
+\code{\link{breakDensity}()},
+\code{\link{call_fn_ellipsis}()},
+\code{\link{checkLightMode}()},
+\code{\link{check_pkg_installed}()},
+\code{\link{colNum2excelName}()},
+\code{\link{color_dither}()},
+\code{\link{exp2signed}()},
+\code{\link{getAxisLabel}()},
+\code{\link{handleArgsText}()},
+\code{\link{isFALSEV}()},
+\code{\link{isTRUEV}()},
+\code{\link{jargs}()},
+\code{\link{kable_coloring}()},
+\code{\link{lldf}()},
+\code{\link{log2signed}()},
+\code{\link{match_unique}()},
+\code{\link{middle}()},
+\code{\link{minorLogTicks}()},
+\code{\link{newestFile}()},
+\code{\link{printDebug}()},
+\code{\link{renameColumn}()},
+\code{\link{rmInfinite}()},
+\code{\link{rmNA}()},
+\code{\link{rmNAs}()},
+\code{\link{rmNULL}()},
+\code{\link{setPrompt}()}
 }
-\concept{jam utility functions}
+\concept{jam practical functions}

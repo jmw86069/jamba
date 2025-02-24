@@ -58,7 +58,7 @@ is \code{nrpoints=0} to avoid additional clutter in the output,
 and because the default argument \code{bandwidthN} usually indicates all
 individual points.}
 
-\item{pch}{point shape used when \code{nrpoints>0}.}
+\item{pch}{\code{integer} point shape used when \code{nrpoints>0}.}
 
 \item{cex}{\code{numeric} point size expansion factor used when \code{nrpoints>0}.}
 
@@ -67,10 +67,11 @@ individual points.}
 \item{transformation}{\code{function} which converts point density to a number,
 typically related to square root or cube root transformation.}
 
-\item{postPlotHook}{is \code{NULL} for no post-plot hook, or a \code{function} which
-is called after producing the image plot. By default it is simply used
-to draw a box around the image, but could be used to layer additional
-information atop the image plot, for example contours, labels, etc.}
+\item{postPlotHook}{\code{function} or \code{NULL}, NULL default.
+When \code{function} is supplied, it is called after producing the image.
+By default it is simply used to draw a box around the image,
+but could be used to layer additional information atop the image plot,
+for example contours, labels, etc.}
 
 \item{xlab}{\code{character} x-axis label}
 
@@ -132,24 +133,9 @@ when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
 \seealso{
 \code{graphics::smoothScatter()}
 
-Other jam plot functions: 
-\code{\link{adjustAxisLabelMargins}()},
-\code{\link{coordPresets}()},
-\code{\link{decideMfrow}()},
-\code{\link{drawLabels}()},
-\code{\link{getPlotAspect}()},
-\code{\link{groupedAxis}()},
-\code{\link{imageByColors}()},
-\code{\link{imageDefault}()},
-\code{\link{minorLogTicksAxis}()},
-\code{\link{nullPlot}()},
-\code{\link{plotPolygonDensity}()},
-\code{\link{plotRidges}()},
-\code{\link{plotSmoothScatter}()},
-\code{\link{shadowText}()},
-\code{\link{shadowText_options}()},
-\code{\link{showColors}()},
-\code{\link{sqrtAxis}()},
-\code{\link{usrBox}()}
+Other jam internal functions: 
+\code{\link{jamCalcDensity}()},
+\code{\link{make_html_styles}()},
+\code{\link{make_styles}()}
 }
-\concept{jam plot functions}
+\concept{jam internal functions}

@@ -101,7 +101,7 @@ see \code{shadowText_options()} for convenience.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/jmw86069/jamba}
+  \item \url{https://jmw86069.github.io/jamba}
   \item Report bugs at \url{https://github.com/jmw86069/jamba/issues}
 }
 

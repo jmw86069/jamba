@@ -84,7 +84,6 @@ Other jam plot functions:
 \code{\link{shadowText}()},
 \code{\link{shadowText_options}()},
 \code{\link{showColors}()},
-\code{\link{smoothScatterJam}()},
 \code{\link{usrBox}()}
 }
 \concept{jam plot functions}

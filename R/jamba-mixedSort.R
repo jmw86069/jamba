@@ -53,7 +53,6 @@
 #'    `mixedOrder()`. The output class should match `class(x)`.
 #'
 #' @family jam sort functions
-#' @family jam string functions
 #'
 #' @param x `vector`
 #' @param blanksFirst `logical` whether to order blank entries before entries
@@ -207,7 +206,6 @@ mixedSort <- function
 #'    columns of a `data.frame`.
 #'
 #' @family jam sort functions
-#' @family jam string functions
 #'
 #' @seealso `gtools::mixedorder()`, `gtools::mixedsort()`
 #'
@@ -722,10 +720,7 @@ mixedOrder <- function
 #' See `mixedOrder()` and `mixedSort()` for a better
 #' description of how the sort order logic operates.
 #'
-#' @return integer vector of row orders
-#'
-#' @family jam sort functions
-#' @family jam string functions
+#' @return `integer` vector of row orders
 #'
 #' @param ... arguments treated as a `list` of vectors to be ordered in
 #'    proper order, based upon the mechanism by `base::order()`, and
@@ -747,7 +742,7 @@ mixedOrder <- function
 #' @param honorFactor `logical`, default TRUE, used to enforce factor level
 #'    sort order, when FALSE it sorts as `character`.
 #'
-#' @family jam string functions
+#' @family jam sort functions
 #'
 #' @examples
 #' # test factor level order
@@ -889,7 +884,6 @@ mmixedOrder <- function
 #' @return `data.frame` whose rows are ordered using `mmixedOrder()`.
 #'
 #' @family jam sort functions
-#' @family jam string functions
 #'
 #' @param df `data.frame` input
 #' @param byCols one of two types of input:

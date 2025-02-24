@@ -101,21 +101,11 @@ graphics::abline(v=c(0, bb2$breakPoints) + 0.5,
 \seealso{
 Other jam string functions: 
 \code{\link{asSize}()},
-\code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{fillBlanks}()},
 \code{\link{formatInt}()},
 \code{\link{gsubOrdered}()},
 \code{\link{gsubs}()},
 \code{\link{makeNames}()},
-\code{\link{mixedOrder}()},
-\code{\link{mixedSort}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mixedSorts}()},
-\code{\link{mmixedOrder}()},
 \code{\link{nameVector}()},
 \code{\link{nameVectorN}()},
 \code{\link{padInteger}()},
@@ -124,7 +114,6 @@ Other jam string functions:
 \code{\link{pasteByRowOrdered}()},
 \code{\link{sizeAsNum}()},
 \code{\link{tcount}()},
-\code{\link{ucfirst}()},
-\code{\link{uniques}()}
+\code{\link{ucfirst}()}
 }
 \concept{jam string functions}
