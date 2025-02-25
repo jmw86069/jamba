@@ -21,7 +21,7 @@ entry of \code{x} is blank. By default \code{""} is used.}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-Character vector where blank entries are filled with the
+\code{character} vector where blank entries are filled with the
 most recent non-blank value.
 }
 \description{

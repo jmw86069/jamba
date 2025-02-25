@@ -43,6 +43,9 @@ input values, for example how to scale the number 5 by itself.
 
 \item{...}{additional parameters are ignored.}
 }
+\value{
+\code{numeric} vector after applying the transformations.
+}
 \description{
 Scale a numeric vector from 0 to 1
 }

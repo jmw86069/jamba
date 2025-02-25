@@ -18,6 +18,7 @@ return the total length of all elements in \code{x} as one value.}
 \item{...}{additional parameters are ignored}
 }
 \value{
+\code{integer} value, vector, or list:
 \itemize{
 \item When \verb{doSum is NULL} (default) it returns an \code{integer} vector
 with length \code{length(x)} and names \code{names(x)},
@@ -58,10 +59,6 @@ rlengths(x)
 \seealso{
 Other jam list functions: 
 \code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

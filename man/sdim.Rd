@@ -90,6 +90,10 @@ Any list element with fewer than that many dimensions will only have
 values populated to the relevant dimensions, for example a character
 vector will only populate the length.
 
+\code{data.frame} which
+describes the dimensions of the objects in
+\code{attributes(x)}.
+
 \code{list} of \code{data.frame} each of which
 describes the dimensions of the objects in
 \code{attributes(x)}.
@@ -152,10 +156,6 @@ ssdima(m);
 \seealso{
 Other jam list functions: 
 \code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

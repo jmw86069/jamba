@@ -13,7 +13,7 @@
 #' a plot panel, but sometimes useful when draw outside a plot, for
 #' example axis labels.
 #'
-#' @return invisible data.frame containing label coordinates used
+#' @returns invisible data.frame containing label coordinates used
 #' to draw labels. This data.frame can be manipulated and provided
 #' as input to `drawLabels()` for subsequent customized label
 #' positioning.
@@ -572,7 +572,7 @@ drawLabels <- function
 #' and adjustments of length equal to the input `preset` vector.
 #' The `preset` value takes priority over the supplied `x,y` coordinates.
 #'
-#' @return `data.frame` after adjustment, where the number of rows
+#' @returns `data.frame` after adjustment, where the number of rows
 #'    is determined by the longest input argument, with colnames:
 #'    * x
 #'    * y

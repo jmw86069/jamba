@@ -18,6 +18,10 @@ for point density determination.}
 \item{range.x}{\code{numeric} vector length 2 representing the range of
 values to consider for point density.}
 }
+\value{
+\code{list} with elements used internally by \code{plotSmoothScatter()},
+with: x1, x2, fhat, bandwidth.
+}
 \description{
 Calculate scatter plot point density
 }
@@ -28,8 +32,13 @@ and is an equivalent replacement for
 understandably a requirement by CRAN. A package should not rely
 on another package hidden function.
 }
+\examples{
+sdim(jamCalcDensity(cbind(x=rnorm(1000) + 4, y=rnorm(1000) + 4), nbin=30))
+
+}
 \seealso{
 Other jam internal functions: 
+\code{\link{handleArgsText}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()},
 \code{\link{smoothScatterJam}()}

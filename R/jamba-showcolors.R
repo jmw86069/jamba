@@ -40,7 +40,7 @@
 #'    Note this function returns the color matrix invisibly.
 #' @param ... additional parameters are passed to `imageByColors()`.
 #'
-#' @return invisible color `matrix` used by `imageByColors()`. When
+#' @returns invisible color `matrix` used by `imageByColors()`. When
 #'    the input `x` is empty, or cannot be converted to colors when
 #'    `x` contains a `function`, the output returns `NULL`.
 #'

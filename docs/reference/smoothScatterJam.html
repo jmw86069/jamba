@@ -9,7 +9,7 @@ plotSmoothScatter()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -204,6 +204,12 @@ optionally to <code>plotPlotHook()</code> when supplied.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>list</code> of elements sufficient to call <code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">graphics::image()</a></code>,
+also by default this function is called for the byproduct of
+creating a figure.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>For general purposes, use <code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code> as a replacement
 for <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">graphics::smoothScatter()</a></code>, which produces better default
@@ -220,11 +226,21 @@ when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">graphics::smoothScatter()</a></code></p>
 <p>Other jam internal functions:
+<code><a href="handleArgsText.html">handleArgsText</a>()</code>,
 <code><a href="jamCalcDensity.html">jamCalcDensity</a>()</code>,
 <code><a href="make_html_styles.html">make_html_styles</a>()</code>,
 <code><a href="make_styles.html">make_styles</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">x1</span> <span class="op">+</span> <span class="fl">5</span><span class="op">)</span><span class="op">*</span> <span class="fl">4</span>  <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">smoothScatterJam</span><span class="op">(</span>x<span class="op">=</span><span class="va">x1</span>, y<span class="op">=</span><span class="va">y1</span>, bandwidth<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="smoothScatterJam-1.png" alt="" width="768" height="768"></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

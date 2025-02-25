@@ -9,7 +9,7 @@ and negative range values."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@ and negative range values."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Determine square root axis tick mark positions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/R/jamba-plots.r" class="external-link"><code>R/jamba-plots.r</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/R/jamba-axis.R" class="external-link"><code>R/jamba-axis.R</code></a></small>
       <div class="d-none name"><code>sqrtAxis.Rd</code></div>
     </div>
 
@@ -64,38 +64,38 @@ and negative range values.</p>
 
 
 <dl><dt id="arg-side">side<a class="anchor" aria-label="anchor" href="#arg-side"></a></dt>
-<dd><p>integer value indicating the axis position, as used
+<dd><p><code>integer</code> value indicating the axis position, as used
 by <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code>, 1=bottom, 2=left, 3=top, 4=right.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>optional numeric vector representing the numeric range
+<dd><p>optional <code>numeric</code> vector representing the numeric range
 to be labeled.</p></dd>
 
 
 <dt id="arg-pretty-n">pretty.n<a class="anchor" aria-label="anchor" href="#arg-pretty-n"></a></dt>
-<dd><p>numeric value indicating the number of desired
+<dd><p><code>numeric</code> value indicating the number of desired
 tick marks, passed to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code>.</p></dd>
 
 
 <dt id="arg-u-bias">u5.bias<a class="anchor" aria-label="anchor" href="#arg-u-bias"></a></dt>
-<dd><p>numeric value passed to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code> to influence the
+<dd><p><code>numeric</code> value passed to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code> to influence the
 frequency of intermediate tick marks.</p></dd>
 
 
 <dt id="arg-big-mark">big.mark<a class="anchor" aria-label="anchor" href="#arg-big-mark"></a></dt>
-<dd><p>character value passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> which helps
+<dd><p><code>character</code> value passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> which helps
 visually distinguish numbers larger than 1000.</p></dd>
 
 
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
-<dd><p>logical indicating whether to plot the axis tick
+<dd><p><code>logical</code> indicating whether to plot the axis tick
 marks and labels.</p></dd>
 
 
 <dt id="arg-las-cex-axis">las, cex.axis<a class="anchor" aria-label="anchor" href="#arg-las-cex-axis"></a></dt>
-<dd><p>numeric values passed to <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code> when drawing
-the axis, by default <code>las=2</code> plots labels rotated
+<dd><p><code>numeric</code> values passed to <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code>
+when drawing the axis. The custom default <code>las=2</code> plots labels rotated
 perpendicular to the axis.</p></dd>
 
 
@@ -105,11 +105,7 @@ perpendicular to the axis.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Invisibly returns a numeric vector of axis tick positions,
-named by the display label.
-The axis values are in square root space while the labels represent
-the normal space values.</p>
-<p>invisible <code>list</code> with axis positions, and corresponding labels.</p>
+    <p>invisible <code>list</code> with axis positions, and corresponding labels.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

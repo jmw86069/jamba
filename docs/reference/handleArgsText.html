@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,6 +151,10 @@ package is available, and terminal console is capable.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>character</code> vector including ANSI coloring when available.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function is a rare non-exported function intended to be called by
 <code><a href="jargs.html">jargs()</a></code>, but separated in order to help isolate the logical
@@ -158,65 +162,38 @@ steps required.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other jam practical functions:
-<code><a href="breakDensity.html">breakDensity</a>()</code>,
-<code><a href="call_fn_ellipsis.html">call_fn_ellipsis</a>()</code>,
-<code><a href="checkLightMode.html">checkLightMode</a>()</code>,
-<code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
-<code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
-<code><a href="color_dither.html">color_dither</a>()</code>,
-<code><a href="exp2signed.html">exp2signed</a>()</code>,
-<code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
-<code><a href="isFALSEV.html">isFALSEV</a>()</code>,
-<code><a href="isTRUEV.html">isTRUEV</a>()</code>,
-<code><a href="jargs.html">jargs</a>()</code>,
-<code><a href="kable_coloring.html">kable_coloring</a>()</code>,
-<code><a href="lldf.html">lldf</a>()</code>,
-<code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="match_unique.html">match_unique</a>()</code>,
-<code><a href="middle.html">middle</a>()</code>,
-<code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
-<code><a href="newestFile.html">newestFile</a>()</code>,
-<code><a href="printDebug.html">printDebug</a>()</code>,
-<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache</a>()</code>,
-<code><a href="renameColumn.html">renameColumn</a>()</code>,
-<code><a href="rmInfinite.html">rmInfinite</a>()</code>,
-<code><a href="rmNA.html">rmNA</a>()</code>,
-<code><a href="rmNAs.html">rmNAs</a>()</code>,
-<code><a href="rmNULL.html">rmNULL</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
+    <div class="dont-index"><p>Other jam internal functions:
+<code><a href="jamCalcDensity.html">jamCalcDensity</a>()</code>,
+<code><a href="make_html_styles.html">make_html_styles</a>()</code>,
+<code><a href="make_styles.html">make_styles</a>()</code>,
+<code><a href="smoothScatterJam.html">smoothScatterJam</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function (x, grepString = NULL, sortVars = FALSE, asList = TRUE, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     useColor = TRUE, lightMode = NULL, Crange = getOption("jam.Crange"), </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Lrange = getOption("jam.Lrange"), adjustRgb = getOption("jam.adjustRgb"), </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     useCollapseBase = ", ", verbose = FALSE, debug = 0, ...) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span><span class="fu"><a href="jargs.html">jargs</a></span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               x = ,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      grepString = <span style="color: #949494;">NULL</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        sortVars = <span style="color: #FF0000;">FALSE</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          asList = <span style="color: #0087D7;">TRUE</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        useColor = <span style="color: #0087D7;">TRUE</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       lightMode = <span style="color: #949494;">NULL</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Crange = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.Crange"</span>),</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Lrange = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.Lrange"</span>),</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       adjustRgb = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.adjustRgb"</span>),</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> useCollapseBase = <span style="color: #AF87FF;">", "</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         verbose = <span style="color: #FF0000;">FALSE</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           debug = <span style="color: #AF87FF;">0</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ... = </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># retrieve parameters involving notes from imageByColors</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="jargs.html">jargs</a></span><span class="op">(</span><span class="va">imageByColors</span>, <span class="st">"note"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       cellnote = <span style="color: #949494;">NULL</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    cexCellnote = <span style="color: #AF87FF;">1</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    srtCellnote = <span style="color: #AF87FF;">0</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fontCellnote = <span style="color: #AF87FF;">1</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> groupCellnotes = <span style="color: #0087D7;">TRUE</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">handleArgsText</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/formals.html" class="external-link">formals</a></span><span class="op">(</span><span class="fu">graphics</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist.default</a></span><span class="op">)</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">x</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">breaks</span><span style="color: #87D7AF;">="Sturges"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">freq</span><span style="color: #87D7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">probability</span><span style="color: #87D7AF;">=!freq</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">include.lowest</span><span style="color: #87D7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">right</span><span style="color: #87D7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">fuzz</span><span style="color: #87D7AF;">=1e-07</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">density</span><span style="color: #87D7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">angle</span><span style="color: #87D7AF;">=45</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #87D7AF;">col=</span><span style="color: #C6C6C6;">"lightgray"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">border</span><span style="color: #87D7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">main</span><span style="color: #87D7AF;">=paste("Histogram of", xname)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">xlim</span><span style="color: #87D7AF;">=range(breaks)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">ylim</span><span style="color: #87D7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">xlab</span><span style="color: #87D7AF;">=xname</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">ylab</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">axes</span><span style="color: #87D7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">plot</span><span style="color: #87D7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">labels</span><span style="color: #87D7AF;">=FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">nclass</span><span style="color: #87D7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">warn.unused</span><span style="color: #87D7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">...</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

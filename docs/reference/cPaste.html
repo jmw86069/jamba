@@ -9,7 +9,7 @@ delimited by default with a comma."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,6 +58,54 @@ delimited by default with a comma.</p>
 <span>  useLegacy <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  honorFactor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cPasteS</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">","</span>,</span>
+<span>  doSort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  makeUnique <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  checkClass <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useBioc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cPasteSU</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">","</span>,</span>
+<span>  doSort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  makeUnique <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  checkClass <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useBioc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cPasteUnique</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">","</span>,</span>
+<span>  doSort <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  makeUnique <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  checkClass <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useBioc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cPasteU</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">","</span>,</span>
+<span>  doSort <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  makeUnique <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  checkClass <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  useBioc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -151,7 +199,12 @@ as the input list <code>x</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function is essentially a wrapper for <code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html" class="external-link">S4Vectors::unstrsplit()</a></code>
+
+<ul><li><p><code>cPaste()</code> concatenates vector values using a delimiter.</p></li>
+<li><p><code>cPasteS()</code> sorts each vector using <code><a href="mixedSort.html">mixedSort()</a></code>.</p></li>
+<li><p><code>cPasteU()</code> applies <code><a href="uniques.html">uniques()</a></code> to retain unique values per vector.</p></li>
+<li><p><code>cPasteSU()</code> applies <code><a href="mixedSort.html">mixedSort()</a></code> and <code><a href="uniques.html">uniques()</a></code>.</p></li>
+</ul><p>This function is essentially a wrapper for <code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html" class="external-link">S4Vectors::unstrsplit()</a></code>
 except that it also optionally applies uniqueness to each vector
 in the list, and sorts values in each vector using <code><a href="mixedOrder.html">mixedOrder()</a></code>.</p>
 <p>The sorting and uniqueness is applied to the <code>unlist</code>ed vector of
@@ -162,10 +215,6 @@ will use <code>S4Vectors::unique()</code> if available.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam list functions:
-<code><a href="cPasteS.html">cPasteS</a>()</code>,
-<code><a href="cPasteSU.html">cPasteSU</a>()</code>,
-<code><a href="cPasteU.html">cPasteU</a>()</code>,
-<code><a href="cPasteUnique.html">cPasteUnique</a>()</code>,
 <code><a href="heads.html">heads</a>()</code>,
 <code><a href="jam_rapply.html">jam_rapply</a>()</code>,
 <code><a href="list2df.html">list2df</a>()</code>,
@@ -197,7 +246,7 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 <span class="r-in"><span><span class="co"># "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The sort can be done with convenience function cPasteS()</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="cPasteS.html">cPasteS</a></span><span class="op">(</span><span class="va">L1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">cPasteS</span><span class="op">(</span><span class="va">L1</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                CA                 B </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "A,B,B,C,D,D,F,G"   "c,g,h,i,i,j,k" </span>
 <span class="r-in"><span><span class="co">#               CA                 B</span></span></span>
@@ -207,14 +256,14 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 <span class="r-in"><span><span class="fu">cPaste</span><span class="op">(</span><span class="va">L1</span>, makeUnique<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            CA             B </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "A,B,C,D,G,F" "g,h,i,j,k,c" </span>
-<span class="r-in"><span><span class="fu"><a href="cPasteU.html">cPasteU</a></span><span class="op">(</span><span class="va">L1</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">cPasteU</span><span class="op">(</span><span class="va">L1</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            CA             B </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "A,B,C,D,G,F" "g,h,i,j,k,c" </span>
 <span class="r-in"><span><span class="co">#           CA             B</span></span></span>
 <span class="r-in"><span><span class="co"># "A,B,C,D,G,F" "g,h,i,j,k,c"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Change the delimiter</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="cPasteSU.html">cPasteSU</a></span><span class="op">(</span><span class="va">L1</span>, sep<span class="op">=</span><span class="st">"; "</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">cPasteSU</span><span class="op">(</span><span class="va">L1</span>, sep<span class="op">=</span><span class="st">"; "</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 CA                  B </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "A; B; C; D; F; G" "c; g; h; i; j; k" </span>
 <span class="r-in"><span><span class="co">#                CA                  B</span></span></span>
@@ -236,7 +285,7 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $B</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g" "h" "i" "j" "k" "i" "c"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu"><a href="cPasteSU.html">cPasteSU</a></span><span class="op">(</span><span class="va">L2</span>, keepFactors<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">cPasteSU</span><span class="op">(</span><span class="va">L2</span>, keepFactors<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         D                        CA                         B </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "l,k,j,i,h,g,f,e,d,c,b,a"             "A,B,C,D,F,G"             "c,g,h,i,j,k" </span>
 <span class="r-in"><span></span></span>
@@ -269,22 +318,22 @@ will use <code>S4Vectors::unique()</code> if available.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "miR-112,miR-12,miR-112"                "A,B,A,B"              "C,A,B,B,C" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                entryNULL </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                       "" </span>
-<span class="r-in"><span><span class="fu"><a href="cPasteU.html">cPasteU</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">cPasteU</span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           entryA           entryB           entryC        entryNULL </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "miR-112,miR-12"            "A,B"          "C,A,B"               "" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># by default keepFactors=FALSE, which means factors are sorted as characters</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="cPasteS.html">cPasteS</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">cPasteS</span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   entryA                   entryB                   entryC </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "miR-12,miR-112,miR-112"                "B,B,A,A"              "B,B,A,C,C" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                entryNULL </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                       "" </span>
-<span class="r-in"><span><span class="fu"><a href="cPasteSU.html">cPasteSU</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">cPasteSU</span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           entryA           entryB           entryC        entryNULL </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "miR-12,miR-112"            "B,A"          "B,A,C"               "" </span>
 <span class="r-in"><span><span class="co"># keepFactors=TRUE will keep unique factor levels in the order they appear</span></span></span>
 <span class="r-in"><span><span class="co"># this is the same behavior as unlist(L[c(2,3)]) on a list of factors</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="cPasteSU.html">cPasteSU</a></span><span class="op">(</span><span class="va">L</span>, keepFactors<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">cPasteSU</span><span class="op">(</span><span class="va">L</span>, keepFactors<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           entryA           entryB           entryC        entryNULL </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "miR-12,miR-112"            "B,A"          "B,A,C"               "" </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">L</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>

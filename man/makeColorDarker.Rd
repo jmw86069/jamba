@@ -38,6 +38,9 @@ input.}
 
 \item{...}{Additional arguments are ignored.}
 }
+\value{
+\code{character} vector of R colors.
+}
 \description{
 Makes R colors darker or lighter based upon darkFactor
 }

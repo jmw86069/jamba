@@ -11,6 +11,9 @@
 #'
 #' @family jam plot functions
 #'
+#' @returns object with class `"gg", "ggplot"` with density plot
+#'    in the form of ridges.
+#'
 #' @param x `matrix` with numeric values, or a `list` of `numeric`
 #'    vectors. In either case the data is converted to long-tall
 #'    format before plotting.
@@ -174,8 +177,10 @@ plotRidges <- function
 
    ###########################################
    # prepare ggplot output
-   x[, "column"] <- x$column;
-   x[, "value"] <- x$value;
+   column <- NULL;
+   value <- NULL;
+   `..density..` <- NULL;
+
    gg <- ggplot2::ggplot(x,
       ggplot2::aes(x=value,
          y=column,
@@ -198,6 +203,7 @@ plotRidges <- function
             show.legend=FALSE
          )
    } else {
+      `..density..` <- NULL;
       gg <- gg +
          ggridges::geom_density_ridges2(
             rel_min_height=rel_min_height,

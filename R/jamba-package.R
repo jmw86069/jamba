@@ -74,9 +74,6 @@
 #' @keywords internal
 "_PACKAGE"
 
-## globals
-## See: https://forum.posit.co/t/how-to-solve-no-visible-binding-for-global-variable-note/28887
-utils::globalVariables(c("type", "value", "column", "..density.."))
 
 ## usethis namespace: start
 #' @importFrom methods as

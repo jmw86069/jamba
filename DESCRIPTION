@@ -1,52 +1,53 @@
 Package: jamba
-Title: Jam Base Methods
-Version: 0.0.107.900
+Title: Just Analysis Methods Base
+Version: 1.0.0
 Authors@R: person(given="James M.", family="Ward",
-    email="jmw86069@gmail.com", role=c("aut", "cre"))
-Description: Jam base functions for bioinformatics, alphanumeric sort,
-    make and assign unique names, print colorized output,
-    reload Rmarkdown cache, import-export styled Excel worksheets,
-    rasterized smooth scatter and image,
-    delimit list values to vector, efficient list manipulations,
-    color ramp and contrast, console enhancements.
+    email="jmw86069@gmail.com", role=c("aut", "cre", "cph"))
+Description: Jam base functions focused on bioinformatics.
+    Efficient gene-centric alphanumeric sort,
+    unique name version assignment, colorized console and HTML output,
+    color ramp and palette manipulation,
+    Rmarkdown cache import, styled Excel worksheet export,
+    rasterized and interpolated smooth scatter and image plots,
+    list to delimited vector, efficient list tools.
 biocViews:
 Depends: R (>= 3.0.0)
 Imports: 
-    colorspace,
-    KernSmooth,
-    farver,
-    grDevices,
     methods,
+    grDevices,
     graphics,
     stats,
     utils,
+    colorspace,
     RColorBrewer,
-    withr,
-    IRanges
+    KernSmooth,
+    withr
 Suggests: 
     crayon,
+    farver,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
 Enhances:
+    ggplot2,
+    ggridges,
+    IRanges,
     S4Vectors,
-    matrixStats,
     openxlsx,
+    kableExtra,
+    matrixStats,
     viridisLite,
     ComplexHeatmap,
     circlize,
     GenomicRanges,
-    ggplot2,
-    ggridges,
     igraph,
-    kableExtra,
     pryr,
     rstudioapi,
+    Matrix,
     sparseMatrixStats
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
-URL: https://jmw86069.github.io/jamba
+URL: https://jmw86069.github.io/jamba/
 BugReports: https://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

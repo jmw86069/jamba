@@ -31,6 +31,9 @@
 #'
 #' @family jam heatmap functions
 #'
+#' @returns `function` sufficient to use as input to
+#'    `ComplexHeatmap::Heatmap()` argument `cell_fun`.
+#'
 #' @param m `numeric` matrix or `list` of `matrix` objects. The
 #'    first `matrix` object must be `numeric` and compatible
 #'    with the color function `col_hm`.

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,6 +59,10 @@
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>logical</code> vector with length matching <code>x</code>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function applies three criteria to an input vector, to
 determine if each entry in the vector is TRUE:</p><ol><li><p>It must be class <code>logical</code>.</p></li>
@@ -76,13 +80,11 @@ determine if each entry in the vector is TRUE:</p><ol><li><p>It must be class <c
 <code><a href="color_dither.html">color_dither</a>()</code>,
 <code><a href="exp2signed.html">exp2signed</a>()</code>,
 <code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
-<code><a href="handleArgsText.html">handleArgsText</a>()</code>,
 <code><a href="isFALSEV.html">isFALSEV</a>()</code>,
 <code><a href="jargs.html">jargs</a>()</code>,
 <code><a href="kable_coloring.html">kable_coloring</a>()</code>,
 <code><a href="lldf.html">lldf</a>()</code>,
 <code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="match_unique.html">match_unique</a>()</code>,
 <code><a href="middle.html">middle</a>()</code>,
 <code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
 <code><a href="newestFile.html">newestFile</a>()</code>,
@@ -96,6 +98,13 @@ determine if each entry in the vector is TRUE:</p><ol><li><p>It must be class <c
 <code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">isTRUEV</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">NA</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE FALSE  TRUE</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

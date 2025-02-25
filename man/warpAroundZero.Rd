@@ -28,6 +28,9 @@ is \code{(xCeiling - baseline)}.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{numeric} vector after applying the warp function.
+}
 \description{
 Warp a vector of numeric values relative to zero
 }

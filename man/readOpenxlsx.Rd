@@ -97,6 +97,9 @@ seen in real data.}
 
 \item{...}{additional arguments are passed to \code{openxlsx::read.xlsx()}.}
 }
+\value{
+\code{list} of \code{data.frame} objects, one per sheet in \code{xlsx}.
+}
 \description{
 Import one or more data.frame from Excel xlsx format
 }
@@ -123,6 +126,41 @@ and will be used instead of \code{startRows}. In fact \code{startRows} will be
 defined \code{startRows <- min(rows)} for each relevant worksheet. However,
 for each worksheet either argument can be \code{NULL}.
 }
+}
+\examples{
+# set up a test data.frame
+set.seed(123);
+lfc <- -3:3 + stats::rnorm(7)/3;
+colorSub <- nameVector(
+   rainbow2(7),
+   LETTERS[1:7])
+df <- data.frame(name=LETTERS[1:7],
+   int=round(4^(1:7)),
+   num=(1:7)*4-2 + stats::rnorm(7),
+   fold=2^abs(lfc)*sign(lfc),
+   lfc=lfc,
+   pvalue=10^(-1:-7 + stats::rnorm(7)),
+   hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
+df;
+\dontrun{
+   out_xlsx <- file.path(tempdir(), "jamba_test.xlsx")
+   writeOpenxlsx(x=df,
+      file=out_xlsx,
+      sheetName="jamba_test",
+      colorSub=colorSub,
+      intColumns=2,
+      numColumns=3,
+      fcColumns=4,
+      lfcColumns=5,
+      pvalueColumns=6,
+      hitColumn=7,
+      freezePaneRow=2,
+      freezePaneColumn=2,
+      append=FALSE);
+   # now read it back
+   df_list <- readOpenxlsx(file=out_xlsx);
+}
+
 }
 \seealso{
 Other jam export functions: 

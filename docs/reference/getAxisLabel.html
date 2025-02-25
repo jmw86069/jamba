@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Get axis label for minorLogTicks</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/R/jamba-plots.r" class="external-link"><code>R/jamba-plots.r</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/R/jamba-axis.R" class="external-link"><code>R/jamba-axis.R</code></a></small>
       <div class="d-none name"><code>getAxisLabel.Rd</code></div>
     </div>
 
@@ -100,7 +100,7 @@ should be displayed as negative log-transformed values.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>axis label as <code>character</code> or <code>expression</code> where necessary.</p>
+    <p><code>character</code> or <code>expression</code> axis label as appropriate.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -117,14 +117,12 @@ should be displayed as negative log-transformed values.</p></dd>
 <code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
 <code><a href="color_dither.html">color_dither</a>()</code>,
 <code><a href="exp2signed.html">exp2signed</a>()</code>,
-<code><a href="handleArgsText.html">handleArgsText</a>()</code>,
 <code><a href="isFALSEV.html">isFALSEV</a>()</code>,
 <code><a href="isTRUEV.html">isTRUEV</a>()</code>,
 <code><a href="jargs.html">jargs</a>()</code>,
 <code><a href="kable_coloring.html">kable_coloring</a>()</code>,
 <code><a href="lldf.html">lldf</a>()</code>,
 <code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="match_unique.html">match_unique</a>()</code>,
 <code><a href="middle.html">middle</a>()</code>,
 <code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
 <code><a href="newestFile.html">newestFile</a>()</code>,
@@ -138,6 +136,41 @@ should be displayed as negative log-transformed values.</p></dd>
 <code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">getAxisLabel</span><span class="op">(</span><span class="va">x</span>, asValues<span class="op">=</span><span class="cn">TRUE</span>, logBase<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]   1   2   5  10  20  50 100 200 500</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x1exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, main<span class="op">=</span><span class="st">"exponential values"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">x1exp</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">i</span>, y<span class="op">=</span><span class="va">i</span> <span class="op">+</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>      <span class="fu">getAxisLabel</span><span class="op">(</span><span class="va">x1exp</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, asValues<span class="op">=</span><span class="cn">FALSE</span>, logBase<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-plt img"><img src="getAxisLabel-1.png" alt="" width="768" height="768"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x1exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span>, main<span class="op">=</span><span class="st">"log2 fold change values"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">x1exp</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">i</span>, y<span class="op">=</span><span class="va">i</span> <span class="op">+</span> <span class="fl">0.3</span> <span class="op">-</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>      <span class="fu">getAxisLabel</span><span class="op">(</span><span class="va">x1exp</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>         logAxisType<span class="op">=</span><span class="st">"flip"</span>,</span></span>
+<span class="r-in"><span>         asValues<span class="op">=</span><span class="cn">TRUE</span>, logBase<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-plt img"><img src="getAxisLabel-2.png" alt="" width="768" height="768"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x1exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, main<span class="op">=</span><span class="st">"P-value style"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">x1exp</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">i</span>, y<span class="op">=</span><span class="va">i</span> <span class="op">+</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>      <span class="fu">getAxisLabel</span><span class="op">(</span><span class="va">x1exp</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>      logAxisType<span class="op">=</span><span class="st">"pvalue"</span>, asValues<span class="op">=</span><span class="cn">FALSE</span>, logBase<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-plt img"><img src="getAxisLabel-3.png" alt="" width="768" height="768"></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

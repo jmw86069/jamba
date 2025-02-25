@@ -12,6 +12,9 @@ and 360.}
 
 \item{...}{other parameters are ignored.}
 }
+\value{
+\code{numeric} vector after coverting degrees to radians.
+}
 \description{
 Convert degrees to radians
 }

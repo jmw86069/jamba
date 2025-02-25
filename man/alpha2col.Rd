@@ -18,6 +18,9 @@ alpha range should be 255. By default maxValue=1 is returned.}
 
 \item{...}{Additional arguments are ignored.}
 }
+\value{
+\code{character} vector of R colors, with alpha values.
+}
 \description{
 Define the alpha transparency per R color
 }

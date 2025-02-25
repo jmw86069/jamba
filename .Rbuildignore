@@ -7,3 +7,4 @@
 prep_CRAN_release_dec2022.md
 ^LICENSE\.md$
 ^TODO.*
+^cran-comments\.md$

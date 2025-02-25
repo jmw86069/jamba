@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
                         <h4 data-toc-skip class="author">James M.
 Ward</h4>
             
-            <h4 data-toc-skip class="date">2025-02-24</h4>
+            <h4 data-toc-skip class="date">2025-02-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/vignettes/jamba-vignette.Rmd" class="external-link"><code>vignettes/jamba-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>jamba-vignette.Rmd</code></div>
@@ -619,19 +619,19 @@ vectorized context.</p>
 which provides a great boost of speed.</p>
 <ul>
 <li>
-<code><a href="../reference/cPasteU.html">cPasteU()</a></code> calls <code><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique()</a></code> for each vector
+<code><a href="../reference/cPaste.html">cPasteU()</a></code> calls <code><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique()</a></code> for each vector
 (vectorized).</li>
 <li>
-<code><a href="../reference/cPasteS.html">cPasteS()</a></code> applies <code><a href="../reference/mixedSort.html">mixedSort()</a></code> to each
+<code><a href="../reference/cPaste.html">cPasteS()</a></code> applies <code><a href="../reference/mixedSort.html">mixedSort()</a></code> to each
 vector (vectorized).</li>
 <li>
-<code><a href="../reference/cPasteSU.html">cPasteSU()</a></code> spplies sort and unique.</li>
+<code><a href="../reference/cPaste.html">cPasteSU()</a></code> spplies sort and unique.</li>
 </ul>
 <p>These functions are very useful when operating on a list of gene
 symbols. For example, a vector of 500,000 assay probe names may be
 converted to a list of gene symbols, with some assay probe names
 associated with multiple gene symbols. The function
-<code><a href="../reference/cPasteSU.html">cPasteSU()</a></code> combines gene symbols with delimiter
+<code><a href="../reference/cPaste.html">cPasteSU()</a></code> combines gene symbols with delimiter
 <code>","</code>, after sorting and making values unique.</p>
 <p>It is also useful with gene-pathway data, where biological pathways
 are associated with a long list of gene symbols.</p>
@@ -646,16 +646,16 @@ are associated with a long list of gene symbols.</p>
 <span><span class="fu"><a href="../reference/cPaste.html">cPaste</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
 <span><span class="co">#&gt; [1] "GeneN,GeneC" "GeneR"       "GeneE,GeneT" "GeneZ"       "GeneE,GeneS"</span></span>
 <span><span class="co">#&gt; [6] "GeneY,GeneY"</span></span>
-<span><span class="fu"><a href="../reference/cPasteU.html">cPasteU</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
+<span><span class="fu"><a href="../reference/cPaste.html">cPasteU</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
 <span><span class="co">#&gt; [1] "GeneN,GeneC" "GeneR"       "GeneE,GeneT" "GeneZ"       "GeneE,GeneS"</span></span>
 <span><span class="co">#&gt; [6] "GeneY"</span></span>
-<span><span class="fu"><a href="../reference/cPasteSU.html">cPasteSU</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
+<span><span class="fu"><a href="../reference/cPaste.html">cPasteSU</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>;</span>
 <span><span class="co">#&gt; [1] "GeneC,GeneN" "GeneR"       "GeneE,GeneT" "GeneZ"       "GeneE,GeneS"</span></span>
 <span><span class="co">#&gt; [6] "GeneY"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>cPaste<span class="op">=</span><span class="fu"><a href="../reference/cPaste.html">cPaste</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
-<span>   cPasteU<span class="op">=</span><span class="fu"><a href="../reference/cPasteU.html">cPasteU</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
-<span>   cPasteSU<span class="op">=</span><span class="fu"><a href="../reference/cPasteSU.html">cPasteSU</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span>   cPasteU<span class="op">=</span><span class="fu"><a href="../reference/cPaste.html">cPasteU</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
+<span>   cPasteSU<span class="op">=</span><span class="fu"><a href="../reference/cPaste.html">cPasteSU</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        cPaste     cPasteU    cPasteSU</span></span>
 <span><span class="co">#&gt; 1 GeneN,GeneC GeneN,GeneC GeneC,GeneN</span></span>
 <span><span class="co">#&gt; 2       GeneR       GeneR       GeneR</span></span>

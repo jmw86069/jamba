@@ -12,6 +12,9 @@ and pi*2.}
 
 \item{...}{other parameters are ignored.}
 }
+\value{
+\code{numeric} vector after coverting radians to degrees.
+}
 \description{
 Convert radians to degrees
 }

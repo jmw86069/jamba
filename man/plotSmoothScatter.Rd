@@ -194,6 +194,10 @@ in much smaller file sizes when saving in PDF or SVG format.
 \item{...}{additional arguments are passed to called functions,
 including \code{getColorRamp()}, \code{nullPlot()}, \code{smoothScatterJam()}.}
 }
+\value{
+\code{list} invisibly, sufficient to reproduce most of the
+graphical parameters used to create the smooth scatter plot.
+}
 \description{
 Produce scatter plot using point density instead of displaying
 individual data points.

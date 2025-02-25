@@ -8,6 +8,8 @@
 #'
 #' @family jam practical functions
 #'
+#' @returns an object of class equivalent to `x`.
+#'
 #' @param x input data that can be subset
 #' @param n `numeric` number of entries to return
 #' @param evenly `logical` indicating whether to return evenly spaced

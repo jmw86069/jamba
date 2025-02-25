@@ -68,6 +68,11 @@ vectors.
 replaced with \code{character} values at output, consistent with \code{gsub()}.
 }
 }
+\examples{
+gsubs(c("one", "two"), c("three", "four"), "one two five six")
+gsubs(c("one", "two"), c("three"), "one two five six")
+
+}
 \seealso{
 Other jam string functions: 
 \code{\link{asSize}()},

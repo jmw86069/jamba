@@ -14,7 +14,7 @@
 #' It also optionally applies convenience functions `rmNULL()`
 #' and `rmInfinite()` as relevant.
 #'
-#' @return `list` where NA entries were removed or replaced with `naValue`
+#' @returns `list` where NA entries were removed or replaced with `naValue`
 #'    in each vector. Empty `list` elements are optionally removed when
 #'    `rmNULL=TRUE`, or replaced with `nullValue` when defined. When
 #'    `rmInfinite=TRUE` then infinite values are either removed, or
@@ -36,6 +36,17 @@
 #'    name, regardless whether the entry itself is NA.
 #' @param verbose `logical` whether to print verbose output
 #' @param ... additional arguments are ignored.
+#'
+#' @examples
+#' testlist <- list(
+#'    A=c(1, 4, 5, NA, 11),
+#'    B=c("B", NA, "C", "Test"))
+#' rmNAs(testlist)
+#'
+#' testlist2 <- list(
+#'    A=c(1, 4, 5, NA, 11, Inf),
+#'    B=c(11, NA, 19, -Inf))
+#' rmNAs(testlist2, naValue=-100, infiniteValue=1000)
 #'
 #' @export
 rmNAs <- function

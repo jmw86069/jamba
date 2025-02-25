@@ -56,9 +56,12 @@ C implementation provided by \code{S4Vectors}.
 \examples{
 L1 <- list(CA=nameVector(LETTERS[c(1:4,2,7,4,6)]),
    B=letters[c(7:11,9,3)],
+   C2=NULL,
    D=nameVector(LETTERS[4]));
 L1;
 uniques(L1);
+
+uniques(L1, useBioc=FALSE);
 
 if (1 == 1) {
 if (requireNamespace("IRanges", quietly=TRUE)) {
@@ -79,10 +82,6 @@ print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=TRUE)));
 \seealso{
 Other jam list functions: 
 \code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

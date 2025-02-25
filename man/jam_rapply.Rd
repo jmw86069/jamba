@@ -16,6 +16,9 @@ jam_rapply(x, FUN, how = c("unlist", "list"), ...)
 
 \item{...}{additional arguments are passed to \code{FUN}.}
 }
+\value{
+\code{vector} or \code{list} based upon argument \code{how}.
+}
 \description{
 Jam-specific recursive apply
 }
@@ -41,10 +44,6 @@ jam_rapply(L0, length)
 \seealso{
 Other jam list functions: 
 \code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{list2df}()},
 \code{\link{mergeAllXY}()},

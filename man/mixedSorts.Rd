@@ -81,6 +81,9 @@ debug output.}
 
 \item{...}{additional parameters are sent to \code{\link{mixedOrder}}.}
 }
+\value{
+\code{list} after applying \code{mixedSort()} to its elements.
+}
 \description{
 sort alphanumeric values within a list format
 }
@@ -191,10 +194,6 @@ Other jam sort functions:
 
 Other jam list functions: 
 \code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

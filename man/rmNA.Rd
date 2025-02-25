@@ -51,6 +51,24 @@ remove NA values
 This function removes NA values, by default shortening a vector as a result,
 but optionally replacing NA and Infinite values with fixed values.
 }
+\examples{
+# by default it removes NA, shortening the vector
+rmNA(c(1, 5, 4, NA, 10, NA))
+
+# convenient to replace NA with a fixed value
+rmNA(c(1, 5, 4, NA, 10, NA), naValue=0)
+
+m <- matrix(ncol=3, 1:9)
+m[1, 2] <- NA;
+rmNA(m, naValue=-1)
+
+# by default NA and Inf is removed
+rmNA(c(1, 5, 4, NA, 10, NA, Inf, -Inf))
+
+# NA and Inf can be replaced, note Inf retains the sign
+rmNA(c(1, 5, 4, NA, 10, NA, Inf, -Inf), naValue=0, infiniteValue=100)
+
+}
 \seealso{
 Other jam practical functions: 
 \code{\link{breakDensity}()},
@@ -61,14 +79,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

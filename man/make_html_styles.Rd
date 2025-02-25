@@ -97,8 +97,13 @@ vectorized make_styles for html span output
 \details{
 Note this function is experimental.
 }
+\examples{
+make_html_styles(style=c("red", "orange"), text=c("one ", "two"))
+
+}
 \seealso{
 Other jam internal functions: 
+\code{\link{handleArgsText}()},
 \code{\link{jamCalcDensity}()},
 \code{\link{make_styles}()},
 \code{\link{smoothScatterJam}()}

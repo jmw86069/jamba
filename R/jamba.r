@@ -9,7 +9,7 @@
 #' a consistent number of digits, which is helpful when sorting values
 #' as character strings.
 #'
-#' @return `character` vector of length(x).
+#' @returns `character` vector of length(x).
 #'
 #' @family jam string functions
 #'
@@ -22,6 +22,9 @@
 #'    mostly useful when all numbers are less than 10, but the desired output
 #'    is to have a fixed number of digits 2 or higher.
 #' @param ... additional parameters are ignored.
+#'
+#' @examples
+#' padInteger(c(1, 10, 20, 300, 5000))
 #'
 #' @export
 padInteger <- function
@@ -49,7 +52,7 @@ padInteger <- function
 #'
 #' pad a character string to a fixed length
 #'
-#' @return `character` vector of length(x)
+#' @returns `character` vector of length(x)
 #'
 #' @family jam string functions
 #'
@@ -111,7 +114,7 @@ padString <- function
 #'
 #' @family jam date functions
 #'
-#' @return integer value with the number of calendar days before the
+#' @returns integer value with the number of calendar days before the
 #'    current date, or the `nowDate` if supplied.
 #'
 #' @param testDate `character` date recognized by `asDate()`,
@@ -146,7 +149,7 @@ dateToDaysOld <- function
 #'
 #' @family jam date functions
 #'
-#' @return Date object
+#' @returns Date object
 #'
 #' @param getDateValues `character` date, in format recognized by dateFormat
 #' @param dateFormat `character` string representing the recognized date
@@ -178,7 +181,7 @@ asDate <- function
 #' Gets the current date in a simplified text string. Use
 #' `asDate()` to convert back to Date object.
 #'
-#' @return character vector with simplified date string
+#' @returns character vector with simplified date string
 #'
 #' @family jam date functions
 #'
@@ -255,7 +258,7 @@ getDate <- function
 #' are used to tell readline to ignore an escape sequence when it counts the
 #' number of characters being displayed by the prompt.
 #'
-#' @return `character` string representing the prompt used, returned
+#' @returns `character` string representing the prompt used, returned
 #'    invisibly.
 #'
 #' @family jam practical functions
@@ -477,7 +480,7 @@ setPrompt <- function
 #' data more self-describing in some circumstances. That said, the most basic
 #' usefulness of this function is to create row labels.
 #'
-#' @return `character` vector of length `nrow(x)`.
+#' @returns `character` vector of length `nrow(x)`.
 #'
 #' @family jam string functions
 #'
@@ -646,21 +649,18 @@ pasteByRow <- function
 #' `imageDefault()` color image map of sample groupings, where
 #' it may be ideal to label only unique elements in a contiguous set.
 #'
-#' @return
-#' `list` with the following named elements:
-#'    \itemize{
-#'       \item{"breakPoints"}{The mid-point coordinate between each break.
-#'          These midpoints would be good for drawing dividing lines for
-#'          example.}
-#'       \item{"labelPoints"}{The ideal point to place a label to represent
-#'          the group.}
-#'       \item{"newLabels"}{A vector of labels the same length as the input
-#'          data, except using blank values except where a label should
-#'          be drawn. This output is good for text display.}
-#'       \item{"useLabels"}{The unique set of labels, without blanks,
-#'          corresponding to the coordinates supplied by labelPoints.}
-#'       \item{"breakLengths"}{The integer size of each set of labels.}
-#'    }
+#' @returns `list` with the following named elements:
+#'    * `"breakPoints"`: The mid-point coordinate between each break.
+#'    These midpoints would be good for drawing dividing lines for
+#'    example.
+#'    * `"labelPoints"`: The ideal point to place a label to represent
+#'    the group.
+#'    * `"newLabels"`: A vector of labels the same length as the input
+#'    data, except using blank values except where a label should
+#'    be drawn. This output is good for text display.
+#'    * `"useLabels"`: The unique set of labels, without blanks,
+#'    corresponding to the coordinates supplied by labelPoints.
+#'    * `"breakLengths"`: The integer size of each set of labels.
 #'
 #' @family jam string functions
 #'
@@ -1015,7 +1015,7 @@ groupedAxis <- function
 #' One can somewhat manipulate the allowed column names via the `useLetters`
 #' argument, which by default uses the entire 26-letter Western alphabet.
 #'
-#' @return `character` vector with length(x)
+#' @returns `character` vector with length(x)
 #'
 #' @family jam practical functions
 #'
@@ -1100,7 +1100,7 @@ colNum2excelName <- function
 #' The `doTest=TRUE` argument will create `n` number of
 #' panels with the recommended layout, as a visual example.
 #'
-#' @return `numeric` vector length=2, with the recommended number of plot
+#' @returns `numeric` vector length=2, with the recommended number of plot
 #'    rows and columns, respectively. It is intended to be used directly
 #'    in this form: `graphics::par("mfrow"=decideMfrow(n=5))`
 #'
@@ -1168,7 +1168,7 @@ decideMfrow <- function
 #'
 #' Get aspect ratio for coordinates, plot, or device
 #'
-#' @return `numeric` plot aspect ratio for a plot device, of the requested
+#' @returns `numeric` plot aspect ratio for a plot device, of the requested
 #' type, see the `type` argument.
 #'
 #' @family jam plot functions
@@ -1268,7 +1268,7 @@ getPlotAspect <- function
 #' highly replicated, while the rest are present only once or twice on the
 #' array.
 #'
-#' @return `integer` vector of counts, named by the unique input
+#' @returns `integer` vector of counts, named by the unique input
 #'    values in `x`.
 #'
 #' @family jam string functions
@@ -1339,9 +1339,8 @@ tcount <- function
 #' `crayon::make_style()` in order to style a vector of
 #' character strings with a vector of foreground and background styles.
 #'
-#' @return
-#' `character` vector with the same length as `text` input vector, where
-#' entries are surrounded by the relevant encoding consistent with
+#' @returns `character` vector with the same length as `text` input vector,
+#' where entries are surrounded by the relevant encoding consistent with
 #' the `style` defined at input. In short, a character vector as input,
 #' a colorized character vector as output.
 #'
@@ -1403,6 +1402,8 @@ tcount <- function
 #' @param verbose `logical` indicating whether to print verbose output
 #' @param ... additional parameters are ignored
 #'
+#' @examples
+#' cat(make_styles(style=c("red", "yellow"), text=c("one ", "two")), "\n")
 #'
 #' @export
 make_styles <- function
@@ -1850,6 +1851,9 @@ make_styles <- function
 #'    output, useful because parameters are hard!
 #' @param ... Additional arguments are installed.
 #'
+#' @returns `NULL` this function called for the byproduct of printing
+#'    its output.
+#'
 #' @examples
 #' args(jargs)
 #' jargs(jargs)
@@ -2000,7 +2004,7 @@ jargs <- function
 #' `jargs()`, but separated in order to help isolate the logical
 #' steps required.
 #'
-#' @family jam practical functions
+#' @family jam internal functions
 #'
 #' @inherit jargs
 #' @param argTextA object passed by `jargs()` when iteratively parsing
@@ -2017,6 +2021,12 @@ jargs <- function
 #' @param level `integer` indicating the level of depth in iterative parsing.
 #' @param ... Additional arguments are ignored.
 #'
+#' @returns `character` vector including ANSI coloring when available.
+#'
+#' @examples
+#' cat(paste0(handleArgsText(formals(graphics::hist.default)), "\n"), sep="")
+#'
+#' @export
 handleArgsText <- function
 (argTextA,
  name="",
@@ -2672,10 +2682,9 @@ handleArgsText <- function
 #' `newValue` different from `minimum`, is intended to allow separation
 #' of numeric values from the floor for illustrative purposes.
 #'
-#' @return
-#' A `numeric` vector or `matrix`, matching the input type `x` where numeric
-#' values are fixed to the `minimum` and `ceiling` values as defined
-#' by `newValue` and `newCeiling`, respectively.
+#' @returns `numeric` vector or `matrix`, matching the input type `x`
+#'    where numeric values are fixed to the `minimum` and `ceiling`
+#'    values as defined by `newValue` and `newCeiling`, respectively.
 #'
 #' @family jam numeric functions
 #'
@@ -2756,6 +2765,8 @@ noiseFloor <- function
 #'
 #' @family jam numeric functions
 #'
+#' @returns `numeric` vector after coverting radians to degrees.
+#'
 #' @examples
 #' rad2deg(c(pi*2, pi/2))
 #'
@@ -2779,6 +2790,8 @@ rad2deg <- function
 #' @param ... other parameters are ignored.
 #'
 #' @family jam numeric functions
+#'
+#' @returns `numeric` vector after coverting degrees to radians.
 #'
 #' @examples
 #' deg2rad(rad2deg(c(pi*2, pi/2)))/pi;
@@ -2845,7 +2858,7 @@ deg2rad <- function
 #' @param verbose `logical` whether to print verbose output
 #' @param ... additional parameters are ignored.
 #'
-#' @return `data.frame` where each row indicates the dimensions of
+#' @returns `data.frame` where each row indicates the dimensions of
 #'    each element in the input list. When `includeClass` is `TRUE` it
 #'    will include a column `class` which indicates the class of each
 #'    list element. When the input list contains arrays with more than
@@ -3072,6 +3085,10 @@ sdim <- function
 
 #' @rdname sdim
 #'
+#' @returns `data.frame` which
+#'    describes the dimensions of the objects in
+#'    `attributes(x)`.
+#'
 #' @export
 sdima <- function
 (x,
@@ -3092,7 +3109,7 @@ sdima <- function
 
 #' @rdname sdim
 #'
-#' @return `list` of `data.frame` each of which
+#' @returns `list` of `data.frame` each of which
 #'    describes the dimensions of the objects in
 #'    `attributes(x)`.
 #'
@@ -3116,7 +3133,7 @@ ssdima <- function
 
 #' @rdname sdim
 #'
-#' @return `list` of `data.frame`, each row indicates the dimensions of
+#' @returns `list` of `data.frame`, each row indicates the dimensions of
 #'    each element in the input list.
 #'    When `includeClass` is `TRUE` it
 #'    will include a column `class` which indicates the class of each
@@ -3273,7 +3290,7 @@ ssdim <- function
 #' For more more information about a list-like object, including
 #' the lengths/dimensions of the elements, see `sdim()` or `ssdim()`.
 #'
-#' @return `character` vector with the class of each list element, or
+#' @returns `character` vector with the class of each list element, or
 #' column name, depending upon the input `class(x)`.
 #'
 #' @param x an S3 object inheriting from class `list`, or an S4 object.
@@ -3370,6 +3387,8 @@ sclass <- function
 #' @param ... additional parameters are ignored.
 #'
 #' @family jam numeric functions
+#'
+#' @returns `numeric` vector after applying the transformations.
 #'
 #' @examples
 #' # Notice the first value 1 is re-scaled to 0
@@ -3479,6 +3498,8 @@ normScale <- function
 #'    is `(xCeiling - baseline)`.
 #' @param ... additional arguments are ignored.
 #'
+#' @returns `numeric` vector after applying the warp function.
+#'
 #' @family jam numeric functions
 #'
 #' @examples
@@ -3563,7 +3584,7 @@ warpAroundZero <- function
 #' This function takes a list as input, and returns the length
 #' of each list element after running `base::unlist()`.
 #'
-#' @return
+#' @returns `integer` value, vector, or list:
 #' * When `doSum is NULL` (default) it returns an `integer` vector
 #' with length `length(x)` and names `names(x)`,
 #' whose values are the total number of elements in each item in
@@ -3658,8 +3679,8 @@ rlengths <- function
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional parameters are ignored.
 #'
-#' @return
-#' `vector` of matching object names, or if `where="all"` a named list,
+#' @returns `character` vector of matching object names, or if
+#'    `where="all"` it returns a named list
 #'    whose names indicate the search environment name, and whose
 #'    entries are matching object names within each environment.
 #'
@@ -3776,10 +3797,9 @@ grepls <- function
 #' @examples
 #' newestFile(list.files());
 #'
-#' @return
-#' Character vector `length=1` of the most recently modified file
+#' @returns `character` vector `length=1` of the most recently modified file
 #' from the input vector `x`. Note that any files not found are removed,
-#' using `base::file.exists()`.
+#' using `base::file.exists()`, which means invalid symlinks will be ignored.
 #'
 #' @export
 newestFile <- function
@@ -3817,6 +3837,11 @@ newestFile <- function
 #'
 #' @family jam practical functions
 #'
+#' @returns `logical` vector with length matching `x`.
+#'
+#' @examples
+#' isFALSEV(c(TRUE, FALSE, NA, TRUE))
+#'
 #' @export
 isFALSEV <- function
 (x,
@@ -3841,6 +3866,11 @@ isFALSEV <- function
 #' @param ... additional arguments are ignored
 #'
 #' @family jam practical functions
+#'
+#' @returns `logical` vector with length matching `x`.
+#'
+#' @examples
+#' isTRUEV(c(TRUE, FALSE, NA, TRUE))
 #'
 #' @export
 isTRUEV <- function
@@ -3899,6 +3929,9 @@ isTRUEV <- function
 #'    and to `jamba::mixedSortDF()`.
 #'
 #' @family jam string functions
+#'
+#' @returns `factor` vector whose levels are defined by existing
+#'    factor levels, then by sorted values.
 #'
 #' @examples
 #' f <- LETTERS;
@@ -3988,7 +4021,7 @@ pasteByRowOrdered <- function
 #'
 #' @family jam list functions
 #'
-#' @return `data.frame` after iterative calls to `base::merge.data.frame()`.
+#' @returns `data.frame` after iterative calls to `base::merge.data.frame()`.
 #'
 #' @param ... arguments are handled as described:
 #'    * named arguments are passed through to `base::merge.data.frame()`,
@@ -4158,7 +4191,7 @@ mergeAllXY <- function
 #' added as a list-of-lists. This function resolves that problem
 #' by providing one flat list.
 #'
-#' @return `list` that has been flattened so that it contains
+#' @returns `list` that has been flattened so that it contains
 #'    no `list` elements. Note that it may contain some list-like
 #'    objects such as `data.frame`, defined by `stopClasses`.
 #'
@@ -4343,7 +4376,7 @@ unnestList <- function
 #' If any `abs(x)` are less than `offset` this function will
 #' raise an error.
 #'
-#' @return numeric vector of log-transformed magnitudes.
+#' @returns numeric vector of log-transformed magnitudes.
 #'
 #' @param x `numeric` vector
 #' @param offset `numeric` value added to the absolute values
@@ -4409,7 +4442,7 @@ log2signed <- function
 #' requiring all absolute values to be `1` or larger, thus
 #' by default `offset=1`.
 #'
-#' @return numeric vector of exponentiated values.
+#' @returns numeric vector of exponentiated values.
 #'
 #' @param x `numeric` vector
 #' @param offset `numeric` subtracted from exponentiated values
@@ -4463,7 +4496,7 @@ exp2signed <- function
 #' Also the input `n` can be a vector so that each element in
 #' the list has a specific number of items returned.
 #'
-#' @return `list` with at most `n` elements per vector.
+#' @returns `list` with at most `n` elements per vector.
 #'
 #' @family jam list functions
 #'

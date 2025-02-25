@@ -8,7 +8,7 @@ figures:
 template:
   bootstrap: 5
   bootswatch: cosmo
-url: https://jmw86069.github.io/jamba
+url: https://jmw86069.github.io/jamba/
 reference:
 - title: mixedSort functions
   desc: Functions based upon alphanumeric sorting

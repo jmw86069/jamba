@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -153,6 +153,10 @@ seen in real data.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>list</code> of <code>data.frame</code> objects, one per sheet in <code>xlsx</code>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function is equivalent to <code><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">openxlsx::read.xlsx()</a></code>
 with a few minor additions:</p><ol><li><p>It returns a <code>list</code> of <code>data.frame</code> objects, one per <code>sheet</code>.</p></li>
@@ -179,6 +183,51 @@ for each worksheet either argument can be <code>NULL</code>.</p></li>
 <code><a href="writeOpenxlsx.html">writeOpenxlsx</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># set up a test data.frame</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">lfc</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span> <span class="op">+</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">/</span><span class="fl">3</span>;</span></span>
+<span class="r-in"><span><span class="va">colorSub</span> <span class="op">&lt;-</span> <span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="rainbow2.html">rainbow2</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>name<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>   int<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">4</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   num<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span><span class="op">-</span><span class="fl">2</span> <span class="op">+</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   fold<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">lfc</span><span class="op">)</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign</a></span><span class="op">(</span><span class="va">lfc</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   lfc<span class="op">=</span><span class="va">lfc</span>,</span></span>
+<span class="r-in"><span>   pvalue<span class="op">=</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="op">-</span><span class="fl">7</span> <span class="op">+</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   hit<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, replace<span class="op">=</span><span class="cn">TRUE</span>, size<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="va">df</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name   int        num      fold        lfc       pvalue hit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A     4  0.7349388 -9.106049 -3.1868252 2.780730e-02   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B    16  5.3131471 -4.218488 -2.0767258 6.122279e-01   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C    64  9.5543380 -1.395160 -0.4804306 3.146665e-03  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    D   256 15.2240818  1.016424  0.0235028 1.079898e-06  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    E  1024 18.3598138  2.060645  1.0430959 5.027544e-05   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    F  4096 22.4007715  5.945047  2.5716883 3.366732e-07   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    G 16384 26.1106827  8.898972  3.1536387 8.554139e-09   1</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span>   <span class="va">out_xlsx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"jamba_test.xlsx"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="writeOpenxlsx.html">writeOpenxlsx</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">df</span>,</span></span>
+<span class="r-in"><span>      file<span class="op">=</span><span class="va">out_xlsx</span>,</span></span>
+<span class="r-in"><span>      sheetName<span class="op">=</span><span class="st">"jamba_test"</span>,</span></span>
+<span class="r-in"><span>      colorSub<span class="op">=</span><span class="va">colorSub</span>,</span></span>
+<span class="r-in"><span>      intColumns<span class="op">=</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>      numColumns<span class="op">=</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>      fcColumns<span class="op">=</span><span class="fl">4</span>,</span></span>
+<span class="r-in"><span>      lfcColumns<span class="op">=</span><span class="fl">5</span>,</span></span>
+<span class="r-in"><span>      pvalueColumns<span class="op">=</span><span class="fl">6</span>,</span></span>
+<span class="r-in"><span>      hitColumn<span class="op">=</span><span class="fl">7</span>,</span></span>
+<span class="r-in"><span>      freezePaneRow<span class="op">=</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>      freezePaneColumn<span class="op">=</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>      append<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="co"># now read it back</span></span></span>
+<span class="r-in"><span>   <span class="va">df_list</span> <span class="op">&lt;-</span> <span class="fu">readOpenxlsx</span><span class="op">(</span>file<span class="op">=</span><span class="va">out_xlsx</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -28,7 +28,7 @@
 #'    allowing grep to handle NA values as-is.
 #' @param ... additional arguments are ignored.
 #'
-#' @return logical indicating whether the grep match criteria were met,
+#' @returns logical indicating whether the grep match criteria were met,
 #'    TRUE indicates the grep pattern was present in minCount or more
 #'    number of entries.
 #'
@@ -83,7 +83,7 @@ igrepHas <- function
 #'
 #' @param ...,value,ignore.case parameters sent to `base::grep()`
 #'
-#' @return vector of matching values
+#' @returns vector of matching values
 #'
 #' @examples
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
@@ -110,7 +110,7 @@ vigrep <- function
 #'
 #' @param ...,value,ignore.case parameters sent to `base::grep()`
 #'
-#' @return vector of matching values
+#' @returns vector of matching values
 #'
 #' @examples
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
@@ -139,7 +139,7 @@ vgrep <- function
 #'
 #' @param ...,ignore.case parameters sent to `base::grep()`
 #'
-#' @return vector of matching indices
+#' @returns vector of matching indices
 #'
 #' @examples
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
@@ -167,7 +167,7 @@ igrep <- function
 #'
 #' @param ...,ignore.case parameters sent to `base::grep()`
 #'
-#' @return `logical` vector indicating pattern match
+#' @returns `logical` vector indicating pattern match
 #'
 #' @examples
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
@@ -205,7 +205,7 @@ igrepl <- function
 #'
 #' @param ...,ignore.case,invert parameters sent to `base::grep()`
 #'
-#' @return vector of non-matching indices
+#' @returns vector of non-matching indices
 #'
 #' @examples
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
@@ -237,7 +237,7 @@ unigrep <- function
 #'
 #' @param ...,ignore.case,value,invert parameters sent to `base::grep()`
 #'
-#' @return vector of non-matching indices
+#' @returns vector of non-matching indices
 #'
 #' @examples
 #' V <- paste0(LETTERS[1:5], LETTERS[4:8]);
@@ -475,7 +475,7 @@ proigrep <- function
 #' with blank entries, in a manner that is notably faster than
 #' alternative approaches such as pre-processing the input data.
 #'
-#' @return `matrix` unless `returnDF=TRUE` in which the output is coerced
+#' @returns `matrix` unless `returnDF=TRUE` in which the output is coerced
 #'    to a `data.frame`.
 #'    The rownames by default are derived from the list names,
 #'    but the colnames are not derived from the vector names.
@@ -636,7 +636,7 @@ rbindList <- function
 #' \code{\link[base]{make.unique}} is that makeNames does version the first
 #' entry in a set.
 #'
-#' @return character vector of unique names
+#' @returns character vector of unique names
 #'
 #' @family jam string functions
 #'
@@ -879,7 +879,7 @@ makeNames <- function
 #'
 #' \code{nameVector(genedata[,c("Gene","log2FC")])}
 #'
-#' @return vector with names defined
+#' @returns vector with names defined
 #'
 #' @family jam string functions
 #'
@@ -979,7 +979,7 @@ nameVector <- function
 #' allows the internal function access to the name of each list element. This
 #' could for example be added to the data.frame.
 #'
-#' @return vector of names, whose names are uniquely assigned using
+#' @returns vector of names, whose names are uniquely assigned using
 #'    \code{\link{makeNames}} using the values of the vector.
 #'
 #' @family jam string functions
@@ -1050,7 +1050,7 @@ nameVectorN <- function
 #' This function is a simple helper function to remove NULL from a list,
 #' optionally replacing it with another value
 #'
-#' @return list with NULL entries either removed, or replaced with nullValue.
+#' @returns list with NULL entries either removed, or replaced with nullValue.
 #' This function is typically called so it removed list elements which are
 #' NULL, resulting in a list that contains non-NULL entries. This function
 #' can also be useful when NULL values should be changed to something else,
@@ -1100,7 +1100,7 @@ rmNULL <- function
 #' This function removes NA values, by default shortening a vector as a result,
 #' but optionally replacing NA and Infinite values with fixed values.
 #'
-#' @return vector with NA entries either removed, or replaced with naValue,
+#' @returns vector with NA entries either removed, or replaced with naValue,
 #'    and NULL entries either removed or replaced by nullValue.
 #'
 #' @family jam practical functions
@@ -1119,6 +1119,23 @@ rmNULL <- function
 #'    name, regardless whether the entry itself is NA.
 #' @param verbose `logical` whether to print verbose output
 #' @param ... additional arguments are ignored.
+#'
+#' @examples
+#' # by default it removes NA, shortening the vector
+#' rmNA(c(1, 5, 4, NA, 10, NA))
+#'
+#' # convenient to replace NA with a fixed value
+#' rmNA(c(1, 5, 4, NA, 10, NA), naValue=0)
+#'
+#' m <- matrix(ncol=3, 1:9)
+#' m[1, 2] <- NA;
+#' rmNA(m, naValue=-1)
+#'
+#' # by default NA and Inf is removed
+#' rmNA(c(1, 5, 4, NA, 10, NA, Inf, -Inf))
+#'
+#' # NA and Inf can be replaced, note Inf retains the sign
+#' rmNA(c(1, 5, 4, NA, 10, NA, Inf, -Inf), naValue=0, infiniteValue=100)
 #'
 #' @export
 rmNA <- function
@@ -1217,7 +1234,7 @@ rmNA <- function
 #' This function removes any positive or negative infinite numerical
 #' values, optionally replacing them with a given value or NA.
 #'
-#' @return numeric vector with infinite values either removed, or
+#' @returns numeric vector with infinite values either removed, or
 #'    replaced with the supplied value.
 #'
 #' @family jam practical functions
@@ -1225,6 +1242,11 @@ rmNA <- function
 #' @param x vector input
 #' @param infiniteValue NULL to remove Infinite values, or a replacement value
 #' @param ... additional parameters are ignored
+#'
+#' @examples
+#' rmInfinite(c(1, 5, 4, 10, Inf, 1, -Inf))
+#'
+#' rmInfinite(c(1, 5, 4, 10, Inf, 1, -Inf), infiniteValue=1000)
 #'
 #' @export
 rmInfinite <- function
@@ -1261,7 +1283,7 @@ rmInfinite <- function
 #' long lists, but which may still be less efficient than the
 #' C implementation provided by `S4Vectors`.
 #'
-#' @return `list` with unique values in each list element.
+#' @returns `list` with unique values in each list element.
 #'
 #' @param x input list of vectors
 #' @param keepNames boolean indicating whether to keep the list element
@@ -1285,9 +1307,12 @@ rmInfinite <- function
 #' @examples
 #' L1 <- list(CA=nameVector(LETTERS[c(1:4,2,7,4,6)]),
 #'    B=letters[c(7:11,9,3)],
+#'    C2=NULL,
 #'    D=nameVector(LETTERS[4]));
 #' L1;
 #' uniques(L1);
+#'
+#' uniques(L1, useBioc=FALSE);
 #'
 #' if (1 == 1) {
 #' if (requireNamespace("IRanges", quietly=TRUE)) {
@@ -1420,12 +1445,17 @@ uniques <- function
          if (xclassu %in% c("character", "factor",
             "numeric", "integer", "logical")) {
             xlist[xclassidx] <- uniques(x[xclassidx],
+               useBioc=useBioc,
+               useSimpleBioc=useSimpleBioc,
                xclass=rep(xclassu, length(xclassidx)))
          } else {
             tryCatch({
                xlist[xclassidx] <- uniques(x[xclassidx],
+                  useBioc=useBioc,
+                  useSimpleBioc=useSimpleBioc,
                   xclass=rep(xclassu, length(xclassidx)))
             }, error=function(e){
+               # print(e);# debug
                errmsg <- paste0("Class not supported by uniques(): ",
                   xclassu);
                stop(errmsg);
@@ -1454,6 +1484,9 @@ uniques <- function
       if (!keepNames) {
          xuse <- unname(xuse);
       }
+      if (is.null(xuse)) {
+         xuse <- character(0);
+      }
       xlist <- split(xuse, xnuse);
       names(xlist) <- xNames;
       xlist;
@@ -1465,6 +1498,11 @@ uniques <- function
 #' Paste a list of vectors into a character vector, with values
 #' delimited by default with a comma.
 #'
+#' * `cPaste()` concatenates vector values using a delimiter.
+#' * `cPasteS()` sorts each vector using `mixedSort()`.
+#' * `cPasteU()` applies `uniques()` to retain unique values per vector.
+#' * `cPasteSU()` applies `mixedSort()` and `uniques()`.
+#'
 #' This function is essentially a wrapper for `S4Vectors::unstrsplit()`
 #' except that it also optionally applies uniqueness to each vector
 #' in the list, and sorts values in each vector using `mixedOrder()`.
@@ -1474,7 +1512,7 @@ uniques <- function
 #' equivalent. The uniqueness is performed by `uniques()`, which itself
 #' will use `S4Vectors::unique()` if available.
 #'
-#' @return `character` vector with the same names and in the same order
+#' @returns `character` vector with the same names and in the same order
 #'    as the input list `x`.
 #'
 #' @param x `list` of vectors
@@ -1598,7 +1636,7 @@ cPaste <- function
       return("");
    }
    if (TRUE %in% useBioc &&
-         requireNamespace("S4Vectors", quietly=TRUE)) {
+         !requireNamespace("S4Vectors", quietly=TRUE)) {
       if (verbose) {
          warning(paste0("cPaste() is substantially faster when",
             " Bioconductor package S4Vectors is installed."));
@@ -1792,16 +1830,8 @@ cPaste <- function
    return(xNew);
 }
 
-#' paste a list into a delimited vector using sorted values
-#'
-#' Paste a list of vectors into a character vector, with values sorted
-#' then delimited by default with a comma.
-#'
-#' This function is convenient a wrapper for `cPaste(..., doSort=TRUE)`.
-#'
-#' @inheritParams cPaste
-#'
-#' @family jam list functions
+
+#' @rdname cPaste
 #'
 #' @export
 cPasteS <- function
@@ -1828,16 +1858,7 @@ cPasteS <- function
 }
 
 
-#' paste a list into a delimited vector using sorted, unique values
-#'
-#' Paste a list of vectors into a character vector, with unique values
-#' sorted then delimited by default with a comma.
-#'
-#' This function is convenient a wrapper for `cPaste(..., doSort=TRUE, makeUnique=TRUE)`.
-#'
-#' @inheritParams cPaste
-#'
-#' @family jam list functions
+#' @rdname cPaste
 #'
 #' @export
 cPasteSU <- function
@@ -1863,16 +1884,7 @@ cPasteSU <- function
       ...);
 }
 
-#' paste a list into a delimited vector using unique values
-#'
-#' Paste a list of vectors into a character vector of unique values,
-#' usually delimited by a comma.
-#'
-#' This function is convenient a wrapper for `cPaste(..., makeUnique=TRUE)`.
-#'
-#' @inheritParams cPaste
-#'
-#' @family jam list functions
+#' @rdname cPaste
 #'
 #' @export
 cPasteUnique <- function
@@ -1898,16 +1910,7 @@ cPasteUnique <- function
       ...);
 }
 
-#' paste a list into a delimited vector using unique values
-#'
-#' Paste a list of vectors into a character vector of unique values,
-#' usually delimited by a comma.
-#'
-#' This function is convenient a wrapper for `cPaste(..., makeUnique=TRUE)`.
-#'
-#' @inheritParams cPaste
-#'
-#' @family jam list functions
+#' @rdname cPaste
 #'
 #' @export
 cPasteU <- function
@@ -1953,7 +1956,7 @@ cPasteU <- function
 #' noted in output prior to jamba version `0.0.72.900`.
 #'
 #'
-#' @return `data.frame` or object equivalent to the input `x`,
+#' @returns `data.frame` or object equivalent to the input `x`,
 #'    with columns `from` renamed to values in `to`. For genomic
 #'    ranges objects such as `GRanges` and `IRanges`, the colnames
 #'    are updated in `S4Vectors::values(x)`.
@@ -2059,8 +2062,7 @@ renameColumn <- function
 #' The method used does not loop through the data, and should scale
 #' fairly well with good efficiency even for extremely large vectors.
 #'
-#' @return
-#' Character vector where blank entries are filled with the
+#' @returns `character` vector where blank entries are filled with the
 #' most recent non-blank value.
 #'
 #' @param x character vector
@@ -2131,7 +2133,7 @@ fillBlanks <- function
 #' to display integer values as text strings. It will also return a
 #' matrix if the input is a matrix.
 #'
-#' @return `character` vector if `x` is a vector, or if `x` is a matrix
+#' @returns `character` vector if `x` is a vector, or if `x` is a matrix
 #' a matrix will be returned.
 #'
 #' @family jam string functions
@@ -2208,6 +2210,19 @@ formatInt <- function
 #'
 #' @family jam list functions
 #'
+#' @returns `data.frame` with two columns, or three columns when
+#'    `useVectorNames=TRUE` and the input `x` contains names.
+#'
+#' @examples
+#' list2df(list(lower=head(letters, 5), UPPER=head(LETTERS, 10)))
+#'
+#' list2df(list(lower=nameVector(head(letters, 5)),
+#'    UPPER=nameVector(head(LETTERS, 10))))
+#'
+#' list2df(list(lower=nameVector(head(letters, 5)),
+#'    UPPER=nameVector(head(LETTERS, 10))),
+#'    useVectorNames=FALSE)
+#'
 #' @export
 list2df <- function
 (x,
@@ -2245,6 +2260,8 @@ list2df <- function
 #' specifically that it does not remove `NULL` entries.
 #'
 #' @family jam list functions
+#'
+#' @returns `vector` or `list` based upon argument `how`.
 #'
 #' @param x `list`
 #' @param FUN `function` to be called on non-list elements in `x`.
@@ -2319,6 +2336,8 @@ jam_rapply <- function
 #'
 #' @family jam sort functions
 #' @family jam list functions
+#'
+#' @returns `list` after applying `mixedSort()` to its elements.
 #'
 #' @inheritParams mixedSort
 #' @param xclass `character` vector of classes in `x`, used for slight
@@ -2720,7 +2739,7 @@ mixedSorts <- function
 #' the original structure. During the process, it is important
 #' to retain vector names in the order defined by `mixedOrder()`.
 #'
-#' @return `list` object with the same structure as the `skeleton`.
+#' @returns `list` object with the same structure as the `skeleton`.
 #'
 #' @family jam list functions
 #'
@@ -2819,6 +2838,8 @@ relist_named <- function
 #'
 #' @family jam string functions
 #'
+#' @returns `character` vector where letters are converted to uppercase.
+#'
 #' @examples
 #' ucfirst("TESTING_ALL_UPPERCASE_INPUT")
 #' ucfirst("TESTING_ALL_UPPERCASE_INPUT", TRUE)
@@ -2881,7 +2902,7 @@ ucfirst <- function
 #' * To convert a character vector to a factor, whose levels are
 #' sorted alphanumerically, use `sortFunc=mixedSort`.
 #'
-#' @return factor whose levels are based upon the order of
+#' @returns factor whose levels are based upon the order of
 #'    input levels when the input `x` is a factor; or if the
 #'    input `x` is not a factor, it is converted to a factor
 #'    using the provided sort function `sortFunc`.
@@ -3005,7 +3026,7 @@ gsubOrdered <- function
 #' 4. Note that `factor` values at input are
 #' replaced with `character` values at output, consistent with `gsub()`.
 #'
-#' @return `character` vector when input `x` is an atomic vector,
+#' @returns `character` vector when input `x` is an atomic vector,
 #'    or `list` when input `x` is a `list`.
 #'
 #' @family jam string functions
@@ -3024,6 +3045,10 @@ gsubOrdered <- function
 #'    entries in `pattern`.
 #' @param ... additional arguments are passed to `base::gsub()`
 #'    or `base::sub()`.
+#'
+#' @examples
+#' gsubs(c("one", "two"), c("three", "four"), "one two five six")
+#' gsubs(c("one", "two"), c("three"), "one two five six")
 #'
 #' @export
 gsubs <- function

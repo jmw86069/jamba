@@ -13,7 +13,7 @@
 #' used to produce values where `kiloSize=1000` which is suitable
 #' for monetary and other scientific values.
 #'
-#' @return `character` vector representing human-friendly size,
+#' @returns `character` vector representing human-friendly size,
 #'    based upon the `kiloSize` argument to determine whether to
 #'    report byte (1024) or scientific (1000) units.
 #'
@@ -160,7 +160,7 @@ asSize <- function
 #' not produce identical values, because the intermediate value is
 #' rounded by `digits` in `asSize()`.
 #'
-#' @return `numeric` vector representing the numeric value represented
+#' @returns `numeric` vector representing the numeric value represented
 #'    by an abbreviated size.
 #'
 #' @family jam string functions

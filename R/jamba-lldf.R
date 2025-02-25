@@ -12,6 +12,9 @@
 #'
 #' @family jam practical functions
 #'
+#' @returns `data.frame` with summary of objects and object sizes,
+#'    sorted by decreasing object size.
+#'
 #' @param n `integer` or `Inf` indicating how many objects to
 #'    include in the output `data.frame`.
 #' @param envir `environment` where the list of objects is obtained.

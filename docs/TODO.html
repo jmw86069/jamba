@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -579,7 +579,7 @@
 <ul><li>arguments <code>prefix</code> and <code>suffix</code> are indexed by the list <code>m</code> and not by <code>show</code> which is confusing. Consider applying <code>prefix</code> and <code>suffix</code> in order to each entry in <code>show</code>.</li>
 </ul></li>
 <li>
-<p><code><a href="reference/cPasteU.html">cPasteU()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> appears slow in some situations</p>
+<p><code><a href="reference/cPaste.html">cPasteU()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> appears slow in some situations</p>
 <ul><li>Apparently for small length vectors &lt;1000, <code>lapply(x, unique)</code> is much faster than BioC methods with <code>unique(CharacterList(x))</code>
 </li>
 <li>

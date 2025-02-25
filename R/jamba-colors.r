@@ -117,6 +117,8 @@
 #'
 #' @family jam color functions
 #'
+#' @returns `character` vector of R colors.
+#'
 #' @export
 setTextContrastColor <- function
 (color,
@@ -223,6 +225,8 @@ setTextContrastColor <- function
 #'
 #' @family jam color functions
 #'
+#' @returns `numeric` matrix with H, C, L values.
+#'
 #' @export
 col2hcl <- function
 (x,
@@ -317,7 +321,7 @@ col2hcl <- function
 #' @param verbose `logical` whether to print verbose output.
 #' @param ... other arguments are ignored.
 #'
-#' @return vector of R colors, or where the input was NA, then NA
+#' @returns vector of R colors, or where the input was NA, then NA
 #'    values are returned in the same order.
 #'
 #' @examples
@@ -494,7 +498,12 @@ hcl2col <- function
 #'    alpha range should be 255. By default maxValue=1 is returned.
 #' @param ... Additional arguments are ignored.
 #'
+#' @returns `numeric` vector of alpha values
+#'
 #' @family jam color functions
+#'
+#' @examples
+#' col2alpha(c("red", "#99004499", "beige", "transparent", "#FFFFFF00"))
 #'
 #' @export
 col2alpha <- function
@@ -527,6 +536,8 @@ col2alpha <- function
 #' @param ... Additional arguments are ignored.
 #'
 #' @family jam color functions
+#'
+#' @returns `character` vector of R colors, with alpha values.
 #'
 #' @examples
 #' graphics::par("mfrow"=c(2,2));
@@ -587,6 +598,8 @@ alpha2col <- function
 #'
 #' @family jam color functions
 #'
+#' @returns `character` vector of R colors.
+#'
 #' @export
 hsv2col <- function
 (hsvValue,
@@ -623,7 +636,7 @@ hsv2col <- function
 #' \code{\link{hsv2col}}, usually after manipulating the
 #' HSV color matrix.
 #'
-#' @return matrix of HSV colors
+#' @returns matrix of HSV colors
 #'
 #' @param x R color
 #' @param ... additional parameters are ignored
@@ -729,6 +742,8 @@ col2hsv <- function
 #' rgb2col(grDevices::col2rgb(colorV, alpha=TRUE));
 #'
 #' @family jam color functions
+#'
+#' @returns `character` vector of R colors.
 #'
 #' @export
 rgb2col <- function
@@ -953,6 +968,8 @@ rgb2col <- function
 #'    input.
 #' @param useMethod `integer` with two alternate methods, `1` is default.
 #' @param ... Additional arguments are ignored.
+#'
+#' @returns `character` vector of R colors.
 #'
 #' @export
 makeColorDarker <- function
@@ -1321,6 +1338,9 @@ makeColorDarker <- function
 #'
 #' @family jam color functions
 #'
+#' @returns `character` vector of R colors, or when N is NULL,
+#'    `function` sufficient to create R colors.
+#'
 #' @export
 getColorRamp <- function
 (col,
@@ -1622,6 +1642,11 @@ getColorRamp <- function
 #'
 #' @family jam color functions
 #'
+#' @returns `logical` vector with length(x).
+#'
+#' @examples
+#' isColor(c("red", "blue", "beige", "#99000099", "#aa00ff", "#AAE", "bleh"))
+#'
 #' @export
 isColor <- function
 (x,
@@ -1686,6 +1711,8 @@ isColor <- function
 #'    (TRUE) or dark-to-light gradient (FALSE).
 #' @param verbose `logical` whether to print verbose output.
 #' @param ... other parameters are ignored.
+#'
+#' @returns `character` vector of R colors.
 #'
 #' @examples
 #' # given a list, it returns a list
@@ -1929,8 +1956,7 @@ color2gradient <- function
 #' being shown in the heatmap. In short, this function enhances
 #' colors.
 #'
-#' @return
-#' Character vector of R colors, with the same length as the
+#' @returns `character` vector of R colors, with the same length as the
 #' input vector `ramp`.
 #'
 #' @param ramp character vector of R colors
@@ -2032,7 +2058,7 @@ warpRamp <- function
 #'   values are converted to `"#FFFFFF"` as done by `grDevices::col2rgb()`.
 #' @param ... additional arguments are ignored.
 #'
-#' @return character vector of R colors in hex format.
+#' @returns character vector of R colors in hex format.
 #'
 #' @family jam color functions
 #'

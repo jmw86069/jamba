@@ -11,6 +11,9 @@ isTRUEV(x, ...)
 
 \item{...}{additional arguments are ignored}
 }
+\value{
+\code{logical} vector with length matching \code{x}.
+}
 \description{
 Vectorized isTRUE
 }
@@ -23,6 +26,10 @@ determine if each entry in the vector is TRUE:
 \item It must evaluate as \code{TRUE}.
 }
 }
+\examples{
+isTRUEV(c(TRUE, FALSE, NA, TRUE))
+
+}
 \seealso{
 Other jam practical functions: 
 \code{\link{breakDensity}()},
@@ -33,13 +40,11 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

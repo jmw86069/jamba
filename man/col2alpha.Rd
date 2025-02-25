@@ -15,8 +15,15 @@ alpha range should be 255. By default maxValue=1 is returned.}
 
 \item{...}{Additional arguments are ignored.}
 }
+\value{
+\code{numeric} vector of alpha values
+}
 \description{
 Return the alpha transparency per R color
+}
+\examples{
+col2alpha(c("red", "#99004499", "beige", "transparent", "#FFFFFF00"))
+
 }
 \seealso{
 Other jam color functions: 

@@ -49,7 +49,7 @@
 #' is very close to default `sort()` except for the handling of internal
 #' `numeric` values inside each string.
 #'
-#' @return `vector` of values from argument `x`, ordered by
+#' @returns `vector` of values from argument `x`, ordered by
 #'    `mixedOrder()`. The output class should match `class(x)`.
 #'
 #' @family jam sort functions
@@ -200,7 +200,7 @@ mixedSort <- function
 #' Extra thanks to Gregory R. Warnes for the `gtools` mixedorder()
 #' that proved to be so useful it ultimately inspired this function.
 #'
-#' @return `integer` vector of orders derived from x,
+#' @returns `integer` vector of orders derived from x,
 #'    or when `returnType="rank"` an integer vector of ranks allowing ties.
 #'    The rank is therefore valid for use in chains, such as multiple
 #'    columns of a `data.frame`.
@@ -720,7 +720,7 @@ mixedOrder <- function
 #' See `mixedOrder()` and `mixedSort()` for a better
 #' description of how the sort order logic operates.
 #'
-#' @return `integer` vector of row orders
+#' @returns `integer` vector of row orders
 #'
 #' @param ... arguments treated as a `list` of vectors to be ordered in
 #'    proper order, based upon the mechanism by `base::order()`, and
@@ -881,7 +881,7 @@ mmixedOrder <- function
 #' in `byCols`, only the first instance is passed to `mmixedOrder()` to
 #' determine row order.
 #'
-#' @return `data.frame` whose rows are ordered using `mmixedOrder()`.
+#' @returns `data.frame` whose rows are ordered using `mmixedOrder()`.
 #'
 #' @family jam sort functions
 #'

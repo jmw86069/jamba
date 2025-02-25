@@ -44,10 +44,6 @@ heads(l, n=c(2, 1, 3, 5))
 \seealso{
 Other jam list functions: 
 \code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},
 \code{\link{mergeAllXY}()},

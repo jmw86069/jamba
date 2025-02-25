@@ -21,21 +21,21 @@
 #'
 #' @family jam numeric functions
 #'
-#' @return
-#' When `returnType="output"` the output is a numeric matrix
-#' with the same number of columns as the number of unique
-#' `groups` labels. When `groups` is a factor and
-#' `keepNULLlevels=TRUE`, the number of columns will be the
-#' number of factor levels, otherwise it will be the number of
-#' factor levels used in `groups`.
+#' @returns `numeric` matrix based upon `returnType`:
+#'    * When `returnType="output"` the output is a numeric matrix
+#'    with the same number of columns as the number of unique
+#'    `groups` labels. When `groups` is a factor and
+#'    `keepNULLlevels=TRUE`, the number of columns will be the
+#'    number of factor levels, otherwise it will be the number of
+#'    factor levels used in `groups`.
+#'    * When `returnType="input"` the output is a numeric matrix
+#'    with the same dimensions as the input data. This output is
+#'    intended for use with `rmOutliers=TRUE` which will replace
+#'    outlier points with `NA` values. Therefore, this matrix can
+#'    be used to see the location of outliers.
 #'
-#' When `returnType="input"` the output is a numeric matrix
-#' with the same dimensions as the input data. This output is
-#' intended for use with `rmOutliers=TRUE` which will replace
-#' outlier points with `NA` values. Therefore, this matrix can
-#' be used to see the location of outliers.
-#'
-#' The function also returns attributes that describe the
+#' The function also returns attributes when `includeAttributes=TRUE`,
+#' although the default is FALSE. The attributes describe the
 #' number of samples per group overall:
 #' \describe{
 #'    \item{attr(out, "n")}{The attribute `"n"` is used to describe
@@ -43,6 +43,7 @@
 #'    \item{attr(out, "nLabel")}{The attribute `"nLabel"` is
 #'       a simple text label in the form `"n=3"`.}
 #' }
+#'
 #' Note that when `rmOutliers=TRUE` the number of replicates per
 #' group will vary depending upon the outliers removed. In that
 #' case, remember that the reported `"n"` is always the total
@@ -103,7 +104,17 @@
 #' @examples
 #' x <- matrix(ncol=9, stats::rnorm(90));
 #' colnames(x) <- LETTERS[1:9];
-#' rowGroupMeans(x, groups=rep(letters[1:3], each=3))
+#' use_groups <- rep(letters[1:3], each=3)
+#' rowGroupMeans(x, groups=use_groups)
+#'
+#' # rowGroupRmOutliers returns the input data after outlier removal
+#' rowGroupRmOutliers(x, groups=use_groups, returnType="input")
+#'
+#' # rowGroupMeans(..., returnType="input") also returns the input data
+#' rowGroupMeans(x, groups=use_groups, rmOutliers=TRUE, returnType="input")
+#'
+#' # rowGroupMeans with outlier removal
+#' rowGroupMeans(x, groups=use_groups, rmOutliers=TRUE)
 #'
 #' @export
 rowGroupMeans <- function
@@ -440,8 +451,7 @@ rowGroupRmOutliers <- function
 #' reasonable expectation of housekeeper gene expression across replicates
 #' within each sample group.
 #'
-#' @return
-#' A numeric matrix is returned, with the same dimensions
+#' @returns `numeric` matrix with the same dimensions
 #' as the input `x` matrix. Outliers are replaced with `NA`.
 #'
 #' If `includeAttributes=TRUE` then attributes will be

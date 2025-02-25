@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,14 +132,12 @@ and <code><a href="rmInfinite.html">rmInfinite()</a></code> as relevant.</p>
 <code><a href="color_dither.html">color_dither</a>()</code>,
 <code><a href="exp2signed.html">exp2signed</a>()</code>,
 <code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
-<code><a href="handleArgsText.html">handleArgsText</a>()</code>,
 <code><a href="isFALSEV.html">isFALSEV</a>()</code>,
 <code><a href="isTRUEV.html">isTRUEV</a>()</code>,
 <code><a href="jargs.html">jargs</a>()</code>,
 <code><a href="kable_coloring.html">kable_coloring</a>()</code>,
 <code><a href="lldf.html">lldf</a>()</code>,
 <code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="match_unique.html">match_unique</a>()</code>,
 <code><a href="middle.html">middle</a>()</code>,
 <code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
 <code><a href="newestFile.html">newestFile</a>()</code>,
@@ -152,6 +150,32 @@ and <code><a href="rmInfinite.html">rmInfinite()</a></code> as relevant.</p>
 <code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">testlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   A<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="cn">NA</span>, <span class="fl">11</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="cn">NA</span>, <span class="st">"C"</span>, <span class="st">"Test"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rmNAs</span><span class="op">(</span><span class="va">testlist</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  4  5 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "B"    "C"    "Test"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">testlist2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   A<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="cn">NA</span>, <span class="fl">11</span>, <span class="cn">Inf</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   B<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">11</span>, <span class="cn">NA</span>, <span class="fl">19</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rmNAs</span><span class="op">(</span><span class="va">testlist2</span>, naValue<span class="op">=</span><span class="op">-</span><span class="fl">100</span>, infiniteValue<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    1    4    5 -100   11 1000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    11  -100    19 -1000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

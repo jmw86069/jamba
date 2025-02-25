@@ -34,7 +34,8 @@ Bioconductor package.}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-\code{vector} of matching object names, or if \code{where="all"} a named list,
+\code{character} vector of matching object names, or if
+\code{where="all"} it returns a named list
 whose names indicate the search environment name, and whose
 entries are matching object names within each environment.
 }

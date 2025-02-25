@@ -11,6 +11,9 @@ col2hsl(x, ...)
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{numeric} matrix of H, S, L color values.
+}
 \description{
 convert R color to HSL color matrix
 }

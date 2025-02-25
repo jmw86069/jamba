@@ -24,7 +24,7 @@
 #' therefore the row order is absolutely final, not subject
 #' to potential randomness during clustering.
 #'
-#' @return output depends upon the heatmap:
+#' @returns output depends upon the heatmap:
 #'    * When heatmap rows are grouped using `row_split`, and
 #'    when the data matrix contains rownames,
 #'    returns a `character` vector of rownames in the order they
@@ -148,7 +148,7 @@ heatmap_row_order <- function
 #' coerced to `character` values, for example using `gridtext`
 #' for markdown formatting.
 #'
-#' @return output depends upon the heatmap:
+#' @returns output depends upon the heatmap:
 #'    * When heatmap columns are grouped using `column_split`, and
 #'    when the data matrix contains colnames,
 #'    returns a `character` vector of colnames in the order they

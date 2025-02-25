@@ -88,10 +88,6 @@
 #' @param ... additional arguments are passed to `kableExtra::kable()`
 #'    which allows the usual customizations on the initial call.
 #'
-#' @returns `data.frame` or class with `"kableExtra"` dependent upon the
-#'    `return_type` argument. Note that even the `data.frame` returned
-#'    will have colors encoded into each cell using HTML.
-#'
 #' @examplesIf all(check_pkg_installed(c("circlize", "kableExtra")))
 #' new_colorSub <- list(
 #'    column_A=nameVector(rainbow2(5), LETTERS[1:5]),

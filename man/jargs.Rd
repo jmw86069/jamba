@@ -77,6 +77,10 @@ output, useful because parameters are hard!}
 
 \item{...}{Additional arguments are installed.}
 }
+\value{
+\code{NULL} this function called for the byproduct of printing
+its output.
+}
 \description{
 Show R function arguments jam-style
 }
@@ -129,13 +133,11 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

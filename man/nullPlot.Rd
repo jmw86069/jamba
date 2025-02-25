@@ -87,6 +87,10 @@ a new plot window.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+no output, this function is called for the byproduct of
+creating a blank plot, optionally annotating the margins.
+}
 \description{
 Create a blank plot with optional labels for margins
 }

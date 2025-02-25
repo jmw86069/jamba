@@ -20,7 +20,7 @@
 #'
 #' @family jam practical functions
 #'
-#' @return `logical` indicating whether each value in `x`
+#' @returns `logical` indicating whether each value in `x`
 #'    represents an installed R package.
 #'
 #' @param x `character` string of package or packages to test.
@@ -48,26 +48,3 @@ check_pkg_installed <- function
    })
 }
 
-
-#' Match unique vector values against itself
-#'
-#' Match unique vector values against the full vector
-#'
-#' This function matches unique vector values to the full vector.
-#' This step may be commonly performed to subset another R object
-#' for example.
-#'
-#' @family jam practical functions
-#'
-#' @param x `vector`
-#' @param ... additional arguments are ignored
-#'
-#' @export
-match_unique <- function
-(x,
- ...)
-{
-   match(x=unique(x),
-      table=x,
-      ...);
-}

@@ -9,7 +9,7 @@
 #' which are slightly lighter and darker than each other,
 #' to a minimum contrast defined by `colorspace::contrast_ratio()`.
 #'
-#' @return format defined by argument `returnType`:
+#' @returns format defined by argument `returnType`:
 #'    * `vector`: two colors for every input color in `x`
 #'    * `matrix`: two rows, input colors on first row, output colors
 #'    on second row
@@ -54,10 +54,6 @@
 #' showColors(color_dither(x))
 #'
 #' color_dither(x, debug=TRUE)
-#'
-#' #printDebug(1:4, 5:10, 6:9, 3:6, letters[1:5], LETTERS[1:5], 1:5,
-#' #   collapse=" ",
-#' #   fgText=color_dither(x, returnType="list", min_contrast=1.4))
 #'
 #' @export
 color_dither <- function

@@ -99,6 +99,10 @@ the baseline.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{character} vector of R colors, or when N is NULL,
+\code{function} sufficient to create R colors.
+}
 \description{
 get color ramp by name, color, or function
 }

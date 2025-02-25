@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,6 +159,10 @@ debug output.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>list</code> after applying <code><a href="mixedSort.html">mixedSort()</a></code> to its elements.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function is an extension to <code><a href="mixedSort.html">mixedSort()</a></code> to sort each vector
 in a list. It applies the sort to the whole unlisted vector then
@@ -187,10 +191,6 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <code><a href="mmixedOrder.html">mmixedOrder</a>()</code></p>
 <p>Other jam list functions:
 <code><a href="cPaste.html">cPaste</a>()</code>,
-<code><a href="cPasteS.html">cPasteS</a>()</code>,
-<code><a href="cPasteSU.html">cPasteSU</a>()</code>,
-<code><a href="cPasteU.html">cPasteU</a>()</code>,
-<code><a href="cPasteUnique.html">cPasteUnique</a>()</code>,
 <code><a href="heads.html">heads</a>()</code>,
 <code><a href="jam_rapply.html">jam_rapply</a>()</code>,
 <code><a href="list2df.html">list2df</a>()</code>,
@@ -420,7 +420,7 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># The output is a nested list with the same structure</span></span></span>
 <span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l1</span>, verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">17:27:13</span>) 24Feb2025:   <span style="color: #FF8700;">mixedSorts(): </span><span style="color: #00AFFF;">Performing rapply() mixedSort() for each nested sublist.</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">16:18:25</span>) 25Feb2025:   <span style="color: #FF8700;">mixedSorts(): </span><span style="color: #00AFFF;">Performing rapply() mixedSort() for each nested sublist.</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  m  l  k </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 12 13 </span>
@@ -436,7 +436,7 @@ large vector, which is sorted with <code><a href="mixedSort.html">mixedSort()</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">mixedSorts</span><span class="op">(</span><span class="va">l1</span>, sortByName<span class="op">=</span><span class="cn">TRUE</span>, verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">17:27:13</span>) 24Feb2025:   <span style="color: #FF8700;">mixedSorts(): </span><span style="color: #00AFFF;">Performing rapply() mixedSort() for each nested sublist.</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">16:18:25</span>) 25Feb2025:   <span style="color: #FF8700;">mixedSorts(): </span><span style="color: #00AFFF;">Performing rapply() mixedSort() for each nested sublist.</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  k  l  m </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13 12 11 </span>

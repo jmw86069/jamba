@@ -35,6 +35,10 @@ hidden objects whose name begin with \code{"."} such as \code{".First"}.}
 
 \item{...}{additional arguments are passed to \code{ls()}}
 }
+\value{
+\code{data.frame} with summary of objects and object sizes,
+sorted by decreasing object size.
+}
 \description{
 Long listing of R session objects
 }
@@ -67,13 +71,11 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

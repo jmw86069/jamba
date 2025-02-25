@@ -31,6 +31,10 @@ The purpose of this function is to pad integer numbers so they contain
 a consistent number of digits, which is helpful when sorting values
 as character strings.
 }
+\examples{
+padInteger(c(1, 10, 20, 300, 5000))
+
+}
 \seealso{
 Other jam string functions: 
 \code{\link{asSize}()},

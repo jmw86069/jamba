@@ -34,9 +34,9 @@ ceiling are set to this \code{numeric} value.}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-A \code{numeric} vector or \code{matrix}, matching the input type \code{x} where numeric
-values are fixed to the \code{minimum} and \code{ceiling} values as defined
-by \code{newValue} and \code{newCeiling}, respectively.
+\code{numeric} vector or \code{matrix}, matching the input type \code{x}
+where numeric values are fixed to the \code{minimum} and \code{ceiling}
+values as defined by \code{newValue} and \code{newCeiling}, respectively.
 }
 \description{
 Apply noise floor and ceiling to numeric vector

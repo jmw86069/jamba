@@ -83,10 +83,6 @@ showColors(color_dither(x))
 
 color_dither(x, debug=TRUE)
 
-#printDebug(1:4, 5:10, 6:9, 3:6, letters[1:5], LETTERS[1:5], 1:5,
-#   collapse=" ",
-#   fgText=color_dither(x, returnType="list", min_contrast=1.4))
-
 }
 \seealso{
 Other jam practical functions: 
@@ -97,14 +93,12 @@ Other jam practical functions:
 \code{\link{colNum2excelName}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

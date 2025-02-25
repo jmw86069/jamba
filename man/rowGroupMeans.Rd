@@ -106,20 +106,23 @@ with replicate label in \verb{n=#} form.}
 and if \code{rmOutliers=TRUE} to \code{jamba::rowRmMadOutliers()}.}
 }
 \value{
-When \code{returnType="output"} the output is a numeric matrix
+\code{numeric} matrix based upon \code{returnType}:
+\itemize{
+\item When \code{returnType="output"} the output is a numeric matrix
 with the same number of columns as the number of unique
 \code{groups} labels. When \code{groups} is a factor and
 \code{keepNULLlevels=TRUE}, the number of columns will be the
 number of factor levels, otherwise it will be the number of
 factor levels used in \code{groups}.
-
-When \code{returnType="input"} the output is a numeric matrix
+\item When \code{returnType="input"} the output is a numeric matrix
 with the same dimensions as the input data. This output is
 intended for use with \code{rmOutliers=TRUE} which will replace
 outlier points with \code{NA} values. Therefore, this matrix can
 be used to see the location of outliers.
+}
 
-The function also returns attributes that describe the
+The function also returns attributes when \code{includeAttributes=TRUE},
+although the default is FALSE. The attributes describe the
 number of samples per group overall:
 \describe{
 \item{attr(out, "n")}{The attribute \code{"n"} is used to describe
@@ -127,6 +130,7 @@ the number of replicates per group.}
 \item{attr(out, "nLabel")}{The attribute \code{"nLabel"} is
 a simple text label in the form \code{"n=3"}.}
 }
+
 Note that when \code{rmOutliers=TRUE} the number of replicates per
 group will vary depending upon the outliers removed. In that
 case, remember that the reported \code{"n"} is always the total
@@ -155,7 +159,17 @@ removal is performed by \code{jamba::rowRmMadOutliers()}.
 \examples{
 x <- matrix(ncol=9, stats::rnorm(90));
 colnames(x) <- LETTERS[1:9];
-rowGroupMeans(x, groups=rep(letters[1:3], each=3))
+use_groups <- rep(letters[1:3], each=3)
+rowGroupMeans(x, groups=use_groups)
+
+# rowGroupRmOutliers returns the input data after outlier removal
+rowGroupRmOutliers(x, groups=use_groups, returnType="input")
+
+# rowGroupMeans(..., returnType="input") also returns the input data
+rowGroupMeans(x, groups=use_groups, rmOutliers=TRUE, returnType="input")
+
+# rowGroupMeans with outlier removal
+rowGroupMeans(x, groups=use_groups, rmOutliers=TRUE)
 
 }
 \seealso{

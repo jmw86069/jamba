@@ -59,6 +59,9 @@ and when \code{bg=NULL}, the default is \code{bg="white"}.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{character} vector of R colors.
+}
 \description{
 Given a vector or colors, define a contrasting color for text,
 typically using either white or black. The \code{useGrey} argument

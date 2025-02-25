@@ -11,7 +11,7 @@ with numeric offset."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ with numeric offset."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Display major and minor tick marks for log-scale axis</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/R/jamba-plots.r" class="external-link"><code>R/jamba-plots.r</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/R/jamba-axis.R" class="external-link"><code>R/jamba-axis.R</code></a></small>
       <div class="d-none name"><code>minorLogTicksAxis.Rd</code></div>
     </div>
 
@@ -83,30 +83,31 @@ with numeric offset.</p>
 
 
 <dl><dt id="arg-side">side<a class="anchor" aria-label="anchor" href="#arg-side"></a></dt>
-<dd><p>integer indicating the axis side, 1=bottom, 2=left,
+<dd><p><code>integer</code> indicating the axis side, 1=bottom, 2=left,
 3=top, 4=right.</p></dd>
 
 
 <dt id="arg-lims">lims<a class="anchor" aria-label="anchor" href="#arg-lims"></a></dt>
-<dd><p>NULL or numeric range for which the axis tick marks
-will be determined. If NULL then the corresponding <code>graphics::par("usr")</code>
+<dd><p>NULL or <code>numeric</code> range for which the axis tick marks
+will be determined.
+If NULL then the corresponding <code>graphics::par("usr")</code>
 will be used.</p></dd>
 
 
 <dt id="arg-logbase">logBase<a class="anchor" aria-label="anchor" href="#arg-logbase"></a></dt>
-<dd><p>numeric value indicating the log base units, which
+<dd><p><code>numeric</code> value indicating the log base units, which
 will be used similar to how <code>base</code> is used in <code>log(x, base)</code>.</p></dd>
 
 
 <dt id="arg-displaybase">displayBase<a class="anchor" aria-label="anchor" href="#arg-displaybase"></a></dt>
-<dd><p>numeric value indicating the log base units to
+<dd><p><code>numeric</code> value indicating the log base units to
 use when determining the numeric label position. For example,
 data may be log2 scaled, and yet it is visually intuitive to
 show log transformed axis units in base 10 units. See examples.</p></dd>
 
 
 <dt id="arg-offset">offset<a class="anchor" aria-label="anchor" href="#arg-offset"></a></dt>
-<dd><p>numeric offset used in transforming the
+<dd><p><code>numeric</code> offset used in transforming the
 numeric data displayed on this axis. For example, a common
 technique is to transform data using <code>log2(1+x)</code> which adds
 <code>1</code> to values prior to the log2 transformation. In this case,
@@ -115,7 +116,7 @@ match the initial numeric value prior to the log2 transform.</p></dd>
 
 
 <dt id="arg-symmetriczero">symmetricZero<a class="anchor" aria-label="anchor" href="#arg-symmetriczero"></a></dt>
-<dd><p>logical indicating whether numeric values
+<dd><p><code>logical</code> indicating whether numeric values
 are symmetric around zero. For example, log fold changes should
 use <code>symmetricZero=TRUE</code> which ensures a log2 value of <code>-2</code> is
 labeled <code>-4</code> to indicate a negative four fold change. If
@@ -124,7 +125,7 @@ labeled <code>-4</code> to indicate a negative four fold change. If
 
 
 <dt id="arg-majorcex-minorcex">majorCex, minorCex<a class="anchor" aria-label="anchor" href="#arg-majorcex-minorcex"></a></dt>
-<dd><p>the base text size factors, relative
+<dd><p><code>numeric</code> base text size factors, relative
 to cex=1 for default text size. These factors are applied in
 addition to existing <code>graphics::par("cex")</code> values, preserving any
 global text size defined there.</p></dd>
@@ -142,7 +143,7 @@ exponentiated value, otherwise FALSE will print the log value.</p></dd>
 
 
 <dt id="arg-padj">padj<a class="anchor" aria-label="anchor" href="#arg-padj"></a></dt>
-<dd><p>numeric vector length 2, which is used to position
+<dd><p><code>numeric</code> vector length 2, which is used to position
 axis labels for the minor and major labels, respectively. For
 example, <code>padj=c(0,1)</code> will position minor labels just to the
 left of the tick marks, and major labels just to the right
@@ -151,17 +152,17 @@ up on the right side of each section.</p></dd>
 
 
 <dt id="arg-doformat">doFormat<a class="anchor" aria-label="anchor" href="#arg-doformat"></a></dt>
-<dd><p>logical indicating whether to apply <code><a href="https://rdrr.io/r/base/format.html" class="external-link">base::format()</a></code> to
+<dd><p><code>logical</code> indicating whether to apply <code><a href="https://rdrr.io/r/base/format.html" class="external-link">base::format()</a></code> to
 format numeric labels.</p></dd>
 
 
 <dt id="arg-big-mark-scipen">big.mark, scipen<a class="anchor" aria-label="anchor" href="#arg-big-mark-scipen"></a></dt>
-<dd><p>parameters passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">base::format()</a></code> when
+<dd><p>arguments passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">base::format()</a></code> when
 <code>doFormat=TRUE</code>.</p></dd>
 
 
 <dt id="arg-minorwhich">minorWhich<a class="anchor" aria-label="anchor" href="#arg-minorwhich"></a></dt>
-<dd><p>integer vector indicating which of the minor tick
+<dd><p><code>integer</code> vector indicating which of the minor tick
 marks should be labeled. Labels are generally numbered from <code>2</code>
 to <code>displayBase-1</code>. So by default, log 10 units would add
 minor tick marks and labels to the <code>c(2,5)</code> position. For log2
@@ -180,13 +181,13 @@ axis tick mark colors, and label text orientation, respectively.</p></dd>
 
 
 <dt id="arg-minorlogticksdata">minorLogTicksData<a class="anchor" aria-label="anchor" href="#arg-minorlogticksdata"></a></dt>
-<dd><p>a list object created by running
+<dd><p><code>list</code> object created by running
 <code><a href="minorLogTicks.html">jamba::minorLogTicks()</a></code>, which allows inspecting and modifying
 the content for custom control.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>logical indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

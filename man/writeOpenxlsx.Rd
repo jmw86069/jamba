@@ -281,22 +281,22 @@ A screenshot of the file produced by the example is shown below.
 \examples{
 # set up a test data.frame
 set.seed(123);
+lfc <- -3:3 + stats::rnorm(7)/3;
+colorSub <- nameVector(
+   rainbow2(7),
+   LETTERS[1:7])
+df <- data.frame(name=LETTERS[1:7],
+   int=round(4^(1:7)),
+   num=(1:7)*4-2 + stats::rnorm(7),
+   fold=2^abs(lfc)*sign(lfc),
+   lfc=lfc,
+   pvalue=10^(-1:-7 + stats::rnorm(7)),
+   hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
+df;
 \dontrun{
-   set.seed(123);
-   lfc <- -3:3 + stats::rnorm(7)/3;
-   colorSub <- nameVector(
-      rainbow2(7),
-      LETTERS[1:7])
-   df <- data.frame(name=LETTERS[1:7],
-      int=round(4^(1:7)),
-      num=(1:7)*4-2 + stats::rnorm(7),
-      fold=2^abs(lfc)*sign(lfc),
-      lfc=lfc,
-      pvalue=10^(-1:-7 + stats::rnorm(7)),
-      hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
-   df;
+   out_xlsx <- file.path(tempdir(), "jamba_test.xlsx")
    writeOpenxlsx(x=df,
-      file="jamba_test.xlsx",
+      file=out_xlsx,
       sheetName="jamba_test",
       colorSub=colorSub,
       intColumns=2,

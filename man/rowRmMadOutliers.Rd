@@ -63,7 +63,7 @@ may be more reliable than individual group MAD values.}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-A numeric matrix is returned, with the same dimensions
+\code{numeric} matrix with the same dimensions
 as the input \code{x} matrix. Outliers are replaced with \code{NA}.
 
 If \code{includeAttributes=TRUE} then attributes will be

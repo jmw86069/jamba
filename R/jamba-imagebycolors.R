@@ -45,6 +45,10 @@
 #'
 #' @family jam plot functions
 #'
+#' @returns `list` invisibly, with elements sufficient to create an
+#'    image plot. This function is called for the byproduct of creating
+#'    an image visualization.
+#'
 #' @param x matrix or data.frame containing colors
 #' @param useRaster logical sent to \code{\link{imageDefault}} to enable
 #'    raster rendering, as opposed to polygon rendering. This parameter is

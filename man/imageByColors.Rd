@@ -132,6 +132,11 @@ device, otherwise it creates a new plot.}
 
 \item{...}{Additional arguments are ignored.}
 }
+\value{
+\code{list} invisibly, with elements sufficient to create an
+image plot. This function is called for the byproduct of creating
+an image visualization.
+}
 \description{
 Display color raster image using a matrix of colors
 }

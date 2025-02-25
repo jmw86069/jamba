@@ -101,13 +101,13 @@ see \code{shadowText_options()} for convenience.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://jmw86069.github.io/jamba}
+  \item \url{https://jmw86069.github.io/jamba/}
   \item Report bugs at \url{https://github.com/jmw86069/jamba/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: James M. Ward \email{jmw86069@gmail.com}
+\strong{Maintainer}: James M. Ward \email{jmw86069@gmail.com} [copyright holder]
 
 }
 \keyword{internal}

@@ -102,8 +102,8 @@ the ratio of square roots.  alphaPower=100 for minimal adjustment.}
 \item{...}{additional parameters are ignored}
 }
 \value{
-\code{character} vector with the same length as \code{text} input vector, where
-entries are surrounded by the relevant encoding consistent with
+\code{character} vector with the same length as \code{text} input vector,
+where entries are surrounded by the relevant encoding consistent with
 the \code{style} defined at input. In short, a character vector as input,
 a colorized character vector as output.
 }
@@ -115,8 +115,13 @@ This function is essentially a vectorized version of
 \code{crayon::make_style()} in order to style a vector of
 character strings with a vector of foreground and background styles.
 }
+\examples{
+cat(make_styles(style=c("red", "yellow"), text=c("one ", "two")), "\n")
+
+}
 \seealso{
 Other jam internal functions: 
+\code{\link{handleArgsText}()},
 \code{\link{jamCalcDensity}()},
 \code{\link{make_html_styles}()},
 \code{\link{smoothScatterJam}()}

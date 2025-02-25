@@ -77,6 +77,9 @@ package is available, and terminal console is capable.}
 
 \item{...}{Additional arguments are ignored.}
 }
+\value{
+\code{character} vector including ANSI coloring when available.
+}
 \description{
 Handles a list or list of lists, converting to human-readable text format
 }
@@ -86,40 +89,14 @@ This function is a rare non-exported function intended to be called by
 steps required.
 }
 \examples{
-args(jargs)
-jargs(jargs)
-
-# retrieve parameters involving notes from imageByColors
-jargs(imageByColors, "note")
+cat(paste0(handleArgsText(formals(graphics::hist.default)), "\n"), sep="")
 
 }
 \seealso{
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{call_fn_ellipsis}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{getAxisLabel}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{match_unique}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{printDebug}()},
-\code{\link{reload_rmarkdown_cache}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{setPrompt}()}
+Other jam internal functions: 
+\code{\link{jamCalcDensity}()},
+\code{\link{make_html_styles}()},
+\code{\link{make_styles}()},
+\code{\link{smoothScatterJam}()}
 }
-\concept{jam practical functions}
+\concept{jam internal functions}

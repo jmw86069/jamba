@@ -17,6 +17,9 @@ the middle \code{n} entries are returned.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+an object of class equivalent to \code{x}.
+}
 \description{
 Return the middle portion of data similar to head and tail
 }
@@ -45,14 +48,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},
 \code{\link{printDebug}()},

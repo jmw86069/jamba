@@ -29,6 +29,9 @@ By default maxValue=1 is returned.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{numeric} matrix with H, C, L values.
+}
 \description{
 convert R color to HCL color matrix
 }

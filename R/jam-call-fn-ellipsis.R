@@ -24,7 +24,7 @@
 #'
 #' @family jam practical functions
 #'
-#' @return output from `FUN()` when called with relevant named arguments
+#' @returns output from `FUN()` when called with relevant named arguments
 #'    from ellipsis `...`
 #'
 #' @param FUN `function` that should be called with arguments in `...`

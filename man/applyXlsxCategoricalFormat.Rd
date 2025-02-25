@@ -73,14 +73,6 @@ the specific cell color, for example the font size and font name.}
 is returned invisibly with \code{invisible()}. This \code{Workbook}
 can be used in argument \code{wb} to provide a speed boost when
 saving multiple sheets to the same file.
-
-\code{list} named by the primary fill color of each cell,
-containing a \code{openxlsx::style} object suitable for use
-by \code{openxlsx::addStyle()}.
-
-\code{list} named by style, by default the hex color with no alpha
-where each element is a \code{matrix} with colnames \code{row} and \code{col}
-indicating individual row/column coordinate positions.
 }
 \description{
 Add categorical colors to Excel xlsx worksheets

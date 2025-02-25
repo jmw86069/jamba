@@ -32,6 +32,46 @@ documentation:
 
 Functions are categorized, some examples are listed below:
 
+## Installation
+
+Production will soon be available from CRAN:
+
+`install.packages("jamba")`
+
+The development version can be installed:
+
+`remotes::install_github("jmw86069/jamba")`
+
+### Additional R Packages in "Suggests"
+
+* `crayon` - install with `install.packages("crayon")` for glorious
+colored console output. Color makes it better.
+* `farver` - install with `install.packages("farver")` for more
+efficient color manipulations, and HSL color coneversions.
+
+### Additional R Packages in "Enhances"
+
+Bioconductor packages are invaluable for bioinformatics work,
+but can be a bit "heavy" to install if not absolutely necessary.
+Therefore, Bioconductor packages are in "Enhances" so they require
+someone to make the choice to install them.
+
+* `S4Vectors` - install with `BiocManager::install("S4vectors")` to
+improve speed of `cPaste()` functions.
+* `openxlsx` - install with `install.packages("openxlsx")` to support
+Excel `xlsx` file import, and stylized export.
+* `kableExtra` - install with `install.packages("kableExtra")` to enable
+colorized kable HTML tables in RMarkdown documents.
+* `ComplexHeatmap` - install with `BiocManager::install("ComplexHeatmap")`
+to use with `heatmap_row_order()`, `cell_fun_label()` for custom labels.
+* `matrixStats` - install with `install.packages("matrixStats")`
+for efficient `numeric` stats calculations, or `sparseMatrixStats` for
+use with Matrix sparse matrices as used with Seurat and SingleCellExperiment
+data.
+* `ggridges` - install with `install.packages("ggridges")` for convenient
+ridge density plots using `plotRidges()`.
+
+
 ## Background
 
 The R functions in `jamba` have been built up, used, tested, revised

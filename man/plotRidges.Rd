@@ -77,6 +77,10 @@ is presented using the default bandwidth in
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+object with class \verb{"gg", "ggplot"} with density plot
+in the form of ridges.
+}
 \description{
 Plot ridges density plots for numeric matrix input
 }

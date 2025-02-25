@@ -39,7 +39,7 @@ output color ramps using \code{showColors()}.}
 \item{...}{additional parameters are passed to \code{showColors()}.}
 }
 \value{
-Character vector of R colors, with the same length as the
+\code{character} vector of R colors, with the same length as the
 input vector \code{ramp}.
 }
 \description{

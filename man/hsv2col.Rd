@@ -12,6 +12,9 @@ in any order, and optionally "alpha" rowname for alpha transparency.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{character} vector of R colors.
+}
 \description{
 Converts a HSV color matrix to R hex color
 }

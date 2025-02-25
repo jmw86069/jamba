@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,6 +62,43 @@
 <p>A full online function reference is available via the pkgdown documentation:</p>
 <p><a href="https://jmw86069.github.io/jamba/">Full jamba command reference</a></p>
 <p>Functions are categorized, some examples are listed below:</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Production will soon be available from CRAN:</p>
+<p><code>install.packages("jamba")</code></p>
+<p>The development version can be installed:</p>
+<p><code>remotes::install_github("jmw86069/jamba")</code></p>
+<div class="section level3">
+<h3 id="additional-r-packages-in-suggests">Additional R Packages in “Suggests”<a class="anchor" aria-label="anchor" href="#additional-r-packages-in-suggests"></a>
+</h3>
+<ul>
+<li>
+<code>crayon</code> - install with <code>install.packages("crayon")</code> for glorious colored console output. Color makes it better.</li>
+<li>
+<code>farver</code> - install with <code>install.packages("farver")</code> for more efficient color manipulations, and HSL color coneversions.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="additional-r-packages-in-enhances">Additional R Packages in “Enhances”<a class="anchor" aria-label="anchor" href="#additional-r-packages-in-enhances"></a>
+</h3>
+<p>Bioconductor packages are invaluable for bioinformatics work, but can be a bit “heavy” to install if not absolutely necessary. Therefore, Bioconductor packages are in “Enhances” so they require someone to make the choice to install them.</p>
+<ul>
+<li>
+<code>S4Vectors</code> - install with <code>BiocManager::install("S4vectors")</code> to improve speed of <code><a href="reference/cPaste.html">cPaste()</a></code> functions.</li>
+<li>
+<code>openxlsx</code> - install with <code>install.packages("openxlsx")</code> to support Excel <code>xlsx</code> file import, and stylized export.</li>
+<li>
+<code>kableExtra</code> - install with <code>install.packages("kableExtra")</code> to enable colorized kable HTML tables in RMarkdown documents.</li>
+<li>
+<code>ComplexHeatmap</code> - install with <code>BiocManager::install("ComplexHeatmap")</code> to use with <code><a href="reference/heatmap_row_order.html">heatmap_row_order()</a></code>, <code><a href="reference/cell_fun_label.html">cell_fun_label()</a></code> for custom labels.</li>
+<li>
+<code>matrixStats</code> - install with <code>install.packages("matrixStats")</code> for efficient <code>numeric</code> stats calculations, or <code>sparseMatrixStats</code> for use with Matrix sparse matrices as used with Seurat and SingleCellExperiment data.</li>
+<li>
+<code>ggridges</code> - install with <code>install.packages("ggridges")</code> for convenient ridge density plots using <code><a href="reference/plotRidges.html">plotRidges()</a></code>.</li>
+</ul>
+</div>
 </div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
@@ -235,11 +272,11 @@
 <li>
 <code><a href="reference/cPaste.html">cPaste()</a></code> - highly efficient <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code> over a large list of vectors</li>
 <li>
-<code><a href="reference/cPasteS.html">cPasteS()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
+<code><a href="reference/cPaste.html">cPasteS()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
 <li>
-<code><a href="reference/cPasteU.html">cPasteU()</a></code> - as above but using <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
+<code><a href="reference/cPaste.html">cPasteU()</a></code> - as above but using <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
 <li>
-<code><a href="reference/cPasteSU.html">cPasteSU()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
+<code><a href="reference/cPaste.html">cPasteSU()</a></code> - as above but using <code><a href="reference/mixedSort.html">mixedSort()</a></code> and <code><a href="reference/uniques.html">uniques()</a></code> before <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>.</li>
 <li>
 <code><a href="reference/uniques.html">uniques()</a></code> - efficient <code><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique()</a></code> over a list of vectors</li>
 <li>
@@ -431,7 +468,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>James M. Ward <br><small class="roles"> Author, maintainer </small>  </li>
+<li>James M. Ward <br><small class="roles"> Author, maintainer, copyright holder </small>  </li>
 </ul>
 </div>
 

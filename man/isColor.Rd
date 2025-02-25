@@ -13,6 +13,9 @@ isColor(x, makeNamesFunc = c, ...)
 
 \item{...}{additional parameters are ignored}
 }
+\value{
+\code{logical} vector with length(x).
+}
 \description{
 detect valid R color
 }
@@ -20,6 +23,10 @@ detect valid R color
 This function determines whether each element in a vector is a valid R
 color, based upon the R color names, valid hex color format, and the
 word "transparent" which is valid as an R color.
+}
+\examples{
+isColor(c("red", "blue", "beige", "#99000099", "#aa00ff", "#AAE", "bleh"))
+
 }
 \seealso{
 Other jam color functions: 

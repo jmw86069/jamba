@@ -54,6 +54,9 @@ substitutes 0 for any NA values.}
 
 \item{...}{Additional arguments are ignored.}
 }
+\value{
+\code{character} vector of R colors.
+}
 \description{
 Convert RGB color matrix to R color
 }

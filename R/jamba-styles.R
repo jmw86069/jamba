@@ -8,6 +8,9 @@
 #'
 #' @inheritParams make_styles
 #'
+#' @examples
+#' make_html_styles(style=c("red", "orange"), text=c("one ", "two"))
+#'
 #' @export
 make_html_styles <- function
 (style=NULL,

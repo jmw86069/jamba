@@ -58,6 +58,8 @@
 #'
 #' @family jam color functions
 #'
+#' @returns `numeric` matrix of H, S, L color values.
+#'
 #' @export
 col2hsl <- function
 (x,
@@ -102,7 +104,7 @@ col2hsl <- function
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... other arguments are ignored.
 #'
-#' @return vector of R colors, or where the input was NA, then NA
+#' @returns vector of R colors, or where the input was NA, then NA
 #'    values are returned in the same order.
 #'
 #' @examples

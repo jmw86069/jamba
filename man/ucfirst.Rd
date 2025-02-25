@@ -18,6 +18,9 @@ still applies the logic to every entry in the input vector \code{x}.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{character} vector where letters are converted to uppercase.
+}
 \description{
 Uppercase the first letter in each word
 }

@@ -51,6 +51,10 @@ to make this connection more direct.}
 \item{...}{additional arguments are passed to \code{jamba::pasteByRow()},
 and to \code{jamba::mixedSortDF()}.}
 }
+\value{
+\code{factor} vector whose levels are defined by existing
+factor levels, then by sorted values.
+}
 \description{
 Paste data.frame rows into an ordered factor
 }

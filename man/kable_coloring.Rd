@@ -109,10 +109,6 @@ which allows the usual customizations on the initial call.}
 object with class \code{c("kableExtra", "knitr_kable")} by default
 when \code{return_type="kable"}, suitable to render inside an RMarkdown
 or HTML context. Or returns \code{data.frame} when \code{return_type="data.frame"}.
-
-\code{data.frame} or class with \code{"kableExtra"} dependent upon the
-\code{return_type} argument. Note that even the \code{data.frame} returned
-will have colors encoded into each cell using HTML.
 }
 \description{
 Extend kableExtra colorization of Rmarkdown tables
@@ -208,13 +204,11 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

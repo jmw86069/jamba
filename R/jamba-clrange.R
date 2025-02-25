@@ -12,7 +12,7 @@
 #' To set a default lightMode, add options("jam.lightMode"=TRUE) to .Rprofile, or
 #' to the relevant R script.
 #'
-#' @return logical or length=1, indicating whether lightMode is defined
+#' @returns logical or length=1, indicating whether lightMode is defined
 #'
 #' @family jam practical functions
 #'
@@ -105,7 +105,7 @@ checkLightMode <- function
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are ignored.
 #'
-#' @return `list` with elements:
+#' @returns `list` with elements:
 #'    \describe{
 #'       \item{Crange}{Numeric vector of length 2, defining the
 #'       HCL chroma (C) range.}
@@ -332,7 +332,7 @@ setCLranges <- function
 #' is still required to have a hue H, it is important not to increase
 #' `C`.
 #'
-#' @return vector of colors after applying the chroma (C) and luminance (L)
+#' @returns vector of colors after applying the chroma (C) and luminance (L)
 #'    ranges.
 #'
 #' @family jam color functions
@@ -535,7 +535,7 @@ applyCLrange <- function
 #'    within the range `Hrange`. If NULL, `HCL` is return unchanged.
 #' @param ... additional arguments are ignored.
 #'
-#' @return returns the input `HCL` data where rowname `"H"` has hue values
+#' @returns returns the input `HCL` data where rowname `"H"` has hue values
 #'    adjusted accordingly. In the event `HCL`, `Hrange`, or `Hshift` have
 #'    length 0, the original `HCL` is returned. If input data does not
 #'    meet the expected format, the input `HCL` is returned unchanged.
@@ -606,7 +606,7 @@ fixYellowHue <- function
 #' @param ... additional arguments are passed to `col2hcl()`, and
 #'    `hcl2col()`.
 #'
-#' @return returns a vector of R colors the same length as input `col`.
+#' @returns returns a vector of R colors the same length as input `col`.
 #'    In the event `col`, `Hrange`, or `Hshift` have length 0, or if any
 #'    step in the conversion produces length 0, then the
 #'    original `col` is returned.

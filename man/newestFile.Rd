@@ -21,9 +21,9 @@ newest file.}
 \item{...}{additional parameters are ignored.}
 }
 \value{
-Character vector \code{length=1} of the most recently modified file
+\code{character} vector \code{length=1} of the most recently modified file
 from the input vector \code{x}. Note that any files not found are removed,
-using \code{base::file.exists()}.
+using \code{base::file.exists()}, which means invalid symlinks will be ignored.
 }
 \description{
 Return the newest file from a vector of files
@@ -46,14 +46,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{printDebug}()},

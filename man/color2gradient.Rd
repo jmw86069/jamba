@@ -57,6 +57,9 @@ internally converted to fractions using \code{1/(2 + abs(dex))}
 
 \item{...}{other parameters are ignored.}
 }
+\value{
+\code{character} vector of R colors.
+}
 \description{
 Make a color gradient
 }

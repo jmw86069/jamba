@@ -24,6 +24,12 @@ remove Infinite values
 This function removes any positive or negative infinite numerical
 values, optionally replacing them with a given value or NA.
 }
+\examples{
+rmInfinite(c(1, 5, 4, 10, Inf, 1, -Inf))
+
+rmInfinite(c(1, 5, 4, 10, Inf, 1, -Inf), infiniteValue=1000)
+
+}
 \seealso{
 Other jam practical functions: 
 \code{\link{breakDensity}()},
@@ -34,14 +40,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

@@ -113,6 +113,11 @@ other things, whether the user prefers raster images, and if the
 \item{...}{additional arguments are passed to \code{imageDefault()} and
 optionally to \code{plotPlotHook()} when supplied.}
 }
+\value{
+\code{list} of elements sufficient to call \code{graphics::image()},
+also by default this function is called for the byproduct of
+creating a figure.
+}
 \description{
 Produce smooth scatter plot, a helper function called by
 \code{plotSmoothScatter()}.
@@ -130,10 +135,17 @@ in order to utilize custom raster image scaling, particularly important
 when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
 10 units, but the y-axis spans 10,000 units.
 }
+\examples{
+x1 <- rnorm(1000);
+y1 <- (x1 + 5)* 4  + rnorm(1000);
+smoothScatterJam(x=x1, y=y1, bandwidth=c(0.05, 0.3))
+
+}
 \seealso{
 \code{graphics::smoothScatter()}
 
 Other jam internal functions: 
+\code{\link{handleArgsText}()},
 \code{\link{jamCalcDensity}()},
 \code{\link{make_html_styles}()},
 \code{\link{make_styles}()}

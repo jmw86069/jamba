@@ -11,7 +11,7 @@ function to call rowGroupMeans(..., rmOutliers=TRUE, returnType="input").'></hea
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -181,18 +181,19 @@ and if <code>rmOutliers=TRUE</code> to <code><a href="rowRmMadOutliers.html">jam
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>When <code>returnType="output"</code> the output is a numeric matrix
+    <p><code>numeric</code> matrix based upon <code>returnType</code>:</p><ul><li><p>When <code>returnType="output"</code> the output is a numeric matrix
 with the same number of columns as the number of unique
 <code>groups</code> labels. When <code>groups</code> is a factor and
 <code>keepNULLlevels=TRUE</code>, the number of columns will be the
 number of factor levels, otherwise it will be the number of
-factor levels used in <code>groups</code>.</p>
-<p>When <code>returnType="input"</code> the output is a numeric matrix
+factor levels used in <code>groups</code>.</p></li>
+<li><p>When <code>returnType="input"</code> the output is a numeric matrix
 with the same dimensions as the input data. This output is
 intended for use with <code>rmOutliers=TRUE</code> which will replace
 outlier points with <code>NA</code> values. Therefore, this matrix can
-be used to see the location of outliers.</p>
-<p>The function also returns attributes that describe the
+be used to see the location of outliers.</p></li>
+</ul><p>The function also returns attributes when <code>includeAttributes=TRUE</code>,
+although the default is FALSE. The attributes describe the
 number of samples per group overall:</p><dl><dt>attr(out, "n")</dt>
 <dd><p>The attribute <code>"n"</code> is used to describe
 the number of replicates per group.</p></dd>
@@ -237,18 +238,83 @@ removal is performed by <code><a href="rowRmMadOutliers.html">jamba::rowRmMadOut
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">9</span>, <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">]</span>;</span></span>
-<span class="r-in"><span><span class="fu">rowGroupMeans</span><span class="op">(</span><span class="va">x</span>, groups<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  a           b           c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -0.005767173  0.83204713  0.24841265</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  0.046726172 -0.27934628  0.06528818</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -0.224267885  0.35872890  0.01915639</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] -0.542888255 -0.01104548  0.25733838</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -0.433310317 -0.45278397  0.00837096</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] -0.289461574 -0.79533912 -0.21951563</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] -0.057106774 -0.81496871  0.59625902</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  0.503607972  0.24226348  0.11971764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.992160365 -1.42509839  0.14377148</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.690953840  0.36594112 -0.11775360</span>
+<span class="r-in"><span><span class="va">use_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rowGroupMeans</span><span class="op">(</span><span class="va">x</span>, groups<span class="op">=</span><span class="va">use_groups</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                a            b           c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  0.3297912 -0.006198262 -0.66518864</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -1.1655448  0.634362125  0.45203019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -0.8185157 -0.279333528  0.30027912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.2865486  0.793585308  0.07485682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -0.3200564 -0.241689768  0.20637270</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] -0.4321298 -0.374800093  1.76365303</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.8001769 -0.772978228  0.03768285</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] -0.1294107  0.084543768 -0.04691673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.8867361 -1.334353628  0.15161137</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.9343851  0.495870480  1.29230591</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># rowGroupRmOutliers returns the input data after outlier removal</span></span></span>
+<span class="r-in"><span><span class="fu">rowGroupRmOutliers</span><span class="op">(</span><span class="va">x</span>, groups<span class="op">=</span><span class="va">use_groups</span>, returnType<span class="op">=</span><span class="st">"input"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                A          B           C          D          E            F</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -0.1453936  0.3297912  0.39370865 -0.5208693  1.2339762 -0.006198262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -1.1655448 -3.2273228  0.40363146  1.6232025  0.6343621 -0.685706846</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -0.8185157 -0.7717918 -0.88643672 -1.0700682  0.4120223 -0.279333528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.6849361  0.2865486 -1.31893760  1.6858872  0.7935853 -0.782730275</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -0.3200564         NA  0.02884391 -0.2416898 -0.1524106 -0.778997240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]         NA         NA -0.43212979 -0.4682005 -0.2288958 -0.374800093</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] -0.5996083  0.8001769  1.68987252 -0.7729782 -0.9007918 -0.319393809</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] -0.1294107 -0.1639310  1.22839278         NA -0.7350262  0.084543768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.8867361  1.2429188  0.27602348 -1.3343536 -1.4276858 -0.768473603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.1513960 -0.9343851 -1.04897550  0.4958705  0.6192835           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 G           H          I</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -0.90087086 -0.46355650 -0.6651886</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  0.66372867  0.30546323  0.4520302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  0.30027912 -0.08398871  0.5268557</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.07485682  0.41036345 -0.2302622</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  0.20637270  0.18367824         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]          NA  1.77874162  1.7636530</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] -0.62795166  0.03768285  0.4856014</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] -0.04691673  1.17622012 -0.2657389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.16261812          NA  0.1516114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,]  1.29230591          NA  1.3766098</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># rowGroupMeans(..., returnType="input") also returns the input data</span></span></span>
+<span class="r-in"><span><span class="fu">rowGroupMeans</span><span class="op">(</span><span class="va">x</span>, groups<span class="op">=</span><span class="va">use_groups</span>, rmOutliers<span class="op">=</span><span class="cn">TRUE</span>, returnType<span class="op">=</span><span class="st">"input"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                A          B           C          D          E            F</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -0.1453936  0.3297912  0.39370865 -0.5208693  1.2339762 -0.006198262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -1.1655448 -3.2273228  0.40363146  1.6232025  0.6343621 -0.685706846</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -0.8185157 -0.7717918 -0.88643672 -1.0700682  0.4120223 -0.279333528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.6849361  0.2865486 -1.31893760  1.6858872  0.7935853 -0.782730275</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -0.3200564         NA  0.02884391 -0.2416898 -0.1524106 -0.778997240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]         NA         NA -0.43212979 -0.4682005 -0.2288958 -0.374800093</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] -0.5996083  0.8001769  1.68987252 -0.7729782 -0.9007918 -0.319393809</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] -0.1294107 -0.1639310  1.22839278         NA -0.7350262  0.084543768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.8867361  1.2429188  0.27602348 -1.3343536 -1.4276858 -0.768473603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.1513960 -0.9343851 -1.04897550  0.4958705  0.6192835           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 G           H          I</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -0.90087086 -0.46355650 -0.6651886</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  0.66372867  0.30546323  0.4520302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  0.30027912 -0.08398871  0.5268557</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.07485682  0.41036345 -0.2302622</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  0.20637270  0.18367824         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]          NA  1.77874162  1.7636530</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] -0.62795166  0.03768285  0.4856014</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] -0.04691673  1.17622012 -0.2657389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.16261812          NA  0.1516114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,]  1.29230591          NA  1.3766098</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># rowGroupMeans with outlier removal</span></span></span>
+<span class="r-in"><span><span class="fu">rowGroupMeans</span><span class="op">(</span><span class="va">x</span>, groups<span class="op">=</span><span class="va">use_groups</span>, rmOutliers<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                a            b           c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  0.3297912 -0.006198262 -0.66518864</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -1.1655448  0.634362125  0.45203019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -0.8185157 -0.279333528  0.30027912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.2865486  0.793585308  0.07485682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -0.1456063 -0.241689768  0.19502547</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] -0.4321298 -0.374800093  1.77119732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.8001769 -0.772978228  0.03768285</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] -0.1294107 -0.325241194 -0.04691673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.8867361 -1.334353628  0.15711474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.9343851  0.557577007  1.33445786</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

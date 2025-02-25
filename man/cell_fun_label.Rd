@@ -60,6 +60,10 @@ Heatmap object.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{function} sufficient to use as input to
+\code{ComplexHeatmap::Heatmap()} argument \code{cell_fun}.
+}
 \description{
 ComplexHeatmap cell function to label heatmap cells
 }

@@ -1,3 +1,13 @@
+# jamba 1.0.0
+
+* CRAN release version.
+* Added missing returns, examples.
+* Removed global variables.
+* Moved farver to Suggests.
+* Moved IRanges to Enhances.
+* Updated `uniques()` when S4Vectors is not available.
+* Added CITATION, updated LICENSE, fixed URL
+
 # jamba 0.0.107.900
 
 ## changes

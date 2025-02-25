@@ -26,7 +26,7 @@
 #' to view all sections, then to choose the `integer` number, or
 #' `character` name to define the maximum chunk to load.
 #'
-#' @return this function does not return data, but instead is called
+#' @returns this function does not return data, but instead is called
 #'    for the by-product of loading data into the given `envir`
 #'    environment.
 #'

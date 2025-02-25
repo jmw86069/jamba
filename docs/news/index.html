@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.107.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,16 @@
       <small>Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.0" id="jamba-100">jamba 1.0.0<a class="anchor" aria-label="anchor" href="#jamba-100"></a></h2>
+<ul><li>CRAN release version.</li>
+<li>Added missing returns, examples.</li>
+<li>Removed global variables.</li>
+<li>Moved farver to Suggests.</li>
+<li>Moved IRanges to Enhances.</li>
+<li>Updated <code><a href="../reference/uniques.html">uniques()</a></code> when S4Vectors is not available.</li>
+<li>Added CITATION, updated LICENSE, fixed URL</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.107.900" id="jamba-00107900">jamba 0.0.107.900<a class="anchor" aria-label="anchor" href="#jamba-00107900"></a></h2>
 <div class="section level3">
@@ -400,7 +410,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-0-0-90-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-90-900"></a></h3>
 <ul><li>
-<p><code><a href="../reference/mixedSorts.html">mixedSorts()</a></code>, <code><a href="../reference/cPasteS.html">cPasteS()</a></code>, <code><a href="../reference/cPasteSU.html">cPasteSU()</a></code></p>
+<p><code><a href="../reference/mixedSorts.html">mixedSorts()</a></code>, <code><a href="../reference/cPaste.html">cPasteS()</a></code>, <code><a href="../reference/cPaste.html">cPasteSU()</a></code></p>
 <ul><li>Fixed error when one or more entries were <code>NULL</code>, output now retains <code>NULL</code> without error.</li>
 <li>Added tests to cover behavior with NULL entries, including retaining proper names or absence of <code>names(x)</code> for input data.</li>
 </ul></li>
@@ -517,7 +527,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-0-0-87-900">bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-87-900"></a></h3>
 <ul><li>
-<p><code><a href="../reference/cPaste.html">cPaste()</a></code> was not properly enforcing <code>na.rm=TRUE</code>, which caused <code>NA</code> values to be converted into <code>"NA"</code>. The bug also affected <code><a href="../reference/cPasteS.html">cPasteS()</a></code>, <code><a href="../reference/cPasteU.html">cPasteU()</a></code>, and <code><a href="../reference/cPasteSU.html">cPasteSU()</a></code>, along with dependent functions in the <code>genejam</code> package.</p>
+<p><code><a href="../reference/cPaste.html">cPaste()</a></code> was not properly enforcing <code>na.rm=TRUE</code>, which caused <code>NA</code> values to be converted into <code>"NA"</code>. The bug also affected <code><a href="../reference/cPaste.html">cPasteS()</a></code>, <code><a href="../reference/cPaste.html">cPasteU()</a></code>, and <code><a href="../reference/cPaste.html">cPasteSU()</a></code>, along with dependent functions in the <code>genejam</code> package.</p>
 <ul><li>
 <code><a href="../reference/cPaste.html">cPaste()</a></code> now calls <code><a href="../reference/rmNAs.html">rmNAs()</a></code> when <code>na.rm=TRUE</code>, to remove <code>NA</code> values in relatively efficient manner across the input list <code>x</code>.</li>
 <li>
@@ -941,7 +951,7 @@
 <li>
 <code><a href="../reference/provigrep.html">proigrep()</a></code> was added as a lightweight alias to <code>provigrep(..., value=FALSE)</code> which returns the index positions rather than the values.</li>
 <li>
-<code><a href="../reference/match_unique.html">match_unique()</a></code> matches unique vector values to the full vector. I found myself performing this step so many times I thought a function might feel better. It may also be equivalent to <code>which(!duplicated(x))</code> - but again, that doesn’t feel easy enough. I guess.</li>
+<code>match_unique()</code> matches unique vector values to the full vector. I found myself performing this step so many times I thought a function might feel better. It may also be equivalent to <code>which(!duplicated(x))</code> - but again, that doesn’t feel easy enough. I guess.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -1309,7 +1319,7 @@
 <div class="section level3">
 <h3 id="possible-breaking-changes-0-0-39-900">possible breaking changes<a class="anchor" aria-label="anchor" href="#possible-breaking-changes-0-0-39-900"></a></h3>
 <ul><li>
-<code><a href="../reference/cPaste.html">cPaste()</a></code> default <code>doSort=TRUE</code> is changed to <code>doSort=FALSE</code>. New functions: <code><a href="../reference/cPasteS.html">cPasteS()</a></code> is intended for sorted values; <code><a href="../reference/cPasteU.html">cPasteU()</a></code> is an alias for <code><a href="../reference/cPasteUnique.html">cPasteUnique()</a></code> and is intended for unique values; <code><a href="../reference/cPasteSU.html">cPasteSU()</a></code> is intended for sorted unique values. They all call <code><a href="../reference/cPaste.html">cPaste()</a></code> but with convenience defaults. It is recommended to use <code><a href="../reference/cPasteS.html">cPasteS()</a></code> to replace sorted <code><a href="../reference/cPaste.html">cPaste()</a></code> in cases where output is expected to be sorted. The change was made now while impact is limited mostly to other Jam packages and could be mitigated.</li>
+<code><a href="../reference/cPaste.html">cPaste()</a></code> default <code>doSort=TRUE</code> is changed to <code>doSort=FALSE</code>. New functions: <code><a href="../reference/cPaste.html">cPasteS()</a></code> is intended for sorted values; <code><a href="../reference/cPaste.html">cPasteU()</a></code> is an alias for <code><a href="../reference/cPaste.html">cPasteUnique()</a></code> and is intended for unique values; <code><a href="../reference/cPaste.html">cPasteSU()</a></code> is intended for sorted unique values. They all call <code><a href="../reference/cPaste.html">cPaste()</a></code> but with convenience defaults. It is recommended to use <code><a href="../reference/cPaste.html">cPasteS()</a></code> to replace sorted <code><a href="../reference/cPaste.html">cPaste()</a></code> in cases where output is expected to be sorted. The change was made now while impact is limited mostly to other Jam packages and could be mitigated.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-function-0-0-39-900">new function<a class="anchor" aria-label="anchor" href="#new-function-0-0-39-900"></a></h3>

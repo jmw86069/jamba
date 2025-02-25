@@ -17,6 +17,10 @@ be included in the data.frame, if they exist.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+\code{data.frame} with two columns, or three columns when
+\code{useVectorNames=TRUE} and the input \code{x} contains names.
+}
 \description{
 Convert list of vectors to data.frame with item, value, name
 }
@@ -26,13 +30,20 @@ with colnames \code{item} to indicate the list name, \code{value} to indicate
 the vector value, and \code{name} to indicate the vector name if
 \code{useVectorNames=TRUE} and if names exist.
 }
+\examples{
+list2df(list(lower=head(letters, 5), UPPER=head(LETTERS, 10)))
+
+list2df(list(lower=nameVector(head(letters, 5)),
+   UPPER=nameVector(head(LETTERS, 10))))
+
+list2df(list(lower=nameVector(head(letters, 5)),
+   UPPER=nameVector(head(LETTERS, 10))),
+   useVectorNames=FALSE)
+
+}
 \seealso{
 Other jam list functions: 
 \code{\link{cPaste}()},
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{mergeAllXY}()},

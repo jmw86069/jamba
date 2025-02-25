@@ -59,7 +59,7 @@
 #'
 #' @family jam export functions
 #'
-#' @return `Workbook` object as defined by the `openxlsx` package
+#' @returns `Workbook` object as defined by the `openxlsx` package
 #'    is returned invisibly with `invisible()`. This `Workbook`
 #'    can be used in argument `wb` to provide a speed boost when
 #'    saving multiple sheets to the same file.
@@ -190,22 +190,22 @@
 #' @examples
 #' # set up a test data.frame
 #' set.seed(123);
+#' lfc <- -3:3 + stats::rnorm(7)/3;
+#' colorSub <- nameVector(
+#'    rainbow2(7),
+#'    LETTERS[1:7])
+#' df <- data.frame(name=LETTERS[1:7],
+#'    int=round(4^(1:7)),
+#'    num=(1:7)*4-2 + stats::rnorm(7),
+#'    fold=2^abs(lfc)*sign(lfc),
+#'    lfc=lfc,
+#'    pvalue=10^(-1:-7 + stats::rnorm(7)),
+#'    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
+#' df;
 #' \dontrun{
-#'    set.seed(123);
-#'    lfc <- -3:3 + stats::rnorm(7)/3;
-#'    colorSub <- nameVector(
-#'       rainbow2(7),
-#'       LETTERS[1:7])
-#'    df <- data.frame(name=LETTERS[1:7],
-#'       int=round(4^(1:7)),
-#'       num=(1:7)*4-2 + stats::rnorm(7),
-#'       fold=2^abs(lfc)*sign(lfc),
-#'       lfc=lfc,
-#'       pvalue=10^(-1:-7 + stats::rnorm(7)),
-#'       hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
-#'    df;
+#'    out_xlsx <- file.path(tempdir(), "jamba_test.xlsx")
 #'    writeOpenxlsx(x=df,
-#'       file="jamba_test.xlsx",
+#'       file=out_xlsx,
 #'       sheetName="jamba_test",
 #'       colorSub=colorSub,
 #'       intColumns=2,
@@ -886,7 +886,7 @@ writeOpenxlsx <- function
 #'
 #' @family jam export functions
 #'
-#' @return `Workbook` object as defined by the `openxlsx` package
+#' @returns `Workbook` object as defined by the `openxlsx` package
 #'    is returned invisibly with `invisible()`. This `Workbook`
 #'    can be used in argument `wb` to provide a speed boost when
 #'    saving multiple sheets to the same file.
@@ -1230,7 +1230,7 @@ applyXlsxConditionalFormat <- function
 #'
 #' @family jam export functions
 #'
-#' @return `Workbook` object as defined by the `openxlsx` package
+#' @returns `Workbook` object as defined by the `openxlsx` package
 #'    is returned invisibly with `invisible()`. This `Workbook`
 #'    can be used in argument `wb` to provide a speed boost when
 #'    saving multiple sheets to the same file.
@@ -1380,9 +1380,9 @@ applyXlsxCategoricalFormat <- function
    }
 
    ## Internal custom wrapper function to create xlsx styles
-   ##' @returns `list` named by the primary fill color of each cell,
-   ##'    containing a `openxlsx::style` object suitable for use
-   ##'    by `openxlsx::addStyle()`.
+   ## returns `list` named by the primary fill color of each cell,
+   ##    containing a `openxlsx::style` object suitable for use
+   ##    by `openxlsx::addStyle()`.
    create_matching_styles <- function
    (colorSub,
     colorSubText=NULL,
@@ -1430,9 +1430,9 @@ applyXlsxCategoricalFormat <- function
       colorSubStyles
    }
    ## Internal function to get row/cell coordinates for each unique color
-   ##' @returns `list` named by style, by default the hex color with no alpha
-   ##'    where each element is a `matrix` with colnames `row` and `col`
-   ##'    indicating individual row/column coordinate positions.
+   ## returns `list` named by style, by default the hex color with no alpha
+   ##    where each element is a `matrix` with colnames `row` and `col`
+   ##    indicating individual row/column coordinate positions.
    define_matching_style_cells <- function
    (rangeMatch)
    {
@@ -1721,7 +1721,7 @@ applyXlsxCategoricalFormat <- function
 #'
 #' @family jam export functions
 #'
-#' @return `Workbook` object as defined by the `openxlsx` package
+#' @returns `Workbook` object as defined by the `openxlsx` package
 #'    is returned invisibly with `invisible()`. This `Workbook`
 #'    can be used in argument `wb` to provide a speed boost when
 #'    saving multiple sheets to the same file.
@@ -1797,7 +1797,7 @@ set_xlsx_colwidths <- function
 #'
 #' @family jam export functions
 #'
-#' @return `Workbook` object as defined by the `openxlsx` package
+#' @returns `Workbook` object as defined by the `openxlsx` package
 #'    is returned invisibly with `invisible()`. This `Workbook`
 #'    can be used in argument `wb` to provide a speed boost when
 #'    saving multiple sheets to the same file.
@@ -1891,6 +1891,8 @@ set_xlsx_rowheights <- function
 #'
 #' @family jam export functions
 #'
+#' @returns `list` of `data.frame` objects, one per sheet in `xlsx`.
+#'
 #' @param xlsx `character` path to an Excel file in `xlsx` format,
 #'    compatible with `openxlsx::read.xlsx()`.
 #' @param sheet one of `NULL`, `character`, or `integer` vector,
@@ -1948,6 +1950,40 @@ set_xlsx_rowheights <- function
 #'    seen in real data.
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are passed to `openxlsx::read.xlsx()`.
+#'
+#' @examples
+#' # set up a test data.frame
+#' set.seed(123);
+#' lfc <- -3:3 + stats::rnorm(7)/3;
+#' colorSub <- nameVector(
+#'    rainbow2(7),
+#'    LETTERS[1:7])
+#' df <- data.frame(name=LETTERS[1:7],
+#'    int=round(4^(1:7)),
+#'    num=(1:7)*4-2 + stats::rnorm(7),
+#'    fold=2^abs(lfc)*sign(lfc),
+#'    lfc=lfc,
+#'    pvalue=10^(-1:-7 + stats::rnorm(7)),
+#'    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
+#' df;
+#' \dontrun{
+#'    out_xlsx <- file.path(tempdir(), "jamba_test.xlsx")
+#'    writeOpenxlsx(x=df,
+#'       file=out_xlsx,
+#'       sheetName="jamba_test",
+#'       colorSub=colorSub,
+#'       intColumns=2,
+#'       numColumns=3,
+#'       fcColumns=4,
+#'       lfcColumns=5,
+#'       pvalueColumns=6,
+#'       hitColumn=7,
+#'       freezePaneRow=2,
+#'       freezePaneColumn=2,
+#'       append=FALSE);
+#'    # now read it back
+#'    df_list <- readOpenxlsx(file=out_xlsx);
+#' }
 #'
 #' @export
 readOpenxlsx <- function

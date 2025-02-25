@@ -18,6 +18,12 @@
 #'    values to consider for point density.
 #' @family jam internal functions
 #'
+#' @returns `list` with elements used internally by `plotSmoothScatter()`,
+#'    with: x1, x2, fhat, bandwidth.
+#'
+#' @examples
+#' sdim(jamCalcDensity(cbind(x=rnorm(1000) + 4, y=rnorm(1000) + 4), nbin=30))
+#'
 #' @export
 jamCalcDensity <- function
 (x,

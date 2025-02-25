@@ -2,6 +2,10 @@
 % Please edit documentation in R/jamba-string.r
 \name{cPaste}
 \alias{cPaste}
+\alias{cPasteS}
+\alias{cPasteSU}
+\alias{cPasteUnique}
+\alias{cPasteU}
 \title{paste a list into a delimited vector}
 \usage{
 cPaste(
@@ -16,6 +20,54 @@ cPaste(
   useLegacy = FALSE,
   honorFactor = TRUE,
   verbose = FALSE,
+  ...
+)
+
+cPasteS(
+  x,
+  sep = ",",
+  doSort = TRUE,
+  makeUnique = FALSE,
+  na.rm = FALSE,
+  keepFactors = FALSE,
+  checkClass = TRUE,
+  useBioc = TRUE,
+  ...
+)
+
+cPasteSU(
+  x,
+  sep = ",",
+  doSort = TRUE,
+  makeUnique = TRUE,
+  na.rm = FALSE,
+  keepFactors = FALSE,
+  checkClass = TRUE,
+  useBioc = TRUE,
+  ...
+)
+
+cPasteUnique(
+  x,
+  sep = ",",
+  doSort = FALSE,
+  makeUnique = TRUE,
+  na.rm = FALSE,
+  keepFactors = FALSE,
+  checkClass = TRUE,
+  useBioc = TRUE,
+  ...
+)
+
+cPasteU(
+  x,
+  sep = ",",
+  doSort = FALSE,
+  makeUnique = TRUE,
+  na.rm = FALSE,
+  keepFactors = FALSE,
+  checkClass = TRUE,
+  useBioc = TRUE,
   ...
 )
 }
@@ -85,6 +137,13 @@ Paste a list of vectors into a character vector, with values
 delimited by default with a comma.
 }
 \details{
+\itemize{
+\item \code{cPaste()} concatenates vector values using a delimiter.
+\item \code{cPasteS()} sorts each vector using \code{mixedSort()}.
+\item \code{cPasteU()} applies \code{uniques()} to retain unique values per vector.
+\item \code{cPasteSU()} applies \code{mixedSort()} and \code{uniques()}.
+}
+
 This function is essentially a wrapper for \code{S4Vectors::unstrsplit()}
 except that it also optionally applies uniqueness to each vector
 in the list, and sorts values in each vector using \code{mixedOrder()}.
@@ -153,10 +212,6 @@ levels(unlist(L[c(2,3)]))
 }
 \seealso{
 Other jam list functions: 
-\code{\link{cPasteS}()},
-\code{\link{cPasteSU}()},
-\code{\link{cPasteU}()},
-\code{\link{cPasteUnique}()},
 \code{\link{heads}()},
 \code{\link{jam_rapply}()},
 \code{\link{list2df}()},

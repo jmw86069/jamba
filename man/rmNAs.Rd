@@ -62,6 +62,18 @@ contains \code{NA} in order to preserve the class
 It also optionally applies convenience functions \code{rmNULL()}
 and \code{rmInfinite()} as relevant.
 }
+\examples{
+testlist <- list(
+   A=c(1, 4, 5, NA, 11),
+   B=c("B", NA, "C", "Test"))
+rmNAs(testlist)
+
+testlist2 <- list(
+   A=c(1, 4, 5, NA, 11, Inf),
+   B=c(11, NA, 19, -Inf))
+rmNAs(testlist2, naValue=-100, infiniteValue=1000)
+
+}
 \seealso{
 Other jam practical functions: 
 \code{\link{breakDensity}()},
@@ -72,14 +84,12 @@ Other jam practical functions:
 \code{\link{color_dither}()},
 \code{\link{exp2signed}()},
 \code{\link{getAxisLabel}()},
-\code{\link{handleArgsText}()},
 \code{\link{isFALSEV}()},
 \code{\link{isTRUEV}()},
 \code{\link{jargs}()},
 \code{\link{kable_coloring}()},
 \code{\link{lldf}()},
 \code{\link{log2signed}()},
-\code{\link{match_unique}()},
 \code{\link{middle}()},
 \code{\link{minorLogTicks}()},
 \code{\link{newestFile}()},

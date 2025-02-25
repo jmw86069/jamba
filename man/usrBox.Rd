@@ -27,6 +27,10 @@ directly seems more appropriate.}
 
 \item{...}{additional arguments are ignored.}
 }
+\value{
+no output, this function is called for the byproduct
+of adding a box in the usr plot space of an R graphics device.
+}
 \description{
 Draw colored box indicating the active R plot space
 }
