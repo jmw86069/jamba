@@ -7,6 +7,7 @@
 * Moved IRanges to Enhances.
 * Updated `uniques()` when S4Vectors is not available.
 * Added CITATION, updated LICENSE, fixed URL
+* Updated some tests to use testthat stop_if logic.
 
 # jamba 0.0.107.900
 

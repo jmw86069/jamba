@@ -62,61 +62,61 @@ testthat::test_that("rowGroupMeans", {
 
 
 testthat::test_that("rowGroupMeans SparseMatrix", {
-   if (jamba::check_pkg_installed("Matrix")) {
-      x <- matrix(1:25, ncol=5);
-      rownames(x) <- letters[1:5];
-      colnames(x) <- LETTERS[1:5];
-      x[, 5] <- x[, 5] + 1;
-      x <- Matrix::Matrix(x, sparse=TRUE);
-      groups <- rep(c("group1", "group2"), c(2, 3));
+   skip_if_not_installed("Matrix")
 
-      # median by default
-      testthat::expect_equal(
-         as.vector(rowGroupMeans(x, groups=groups, includeAttributes=FALSE)),
-         c(3.5, 4.5, 5.5, 6.5, 7.5, 16, 17, 18, 19, 20))
-      testthat::expect_equal(
-         rownames(rowGroupMeans(x, groups=groups, includeAttributes=FALSE)),
-         letters[1:5])
-      testthat::expect_equal(
-         colnames(rowGroupMeans(x, groups=groups, includeAttributes=FALSE)),
-         c("group1", "group2"))
+   x <- matrix(1:25, ncol=5);
+   rownames(x) <- letters[1:5];
+   colnames(x) <- LETTERS[1:5];
+   x[, 5] <- x[, 5] + 1;
+   x <- Matrix::Matrix(x, sparse=TRUE);
+   groups <- rep(c("group1", "group2"), c(2, 3));
 
-      # mean
-      testthat::expect_equal(
-         round(digits=2,
-            as.vector(rowGroupMeans(x, groups=groups,
-               useMedian=FALSE, includeAttributes=FALSE))),
-         c(3.5, 4.5, 5.5, 6.5, 7.5, 16.33, 17.33, 18.33, 19.33, 20.33))
+   # median by default
+   testthat::expect_equal(
+      as.vector(rowGroupMeans(x, groups=groups, includeAttributes=FALSE)),
+      c(3.5, 4.5, 5.5, 6.5, 7.5, 16, 17, 18, 19, 20))
+   testthat::expect_equal(
+      rownames(rowGroupMeans(x, groups=groups, includeAttributes=FALSE)),
+      letters[1:5])
+   testthat::expect_equal(
+      colnames(rowGroupMeans(x, groups=groups, includeAttributes=FALSE)),
+      c("group1", "group2"))
 
-      # test one NA value in a group
-      xNA <- x;
-      xNA[1, 3] <- NA;
-      testthat::expect_equal(
-         as.vector(rowGroupMeans(xNA, groups=groups, includeAttributes=FALSE)),
-         c(3.5, 4.5, 5.5, 6.5, 7.5, 19, 17, 18, 19, 20))
+   # mean
+   testthat::expect_equal(
+      round(digits=2,
+         as.vector(rowGroupMeans(x, groups=groups,
+            useMedian=FALSE, includeAttributes=FALSE))),
+      c(3.5, 4.5, 5.5, 6.5, 7.5, 16.33, 17.33, 18.33, 19.33, 20.33))
 
-      # test one NA value in a group using mean
-      testthat::expect_equal(
-         round(digits=2,
-            as.vector(rowGroupMeans(xNA, groups=groups,
-               useMedian=FALSE, includeAttributes=FALSE))),
-         c(3.5, 4.5, 5.5, 6.5, 7.5, 19, 17.33, 18.33, 19.33, 20.33))
+   # test one NA value in a group
+   xNA <- x;
+   xNA[1, 3] <- NA;
+   testthat::expect_equal(
+      as.vector(rowGroupMeans(xNA, groups=groups, includeAttributes=FALSE)),
+      c(3.5, 4.5, 5.5, 6.5, 7.5, 19, 17, 18, 19, 20))
 
-      # test entire group NA
-      xNAg <- x;
-      xNAg[1, 3:5] <- NA;
-      testthat::expect_equal(
-         as.vector(rowGroupMeans(xNAg, groups=groups, includeAttributes=FALSE)),
-         c(3.5, 4.5, 5.5, 6.5, 7.5, NaN, 17, 18, 19, 20))
+   # test one NA value in a group using mean
+   testthat::expect_equal(
+      round(digits=2,
+         as.vector(rowGroupMeans(xNA, groups=groups,
+            useMedian=FALSE, includeAttributes=FALSE))),
+      c(3.5, 4.5, 5.5, 6.5, 7.5, 19, 17.33, 18.33, 19.33, 20.33))
 
-      # entire group NA using mean
-      testthat::expect_equal(
-         round(digits=2,
-            as.vector(rowGroupMeans(xNAg, groups=groups,
-               useMedian=FALSE, includeAttributes=FALSE))),
-         c(3.5, 4.5, 5.5, 6.5, 7.5, NaN, 17.33, 18.33, 19.33, 20.33))
+   # test entire group NA
+   xNAg <- x;
+   xNAg[1, 3:5] <- NA;
+   testthat::expect_equal(
+      as.vector(rowGroupMeans(xNAg, groups=groups, includeAttributes=FALSE)),
+      c(3.5, 4.5, 5.5, 6.5, 7.5, NaN, 17, 18, 19, 20))
 
-   }
+   # entire group NA using mean
+   testthat::expect_equal(
+      round(digits=2,
+         as.vector(rowGroupMeans(xNAg, groups=groups,
+            useMedian=FALSE, includeAttributes=FALSE))),
+      c(3.5, 4.5, 5.5, 6.5, 7.5, NaN, 17.33, 18.33, 19.33, 20.33))
+
 })
 
 testthat::test_that("rowGroupMeans custom rowStatsFunc", {
