@@ -202,8 +202,8 @@
 #'    pvalue=10^(-1:-7 + stats::rnorm(7)),
 #'    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 #' df;
-#' \dontrun{
-#'    out_xlsx <- file.path(tempdir(), "jamba_test.xlsx")
+#' # write to tempfile for examples
+#'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    writeOpenxlsx(x=df,
 #'       file=out_xlsx,
 #'       sheetName="jamba_test",
@@ -217,7 +217,9 @@
 #'       freezePaneRow=2,
 #'       freezePaneColumn=2,
 #'       append=FALSE);
-#' }
+#'    # now read it back
+#'    df_list <- readOpenxlsx(xlsx=out_xlsx);
+#'    sdim(df_list)
 #'
 #' @export
 writeOpenxlsx <- function
@@ -297,43 +299,37 @@ writeOpenxlsx <- function
       if (!"Workbook" %in% class(wb)) {
          stop("wb must be openxlsx class 'Workbook'");
       }
-      if (verbose) printDebug("writeOpenxlsx():",
-         "re-use Workbook wb");
+      if (verbose) printDebug("writeOpenxlsx():", "re-use Workbook wb");
    }
    if (length(file) == 0) {
       if (length(wb) == 0) {
-         if (verbose) printDebug("writeOpenxlsx():",
-            "createWorkbook");
+         if (verbose) printDebug("writeOpenxlsx():", "createWorkbook");
          wb <- openxlsx::createWorkbook();
       }
    }
    if (length(file) > 0 && length(wb) == 0) {
       if (append && file.exists(file)) {
          ## Load the requested file as a workbook
-         if (verbose) printDebug("writeOpenxlsx():",
-            "loadWorkbook");
+         if (verbose) printDebug("writeOpenxlsx():", "loadWorkbook");
          wb <- openxlsx::loadWorkbook(file);
       } else {
-         if (verbose) printDebug("writeOpenxlsx():",
-            "createWorkbook");
+         if (verbose) printDebug("writeOpenxlsx():", "createWorkbook");
          wb <- openxlsx::createWorkbook();
       }
    }
    ## Set column widths
-   if (verbose) jamba::printDebug("writeOpenxlsx():",
+   if (verbose) printDebug("writeOpenxlsx():",
       "setting options: ",
       c("openxlsx.minWidth", "openxlsx.maxWidth"));
-   options("openxlsx.minWidth"=minWidth,
-      "openxlsx.maxWidth"=maxWidth);
+   withr::local_options(list("openxlsx.minWidth"=minWidth,
+      "openxlsx.maxWidth"=maxWidth))
 
    ## Create a sheet for this data.frame
-   if (verbose) printDebug("writeOpenxlsx():",
-      "addWorksheet");
+   if (verbose) printDebug("writeOpenxlsx():", "addWorksheet");
    openxlsx::addWorksheet(wb, sheetName);
 
    ## Write data.frame into the sheet for this workbook
-   if (verbose) printDebug("writeOpenxlsx():",
-      "writeDataTable");
+   if (verbose) printDebug("writeOpenxlsx():", "writeDataTable");
    openxlsx::writeDataTable(wb,
       x=x,
       sheet=sheetName,
@@ -345,8 +341,7 @@ writeOpenxlsx <- function
       bandedCols=FALSE);
 
    ## Set base font
-   if (verbose) printDebug("writeOpenxlsx():",
-      "modifyBaseFont");
+   if (verbose) printDebug("writeOpenxlsx():", "modifyBaseFont");
    openxlsx::modifyBaseFont(wb,
       fontSize=fontSize,
       fontColour="grey10",
@@ -355,8 +350,7 @@ writeOpenxlsx <- function
    ## Style all borders
    borderStyle <- openxlsx::createStyle(borderColour=borderColor,
       border=borderPosition);
-   if (verbose) printDebug("writeOpenxlsx():",
-      "borderStyle");
+   if (verbose) printDebug("writeOpenxlsx():", "borderStyle");
    openxlsx::addStyle(wb,
       sheet=sheetName,
       style=borderStyle,
@@ -370,8 +364,7 @@ writeOpenxlsx <- function
       wrapText=TRUE,
       valign="top");
    if (wrapHeaders) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "wrapHeaders");
+      if (verbose) printDebug("writeOpenxlsx():", "wrapHeaders");
       openxlsx::addStyle(wb,
          sheet=sheetName,
          style=wrapTextStyle,
@@ -427,12 +420,9 @@ writeOpenxlsx <- function
          fgFill=tail(columnColors, 1));
       basicColumnsA <- basicColumns[basicColumns %% 2 == 1];
       basicColumnsB <- basicColumns[basicColumns %% 2 == 0];
-      if (verbose) printDebug("writeOpenxlsx():",
-         "basicStyles");
-      if (verbose) printDebug("writeOpenxlsx():",
-         "basicColumnsA:", basicColumnsA);
-      if (verbose) printDebug("writeOpenxlsx():",
-         "basicColumnsB:", basicColumnsB);
+      if (verbose) printDebug("writeOpenxlsx():", "basicStyles");
+      if (verbose) printDebug("writeOpenxlsx():", "basicColumnsA:", basicColumnsA);
+      if (verbose) printDebug("writeOpenxlsx():", "basicColumnsB:", basicColumnsB);
       if (length(basicColumnsA) > 0) {
          openxlsx::addStyle(wb,
             sheet=sheetName,
@@ -470,8 +460,7 @@ writeOpenxlsx <- function
 
    ## Style highlightColumns A and B
    if (length(highlightColumns) > 0) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying highlightStyles");
+      if (verbose) printDebug("writeOpenxlsx():", "Applying highlightStyles");
       highAHStyle <- openxlsx::createStyle(#bgFill=head(highlightHeaderColors, 1),
          valign="top",
          wrapText=wrapHeaders,
@@ -534,8 +523,7 @@ writeOpenxlsx <- function
 
    ## Style integer fields
    if (length(intColumns) > 0) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying intStyles");
+      if (verbose) printDebug("writeOpenxlsx():", "Applying intStyles");
       intStyle1 <- openxlsx::createStyle(numFmt=intFormat, halign="right");
       openxlsx::addStyle(wb,
          sheet=sheetName,
@@ -548,8 +536,7 @@ writeOpenxlsx <- function
 
    ## Style numeric fields
    if (length(numColumns) > 0) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying numStyles");
+      if (verbose) printDebug("writeOpenxlsx():", "Applying numStyles");
       numStyle1 <- openxlsx::createStyle(numFmt=numFormat, halign="right");
       openxlsx::addStyle(wb,
          sheet=sheetName,
@@ -562,8 +549,7 @@ writeOpenxlsx <- function
 
    ## Style FC fields
    if (length(fcColumns) > 0) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying fcStyles");
+      if (verbose) printDebug("writeOpenxlsx():", "Applying fcStyles");
       fcStyle1 <- openxlsx::createStyle(numFmt=fcFormat, halign="right");
       openxlsx::addStyle(wb,
          sheet=sheetName,
@@ -576,8 +562,7 @@ writeOpenxlsx <- function
 
    ## Style LFC fields
    if (length(lfcColumns) > 0) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying lfcStyles");
+      if (verbose) printDebug("writeOpenxlsx():", "Applying lfcStyles");
       lfcStyle1 <- openxlsx::createStyle(numFmt=lfcFormat, halign="right");
       openxlsx::addStyle(wb,
          sheet=sheetName,
@@ -590,8 +575,7 @@ writeOpenxlsx <- function
 
    ## Style hit fields
    if (length(hitColumns) > 0) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying hitStyles");
+      if (verbose) printDebug("writeOpenxlsx():", "Applying hitStyles");
       hitStyle1 <- openxlsx::createStyle(numFmt=hitFormat, halign="right");
       openxlsx::addStyle(wb,
          sheet=sheetName,
@@ -604,9 +588,11 @@ writeOpenxlsx <- function
 
    ## Style P-value fields
    if (length(pvalueColumns) > 0) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying pvalueStyles with pvalueFormat:",
-         pvalueFormat);
+      if (verbose) {
+         printDebug("writeOpenxlsx():",
+            "Applying pvalueStyles with pvalueFormat:",
+            pvalueFormat);
+      }
       pvalueStyle1 <- openxlsx::createStyle(numFmt=pvalueFormat, halign="right");
       openxlsx::addStyle(wb,
          sheet=sheetName,
@@ -693,8 +679,7 @@ writeOpenxlsx <- function
 
    ## Add header filter
    # if (doFilter && 1 == 2) {
-   #    if (verbose) printDebug("writeOpenxlsx():",
-   #       "Applying addFilter");
+   #    if (verbose) printDebug("writeOpenxlsx():", "Applying addFilter");
    #    openxlsx::addFilter(wb,
    #       sheetName,
    #       rows=startRow,
@@ -703,8 +688,10 @@ writeOpenxlsx <- function
 
    ## Adjust header row height
    if (headerRowMultiplier > 1) {
-      if (verbose) printDebug("writeOpenxlsx():",
-         "Applying headerRowMultiplier");
+      if (verbose) {
+         printDebug("writeOpenxlsx():",
+            "Applying headerRowMultiplier");
+      }
       openxlsx::setRowHeights(wb,
          sheetName,
          rows=startRow,
@@ -719,8 +706,11 @@ writeOpenxlsx <- function
             intColumns,
             hitColumns)) > 0) {
       #
-      if (verbose) printDebug("writeOpenxlsx():",
-         "calling applyXlsxConditionalFormat, startRow:", startRow+1);
+      if (verbose) {
+         printDebug("writeOpenxlsx():",
+            "calling applyXlsxConditionalFormat, startRow:",
+            startRow+1);
+      }
       wb <- applyXlsxConditionalFormat(xlsxFile=wb,
          sheet=sheetName,
          startRow=startRow + 1,
@@ -786,9 +776,11 @@ writeOpenxlsx <- function
       }
       if (length(colorSub_headers) > 0) {
          colRange <- which(colnames(x) %in% names(colorSub_headers));
-         if (verbose) printDebug("writeOpenxlsx(): ",
-            "applyXlsxCategoricalFormat to colRange:",
-            colRange + keepRownames + (startCol - 1));
+         if (verbose) {
+            printDebug("writeOpenxlsx(): ",
+               "applyXlsxCategoricalFormat to colRange:",
+               colRange + keepRownames + (startCol - 1));
+         }
          wb <- applyXlsxCategoricalFormat(xlsxFile=wb,
             sheet=sheetName,
             rowRange=startRow,
@@ -927,20 +919,19 @@ writeOpenxlsx <- function
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
-#' \dontrun{
+#' # write to tempfile for examples
+#'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
-#'    jamba::writeOpenxlsx(x=df,
-#'       file="jamba_test.xlsx",
-#'       sheetName="test_jamba");
+#'    writeOpenxlsx(x=df,
+#'       file=out_xlsx,
+#'       sheetName="jamba_test");
 #'
-#'    applyXlsxConditionalFormat(
-#'       xlsxFile="jamba_test.xlsx",
-#'       sheet="test_jamba",
+#'    applyXlsxConditionalFormat(out_xlsx,
+#'       sheet="jamba_test",
 #'       intColumns=2,
 #'       intRule=c(0,3,5),
 #'       intStyle=c("#FFFFFF", "#1E90FF", "#9932CC")
 #'    )
-#' }
 #'
 #' @export
 applyXlsxConditionalFormat <- function
@@ -1223,7 +1214,7 @@ applyXlsxConditionalFormat <- function
 #'
 #' This function is a convenient wrapper for applying categorical
 #' color formatting to cell background colors, and applies a contrasting
-#' color to the text in cells using `jamba::setTextContrastColor()`.
+#' color to the text in cells using `setTextContrastColor()`.
 #' It uses a named character vector of colors supplied as `colorSub`
 #' to define cell background colors, and optionally `colorSubText`
 #' to define a specific color for the cell text.
@@ -1256,7 +1247,7 @@ applyXlsxConditionalFormat <- function
 #'    each value.
 #' @param colorSubText optional `character` vector of colors, whose
 #'    names correspond to values in the worksheet cells. In
-#'    absence of a specific text color, `jamba::setTextContrastColor()`
+#'    absence of a specific text color, `setTextContrastColor()`
 #'    is used to define a contrasting text color to be visible on
 #'    the colored background.
 #' @param trimCatNames `logical` whether to trim whitespace and punctuation
@@ -1272,21 +1263,20 @@ applyXlsxConditionalFormat <- function
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
-#' \dontrun{
+#' # write to tempfile for examples
+#'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
-#'    jamba::writeOpenxlsx(x=df,
-#'       file="jamba_test.xlsx",
-#'       sheetName="test_jamba");
+#'    writeOpenxlsx(x=df,
+#'       file=out_xlsx,
+#'       sheetName="jamba_test");
 #'
 #'    colorSub <- nameVector(
 #'       rainbow2(5, s=c(0.8, 1), v=c(0.8, 1)),
 #'       LETTERS[1:5]);
-#'    applyXlsxCategoricalFormat(
-#'       xlsxFile="jamba_test.xlsx",
-#'       sheet="test_jamba",
+#'    applyXlsxCategoricalFormat(out_xlsx,
+#'       sheet="jamba_test",
 #'       colorSub=colorSub
 #'    )
-#' }
 #'
 #' @export
 applyXlsxCategoricalFormat <- function
@@ -1678,8 +1668,6 @@ applyXlsxCategoricalFormat <- function
                printDebug("   Applying colorSub formatting with addStyle()");
                printDebug("   length(style_coord_list): ",
                   formatInt(length(style_coord_list)));
-               # printDebug("   sdim(style_coord_list):");
-               # print(sdim(style_coord_list));
             }
             # 0.0.96.900: simplify method to apply styles to cell coordinates
             addRes <- apply_matching_styles(style_coord_list=style_coord_list,
@@ -1729,27 +1717,27 @@ applyXlsxCategoricalFormat <- function
 #' @param xlsxFile `character` filename to a file with ".xlsx" extension,
 #'    or `Workbook` object defined in the `openxlsx` package. When
 #'    `xlsxFile` is a `Workbook` the output is not saved to a file.
-#' @param sheet value passed to `openxlsx::setColWidths()` indicating
-#'    the worksheet to affect. It can either be an `integer` value, or
-#'    the `character` name of a sheet.
+#' @param sheet `integer` sheet number or `character` sheet name,
+#'    passed to `openxlsx::setColWidths()` indicating
+#'    the worksheet to affect.
 #' @param cols `integer vector` indicating the column numbers to affect.
 #' @param widths `numeric vector` indicating the width of each column
 #'    defined by `cols`.
 #' @param ... additional arguments are passed to `openxlsx::setColWidths()`.
 #'
 #' @examples
-#' \dontrun{
+#' # write to tempfile for examples
+#'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
-#'    jamba::writeOpenxlsx(x=df,
-#'       file="jamba_test.xlsx",
-#'       sheetName="test_jamba");
+#'    writeOpenxlsx(x=df,
+#'       file=out_xlsx,
+#'       sheetName="jamba_test");
 #'
 #'    ## By default, cols starts at column 1 and continues to length(widths)
-#'    jamba::set_xlsx_colwidths(file="jamba_test.xlsx",
-#'       sheetName="test_jamba",
+#'    set_xlsx_colwidths(out_xlsx,
+#'       sheet="jamba_test",
 #'       widths=rep(20, ncol(df))
 #'    )
-#' }
 #'
 #' @export
 set_xlsx_colwidths <- function
@@ -1805,34 +1793,34 @@ set_xlsx_colwidths <- function
 #' @param xlsxFile `character` filename to a file with ".xlsx" extension,
 #'    or `Workbook` object defined in the `openxlsx` package. When
 #'    `xlsxFile` is a `Workbook` the output is not saved to a file.
-#' @param sheet value passed to `openxlsx::setRowHeights()` indicating
-#'    the worksheet to affect. It can either be an `integer` value, or
-#'    the `character` name of a sheet.
+#' @param sheet `integer` sheet number or `character` sheet name,
+#'    passed to `openxlsx::setRowHeights()` indicating
+#'    the worksheet to affect.
 #' @param rows `integer vector` indicating the row numbers to affect.
 #' @param heights `numeric vector` indicating the height of each column
 #'    defined by `rows`.
 #' @param ... additional arguments are passed to `openxlsx::setRowHeights()`.
 #'
 #' @examples
-#' \dontrun{
+#' # write to tempfile for examples
+#'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
-#'    jamba::writeOpenxlsx(x=df,
-#'       file="jamba_test.xlsx",
-#'       sheetName="test_jamba");
+#'    writeOpenxlsx(x=df,
+#'       file=out_xlsx,
+#'       sheetName="jamba_test");
 #'
 #'    ## by default, rows will start at row 2, skipping the header
-#'    jamba::set_xlsx_rowheights(file="jamba_test.xlsx",
-#'       sheetName="test_jamba",
+#'    set_xlsx_rowheights(out_xlsx,
+#'       sheet="jamba_test",
 #'       heights=rep(17, nrow(df))
 #'    )
 #'
 #'    ## to include the header row
-#'    jamba::set_xlsx_rowheights(file="jamba_test.xlsx",
-#'       sheetName="test_jamba",
+#'    set_xlsx_rowheights(out_xlsx,
+#'       sheet="jamba_test",
 #'       rows=seq_len(nrow(df)+1),
 #'       heights=rep(17, nrow(df)+1)
 #'    )
-#' }
 #'
 #' @export
 set_xlsx_rowheights <- function
@@ -1966,24 +1954,15 @@ set_xlsx_rowheights <- function
 #'    pvalue=10^(-1:-7 + stats::rnorm(7)),
 #'    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 #' df;
-#' \dontrun{
-#'    out_xlsx <- file.path(tempdir(), "jamba_test.xlsx")
+#' # write to tempfile for examples
+#'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    writeOpenxlsx(x=df,
 #'       file=out_xlsx,
 #'       sheetName="jamba_test",
-#'       colorSub=colorSub,
-#'       intColumns=2,
-#'       numColumns=3,
-#'       fcColumns=4,
-#'       lfcColumns=5,
-#'       pvalueColumns=6,
-#'       hitColumn=7,
-#'       freezePaneRow=2,
-#'       freezePaneColumn=2,
 #'       append=FALSE);
 #'    # now read it back
-#'    df_list <- readOpenxlsx(file=out_xlsx);
-#' }
+#'    df_list <- readOpenxlsx(xlsx=out_xlsx);
+#'    df_list[[1]]
 #'
 #' @export
 readOpenxlsx <- function

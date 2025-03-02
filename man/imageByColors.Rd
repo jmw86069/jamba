@@ -33,33 +33,35 @@ imageByColors(
 )
 }
 \arguments{
-\item{x}{matrix or data.frame containing colors}
+\item{x}{\code{matrix} or \code{data.frame} containing colors}
 
-\item{useRaster}{logical sent to \code{\link{imageDefault}} to enable
+\item{useRaster}{\code{logical} sent to \code{\link{imageDefault}} to enable
 raster rendering, as opposed to polygon rendering. This parameter is
 highly recommended when the matrix is large (>50 columns or rows).}
 
-\item{fixRasterRatio}{logical sent to \code{\link{imageDefault}}.}
+\item{fixRasterRatio}{\code{logical} sent to \code{\link{imageDefault}}.}
 
-\item{maxRatioFix}{numeric sent to \code{\link{imageDefault}}.}
+\item{maxRatioFix}{\code{numeric} sent to \code{\link{imageDefault}}.}
 
-\item{xaxt, yaxt}{character values compatible with \code{\link[graphics]{par}} to
+\item{xaxt, yaxt}{\code{character} values compatible with \code{\link[graphics]{par}} to
 determine whether x- and y-axes are plotted. Set both to "n" to
 suppress display of axes.}
 
-\item{doPlot}{logical whether to create a plot, or simply return data which
+\item{doPlot}{\code{logical} whether to create a plot, or simply return data which
 would have been used to create the plot.}
 
-\item{cellnote}{matrix or data.frame of labels to be displayed on the
+\item{cellnote}{\code{matrix} or \code{data.frame} of labels to be displayed on the
 image. If groupCellnotes==TRUE labels will be placed in the center
 of consecutive cells with the same label and identical color.
 Currently, cell text is colored using \code{\link{setTextContrastColor}}
 which uses either white or black depending upon the brightness of
 the background color.}
 
-\item{cexCellnote, srtCellnote, fontCellnote}{numeric vectors, with values
-applied to cellnote text to be compatible with graphics::par("cex"), graphics::par("srt"),
-and graphics::par("font"), respectively. If supplied a matrix or data.frame with
+\item{cexCellnote, srtCellnote, fontCellnote}{\code{numeric} vectors, with values
+applied to cellnote text to be compatible with \code{graphics::par("cex")},
+\code{graphics::par("srt")},
+and \code{graphics::par("font")}, respectively.
+If supplied a matrix or data.frame with
 it is used as-is or expanded to equivalent dimensions of \code{x}.
 If the vector is named by colnames(x) then it is applied
 by column in order, otherwise it is applied by row, with values recycled
@@ -73,43 +75,48 @@ groupCellnotes==TRUE, the value for the first matching cell is used.
 Remember that values are placed by coordinate, bottom-to-top on the
 y-axis, and left-to-right on the x-axis.}
 
-\item{groupCellnotes}{logical whether to group labels where consecutive
+\item{groupCellnotes}{\code{logical} whether to group labels where consecutive
 cells contain the same label and identical cell colors, thus only
 displaying one label in the center of these groups.}
 
-\item{groupBy}{character value indicating the direction to group
+\item{groupBy}{\code{character} value indicating the direction to group
 cellnotes, when \code{groupCellnotes=TRUE}: \code{"row"} will group cellnote
 values by row; \code{"column"} will group cellnote values by column.
 By default, it will first group cellnotes by \code{"row"} then
 by \code{"column"}.}
 
-\item{groupByColors}{logical indicating whether the cellnote grouping
+\item{groupByColors}{\code{logical} indicating whether the cellnote grouping
 should also include the cell color. When \code{groupByColors=FALSE},
 cellnote values will be grouped together regardless whether the
 underlying colors change, which may be preferred when applying
 text label to topographical data.}
 
-\item{adjBy}{character value indicating how to apply adjustments for
+\item{adjBy}{\code{character} value indicating how to apply adjustments for
 cexCellnote, srtCellnote, and fontCellnote, as described above.}
 
-\item{adjustMargins}{logical indicating whether to adjust the axis
+\item{adjustMargins}{\code{logical} indicating whether to adjust the axis
 label margins to ensure enough room to draw the text rownames
 and colnames.}
 
-\item{interpolate}{logical whether to implement image interpolation,
+\item{interpolate}{\code{logical} whether to implement image interpolation,
 by default TRUE when useRaster=TRUE.}
 
-\item{verbose}{logical whether to print verbose output.}
+\item{verbose}{\code{logical} whether to print verbose output.}
 
-\item{xpd}{NULLL or logical used for \code{graphics::par("xpd")} to define whether
-to crop displayed output to the plot area. If xpd=NULL then graphics::par("xpd")
-will not be modified, otherwise graphics::par("xpd"=xpd) will be defined while
-adding any cell notes, then reverted to its previous value afterward.
+\item{xpd}{NULL or \code{logical} used for \code{graphics::par("xpd")}
+whether to crop displayed output to the plot area.
+\itemize{
+\item If xpd=NULL then \code{graphics::par("xpd")}
+will not be modified, otherwise \code{graphics::par("xpd"=xpd)}
+will be defined while adding any cell notes,
+then reverted to its previous value afterward.
 This parameter is mainly useful when cellnote labels may overhang the
 plot space, and would be cropped and not visible if
-\code{graphics::par("xpd"=TRUE)}.}
+\code{graphics::par("xpd"=TRUE)}.
+}}
 
-\item{bty}{\code{character} used to control box type, default \code{graphics::par("bty")}}
+\item{bty}{\code{character} used to control box type, default
+\code{graphics::par("bty")}}
 
 \item{flip}{\code{character} string, default "none", with optional axis flip:
 \itemize{
@@ -119,13 +126,13 @@ plot space, and would be cropped and not visible if
 \item xy: flip both x- and y-axis orientation
 }}
 
-\item{keepTextAlpha}{logical passed to \code{\link{setTextContrastColor}}
-indicating whether the text label color should inherit the alpha
-transparency from the background color. If TRUE then fully transparent
-background colors will not have a visible label.}
+\item{keepTextAlpha}{\code{logical} defaulit FALSE,
+passed to \code{setTextContrastColor()}, whether the text label color
+should inherit the alpha transparency from the background color.
+If TRUE then fully transparent background colors will not have
+a visible label.}
 
-\item{doTest}{logical whether to run a test showing basic features of
-\code{imageByColors}.}
+\item{doTest}{\code{logical} whether to run a test showing basic features.}
 
 \item{add}{\code{logical}, default FALSE, whether to add to an existing
 device, otherwise it creates a new plot.}
@@ -191,7 +198,7 @@ df1 <- data.frame(a=a1, b=b1, c=c1, d=d1);
 # default using polygons
 imageByColors(df1, cellnote=df1);
 
-# useRaster=TRUE, edges are slightly blurred with small tables
+# using useRaster, edges are slightly blurred with small tables
 imageByColors(df1, cellnote=df1, useRaster=TRUE);
 
 # some text features, rotation, font size, etc

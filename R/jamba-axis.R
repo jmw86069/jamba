@@ -345,8 +345,7 @@ minorLogTicksAxis <- function
             "Formatting numerical labels.");
       }
       if (is.numeric(scipen)) {
-         scipenO <- getOption("scipen");
-         options("scipen"=scipen);
+         withr::local_options("scipen"=scipen)
       }
       majorLabels <- sapply(majorLabels,
          format,
@@ -358,9 +357,6 @@ minorLogTicksAxis <- function
          big.mark=big.mark,
          trim=TRUE,
          ...);
-      if (is.numeric(scipen)) {
-         options("scipen"=scipenO);
-      }
    }
    if (any(NAmajor)) {
       majorLabels[NAmajor] <- "";
@@ -533,7 +529,7 @@ minorLogTicks <- function
  logBase=2,
  displayBase=10,
  logStep=1,
- minorWhich=c(2,5),
+ minorWhich=c(2, 5),
  asValues=TRUE,
  offset=0,
  symmetricZero=(offset>0),
@@ -562,16 +558,17 @@ minorLogTicks <- function
 
    if (length(lims) == 0) {
       if (length(side) == 0) {
-         stop("minorLogTicks requires either axis (which axis), or lims (range of values) to be defined.");
+         stop(paste0("minorLogTicks requires either axis (which axis), ",
+            "or lims (range of values) to be defined."));
       }
       lims <- graphics::par("usr");
-      if(side %in% c(1,3)) {
+      if (side %in% c(1, 3)) {
          lims <- lims[1:2];
       } else {
          lims <- lims[3:4];
       }
    } else {
-      lims <- range(lims);
+      lims <- range(lims, na.rm=TRUE);
    }
    logAxisType <- match.arg(logAxisType);
    ## Now set the floor and raise the roof to the nearest integer at or
@@ -875,17 +872,27 @@ minorLogTicks <- function
 #' that has been transformed with `sqrt()`, specifically a directional
 #' transformation like `sqrt(abs(x)) * sign(x)`.
 #'
+#' If `x` is supplied, it is used to define the numeric range, otherwise
+#' the observed range is taken based upon `side`. If neither `x` nor `side`
+#' is supplied, or if the numeric range is empty or zero width,
+#' it returns `NULL`.
+#'
 #' The main goal of this function is to provide reasonably placed
 #' tick marks using integer values.
 #'
 #' @family jam plot functions
 #'
-#' @returns invisible `list` with axis positions, and corresponding labels.
+#' @returns invisible `numeric` vector with axis positions, named
+#'    by normal space numeric labels. The primary use is to
+#'    add numeric axis tick marks and labels.
 #'
 #' @param side `integer` value indicating the axis position, as used
 #'    by `graphics::axis()`, 1=bottom, 2=left, 3=top, 4=right.
+#'    Note that when `x` is supplied, the numeric range is defined
+#'    using values in `x` and not the axis side.
 #' @param x optional `numeric` vector representing the numeric range
-#'    to be labeled.
+#'    to be labeled. When supplied, the numeric range of `x` is used
+#'    and not the axis side.
 #' @param pretty.n `numeric` value indicating the number of desired
 #'    tick marks, passed to `pretty()`.
 #' @param u5.bias `numeric` value passed to `pretty()` to influence the
@@ -897,18 +904,27 @@ minorLogTicks <- function
 #' @param las,cex.axis `numeric` values passed to `graphics::axis()`
 #'    when drawing the axis. The custom default `las=2` plots labels rotated
 #'    perpendicular to the axis.
-#' @param ... additional parameters are passed to `pretty()`.
+#' @param ... additional parameters are passed to `pretty()`, and to
+#'    `graphics::axis()` when `plot=TRUE`.
 #'
 #' @examples
 #' plot(-3:3*10, -3:3*10, xaxt="n")
-#' sqrtAxis(1)
+#' x <- sqrtAxis(1)
+#' abline(v=x, col="grey", lty="dotted")
+#' abline(h=pretty(par("usr")[3:4]), col="grey", lty="dotted")
+#'
+#' # slightly different label placement with u5.bias=0
+#' plot(-3:3*10, -3:3*10, xaxt="n")
+#' x <- sqrtAxis(1, u5.bias=0)
+#' abline(v=x, col="grey", lty="dotted")
+#' abline(h=pretty(par("usr")[3:4]), col="grey", lty="dotted")
 #'
 #' @export
 sqrtAxis <- function
 (side=1,
  x=NULL,
  pretty.n=10,
- u5.bias=0,
+ u5.bias=1,
  big.mark=",",
  plot=TRUE,
  las=2,
@@ -919,14 +935,18 @@ sqrtAxis <- function
    ## transformed data axes.  It assumes data is already sqrt-transformed,
    ## and that negative values have been treated like:
    ## sqrt(abs(x))*sign(x)
-   if (length(side) > 2) {
+   if (length(side) > 2 && length(x) == 0) {
       x <- side;
       side <- 0;
+      plot <- FALSE;
    }
-   if (length(side) == 0) {
-      side <- 0;
+   if (length(side) == 0 && length(x) == 0) {
+      return(NULL)
    }
-   if (1 %in% side) {
+
+   if (length(x) > 0) {
+      xRange <- range(x, na.rm=TRUE);
+   } else if (1 %in% side) {
       xRange <- graphics::par("usr")[1:2];
    } else if (2 %in% side) {
       xRange <- graphics::par("usr")[3:4];
@@ -934,12 +954,21 @@ sqrtAxis <- function
       xRange <- range(x, na.rm=TRUE);
    }
 
+   # if xRange is empty or length 1, return NULL
+   if (length(xRange) < 2) {
+      return(NULL)
+   }
+
    subdivideSqrt <- function(atPretty1, n=pretty.n, ...) {
       ## Purpose is to take x in form of 0,x1,
       ## and subdivide using pretty()
       atPretty1a <- unique(sort(abs(atPretty1)));
       atPretty1b <- tail(atPretty1a, -2);
-      atPretty2a <- pretty(head(atPretty1a,2), n=n, ...);
+      atPretty2a <- call_fn_ellipsis(pretty.default,
+         x=head(atPretty1a, 2),
+         n=n,
+         u5.bias=u5.bias,
+         ...);
       return(unique(sort(c(atPretty2a, atPretty1b))));
    }
 
@@ -972,7 +1001,7 @@ sqrtAxis <- function
    });
    ## Transform to square root space
    atSqrt <- sqrt(abs(atPretty))*sign(atPretty);
-   if (plot) {
+   if (TRUE %in% plot) {
       graphics::axis(side=side,
          at=atSqrt,
          labels=xLabel,

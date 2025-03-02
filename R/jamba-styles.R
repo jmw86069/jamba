@@ -8,6 +8,11 @@
 #'
 #' @inheritParams make_styles
 #'
+#' @returns `character` vector with the same length as `text` input vector,
+#' where entries are surrounded by the relevant HTML consistent with
+#' the `style` defined at input. In short, a character vector as input,
+#' colorized HTML character vector as output.
+#'
 #' @examples
 #' make_html_styles(style=c("red", "orange"), text=c("one ", "two"))
 #'

@@ -138,8 +138,8 @@
 #'       "purple3"));
 #' graphics::box(lwd=2);
 #'
-#' opar <- graphics::par("mfrow"=c(1, 3), "xpd"=TRUE);
-#' on.exit(graphics::par(opar));
+#' withr::with_par(list("mfrow"=c(1, 3), "xpd"=TRUE), {
+#'
 #' isub <- c(force="Always full panel width",
 #'    minimum="At least full panel width or larger",
 #'    maximum="No larger than panel width");
@@ -154,7 +154,7 @@
 #'    panelWidth=i,
 #'    boxColor="red4")
 #' }
-#' graphics::par("mfrow"=c(1, 1));
+#' })
 #'
 #' @export
 drawLabels <- function
@@ -583,15 +583,19 @@ drawLabels <- function
 #'
 #' @family jam plot functions
 #'
-#' @param preset character vector of coordinate positions, or "default"
-#'    to use the `x,y` coordinates.
-#' @param x,y numeric vectors indicating the default coordinates `x,y`.
-#' @param adjPreset character vector of text label positions, or
-#'    "default" to use `preset`, or when `preset="default"` the
+#' @param preset `character` vector of coordinate positions, or the default
+#'    "default" to use the `x,y` coordinates.
+#'    * Recognized terms: center, bottom, top, left, right, topleft,
+#'    topright, bottomleft, bottomright.
+#' @param x,y `numeric` vectors indicating the default coordinates `x,y`.
+#' @param adjPreset `character` vector of text label positions, or
+#'    the default "default" to use `preset`, or when `preset="default"` the
 #'    `adjX,adjY` values are used.
+#'    * Recognized terms: center, bottom, top, left, right, topleft,
+#'    topright, bottomleft, bottomright.
 #' @param adjX,adjY numeric vectors indicating default text adjustment
 #'    values, as described for `adj` in `graphics::text()`.
-#' @param adjOffsetX,adjOffsetY numeric vector used to apply an offset
+#' @param adjOffsetX,adjOffsetY `numeric` vector used to apply an offset
 #'    value to the `adjX,adjY` values, where positive values would
 #'    place a label farther away from center. Note these units are
 #'    relative to the text label size, when used with `graphics::text()`,
@@ -602,7 +606,7 @@ drawLabels <- function
 #'    * `"margin"` uses the margin border. Note that the margin used
 #'    is the inner margin around the plot figure, not the outer margin
 #'    which may be applied around multi-panel plot figures.
-#' @param verbose logical indicating whether to print verbose output.
+#' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are ignored.
 #'
 #' @examples
@@ -668,7 +672,7 @@ drawLabels <- function
 #'    ly=rep(1.5, 4))
 #'
 #' # demonstrate margin coordinates
-#' graphics::par("oma"=c(1, 1, 1, 1));
+#' withr::with_par(list("oma"=c(1, 1, 1, 1)), {
 #' nullPlot(xlim=c(0, 1), ylim=c(1, 5));
 #' cpxy <- coordPresets(rep(c("top", "bottom", "left", "right"), each=2),
 #'    preset_type=rep(c("plot", "figure"), 4));
@@ -679,7 +683,7 @@ drawLabels <- function
 #' graphics::points(cpxy$x, cpxy$y, cex=2,
 #'    col="red4", bg="red1", xpd=NA,
 #'    pch=rep(c(21, 23), 4))
-#' graphics::par("oma"=c(0, 0, 0, 0));
+#' })
 #'
 #' @export
 coordPresets <- function

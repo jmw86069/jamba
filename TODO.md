@@ -1,5 +1,20 @@
 # TODO for jamba
 
+## 01mar2025
+
+* DONE. Fix missing `\value()` in `make_html_styles()`, `provigrep()`.
+* DONE. Confirm all `verbose=FALSE` by default.
+* DONE. Confirm no bare `printDebug()` without using `if(verbose){}`
+* DONE. Change to use `withr` equivalent functions for `par()`, `options()`,
+`on.exit()`.
+
+* Consider using `cli` as new dependency as drop-in for `print()`
+inside `printDebug()` functions.
+* DONE. Remove/Confirm `\dontrun{}` in Examples: `writeOpenxlsx()`,
+`applyXlsxConditionalFormat()`, `applyXlsxCategoricalFormat()`,
+`set_xlsx_colwidths()`, `set_xlsx_rowheights()`, `readOpenxlsx()`,
+`setPrompt()`.
+
 ## 13feb2025
 
 * `asSize()` should call `object.size()` first when the input object

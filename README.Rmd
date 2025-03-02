@@ -21,7 +21,7 @@ options(knitr.table.format='markdown')
 # jamba
 
 The goal of jamba is to provide useful custom functions for R data
-analysis and visualization.
+analysis and visualization. jamba version **`r packageVersion("jamba")`**
 
 ## Package Reference
 
@@ -151,10 +151,10 @@ x <- matrix(ncol=2, data=rnorm(40000*2));
 x[,2] <- x[,1] + rnorm(40000)*0.15;
 x[1:3000,] <- t(t(x[1:3000,,drop=FALSE])+c(0.6,-0.7));
 x[1:2000,2] <- x[1:2000,1] + rnorm(1000)*0.5;
-opar <- par("mfrow"=c(1,2), "mar"=c(2.5, 2, 3, 0.5));
-smoothScatter(x, main="smoothScatter()");
-plotSmoothScatter(x, main="plotSmoothScatter()");
-par(opar);
+withr::with_par(list("mfrow"=c(1,2), "mar"=c(2.5, 2, 3, 0.5)), {
+  smoothScatter(x, main="smoothScatter()");
+  plotSmoothScatter(x, main="plotSmoothScatter()");
+})
 ```
 * `plotPolygonDensity()` - fast density/histogram plot for vector or matrix
 ```{r, plotPolygonDensity, echo=FALSE, fig.alt="Example polygon density plot."}
@@ -166,10 +166,10 @@ consistent pixel aspect ratio.
 with optional labels
 ```{r, imageByColors, echo=FALSE, fig.alt="Example color matrix as plotted using the image by colors function()"}
 set.seed(23);
-opar <- par("mar"=c(1,1,1,1));
-m <- matrix(sample(colors(), 9), ncol=3)
-imageByColors(m, cellnote=m);
-par(opar);
+withr::with_par(list("mar"=c(1,1,1,1)), {
+  m <- matrix(sample(colors(), 9), ncol=3)
+  imageByColors(m, cellnote=m);
+})
 ```
 * `minorLogTicksAxis()` - log-transformed axis labels, flexible log base, and
 option for properly adjusted `log2(1 + x)` format.
@@ -177,20 +177,20 @@ option for properly adjusted `log2(1 + x)` format.
 * `drawLabels()` - draw square colorized text labels
 * `shadowText()` - replacement for `text()` that draws shadows or outlines.
 ```{r, labels, echo=FALSE, fig.alt="Example showing text labels, and shadow text labels on a colored background."}
-opar <- par("mar"=c(1,1,1,1));
-nullPlot(fill="navy", plotAreaTitle="", doMargins=FALSE);
-drawLabels(txt="shadowText() label",
-  boxColor=alpha2col("palegoldenrod", 0.6),
-  labelCol=setTextContrastColor(alpha2col("palegoldenrod", 0.6),
-    bg="navy"),
-  text_fn=shadowText,
-  x=1.6, y=1.3, labelCex=2);
-drawLabels(txt="text() label",
-  boxColor=alpha2col("palegoldenrod", 0.6),
-  labelCol=setTextContrastColor(alpha2col("palegoldenrod", 0.6),
-    bg="navy"),
-  x=1.3, y=1.7, labelCex=2);
-par(opar);
+withr::with_par(list("mar"=c(1,1,1,1)), {
+  nullPlot(fill="navy", plotAreaTitle="", doMargins=FALSE);
+  drawLabels(txt="shadowText() label",
+    boxColor=alpha2col("palegoldenrod", 0.6),
+    labelCol=setTextContrastColor(alpha2col("palegoldenrod", 0.6),
+      bg="navy"),
+    text_fn=shadowText,
+    x=1.6, y=1.3, labelCex=2);
+  drawLabels(txt="text() label",
+    boxColor=alpha2col("palegoldenrod", 0.6),
+    labelCol=setTextContrastColor(alpha2col("palegoldenrod", 0.6),
+      bg="navy"),
+    x=1.3, y=1.7, labelCex=2);
+})
 ```
 * `groupedAxis()` - grouped axis labels to show regions/ranges
 * `decideMfrow()` - determine appropriate value for `par("mfrow")` for multipanel
@@ -222,28 +222,29 @@ same for a vector
 * `showColors()` - display a vector or list of colors
 * `fixYellow()` - adjust the weird green-yellow, by personal preference
 * `printDebug()` - pretty colorized text output using `crayon` package.
+* `printDebugHtml()` - pretty colorized HTML output, usable in RMarkdown.
 * `rainbow2()` - rainbow categorical colors with enhanced visual contrast.
 
 ```{r, colorshow, echo=FALSE, fig.height=6, fig.alt="Image showing a series of color palettes, adjusting contrast with lens, and expanding palettes with color2gradient()"}
-opar=par("mar"=c(1,1,1,1));
-rainbowv <- c("red","yellow","green","cyan","blue","magenta");
-colorlist <- list(
-  `viridis`=rep(each=2, getColorRamp("viridis", n=12)),
-  `viridis lens=5`=rep(each=2, getColorRamp("viridis", n=12, lens=5)),
-  `viridis lens=-5`=rep(each=2, getColorRamp("viridis", n=12, lens=-5)),
-  `RdBu_r n=11`=rep(each=2, getColorRamp("RdBu_r", n=11)),
-  `RdBu_r lens=5`=rep(each=2, getColorRamp("RdBu_r", n=11, lens=5)),
-  `RdBu_r lens=-5`=rep(each=2, getColorRamp("RdBu_r", n=11, lens=-5)),
-  `rainbow(6)`=rep(rainbowv, each=4),
-  rainbow_gradient2=rep(each=2, color2gradient(rainbowv,
-    n=2, gradientWtFactor=1/3)),
-  rainbow_gradient4=color2gradient(rainbowv, n=4, gradientWtFactor=1/3),
-  `rainbow2(6)`=rep(rainbow2(6), each=4),
-  `rainbow2(12)`=rep(rainbow2(12), each=2),
-  `rainbow2(24)`=rainbow2(24)
-)
-showColors(colorlist, xaxt="n", labelCells=FALSE);
-par(opar);
+withr::with_par(list("mar"=c(1,1,1,1)), {
+  rainbowv <- c("red","yellow","green","cyan","blue","magenta");
+  colorlist <- list(
+    `viridis`=rep(each=2, getColorRamp("viridis", n=12)),
+    `viridis lens=5`=rep(each=2, getColorRamp("viridis", n=12, lens=5)),
+    `viridis lens=-5`=rep(each=2, getColorRamp("viridis", n=12, lens=-5)),
+    `RdBu_r n=11`=rep(each=2, getColorRamp("RdBu_r", n=11)),
+    `RdBu_r lens=5`=rep(each=2, getColorRamp("RdBu_r", n=11, lens=5)),
+    `RdBu_r lens=-5`=rep(each=2, getColorRamp("RdBu_r", n=11, lens=-5)),
+    `rainbow(6)`=rep(rainbowv, each=4),
+    rainbow_gradient2=rep(each=2, color2gradient(rainbowv,
+      n=2, gradientWtFactor=1/3)),
+    rainbow_gradient4=color2gradient(rainbowv, n=4, gradientWtFactor=1/3),
+    `rainbow2(6)`=rep(rainbow2(6), each=4),
+    `rainbow2(12)`=rep(rainbow2(12), each=2),
+    `rainbow2(24)`=rainbow2(24)
+  )
+  showColors(colorlist, xaxt="n", labelCells=FALSE);
+})
 ```
 
 ### List
@@ -323,11 +324,51 @@ jargs(plotSmoothScatter)
 * `isTRUEV()`, `isFALSEV()` - vectorized test for TRUE or FALSE values,
 since `isTRUE()` only operates on single values, and does not allow `NA`.
 
+```{r, jargs_html, results='asis'}
+withr::with_options(list(jam.htmlOut=TRUE, jam.comment=FALSE), {
+   jargs(plotSmoothScatter)
+})
+```
+
+
 ### R console
 
 * `printDebug()` - pretty colorized text output using `crayon` package.
 * `setPrompt()` - pretty colorized R console prompt with project name and R version
 * `newestFile()` - most recently modified file from a vector of files
+
+### RMarkdown
+
+Two functions help RMarkdown output
+
+* `printDebugHtml()` - colored HTML output.
+
+  * shortcut for `printDebug(..., htmlOut=TRUE, comments=FALSE)`
+  * or enabled with `options("jam.htmlOut"=TRUE, "jam.comment"=FALSE)`
+  to convert all `printDebug()` output to HTML- and Rmd-friendly format.
+  Typical output includes "##" prefix, so copy-paste from console is safe,
+  however in RMarkdown "##" prefix is a heading, so we add `comment=FALSE`.
+
+* `kable_coloring()` - colorizes `kable()` and `kableExtra::kable()` output
+using named vector of colors with `colorSub`.
+
+The RMarkdown chunk must include: `results='asis'`
+
+```{r rmd, results='asis'}
+printDebugHtml("printDebugHtml(): ", "Output should be colorized.");
+
+printDebugHtml("printDebugHtml(..., fgText=c(\"red\", \"gold\")): ",
+  "Output should be ", "colorized.",
+  fgText=c("red", "gold", "skyblue"));
+
+withr::with_options(list(jam.htmlOut=TRUE, jam.comment=FALSE), {
+  printDebug(c("printDebug()", " using withr::with_options(): "),
+    sep="",
+    c("Output should be ", "colorized."));
+})
+
+```
+
 
 ## Other related Jam packages
 

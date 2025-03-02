@@ -1,6 +1,6 @@
 Package: jamba
 Title: Just Analysis Methods Base
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: person(given="James M.", family="Ward",
     email="jmw86069@gmail.com", role=c("aut", "cre", "cph"))
 Description: Jam base functions focused on bioinformatics.

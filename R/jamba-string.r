@@ -302,6 +302,11 @@ unvigrep <- function
 #'    or when `value=FALSE` the index position is returned.
 #' @param ... additional arguments are passed to `vigrep()`.
 #'
+#' @returns `character` vector with entries in `x` reordered to match
+#'    the order of `patterns` provided,  or `list` when `returnType="list"`
+#'    named by `patterns` in the order provided. When `value=FALSE` then
+#'    it returns `integer` index values of `x`.
+#'
 #' @examples
 #' # a rather comical example
 #' # set up a test set with labels containing several substrings
@@ -1313,21 +1318,6 @@ rmInfinite <- function
 #' uniques(L1);
 #'
 #' uniques(L1, useBioc=FALSE);
-#'
-#' if (1 == 1) {
-#' if (requireNamespace("IRanges", quietly=TRUE)) {
-#'    printDebug("Bioc CompressedList:");
-#'    print(system.time(uniques(rep(L1, 10000), useBioc=TRUE)));
-#' }
-#' if (requireNamespace("S4Vectors", quietly=TRUE)) {
-#'    printDebug("Bioc SimpleList:");
-#'    print(system.time(uniques(rep(L1, 10000), useSimpleBioc=TRUE)));
-#' }
-#' printDebug("Simple list, keepNames=FALSE:");
-#' print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=FALSE)));
-#' printDebug("Simple list, keepNames=TRUE:");
-#' print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=TRUE)));
-#' }
 #'
 #' @export
 uniques <- function
@@ -2400,8 +2390,8 @@ jam_rapply <- function
 #' )
 #' l1;
 #' # The output is a nested list with the same structure
-#' mixedSorts(l1, verbose=TRUE);
-#' mixedSorts(l1, sortByName=TRUE, verbose=TRUE);
+#' mixedSorts(l1);
+#' mixedSorts(l1, sortByName=TRUE);
 #'
 #' # Make a nested list with two sub-lists
 #' set.seed(1);
@@ -3139,18 +3129,15 @@ gsubs <- function
                      x_lengths[x_is_factor]),
                   levels=seq_along(x))
                xif_unlist <- unlist(x[x_is_factor], use.names=FALSE)
-               # printDebug("head(xif_unlist, 10):");print(head(xif_unlist, 10))
                xif_new_vector <- gsubs(pattern=pattern,
                   replacement=replacement,
                   x=xif_unlist,
                   ignore.case=ignore.case,
                   replaceMultiple=replaceMultiple,
                   ...)
-               # printDebug("head(xif_new_vector, 3):");print(head(xif_new_vector, 3));
                # re-assemble
                x_new <- split(xnf_new_vector, x_split[!x_is_factor])
                xif_new <- split(xif_new_vector, x_split[x_is_factor])
-               # printDebug("head(xif_new, 3):");print(head(xif_new, 3));
                x_new[x_is_factor] <- xif_new[x_is_factor];
                return(x_new)
             }

@@ -142,24 +142,15 @@ df <- data.frame(name=LETTERS[1:7],
    pvalue=10^(-1:-7 + stats::rnorm(7)),
    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 df;
-\dontrun{
-   out_xlsx <- file.path(tempdir(), "jamba_test.xlsx")
+# write to tempfile for examples
+   out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    writeOpenxlsx(x=df,
       file=out_xlsx,
       sheetName="jamba_test",
-      colorSub=colorSub,
-      intColumns=2,
-      numColumns=3,
-      fcColumns=4,
-      lfcColumns=5,
-      pvalueColumns=6,
-      hitColumn=7,
-      freezePaneRow=2,
-      freezePaneColumn=2,
       append=FALSE);
    # now read it back
-   df_list <- readOpenxlsx(file=out_xlsx);
-}
+   df_list <- readOpenxlsx(xlsx=out_xlsx);
+   df_list[[1]]
 
 }
 \seealso{

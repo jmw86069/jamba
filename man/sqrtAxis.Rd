@@ -8,7 +8,7 @@ sqrtAxis(
   side = 1,
   x = NULL,
   pretty.n = 10,
-  u5.bias = 0,
+  u5.bias = 1,
   big.mark = ",",
   plot = TRUE,
   las = 2,
@@ -18,10 +18,13 @@ sqrtAxis(
 }
 \arguments{
 \item{side}{\code{integer} value indicating the axis position, as used
-by \code{graphics::axis()}, 1=bottom, 2=left, 3=top, 4=right.}
+by \code{graphics::axis()}, 1=bottom, 2=left, 3=top, 4=right.
+Note that when \code{x} is supplied, the numeric range is defined
+using values in \code{x} and not the axis side.}
 
 \item{x}{optional \code{numeric} vector representing the numeric range
-to be labeled.}
+to be labeled. When supplied, the numeric range of \code{x} is used
+and not the axis side.}
 
 \item{pretty.n}{\code{numeric} value indicating the number of desired
 tick marks, passed to \code{pretty()}.}
@@ -39,10 +42,13 @@ marks and labels.}
 when drawing the axis. The custom default \code{las=2} plots labels rotated
 perpendicular to the axis.}
 
-\item{...}{additional parameters are passed to \code{pretty()}.}
+\item{...}{additional parameters are passed to \code{pretty()}, and to
+\code{graphics::axis()} when \code{plot=TRUE}.}
 }
 \value{
-invisible \code{list} with axis positions, and corresponding labels.
+invisible \code{numeric} vector with axis positions, named
+by normal space numeric labels. The primary use is to
+add numeric axis tick marks and labels.
 }
 \description{
 Determine square root axis tick mark positions, including positive
@@ -53,12 +59,25 @@ This function calculates positions for tick marks for data
 that has been transformed with \code{sqrt()}, specifically a directional
 transformation like \code{sqrt(abs(x)) * sign(x)}.
 
+If \code{x} is supplied, it is used to define the numeric range, otherwise
+the observed range is taken based upon \code{side}. If neither \code{x} nor \code{side}
+is supplied, or if the numeric range is empty or zero width,
+it returns \code{NULL}.
+
 The main goal of this function is to provide reasonably placed
 tick marks using integer values.
 }
 \examples{
 plot(-3:3*10, -3:3*10, xaxt="n")
-sqrtAxis(1)
+x <- sqrtAxis(1)
+abline(v=x, col="grey", lty="dotted")
+abline(h=pretty(par("usr")[3:4]), col="grey", lty="dotted")
+
+# slightly different label placement with u5.bias=0
+plot(-3:3*10, -3:3*10, xaxt="n")
+x <- sqrtAxis(1, u5.bias=0)
+abline(v=x, col="grey", lty="dotted")
+abline(h=pretty(par("usr")[3:4]), col="grey", lty="dotted")
 
 }
 \seealso{

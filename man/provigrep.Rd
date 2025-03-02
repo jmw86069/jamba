@@ -55,6 +55,12 @@ or when \code{value=FALSE} the index position is returned.}
 
 \item{...}{additional arguments are passed to \code{vigrep()}.}
 }
+\value{
+\code{character} vector with entries in \code{x} reordered to match
+the order of \code{patterns} provided,  or \code{list} when \code{returnType="list"}
+named by \code{patterns} in the order provided. When \code{value=FALSE} then
+it returns \code{integer} index values of \code{x}.
+}
 \description{
 case-insensitive value-grep for a vector of patterns
 

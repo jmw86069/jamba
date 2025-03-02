@@ -160,20 +160,19 @@ cell, they will be visible in order inside the Microsoft Excel
 application.
 }
 \examples{
-\dontrun{
+# write to tempfile for examples
+   out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    df <- data.frame(a=LETTERS[1:5], b=1:5);
-   jamba::writeOpenxlsx(x=df,
-      file="jamba_test.xlsx",
-      sheetName="test_jamba");
+   writeOpenxlsx(x=df,
+      file=out_xlsx,
+      sheetName="jamba_test");
 
-   applyXlsxConditionalFormat(
-      xlsxFile="jamba_test.xlsx",
-      sheet="test_jamba",
+   applyXlsxConditionalFormat(out_xlsx,
+      sheet="jamba_test",
       intColumns=2,
       intRule=c(0,3,5),
       intStyle=c("#FFFFFF", "#1E90FF", "#9932CC")
    )
-}
 
 }
 \seealso{

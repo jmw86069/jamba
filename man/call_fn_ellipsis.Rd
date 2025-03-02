@@ -46,11 +46,14 @@ new_mean <- function(x, trim=0, na.rm=FALSE) {
 x <- c(1, 3, 5, NA);
 new_mean(x, na.rm=TRUE);
 # throws an error as expected (below)
-# new_mean(x, na.rm=TRUE, color="red");
+tryCatch({
+   new_mean(x, na.rm=TRUE, color="red")
+}, error=function(e){
+   print("Error is expected, shown below:");
+   print(e)
+})
 
 call_fn_ellipsis(new_mean, x=x, na.rm=TRUE, color="red")
-# throws an error as expected (below)
-# call_fn_ellipsis(new_mean, x=x, color="red")
 
 }
 \seealso{

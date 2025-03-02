@@ -19,7 +19,7 @@ format, by default \code{"DDmmmYYYY"}, which recognizes \code{"23aug2007"}.}
 \item{...}{additional parameters sent to \code{format()}.}
 }
 \value{
-character vector with simplified date string
+\code{character} vector with simplified date string
 }
 \description{
 get simple date string in the format DDmonYYYY such as 17jul2018.

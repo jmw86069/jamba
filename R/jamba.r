@@ -181,7 +181,7 @@ asDate <- function
 #' Gets the current date in a simplified text string. Use
 #' `asDate()` to convert back to Date object.
 #'
-#' @returns character vector with simplified date string
+#' @returns `character` vector with simplified date string
 #'
 #' @family jam date functions
 #'
@@ -233,24 +233,22 @@ getDate <- function
 #' a long line will begin to word wrap prematurely, before the text reaches
 #' the edge of the screen. There are two frequent causes of this issue:
 #'
-#' \describe{
-#'    \item{options("width")}{is sometimes defined too narrow for the
-#'       screen, which can happen when resizing the console, or when
-#'       accessing an R session via GNU screen, or tmux, and the environment
-#'       variable has not been propagated to the terminal window. Usually
-#'       this issue is resolved by defining `options("width")` manually,
-#'       or by simply resizing the terminal window, which may trigger the
-#'       appropriate environment variable updates.}
-#'    \item{The locale}{can sometimes be mismatched with the terminal window,
-#'       usually caused by some terminal emulation layer which is not
-#'       properly detecting the compatibility of the server. It may happen
-#'       for example, when using PuTTY on Windows, or when using GNU screen or
-#'       tmux on linux or Mac OSX. To troubleshoot, check
-#'       `Sys.env("LC_ALL")` which may be `"C"` or another locale such as
-#'       `"en_US.UTF-8"`. Note that switching locale may have the effect of
-#'       correcting the word wrap, but may adversely affect display of
-#'       non-standard unicode characters.}
-#' }
+#' * `options("width")` is sometimes defined too narrow for the
+#' screen, which can happen when resizing the console, or when
+#' accessing an R session via GNU screen, or tmux, and the environment
+#' variable has not been propagated to the terminal window. Usually
+#' this issue is resolved by defining `options("width")` manually,
+#' or by simply resizing the terminal window, which may trigger the
+#' appropriate environment variable updates.
+#' * The `locale` can sometimes be mismatched with the terminal window,
+#' usually caused by some terminal emulation layer which is not
+#' properly detecting the compatibility of the server. It may happen
+#' for example, when using PuTTY on Windows, or when using GNU screen or
+#' tmux on linux or Mac OSX. To troubleshoot, check
+#' `Sys.env("LC_ALL")` which may be `"C"` or another locale such as
+#' `"en_US.UTF-8"`. Note that switching locale may have the effect of
+#' correcting the word wrap, but may adversely affect display of
+#' non-standard unicode characters.
 #'
 #' In any event, R uses readline for unix-like systems by default, and
 #' issues related to using color prompt are handled at that level. For example,
@@ -258,8 +256,9 @@ getDate <- function
 #' are used to tell readline to ignore an escape sequence when it counts the
 #' number of characters being displayed by the prompt.
 #'
-#' @returns `character` string representing the prompt used, returned
-#'    invisibly.
+#' @returns `list` named `"prompt"` suitable to use in `options()`
+#'    with the recommended prompt.
+#'    When `updateOptions=FALSE` use: `options(setPrompt("projectName"))`
 #'
 #' @family jam practical functions
 #'
@@ -295,6 +294,8 @@ getDate <- function
 #'    `addEscape=FALSE`; otherwise it defines `addEscape=TRUE`.
 #'    In most cases for commandline prompts, `addEscape=TRUE` is helpful
 #'    and not problematic.
+#' @param updateOptions `logical` whether to update the user `options()`
+#'    with `options(prompt="...")`, default TRUE.
 #' @param verbose `logical` whether to print verbose output.
 #' @param debug `logical` indicating whether to print the ANSI control
 #'    character output for the full prompt, for visual review.
@@ -302,10 +303,13 @@ getDate <- function
 #'    only relevant with the argument `useColor=TRUE`.
 #'
 #' @examples
-#' \dontrun{
+#' setPrompt("jamba")
+#'
 #' setPrompt("jamba", projectColor="purple");
+#'
 #' setPrompt("jamba", usePid=FALSE);
-#' }
+#'
+#' setPrompt(resetPrompt=TRUE);
 #'
 #' @export
 setPrompt <- function
@@ -319,6 +323,7 @@ setPrompt <- function
  usePid=TRUE,
  resetPrompt=FALSE,
  addEscape=NULL,
+ updateOptions=TRUE,
  debug=FALSE,
  verbose=FALSE,
  ...)
@@ -361,7 +366,8 @@ setPrompt <- function
          printDebug("setPrompt(): ",
             "Resetting basic prompt for R.");
       }
-      options("prompt"="> ");
+      addEscape <- FALSE;
+      promptValue <- "> ";
    } else if (useColor == 1) {
       ## use crayon
       if (!usePid) {
@@ -446,7 +452,7 @@ setPrompt <- function
          "\001\\1\002",
          promptValue);
    }
-   if (debug) {
+   if (verbose && debug) {
       cat("promptValue:\n");
       print(promptValue);
    }
@@ -454,9 +460,10 @@ setPrompt <- function
    if (verbose) {
       cat("setPrompt() defined promptValue: '", promptValue, "'\n\n");
    }
-
-   options("prompt"=promptValue);
-   invisible(promptValue);
+   if (TRUE %in% updateOptions) {
+      options("prompt"=promptValue);
+   }
+   invisible(list(prompt=promptValue));
 }
 
 
@@ -521,8 +528,9 @@ setPrompt <- function
 #'
 #' # since the data.frame contains colors, we display using
 #' # imageByColors()
-#' graphics::par("mar"=c(5,10,4,2));
+#' withr::with_par(list("mar"=c(5,10,4,2)), {
 #' imageByColors(df2, cellnote=df2);
+#' })
 #'
 #' @export
 pasteByRow <- function
@@ -683,13 +691,13 @@ pasteByRow <- function
 #' # of each group
 #' bb2 <- breaksByVector(b, returnFractions=TRUE);
 #' ylabs <- c("minimal labels", "all labels");
-#' adjustAxisLabelMargins(ylabs, 2);
-#' adjustAxisLabelMargins(bb2$useLabels, 1);
-#' nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
-#'    doBoxes=FALSE, doUsrBox=TRUE);
-#' graphics::axis(2, las=2, at=c(1,2), ylabs);
-#' graphics::text(y=2, x=seq_along(b), b);
-#' graphics::text(y=1, x=bb2$labelPoints, bb2$useLabels);
+#' withr::with_par(adjustAxisLabelMargins(ylabs, 2), {
+#'    withr::local_par(adjustAxisLabelMargins(bb2$useLabels, 1))
+#'    nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
+#'       doBoxes=FALSE, doUsrBox=TRUE);
+#'    graphics::axis(2, las=2, at=c(1,2), ylabs);
+#'    graphics::text(y=2, x=seq_along(b), b);
+#'    graphics::text(y=1, x=bb2$labelPoints, bb2$useLabels);
 #'
 #' ## Print axis labels in the center of each group
 #' graphics::axis(3,
@@ -714,6 +722,7 @@ pasteByRow <- function
 #'    lty="dashed",
 #'    col="blue");
 #'
+#' })
 #' # The same process is used by imageByColors()
 #'
 #' @export
@@ -792,7 +801,7 @@ breaksByVector <- function
 #'    appear with a tick mark.
 #'
 #' @examples
-#' graphics::par("mar"=c(4,4,6,6));
+#' withr::with_par(list("mar"=c(4,4,6,6)), {
 #' b <- rep(LETTERS[1:5], c(2,3,5,4,3));
 #' b2 <- c(b[1:2], makeNames(b[3:5]), b[6:16]);
 #' nullPlot(doBoxes=FALSE,
@@ -809,6 +818,7 @@ breaksByVector <- function
 #' graphics::mtext(side=2, "group_style='grouped'", line=2, las=0);
 #' graphics::mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
 #' graphics::mtext(side=4, "group_style='grouped'", line=2, las=0);
+#' })
 #'
 #' @param side `integer` indicating the axis side, passed to `graphics::axis()`.
 #'    1=bottom, 2=left, 3=top, 4=right.
@@ -1100,6 +1110,10 @@ colNum2excelName <- function
 #' The `doTest=TRUE` argument will create `n` number of
 #' panels with the recommended layout, as a visual example.
 #'
+#' Note this function calls `getPlotAspect()`,
+#' therefore if no plot device is currently open,
+#' the call to `graphics::par()` will open a new graphics device.
+#'
 #' @returns `numeric` vector length=2, with the recommended number of plot
 #'    rows and columns, respectively. It is intended to be used directly
 #'    in this form: `graphics::par("mfrow"=decideMfrow(n=5))`
@@ -1117,30 +1131,52 @@ colNum2excelName <- function
 #'          the side of more rows than columns.}
 #'    }
 #' @param doTest `logical` whether to provide a visual test. Note that
-#'    \code{n} is required as the number of plot panels requested.
+#'    `n` is required as the number of plot panels requested.
+#' @param xyratio `numeric` default 1, with the desired target x-to-y ratio.
+#'    For example, to have plots slightly wider (x width) than tall
+#'    (y height), use `xyratio=1.3`. The observed device aspect ratio
+#'    is divided by `xyratio` to determine the target aspect ratio
+#'    of plot panels.
+#' @param trimExtra `logical` default TRUE, whether to trim blank rows or
+#'    columns in the expected layout when it would be entirely blank.
+#'    For example, `n=4` may produce `c(3, 2)` output to meet the
+#'    desired aspect ratio, however with `trimExtra=TRUE` it would
+#'    be reduced to `c(2, 2)` to minimize unused whitespace.
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
 #' # display a test visualization showing 6 panels
+#' withr::with_par(list("mar"=c(2, 2, 2, 2)), {
 #' decideMfrow(n=6, doTest=TRUE);
+#' })
+#'
+#' # use a custom target xyratio of plot panels
+#' withr::with_par(list("mar"=c(2, 2, 2, 2)), {
+#' decideMfrow(n=3, xyratio=3, doTest=TRUE);
+#' })
 #'
 #' # a manual demonstration creating 6 panels
 #' n <- 6;
-#' graphics::par(mfrow=decideMfrow(n));
+#' withr::with_par(list(
+#'    "mar"=c(2, 2, 2, 2),
+#'    "mfrow"=decideMfrow(n)), {
 #' for(i in seq_len(n)){
 #'    nullPlot(plotAreaTitle=paste("Plot", i));
 #' }
+#' })
 #'
 #' @export
 decideMfrow <- function
 (n,
  method=c("aspect", "wide", "tall"),
  doTest=FALSE,
+ xyratio=1,
+ trimExtra=TRUE,
  ...)
 {
    ## Purpose is to decide how to arrange plots so that panels are roughly
    ## square.
-   dinAspect <- getPlotAspect(type="device");
+   dinAspect <- getPlotAspect(type="device") / xyratio;
    n1 <- (sqrt(n/dinAspect));
    n2 <- (sqrt(n*dinAspect));
    n1diff <- abs(round(n1) - n1);
@@ -1152,11 +1188,22 @@ decideMfrow <- function
       n2 <- round(n2);
       n1 <- ceiling(n/n2);
    }
+
+   ## Trim blank panels by row,column
+   if (trimExtra) {
+      nblank <- (prod(n1, n2) - n);
+      if (nblank > 0) {
+         if (nblank >= n2) {
+            n1 <- ceiling(n / n2)
+         } else if (nblank >= n1) {
+            n2 <- ceiling(n / n1)
+         }
+      }
+   }
+
    ## Optionally provide a visual test
    if (doTest) {
-      oPar <- graphics::par(no.readonly=TRUE);
-      on.exit(graphics::par(oPar));
-      graphics::par("mfrow"=c(n1, n2));
+      withr::local_par("mfrow"=c(n1, n2));
       for(i in seq_len(n)){
          nullPlot(plotAreaTitle=paste("Plot", i));
       }
@@ -1197,16 +1244,18 @@ decideMfrow <- function
 #' @param ... additional parameters are ignored.
 #'
 #' @examples
-#' graphics::par("mfrow"=c(2,4));
+#' withr::with_par(list("mfrow"=c(2, 4), "mar"=c(1, 1, 1, 1)), {
 #' for (i in 1:8) {
 #'    nullPlot(plotAreaTitle=paste("Plot", i), xlim=c(1,100), ylim=c(1,10),
 #'       doMargins=FALSE);
 #'    graphics::axis(1, las=2);
 #'    graphics::axis(2, las=2);
 #' }
-#' getPlotAspect("coords");
+#' # device aspect inside the 2x4 layout
 #' getPlotAspect("plot");
-#' getPlotAspect("device");
+#' })
+#' # device aspect outside the 2x4 layout
+#' getPlotAspect("plot");
 #'
 #' @export
 getPlotAspect <- function
@@ -1873,6 +1922,7 @@ jargs <- function
  Lrange=getOption("jam.Lrange"),
  adjustRgb=getOption("jam.adjustRgb"),
  useCollapseBase=", ",
+ useMessage=TRUE,
  verbose=FALSE,
  debug=0,
  ...)
@@ -1984,15 +2034,18 @@ jargs <- function
                x2[i]),
             collapse="");
       });
-      cat(paste(x3, collapse=",\n"));
-      cat("\n");
-   } else {
-      argsTable <- do.call(cbind, lapply(argsText, deparse));
-      if (sortVars) {
-         argsTable <- argsTable[,mixedSort(colnames(argsTable)), drop=FALSE];
+      x3string <- paste0(paste(x3, collapse=",\n"), "\n");
+      if (TRUE %in% useMessage) {
+         message(x3string);
       }
-      print(argsTable);
-      invisible(argsTable);
+      return(invisible(x3string));
+   } else {
+      argsList <- lapply(argsText, deparse);
+      if (sortVars) {
+         argsList <- argsList[mixedSort(names(argsList))];
+      }
+      argsDF <- list2df(argsList);
+      argsDF;
    }
 }
 
@@ -2716,12 +2769,11 @@ handleArgsText <- function
 #'    minimum=-2, newValue=-3,
 #'    ceiling=2, newCeiling=3);
 #'
-#' parMfrow <- graphics::par("mfrow");
-#' graphics::par("mfrow"=c(2,2));
+#' withr::with_par(list("mfrow"=c(2,2)), {
 #' plotSmoothScatter(x1, y1);
 #' plotSmoothScatter(x2, y2);
 #' plotSmoothScatter(xm3);
-#' graphics::par("mfrow"=parMfrow);
+#' })
 #'
 #' @export
 noiseFloor <- function

@@ -205,8 +205,8 @@ dl_top <- drawLabels(
       "purple3"));
 graphics::box(lwd=2);
 
-opar <- graphics::par("mfrow"=c(1, 3), "xpd"=TRUE);
-on.exit(graphics::par(opar));
+withr::with_par(list("mfrow"=c(1, 3), "xpd"=TRUE), {
+
 isub <- c(force="Always full panel width",
    minimum="At least full panel width or larger",
    maximum="No larger than panel width");
@@ -221,7 +221,7 @@ drawLabels(labelCex=1.2,
    panelWidth=i,
    boxColor="red4")
 }
-graphics::par("mfrow"=c(1, 1));
+})
 
 }
 \seealso{

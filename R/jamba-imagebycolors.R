@@ -49,30 +49,32 @@
 #'    image plot. This function is called for the byproduct of creating
 #'    an image visualization.
 #'
-#' @param x matrix or data.frame containing colors
-#' @param useRaster logical sent to \code{\link{imageDefault}} to enable
+#' @param x `matrix` or `data.frame` containing colors
+#' @param useRaster `logical` sent to \code{\link{imageDefault}} to enable
 #'    raster rendering, as opposed to polygon rendering. This parameter is
 #'    highly recommended when the matrix is large (>50 columns or rows).
-#' @param fixRasterRatio logical sent to \code{\link{imageDefault}}.
-#' @param maxRatioFix numeric sent to \code{\link{imageDefault}}.
-#' @param xaxt,yaxt character values compatible with \code{\link[graphics]{par}} to
+#' @param fixRasterRatio `logical` sent to \code{\link{imageDefault}}.
+#' @param maxRatioFix `numeric` sent to \code{\link{imageDefault}}.
+#' @param xaxt,yaxt `character` values compatible with \code{\link[graphics]{par}} to
 #'    determine whether x- and y-axes are plotted. Set both to "n" to
 #'    suppress display of axes.
-#' @param doPlot logical whether to create a plot, or simply return data which
+#' @param doPlot `logical` whether to create a plot, or simply return data which
 #'    would have been used to create the plot.
-#' @param cellnote matrix or data.frame of labels to be displayed on the
+#' @param cellnote `matrix` or `data.frame` of labels to be displayed on the
 #'    image. If groupCellnotes==TRUE labels will be placed in the center
 #'    of consecutive cells with the same label and identical color.
 #'    Currently, cell text is colored using \code{\link{setTextContrastColor}}
 #'    which uses either white or black depending upon the brightness of
 #'    the background color.
-#' @param cexCellnote,srtCellnote,fontCellnote numeric vectors, with values
-#'    applied to cellnote text to be compatible with graphics::par("cex"), graphics::par("srt"),
-#'    and graphics::par("font"), respectively. If supplied a matrix or data.frame with
-#'    it is used as-is or expanded to equivalent dimensions of \code{x}.
+#' @param cexCellnote,srtCellnote,fontCellnote `numeric` vectors, with values
+#'    applied to cellnote text to be compatible with `graphics::par("cex")`,
+#'    `graphics::par("srt")`,
+#'    and `graphics::par("font")`, respectively.
+#'    If supplied a matrix or data.frame with
+#'    it is used as-is or expanded to equivalent dimensions of `x`.
 #'    If the vector is named by colnames(x) then it is applied
 #'    by column in order, otherwise it is applied by row, with values recycled
-#'    to the number of columns or rows, respectively. Note \code{cexCellnote}
+#'    to the number of columns or rows, respectively. Note `cexCellnote`
 #'    can also be a list, with the list elements being applied to individual
 #'    cells in order. If the list is named by colnames(x), each list element
 #'    is applied to values in each column, in order. In future this parameter
@@ -81,46 +83,49 @@
 #'    groupCellnotes==TRUE, the value for the first matching cell is used.
 #'    Remember that values are placed by coordinate, bottom-to-top on the
 #'    y-axis, and left-to-right on the x-axis.
-#' @param groupCellnotes logical whether to group labels where consecutive
+#' @param groupCellnotes `logical` whether to group labels where consecutive
 #'    cells contain the same label and identical cell colors, thus only
 #'    displaying one label in the center of these groups.
-#' @param groupBy character value indicating the direction to group
+#' @param groupBy `character` value indicating the direction to group
 #'    cellnotes, when `groupCellnotes=TRUE`: `"row"` will group cellnote
 #'    values by row; `"column"` will group cellnote values by column.
 #'    By default, it will first group cellnotes by `"row"` then
 #'    by `"column"`.
-#' @param groupByColors logical indicating whether the cellnote grouping
+#' @param groupByColors `logical` indicating whether the cellnote grouping
 #'    should also include the cell color. When `groupByColors=FALSE`,
 #'    cellnote values will be grouped together regardless whether the
 #'    underlying colors change, which may be preferred when applying
 #'    text label to topographical data.
-#' @param adjBy character value indicating how to apply adjustments for
+#' @param adjBy `character` value indicating how to apply adjustments for
 #'    cexCellnote, srtCellnote, and fontCellnote, as described above.
-#' @param adjustMargins logical indicating whether to adjust the axis
+#' @param adjustMargins `logical` indicating whether to adjust the axis
 #'    label margins to ensure enough room to draw the text rownames
 #'    and colnames.
-#' @param interpolate logical whether to implement image interpolation,
+#' @param interpolate `logical` whether to implement image interpolation,
 #'    by default TRUE when useRaster=TRUE.
-#' @param verbose logical whether to print verbose output.
-#' @param xpd NULLL or logical used for \code{graphics::par("xpd")} to define whether
-#'    to crop displayed output to the plot area. If xpd=NULL then graphics::par("xpd")
-#'    will not be modified, otherwise graphics::par("xpd"=xpd) will be defined while
-#'    adding any cell notes, then reverted to its previous value afterward.
+#' @param verbose `logical` whether to print verbose output.
+#' @param xpd NULL or `logical` used for `graphics::par("xpd")`
+#'    whether to crop displayed output to the plot area.
+#'    * If xpd=NULL then `graphics::par("xpd")`
+#'    will not be modified, otherwise `graphics::par("xpd"=xpd)`
+#'    will be defined while adding any cell notes,
+#'    then reverted to its previous value afterward.
 #'    This parameter is mainly useful when cellnote labels may overhang the
 #'    plot space, and would be cropped and not visible if
-#'    \code{graphics::par("xpd"=TRUE)}.
-#' @param bty `character` used to control box type, default `graphics::par("bty")`
+#'    `graphics::par("xpd"=TRUE)`.
+#' @param bty `character` used to control box type, default
+#'    `graphics::par("bty")`
 #' @param flip `character` string, default "none", with optional axis flip:
 #'    * none: perform no axis flip
 #'    * x: flip x-axis orientation
 #'    * y: flip y-axis orientation
 #'    * xy: flip both x- and y-axis orientation
-#' @param doTest logical whether to run a test showing basic features of
-#'    \code{imageByColors}.
-#' @param keepTextAlpha logical passed to \code{\link{setTextContrastColor}}
-#'    indicating whether the text label color should inherit the alpha
-#'    transparency from the background color. If TRUE then fully transparent
-#'    background colors will not have a visible label.
+#' @param doTest `logical` whether to run a test showing basic features.
+#' @param keepTextAlpha `logical` defaulit FALSE,
+#'    passed to `setTextContrastColor()`, whether the text label color
+#'    should inherit the alpha transparency from the background color.
+#'    If TRUE then fully transparent background colors will not have
+#'    a visible label.
 #' @param add `logical`, default FALSE, whether to add to an existing
 #'    device, otherwise it creates a new plot.
 #' @param ... Additional arguments are ignored.
@@ -135,7 +140,7 @@
 #' # default using polygons
 #' imageByColors(df1, cellnote=df1);
 #'
-#' # useRaster=TRUE, edges are slightly blurred with small tables
+#' # using useRaster, edges are slightly blurred with small tables
 #' imageByColors(df1, cellnote=df1, useRaster=TRUE);
 #'
 #' # some text features, rotation, font size, etc
@@ -240,17 +245,17 @@ imageByColors <- function
       dimnames=dimnames(x));
    if (doPlot) {
       if (adjustMargins && (!xaxt %in% "n" || !yaxt %in% "n")) {
-         parmar <- graphics::par("mar");
-         #on.exit(graphics::par("mar"=parmar));
          if (!xaxt %in% "n") {
-            adjustAxisLabelMargins(x=colnames(x),
-               margin=1,
-               ...);
+            withr::local_par(
+               adjustAxisLabelMargins(x=colnames(x),
+                  margin=1,
+                  ...));
          }
          if (!yaxt %in% "n") {
-            adjustAxisLabelMargins(x=rownames(x),
-               margin=2,
-               ...);
+            withr::local_par(
+               adjustAxisLabelMargins(x=rownames(x),
+                  margin=2,
+                  ...));
          }
       }
       imageDefault(x=xNcolSeq,
@@ -489,8 +494,7 @@ imageByColors <- function
          print(head(srtCellnoteDF));
       }
       if (!is.null(xpd)) {
-         parXpd <- graphics::par("xpd");
-         graphics::par("xpd"=xpd);
+         withr::local_par("xpd"=xpd);
       }
       ## srt can be set only once per graphics::text() call, so we must loop through
       ## each srtCellnote value
@@ -519,17 +523,22 @@ imageByColors <- function
                   adj=c(0.5,0.5));
             });
       }
-      if (!is.null(xpd)) {
-         graphics::par("xpd"=parXpd);
-      }
    }
    ## Print column and row labels if defined
    if (doPlot) {
       if (!xaxt %in% "n" && !is.null(colnames(x))) {
-         graphics::axis(1, las=2, at=1:ncol(x), labels=colnames(x), ...);
+         graphics::axis(1,
+            las=2,
+            at=1:ncol(x),
+            labels=colnames(x),
+            ...);
       }
       if (!yaxt %in% "n" && !is.null(rownames(x))) {
-         graphics::axis(2, las=2, at=1:nrow(x), labels=rownames(x), ...);
+         graphics::axis(2,
+            las=2,
+            at=1:nrow(x),
+            labels=rownames(x),
+            ...);
       }
       graphics::box(bty=bty,
          ...);
@@ -540,6 +549,7 @@ imageByColors <- function
       col=levels(xFac),
       cellnoteX=cellnoteX,
       srtCellnoteDF=srtCellnoteDF,
-      cexCellnote=cexCellnote));
+      cexCellnote=cexCellnote,
+      mar=par("mar")));
 }
 

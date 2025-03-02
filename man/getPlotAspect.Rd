@@ -46,16 +46,18 @@ type, see the \code{type} argument.
 Get aspect ratio for coordinates, plot, or device
 }
 \examples{
-graphics::par("mfrow"=c(2,4));
+withr::with_par(list("mfrow"=c(2, 4), "mar"=c(1, 1, 1, 1)), {
 for (i in 1:8) {
    nullPlot(plotAreaTitle=paste("Plot", i), xlim=c(1,100), ylim=c(1,10),
       doMargins=FALSE);
    graphics::axis(1, las=2);
    graphics::axis(2, las=2);
 }
-getPlotAspect("coords");
+# device aspect inside the 2x4 layout
 getPlotAspect("plot");
-getPlotAspect("device");
+})
+# device aspect outside the 2x4 layout
+getPlotAspect("plot");
 
 }
 \seealso{

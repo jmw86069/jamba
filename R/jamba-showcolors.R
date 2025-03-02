@@ -30,6 +30,13 @@
 #' @param adjustMargins `logical` indicating whether to call
 #'    `adjustAxisLabelMargins()` to adjust the x- and y-axis
 #'    label margins to accomodate the label size.
+#'    * Note when an axis is hidden by using `xaxt="n"` or `xaxt="n"`,
+#'    the respective margin will not be adjusted.
+#'    * The arguments in `...` take precedence over `graphics::par()`,
+#'    when deciding whether to adjust margins. However if `xaxt="s"` and
+#'    `par("xaxt"="n")` the margin will be adjusted but not displayed.
+#'    In this way the axes can be adjusted without displaying the labels,
+#'    so the labels can be rendered later if needed.
 #' @param makeUnique `logical` indicating whether to display only the first
 #'    unique color. When `x` is supplied as a `list` this operation will
 #'    display the first unique color for each `list` element.
@@ -248,15 +255,22 @@ showColors <- function
    if (TRUE %in% doPlot) {
       if (TRUE %in% transpose) {
          if (adjustMargins) {
-            opar <- graphics::par("mar"=graphics::par("mar"));
-            on.exit(graphics::par(opar));
             ## Detect string width to adjust margins
-            adjustAxisLabelMargins(x=rownames(xM),
-               margin=1,
-               ...);
-            adjustAxisLabelMargins(x=colnames(xM),
-               margin=2,
-               ...);
+            arglist <- list(...);
+            use_xaxt <- ifelse(length(arglist$xaxt) > 0,
+               arglist$xaxt, par("xaxt"))
+            if (!"n" %in% use_xaxt) {
+               withr::local_par(adjustAxisLabelMargins(x=rownames(xM),
+                  margin=1,
+                  ...))
+            }
+            use_yaxt <- ifelse(length(arglist$yaxt) > 0,
+               arglist$yaxt, par("yaxt"))
+            if (!"n" %in% use_yaxt) {
+               withr::local_par(adjustAxisLabelMargins(x=colnames(xM),
+                  margin=2,
+                  ...))
+            }
          }
          if (length(srtCellnote)==0) {
             if (nrow(xM) > ncol(xM)) {
@@ -272,15 +286,22 @@ showColors <- function
             ...);
       } else {
          if (adjustMargins) {
-            opar <- graphics::par("mar"=graphics::par("mar"));
-            on.exit(graphics::par(opar));
             ## Detect string width to adjust margins
-            adjustAxisLabelMargins(x=colnames(xM),
-               margin=1,
-               ...);
-            adjustAxisLabelMargins(x=rownames(xM),
-               margin=2,
-               ...);
+            arglist <- list(...);
+            use_xaxt <- ifelse(length(arglist$xaxt) > 0,
+               arglist$xaxt, par("xaxt"))
+            if (!"n" %in% use_xaxt) {
+               withr::local_par(adjustAxisLabelMargins(x=colnames(xM),
+                  margin=1,
+                  ...))
+            }
+            use_yaxt <- ifelse(length(arglist$yaxt) > 0,
+               arglist$yaxt, par("yaxt"))
+            if (!"n" %in% use_yaxt) {
+               withr::local_par(adjustAxisLabelMargins(x=rownames(xM),
+                  margin=2,
+                  ...))
+            }
          }
          if (is.null(srtCellnote)) {
             if (nrow(xM) > ncol(xM)) {

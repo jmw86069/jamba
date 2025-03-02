@@ -89,14 +89,12 @@
 #' graphics::title(ylab="alpha", line=1.5);
 #'
 #' # change background to dark blue
-#' opar <- graphics::par("bg"="navy",
-#'    "col"="white",
-#'    "col.axis"="white");
+#' withr::with_par(list("bg"="navy", "col"="white", "col.axis"="white"), {
 #' jamba::showColors(colorL,
 #'    groupCellnotes=FALSE,
 #'    srtCellnote=seq(from=15, to=-15, length.out=5))
 #' graphics::title(ylab="alpha", line=1.5);
-#' graphics::par(opar);
+#' })
 #'
 #' # Example using transparency and drawLabels()
 #' bg <- "blue4";
@@ -432,7 +430,11 @@ hcl2col <- function
          #a1 / 255;
       }
    }, error=function(e) {
-      printDebug("Error: ", e, c("orangered", "mediumslateblue"));
+      if (verbose) {
+         printDebug("Error: ",
+            e,
+            fgText=c("orangered", "mediumslateblue"));
+      }
       a1;
    });
 
@@ -540,13 +542,14 @@ col2alpha <- function
 #' @returns `character` vector of R colors, with alpha values.
 #'
 #' @examples
-#' graphics::par("mfrow"=c(2,2));
+#' withr::with_par(list("mfrow"=c(2,2)), {
 #' for (alpha in c(1, 0.8, 0.5, 0.2)) {
 #'    nullPlot(plotAreaTitle=paste0("alpha=", alpha),
 #'       doMargins=FALSE);
 #'    usrBox(fill=alpha2col("yellow",
 #'       alpha=alpha));
 #' }
+#' })
 #'
 #' @export
 alpha2col <- function
@@ -1100,7 +1103,6 @@ makeColorDarker <- function
    ## value from 0 to 1 to 2
    ## saturation 0 to 1 to 0
    if (useMethod %in% 1) {
-      #printDebug("New method.");
       j <- rbind(grDevices::rgb2hsv(r=hexMatrix["red",],
          g=hexMatrix["green",],
          b=hexMatrix["blue",]),
@@ -1146,14 +1148,16 @@ makeColorDarker <- function
             hsv1 <- grDevices::hsv(h=j[1], s=newS, v=newV, alpha=i[4]/255);
             hsv1;
          }, error=function(e){
-            printDebug("Error: ", cPaste(e), fgText=c("yellow", "red"));
-            printDebug("h: ", format(digits=2, j[1]),
-                         ", s: ", format(digits=2, newS),
-                         ", v: ", format(digits=2, newV),
-                         ", oldV: ", format(digits=2, j[3]),
-                         ", darkFactor: ", format(digits=2, darkFactor),
-                         ", alpha: ", format(digits=2, i[4]/255),
-               c("orange", "lightblue") );
+            if (verbose) {
+               printDebug("Error: ", cPaste(e), fgText=c("yellow", "red"));
+               printDebug("h: ", format(digits=2, j[1]),
+                  ", s: ", format(digits=2, newS),
+                  ", v: ", format(digits=2, newV),
+                  ", oldV: ", format(digits=2, j[3]),
+                  ", darkFactor: ", format(digits=2, darkFactor),
+                  ", alpha: ", format(digits=2, i[4]/255),
+                  c("orange", "lightblue") );
+            }
             grDevices::hsv(h=j[1], s=newS, v=newV, alpha=i[4]/255);
          })
       });
@@ -1495,10 +1499,12 @@ getColorRamp <- function
                colorFunc <- tryCatch({
                   eval(str2lang(col))
                }, error=function(e){
-                  printDebug("Error:", e,
-                     sep=" ", collapse=" ",
-                     fgText=c("red", "orange"));
-                  print(e);
+                  if (verbose) {
+                     printDebug("Error:", e,
+                        sep=" ", collapse=" ",
+                        fgText=c("red", "orange"));
+                     print(e);
+                  }
                   NULL;
                });
             } else {
@@ -1507,9 +1513,11 @@ getColorRamp <- function
                   get(col,
                      mode="function");
                }, error=function(e){
-                  printDebug("Error:", e,
-                     sep=" ", collapse=" ",
-                     fgText=c("red", "orange"));
+                  if (verbose) {
+                     printDebug("Error:", e,
+                        sep=" ", collapse=" ",
+                        fgText=c("red", "orange"));
+                  }
                   NULL;
                });
             }
@@ -1618,7 +1626,9 @@ getColorRamp <- function
                divergent=divergent);
          }
          if (reverseRamp) {
-            printDebug("reverseRamp:", reverseRamp)
+            if (verbose) {
+               printDebug("reverseRamp:", reverseRamp)
+            }
             cols <- rev(cols);
          }
          cols <- grDevices::colorRampPalette(cols, alpha=alpha);

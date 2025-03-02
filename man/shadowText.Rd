@@ -113,7 +113,7 @@ shadowText(doTest=TRUE, fill="navy");
 shadowText(doTest=TRUE, fill="red4");
 
 # example showing labels with overlapping shadows
-opar <- graphics::par("mfrow"=c(1, 2))
+withr::with_par(list("mfrow"=c(1, 2)), {
 nullPlot(doBoxes=FALSE);
 graphics::title(main="shadowOrder='each'");
 shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
@@ -122,7 +122,7 @@ nullPlot(doBoxes=FALSE);
 graphics::title(main="shadowOrder='all'");
 shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
    labels=c("one", "two"), cex=c(2, 4), shadowOrder="all")
-graphics::par(opar)
+})
 
 }
 \seealso{

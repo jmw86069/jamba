@@ -73,7 +73,7 @@ axis labels. It is intended where character labels are spaced
 at integer steps, and some labels are expected to be repeated.
 }
 \examples{
-graphics::par("mar"=c(4,4,6,6));
+withr::with_par(list("mar"=c(4,4,6,6)), {
 b <- rep(LETTERS[1:5], c(2,3,5,4,3));
 b2 <- c(b[1:2], makeNames(b[3:5]), b[6:16]);
 nullPlot(doBoxes=FALSE,
@@ -90,6 +90,7 @@ graphics::mtext(side=1, "group_style='partial_grouped'", line=2, las=0);
 graphics::mtext(side=2, "group_style='grouped'", line=2, las=0);
 graphics::mtext(side=3, "group_style='partial_grouped'", line=2, las=0);
 graphics::mtext(side=4, "group_style='grouped'", line=2, las=0);
+})
 
 }
 \seealso{

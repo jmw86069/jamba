@@ -25,13 +25,14 @@ alpha range should be 255. By default maxValue=1 is returned.}
 Define the alpha transparency per R color
 }
 \examples{
-graphics::par("mfrow"=c(2,2));
+withr::with_par(list("mfrow"=c(2,2)), {
 for (alpha in c(1, 0.8, 0.5, 0.2)) {
    nullPlot(plotAreaTitle=paste0("alpha=", alpha),
       doMargins=FALSE);
    usrBox(fill=alpha2col("yellow",
       alpha=alpha));
 }
+})
 
 }
 \seealso{

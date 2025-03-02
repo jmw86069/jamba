@@ -70,9 +70,8 @@ is inconsistent with \code{lazyLoad()}.}
 as relevant to the method used to re-load the cache object data.}
 }
 \value{
-this function does not return data, but instead is called
-for the by-product of loading data into the given \code{envir}
-environment.
+No return value, this function is called for side effects,
+populating data into the environment \code{envir}.
 }
 \description{
 Reload Rmarkdown cache in the order files were created, into an

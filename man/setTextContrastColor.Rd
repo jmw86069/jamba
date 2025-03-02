@@ -106,14 +106,12 @@ jamba::showColors(colorL,
 graphics::title(ylab="alpha", line=1.5);
 
 # change background to dark blue
-opar <- graphics::par("bg"="navy",
-   "col"="white",
-   "col.axis"="white");
+withr::with_par(list("bg"="navy", "col"="white", "col.axis"="white"), {
 jamba::showColors(colorL,
    groupCellnotes=FALSE,
    srtCellnote=seq(from=15, to=-15, length.out=5))
 graphics::title(ylab="alpha", line=1.5);
-graphics::par(opar);
+})
 
 # Example using transparency and drawLabels()
 bg <- "blue4";

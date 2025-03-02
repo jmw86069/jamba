@@ -86,8 +86,9 @@ rownames(df2) <- pasteByRow(df2);
 
 # since the data.frame contains colors, we display using
 # imageByColors()
-graphics::par("mar"=c(5,10,4,2));
+withr::with_par(list("mar"=c(5,10,4,2)), {
 imageByColors(df2, cellnote=df2);
+})
 
 }
 \seealso{

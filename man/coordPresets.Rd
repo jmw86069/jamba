@@ -19,19 +19,27 @@ coordPresets(
 )
 }
 \arguments{
-\item{preset}{character vector of coordinate positions, or "default"
-to use the \verb{x,y} coordinates.}
+\item{preset}{\code{character} vector of coordinate positions, or the default
+"default" to use the \verb{x,y} coordinates.
+\itemize{
+\item Recognized terms: center, bottom, top, left, right, topleft,
+topright, bottomleft, bottomright.
+}}
 
-\item{x, y}{numeric vectors indicating the default coordinates \verb{x,y}.}
+\item{x, y}{\code{numeric} vectors indicating the default coordinates \verb{x,y}.}
 
-\item{adjPreset}{character vector of text label positions, or
-"default" to use \code{preset}, or when \code{preset="default"} the
-\verb{adjX,adjY} values are used.}
+\item{adjPreset}{\code{character} vector of text label positions, or
+the default "default" to use \code{preset}, or when \code{preset="default"} the
+\verb{adjX,adjY} values are used.
+\itemize{
+\item Recognized terms: center, bottom, top, left, right, topleft,
+topright, bottomleft, bottomright.
+}}
 
 \item{adjX, adjY}{numeric vectors indicating default text adjustment
 values, as described for \code{adj} in \code{graphics::text()}.}
 
-\item{adjOffsetX, adjOffsetY}{numeric vector used to apply an offset
+\item{adjOffsetX, adjOffsetY}{\code{numeric} vector used to apply an offset
 value to the \verb{adjX,adjY} values, where positive values would
 place a label farther away from center. Note these units are
 relative to the text label size, when used with \code{graphics::text()},
@@ -46,7 +54,7 @@ is the inner margin around the plot figure, not the outer margin
 which may be applied around multi-panel plot figures.
 }}
 
-\item{verbose}{logical indicating whether to print verbose output.}
+\item{verbose}{\code{logical} indicating whether to print verbose output.}
 
 \item{...}{additional arguments are ignored.}
 }
@@ -156,7 +164,7 @@ drawLabels(x=cp2$x,
    ly=rep(1.5, 4))
 
 # demonstrate margin coordinates
-graphics::par("oma"=c(1, 1, 1, 1));
+withr::with_par(list("oma"=c(1, 1, 1, 1)), {
 nullPlot(xlim=c(0, 1), ylim=c(1, 5));
 cpxy <- coordPresets(rep(c("top", "bottom", "left", "right"), each=2),
    preset_type=rep(c("plot", "figure"), 4));
@@ -167,7 +175,7 @@ drawLabels(preset=c("top", "top"),
 graphics::points(cpxy$x, cpxy$y, cex=2,
    col="red4", bg="red1", xpd=NA,
    pch=rep(c(21, 23), 4))
-graphics::par("oma"=c(0, 0, 0, 0));
+})
 
 }
 \seealso{

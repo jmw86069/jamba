@@ -26,9 +26,8 @@
 #' to view all sections, then to choose the `integer` number, or
 #' `character` name to define the maximum chunk to load.
 #'
-#' @returns this function does not return data, but instead is called
-#'    for the by-product of loading data into the given `envir`
-#'    environment.
+#' @returns No return value, this function is called for side effects,
+#'    populating data into the environment `envir`.
 #'
 #' @family jam practical functions
 #'
@@ -166,14 +165,16 @@ reload_rmarkdown_cache <- function
    }
    if (length(max_cache_name) > 0) {
       if (!any(max_cache_name %in% rdx_labels)) {
-         jamba::printDebug("reload_rmarkdown_cache(): ",
-            c("'",
-               "max_cache_name",
-               "' was not found in cache files. Re-run with ",
-               "max_cache_name=NULL, dryrun=TRUE",
-               " to see the list of cache names."),
-            fgText=c("darkorange1", "red4"),
-            sep="");
+         if (verbose) {
+            jamba::printDebug("reload_rmarkdown_cache(): ",
+               c("'",
+                  "max_cache_name",
+                  "' was not found in cache files. Re-run with ",
+                  "max_cache_name=NULL, dryrun=TRUE",
+                  " to see the list of cache names."),
+               fgText=c("darkorange1", "red4"),
+               sep="");
+         }
          return(invisible(NULL));
       }
       maxnum <- max(

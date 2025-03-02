@@ -91,6 +91,12 @@ the ratio of square roots.  alphaPower=100 for minimal adjustment.}
 
 \item{...}{additional parameters are ignored}
 }
+\value{
+\code{character} vector with the same length as \code{text} input vector,
+where entries are surrounded by the relevant HTML consistent with
+the \code{style} defined at input. In short, a character vector as input,
+colorized HTML character vector as output.
+}
 \description{
 vectorized make_styles for html span output
 }

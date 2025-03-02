@@ -76,12 +76,11 @@ xm3 <- noiseFloor(xm,
    minimum=-2, newValue=-3,
    ceiling=2, newCeiling=3);
 
-parMfrow <- graphics::par("mfrow");
-graphics::par("mfrow"=c(2,2));
+withr::with_par(list("mfrow"=c(2,2)), {
 plotSmoothScatter(x1, y1);
 plotSmoothScatter(x2, y2);
 plotSmoothScatter(xm3);
-graphics::par("mfrow"=parMfrow);
+})
 
 }
 \seealso{

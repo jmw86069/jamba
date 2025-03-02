@@ -37,7 +37,16 @@ srtCellnote=0 when \code{transpose=TRUE}.}
 
 \item{adjustMargins}{\code{logical} indicating whether to call
 \code{adjustAxisLabelMargins()} to adjust the x- and y-axis
-label margins to accomodate the label size.}
+label margins to accomodate the label size.
+\itemize{
+\item Note when an axis is hidden by using \code{xaxt="n"} or \code{xaxt="n"},
+the respective margin will not be adjusted.
+\item The arguments in \code{...} take precedence over \code{graphics::par()},
+when deciding whether to adjust margins. However if \code{xaxt="s"} and
+\code{par("xaxt"="n")} the margin will be adjusted but not displayed.
+In this way the axes can be adjusted without displaying the labels,
+so the labels can be rendered later if needed.
+}}
 
 \item{makeUnique}{\code{logical} indicating whether to display only the first
 unique color. When \code{x} is supplied as a \code{list} this operation will

@@ -1,3 +1,52 @@
+# jamba 1.0.1
+
+## Changes per CRAN comments.
+
+* All uses of `par()` and `options()`, which previously altered its value,
+were replaced with the `withr` equivalent, to preserve the user environment.
+Notable exception is `setPrompt()` whose change to `options("prompt")`
+is the specific purpose of the function. Other exceptions are
+Jam options, whose changes are intended.
+* Removed all cases of `\dontrun{}`, involving the xlsx functions.
+They now use `tempfile()` and perform a proper, small example.
+* Confirmed all functions default `verbose=FALSE` except
+`reload_rmarkdown_cache()` whose verbose output is intended,
+but the option to silence does exist, as it should.
+* Removed two stray instances of unintended always-verbose output
+that called `printDebug()`. All calls to `print()` and `printDebug()`
+are wrapped inside `if(verbose){}` blocks.
+* `jargs()` now uses `message()` instead of `cat()`, so it can be silenced.
+
+* The only remaining use of `cat()` outside `if(verbose){}` involves
+`printDebug()`, whose core purpose is to print its output.
+Upon testing, `cli` functions could not be made reliable for HTML/RMarkdown
+output, even using `cli::ansi_html()`.
+
+## Other notable changes
+
+* `decideMfrow()`
+
+   * new argument `xyratio=1` to control the target plot
+   aspect ratio. Also corrected issue causing blank 
+   * new argument `trimExtra=TRUE` to control whether blank
+   columns or rows are trimmed, to prevent `n=4` from
+   returning `c(3, 2)` in some circumstances.
+
+* `sqrtAxis()`
+
+   * Now passes u5.bias to internal call to pretty(), with
+   `u5.bias=1` the new default to maintain previous behavior.
+
+* `adjustAxisLabelMargins()`
+
+   * breaking change: returns `list` named `"mai"` suitable to use
+   with `graphics::par(adjustAxisLabelMargins())`.
+   * It no longer updates the user `par()`, due to helpful CRAN policy.
+   Makes sense to push this decision outside the function.
+
+* `showColors()` no longer calls `adjustAxisLabelMargins()` when
+axis is hidden by `xaxt="n"` or `yaxt="n"` for respective axis labels.
+
 # jamba 1.0.0
 
 * CRAN release version.

@@ -552,16 +552,6 @@ mixedOrder <- function
                printDebug(head(iRank, 20));
             }
             return(iRank);
-            # code below applied tiebreak on each column,
-            # which is incorrect
-            # iOrder <- do.call(order,
-            #    list(
-            #       as.numeric(factor(toupper(i))),
-            #       as.numeric(factor(i))
-            #    ));
-            # i2 <- i[iOrder];
-            # iRank1 <- match(i, unique(i2));
-            # return(iRank1);
          });
       } else {
          rankCharacter <- apply(step1mCharacter, 2, function(i){

@@ -64,13 +64,13 @@ data.frame(b,
 # of each group
 bb2 <- breaksByVector(b, returnFractions=TRUE);
 ylabs <- c("minimal labels", "all labels");
-adjustAxisLabelMargins(ylabs, 2);
-adjustAxisLabelMargins(bb2$useLabels, 1);
-nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
-   doBoxes=FALSE, doUsrBox=TRUE);
-graphics::axis(2, las=2, at=c(1,2), ylabs);
-graphics::text(y=2, x=seq_along(b), b);
-graphics::text(y=1, x=bb2$labelPoints, bb2$useLabels);
+withr::with_par(adjustAxisLabelMargins(ylabs, 2), {
+   withr::local_par(adjustAxisLabelMargins(bb2$useLabels, 1))
+   nullPlot(xlim=range(seq_along(b)), ylim=c(0,3),
+      doBoxes=FALSE, doUsrBox=TRUE);
+   graphics::axis(2, las=2, at=c(1,2), ylabs);
+   graphics::text(y=2, x=seq_along(b), b);
+   graphics::text(y=1, x=bb2$labelPoints, bb2$useLabels);
 
 ## Print axis labels in the center of each group
 graphics::axis(3,
@@ -95,6 +95,7 @@ graphics::abline(v=c(0, bb2$breakPoints) + 0.5,
    lty="dashed",
    col="blue");
 
+})
 # The same process is used by imageByColors()
 
 }

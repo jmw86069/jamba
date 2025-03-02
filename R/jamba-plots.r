@@ -272,9 +272,8 @@ plotSmoothScatter <- function
       x2 <- rbind(x, xSub);
       n2 <- sample(seq_len(nrow(x2)), n1);
       x2[n2,2] <- x2[n2,1] + stats::rnorm(n1) * 0.6;
-      #oPar <- graphics::par(no.readonly=TRUE);
-      oPar <- graphics::par("mfrow"=c(2,2), "mar"=c(2,3,4,1));
-      on.exit(graphics::par(oPar));
+      withr::local_par(list("mfrow"=c(2,2),
+         "mar"=c(2, 3, 4, 1)));
       graphics::smoothScatter(x2,
          main="smoothScatter default\n(using colramp blues9)",
          asp=asp,
@@ -416,7 +415,7 @@ plotSmoothScatter <- function
          parUsr <- graphics::par("usr");
          xlim4 <- parUsr[1:2]
          ylim4 <- parUsr[3:4]
-         if (TRUE) {
+         if (verbose) {
             printDebug("plotSmoothScatter(): ",
                "parUsr: ", parUsr);
             printDebug("plotSmoothScatter(): ",
@@ -445,7 +444,7 @@ plotSmoothScatter <- function
       parUsr <- graphics::par("usr");
       xlim4 <- parUsr[1:2]
       ylim4 <- parUsr[3:4]
-      if (TRUE) {
+      if (verbose) {
          printDebug("plotSmoothScatter(): ",
             "parUsr: ", parUsr);
          printDebug("plotSmoothScatter(): ",
@@ -988,7 +987,7 @@ nullPlot <- function
          lapply(1:4, function(i){
             if (MarginsV[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
-               graphics::par("las"=newLas);
+               withr::local_par("las"=newLas);
                graphics::mtext(paste0(MarginTerm, "[", i, "]",
                      plotNumPrefix, "=",
                      MarginsV[i]),
@@ -1000,11 +999,10 @@ nullPlot <- function
                   las=newLas);
             }
          });
-         graphics::par("las"=1);
          lapply(1:4, function(i){
             if (OMarginsV[i] > 0) {
                newLas <- as.integer(3 - i%%2*2);
-               graphics::par("las"=newLas);
+               withr::local_par("las"=newLas);
                graphics::mtext(paste0("oma[", i, "]",
                      plotNumPrefix, "=",
                      OMarginsV[i]),
@@ -1018,25 +1016,29 @@ nullPlot <- function
                   las=newLas);
             }
          });
-         graphics::par("las"=1);
       }
 
       ## Print a title in the center of the plot region
-      iXpd <- graphics::par("xpd");
-      on.exit(graphics::par("xpd"=iXpd));
-      graphics::par("xpd"=NA);
+      withr::local_par("xpd"=NA);
       graphics::text(x=mean(range(xlim)),
          y=mean(range(ylim)),
          labels=plotAreaTitle,
          col="darkred",
          cex=2,
          srt=plotSrt);
-      graphics::par("xpd"=iXpd);
 
       ## Print axis labels
       if (doAxes) {
-         graphics::axis(1, las=las, col="darkred", col.axis="darkred", ...);
-         graphics::axis(2, las=las, col="darkred", col.axis="darkred", ...);
+         graphics::axis(1,
+            las=las,
+            col="darkred",
+            col.axis="darkred",
+            ...);
+         graphics::axis(2,
+            las=las,
+            col="darkred",
+            col.axis="darkred",
+            ...);
       }
    }
 }
@@ -1705,7 +1707,7 @@ imageDefault <- function
 #' shadowText(doTest=TRUE, fill="red4");
 #'
 #' # example showing labels with overlapping shadows
-#' opar <- graphics::par("mfrow"=c(1, 2))
+#' withr::with_par(list("mfrow"=c(1, 2)), {
 #' nullPlot(doBoxes=FALSE);
 #' graphics::title(main="shadowOrder='each'");
 #' shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
@@ -1714,7 +1716,7 @@ imageDefault <- function
 #' graphics::title(main="shadowOrder='all'");
 #' shadowText(x=c(1.5, 1.65), y=c(1.5, 1.55),
 #'    labels=c("one", "two"), cex=c(2, 4), shadowOrder="all")
-#' graphics::par(opar)
+#' })
 #'
 #' @export
 shadowText <- function
@@ -1922,32 +1924,42 @@ shadowText <- function
 #' @param maxFig `numeric` fraction less than 1, indicating the maximum
 #'    size of margin relative to the figure size. Setting margins too
 #'    large results in an error otherwise.
-#' @param cex `numeric` or NULL, sent to `graphics::strwidth()` when
-#'    calculating the string width of labels in inches.
-#' @param cex.axis `numeric`, default uses graphics::par("cex.axis"), to define the
-#'    axis label size.
-#' @param prefix `character` string used to add whitespace around the axis label.
+#' @param cex `numeric` or NULL, default `graphics::par("cex")`,
+#'    used as a convenience with `cex * cex.axis` passed to
+#'    `graphics::strwidth()`.
+#'    However, `graphics::axis()` itself should use `cex.axis` when
+#'    adjusting axis label font size.
+#' @param cex.axis `numeric`, default `graphics::par("cex.axis")` to define
+#'    the axis label font size.
+#' @param prefix `character` string to add whitespace around the axis label
+#'    in order to add a "buffer" of whitespace.
 #' @param ... additional parameters are ignored.
 #'
-#' @returns invisible `numeric` margin size in inches, corresponding
-#'    to the requested `margin` from `graphics::par("mai")`.
+#' @returns `list` named "mai" suitable for use in `graphics::par()`
+#'    to adjust margin size using in inches.
 #'
 #' @examples
 #' xlabs <- paste0("item_", (1:20));
 #' ylabs <- paste0("rownum_", (1:20));
-#' adjustAxisLabelMargins(xlabs, 1);
-#' adjustAxisLabelMargins(ylabs, 2);
-#' nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
-#' graphics::axis(1, at=1:20, labels=xlabs, las=2);
-#' graphics::axis(2, at=1:20, labels=ylabs, las=2);
 #'
-#' graphics::par("mar"=c(5,4,4,2));
-#' adjustAxisLabelMargins(xlabs, 3);
-#' adjustAxisLabelMargins(ylabs, 4);
-#' nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
-#' graphics::axis(3, at=1:20, labels=xlabs, las=2);
-#' graphics::axis(4, at=1:20, labels=ylabs, las=2);
+#' # proper adjustment should be done using withr, for example
+#' x_cex <- 0.8;
+#' y_cex <- 1.2;
+#' withr::with_par(adjustAxisLabelMargins(xlabs, 1, cex.axis=x_cex), {
+#'    withr::local_par(adjustAxisLabelMargins(ylabs, 2, cex.axis=y_cex))
+#'    nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
+#'    graphics::axis(1, at=1:20, labels=xlabs, las=2, cex.axis=x_cex);
+#'    graphics::axis(2, at=1:20, labels=ylabs, las=2, cex.axis=y_cex);
+#' })
 #'
+#' withr::with_par(adjustAxisLabelMargins(xlabs, 3, cex.axis=x_cex), {
+#'    withr::local_par(adjustAxisLabelMargins(ylabs, 4, cex.axis=y_cex))
+#'    nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
+#'    graphics::axis(3, at=1:20, labels=xlabs, las=2);
+#'    graphics::axis(4, at=1:20, labels=ylabs, las=2);
+#' })
+#'
+#' par("mar")
 #' @export
 adjustAxisLabelMargins <- function
 (x,
@@ -1989,8 +2001,7 @@ adjustAxisLabelMargins <- function
    refMargin <- 2-(margin %% 2);
    parMaiNew <- min(c(maxWidth, parFin[refMargin]*maxFig));
    parMai[margin] <- parMaiNew;
-   graphics::par("mai"=parMai);
-   invisible(parMaiNew);
+   invisible(list(mai=parMai));
 }
 
 
@@ -2275,11 +2286,7 @@ plotPolygonDensity <- function
          newMfrow <- c(1, 1);
       }
       if (doPar) {
-         origMfrow <- graphics::par("mfrow"=newMfrow);
-         # ensure the mfrow value is reversed properly
-         on.exit(graphics::par(origMfrow),
-            add=TRUE,
-            after=FALSE);
+         withr::local_par("mfrow"=newMfrow);
       }
       if (length(barCol) == ncol(x)) {
          panelColors <- barCol;
@@ -2402,14 +2409,7 @@ plotPolygonDensity <- function
       invisible(d1);
    } else {
       ##
-      oPar <- graphics::par("xaxs"=xaxs, "yaxs"=yaxs);
-      # ensure xaxs, yaxs are reversed properly
-      on.exit(graphics::par(oPar),
-         add=TRUE,
-         after=FALSE);
-      #if (is.null(bw) & is.null(width)) {
-      #   bw <- "ucv";
-      #}
+      withr::local_par(list("xaxs"=xaxs, "yaxs"=yaxs))
       if (verbose) {
          printDebug("plotPolygonDensity(): ",
             "barCol, polyCol:",
@@ -2694,9 +2694,6 @@ plotPolygonDensity <- function
             col=ablineHcol,
             lty=ablineHlty,
             ...);
-      }
-      if (doPar) {
-         graphics::par(oPar);
       }
       invisible(list(d=dx,
          hist=hx,

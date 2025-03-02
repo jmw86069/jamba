@@ -43,8 +43,8 @@ showColors(list(x=x,
    xhex=xhex),
    groupCellnotes=FALSE)
 
-opar <- graphics::par("mfrow"=c(4, 4));
-on.exit(graphics::par(opar));
+withr::with_par(list("mfrow"=c(4, 4), "mar"=c(0.2, 1, 4, 1)), {
+
 for (H in seq(from=0, to=360, length.out=17)[-17]) {
 S <- 75;
 Lseq <- seq(from=15, to=95, by=10);
@@ -58,7 +58,7 @@ hcl_gradient <- hcl2col(
    L=Lseq);
 names(hsl_gradient) <- Lseq;
 names(hcl_gradient) <- Lseq;
-showColors(
+showColors(xaxt="n",
    list(
       hsl=hsl_gradient,
       hcl=hcl_gradient),
@@ -67,6 +67,7 @@ showColors(
       "\nLum: (as labeled)"),
    groupCellnotes=FALSE)
 }
+})
 
 }
 \seealso{

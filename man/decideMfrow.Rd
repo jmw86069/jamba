@@ -4,7 +4,14 @@
 \alias{decideMfrow}
 \title{Decide plot panel rows, columns for graphics::par(mfrow)}
 \usage{
-decideMfrow(n, method = c("aspect", "wide", "tall"), doTest = FALSE, ...)
+decideMfrow(
+  n,
+  method = c("aspect", "wide", "tall"),
+  doTest = FALSE,
+  xyratio = 1,
+  trimExtra = TRUE,
+  ...
+)
 }
 \arguments{
 \item{n}{\code{integer} number of plot panels}
@@ -21,6 +28,18 @@ the side of more rows than columns.}
 
 \item{doTest}{\code{logical} whether to provide a visual test. Note that
 \code{n} is required as the number of plot panels requested.}
+
+\item{xyratio}{\code{numeric} default 1, with the desired target x-to-y ratio.
+For example, to have plots slightly wider (x width) than tall
+(y height), use \code{xyratio=1.3}. The observed device aspect ratio
+is divided by \code{xyratio} to determine the target aspect ratio
+of plot panels.}
+
+\item{trimExtra}{\code{logical} default TRUE, whether to trim blank rows or
+columns in the expected layout when it would be entirely blank.
+For example, \code{n=4} may produce \code{c(3, 2)} output to meet the
+desired aspect ratio, however with \code{trimExtra=TRUE} it would
+be reduced to \code{c(2, 2)} to minimize unused whitespace.}
 
 \item{...}{additional parameters are ignored.}
 }
@@ -41,17 +60,31 @@ than rows; a tall-thin device would have more rows than columns.
 
 The \code{doTest=TRUE} argument will create \code{n} number of
 panels with the recommended layout, as a visual example.
+
+Note this function calls \code{getPlotAspect()},
+therefore if no plot device is currently open,
+the call to \code{graphics::par()} will open a new graphics device.
 }
 \examples{
 # display a test visualization showing 6 panels
+withr::with_par(list("mar"=c(2, 2, 2, 2)), {
 decideMfrow(n=6, doTest=TRUE);
+})
+
+# use a custom target xyratio of plot panels
+withr::with_par(list("mar"=c(2, 2, 2, 2)), {
+decideMfrow(n=3, xyratio=3, doTest=TRUE);
+})
 
 # a manual demonstration creating 6 panels
 n <- 6;
-graphics::par(mfrow=decideMfrow(n));
+withr::with_par(list(
+   "mar"=c(2, 2, 2, 2),
+   "mfrow"=decideMfrow(n)), {
 for(i in seq_len(n)){
    nullPlot(plotAreaTitle=paste("Plot", i));
 }
+})
 
 }
 \seealso{

@@ -47,7 +47,7 @@ each value.
 
 \item{colorSubText}{optional \code{character} vector of colors, whose
 names correspond to values in the worksheet cells. In
-absence of a specific text color, \code{jamba::setTextContrastColor()}
+absence of a specific text color, \code{setTextContrastColor()}
 is used to define a contrasting text color to be visible on
 the colored background.}
 
@@ -80,27 +80,26 @@ Add categorical colors to Excel xlsx worksheets
 \details{
 This function is a convenient wrapper for applying categorical
 color formatting to cell background colors, and applies a contrasting
-color to the text in cells using \code{jamba::setTextContrastColor()}.
+color to the text in cells using \code{setTextContrastColor()}.
 It uses a named character vector of colors supplied as \code{colorSub}
 to define cell background colors, and optionally \code{colorSubText}
 to define a specific color for the cell text.
 }
 \examples{
-\dontrun{
+# write to tempfile for examples
+   out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    df <- data.frame(a=LETTERS[1:5], b=1:5);
-   jamba::writeOpenxlsx(x=df,
-      file="jamba_test.xlsx",
-      sheetName="test_jamba");
+   writeOpenxlsx(x=df,
+      file=out_xlsx,
+      sheetName="jamba_test");
 
    colorSub <- nameVector(
       rainbow2(5, s=c(0.8, 1), v=c(0.8, 1)),
       LETTERS[1:5]);
-   applyXlsxCategoricalFormat(
-      xlsxFile="jamba_test.xlsx",
-      sheet="test_jamba",
+   applyXlsxCategoricalFormat(out_xlsx,
+      sheet="jamba_test",
       colorSub=colorSub
    )
-}
 
 }
 \seealso{

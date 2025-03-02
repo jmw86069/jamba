@@ -63,21 +63,6 @@ uniques(L1);
 
 uniques(L1, useBioc=FALSE);
 
-if (1 == 1) {
-if (requireNamespace("IRanges", quietly=TRUE)) {
-   printDebug("Bioc CompressedList:");
-   print(system.time(uniques(rep(L1, 10000), useBioc=TRUE)));
-}
-if (requireNamespace("S4Vectors", quietly=TRUE)) {
-   printDebug("Bioc SimpleList:");
-   print(system.time(uniques(rep(L1, 10000), useSimpleBioc=TRUE)));
-}
-printDebug("Simple list, keepNames=FALSE:");
-print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=FALSE)));
-printDebug("Simple list, keepNames=TRUE:");
-print(system.time(uniques(rep(L1, 10000), useBioc=FALSE, keepNames=TRUE)));
-}
-
 }
 \seealso{
 Other jam list functions: 

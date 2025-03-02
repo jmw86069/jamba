@@ -17,9 +17,9 @@ set_xlsx_colwidths(
 or \code{Workbook} object defined in the \code{openxlsx} package. When
 \code{xlsxFile} is a \code{Workbook} the output is not saved to a file.}
 
-\item{sheet}{value passed to \code{openxlsx::setColWidths()} indicating
-the worksheet to affect. It can either be an \code{integer} value, or
-the \code{character} name of a sheet.}
+\item{sheet}{\code{integer} sheet number or \code{character} sheet name,
+passed to \code{openxlsx::setColWidths()} indicating
+the worksheet to affect.}
 
 \item{cols}{\verb{integer vector} indicating the column numbers to affect.}
 
@@ -47,18 +47,18 @@ from the very useful \code{openxlsx} R package:
 }
 }
 \examples{
-\dontrun{
+# write to tempfile for examples
+   out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    df <- data.frame(a=LETTERS[1:5], b=1:5);
-   jamba::writeOpenxlsx(x=df,
-      file="jamba_test.xlsx",
-      sheetName="test_jamba");
+   writeOpenxlsx(x=df,
+      file=out_xlsx,
+      sheetName="jamba_test");
 
    ## By default, cols starts at column 1 and continues to length(widths)
-   jamba::set_xlsx_colwidths(file="jamba_test.xlsx",
-      sheetName="test_jamba",
+   set_xlsx_colwidths(out_xlsx,
+      sheet="jamba_test",
       widths=rep(20, ncol(df))
    )
-}
 
 }
 \seealso{

@@ -15,6 +15,7 @@ setPrompt(
   usePid = TRUE,
   resetPrompt = FALSE,
   addEscape = NULL,
+  updateOptions = TRUE,
   debug = FALSE,
   verbose = FALSE,
   ...
@@ -61,6 +62,9 @@ variable \code{RSTUDIO} equals \code{"1"} (running inside RStudio) then sets
 In most cases for commandline prompts, \code{addEscape=TRUE} is helpful
 and not problematic.}
 
+\item{updateOptions}{\code{logical} whether to update the user \code{options()}
+with \code{options(prompt="...")}, default TRUE.}
+
 \item{debug}{\code{logical} indicating whether to print the ANSI control
 character output for the full prompt, for visual review.}
 
@@ -70,8 +74,9 @@ character output for the full prompt, for visual review.}
 only relevant with the argument \code{useColor=TRUE}.}
 }
 \value{
-\code{character} string representing the prompt used, returned
-invisibly.
+\code{list} named \code{"prompt"} suitable to use in \code{options()}
+with the recommended prompt.
+When \code{updateOptions=FALSE} use: \code{options(setPrompt("projectName"))}
 }
 \description{
 set R prompt with project name and R version
@@ -93,16 +98,15 @@ Note that in some cases, the color encoding of the prompt interferes
 with word wrapping, the symptom is that when typing text into the R console
 a long line will begin to word wrap prematurely, before the text reaches
 the edge of the screen. There are two frequent causes of this issue:
-
-\describe{
-\item{options("width")}{is sometimes defined too narrow for the
+\itemize{
+\item \code{options("width")} is sometimes defined too narrow for the
 screen, which can happen when resizing the console, or when
 accessing an R session via GNU screen, or tmux, and the environment
 variable has not been propagated to the terminal window. Usually
 this issue is resolved by defining \code{options("width")} manually,
 or by simply resizing the terminal window, which may trigger the
-appropriate environment variable updates.}
-\item{The locale}{can sometimes be mismatched with the terminal window,
+appropriate environment variable updates.
+\item The \code{locale} can sometimes be mismatched with the terminal window,
 usually caused by some terminal emulation layer which is not
 properly detecting the compatibility of the server. It may happen
 for example, when using PuTTY on Windows, or when using GNU screen or
@@ -110,7 +114,7 @@ tmux on linux or Mac OSX. To troubleshoot, check
 \code{Sys.env("LC_ALL")} which may be \code{"C"} or another locale such as
 \code{"en_US.UTF-8"}. Note that switching locale may have the effect of
 correcting the word wrap, but may adversely affect display of
-non-standard unicode characters.}
+non-standard unicode characters.
 }
 
 In any event, R uses readline for unix-like systems by default, and
@@ -120,10 +124,13 @@ are used to tell readline to ignore an escape sequence when it counts the
 number of characters being displayed by the prompt.
 }
 \examples{
-\dontrun{
+setPrompt("jamba")
+
 setPrompt("jamba", projectColor="purple");
+
 setPrompt("jamba", usePid=FALSE);
-}
+
+setPrompt(resetPrompt=TRUE);
 
 }
 \seealso{

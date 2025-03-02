@@ -4,7 +4,7 @@
 # jamba
 
 The goal of jamba is to provide useful custom functions for R data
-analysis and visualization.
+analysis and visualization. jamba version **0.0.107.900**
 
 ## Package Reference
 
@@ -175,6 +175,8 @@ every R plot.
 - `showColors()` - display a vector or list of colors
 - `fixYellow()` - adjust the weird green-yellow, by personal preference
 - `printDebug()` - pretty colorized text output using `crayon` package.
+- `printDebugHtml()` - pretty colorized HTML output, usable in
+  RMarkdown.
 - `rainbow2()` - rainbow categorical colors with enhanced visual
   contrast.
 
@@ -300,12 +302,87 @@ jargs(plotSmoothScatter)
   since `isTRUE()` only operates on single values, and does not allow
   `NA`.
 
+``` r
+withr::with_options(list(jam.htmlOut=TRUE, jam.comment=FALSE), {
+   jargs(plotSmoothScatter)
+})
+```
+
+                x = ,
+                y = NULL,
+             bwpi = 50,
+            binpi = 50,
+       bandwidthN = NULL,
+             nbin = NULL,
+           expand = c(0.04, 0.04),
+      transFactor = 0.25,
+
+transformation = function( x ) x^transFactor, xlim = NULL, ylim = NULL,
+xlab = NULL, ylab = NULL, nrpoints = 0, colramp = c(“white”,
+“lightblue”, “blue”, “orange”, “orangered2”), col = “black”, doTest =
+FALSE, fillBackground = TRUE, naAction = c(“remove”, “floor0”,
+“floor1”), xaxt = “s”, yaxt = “s”, add = FALSE, asp = NULL,
+applyRangeCeiling = TRUE, useRaster = TRUE, verbose = FALSE, … =
+
 ### R console
 
 - `printDebug()` - pretty colorized text output using `crayon` package.
 - `setPrompt()` - pretty colorized R console prompt with project name
   and R version
 - `newestFile()` - most recently modified file from a vector of files
+
+### RMarkdown
+
+Two functions help RMarkdown output
+
+- `printDebugHtml()` - colored HTML output.
+
+  - shortcut for `printDebug(..., htmlOut=TRUE, comments=FALSE)`
+  - or enabled with `options("jam.htmlOut"=TRUE, "jam.comment"=FALSE)`
+    to convert all `printDebug()` output to HTML- and Rmd-friendly
+    format. Typical output includes “\##” prefix, so copy-paste from
+    console is safe, however in RMarkdown “\##” prefix is a heading, so
+    we add `comment=FALSE`.
+
+- `kable_coloring()` - colorizes `kable()` and `kableExtra::kable()`
+  output using named vector of colors with `colorSub`.
+
+The RMarkdown chunk must include: `results='asis'`
+
+``` r
+printDebugHtml("printDebugHtml(): ", "Output should be colorized.");
+```
+
+(<span style="color:#00C3C3FF">21:03:40</span>) 01Mar2025:
+<span style="color:#FF7F00FF">printDebugHtml():
+</span><span style="color:#1E90FFFF">Output should be
+colorized.</span><br/>
+
+``` r
+
+printDebugHtml("printDebugHtml(..., fgText=c(\"red\", \"gold\")): ",
+  "Output should be ", "colorized.",
+  fgText=c("red", "gold", "skyblue"));
+```
+
+(<span style="color:#00C3C3FF">21:03:40</span>) 01Mar2025:
+<span style="color:#FF0000FF">printDebugHtml(…, fgText=c(“red”,
+“gold”)): </span><span style="color:#CEA800FF">Output should be
+</span><span style="color:#6BB5D2FF">colorized.</span><br/>
+
+``` r
+
+withr::with_options(list(jam.htmlOut=TRUE, jam.comment=FALSE), {
+  printDebug(c("printDebug()", " using withr::with_options(): "),
+    sep="",
+    c("Output should be ", "colorized."));
+})
+```
+
+(<span style="color:#00C3C3FF">21:03:40</span>) 01Mar2025:
+<span style="color:#FF7F00FF">printDebug()</span><span style="color:#ED983BFF">
+using withr::with_options(): </span><span style="color:#1E90FFFF">Output
+should be </span><span style="color:#5BAEFFFF">colorized.</span><br/>
 
 ## Other related Jam packages
 

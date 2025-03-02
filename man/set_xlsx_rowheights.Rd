@@ -17,9 +17,9 @@ set_xlsx_rowheights(
 or \code{Workbook} object defined in the \code{openxlsx} package. When
 \code{xlsxFile} is a \code{Workbook} the output is not saved to a file.}
 
-\item{sheet}{value passed to \code{openxlsx::setRowHeights()} indicating
-the worksheet to affect. It can either be an \code{integer} value, or
-the \code{character} name of a sheet.}
+\item{sheet}{\code{integer} sheet number or \code{character} sheet name,
+passed to \code{openxlsx::setRowHeights()} indicating
+the worksheet to affect.}
 
 \item{rows}{\verb{integer vector} indicating the row numbers to affect.}
 
@@ -51,25 +51,25 @@ skipping the first (header) row. Define \code{rows} specifically
 in order to affect the header row as well.
 }
 \examples{
-\dontrun{
+# write to tempfile for examples
+   out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    df <- data.frame(a=LETTERS[1:5], b=1:5);
-   jamba::writeOpenxlsx(x=df,
-      file="jamba_test.xlsx",
-      sheetName="test_jamba");
+   writeOpenxlsx(x=df,
+      file=out_xlsx,
+      sheetName="jamba_test");
 
    ## by default, rows will start at row 2, skipping the header
-   jamba::set_xlsx_rowheights(file="jamba_test.xlsx",
-      sheetName="test_jamba",
+   set_xlsx_rowheights(out_xlsx,
+      sheet="jamba_test",
       heights=rep(17, nrow(df))
    )
 
    ## to include the header row
-   jamba::set_xlsx_rowheights(file="jamba_test.xlsx",
-      sheetName="test_jamba",
+   set_xlsx_rowheights(out_xlsx,
+      sheet="jamba_test",
       rows=seq_len(nrow(df)+1),
       heights=rep(17, nrow(df)+1)
    )
-}
 
 }
 \seealso{

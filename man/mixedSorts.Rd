@@ -156,8 +156,8 @@ l1 <- list(
 )
 l1;
 # The output is a nested list with the same structure
-mixedSorts(l1, verbose=TRUE);
-mixedSorts(l1, sortByName=TRUE, verbose=TRUE);
+mixedSorts(l1);
+mixedSorts(l1, sortByName=TRUE);
 
 # Make a nested list with two sub-lists
 set.seed(1);

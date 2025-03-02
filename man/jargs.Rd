@@ -15,6 +15,7 @@ jargs(
   Lrange = getOption("jam.Lrange"),
   adjustRgb = getOption("jam.adjustRgb"),
   useCollapseBase = ", ",
+  useMessage = TRUE,
   verbose = FALSE,
   debug = 0,
   ...

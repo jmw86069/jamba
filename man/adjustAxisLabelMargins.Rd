@@ -25,19 +25,23 @@ using the order by \code{graphics::par("mar")}, 1=bottom, 2=left, 3=top,
 size of margin relative to the figure size. Setting margins too
 large results in an error otherwise.}
 
-\item{cex}{\code{numeric} or NULL, sent to \code{graphics::strwidth()} when
-calculating the string width of labels in inches.}
+\item{cex}{\code{numeric} or NULL, default \code{graphics::par("cex")},
+used as a convenience with \code{cex * cex.axis} passed to
+\code{graphics::strwidth()}.
+However, \code{graphics::axis()} itself should use \code{cex.axis} when
+adjusting axis label font size.}
 
-\item{cex.axis}{\code{numeric}, default uses graphics::par("cex.axis"), to define the
-axis label size.}
+\item{cex.axis}{\code{numeric}, default \code{graphics::par("cex.axis")} to define
+the axis label font size.}
 
-\item{prefix}{\code{character} string used to add whitespace around the axis label.}
+\item{prefix}{\code{character} string to add whitespace around the axis label
+in order to add a "buffer" of whitespace.}
 
 \item{...}{additional parameters are ignored.}
 }
 \value{
-invisible \code{numeric} margin size in inches, corresponding
-to the requested \code{margin} from \code{graphics::par("mai")}.
+\code{list} named "mai" suitable for use in \code{graphics::par()}
+to adjust margin size using in inches.
 }
 \description{
 Adjust axis label margins to accommodate axis labels
@@ -58,19 +62,25 @@ should be performed separately.
 \examples{
 xlabs <- paste0("item_", (1:20));
 ylabs <- paste0("rownum_", (1:20));
-adjustAxisLabelMargins(xlabs, 1);
-adjustAxisLabelMargins(ylabs, 2);
-nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
-graphics::axis(1, at=1:20, labels=xlabs, las=2);
-graphics::axis(2, at=1:20, labels=ylabs, las=2);
 
-graphics::par("mar"=c(5,4,4,2));
-adjustAxisLabelMargins(xlabs, 3);
-adjustAxisLabelMargins(ylabs, 4);
-nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
-graphics::axis(3, at=1:20, labels=xlabs, las=2);
-graphics::axis(4, at=1:20, labels=ylabs, las=2);
+# proper adjustment should be done using withr, for example
+x_cex <- 0.8;
+y_cex <- 1.2;
+withr::with_par(adjustAxisLabelMargins(xlabs, 1, cex.axis=x_cex), {
+   withr::local_par(adjustAxisLabelMargins(ylabs, 2, cex.axis=y_cex))
+   nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
+   graphics::axis(1, at=1:20, labels=xlabs, las=2, cex.axis=x_cex);
+   graphics::axis(2, at=1:20, labels=ylabs, las=2, cex.axis=y_cex);
+})
 
+withr::with_par(adjustAxisLabelMargins(xlabs, 3, cex.axis=x_cex), {
+   withr::local_par(adjustAxisLabelMargins(ylabs, 4, cex.axis=y_cex))
+   nullPlot(xlim=c(1,20), ylim=c(1,20), doMargins=FALSE);
+   graphics::axis(3, at=1:20, labels=xlabs, las=2);
+   graphics::axis(4, at=1:20, labels=ylabs, las=2);
+})
+
+par("mar")
 }
 \seealso{
 Other jam plot functions: 
