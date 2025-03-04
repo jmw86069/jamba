@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,8 +123,8 @@ will likely be removed in favor of using <code>farver</code>. In any event,
 <span class="r-in"><span>   groupCellnotes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="col2hsl-2.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>;</span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_par.html" class="external-link">with_par</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"mar"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">H</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">0</span>, to<span class="op">=</span><span class="fl">360</span>, length.out<span class="op">=</span><span class="fl">17</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">17</span><span class="op">]</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">S</span> <span class="op">&lt;-</span> <span class="fl">75</span>;</span></span>
 <span class="r-in"><span><span class="va">Lseq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">15</span>, to<span class="op">=</span><span class="fl">95</span>, by<span class="op">=</span><span class="fl">10</span><span class="op">)</span>;</span></span>
@@ -138,7 +138,7 @@ will likely be removed in favor of using <code>farver</code>. In any event,
 <span class="r-in"><span>   L<span class="op">=</span><span class="va">Lseq</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">hsl_gradient</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">Lseq</span>;</span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">hcl_gradient</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">Lseq</span>;</span></span>
-<span class="r-in"><span><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span>xaxt<span class="op">=</span><span class="st">"n"</span>,</span></span>
 <span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      hsl<span class="op">=</span><span class="va">hsl_gradient</span>,</span></span>
 <span class="r-in"><span>      hcl<span class="op">=</span><span class="va">hcl_gradient</span><span class="op">)</span>,</span></span>
@@ -147,22 +147,8 @@ will likely be removed in favor of using <code>farver</code>. In any event,
 <span class="r-in"><span>      <span class="st">"\nLum: (as labeled)"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>   groupCellnotes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="col2hsl-3.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-4.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-5.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-6.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-7.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-8.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-9.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-10.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-11.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-12.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-13.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-14.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-15.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-16.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-17.png" alt="" width="768" height="768"></span>
-<span class="r-plt img"><img src="col2hsl-18.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

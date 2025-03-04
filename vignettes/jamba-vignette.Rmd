@@ -29,50 +29,78 @@ Jamba is intended to contain JAM base functions, to be re-used during
 analysis, and by other R packages. Functions are broadly divided into
 categories.
 
+## Efficient alphanumeric sort
+
+The `mixedSort()`, `mixedSortDF()` functions are designed for "genes",
+"chromosomes", and "versions", with alphanumeric sorting.
+For example:
+* gene `"ACTA2"` before `"ACTA10"`
+* micro-RNA `"hsa-miR-21"` before `"hsa-miR-100"`
+* chromosome `"chr2"` before `"chr10"`
+
+It is fast enough for most large dataset operations,
+not unreasonably slower than `base::sort()`,
+and much faster than alternative approaches.
+
+* `mixedSort()` - alphanumeric sort.
+* `mixedSortDF()` - sort `data.frame` (`tibble`, `matrix`, `DataFrame`, etc.)
+* `mixedSorts()` - sort `list` of vectors, vectorized for speed boost.
+
+Example:
+
+```{r, mixedSort, echo=FALSE}
+x <- sort(c(
+  "miR-12","miR-1","miR-122","miR-1b",
+  "miR-1a","miR-2", "miR-22",
+  "ABCA2", "ABCA12"));
+df1 <- data.frame(
+  miRNA=x,
+  sort_rank=seq_along(x),
+  mixedSort_rank=order(jamba::mixedOrder(x)),
+  check.names=FALSE,
+  stringsAsFactors=FALSE);
+df2 <- jamba::mixedSortDF(df1);
+df2;
+```
+
+
 ## Plot functions
 
 ### `plotSmoothScatter()`
 
 A common problem when visualizing extremely large datasets is how to
 display thousands of datapoints while indicating the amount of overlap
-of those points. The R `graphics::smoothScatter()` function provides an
-adequate drop-in replacement for most uses of `plot()`, where several
-aspects are enhanced. Specifically, parameters related to the
-density function and related bandwidth arguments are enabled,
-which otherwise is possible but tedious.
+of those points. The "overplotting" problem.
 
-The arguments `bandwidthN` and `nbin`
-define the number of bandwidth steps, and the number of visual bins,
-respectively. The bandwidth steps defines the level of detail
-calculated for the 2-dimensional density map, higher values give
-more detail, seen as more "grainy" -- ultimately whether you can see
-individual points. The number of visual bins determines the
-amount of detail used to render the density as an image -- effectlvely
-how many density pixels. Higher values show more detail, but have
-much larger memory requirement, and can be slow to render for
-multi-panel plots.
+The R `graphics::smoothScatter()` function provides an
+adequate drop-in replacement for most uses of `plot()`, and
+`plotSmoothScatter()` applies some enhanced defaults.
 
-The argument `useRaster=TRUE` by default renders the plot as
-a rasterized image, making it substantially faster and smaller
-especially when rendered as a PDF, SVG, or any vector type
-output.
+* Bandwidth is increased to provide more visual detail.
+* Bins are increased to render higher resolution.
+* Output is rasterized to improve speed and visual quality.
+* Color ramp uses two-scale colors to distinguish low/high density.
+* It calculates 2D density with independent x-/y-axis ranges,
+without affecting the 2D density estimate. It means the density is
+spherical and not oblong, when x-/y-axis range differ substantially.
 
-An example showing `plotSmoothScatter()` with argument `doTest=TRUE`.
-The test data shows a set of points not well-resolved with default
-`smoothScatter()`, but which is more clearly displayed with
-`plotSmoothScatter()`.
+The customizations use "bin" to define the bin size, and "bw"
+to define the 2D kernel density bandwidth. The bandwidth defines
+the detail of the "carpet", the point landscape if you will.
+The bin size defines how many pixels are used to render this carpet.
+Typically the bin size is related to the graphics device resolution.
+However, bandwidth should be related to relative detail in the data.
+
+Adjustments are easiest with arguments:
+* `binpi` - bins per inch
+* `bwpi` bandwidth per inch
+
+Running `plotSmoothScatter()` with `doTest=TRUE` produces
+some visual comparison with default `smoothScatter()`.
 
 ```{r plotSmoothScatter, fig.show='hold', fig.alt="Example of smooth scatterplots using the default R function, and enhanced function in the jamba package."}
 plotSmoothScatter(doTest=TRUE);
 ```
-
-The function `imageDefault()` is a slight enhancement to
-`graphics::image()` specifically to enforce square pixels
-when `useRaster=TRUE`. The default `graphics::image()` assumes
-each pixel will be rendered in a 1:1 aspect ratio, therefore
-the 2-dimensional density map is distorted when the axis ranges
-are not symmetric 1:1. Note that `plotSmoothScatter()` calls
-`imageDefault()`.
 
 ### `imageByColors()`
 
@@ -121,129 +149,43 @@ imageByColors(df1,
 There are several useful axis labeling functions.
 
 For log-transformed data, `minorLogTicksAxis()` is a
-flexible function to help deal with different transforms,
-such as `log2(1 + x)`, which is common when analyzing
-gene expression data, or any measurement data that
-may contain zeros and no negative values.
+flexible function to help deal with different transforms.
+It enables "offset", commonly used with `log2(1 + x)`,
+but now enables using any offset, e.g. `log2(0.5 + x)`.
+Axis labels use integer values, accounting for the offset.
 
-Data transformed with `log2(1 + x)`
-must be correctly inverse-transformed to generate the
-proper numeric labels.
+The `logBase` can be customized, can be properly labeled when showing
+`log10(P-value)`. When showing log2 fold changes, it accepts
+negative values and flips the sign accordingly.
 
-By default, the log labels are displayed in base 10,
-while the underlying data can be any numeric base.
-(The default assumes log2.)
-
-Also note that zero values are represented as zero.
-
-```{r, log_ticks_1, fig.show='hold', fig.alt="Example showing various forms of log tick axis labels."}
-expr <- 2^seq(from=0, to=17, length.out=20) - 1;
-par("mfrow"=c(2,2));
-layout(matrix(ncol=2, data=c(1,2,3,3)));
-bp1 <- barplot(expr,
-   las=2,
-   col="dodgerblue",
-   main="measurement data in normal space");
-axis(1, at=bp1[,1], labels=seq_along(bp1[,1]), las=2)
-par("xpd"=FALSE);
-bp1 <- barplot(expr[c(1,which(expr<=100)+1)],
-   ylim=c(0,100),
-   las=2,
-   col="dodgerblue",
-   main="zoomed-in y-axis");
-axis(1, at=bp1[,1], labels=seq_along(bp1[,1]), las=2)
-
-log_expr <- log2(1 + expr);
-bp1 <- barplot(log_expr,
-   las=2,
-   col="dodgerblue",
-   ylab="log2(1 + x) value",
-   main="measurement data after log2(1+x) transform");
-axis(1, at=bp1[,1], labels=seq_along(bp1[,1]), las=2)
-minorLogTicksAxis(side=4,
-   logBase=2,
-   offset=1,
-   displayBase=10);
-mtext(side=4,
-   line=2.95,
-   las=0,
-   "normal space measurement values")
-```
-
-Another common example is with log fold change
-(also called log ratio). The log fold change is
-preferred to represent fold changes because
-it allows the "up" and "down" values to be symmetric.
-
-
-```{r, log_fc_ticks, fig.show='hold', fig.alt="Example showing log fold change ticks, using log2 scale with positive and negative values."}
-fr <- round(2^(0:14/2 - 3.5), digits=2);
-fc <- round(ifelse(fr < 1, -1/fr, fr), digits=2);
-fl <- paste0(format(fr, trim=TRUE),
-   ifelse(fr < 1, paste0(" (",
-      format(fc, trim=TRUE),
-      "-fold)"),
-      ""));
-par("mfrow"=c(1,2));
-bp1 <- barplot(fr-1,
-   ylim=c(-5, max(fr)+2),
-   las=2,
-   offset=1,
-   col="dodgerblue",
-   main="data expressed as a ratio");
-k <- (fr < 1);
-text(x=bp1[k,1],
-   y=fr[k],
-   srt=90,
-   adj=1.2,
-   fl[k]);
-text(x=bp1[!k,1],
-   y=fc[!k],
-   srt=90,
-   adj=-0.2,
-   fl[!k]);
-box();
-
-log_fc <- log2(fr);
-barplot(log_fc,
-   ylim=c(-4, 4),
-   yaxt="n",
-   col="dodgerblue",
-   main="log ratios with log2 y-axis");
-box();
-minorLogTicksAxis(side=2,
-   logBase=2,
-   offset=0,
-   symmetricZero=TRUE,
-   displayBase=10);
-mtext(side=2,
-   line=2,
-   las=0,
-   "fold changes with log10 breaks");
-minorLogTicksAxis(side=4,
-   logBase=2,
-   offset=0,
-   symmetricZero=TRUE,
-   displayBase=2);
-mtext(side=4,
-   line=2,
-   las=0,
-   "fold changes with log2 breaks");
+```{r, log_ticks_1, fig.show='hold', fig.alt="Example showing log tick axis labels with positive and negative values, and P-values."}
+# example showing volcano plot features
+set.seed(123);
+n <- 1000;
+vdf <- data.frame(lfc=rnorm(n) * 2)
+vdf$`-log10 (padj)` <- abs(vdf$lfc) * abs(rnorm(n))
+plotSmoothScatter(vdf, xaxt="n", yaxt="n", xlab="Fold change",
+   main="Volcano plot\ndisplayBase=2")
+logFoldAxis(1)
+pvalueAxis(2)
 
 ```
 
 ### `plotPolygonDensity()`
 
-A convenience function `plotPolygonDensity()` is a light wrapper
+`plotPolygonDensity()` is a light wrapper
 around two functions: `hist()` and `density()`. However, it
 makes two other options convenient:
 
-* transform the x-axis with either `log10(1+x)` or `sqrt()`,
-* display multiple panels for each column of a numeric matrix.
+* Transform the x-axis with either `log10(1 + x)` or `sqrt()`, use
+`xScale=c("default", "log10", "sqrt")`.
+* Display multiple panels for each column of a numeric matrix.
+* See also: `plotRidges()` - a ggridges alternative.
 
 ```{r, plot_dens_log, fig.show='hold', fig.alt="Example polygon density plot."}
-par("mar"=c(8,4,4,2), "mfrow"=c(2, 2));
-options("scipen"=7);
+withr::with_par(list("mar"=c(6, 4, 4, 2), "mfrow"=c(2, 2)), {
+   withr::local_options(list("scipen"=7));
+set.seed(123);
 plotPolygonDensity(10^(3+rnorm(2000)),
    breaks=50,
    cex.axis=1,
@@ -260,10 +202,11 @@ plotPolygonDensity((3+rnorm(2000))^2,
    cex.axis=1,
    xScale="sqrt",
    breaks=50,
-   main="sqrt-scaled x-axis");
-drawLabels(preset="bottom",
+   main="");
+drawLabels(preset="topright",
    txt="sqrt-scaled x-axis",
    labelCex=1.5)
+})
 ```
 
 ### `drawLabels()`
@@ -298,36 +241,62 @@ categorical colors in an extensible manner.
 
 ### `getColorRamp()`
 
-`getColorRamp()` is a workhorse of several other functions
-and workflows. It tries to make convenient the job of
-obtaining a color ramp (aka a color palette, or color
-gradient). It interfaces with `RColorBrewer` and `viridisLite`
-for color palette names, and allows some useful extensions.
+* `getColorRamp()` is a workhorse of several other functions
+and workflows.
 
-The suffix `"_r"` is convenient for reversing the order of
-colors, especially with `RColorBrewer` palette `"RdBu"`
-which provides red-white-blue colors. On heatmaps, for me
-anyway, "red" is associated with "heat" and therefore the
-high numeric value. Using `"RdBu_r"` will provide
-blue-white-red colors.
+   * It makes convenient the job of
+   obtaining a color ramp (aka a color palette, or color
+   gradient). It interfaces with `RColorBrewer` and `viridisLite`
+   for color palette names, and allows some useful extensions.
+   * It accepts suffix `"_r"` to reverse color order,
+   `RColorBrewer` palette `"RdBu"` is reversed with `"RdBu_r"`.
+   Red should be the high color in a heatmap - "heat",
+   so "RdBu_r" is recommended.
 
-`showColors()` is used to display a color ramp, by default
-including the labels using `imageByColors()`.
+### `printDebug()`
 
-`warpRamp()` is used with color gradients to compress or
-expand the color gradient.
+* `printDebug()` is present in every Jam function, used when `verbose=TRUE`
+to follow the processing steps. Of course it uses color.
+* `printDebugHtml()` is used for RMarkdown output, use the chunk option
+`results='asis'` so the HTML is displayed properly.
+* `printDebugI()` is an alternative that "inverts" the color, using the
+color as background, with contrasting text color on top.
 
-`colorjam::closestRcolor()` is used to assign an R color
-label to any R color in hex `"#RRGGBB"` format.
+* When a vector is provided, its values are delimited with `sep`,
+and each value is "dithered" with the same color with lighter/darker
+pattern for visual distinction.
+* Each element is assigned a color recycled from `fgText`, and
+can be customized.
 
-`colorjam::rainbowJam()` is used to define a categorical
-color palette with `n` colors, relatively evenly spaced
-around a modified red-yellow-blue color wheel. (This color
-wheel avoids the dominance of green and blue-green colors
-that result from most "rainbow" color palettes.)
-The function alternates the brightness value and
-color saturation, so adjacent
-colors are more visibly distinct.
+```{r printdebug, results='asis'}
+printDebugHtml("printDebugHtml(): ",
+  "Output is colorized: ",
+  head(LETTERS, 8))
+
+withr::with_options(list(jam.htmlOut=TRUE, jam.comment=FALSE), {
+  printDebugHtml(c("printDebug() using withr::with_options(): "),
+    c("Output should be colorized: "),
+    head(LETTERS, 8));
+})
+```
+
+
+### `showColors()`
+
+* `showColors()` displays a color ramp, or `list` of color ramps,
+or a `function` as defined by `circlize::colorRamp2()`. (Amazing
+function by the way.)
+
+### Other color functions
+
+* `warpRamp()` is used with argument `lens` in other functions,
+and can warp the colors for more contrast. It even handles divergent
+colors, keeping the middle color intact.
+
+* `rainbow2()` is a very simple drop-in replacement for `rainbow()`,
+which adds alternating contrast to adjacent colors. A better option
+is `colorjam::rainbowJam()` but `rainbow2()` is a simple option until
+colorjam is on CRAN.
 
 ```{r, get_color_ramp, fig.show='hold', fig.alt="Example of color gradients using the Brewer package."}
 showColors(list(
@@ -335,71 +304,23 @@ showColors(list(
    RdBu=getColorRamp("RdBu"),
    RdBu_r=getColorRamp("RdBu_r"),
    `RdBu_r, lens=5`=warpRamp(getColorRamp("RdBu_r"), lens=5),
-   `RdBu_r, lens=-5`=warpRamp(getColorRamp("RdBu_r"), lens=-5)
+   `RdBu_r, lens=-5`=warpRamp(getColorRamp("RdBu_r"), lens=-5),
+   `rainbow2(15)`=rainbow2(15)
    ));
-
-showColors(vigrep("red", colors()))
 ```
 
-## Helper functions
-
-### `mixedSort()`, `mixedSortDF()`, `mixedOrder()`
-
-Motivted by `gtools` function `gtools::mixedsort()`, props to
-Gregory R. Warnes for that!
-
-The `mixedSort()` functions provide efficient version-type sorting
-of alphanumeric character strings, with some customization to handle
-common gene symbol formats.
-
-For example "miR-2" should sort before "miR-11", and after "miR-1".
-
-
-```{r mixedSort, echo=FALSE, results='asis'}
-x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
-df <- data.frame(sort=sort(x),
-   mixedSort=mixedSort(x));
-df;
-```
-
-Note, previous alphanumeric sort took 12 seconds for 43,000 values,
-`mixedSort()` took about 0.5 seconds.
-
-
-### `mixedSortDF()`
-
-`mixedSortDF()` applies `mixedSort()` to columns of a `data.frame` or
-equivalent (matrix, tibble, etc.). It honors factor order where defined,
-applying `mixedSort()` on `character` values otherwise.
-
-It is especially useful when sorting a `data.frame` by experiment design,
-where each column may contain ordered factors and other alphanumeric
-values.
-
-```{r mixedSortDF1, echo=TRUE, results='asis'}
-x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a","miR-2");
-g <- rep(c("Air", "Treatment", "Control"), 2);
-gf <- factor(g, levels=c("Control","Air", "Treatment"));
-df2 <- data.frame(groupfactor=gf, miRNA=x, stringsAsFactors=FALSE);
-df2sorted <- mixedSortDF(df2);
-```
-```{r mixedSortDF2, echo=FALSE, results='asis'}
-#knitr::kable(df2sorted);
-df2sorted;
-```
-
+## Console functions
 
 ### `setPrompt()`
 
 `setPrompt()` is a convenience function for R console and RStudio work,
 it creates a colorized R prompt with useful info:
-project name, R version, and process ID (PID). The PID may be useful
-if *ahem* the R session is hung during processing, or out of memory, etc.
+* project name
+* R version
+* Process ID (PID). The PID is useful in case *ahem* the R session
+runs wild.
 
-Ultimately, the prompt is useful when there are multiple active R sessions,
-it's designed to help recognize which is which. And when things go awry,
-the PID is helpful to know which R process is the culprit. Sometimes
-it is not clear enough.
+Ultimately, it helps answer the question "What am I working on?"
 
 ```{r setPrompt, echo=TRUE}
 setPrompt("jambaVignette");
@@ -407,6 +328,50 @@ setPrompt("jambaVignette");
 ```
 
 ![setPrompt example](README-setPrompt.png)
+
+### `jargs()`
+
+Jam `args()`.
+
+* Aligns arguments, one per row
+* Allows pattern search
+* Optionally sorts by argument name
+* Colorized in the R console
+
+```{r, jargs, message=TRUE}
+# all args
+jargs(plotSmoothScatter)
+
+# args with "y" in the name
+jargs(plotSmoothScatter, "^y")
+
+```
+
+
+### `sdim()` and `ssdim()`
+
+These functions apply `dim()` to a list, or
+list of lists. They recognize other S4 object types,
+and special types like `igraph` and Bioconductor objects.
+
+It returns either `data.frame` of dimensions, or `list` of `data.frame`,
+which can be easily parsed and reviewed.
+
+```{r, sdim}
+L <- list(LETTERS=LETTERS,
+   letters=letters,
+   lettersDF=data.frame(LETTERS, letters));
+sdim(L);
+
+L2 <- list(List1=L,
+   List2=L);
+
+sdim(L2);
+ssdim(L2)
+```
+
+
+## Excel functions
 
 ### `writeOpenxlsx()`
 
@@ -436,21 +401,25 @@ Some nice extras:
 * save one or more worksheets to the same file
 * optionally include rownames
 
+### `readOpenxlsx()`
+
+`readOpenxlsx()` is convenient for reading all worksheets in an
+Excel file, and returns data without mangling the column headers.
+It returns a `list` of `data.frame` objects.
+
+## Convenience
 
 ### `vigrep()`, `provigrep()`, `igrep()`, `igrepHas()`
 
-I use these functions numerous times every day, in all 
-aspects of my analysis workflow. They're very simple
-and convenient wrappers around `base::grep()`:
+Quick custom `base::grep()` for case-insensitive, or value-returning work.
 
 * `vigrep()` - extends grep to use `value=TRUE` and `ignore.case=TRUE`
-* `provigrep()` - extends `vigrep()` to use a vector of patterns,
-and return values in the order they are matched. Great when you want
-"all the controls first, then all the treated, then everything else".
 * `igrep()` - extends grep to use `ignore.case=TRUE`, case-insensitive
 matching.
-* `igrepHas()` - extends `igrep()` to return `TRUE` or `FALSE`
-if any value in a vector matches the pattern.
+* `provigrep()` - progressive pattern matching, returning entries in
+the order they match a vector of patterns. Super useful.
+* `igrepHas()` - extends `igrep()` to return `TRUE` or `FALSE`,
+convenient for `if()` statements.
 
 ### `gsubOrdered()`
 
@@ -493,13 +462,15 @@ mixedSortDF(df3, byCols="pasteByRowOrdered")
 ### `makeNames()`, `nameVector()`, `nameVectorN()`
 
 Create unique names with controlled versioning options.
+The `base::make.unique()` is great, but sometimes you need
+to control the output.
 
-`makeNames()` returns unique names, by default for
+* `makeNames()` returns unique names, by default for
 duplicated values it uses the suffix style `_v1`, `_v2`, `_v3`.
 The suffix can be controlled, whether to add a suffix to
 singlet entries, what number to start with, etc.
 
-`nameVector()` is similar to `setNames()` except that it
+* `nameVector()` is similar to `setNames()` except that it
 secretly runs `makeNames()`, and when only provided with
 a vector, the vector is used to define names.
 Named vectors are convenient with `lapply()` type list
@@ -520,20 +491,16 @@ nameVector(x);
 y <- nameVector(x);
 nameVectorN(y);
 
-lapply(nameVectorN(y), function(i){
+lapply(nameVectorN(head(y)), function(i){
    i
 })
 ```
 
 ### `cPaste()`, `cPasteSU()`, `cPasteU()`
 
-`cPaste()` concatenates vectors in a list, using a delimiter,
-and it is among the fastest methods at the time it was developed.
-It extends `paste(x, collapse=",")`, while optionally calling
-`unique()` or `mixedSort()` in vectorized context.
-
-When available, it calls upon `S4Vectors::unstrsplit()` which
-provides a great boost of speed.
+`cPaste()` "concatenate-paste", takes a `list` and combines each vectors
+using a delimiter. It is among the fastest methods (at the time),
+partly by using `S4Vectors::unstrsplit()` if available. (Kudos Herve Pages!)
 
 * `cPasteU()` calls `unique()` for each vector (vectorized).
 * `cPasteS()` applies `mixedSort()` to each vector (vectorized).
@@ -567,45 +534,38 @@ data.frame(cPaste=cPaste(x),
    cPasteSU=cPasteSU(x))
 ```
 
-### `jargs()`
 
-Jam extension to `args()`.
 
-If you ever used `args()` and found it difficult to read the
-jumble of function argument names, this function is for you.
-Nothing special, but it puts each argument on a new line.
-It also allows searching by substring.
+## RMarkdown Colored Tables
 
-```{r, jargs}
-jargs(plotSmoothScatter)
+### `kable_coloring()`
 
-jargs(plotSmoothScatter, "^y")
+* `kable_coloring()` - applies categorical colors to `kable()` output
+using `kableExtra::kable()`. It also applies a contrasting text color.
 
+```{r kable_coloring, results='asis'}
+expt_df <- data.frame(
+  Sample_ID="",
+  Treatment=rep(c("Vehicle", "Dex"), each=6),
+  Genotype=rep(c("Wildtype", "Knockout"), each=3),
+  Rep=paste0("rep", c(1:3)))
+expt_df$Sample_ID <- pasteByRow(expt_df[, 2:4])
+
+# define colors
+colorSub <- c(Vehicle="palegoldenrod",
+  Dex="navy",
+  Wildtype="gold",
+  Knockout="firebrick",
+  nameVector(color2gradient("grey48", n=3, dex=10), rep("rep", 3), suffix=""),
+  nameVector(
+    color2gradient(n=3,
+      c("goldenrod1", "indianred3", "royalblue3", "darkorchid4")),
+    expt_df$Sample_ID))
+if (check_pkg_installed("kableExtra")) {
+   kbl <- kable_coloring(
+     expt_df,
+     caption="Experiment design table showing categorical color assignment.",
+     colorSub)
+}
 ```
 
-
-### `sdim()` and `ssdim()`
-
-These functions apply `dim()` to a list, or
-list of lists. In fact, they work with more than
-just lists, they work with S4 object `slotNames`,
-multi-dimensional arrays,
-and other objects which are list-like, for
-example model fit objects are often stored
-as a list.
-
-For convenience, the output includes the class
-of each element in the list.
-
-```{r, sdim}
-L <- list(LETTERS=LETTERS,
-   letters=letters,
-   lettersDF=data.frame(LETTERS, letters));
-sdim(L);
-
-L2 <- list(List1=L,
-   List2=L);
-
-sdim(L2);
-ssdim(L2)
-```

@@ -550,6 +550,6 @@ imageByColors <- function
       cellnoteX=cellnoteX,
       srtCellnoteDF=srtCellnoteDF,
       cexCellnote=cexCellnote,
-      mar=par("mar")));
+      mar=graphics::par("mar")));
 }
 

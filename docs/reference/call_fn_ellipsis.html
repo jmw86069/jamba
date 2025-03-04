@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,12 +118,17 @@ to <code>FUN</code> only when the arguments names are recognized by <code>FUN</c
 <span class="r-in"><span><span class="fu">new_mean</span><span class="op">(</span><span class="va">x</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
 <span class="r-in"><span><span class="co"># throws an error as expected (below)</span></span></span>
-<span class="r-in"><span><span class="co"># new_mean(x, na.rm=TRUE, color="red");</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu">new_mean</span><span class="op">(</span><span class="va">x</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span>, color<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span>, error<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Error is expected, shown below:"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error is expected, shown below:"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;simpleError in new_mean(x, na.rm = TRUE, color = "red"): unused argument (color = "red")&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">call_fn_ellipsis</span><span class="op">(</span><span class="va">new_mean</span>, x<span class="op">=</span><span class="va">x</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span>, color<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
-<span class="r-in"><span><span class="co"># throws an error as expected (below)</span></span></span>
-<span class="r-in"><span><span class="co"># call_fn_ellipsis(new_mean, x=x, color="red")</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

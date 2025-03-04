@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,15 @@ srtCellnote=0 when <code>transpose=TRUE</code>.</p></dd>
 <dt id="arg-adjustmargins">adjustMargins<a class="anchor" aria-label="anchor" href="#arg-adjustmargins"></a></dt>
 <dd><p><code>logical</code> indicating whether to call
 <code><a href="adjustAxisLabelMargins.html">adjustAxisLabelMargins()</a></code> to adjust the x- and y-axis
-label margins to accomodate the label size.</p></dd>
+label margins to accomodate the label size.</p><ul><li><p>Note when an axis is hidden by using <code>xaxt="n"</code> or <code>xaxt="n"</code>,
+the respective margin will not be adjusted.</p></li>
+<li><p>The arguments in <code>...</code> take precedence over <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">graphics::par()</a></code>,
+when deciding whether to adjust margins. However if <code>xaxt="s"</code> and
+<code>graphics::par("xaxt"="n")</code> the margin will be adjusted but not
+displayed.
+In this way the axes can be adjusted without displaying the labels,
+so the labels can be rendered later if needed.</p></li>
+</ul></dd>
 
 
 <dt id="arg-makeunique">makeUnique<a class="anchor" aria-label="anchor" href="#arg-makeunique"></a></dt>

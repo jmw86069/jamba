@@ -136,37 +136,38 @@ each list element should contain either a \code{character} vector, or
 }
 \examples{
 \dontshow{if (all(check_pkg_installed(c("circlize", "kableExtra")))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-new_colorSub <- list(
-   column_A=nameVector(rainbow2(5), LETTERS[1:5]),
-   column_B=nameVector(rev(rainbow2(5)), LETTERS[1:5]),
-   column_C=circlize::colorRamp2(
-      colors=getColorRamp("Reds", n=6),
-      breaks=0:5 * 1000))
-testdf <- data.frame(column_A=LETTERS[1:5],
-   row.names=LETTERS[1:5],
-   column_B=LETTERS[1:5],
-   column_C=1:5 * 1000)
+expt_df <- data.frame(
+   Sample_ID="",
+   Treatment=rep(c("Vehicle", "Dex"), each=6),
+   Genotype=rep(c("Wildtype", "Knockout"), each=3),
+   Rep=paste0("rep", c(1:3)))
+expt_df$Sample_ID <- pasteByRow(expt_df[, 2:4])
 
-# kableExtra output with colored tiles inside table cells
-kdf1 <- kable_coloring(
-   df=testdf,
-   colorSub=new_colorSub)
-print(class(kdf1));
-kdf1;
+# define colors
+colorSub <- c(Vehicle="palegoldenrod",
+   Dex="navy",
+   Wildtype="gold",
+   Knockout="firebrick",
+   nameVector(
+      color2gradient("grey48", n=3, dex=10),
+      rep("rep", 3),
+      suffix=""),
+   nameVector(
+      color2gradient(n=3,
+         c("goldenrod1", "indianred3", "royalblue3", "darkorchid4")),
+      expt_df$Sample_ID))
+kbl <- kable_coloring(
+   expt_df,
+   caption="Experiment design table showing categorical color assignment.",
+   colorSub)
+# Note that the HTML table is rendered in RMarkdown, not pkgdown
+kbl
 
-# kableExtra output with colored rows
-kdf2 <- kable_coloring(
-   row_color_by=3,
-   df=testdf,
-   colorSub=new_colorSub)
-class(kdf2);
-kdf2;
-
-# data.frame output is a regular data.frame with HTML contents
+# return_type="data.frame" is a data.frame with HTML contents
 kdf3 <- kable_coloring(
    return_type="data.frame",
-   df=testdf,
-   colorSub=new_colorSub)
+   df=expt_df,
+   colorSub=colorSub)
 kdf3;
 \dontshow{\}) # examplesIf}
 }

@@ -117,6 +117,8 @@ getAxisLabel <- function
                   iX <- as.expression(bquote(10^ .(i)));
                }
             }
+         } else if (iSign == 0) {
+            iX <- as.expression(1);
          } else {
             iX <- as.expression(bquote(-10^ .(i)));
          }
@@ -230,11 +232,19 @@ getAxisLabel <- function
 #'    to cex=1 for default text size. These factors are applied in
 #'    addition to existing `graphics::par("cex")` values, preserving any
 #'    global text size defined there.
-#' @param doMajor,doLabels,doMinorLabels `logical`, default TRUE, to display
-#'    each type of label. Major labels appear at log base positions,
-#'    minor labels appear as intermediate values.
+#' @param doMajor,doMinor,doLabels,doMinorLabels `logical`, default TRUE,
+#'    whether to display each type of tick and label.
+#'    * `doMajor` display major ticks, at `displayBase` positions
+#'    * `doMinor` display minor ticks at intermediate positions
+#'    * `doLabels` display any labels
+#'    * `doMinorLabels` display minor labels
 #' @param asValues `logical`, default TRUE, whether to print the
 #'    exponentiated value, otherwise FALSE will print the log value.
+#' @param logAxisType `character` string with the type of axis values:
+#'    * `"normal"`: axis values as-is.
+#'    * `"flip"`: inverted axis values, for example where negative values
+#'    should be displayed as negative log-transformed values.
+#'    * `"pvalue"`: for values transformed as `-log10(pvalue)`
 #' @param logStep `integer` the number of log units per "step", typically `1`.
 #' @param cex,col,col.ticks,las parameters used for axis label size,
 #'    axis label colors,
@@ -245,29 +255,52 @@ getAxisLabel <- function
 #' @examples
 #' plotPolygonDensity(0:100, breaks=100);
 #'
-#' plotPolygonDensity(0:100, breaks=100, log="x",
+#' plotPolygonDensity(0:100, breaks=50, log="x",
 #'    main="plotPolygonDensity() uses minorLogTicksAxis()",
 #'    xlab="x (log-scaled)");
 #'
-#' plotPolygonDensity(log2(1+0:100), breaks=100,
+#' plotPolygonDensity(log2(1+0:100), breaks=50,
 #'    main="manually called minorLogTicksAxis(logBase=2)",
 #'    xaxt="n",
 #'    xlab="x (log-scaled)");
 #' minorLogTicksAxis(1, offset=1, logBase=2);
 #'
-#' plotPolygonDensity(log10(1+0:100), breaks=100,
+#' plotPolygonDensity(log10(1+0:100), breaks=50,
 #'    main="manually called minorLogTicksAxis(logBase=10)",
 #'    xaxt="n",
 #'    xlab="x (log-scaled)");
 #' minorLogTicksAxis(1, offset=1, logBase=10);
 #'
-#' plotPolygonDensity(log10(1+0:100), breaks=100,
-#'    main="using 'minorWhich=2:9'",
-#'    xaxt="n",
-#'    xlab="x (log-scaled)");
-#' minorLogTicksAxis(1, offset=1, logBase=10,
-#'    minorWhich=2:9);
+#' # example with log fold axes
+#' k <- c(-5:5)
+#' plot(x=k, y=k, xaxt="n", yaxt="n",
+#'    xlab="log2 base, displaying tick marks with log10 intervals",
+#'    ylab="log2 base, displaying tick marks with log2 intervals")
+#' axis(3, las=2)
+#' axis(4, las=2)
+#' lfax <- logFoldAxis(side=1, logBase=2, displayBase=2)
+#' lfay <- logFoldAxis(side=2, logBase=2, displayBase=10)
+#' # optionally add x-axis ablines
+#' abline(v=lfax$allTicks, lty="dotted", col="grey88")
+#' abline(v=lfax$majorTicks, lty="dashed", col="grey82")
+#' # optionally add y-axis ablines
+#' abline(h=lfay$allTicks, lty="dotted", col="grey88")
+#' abline(h=lfay$majorTicks, lty="dashed", col="grey82")
 #'
+#' # example showing volcano plot features
+#' set.seed(123);
+#' n <- 1000;
+#' vdf <- data.frame(lfc=rnorm(n) * 2)
+#' vdf$`-log10 (padj)` <- abs(vdf$lfc) * abs(rnorm(n))
+#' plotSmoothScatter(vdf, xaxt="n", yaxt="n", xlab="Fold change",
+#'    main="Volcano plot\ndisplayBase=2")
+#' logFoldAxis(1)
+#' pvalueAxis(2)
+#'
+#' plotSmoothScatter(vdf, xaxt="n", yaxt="n", xlab="Fold change",
+#'    main="Volcano plot\ndisplayBase=10")
+#' logFoldAxis(1, displayBase=10)
+#' pvalueAxis(2)
 #' @export
 minorLogTicksAxis <- function
 (side=NULL,
@@ -279,9 +312,13 @@ minorLogTicksAxis <- function
  majorCex=1,
  minorCex=0.65,
  doMajor=TRUE,
+ doMinor=TRUE,
  doLabels=TRUE,
  doMinorLabels=TRUE,
  asValues=TRUE,
+ logAxisType=c("normal",
+    "flip",
+    "pvalue"),
  padj=NULL,
  doFormat=TRUE,
  big.mark=",",
@@ -306,7 +343,7 @@ minorLogTicksAxis <- function
    ##
    ## To define a set of minor tick positions, send a list object
    ## minorLogTicksData with (majorTicks, majorLabels, minorTicks, minorLabels)
-   if (is.null(padj)) {
+   if (length(padj) == 0) {
       if (side %in% c(1, 3)) {
          padj <- c(0.3,0.7);
       } else {
@@ -314,6 +351,9 @@ minorLogTicksAxis <- function
       }
    } else {
       padj <- rep(padj, length.out=2);
+   }
+   if (FALSE %in% doMinor) {
+      padj <- c(0.5, 0.5);
    }
 
    if (!is.null(minorLogTicksData)) {
@@ -328,17 +368,19 @@ minorLogTicksAxis <- function
          minorWhich=minorWhich,
          logStep=logStep,
          asValues=asValues,
+         logAxisType=logAxisType,
          verbose=verbose,
          ...);
    }
    majorTicks <- mlt$majorTicks;
    majorLabels <- mlt$majorLabels;
-   minorTicks <- mlt$minorTicks;
-   minorLabels <- mlt$minorLabels;
+   mltMinor <- subset(mlt$allLabelsDF,
+      mlt$allLabelsDF$type %in% "minor" &
+      mlt$allLabelsDF$use %in% TRUE);
+   minorTicks <- mltMinor$tick;
+   minorLabels <- mltMinor$text;
 
    ## Optionally format numbers, mostly to add commas per thousands place
-   NAmajor <- is.na(majorLabels);
-   NAminor <- is.na(minorLabels);
    if (doFormat) {
       if (verbose) {
          printDebug("minorLogTicksAxis(): ",
@@ -347,22 +389,32 @@ minorLogTicksAxis <- function
       if (is.numeric(scipen)) {
          withr::local_options("scipen"=scipen)
       }
-      majorLabels <- sapply(majorLabels,
-         format,
-         big.mark=big.mark,
-         trim=TRUE,
-         ...);
-      minorLabels <- sapply(minorLabels,
-         format,
-         big.mark=big.mark,
-         trim=TRUE,
-         ...);
+      if (!"expression" %in% class(majorLabels) && length(majorLabels) > 0) {
+         majorLabels <- sapply(majorLabels,
+            format,
+            big.mark=big.mark,
+            trim=TRUE,
+            ...);
+      }
+      if (!"expression" %in% class(minorLabels) && length(minorLabels) > 0) {
+         minorLabels <- sapply(minorLabels,
+            format,
+            big.mark=big.mark,
+            trim=TRUE,
+            ...);
+      }
    }
-   if (any(NAmajor)) {
-      majorLabels[NAmajor] <- "";
+   if (!inherits(majorLabels, "expression")) {
+      NAmajor <- is.na(majorLabels);
+      if (any(NAmajor)) {
+         majorLabels[NAmajor] <- "";
+      }
    }
-   if (any(NAminor)) {
-      minorLabels[NAminor] <- "";
+   if (!inherits(minorLabels, "expression")) {
+      NAminor <- is.na(minorLabels);
+      if (any(NAminor)) {
+         minorLabels[NAminor] <- "";
+      }
    }
 
    ## By default display the major tick labels
@@ -370,32 +422,68 @@ minorLogTicksAxis <- function
       if (!doLabels) {
          majorLabels <- FALSE;
       }
-      graphics::axis(side,
-         at=majorTicks,
-         tcl=graphics::par("tcl")*majorCex*cex,
-         labels=majorLabels,
-         padj=padj[2],
-         cex.axis=majorCex*cex,
-         col="transparent",
-         col.ticks=col.ticks,
-         las=las,
-         ...);
+      if ("expression" %in% class(majorLabels)) {
+         if (verbose) {
+            printDebug("minorLogTicksAxis(): ",
+               "Axis labels displayed as expression.")
+         }
+         for (i in seq_along(majorLabels)) {
+            graphics::axis(side,
+               at=majorTicks[i],
+               tcl=graphics::par("tcl")*majorCex*cex,
+               labels=majorLabels[i],
+               padj=padj[2],
+               cex.axis=majorCex*cex,
+               col="transparent",
+               col.ticks=col.ticks,
+               las=las,
+               ...);
+         }
+      } else {
+         graphics::axis(side,
+            at=majorTicks,
+            tcl=graphics::par("tcl")*majorCex*cex,
+            labels=majorLabels,
+            padj=padj[2],
+            cex.axis=majorCex*cex,
+            col="transparent",
+            col.ticks=col.ticks,
+            las=las,
+            ...);
+      }
    }
-   if (!doMinorLabels) {
-      minorLabels <- FALSE;
+   if (doMinor && length(minorTicks) > 0) {
+      if (!doMinorLabels) {
+         minorLabels <- FALSE;
+      }
+      if ("expression" %in% class(minorLabels)) {
+         for (i in seq_along(minorLabels)) {
+            graphics::axis(side,
+               at=minorTicks[i],
+               tcl=graphics::par("tcl")*minorCex*cex,
+               labels=minorLabels[i],
+               padj=padj[1],
+               cex.axis=minorCex*cex,
+               col="transparent",
+               col.ticks=col.ticks,
+               las=las,
+               ...);
+         }
+      } else {
+         graphics::axis(side,
+            at=minorTicks,
+            tcl=graphics::par("tcl")*minorCex*cex,
+            labels=minorLabels,
+            padj=padj[1],
+            cex.axis=minorCex*cex,
+            col="transparent",
+            col.ticks=col.ticks,
+            las=las,
+            ...);
+      }
    }
    graphics::axis(side,
-      at=minorTicks,
-      tcl=graphics::par("tcl")*minorCex*cex,
-      labels=minorLabels,
-      padj=padj[1],
-      cex.axis=minorCex*cex,
-      col="transparent",
-      col.ticks=col.ticks,
-      las=las,
-      ...);
-   graphics::axis(side,
-      at=range(c(majorTicks, minorTicks)),
+      at=range(c(majorTicks, minorTicks), na.rm=TRUE),
       labels=FALSE,
       col=col,
       col.ticks="transparent",
@@ -408,32 +496,51 @@ minorLogTicksAxis <- function
 #'
 #' Calculate major and minor tick marks for log-scale axis
 #'
+#' This function is called by `minorLogTicksAxis()`, and
+#' it may be better to use that function, or `logFoldAxis()`
+#' or `pvalueAxis()` which has better preset options.
+#'
 #' This function calculates log units for the axis of an
-#' existing base R plot. It
-#' calculates appropriate tick and label positions for major
-#' steps, which are typically in log steps; and minor steps, whic
-#' are typically a subset of steps at one lower log order.
+#' existing base R plot.
+#' It calculates appropriate tick and label positions for:
+#' * major steps, which are typically in log steps; and
+#' * minor steps, which are typically a subset of steps at one
+#' lower log order.
+#'
 #' For example, log 10 steps would be: `c(1, 10, 100, 1000)`,
 #' and minor steps would be `c(2, 5, 20, 50, 200, 500, 2000, 5000)`.
 #'
-#' This function was motivated in order to label log-transformed
-#' data properly in some special cases, like using `log2(1+x)`
-#' where the resulting values are shifted "off by one" using
-#' standard log-scaled axis tick marks and labels.
+#' ## Motivation
 #'
-#' Also, when using log fold change values, this function
-#' creates axis labels which indicate negative fold change
+#' This function is motivated to fill a few difficult cases:
+#'
+#' 1. Label axis ticks properly
+#' when used together with `offset`. For example `log2(1 + x)`
+#' uses `offset=1`. Other offsets can be used as relevant.
+#'
+#' 2. Create axis labels which indicate negative fold change
 #' values, for example `-2` in log2 fold change units would
-#' be labeled with fold change `-4`, and not `0.0625` which
-#' represents a fractional value.
+#' be labeled with fold change `-4`, and not `0.0625`.
 #'
-#' Use the argument `symmetricZero=TRUE` when using directional
-#' log fold change values.
+#' 3. Use symmetric tick marks around x=0 when applied to log fold changes.
+#'
+#' 4. Display actual P-values when plotting `log10(Pvalue)`, which
+#' is common for volcano plots.
 #'
 #' @returns `list` of axis tick positions, and corresponding labels,
-#'    for major and minor ticks.
-#'    Major ticks are defined as one tick per log unit
-#'    exponentiated. For example, 1, 10, 100, 1000 when `displayBase=10`.
+#'    for major and minor ticks. Note that labels may be `numeric`,
+#'    `character`, or `expression`. Specifically when `expression`
+#'    the `graphics::axis()` must be called once per label.
+#'    * majorTicks: `numeric` position of each major tick mark
+#'    * minorTicks: `numeric` position of each minor tick mark
+#'    * allTicks: `numeric` position of each major tick mark
+#'    * majorLabels: label to show for each tick mark
+#'    * minorLabels: label to show for each tick mark
+#'    * minorSet: the `numeric` steps requested for minor ticks
+#'    * minorWhich: the `numeric` steps requested for minor labels
+#'    * allLabelsDF: `data.frame` with all tick marks and labels, with
+#'    colname `"use"` indicating whether the label is displayed beside
+#'    each tick mark.
 #'
 #' @family jam practical functions
 #'
@@ -457,6 +564,7 @@ minorLogTicksAxis <- function
 #'    label=c(0,5,50,1000), srt=90);
 #'
 #' nullPlot(xlim=c(-4,10), doMargins=FALSE);
+#' abline(v=0, lty=2)
 #' graphics::axis(3, las=2);
 #' minorLogTicksAxis(1, logBase=2, displayBase=10, symmetricZero=TRUE);
 #'
@@ -536,7 +644,9 @@ minorLogTicks <- function
  col="black",
  col.ticks=col,
  combine=FALSE,
- logAxisType=c("normal", "flipped", "pvalue"),
+ logAxisType=c("normal",
+    "flip",
+    "pvalue"),
  verbose=FALSE,
  ...)
 {
@@ -551,6 +661,10 @@ minorLogTicks <- function
    offset <- head(offset, 1);
    displayBase <- head(displayBase, 1);
    logBase <- head(logBase, 1);
+   logAxisType <- match.arg(logAxisType);
+   if ("pvalue" %in% logAxisType) {
+      offset <- 0;
+   }
 
    if (logStep > 1) {
       minorWhich <- c(1);
@@ -570,10 +684,13 @@ minorLogTicks <- function
    } else {
       lims <- range(lims, na.rm=TRUE);
    }
-   logAxisType <- match.arg(logAxisType);
    ## Now set the floor and raise the roof to the nearest integer at or
    ## just beyond the given range of values.
-   lims <- c(floor(lims[1]), ceiling(lims[2]));
+   if ("pvalue" %in% logAxisType) {
+      lims <- c(ceiling(lims[1]), floor(lims[2]));
+   } else {
+      lims <- c(floor(lims[1]), ceiling(lims[2]));
+   }
    if (verbose) {
       printDebug("minorLogTicks(): ",
          "lims:",
@@ -602,15 +719,24 @@ minorLogTicks <- function
    } else {
       majorTicks <- seq(from=lims[1], to=lims[2], by=1);
    }
+
+   # convert to text labels
    majorLabels <- sapply(majorTicks, function(i) {
-      iX <- getAxisLabel(i,
-         asValues,
-         logAxisType,
+      iX <- getAxisLabel(i=i,
+         asValues=asValues,
+         logAxisType=logAxisType,
          logBase=displayBase,
          offset=offset,
          symmetricZero=symmetricZero);
       iX;
    });
+   if (verbose) {
+      printDebug("minorLogTicks(): ",
+         "asValues:", asValues);
+      printDebug("minorLogTicks(): ",
+         "getAxisLabel() majorLabels:");
+      print(majorLabels);
+   }
 
    ## majorLabels represents the numeric value associated with each
    ## axis position desired
@@ -648,23 +774,40 @@ minorLogTicks <- function
             base=logBase) * ifelse(majorLabels < 0, -1, 1);
       }
    } else {
-      majorTicks <- log(majorLabels + offset, base=logBase);
+      if (offset > 0) {
+         majorTicks <- log(majorLabels + offset, base=logBase);
+      } else if (!"pvalue" %in% logAxisType) {
+         # for pvalue we do not log-transform the ticks
+         majorTicks <- log(majorTicks, base=logBase);
+      }
    }
-   majorLabelsDF <- data.frame(
-      check.names=FALSE,
-      stringsAsFactors=FALSE,
-      label=majorLabels,
-      type="major",
-      use=TRUE,
-      tick=majorTicks);
+   if ("pvalue" %in% logAxisType) {
+      majorLabelsDF <- data.frame(
+         check.names=FALSE,
+         stringsAsFactors=FALSE,
+         label=I(majorLabels),
+         type="major",
+         use=TRUE,
+         tick=majorTicks);
+   } else {
+      majorLabelsDF <- data.frame(
+         check.names=FALSE,
+         stringsAsFactors=FALSE,
+         label=majorLabels,
+         type="major",
+         use=TRUE,
+         tick=majorTicks);
+   }
 
    ## Confirm that the labels are unique
    cleanLTdf <- function(df) {
       df <- df[rev(seq_len(nrow(df))),,drop=FALSE];
       df <- subset(df, !(is.infinite(df$tick) | is.na(df$tick)));
-      df <- df[match(unique(df$label), df$label),,drop=FALSE];
-      df <- df[match(unique(df$tick), df$tick),,drop=FALSE];
-      df <- df[rev(seq_len(nrow(df))),,drop=FALSE];
+      if (!igrepHas("asis|expression", class(df$label))) {
+         df <- subset(df, !duplicated(df$label))
+      }
+      df <- subset(df, !duplicated(df$tick))
+      df <- df[rev(seq_len(nrow(df))), , drop=FALSE];
       df;
    }
    majorLabelsDF <- cleanLTdf(majorLabelsDF);
@@ -672,8 +815,8 @@ minorLogTicks <- function
    majorLabels <- majorLabelsDF$majorLabels;
    if (verbose) {
       printDebug("minorLogTicks(): ",
-         "majorLabels:",
-         majorLabels);
+         "final majorLabels:");
+         print(majorLabels);
       printDebug("minorLogTicks(): ",
          "majorTicks:",
          format(digits=2, trim=TRUE, majorTicks));
@@ -688,6 +831,10 @@ minorLogTicks <- function
          seq(from=1, to=displayBase, length.out=displayBase),
          c(1, displayBase));
       names(minorSet) <- nameVector(minorSet);
+   }
+   if ("pvalue" %in% logAxisType) {
+      minorSet <- numeric(0);
+      minorWhich <- numeric(0);
    }
    if (length(minorWhich) > 0) {
       ## Make sure minorWhich is contained in minorSet
@@ -706,95 +853,102 @@ minorLogTicks <- function
    }
 
    ## Calculate minor labels
-   minorLabelsDF <- as.data.frame(rbindList(
-      lapply(majorTicks, function(i){
-         if (verbose) {
-            printDebug("minorLogTicks(): ",
-               "Calculating minor ticks based upon majorTick:",
-               i);
-         }
-         if ((offset > 0 && i < 0) ||
-               symmetricZero ||
-               igrepHas("flip", logAxisType)) {
-            iBase <- logBase^i - offset;
-            iBaseAbs <- (logBase^abs(i) - offset) * ifelse(i < 0, -1, 1);
-            if (iBase == 0 ||
-                  (symmetricZero && i == 0)) {
-               iSeries <- unique(sort(c(-1 * minorSet * iBase,
-                  minorSet *iBase)));
-               iSeriesLab <- unique(sort(c(-1 * minorWhich * iBase,
-                  minorWhich * iBase)));
-               if (verbose) {
-                  printDebug("   1 iSeries:",
-                     format(scientific=FALSE, trim=TRUE, iSeries));
-                  printDebug("   1 iSeriesLab:",
-                     format(scientific=FALSE, trim=TRUE, iSeriesLab));
-               }
-            } else {
-               iSeries <- unique(sort(minorSet * iBaseAbs));
-               iSeriesLab <- unique(sort(minorWhich * iBaseAbs));
-               if (iBase < 0) {
-                  iSeries <- rev(iSeries);
-               }
-               if (offset == 0 &&
-                     symmetricZero &&
-                     iBase == 1) {
-                  if (verbose) {
-                     printDebug("   inserted positive/negative values:",
-                        format(scientific=FALSE, trim=TRUE, iSeries));
-                  }
-                  iSeries <- iSeries[iSeries >= 1];
-                  iSeries <- sort(unique(c(iSeries, -1*iSeries)));
-                  iSeriesLab <- iSeriesLab[iSeriesLab >= 1];
-                  iSeriesLab <- sort(unique(c(iSeriesLab, -1*iSeriesLab)));
-               }
-               if (verbose) {
-                  printDebug("   2 iSeries:",
-                     format(scientific=FALSE, trim=TRUE, iSeries));
-                  printDebug("   2 iSeriesLab:",
-                     format(scientific=FALSE, trim=TRUE, iSeriesLab));
-               }
-            }
-            iSet <- unique(log(abs(iSeries), base=logBase)*ifelse(sign(iSeries)<0,-1,1));
-         } else {
-            iBase <- logBase^i - offset;
-            iSeries <- unique(sort(minorSet * iBase));
-            iSeriesLab <- unique(sort(minorWhich * iBase));
-            iSet <- log(iSeries, base=logBase);
-            if (verbose) {
-               printDebug("   3 iSeries:",
-                  format(scientific=FALSE, trim=TRUE, iSeries));
-            }
-         }
-         data.frame(label=iSeries,
-            type="minor",
-            use=(iSeries %in% iSeriesLab));
-      })
-   ));
-   ## Remove any minor labels which overlap major labels
-   minorLabelsDF <- minorLabelsDF[!minorLabelsDF$label %in% majorLabelsDF$label,,drop=FALSE];
-   #minorLabelsUse <- minorLabelsAll[minorLabelsAll[,"label"],"series"];
-
-   ## Calculate minor ticks
-   if (offset > 0 ||
-         symmetricZero ||
-         igrepHas("flip", logAxisType)) {
-      #minorTicksAll <- (log(abs(minorLabels)+offset, logBase) *
-      #      ifelse(minorLabels < 0, -1, 1));
-      minorTicksAll <- (log(abs(minorLabelsDF$label)+offset, logBase) *
-            ifelse(minorLabelsDF$label < 0, -1, 1));
-      minorLabelsDF$tick <- minorTicksAll;
-   } else if (igrepHas("flip", logAxisType)) {
-      minorTicksAll <- (log(abs(minorLabelsDF$label)+offset, logBase) *
-            ifelse(minorLabelsDF$label < 0, -1, 1));
-      minorLabelsDF$tick <- minorTicksAll;
+   if (length(minorSet) == 0 && length(minorWhich) == 0) {
+      minorLabelsDF <- data.frame(label=numeric(0),
+         type=character(0),
+         use=logical(0));
    } else {
-      minorTicksAll <- log(minorLabelsDF$label+offset, logBase);
-      minorLabelsDF$tick <- minorTicksAll;
+      minorLabelsDF <- as.data.frame(rbindList(
+         lapply(majorTicks, function(i){
+            if (verbose) {
+               printDebug("minorLogTicks(): ",
+                  "Calculating minor ticks based upon majorTick:",
+                  i);
+            }
+            if ((offset > 0 && i < 0) ||
+                  symmetricZero ||
+                  igrepHas("flip", logAxisType)) {
+               iBase <- logBase^i - offset;
+               iBaseAbs <- (logBase^abs(i) - offset) * ifelse(i < 0, -1, 1);
+               if (iBase == 0 ||
+                     (symmetricZero && i == 0)) {
+                  iSeries <- unique(sort(c(-1 * minorSet * iBase,
+                     minorSet *iBase)));
+                  iSeriesLab <- unique(sort(c(-1 * minorWhich * iBase,
+                     minorWhich * iBase)));
+                  if (verbose) {
+                     printDebug("   1 iSeries:",
+                        format(scientific=FALSE, trim=TRUE, iSeries));
+                     printDebug("   1 iSeriesLab:",
+                        format(scientific=FALSE, trim=TRUE, iSeriesLab));
+                  }
+               } else {
+                  iSeries <- unique(sort(minorSet * iBaseAbs));
+                  iSeriesLab <- unique(sort(minorWhich * iBaseAbs));
+                  if (iBase < 0) {
+                     iSeries <- rev(iSeries);
+                  }
+                  if (offset == 0 &&
+                        symmetricZero &&
+                        iBase == 1) {
+                     if (verbose) {
+                        printDebug("   inserted positive/negative values:",
+                           format(scientific=FALSE, trim=TRUE, iSeries));
+                     }
+                     iSeries <- iSeries[iSeries >= 1];
+                     iSeries <- sort(unique(c(iSeries, -1*iSeries)));
+                     iSeriesLab <- iSeriesLab[iSeriesLab >= 1];
+                     iSeriesLab <- sort(unique(c(iSeriesLab, -1*iSeriesLab)));
+                  }
+                  if (verbose) {
+                     printDebug("   2 iSeries:",
+                        format(scientific=FALSE, trim=TRUE, iSeries));
+                     printDebug("   2 iSeriesLab:",
+                        format(scientific=FALSE, trim=TRUE, iSeriesLab));
+                  }
+               }
+               iSet <- unique(log(abs(iSeries), base=logBase)*ifelse(sign(iSeries)<0,-1,1));
+            } else {
+               iBase <- logBase^i - offset;
+               iSeries <- unique(sort(minorSet * iBase));
+               iSeriesLab <- unique(sort(minorWhich * iBase));
+               iSet <- log(iSeries, base=logBase);
+               if (verbose) {
+                  printDebug("   3 iSeries:",
+                     format(scientific=FALSE, trim=TRUE, iSeries));
+               }
+            }
+            data.frame(label=iSeries,
+               type=head("minor", length(iSeries)),
+               use=(iSeries %in% iSeriesLab));
+         })
+      ));
+      ## Remove any minor labels which overlap major labels
+      minorLabelsDF <- subset(minorLabelsDF,
+         !minorLabelsDF$label %in% majorLabelsDF$label);
+      #minorLabelsUse <- minorLabelsAll[minorLabelsAll[,"label"],"series"];
+
+      ## Calculate minor ticks
+      if (offset > 0 ||
+            symmetricZero ||
+            igrepHas("flip", logAxisType)) {
+         #minorTicksAll <- (log(abs(minorLabels)+offset, logBase) *
+         #      ifelse(minorLabels < 0, -1, 1));
+         minorTicksAll <- (log(abs(minorLabelsDF$label)+offset, logBase) *
+               ifelse(minorLabelsDF$label < 0, -1, 1));
+         minorLabelsDF$tick <- minorTicksAll;
+      } else if (igrepHas("flip", logAxisType)) {
+         minorTicksAll <- (log(abs(minorLabelsDF$label)+offset, logBase) *
+               ifelse(minorLabelsDF$label < 0, -1, 1));
+         minorLabelsDF$tick <- minorTicksAll;
+      } else {
+         minorTicksAll <- log(minorLabelsDF$label+offset, logBase);
+         minorLabelsDF$tick <- minorTicksAll;
+      }
+      minorLabelsDF <- subset(minorLabelsDF,
+         !minorLabelsDF$tick %in% majorLabelsDF$tick)
+      minorLabelsDF <- cleanLTdf(minorLabelsDF);
    }
-   minorLabelsDF <- subset(minorLabelsDF,
-      !minorLabelsDF$tick %in% majorLabelsDF$tick)
-   minorLabelsDF <- cleanLTdf(minorLabelsDF);
 
    minorTicks <- minorLabelsDF$tick;
    allLabelsDF <- rbind(majorLabelsDF,
@@ -1011,4 +1165,91 @@ sqrtAxis <- function
    }
 
    invisible(nameVector(atSqrt, xLabel));
+}
+
+
+#' Log fold axis
+#'
+#' Log fold axis
+#'
+#' @rdname minorLogTicksAxis
+#'
+#' @export
+logFoldAxis <- function
+(side=NULL,
+ lims=NULL,
+ logBase=2,
+ displayBase=2,
+ offset=0,
+ symmetricZero=TRUE,
+ asValues=TRUE,
+ minorWhich=NULL,
+ doMinor=TRUE,
+ doMinorLabels=NULL,
+ scipen=1,
+ ...)
+{
+   #
+   if (displayBase == 10) {
+      if (length(minorWhich) == 0) {
+         minorWhich <- c(2, 5)
+      }
+      if (length(doMinorLabels) == 0) {
+         if (doMinor) {
+            doMinorLabels <- TRUE
+         } else {
+            doMinorLabels <- FALSE
+         }
+      }
+   }
+   if (displayBase == 2) {
+      if (length(minorWhich) == 0) {
+         minorWhich <- c(1.5)
+      }
+      if (length(doMinorLabels) == 0) {
+         doMinorLabels <- FALSE
+      }
+   }
+
+   minorLogTicksAxis(side=side,
+      logBase=logBase,
+      displayBase=displayBase,
+      offset=0,
+      symmetricZero=symmetricZero,
+      asValues=asValues,
+      minorWhich=minorWhich,
+      doMinor=doMinor,
+      doMinorLabels=doMinorLabels,
+      scipen=scipen,
+      ...);
+}
+
+#' P-value axis labels
+#'
+#' @rdname minorLogTicksAxis
+#'
+#' @export
+pvalueAxis <- function
+(side=2,
+ lims=NULL,
+ displayBase=10,
+ logBase=10,
+ logAxisType="pvalue",
+ asValues=FALSE,
+ doMinor=FALSE,
+ doMinorLabels=FALSE,
+ scipen=1,
+ ...)
+{
+   #
+   minorLogTicksAxis(side=side,
+      displayBase=displayBase,
+      logBase=logBase,
+      padj=TRUE,
+      logAxisType=logAxisType,
+      asValues=asValues,
+      doMinor=doMinor,
+      doMinorLabels=doMinorLabels,
+      scipen=scipen,
+      ...)
 }

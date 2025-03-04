@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
                         <h4 data-toc-skip class="author">James M.
 Ward</h4>
             
-            <h4 data-toc-skip class="date">2025-02-25</h4>
+            <h4 data-toc-skip class="date">2025-03-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/vignettes/jamba-vignette.Rmd" class="external-link"><code>vignettes/jamba-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>jamba-vignette.Rmd</code></div>
@@ -75,6 +75,41 @@ Ward</h4>
 analysis, and by other R packages. Functions are broadly divided into
 categories.</p>
 <div class="section level3">
+<h3 id="efficient-alphanumeric-sort">Efficient alphanumeric sort<a class="anchor" aria-label="anchor" href="#efficient-alphanumeric-sort"></a>
+</h3>
+<p>The <code><a href="../reference/mixedSort.html">mixedSort()</a></code>, <code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> functions
+are designed for “genes”, “chromosomes”, and “versions”, with
+alphanumeric sorting. For example: * gene <code>"ACTA2"</code> before
+<code>"ACTA10"</code> * micro-RNA <code>"hsa-miR-21"</code> before
+<code>"hsa-miR-100"</code> * chromosome <code>"chr2"</code> before
+<code>"chr10"</code></p>
+<p>It is fast enough for most large dataset operations, not unreasonably
+slower than <code><a href="https://rdrr.io/r/base/sort.html" class="external-link">base::sort()</a></code>, and much faster than alternative
+approaches.</p>
+<ul>
+<li>
+<code><a href="../reference/mixedSort.html">mixedSort()</a></code> - alphanumeric sort.</li>
+<li>
+<code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> - sort <code>data.frame</code>
+(<code>tibble</code>, <code>matrix</code>, <code>DataFrame</code>,
+etc.)</li>
+<li>
+<code><a href="../reference/mixedSorts.html">mixedSorts()</a></code> - sort <code>list</code> of vectors,
+vectorized for speed boost.</li>
+</ul>
+<p>Example:</p>
+<pre><code><span><span class="co">#&gt;     miRNA sort_rank mixedSort_rank</span></span>
+<span><span class="co">#&gt; 2   ABCA2         2              1</span></span>
+<span><span class="co">#&gt; 1  ABCA12         1              2</span></span>
+<span><span class="co">#&gt; 3   miR-1         3              3</span></span>
+<span><span class="co">#&gt; 6  miR-1a         6              4</span></span>
+<span><span class="co">#&gt; 7  miR-1b         7              5</span></span>
+<span><span class="co">#&gt; 8   miR-2         8              6</span></span>
+<span><span class="co">#&gt; 4  miR-12         4              7</span></span>
+<span><span class="co">#&gt; 9  miR-22         9              8</span></span>
+<span><span class="co">#&gt; 5 miR-122         5              9</span></span></code></pre>
+</div>
+<div class="section level3">
 <h3 id="plot-functions">Plot functions<a class="anchor" aria-label="anchor" href="#plot-functions"></a>
 </h3>
 <div class="section level4">
@@ -83,37 +118,34 @@ categories.</p>
 </h4>
 <p>A common problem when visualizing extremely large datasets is how to
 display thousands of datapoints while indicating the amount of overlap
-of those points. The R <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">graphics::smoothScatter()</a></code> function
-provides an adequate drop-in replacement for most uses of
-<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, where several aspects are enhanced. Specifically,
-parameters related to the density function and related bandwidth
-arguments are enabled, which otherwise is possible but tedious.</p>
-<p>The arguments <code>bandwidthN</code> and <code>nbin</code> define
-the number of bandwidth steps, and the number of visual bins,
-respectively. The bandwidth steps defines the level of detail calculated
-for the 2-dimensional density map, higher values give more detail, seen
-as more “grainy” – ultimately whether you can see individual points. The
-number of visual bins determines the amount of detail used to render the
-density as an image – effectlvely how many density pixels. Higher values
-show more detail, but have much larger memory requirement, and can be
-slow to render for multi-panel plots.</p>
-<p>The argument <code>useRaster=TRUE</code> by default renders the plot
-as a rasterized image, making it substantially faster and smaller
-especially when rendered as a PDF, SVG, or any vector type output.</p>
-<p>An example showing <code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> with argument
-<code>doTest=TRUE</code>. The test data shows a set of points not
-well-resolved with default <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">smoothScatter()</a></code>, but which is
-more clearly displayed with <code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+of those points. The “overplotting” problem.</p>
+<p>The R <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">graphics::smoothScatter()</a></code> function provides an
+adequate drop-in replacement for most uses of <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, and
+<code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> applies some enhanced defaults.</p>
+<ul>
+<li>Bandwidth is increased to provide more visual detail.</li>
+<li>Bins are increased to render higher resolution.</li>
+<li>Output is rasterized to improve speed and visual quality.</li>
+<li>Color ramp uses two-scale colors to distinguish low/high
+density.</li>
+<li>It calculates 2D density with independent x-/y-axis ranges, without
+affecting the 2D density estimate. It means the density is spherical and
+not oblong, when x-/y-axis range differ substantially.</li>
+</ul>
+<p>The customizations use “bin” to define the bin size, and “bw” to
+define the 2D kernel density bandwidth. The bandwidth defines the detail
+of the “carpet”, the point landscape if you will. The bin size defines
+how many pixels are used to render this carpet. Typically the bin size
+is related to the graphics device resolution. However, bandwidth should
+be related to relative detail in the data.</p>
+<p>Adjustments are easiest with arguments: * <code>binpi</code> - bins
+per inch * <code>bwpi</code> bandwidth per inch</p>
+<p>Running <code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> with
+<code>doTest=TRUE</code> produces some visual comparison with default
+<code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">smoothScatter()</a></code>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSmoothScatter.html">plotSmoothScatter</a></span><span class="op">(</span>doTest<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></code></pre></div>
 <p><img src="jambaVignette-plotSmoothScatter-1.png" alt="Example of smooth scatterplots using the default R function, and enhanced function in the jamba package." width="768"></p>
-<p>The function <code><a href="../reference/imageDefault.html">imageDefault()</a></code> is a slight enhancement to
-<code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">graphics::image()</a></code> specifically to enforce square pixels
-when <code>useRaster=TRUE</code>. The default
-<code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">graphics::image()</a></code> assumes each pixel will be rendered in a
-1:1 aspect ratio, therefore the 2-dimensional density map is distorted
-when the axis ranges are not symmetric 1:1. Note that
-<code><a href="../reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> calls <code><a href="../reference/imageDefault.html">imageDefault()</a></code>.</p>
 </div>
 <div class="section level4">
 <h4 id="imagebycolors">
@@ -129,7 +161,7 @@ labels.</p>
 table of repeated values, for example in experiment design.</p>
 <p>Here, we define a simple data.frame composed of colors, then use the
 data.frame to label itself:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">a1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
 <span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yellow"</span>,<span class="st">"orange"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
 <span><span class="va">c1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"orange"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
@@ -139,7 +171,7 @@ data.frame to label itself:</p>
 <p><img src="jambaVignette-imageByColors1-1.png" alt="Example color matrix as plotted using the image by colors function()" width="768"></p>
 <p>Labels can be independently rotated and resized, an arbitrary example
 is shown below:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/imageByColors.html">imageByColors</a></span><span class="op">(</span><span class="va">df1</span>,</span>
 <span>   cellnote<span class="op">=</span><span class="va">df1</span>, </span>
 <span>   useRaster<span class="op">=</span><span class="cn">TRUE</span>,</span>
@@ -159,122 +191,43 @@ is shown below:</p>
 </h4>
 <p>There are several useful axis labeling functions.</p>
 <p>For log-transformed data, <code><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> is a
-flexible function to help deal with different transforms, such as
-<code>log2(1 + x)</code>, which is common when analyzing gene expression
-data, or any measurement data that may contain zeros and no negative
-values.</p>
-<p>Data transformed with <code>log2(1 + x)</code> must be correctly
-inverse-transformed to generate the proper numeric labels.</p>
-<p>By default, the log labels are displayed in base 10, while the
-underlying data can be any numeric base. (The default assumes log2.)</p>
-<p>Also note that zero values are represented as zero.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">expr</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">0</span>, to<span class="op">=</span><span class="fl">17</span>, length.out<span class="op">=</span><span class="fl">20</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">2</span>, data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;</span>
-<span><span class="va">bp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">expr</span>,</span>
-<span>   las<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   col<span class="op">=</span><span class="st">"dodgerblue"</span>,</span>
-<span>   main<span class="op">=</span><span class="st">"measurement data in normal space"</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="va">bp1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">bp1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"xpd"</span><span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span><span class="va">bp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">expr</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">expr</span><span class="op">&lt;=</span><span class="fl">100</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>   ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span>   las<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   col<span class="op">=</span><span class="st">"dodgerblue"</span>,</span>
-<span>   main<span class="op">=</span><span class="st">"zoomed-in y-axis"</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="va">bp1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">bp1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">log_expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">expr</span><span class="op">)</span>;</span>
-<span><span class="va">bp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">log_expr</span>,</span>
-<span>   las<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   col<span class="op">=</span><span class="st">"dodgerblue"</span>,</span>
-<span>   ylab<span class="op">=</span><span class="st">"log2(1 + x) value"</span>,</span>
-<span>   main<span class="op">=</span><span class="st">"measurement data after log2(1+x) transform"</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="va">bp1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">bp1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis</a></span><span class="op">(</span>side<span class="op">=</span><span class="fl">4</span>,</span>
-<span>   logBase<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   offset<span class="op">=</span><span class="fl">1</span>,</span>
-<span>   displayBase<span class="op">=</span><span class="fl">10</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html" class="external-link">mtext</a></span><span class="op">(</span>side<span class="op">=</span><span class="fl">4</span>,</span>
-<span>   line<span class="op">=</span><span class="fl">2.95</span>,</span>
-<span>   las<span class="op">=</span><span class="fl">0</span>,</span>
-<span>   <span class="st">"normal space measurement values"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jambaVignette-log_ticks_1-1.png" alt="Example showing various forms of log tick axis labels." width="768"></p>
-<p>Another common example is with log fold change (also called log
-ratio). The log fold change is preferred to represent fold changes
-because it allows the “up” and “down” values to be symmetric.</p>
+flexible function to help deal with different transforms. It enables
+“offset”, commonly used with <code>log2(1 + x)</code>, but now enables
+using any offset, e.g. <code>log2(0.5 + x)</code>. Axis labels use
+integer values, accounting for the offset.</p>
+<p>The <code>logBase</code> can be customized, can be properly labeled
+when showing <code>log10(P-value)</code>. When showing log2 fold
+changes, it accepts negative values and flips the sign accordingly.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">14</span><span class="op">/</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">3.5</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span><span class="va">fc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">fr</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="va">fr</span>, <span class="va">fr</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span><span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">fr</span>, trim<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>   <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">fr</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">" ("</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">fc</span>, trim<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>      <span class="st">"-fold)"</span><span class="op">)</span>,</span>
-<span>      <span class="st">""</span><span class="op">)</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>;</span>
-<span><span class="va">bp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">fr</span><span class="op">-</span><span class="fl">1</span>,</span>
-<span>   ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">fr</span><span class="op">)</span><span class="op">+</span><span class="fl">2</span><span class="op">)</span>,</span>
-<span>   las<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   offset<span class="op">=</span><span class="fl">1</span>,</span>
-<span>   col<span class="op">=</span><span class="st">"dodgerblue"</span>,</span>
-<span>   main<span class="op">=</span><span class="st">"data expressed as a ratio"</span><span class="op">)</span>;</span>
-<span><span class="va">k</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">fr</span> <span class="op">&lt;</span> <span class="fl">1</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">bp1</span><span class="op">[</span><span class="va">k</span>,<span class="fl">1</span><span class="op">]</span>,</span>
-<span>   y<span class="op">=</span><span class="va">fr</span><span class="op">[</span><span class="va">k</span><span class="op">]</span>,</span>
-<span>   srt<span class="op">=</span><span class="fl">90</span>,</span>
-<span>   adj<span class="op">=</span><span class="fl">1.2</span>,</span>
-<span>   <span class="va">fl</span><span class="op">[</span><span class="va">k</span><span class="op">]</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">bp1</span><span class="op">[</span><span class="op">!</span><span class="va">k</span>,<span class="fl">1</span><span class="op">]</span>,</span>
-<span>   y<span class="op">=</span><span class="va">fc</span><span class="op">[</span><span class="op">!</span><span class="va">k</span><span class="op">]</span>,</span>
-<span>   srt<span class="op">=</span><span class="fl">90</span>,</span>
-<span>   adj<span class="op">=</span><span class="op">-</span><span class="fl">0.2</span>,</span>
-<span>   <span class="va">fl</span><span class="op">[</span><span class="op">!</span><span class="va">k</span><span class="op">]</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span>;</span>
-<span></span>
-<span><span class="va">log_fc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">fr</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">log_fc</span>,</span>
-<span>   ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span>,</span>
-<span>   yaxt<span class="op">=</span><span class="st">"n"</span>,</span>
-<span>   col<span class="op">=</span><span class="st">"dodgerblue"</span>,</span>
-<span>   main<span class="op">=</span><span class="st">"log ratios with log2 y-axis"</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis</a></span><span class="op">(</span>side<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   logBase<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   offset<span class="op">=</span><span class="fl">0</span>,</span>
-<span>   symmetricZero<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span>   displayBase<span class="op">=</span><span class="fl">10</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html" class="external-link">mtext</a></span><span class="op">(</span>side<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   line<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   las<span class="op">=</span><span class="fl">0</span>,</span>
-<span>   <span class="st">"fold changes with log10 breaks"</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis</a></span><span class="op">(</span>side<span class="op">=</span><span class="fl">4</span>,</span>
-<span>   logBase<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   offset<span class="op">=</span><span class="fl">0</span>,</span>
-<span>   symmetricZero<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span>   displayBase<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html" class="external-link">mtext</a></span><span class="op">(</span>side<span class="op">=</span><span class="fl">4</span>,</span>
-<span>   line<span class="op">=</span><span class="fl">2</span>,</span>
-<span>   las<span class="op">=</span><span class="fl">0</span>,</span>
-<span>   <span class="st">"fold changes with log2 breaks"</span><span class="op">)</span>;</span></code></pre></div>
-<p><img src="jambaVignette-log_fc_ticks-1.png" alt="Example showing log fold change ticks, using log2 scale with positive and negative values." width="768"></p>
+<code class="sourceCode R"><span><span class="co"># example showing volcano plot features</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1000</span>;</span>
+<span><span class="va">vdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lfc<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">vdf</span><span class="op">$</span><span class="va">`-log10 (padj)`</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">vdf</span><span class="op">$</span><span class="va">lfc</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plotSmoothScatter.html">plotSmoothScatter</a></span><span class="op">(</span><span class="va">vdf</span>, xaxt<span class="op">=</span><span class="st">"n"</span>, yaxt<span class="op">=</span><span class="st">"n"</span>, xlab<span class="op">=</span><span class="st">"Fold change"</span>,</span>
+<span>   main<span class="op">=</span><span class="st">"Volcano plot\ndisplayBase=2"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/minorLogTicksAxis.html">logFoldAxis</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/minorLogTicksAxis.html">pvalueAxis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="jambaVignette-log_ticks_1-1.png" alt="Example showing log tick axis labels with positive and negative values, and P-values." width="768"></p>
 </div>
 <div class="section level4">
 <h4 id="plotpolygondensity">
 <code>plotPolygonDensity()</code><a class="anchor" aria-label="anchor" href="#plotpolygondensity"></a>
 </h4>
-<p>A convenience function <code><a href="../reference/plotPolygonDensity.html">plotPolygonDensity()</a></code> is a light
-wrapper around two functions: <code><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist()</a></code> and
-<code><a href="https://rdrr.io/r/stats/density.html" class="external-link">density()</a></code>. However, it makes two other options
-convenient:</p>
+<p><code><a href="../reference/plotPolygonDensity.html">plotPolygonDensity()</a></code> is a light wrapper around two
+functions: <code><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist()</a></code> and <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">density()</a></code>. However, it
+makes two other options convenient:</p>
 <ul>
-<li>transform the x-axis with either <code>log10(1+x)</code> or
-<code><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt()</a></code>,</li>
-<li>display multiple panels for each column of a numeric matrix.</li>
+<li>Transform the x-axis with either <code>log10(1 + x)</code> or
+<code><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt()</a></code>, use
+<code>xScale=c("default", "log10", "sqrt")</code>.</li>
+<li>Display multiple panels for each column of a numeric matrix.</li>
+<li>See also: <code><a href="../reference/plotRidges.html">plotRidges()</a></code> - a ggridges alternative.</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"mar"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span>, <span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"scipen"</span><span class="op">=</span><span class="fl">7</span><span class="op">)</span>;</span>
+<code class="sourceCode R"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_par.html" class="external-link">with_par</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"mar"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"mfrow"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, <span class="op">{</span></span>
+<span>   <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_options.html" class="external-link">local_options</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"scipen"</span><span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>;</span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
 <span><span class="fu"><a href="../reference/plotPolygonDensity.html">plotPolygonDensity</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>   breaks<span class="op">=</span><span class="fl">50</span>,</span>
 <span>   cex.axis<span class="op">=</span><span class="fl">1</span>,</span>
@@ -291,10 +244,11 @@ convenient:</p>
 <span>   cex.axis<span class="op">=</span><span class="fl">1</span>,</span>
 <span>   xScale<span class="op">=</span><span class="st">"sqrt"</span>,</span>
 <span>   breaks<span class="op">=</span><span class="fl">50</span>,</span>
-<span>   main<span class="op">=</span><span class="st">"sqrt-scaled x-axis"</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="../reference/drawLabels.html">drawLabels</a></span><span class="op">(</span>preset<span class="op">=</span><span class="st">"bottom"</span>,</span>
+<span>   main<span class="op">=</span><span class="st">""</span><span class="op">)</span>;</span>
+<span><span class="fu"><a href="../reference/drawLabels.html">drawLabels</a></span><span class="op">(</span>preset<span class="op">=</span><span class="st">"topright"</span>,</span>
 <span>   txt<span class="op">=</span><span class="st">"sqrt-scaled x-axis"</span>,</span>
-<span>   labelCex<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
+<span>   labelCex<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <p><img src="jambaVignette-plot_dens_log-1.png" alt="Example polygon density plot." width="768"></p>
 </div>
 <div class="section level4">
@@ -332,97 +286,108 @@ categorical colors in an extensible manner.</p>
 <h4 id="getcolorramp">
 <code>getColorRamp()</code><a class="anchor" aria-label="anchor" href="#getcolorramp"></a>
 </h4>
-<p><code><a href="../reference/getColorRamp.html">getColorRamp()</a></code> is a workhorse of several other functions
-and workflows. It tries to make convenient the job of obtaining a color
-ramp (aka a color palette, or color gradient). It interfaces with
+<ul>
+<li>
+<p><code><a href="../reference/getColorRamp.html">getColorRamp()</a></code> is a workhorse of several other
+functions and workflows.</p>
+<ul>
+<li>It makes convenient the job of obtaining a color ramp (aka a color
+palette, or color gradient). It interfaces with
 <code>RColorBrewer</code> and <code>viridisLite</code> for color palette
-names, and allows some useful extensions.</p>
-<p>The suffix <code>"_r"</code> is convenient for reversing the order of
-colors, especially with <code>RColorBrewer</code> palette
-<code>"RdBu"</code> which provides red-white-blue colors. On heatmaps,
-for me anyway, “red” is associated with “heat” and therefore the high
-numeric value. Using <code>"RdBu_r"</code> will provide blue-white-red
-colors.</p>
-<p><code><a href="../reference/showColors.html">showColors()</a></code> is used to display a color ramp, by default
-including the labels using <code><a href="../reference/imageByColors.html">imageByColors()</a></code>.</p>
-<p><code><a href="../reference/warpRamp.html">warpRamp()</a></code> is used with color gradients to compress or
-expand the color gradient.</p>
-<p><code><a href="https://jmw86069.github.io/colorjam/reference/closestRcolor.html" class="external-link">colorjam::closestRcolor()</a></code> is used to assign an R color
-label to any R color in hex <code>"#RRGGBB"</code> format.</p>
-<p><code><a href="https://jmw86069.github.io/colorjam/reference/rainbowJam.html" class="external-link">colorjam::rainbowJam()</a></code> is used to define a categorical
-color palette with <code>n</code> colors, relatively evenly spaced
-around a modified red-yellow-blue color wheel. (This color wheel avoids
-the dominance of green and blue-green colors that result from most
-“rainbow” color palettes.) The function alternates the brightness value
-and color saturation, so adjacent colors are more visibly distinct.</p>
+names, and allows some useful extensions.</li>
+<li>It accepts suffix <code>"_r"</code> to reverse color order,
+<code>RColorBrewer</code> palette <code>"RdBu"</code> is reversed with
+<code>"RdBu_r"</code>. Red should be the high color in a heatmap -
+“heat”, so “RdBu_r” is recommended.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="printdebug">
+<code>printDebug()</code><a class="anchor" aria-label="anchor" href="#printdebug"></a>
+</h4>
+<ul>
+<li><p><code><a href="../reference/printDebug.html">printDebug()</a></code> is present in every Jam function, used
+when <code>verbose=TRUE</code> to follow the processing steps. Of course
+it uses color.</p></li>
+<li><p><code><a href="../reference/printDebug.html">printDebugHtml()</a></code> is used for RMarkdown output, use
+the chunk option <code>results='asis'</code> so the HTML is displayed
+properly.</p></li>
+<li><p><code><a href="../reference/printDebug.html">printDebugI()</a></code> is an alternative that “inverts” the
+color, using the color as background, with contrasting text color on
+top.</p></li>
+<li><p>When a vector is provided, its values are delimited with
+<code>sep</code>, and each value is “dithered” with the same color with
+lighter/darker pattern for visual distinction.</p></li>
+<li><p>Each element is assigned a color recycled from
+<code>fgText</code>, and can be customized.</p></li>
+</ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/printDebug.html">printDebugHtml</a></span><span class="op">(</span><span class="st">"printDebugHtml(): "</span>,</span>
+<span>  <span class="st">"Output is colorized: "</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>(<span style="color:#00C3C3FF">21:41:42</span>) 03Mar2025: <span style="color:#FF7F00FF">printDebugHtml(): </span><span style="color:#1E90FFFF">Output is colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_options.html" class="external-link">with_options</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>jam.htmlOut<span class="op">=</span><span class="cn">TRUE</span>, jam.comment<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/printDebug.html">printDebugHtml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"printDebug() using withr::with_options(): "</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Output should be colorized: "</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span>;</span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<p>(<span style="color:#00C3C3FF">21:41:43</span>) 03Mar2025: <span style="color:#FF7F00FF">printDebug() using withr::with_options():
+</span><span style="color:#1E90FFFF">Output should be colorized:
+</span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
+</div>
+<div class="section level4">
+<h4 id="showcolors">
+<code>showColors()</code><a class="anchor" aria-label="anchor" href="#showcolors"></a>
+</h4>
+<ul>
+<li>
+<code><a href="../reference/showColors.html">showColors()</a></code> displays a color ramp, or
+<code>list</code> of color ramps, or a <code>function</code> as defined
+by <code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code>. (Amazing function by the
+way.)</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="other-color-functions">Other color functions<a class="anchor" aria-label="anchor" href="#other-color-functions"></a>
+</h4>
+<ul>
+<li><p><code><a href="../reference/warpRamp.html">warpRamp()</a></code> is used with argument <code>lens</code>
+in other functions, and can warp the colors for more contrast. It even
+handles divergent colors, keeping the middle color intact.</p></li>
+<li><p><code><a href="../reference/rainbow2.html">rainbow2()</a></code> is a very simple drop-in replacement for
+<code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow()</a></code>, which adds alternating contrast to adjacent
+colors. A better option is <code><a href="https://jmw86069.github.io/colorjam/reference/rainbowJam.html" class="external-link">colorjam::rainbowJam()</a></code> but
+<code><a href="../reference/rainbow2.html">rainbow2()</a></code> is a simple option until colorjam is on
+CRAN.</p></li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/showColors.html">showColors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>   Reds<span class="op">=</span><span class="fu"><a href="../reference/getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"Reds"</span><span class="op">)</span>,</span>
 <span>   RdBu<span class="op">=</span><span class="fu"><a href="../reference/getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"RdBu"</span><span class="op">)</span>,</span>
 <span>   RdBu_r<span class="op">=</span><span class="fu"><a href="../reference/getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"RdBu_r"</span><span class="op">)</span>,</span>
 <span>   `RdBu_r, lens=5`<span class="op">=</span><span class="fu"><a href="../reference/warpRamp.html">warpRamp</a></span><span class="op">(</span><span class="fu"><a href="../reference/getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"RdBu_r"</span><span class="op">)</span>, lens<span class="op">=</span><span class="fl">5</span><span class="op">)</span>,</span>
-<span>   `RdBu_r, lens=-5`<span class="op">=</span><span class="fu"><a href="../reference/warpRamp.html">warpRamp</a></span><span class="op">(</span><span class="fu"><a href="../reference/getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"RdBu_r"</span><span class="op">)</span>, lens<span class="op">=</span><span class="op">-</span><span class="fl">5</span><span class="op">)</span></span>
-<span>   <span class="op">)</span><span class="op">)</span>;</span>
-<span></span>
-<span><span class="fu"><a href="../reference/showColors.html">showColors</a></span><span class="op">(</span><span class="fu"><a href="../reference/vigrep.html">vigrep</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="fu"><a href="https://rdrr.io/r/grDevices/colors.html" class="external-link">colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jambaVignette-get_color_ramp-1.png" alt="Example of color gradients using the Brewer package." width="768"><img src="jambaVignette-get_color_ramp-2.png" alt="Example of color gradients using the Brewer package." width="768"></p>
+<span>   `RdBu_r, lens=-5`<span class="op">=</span><span class="fu"><a href="../reference/warpRamp.html">warpRamp</a></span><span class="op">(</span><span class="fu"><a href="../reference/getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"RdBu_r"</span><span class="op">)</span>, lens<span class="op">=</span><span class="op">-</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span>   `rainbow2(15)`<span class="op">=</span><span class="fu"><a href="../reference/rainbow2.html">rainbow2</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span>
+<span>   <span class="op">)</span><span class="op">)</span>;</span></code></pre></div>
+<p><img src="jambaVignette-get_color_ramp-1.png" alt="Example of color gradients using the Brewer package." width="768"></p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="helper-functions">Helper functions<a class="anchor" aria-label="anchor" href="#helper-functions"></a>
+<h3 id="console-functions">Console functions<a class="anchor" aria-label="anchor" href="#console-functions"></a>
 </h3>
-<div class="section level4">
-<h4 id="mixedsort-mixedsortdf-mixedorder">
-<code>mixedSort()</code>, <code>mixedSortDF()</code>,
-<code>mixedOrder()</code><a class="anchor" aria-label="anchor" href="#mixedsort-mixedsortdf-mixedorder"></a>
-</h4>
-<p>Motivted by <code>gtools</code> function
-<code><a href="https://rdrr.io/pkg/gtools/man/mixedsort.html" class="external-link">gtools::mixedsort()</a></code>, props to Gregory R. Warnes for
-that!</p>
-<p>The <code><a href="../reference/mixedSort.html">mixedSort()</a></code> functions provide efficient version-type
-sorting of alphanumeric character strings, with some customization to
-handle common gene symbol formats.</p>
-<p>For example “miR-2” should sort before “miR-11”, and after
-“miR-1”.</p>
-<pre><code> sort mixedSort</code></pre>
-<p>1 miR-1 miR-1 2 miR-12 miR-1a 3 miR-122 miR-1b 4 miR-1a miR-2 5
-miR-1b miR-12 6 miR-2 miR-122</p>
-<p>Note, previous alphanumeric sort took 12 seconds for 43,000 values,
-<code><a href="../reference/mixedSort.html">mixedSort()</a></code> took about 0.5 seconds.</p>
-</div>
-<div class="section level4">
-<h4 id="mixedsortdf">
-<code>mixedSortDF()</code><a class="anchor" aria-label="anchor" href="#mixedsortdf"></a>
-</h4>
-<p><code><a href="../reference/mixedSortDF.html">mixedSortDF()</a></code> applies <code><a href="../reference/mixedSort.html">mixedSort()</a></code> to
-columns of a <code>data.frame</code> or equivalent (matrix, tibble,
-etc.). It honors factor order where defined, applying
-<code><a href="../reference/mixedSort.html">mixedSort()</a></code> on <code>character</code> values otherwise.</p>
-<p>It is especially useful when sorting a <code>data.frame</code> by
-experiment design, where each column may contain ordered factors and
-other alphanumeric values.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"miR-12"</span>,<span class="st">"miR-1"</span>,<span class="st">"miR-122"</span>,<span class="st">"miR-1b"</span>, <span class="st">"miR-1a"</span>,<span class="st">"miR-2"</span><span class="op">)</span>;</span>
-<span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Air"</span>, <span class="st">"Treatment"</span>, <span class="st">"Control"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>;</span>
-<span><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">g</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>,<span class="st">"Air"</span>, <span class="st">"Treatment"</span><span class="op">)</span><span class="op">)</span>;</span>
-<span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>groupfactor<span class="op">=</span><span class="va">gf</span>, miRNA<span class="op">=</span><span class="va">x</span>, stringsAsFactors<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span>
-<span><span class="va">df2sorted</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mixedSortDF.html">mixedSortDF</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>;</span></code></pre></div>
-<p>groupfactor miRNA 6 Control miR-2 3 Control miR-122 4 Air miR-1b 1
-Air miR-12 2 Treatment miR-1 5 Treatment miR-1a</p>
-</div>
 <div class="section level4">
 <h4 id="setprompt">
 <code>setPrompt()</code><a class="anchor" aria-label="anchor" href="#setprompt"></a>
 </h4>
 <p><code><a href="../reference/setPrompt.html">setPrompt()</a></code> is a convenience function for R console and
-RStudio work, it creates a colorized R prompt with useful info: project
-name, R version, and process ID (PID). The PID may be useful if
-<em>ahem</em> the R session is hung during processing, or out of memory,
-etc.</p>
-<p>Ultimately, the prompt is useful when there are multiple active R
-sessions, it’s designed to help recognize which is which. And when
-things go awry, the PID is helpful to know which R process is the
-culprit. Sometimes it is not clear enough.</p>
+RStudio work, it creates a colorized R prompt with useful info: *
+project name * R version * Process ID (PID). The PID is useful in case
+<em>ahem</em> the R session runs wild.</p>
+<p>Ultimately, it helps answer the question “What am I working on?”</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/setPrompt.html">setPrompt</a></span><span class="op">(</span><span class="st">"jambaVignette"</span><span class="op">)</span>;</span>
 <span><span class="co"># {jambaVignette}-R-3.6.0_10789&gt;</span></span></code></pre></div>
@@ -430,6 +395,99 @@ culprit. Sometimes it is not clear enough.</p>
 <img src="README-setPrompt.png" alt="setPrompt example"><div class="figcaption">setPrompt example</div>
 </div>
 </div>
+<div class="section level4">
+<h4 id="jargs">
+<code>jargs()</code><a class="anchor" aria-label="anchor" href="#jargs"></a>
+</h4>
+<p>Jam <code><a href="https://rdrr.io/r/base/args.html" class="external-link">args()</a></code>.</p>
+<ul>
+<li>Aligns arguments, one per row</li>
+<li>Allows pattern search</li>
+<li>Optionally sorts by argument name</li>
+<li>Colorized in the R console</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># all args</span></span>
+<span><span class="fu"><a href="../reference/jargs.html">jargs</a></span><span class="op">(</span><span class="va">plotSmoothScatter</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                 x = ,</span></span>
+<span><span class="co">#&gt;                 y = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt;              bwpi = <span style="color: #AF87FF;">50</span>,</span></span>
+<span><span class="co">#&gt;             binpi = <span style="color: #AF87FF;">50</span>,</span></span>
+<span><span class="co">#&gt;        bandwidthN = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt;              nbin = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt;            expand = <span style="color: #AF87FF;">c</span>(<span style="color: #5FD7AF;">0.04</span>, <span style="color: #5FD7AF;">0.04</span>),</span></span>
+<span><span class="co">#&gt;       transFactor = <span style="color: #AF87FF;">0.25</span>,</span></span>
+<span><span class="co">#&gt;    transformation = <span style="color: #AF87FF;">function(</span> <span style="color: #AF87FF;">x</span> <span style="color: #AF87FF;">)</span> <span style="color: #5FD7AF;">x^transFactor</span>,</span></span>
+<span><span class="co">#&gt;              xlim = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt;              ylim = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt;              xlab = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt;              ylab = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt;          nrpoints = <span style="color: #AF87FF;">0</span>,</span></span>
+<span><span class="co">#&gt;           colramp = <span style="color: #AF87FF;">c</span>(<span style="color: #9E9E9E;">"white"</span>, <span style="color: #AFD7D7;">"lightblue"</span>, <span style="color: #0000FF;">"blue"</span>, <span style="color: #FFAF00;">"orange"</span>, <span style="color: #FF5F00;">"orangered2"</span>),</span></span>
+<span><span class="co">#&gt;               col = <span style="color: #1C1C1C;">"black"</span>,</span></span>
+<span><span class="co">#&gt;            doTest = <span style="color: #FF0000;">FALSE</span>,</span></span>
+<span><span class="co">#&gt;    fillBackground = <span style="color: #0087D7;">TRUE</span>,</span></span>
+<span><span class="co">#&gt;          naAction = <span style="color: #AF87FF;">c</span>(<span style="color: #5FD7AF;">"remove"</span>, <span style="color: #5FD7AF;">"floor0"</span>, <span style="color: #5FD7AF;">"floor1"</span>),</span></span>
+<span><span class="co">#&gt;              xaxt = <span style="color: #AF87FF;">"s"</span>,</span></span>
+<span><span class="co">#&gt;              yaxt = <span style="color: #AF87FF;">"s"</span>,</span></span>
+<span><span class="co">#&gt;               add = <span style="color: #FF0000;">FALSE</span>,</span></span>
+<span><span class="co">#&gt;               asp = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt; applyRangeCeiling = <span style="color: #0087D7;">TRUE</span>,</span></span>
+<span><span class="co">#&gt;         useRaster = <span style="color: #0087D7;">TRUE</span>,</span></span>
+<span><span class="co">#&gt;           verbose = <span style="color: #FF0000;">FALSE</span>,</span></span>
+<span><span class="co">#&gt;               ... = </span></span>
+<span></span>
+<span><span class="co"># args with "y" in the name</span></span>
+<span><span class="fu"><a href="../reference/jargs.html">jargs</a></span><span class="op">(</span><span class="va">plotSmoothScatter</span>, <span class="st">"^y"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    y = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt; ylim = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt; ylab = <span style="color: #949494;">NULL</span>,</span></span>
+<span><span class="co">#&gt; yaxt = <span style="color: #AF87FF;">"s"</span></span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sdim-and-ssdim">
+<code>sdim()</code> and <code>ssdim()</code><a class="anchor" aria-label="anchor" href="#sdim-and-ssdim"></a>
+</h4>
+<p>These functions apply <code><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim()</a></code> to a list, or list of lists.
+They recognize other S4 object types, and special types like
+<code>igraph</code> and Bioconductor objects.</p>
+<p>It returns either <code>data.frame</code> of dimensions, or
+<code>list</code> of <code>data.frame</code>, which can be easily parsed
+and reviewed.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>LETTERS<span class="op">=</span><span class="va">LETTERS</span>,</span>
+<span>   letters<span class="op">=</span><span class="va">letters</span>,</span>
+<span>   lettersDF<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="va">letters</span><span class="op">)</span><span class="op">)</span>;</span>
+<span><span class="fu"><a href="../reference/sdim.html">sdim</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span>
+<span><span class="co">#&gt;           rows cols      class</span></span>
+<span><span class="co">#&gt; LETTERS     26       character</span></span>
+<span><span class="co">#&gt; letters     26       character</span></span>
+<span><span class="co">#&gt; lettersDF   26    2 data.frame</span></span>
+<span></span>
+<span><span class="va">L2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>List1<span class="op">=</span><span class="va">L</span>,</span>
+<span>   List2<span class="op">=</span><span class="va">L</span><span class="op">)</span>;</span>
+<span></span>
+<span><span class="fu"><a href="../reference/sdim.html">sdim</a></span><span class="op">(</span><span class="va">L2</span><span class="op">)</span>;</span>
+<span><span class="co">#&gt;       rows class</span></span>
+<span><span class="co">#&gt; List1    3  list</span></span>
+<span><span class="co">#&gt; List2    3  list</span></span>
+<span><span class="fu"><a href="../reference/sdim.html">ssdim</a></span><span class="op">(</span><span class="va">L2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $List1</span></span>
+<span><span class="co">#&gt;           rows cols      class</span></span>
+<span><span class="co">#&gt; LETTERS     26       character</span></span>
+<span><span class="co">#&gt; letters     26       character</span></span>
+<span><span class="co">#&gt; lettersDF   26    2 data.frame</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $List2</span></span>
+<span><span class="co">#&gt;           rows cols      class</span></span>
+<span><span class="co">#&gt; LETTERS     26       character</span></span>
+<span><span class="co">#&gt; letters     26       character</span></span>
+<span><span class="co">#&gt; lettersDF   26    2 data.frame</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="excel-functions">Excel functions<a class="anchor" aria-label="anchor" href="#excel-functions"></a>
+</h3>
 <div class="section level4">
 <h4 id="writeopenxlsx">
 <code>writeOpenxlsx()</code><a class="anchor" aria-label="anchor" href="#writeopenxlsx"></a>
@@ -451,30 +509,39 @@ categorical colors when defined</p>
 optionally include rownames</p>
 </div>
 <div class="section level4">
+<h4 id="readopenxlsx">
+<code>readOpenxlsx()</code><a class="anchor" aria-label="anchor" href="#readopenxlsx"></a>
+</h4>
+<p><code><a href="../reference/readOpenxlsx.html">readOpenxlsx()</a></code> is convenient for reading all worksheets
+in an Excel file, and returns data without mangling the column headers.
+It returns a <code>list</code> of <code>data.frame</code> objects.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="convenience">Convenience<a class="anchor" aria-label="anchor" href="#convenience"></a>
+</h3>
+<div class="section level4">
 <h4 id="vigrep-provigrep-igrep-igrephas">
 <code>vigrep()</code>, <code>provigrep()</code>,
 <code>igrep()</code>, <code>igrepHas()</code><a class="anchor" aria-label="anchor" href="#vigrep-provigrep-igrep-igrephas"></a>
 </h4>
-<p>I use these functions numerous times every day, in all aspects of my
-analysis workflow. They’re very simple and convenient wrappers around
-<code><a href="https://rdrr.io/r/base/grep.html" class="external-link">base::grep()</a></code>:</p>
+<p>Quick custom <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">base::grep()</a></code> for case-insensitive, or
+value-returning work.</p>
 <ul>
 <li>
 <code><a href="../reference/vigrep.html">vigrep()</a></code> - extends grep to use <code>value=TRUE</code>
 and <code>ignore.case=TRUE</code>
 </li>
 <li>
-<code><a href="../reference/provigrep.html">provigrep()</a></code> - extends <code><a href="../reference/vigrep.html">vigrep()</a></code> to use a
-vector of patterns, and return values in the order they are matched.
-Great when you want “all the controls first, then all the treated, then
-everything else”.</li>
-<li>
 <code><a href="../reference/igrep.html">igrep()</a></code> - extends grep to use
 <code>ignore.case=TRUE</code>, case-insensitive matching.</li>
 <li>
+<code><a href="../reference/provigrep.html">provigrep()</a></code> - progressive pattern matching, returning
+entries in the order they match a vector of patterns. Super useful.</li>
+<li>
 <code><a href="../reference/igrepHas.html">igrepHas()</a></code> - extends <code><a href="../reference/igrep.html">igrep()</a></code> to return
-<code>TRUE</code> or <code>FALSE</code> if any value in a vector matches
-the pattern.</li>
+<code>TRUE</code> or <code>FALSE</code>, convenient for
+<code>if()</code> statements.</li>
 </ul>
 </div>
 <div class="section level4">
@@ -499,7 +566,7 @@ trimming leading/trailing blanks.</p>
 <code><a href="../reference/pasteByRow.html">pasteByRow()</a></code> that also maintains factor level order of each
 column. Again, super useful to make labels that honor factor level
 order, for example with experimental designs.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">a1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mutant"</span>, <span class="st">"control"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>   levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"mutant"</span><span class="op">)</span><span class="op">)</span>;</span>
 <span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vehicle"</span>, <span class="st">"treated"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span>,</span>
@@ -532,21 +599,25 @@ order, for example with experimental designs.</p>
 <code>makeNames()</code>, <code>nameVector()</code>,
 <code>nameVectorN()</code><a class="anchor" aria-label="anchor" href="#makenames-namevector-namevectorn"></a>
 </h4>
-<p>Create unique names with controlled versioning options.</p>
-<p><code><a href="../reference/makeNames.html">makeNames()</a></code> returns unique names, by default for
+<p>Create unique names with controlled versioning options. The
+<code><a href="https://rdrr.io/r/base/make.unique.html" class="external-link">base::make.unique()</a></code> is great, but sometimes you need to
+control the output.</p>
+<ul>
+<li><p><code><a href="../reference/makeNames.html">makeNames()</a></code> returns unique names, by default for
 duplicated values it uses the suffix style <code>_v1</code>,
 <code>_v2</code>, <code>_v3</code>. The suffix can be controlled,
 whether to add a suffix to singlet entries, what number to start with,
-etc.</p>
-<p><code><a href="../reference/nameVector.html">nameVector()</a></code> is similar to <code><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames()</a></code>
+etc.</p></li>
+<li><p><code><a href="../reference/nameVector.html">nameVector()</a></code> is similar to <code><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames()</a></code>
 except that it secretly runs <code><a href="../reference/makeNames.html">makeNames()</a></code>, and when only
 provided with a vector, the vector is used to define names. Named
 vectors are convenient with <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> type list functions,
-because names are used in the returned <code>list</code>.</p>
+because names are used in the returned <code>list</code>.</p></li>
+</ul>
 <p><code><a href="../reference/nameVectorN.html">nameVectorN()</a></code> creates a named vector of the vector
 names, useful with <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> when you need to know the
 element name in the function call.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">letters</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>;</span>
 <span><span class="va">x</span>;</span>
 <span><span class="co">#&gt;  [1] "a" "a" "b" "b" "b" "b" "c" "d" "d" "d" "d" "d"</span></span>
@@ -566,7 +637,7 @@ element name in the function call.</p>
 <span><span class="co">#&gt;   d_v5 </span></span>
 <span><span class="co">#&gt; "d_v5"</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/nameVectorN.html">nameVectorN</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/nameVectorN.html">nameVectorN</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>
 <span>   <span class="va">i</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $a_v1</span></span>
@@ -585,38 +656,18 @@ element name in the function call.</p>
 <span><span class="co">#&gt; [1] "b_v3"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $b_v4</span></span>
-<span><span class="co">#&gt; [1] "b_v4"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $c</span></span>
-<span><span class="co">#&gt; [1] "c"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $d_v1</span></span>
-<span><span class="co">#&gt; [1] "d_v1"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $d_v2</span></span>
-<span><span class="co">#&gt; [1] "d_v2"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $d_v3</span></span>
-<span><span class="co">#&gt; [1] "d_v3"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $d_v4</span></span>
-<span><span class="co">#&gt; [1] "d_v4"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $d_v5</span></span>
-<span><span class="co">#&gt; [1] "d_v5"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "b_v4"</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="cpaste-cpastesu-cpasteu">
 <code>cPaste()</code>, <code>cPasteSU()</code>,
 <code>cPasteU()</code><a class="anchor" aria-label="anchor" href="#cpaste-cpastesu-cpasteu"></a>
 </h4>
-<p><code><a href="../reference/cPaste.html">cPaste()</a></code> concatenates vectors in a list, using a
-delimiter, and it is among the fastest methods at the time it was
-developed. It extends <code>paste(x, collapse=",")</code>, while
-optionally calling <code><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique()</a></code> or <code><a href="../reference/mixedSort.html">mixedSort()</a></code> in
-vectorized context.</p>
-<p>When available, it calls upon <code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html" class="external-link">S4Vectors::unstrsplit()</a></code>
-which provides a great boost of speed.</p>
+<p><code><a href="../reference/cPaste.html">cPaste()</a></code> “concatenate-paste”, takes a <code>list</code>
+and combines each vectors using a delimiter. It is among the fastest
+methods (at the time), partly by using
+<code><a href="https://rdrr.io/pkg/S4Vectors/man/character-utils.html" class="external-link">S4Vectors::unstrsplit()</a></code> if available. (Kudos Herve
+Pages!)</p>
 <ul>
 <li>
 <code><a href="../reference/cPaste.html">cPasteU()</a></code> calls <code><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique()</a></code> for each vector
@@ -635,7 +686,7 @@ associated with multiple gene symbols. The function
 <code>","</code>, after sorting and making values unique.</p>
 <p>It is also useful with gene-pathway data, where biological pathways
 are associated with a long list of gene symbols.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>;</span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>
 <span>   <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Gene"</span>, </span>
@@ -664,91 +715,44 @@ are associated with a long list of gene symbols.</p>
 <span><span class="co">#&gt; 5 GeneE,GeneS GeneE,GeneS GeneE,GeneS</span></span>
 <span><span class="co">#&gt; 6 GeneY,GeneY       GeneY       GeneY</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="jargs">
-<code>jargs()</code><a class="anchor" aria-label="anchor" href="#jargs"></a>
-</h4>
-<p>Jam extension to <code><a href="https://rdrr.io/r/base/args.html" class="external-link">args()</a></code>.</p>
-<p>If you ever used <code><a href="https://rdrr.io/r/base/args.html" class="external-link">args()</a></code> and found it difficult to read
-the jumble of function argument names, this function is for you. Nothing
-special, but it puts each argument on a new line. It also allows
-searching by substring.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/jargs.html">jargs</a></span><span class="op">(</span><span class="va">plotSmoothScatter</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                 x = ,</span></span>
-<span><span class="co">#&gt;                 y = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt;              bwpi = <span style="color: #AF87FF;">50</span>,</span></span>
-<span><span class="co">#&gt;             binpi = <span style="color: #AF87FF;">50</span>,</span></span>
-<span><span class="co">#&gt;        bandwidthN = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt;              nbin = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt;            expand = <span style="color: #AF87FF;">c</span>(<span style="color: #5FD7AF;">0.04</span>, <span style="color: #5FD7AF;">0.04</span>),</span></span>
-<span><span class="co">#&gt;       transFactor = <span style="color: #AF87FF;">0.25</span>,</span></span>
-<span><span class="co">#&gt;    transformation = <span style="color: #AF87FF;">function(</span> <span style="color: #AF87FF;">x</span> <span style="color: #AF87FF;">)</span> <span style="color: #5FD7AF;">x^transFactor</span>,</span></span>
-<span><span class="co">#&gt;              xlim = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt;              ylim = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt;              xlab = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt;              ylab = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt;          nrpoints = <span style="color: #AF87FF;">0</span>,</span></span>
-<span><span class="co">#&gt;           colramp = <span style="color: #AF87FF;">c</span>(<span style="color: #9E9E9E;">"white"</span>, <span style="color: #AFD7D7;">"lightblue"</span>, <span style="color: #0000FF;">"blue"</span>, <span style="color: #FFAF00;">"orange"</span>, <span style="color: #FF5F00;">"orangered2"</span>),</span></span>
-<span><span class="co">#&gt;               col = <span style="color: #1C1C1C;">"black"</span>,</span></span>
-<span><span class="co">#&gt;            doTest = <span style="color: #FF0000;">FALSE</span>,</span></span>
-<span><span class="co">#&gt;    fillBackground = <span style="color: #0087D7;">TRUE</span>,</span></span>
-<span><span class="co">#&gt;          naAction = <span style="color: #AF87FF;">c</span>(<span style="color: #5FD7AF;">"remove"</span>, <span style="color: #5FD7AF;">"floor0"</span>, <span style="color: #5FD7AF;">"floor1"</span>),</span></span>
-<span><span class="co">#&gt;              xaxt = <span style="color: #AF87FF;">"s"</span>,</span></span>
-<span><span class="co">#&gt;              yaxt = <span style="color: #AF87FF;">"s"</span>,</span></span>
-<span><span class="co">#&gt;               add = <span style="color: #FF0000;">FALSE</span>,</span></span>
-<span><span class="co">#&gt;               asp = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt; applyRangeCeiling = <span style="color: #0087D7;">TRUE</span>,</span></span>
-<span><span class="co">#&gt;         useRaster = <span style="color: #0087D7;">TRUE</span>,</span></span>
-<span><span class="co">#&gt;           verbose = <span style="color: #FF0000;">FALSE</span>,</span></span>
-<span><span class="co">#&gt;               ... = </span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/jargs.html">jargs</a></span><span class="op">(</span><span class="va">plotSmoothScatter</span>, <span class="st">"^y"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    y = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt; ylim = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt; ylab = <span style="color: #949494;">NULL</span>,</span></span>
-<span><span class="co">#&gt; yaxt = <span style="color: #AF87FF;">"s"</span></span></span></code></pre></div>
 </div>
+<div class="section level3">
+<h3 id="rmarkdown-colored-tables">RMarkdown Colored Tables<a class="anchor" aria-label="anchor" href="#rmarkdown-colored-tables"></a>
+</h3>
 <div class="section level4">
-<h4 id="sdim-and-ssdim">
-<code>sdim()</code> and <code>ssdim()</code><a class="anchor" aria-label="anchor" href="#sdim-and-ssdim"></a>
+<h4 id="kable_coloring">
+<code>kable_coloring()</code><a class="anchor" aria-label="anchor" href="#kable_coloring"></a>
 </h4>
-<p>These functions apply <code><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim()</a></code> to a list, or list of lists.
-In fact, they work with more than just lists, they work with S4 object
-<code>slotNames</code>, multi-dimensional arrays, and other objects
-which are list-like, for example model fit objects are often stored as a
-list.</p>
-<p>For convenience, the output includes the class of each element in the
-list.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>LETTERS<span class="op">=</span><span class="va">LETTERS</span>,</span>
-<span>   letters<span class="op">=</span><span class="va">letters</span>,</span>
-<span>   lettersDF<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="va">letters</span><span class="op">)</span><span class="op">)</span>;</span>
-<span><span class="fu"><a href="../reference/sdim.html">sdim</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span>;</span>
-<span><span class="co">#&gt;           rows cols      class</span></span>
-<span><span class="co">#&gt; LETTERS     26       character</span></span>
-<span><span class="co">#&gt; letters     26       character</span></span>
-<span><span class="co">#&gt; lettersDF   26    2 data.frame</span></span>
+<ul>
+<li>
+<code><a href="../reference/kable_coloring.html">kable_coloring()</a></code> - applies categorical colors to
+<code>kable()</code> output using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kableExtra::kable()</a></code>. It
+also applies a contrasting text color.</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">expt_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Sample_ID<span class="op">=</span><span class="st">""</span>,</span>
+<span>  Treatment<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vehicle"</span>, <span class="st">"Dex"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">6</span><span class="op">)</span>,</span>
+<span>  Genotype<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Wildtype"</span>, <span class="st">"Knockout"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span>  Rep<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rep"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">expt_df</span><span class="op">$</span><span class="va">Sample_ID</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pasteByRow.html">pasteByRow</a></span><span class="op">(</span><span class="va">expt_df</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">L2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>List1<span class="op">=</span><span class="va">L</span>,</span>
-<span>   List2<span class="op">=</span><span class="va">L</span><span class="op">)</span>;</span>
-<span></span>
-<span><span class="fu"><a href="../reference/sdim.html">sdim</a></span><span class="op">(</span><span class="va">L2</span><span class="op">)</span>;</span>
-<span><span class="co">#&gt;       rows class</span></span>
-<span><span class="co">#&gt; List1    3  list</span></span>
-<span><span class="co">#&gt; List2    3  list</span></span>
-<span><span class="fu"><a href="../reference/sdim.html">ssdim</a></span><span class="op">(</span><span class="va">L2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $List1</span></span>
-<span><span class="co">#&gt;           rows cols      class</span></span>
-<span><span class="co">#&gt; LETTERS     26       character</span></span>
-<span><span class="co">#&gt; letters     26       character</span></span>
-<span><span class="co">#&gt; lettersDF   26    2 data.frame</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $List2</span></span>
-<span><span class="co">#&gt;           rows cols      class</span></span>
-<span><span class="co">#&gt; LETTERS     26       character</span></span>
-<span><span class="co">#&gt; letters     26       character</span></span>
-<span><span class="co">#&gt; lettersDF   26    2 data.frame</span></span></code></pre></div>
+<span><span class="co"># define colors</span></span>
+<span><span class="va">colorSub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Vehicle<span class="op">=</span><span class="st">"palegoldenrod"</span>,</span>
+<span>  Dex<span class="op">=</span><span class="st">"navy"</span>,</span>
+<span>  Wildtype<span class="op">=</span><span class="st">"gold"</span>,</span>
+<span>  Knockout<span class="op">=</span><span class="st">"firebrick"</span>,</span>
+<span>  <span class="fu"><a href="../reference/nameVector.html">nameVector</a></span><span class="op">(</span><span class="fu"><a href="../reference/color2gradient.html">color2gradient</a></span><span class="op">(</span><span class="st">"grey48"</span>, n<span class="op">=</span><span class="fl">3</span>, dex<span class="op">=</span><span class="fl">10</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"rep"</span>, <span class="fl">3</span><span class="op">)</span>, suffix<span class="op">=</span><span class="st">""</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/nameVector.html">nameVector</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/color2gradient.html">color2gradient</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">3</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"goldenrod1"</span>, <span class="st">"indianred3"</span>, <span class="st">"royalblue3"</span>, <span class="st">"darkorchid4"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="va">expt_df</span><span class="op">$</span><span class="va">Sample_ID</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/check_pkg_installed.html">check_pkg_installed</a></span><span class="op">(</span><span class="st">"kableExtra"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>   <span class="va">kbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kable_coloring.html">kable_coloring</a></span><span class="op">(</span></span>
+<span>     <span class="va">expt_df</span>,</span>
+<span>     caption<span class="op">=</span><span class="st">"Experiment design table showing categorical color assignment."</span>,</span>
+<span>     <span class="va">colorSub</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
 </div>
 </div>

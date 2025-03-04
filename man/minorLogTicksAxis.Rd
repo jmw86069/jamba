@@ -2,6 +2,8 @@
 % Please edit documentation in R/jamba-axis.R
 \name{minorLogTicksAxis}
 \alias{minorLogTicksAxis}
+\alias{logFoldAxis}
+\alias{pvalueAxis}
 \title{Display major and minor tick marks for log-scale axis}
 \usage{
 minorLogTicksAxis(
@@ -14,9 +16,11 @@ minorLogTicksAxis(
   majorCex = 1,
   minorCex = 0.65,
   doMajor = TRUE,
+  doMinor = TRUE,
   doLabels = TRUE,
   doMinorLabels = TRUE,
   asValues = TRUE,
+  logAxisType = c("normal", "flip", "pvalue"),
   padj = NULL,
   doFormat = TRUE,
   big.mark = ",",
@@ -29,6 +33,34 @@ minorLogTicksAxis(
   col.ticks = col,
   minorLogTicksData = NULL,
   verbose = FALSE,
+  ...
+)
+
+logFoldAxis(
+  side = NULL,
+  lims = NULL,
+  logBase = 2,
+  displayBase = 2,
+  offset = 0,
+  symmetricZero = TRUE,
+  asValues = TRUE,
+  minorWhich = NULL,
+  doMinor = TRUE,
+  doMinorLabels = NULL,
+  scipen = 1,
+  ...
+)
+
+pvalueAxis(
+  side = 2,
+  lims = NULL,
+  displayBase = 10,
+  logBase = 10,
+  logAxisType = "pvalue",
+  asValues = FALSE,
+  doMinor = FALSE,
+  doMinorLabels = FALSE,
+  scipen = 1,
   ...
 )
 }
@@ -68,12 +100,25 @@ to cex=1 for default text size. These factors are applied in
 addition to existing \code{graphics::par("cex")} values, preserving any
 global text size defined there.}
 
-\item{doMajor, doLabels, doMinorLabels}{\code{logical}, default TRUE, to display
-each type of label. Major labels appear at log base positions,
-minor labels appear as intermediate values.}
+\item{doMajor, doMinor, doLabels, doMinorLabels}{\code{logical}, default TRUE,
+whether to display each type of tick and label.
+\itemize{
+\item \code{doMajor} display major ticks, at \code{displayBase} positions
+\item \code{doMinor} display minor ticks at intermediate positions
+\item \code{doLabels} display any labels
+\item \code{doMinorLabels} display minor labels
+}}
 
 \item{asValues}{\code{logical}, default TRUE, whether to print the
 exponentiated value, otherwise FALSE will print the log value.}
+
+\item{logAxisType}{\code{character} string with the type of axis values:
+\itemize{
+\item \code{"normal"}: axis values as-is.
+\item \code{"flip"}: inverted axis values, for example where negative values
+should be displayed as negative log-transformed values.
+\item \code{"pvalue"}: for values transformed as \code{-log10(pvalue)}
+}}
 
 \item{padj}{\code{numeric} vector length 2, which is used to position
 axis labels for the minor and major labels, respectively. For
@@ -124,6 +169,8 @@ positions and corresponding labels.
 Display major and minor tick marks for log-scale axis,
 with optional offset for proper labeling of \code{log2(1+x)}
 with numeric offset.
+
+Log fold axis
 }
 \details{
 This function displays log units on the axis of an
@@ -163,29 +210,52 @@ off by setting \code{symmetricZero=FALSE}.
 \examples{
 plotPolygonDensity(0:100, breaks=100);
 
-plotPolygonDensity(0:100, breaks=100, log="x",
+plotPolygonDensity(0:100, breaks=50, log="x",
    main="plotPolygonDensity() uses minorLogTicksAxis()",
    xlab="x (log-scaled)");
 
-plotPolygonDensity(log2(1+0:100), breaks=100,
+plotPolygonDensity(log2(1+0:100), breaks=50,
    main="manually called minorLogTicksAxis(logBase=2)",
    xaxt="n",
    xlab="x (log-scaled)");
 minorLogTicksAxis(1, offset=1, logBase=2);
 
-plotPolygonDensity(log10(1+0:100), breaks=100,
+plotPolygonDensity(log10(1+0:100), breaks=50,
    main="manually called minorLogTicksAxis(logBase=10)",
    xaxt="n",
    xlab="x (log-scaled)");
 minorLogTicksAxis(1, offset=1, logBase=10);
 
-plotPolygonDensity(log10(1+0:100), breaks=100,
-   main="using 'minorWhich=2:9'",
-   xaxt="n",
-   xlab="x (log-scaled)");
-minorLogTicksAxis(1, offset=1, logBase=10,
-   minorWhich=2:9);
+# example with log fold axes
+k <- c(-5:5)
+plot(x=k, y=k, xaxt="n", yaxt="n",
+   xlab="log2 base, displaying tick marks with log10 intervals",
+   ylab="log2 base, displaying tick marks with log2 intervals")
+axis(3, las=2)
+axis(4, las=2)
+lfax <- logFoldAxis(side=1, logBase=2, displayBase=2)
+lfay <- logFoldAxis(side=2, logBase=2, displayBase=10)
+# optionally add x-axis ablines
+abline(v=lfax$allTicks, lty="dotted", col="grey88")
+abline(v=lfax$majorTicks, lty="dashed", col="grey82")
+# optionally add y-axis ablines
+abline(h=lfay$allTicks, lty="dotted", col="grey88")
+abline(h=lfay$majorTicks, lty="dashed", col="grey82")
 
+# example showing volcano plot features
+set.seed(123);
+n <- 1000;
+vdf <- data.frame(lfc=rnorm(n) * 2)
+vdf$`-log10 (padj)` <- abs(vdf$lfc) * abs(rnorm(n))
+plotSmoothScatter(vdf, xaxt="n", yaxt="n", xlab="Fold change",
+   main="Volcano plot\ndisplayBase=2")
+logFoldAxis(1)
+pvalueAxis(2)
+
+plotSmoothScatter(vdf, xaxt="n", yaxt="n", xlab="Fold change",
+   main="Volcano plot\ndisplayBase=10")
+logFoldAxis(1, displayBase=10)
+pvalueAxis(2)
 }
 \seealso{
 Other jam plot functions: 

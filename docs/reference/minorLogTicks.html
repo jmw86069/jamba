@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@
 <span>  col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>  col.ticks <span class="op">=</span> <span class="va">col</span>,</span>
 <span>  combine <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  logAxisType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>, <span class="st">"flipped"</span>, <span class="st">"pvalue"</span><span class="op">)</span>,</span>
+<span>  logAxisType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>, <span class="st">"flip"</span>, <span class="st">"pvalue"</span><span class="op">)</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -158,30 +158,45 @@ minor ticks into one continuous set of major tick marks.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>list</code> of axis tick positions, and corresponding labels,
-for major and minor ticks.
-Major ticks are defined as one tick per log unit
-exponentiated. For example, 1, 10, 100, 1000 when <code>displayBase=10</code>.</p>
-    </div>
+for major and minor ticks. Note that labels may be <code>numeric</code>,
+<code>character</code>, or <code>expression</code>. Specifically when <code>expression</code>
+the <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code> must be called once per label.</p><ul><li><p>majorTicks: <code>numeric</code> position of each major tick mark</p></li>
+<li><p>minorTicks: <code>numeric</code> position of each minor tick mark</p></li>
+<li><p>allTicks: <code>numeric</code> position of each major tick mark</p></li>
+<li><p>majorLabels: label to show for each tick mark</p></li>
+<li><p>minorLabels: label to show for each tick mark</p></li>
+<li><p>minorSet: the <code>numeric</code> steps requested for minor ticks</p></li>
+<li><p>minorWhich: the <code>numeric</code> steps requested for minor labels</p></li>
+<li><p>allLabelsDF: <code>data.frame</code> with all tick marks and labels, with
+colname <code>"use"</code> indicating whether the label is displayed beside
+each tick mark.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function calculates log units for the axis of an
-existing base R plot. It
-calculates appropriate tick and label positions for major
-steps, which are typically in log steps; and minor steps, whic
-are typically a subset of steps at one lower log order.
-For example, log 10 steps would be: <code>c(1, 10, 100, 1000)</code>,
-and minor steps would be <code>c(2, 5, 20, 50, 200, 500, 2000, 5000)</code>.</p>
-<p>This function was motivated in order to label log-transformed
-data properly in some special cases, like using <code>log2(1+x)</code>
-where the resulting values are shifted "off by one" using
-standard log-scaled axis tick marks and labels.</p>
-<p>Also, when using log fold change values, this function
-creates axis labels which indicate negative fold change
+    <p>This function is called by <code><a href="minorLogTicksAxis.html">minorLogTicksAxis()</a></code>, and
+it may be better to use that function, or <code><a href="minorLogTicksAxis.html">logFoldAxis()</a></code>
+or <code><a href="minorLogTicksAxis.html">pvalueAxis()</a></code> which has better preset options.</p>
+<p>This function calculates log units for the axis of an
+existing base R plot.
+It calculates appropriate tick and label positions for:</p><ul><li><p>major steps, which are typically in log steps; and</p></li>
+<li><p>minor steps, which are typically a subset of steps at one
+lower log order.</p></li>
+</ul><p>For example, log 10 steps would be: <code>c(1, 10, 100, 1000)</code>,
+and minor steps would be <code>c(2, 5, 20, 50, 200, 500, 2000, 5000)</code>.</p><div class="section">
+<h3 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a></h3>
+
+
+<p>This function is motivated to fill a few difficult cases:</p><ol><li><p>Label axis ticks properly
+when used together with <code>offset</code>. For example <code>log2(1 + x)</code>
+uses <code>offset=1</code>. Other offsets can be used as relevant.</p></li>
+<li><p>Create axis labels which indicate negative fold change
 values, for example <code>-2</code> in log2 fold change units would
-be labeled with fold change <code>-4</code>, and not <code>0.0625</code> which
-represents a fractional value.</p>
-<p>Use the argument <code>symmetricZero=TRUE</code> when using directional
-log fold change values.</p>
+be labeled with fold change <code>-4</code>, and not <code>0.0625</code>.</p></li>
+<li><p>Use symmetric tick marks around x=0 when applied to log fold changes.</p></li>
+<li><p>Display actual P-values when plotting <code>log10(Pvalue)</code>, which
+is common for volcano plots.</p></li>
+</ol></div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -234,6 +249,7 @@ log fold change values.</p>
 <span class="r-plt img"><img src="minorLogTicks-1.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>,<span class="fl">10</span><span class="op">)</span>, doMargins<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="fl">0</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">3</span>, las<span class="op">=</span><span class="fl">2</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span><span class="fu"><a href="minorLogTicksAxis.html">minorLogTicksAxis</a></span><span class="op">(</span><span class="fl">1</span>, logBase<span class="op">=</span><span class="fl">2</span>, displayBase<span class="op">=</span><span class="fl">10</span>, symmetricZero<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="minorLogTicks-2.png" alt="" width="768" height="768"></span>

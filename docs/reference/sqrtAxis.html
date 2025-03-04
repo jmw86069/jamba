@@ -9,7 +9,7 @@ and negative range values."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ and negative range values.</p>
 <span>  side <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pretty.n <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  u5.bias <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  u5.bias <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  big.mark <span class="op">=</span> <span class="st">","</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  las <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -65,12 +65,15 @@ and negative range values.</p>
 
 <dl><dt id="arg-side">side<a class="anchor" aria-label="anchor" href="#arg-side"></a></dt>
 <dd><p><code>integer</code> value indicating the axis position, as used
-by <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code>, 1=bottom, 2=left, 3=top, 4=right.</p></dd>
+by <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code>, 1=bottom, 2=left, 3=top, 4=right.
+Note that when <code>x</code> is supplied, the numeric range is defined
+using values in <code>x</code> and not the axis side.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>optional <code>numeric</code> vector representing the numeric range
-to be labeled.</p></dd>
+to be labeled. When supplied, the numeric range of <code>x</code> is used
+and not the axis side.</p></dd>
 
 
 <dt id="arg-pretty-n">pretty.n<a class="anchor" aria-label="anchor" href="#arg-pretty-n"></a></dt>
@@ -100,18 +103,25 @@ perpendicular to the axis.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>additional parameters are passed to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code>.</p></dd>
+<dd><p>additional parameters are passed to <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code>, and to
+<code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code> when <code>plot=TRUE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>invisible <code>list</code> with axis positions, and corresponding labels.</p>
+    <p>invisible <code>numeric</code> vector with axis positions, named
+by normal space numeric labels. The primary use is to
+add numeric axis tick marks and labels.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function calculates positions for tick marks for data
 that has been transformed with <code><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt()</a></code>, specifically a directional
 transformation like <code>sqrt(abs(x)) * sign(x)</code>.</p>
+<p>If <code>x</code> is supplied, it is used to define the numeric range, otherwise
+the observed range is taken based upon <code>side</code>. If neither <code>x</code> nor <code>side</code>
+is supplied, or if the numeric range is empty or zero width,
+it returns <code>NULL</code>.</p>
 <p>The main goal of this function is to provide reasonably placed
 tick marks using integer values.</p>
     </div>
@@ -140,8 +150,17 @@ tick marks using integer values.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">*</span><span class="fl">10</span>, <span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">*</span><span class="fl">10</span>, xaxt<span class="op">=</span><span class="st">"n"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">sqrtAxis</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">sqrtAxis</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">x</span>, col<span class="op">=</span><span class="st">"grey"</span>, lty<span class="op">=</span><span class="st">"dotted"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"grey"</span>, lty<span class="op">=</span><span class="st">"dotted"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sqrtAxis-1.png" alt="" width="768" height="768"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># slightly different label placement with u5.bias=0</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">*</span><span class="fl">10</span>, <span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">*</span><span class="fl">10</span>, xaxt<span class="op">=</span><span class="st">"n"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">sqrtAxis</span><span class="op">(</span><span class="fl">1</span>, u5.bias<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">x</span>, col<span class="op">=</span><span class="st">"grey"</span>, lty<span class="op">=</span><span class="st">"dotted"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"grey"</span>, lty<span class="op">=</span><span class="st">"dotted"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="sqrtAxis-2.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

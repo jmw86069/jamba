@@ -161,6 +161,7 @@ application.
 }
 \examples{
 # write to tempfile for examples
+if (check_pkg_installed("openxlsx")) {
    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    df <- data.frame(a=LETTERS[1:5], b=1:5);
    writeOpenxlsx(x=df,
@@ -173,7 +174,7 @@ application.
       intRule=c(0,3,5),
       intStyle=c("#FFFFFF", "#1E90FF", "#9932CC")
    )
-
+}
 }
 \seealso{
 Other jam export functions: 

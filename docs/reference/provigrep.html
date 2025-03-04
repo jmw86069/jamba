@@ -9,7 +9,7 @@ case-insensitive grep for a vector of patterns"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,6 +118,13 @@ or when <code>value=FALSE</code> the index position is returned.</p></dd>
 <dd><p>additional arguments are passed to <code><a href="vigrep.html">vigrep()</a></code>.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>character</code> vector with entries in <code>x</code> reordered to match
+the order of <code>patterns</code> provided,  or <code>list</code> when <code>returnType="list"</code>
+named by <code>patterns</code> in the order provided. When <code>value=FALSE</code> then
+it returns <code>integer</code> index values of <code>x</code>.</p>
+    </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Purpose is to provide "progressive vigrep()",which is value-returning,

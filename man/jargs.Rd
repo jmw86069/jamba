@@ -8,6 +8,7 @@ jargs(
   x,
   grepString = NULL,
   sortVars = FALSE,
+  useMessage = TRUE,
   asList = TRUE,
   useColor = TRUE,
   lightMode = NULL,
@@ -15,7 +16,6 @@ jargs(
   Lrange = getOption("jam.Lrange"),
   adjustRgb = getOption("jam.adjustRgb"),
   useCollapseBase = ", ",
-  useMessage = TRUE,
   verbose = FALSE,
   debug = 0,
   ...
@@ -41,7 +41,11 @@ function definition.
 \item \code{sortVars=TRUE} returns arguments sorted alphabetically.
 }}
 
-\item{asList}{\code{logical} whether to display one entry per line (default), or
+\item{useMessage}{\code{logical} default TRUE, whether to print output
+using \code{message()}, otherwise text is returned invisibly to be
+displayed separately.}
+
+\item{asList}{\code{logical} default TRUE, display one entry per line or
 display results as a \code{data.frame}.}
 
 \item{useColor}{\code{logical} whether to display results in color, if the crayon

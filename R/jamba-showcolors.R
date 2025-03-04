@@ -34,7 +34,8 @@
 #'    the respective margin will not be adjusted.
 #'    * The arguments in `...` take precedence over `graphics::par()`,
 #'    when deciding whether to adjust margins. However if `xaxt="s"` and
-#'    `par("xaxt"="n")` the margin will be adjusted but not displayed.
+#'    `graphics::par("xaxt"="n")` the margin will be adjusted but not
+#'    displayed.
 #'    In this way the axes can be adjusted without displaying the labels,
 #'    so the labels can be rendered later if needed.
 #' @param makeUnique `logical` indicating whether to display only the first
@@ -258,14 +259,14 @@ showColors <- function
             ## Detect string width to adjust margins
             arglist <- list(...);
             use_xaxt <- ifelse(length(arglist$xaxt) > 0,
-               arglist$xaxt, par("xaxt"))
+               arglist$xaxt, graphics::par("xaxt"))
             if (!"n" %in% use_xaxt) {
                withr::local_par(adjustAxisLabelMargins(x=rownames(xM),
                   margin=1,
                   ...))
             }
             use_yaxt <- ifelse(length(arglist$yaxt) > 0,
-               arglist$yaxt, par("yaxt"))
+               arglist$yaxt, graphics::par("yaxt"))
             if (!"n" %in% use_yaxt) {
                withr::local_par(adjustAxisLabelMargins(x=colnames(xM),
                   margin=2,
@@ -289,14 +290,14 @@ showColors <- function
             ## Detect string width to adjust margins
             arglist <- list(...);
             use_xaxt <- ifelse(length(arglist$xaxt) > 0,
-               arglist$xaxt, par("xaxt"))
+               arglist$xaxt, graphics::par("xaxt"))
             if (!"n" %in% use_xaxt) {
                withr::local_par(adjustAxisLabelMargins(x=colnames(xM),
                   margin=1,
                   ...))
             }
             use_yaxt <- ifelse(length(arglist$yaxt) > 0,
-               arglist$yaxt, par("yaxt"))
+               arglist$yaxt, graphics::par("yaxt"))
             if (!"n" %in% use_yaxt) {
                withr::local_par(adjustAxisLabelMargins(x=rownames(xM),
                   margin=2,

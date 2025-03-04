@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
 <span>  <span class="va">x</span>,</span>
 <span>  grepString <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sortVars <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  useMessage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  asList <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  useColor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  lightMode <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -85,8 +86,14 @@ function definition.</p></li>
 </ul></dd>
 
 
+<dt id="arg-usemessage">useMessage<a class="anchor" aria-label="anchor" href="#arg-usemessage"></a></dt>
+<dd><p><code>logical</code> default TRUE, whether to print output
+using <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code>, otherwise text is returned invisibly to be
+displayed separately.</p></dd>
+
+
 <dt id="arg-aslist">asList<a class="anchor" aria-label="anchor" href="#arg-aslist"></a></dt>
-<dd><p><code>logical</code> whether to display one entry per line (default), or
+<dd><p><code>logical</code> default TRUE, display one entry per line or
 display results as a <code>data.frame</code>.</p></dd>
 
 
@@ -203,33 +210,34 @@ try using <code>jargs(functionname.default)</code> for example compare:</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function (x, grepString = NULL, sortVars = FALSE, asList = TRUE, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     useColor = TRUE, lightMode = NULL, Crange = getOption("jam.Crange"), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (x, grepString = NULL, sortVars = FALSE, useMessage = TRUE, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     asList = TRUE, useColor = TRUE, lightMode = NULL, Crange = getOption("jam.Crange"), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Lrange = getOption("jam.Lrange"), adjustRgb = getOption("jam.adjustRgb"), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     useCollapseBase = ", ", verbose = FALSE, debug = 0, ...) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu">jargs</span><span class="op">(</span><span class="va">jargs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               x = ,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      grepString = <span style="color: #949494;">NULL</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        sortVars = <span style="color: #FF0000;">FALSE</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          asList = <span style="color: #0087D7;">TRUE</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        useColor = <span style="color: #0087D7;">TRUE</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       lightMode = <span style="color: #949494;">NULL</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Crange = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.Crange"</span>),</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Lrange = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.Lrange"</span>),</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       adjustRgb = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.adjustRgb"</span>),</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> useCollapseBase = <span style="color: #AF87FF;">", "</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         verbose = <span style="color: #FF0000;">FALSE</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           debug = <span style="color: #AF87FF;">0</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ... = </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>               x = ,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      grepString = <span style="color: #949494;">NULL</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>        sortVars = <span style="color: #FF0000;">FALSE</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      useMessage = <span style="color: #0087D7;">TRUE</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>          asList = <span style="color: #0087D7;">TRUE</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>        useColor = <span style="color: #0087D7;">TRUE</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       lightMode = <span style="color: #949494;">NULL</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>          Crange = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.Crange"</span>),</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>          Lrange = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.Lrange"</span>),</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       adjustRgb = <span style="color: #AF87FF;">getOption</span>(<span style="color: #87D7AF;">"jam.adjustRgb"</span>),</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> useCollapseBase = <span style="color: #AF87FF;">", "</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>         verbose = <span style="color: #FF0000;">FALSE</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>           debug = <span style="color: #AF87FF;">0</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>             ... = </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># retrieve parameters involving notes from imageByColors</span></span></span>
 <span class="r-in"><span><span class="fu">jargs</span><span class="op">(</span><span class="va">imageByColors</span>, <span class="st">"note"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       cellnote = <span style="color: #949494;">NULL</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    cexCellnote = <span style="color: #AF87FF;">1</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    srtCellnote = <span style="color: #AF87FF;">0</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fontCellnote = <span style="color: #AF87FF;">1</span>,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> groupCellnotes = <span style="color: #0087D7;">TRUE</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>       cellnote = <span style="color: #949494;">NULL</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>    cexCellnote = <span style="color: #AF87FF;">1</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>    srtCellnote = <span style="color: #AF87FF;">0</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   fontCellnote = <span style="color: #AF87FF;">1</span>,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> groupCellnotes = <span style="color: #0087D7;">TRUE</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

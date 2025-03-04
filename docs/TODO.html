@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,15 @@
 
 <div id="todo-for-jamba" class="section level1">
 
+<div class="section level2">
+<h2 id="id_01mar2025">01mar2025<a class="anchor" aria-label="anchor" href="#id_01mar2025"></a></h2>
+<ul><li><p>DONE. Fix missing <code>\value()</code> in <code><a href="reference/make_html_styles.html">make_html_styles()</a></code>, <code><a href="reference/provigrep.html">provigrep()</a></code>.</p></li>
+<li><p>DONE. Confirm all <code>verbose=FALSE</code> by default.</p></li>
+<li><p>DONE. Confirm no bare <code><a href="reference/printDebug.html">printDebug()</a></code> without using <code>if(verbose){}</code></p></li>
+<li><p>DONE. Change to use <code>withr</code> equivalent functions for <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code>, <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>, <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code>.</p></li>
+<li><p>Consider using <code>cli</code> as new dependency as drop-in for <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> inside <code><a href="reference/printDebug.html">printDebug()</a></code> functions.</p></li>
+<li><p>DONE. Remove/Confirm <code>\dontrun{}</code> in Examples: <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code>, <code><a href="reference/applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code>, <code><a href="reference/applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>, <code><a href="reference/set_xlsx_colwidths.html">set_xlsx_colwidths()</a></code>, <code><a href="reference/set_xlsx_rowheights.html">set_xlsx_rowheights()</a></code>, <code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code>, <code><a href="reference/setPrompt.html">setPrompt()</a></code>.</p></li>
+</ul></div>
 <div class="section level2">
 <h2 id="id_13feb2025">13feb2025<a class="anchor" aria-label="anchor" href="#id_13feb2025"></a></h2>
 <ul><li>
@@ -911,7 +920,7 @@
 <div class="section level3">
 <h3 id="rbindlist">rbindList<a class="anchor" aria-label="anchor" href="#rbindlist"></a></h3>
 <ul><li>optional recursive operation, in the event of a nested list of data.frames, it should recurse through the list, calling rbindList() on each list element and progressive build up one resulting data.frame or matrix.</li>
-<li>optional ability to handle different colnames; alternative is to review <code><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> as potential replacement.</li>
+<li>optional ability to handle different colnames; alternative is to review <code><a href="https://rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> as potential replacement.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="imagebycolors">imageByColors<a class="anchor" aria-label="anchor" href="#imagebycolors"></a></h3>

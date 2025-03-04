@@ -1,8 +1,12 @@
 Package: jamba
 Title: Just Analysis Methods Base
 Version: 1.0.1
-Authors@R: person(given="James M.", family="Ward",
-    email="jmw86069@gmail.com", role=c("aut", "cre", "cph"))
+Authors@R: c(
+    person(given="James M.",
+       family="Ward",
+       email="jmw86069@gmail.com",
+       comment=c(ORCID="0000-0002-9510-2848"),
+       role=c("aut", "cre", "cph")))
 Description: Jam base functions focused on bioinformatics.
     Efficient gene-centric alphanumeric sort,
     unique name version assignment, colorized console and HTML output,

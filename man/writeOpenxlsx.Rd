@@ -294,6 +294,7 @@ df <- data.frame(name=LETTERS[1:7],
    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 df;
 # write to tempfile for examples
+if (check_pkg_installed("openxlsx")) {
    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    writeOpenxlsx(x=df,
       file=out_xlsx,
@@ -311,6 +312,7 @@ df;
    # now read it back
    df_list <- readOpenxlsx(xlsx=out_xlsx);
    sdim(df_list)
+}
 
 }
 \seealso{

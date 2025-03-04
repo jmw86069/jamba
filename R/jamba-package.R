@@ -79,6 +79,5 @@
 #' @importFrom methods as
 #' @importFrom utils head
 #' @importFrom utils tail
-#' @importFrom withr with_locale
 ## usethis namespace: end
 NULL

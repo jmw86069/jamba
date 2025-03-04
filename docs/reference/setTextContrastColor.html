@@ -13,7 +13,7 @@ contrasting grey shade."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -189,7 +189,7 @@ text boxes.</p>
 <span class="r-plt img"><img src="setTextContrastColor-1.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span><span class="co"># printDebugI() uses setTextContrastColor() for foreground text</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="printDebug.html">printDebugI</a></span><span class="op">(</span><span class="va">color</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">16:18:37</span>) 25Feb2025:      <span style="color: #E4E4E4; background-color: #FF0000;">red</span>,<span style="color: #121212; background-color: #FFFF00;">yellow</span>,<span style="color: #121212; background-color: #D7FFFF;">lightblue</span>,<span style="color: #E4E4E4; background-color: #D75FFF;">darkorchid1</span>,<span style="color: #E4E4E4; background-color: #0000AF;">blue4</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00FFFF; font-weight: bold;">21:41:32</span>) 03Mar2025:      <span style="color: #E4E4E4; background-color: #FF0000;">red</span>,<span style="color: #121212; background-color: #FFFF00;">yellow</span>,<span style="color: #121212; background-color: #D7FFFF;">lightblue</span>,<span style="color: #E4E4E4; background-color: #D75FFF;">darkorchid1</span>,<span style="color: #E4E4E4; background-color: #0000AF;">blue4</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># demonstrate the effect of alpha transparency</span></span></span>
 <span class="r-in"><span><span class="va">colorL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="nameVector.html">nameVector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.9</span>, <span class="fl">0.8</span>, <span class="fl">0.6</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span></span>
@@ -202,15 +202,13 @@ text boxes.</p>
 <span class="r-plt img"><img src="setTextContrastColor-2.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># change background to dark blue</span></span></span>
-<span class="r-in"><span><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"bg"</span><span class="op">=</span><span class="st">"navy"</span>,</span></span>
-<span class="r-in"><span>   <span class="st">"col"</span><span class="op">=</span><span class="st">"white"</span>,</span></span>
-<span class="r-in"><span>   <span class="st">"col.axis"</span><span class="op">=</span><span class="st">"white"</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_par.html" class="external-link">with_par</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"bg"</span><span class="op">=</span><span class="st">"navy"</span>, <span class="st">"col"</span><span class="op">=</span><span class="st">"white"</span>, <span class="st">"col.axis"</span><span class="op">=</span><span class="st">"white"</span><span class="op">)</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu">jamba</span><span class="fu">::</span><span class="fu"><a href="showColors.html">showColors</a></span><span class="op">(</span><span class="va">colorL</span>,</span></span>
 <span class="r-in"><span>   groupCellnotes<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>   srtCellnote<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">15</span>, to<span class="op">=</span><span class="op">-</span><span class="fl">15</span>, length.out<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>ylab<span class="op">=</span><span class="st">"alpha"</span>, line<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="setTextContrastColor-3.png" alt="" width="768" height="768"></span>
-<span class="r-in"><span><span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example using transparency and drawLabels()</span></span></span>
 <span class="r-in"><span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="st">"blue4"</span>;</span></span>

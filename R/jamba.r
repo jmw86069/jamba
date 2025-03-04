@@ -1872,7 +1872,10 @@ make_styles <- function
 #'    * `sortVars=FALSE` returns arguments in the order they appear in the
 #'    function definition.
 #'    * `sortVars=TRUE` returns arguments sorted alphabetically.
-#' @param asList `logical` whether to display one entry per line (default), or
+#' @param useMessage `logical` default TRUE, whether to print output
+#'    using `message()`, otherwise text is returned invisibly to be
+#'    displayed separately.
+#' @param asList `logical` default TRUE, display one entry per line or
 #'    display results as a `data.frame`.
 #' @param useColor `logical` whether to display results in color, if the crayon
 #'    package is available, and terminal console is capable.
@@ -1915,6 +1918,7 @@ jargs <- function
 (x,
  grepString=NULL,
  sortVars=FALSE,
+ useMessage=TRUE,
  asList=TRUE,
  useColor=TRUE,
  lightMode=NULL,
@@ -1922,7 +1926,6 @@ jargs <- function
  Lrange=getOption("jam.Lrange"),
  adjustRgb=getOption("jam.adjustRgb"),
  useCollapseBase=", ",
- useMessage=TRUE,
  verbose=FALSE,
  debug=0,
  ...)

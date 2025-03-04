@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,36 +77,36 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>matrix or data.frame containing colors</p></dd>
+<dd><p><code>matrix</code> or <code>data.frame</code> containing colors</p></dd>
 
 
 <dt id="arg-useraster">useRaster<a class="anchor" aria-label="anchor" href="#arg-useraster"></a></dt>
-<dd><p>logical sent to <code><a href="imageDefault.html">imageDefault</a></code> to enable
+<dd><p><code>logical</code> sent to <code><a href="imageDefault.html">imageDefault</a></code> to enable
 raster rendering, as opposed to polygon rendering. This parameter is
 highly recommended when the matrix is large (&gt;50 columns or rows).</p></dd>
 
 
 <dt id="arg-fixrasterratio">fixRasterRatio<a class="anchor" aria-label="anchor" href="#arg-fixrasterratio"></a></dt>
-<dd><p>logical sent to <code><a href="imageDefault.html">imageDefault</a></code>.</p></dd>
+<dd><p><code>logical</code> sent to <code><a href="imageDefault.html">imageDefault</a></code>.</p></dd>
 
 
 <dt id="arg-maxratiofix">maxRatioFix<a class="anchor" aria-label="anchor" href="#arg-maxratiofix"></a></dt>
-<dd><p>numeric sent to <code><a href="imageDefault.html">imageDefault</a></code>.</p></dd>
+<dd><p><code>numeric</code> sent to <code><a href="imageDefault.html">imageDefault</a></code>.</p></dd>
 
 
 <dt id="arg-xaxt-yaxt">xaxt, yaxt<a class="anchor" aria-label="anchor" href="#arg-xaxt-yaxt"></a></dt>
-<dd><p>character values compatible with <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></code> to
+<dd><p><code>character</code> values compatible with <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></code> to
 determine whether x- and y-axes are plotted. Set both to "n" to
 suppress display of axes.</p></dd>
 
 
 <dt id="arg-doplot">doPlot<a class="anchor" aria-label="anchor" href="#arg-doplot"></a></dt>
-<dd><p>logical whether to create a plot, or simply return data which
+<dd><p><code>logical</code> whether to create a plot, or simply return data which
 would have been used to create the plot.</p></dd>
 
 
 <dt id="arg-cellnote">cellnote<a class="anchor" aria-label="anchor" href="#arg-cellnote"></a></dt>
-<dd><p>matrix or data.frame of labels to be displayed on the
+<dd><p><code>matrix</code> or <code>data.frame</code> of labels to be displayed on the
 image. If groupCellnotes==TRUE labels will be placed in the center
 of consecutive cells with the same label and identical color.
 Currently, cell text is colored using <code><a href="setTextContrastColor.html">setTextContrastColor</a></code>
@@ -115,9 +115,11 @@ the background color.</p></dd>
 
 
 <dt id="arg-cexcellnote-srtcellnote-fontcellnote">cexCellnote, srtCellnote, fontCellnote<a class="anchor" aria-label="anchor" href="#arg-cexcellnote-srtcellnote-fontcellnote"></a></dt>
-<dd><p>numeric vectors, with values
-applied to cellnote text to be compatible with graphics::par("cex"), graphics::par("srt"),
-and graphics::par("font"), respectively. If supplied a matrix or data.frame with
+<dd><p><code>numeric</code> vectors, with values
+applied to cellnote text to be compatible with <code>graphics::par("cex")</code>,
+<code>graphics::par("srt")</code>,
+and <code>graphics::par("font")</code>, respectively.
+If supplied a matrix or data.frame with
 it is used as-is or expanded to equivalent dimensions of <code>x</code>.
 If the vector is named by colnames(x) then it is applied
 by column in order, otherwise it is applied by row, with values recycled
@@ -133,13 +135,13 @@ y-axis, and left-to-right on the x-axis.</p></dd>
 
 
 <dt id="arg-groupcellnotes">groupCellnotes<a class="anchor" aria-label="anchor" href="#arg-groupcellnotes"></a></dt>
-<dd><p>logical whether to group labels where consecutive
+<dd><p><code>logical</code> whether to group labels where consecutive
 cells contain the same label and identical cell colors, thus only
 displaying one label in the center of these groups.</p></dd>
 
 
 <dt id="arg-groupby">groupBy<a class="anchor" aria-label="anchor" href="#arg-groupby"></a></dt>
-<dd><p>character value indicating the direction to group
+<dd><p><code>character</code> value indicating the direction to group
 cellnotes, when <code>groupCellnotes=TRUE</code>: <code>"row"</code> will group cellnote
 values by row; <code>"column"</code> will group cellnote values by column.
 By default, it will first group cellnotes by <code>"row"</code> then
@@ -147,7 +149,7 @@ by <code>"column"</code>.</p></dd>
 
 
 <dt id="arg-groupbycolors">groupByColors<a class="anchor" aria-label="anchor" href="#arg-groupbycolors"></a></dt>
-<dd><p>logical indicating whether the cellnote grouping
+<dd><p><code>logical</code> indicating whether the cellnote grouping
 should also include the cell color. When <code>groupByColors=FALSE</code>,
 cellnote values will be grouped together regardless whether the
 underlying colors change, which may be preferred when applying
@@ -155,37 +157,40 @@ text label to topographical data.</p></dd>
 
 
 <dt id="arg-adjby">adjBy<a class="anchor" aria-label="anchor" href="#arg-adjby"></a></dt>
-<dd><p>character value indicating how to apply adjustments for
+<dd><p><code>character</code> value indicating how to apply adjustments for
 cexCellnote, srtCellnote, and fontCellnote, as described above.</p></dd>
 
 
 <dt id="arg-adjustmargins">adjustMargins<a class="anchor" aria-label="anchor" href="#arg-adjustmargins"></a></dt>
-<dd><p>logical indicating whether to adjust the axis
+<dd><p><code>logical</code> indicating whether to adjust the axis
 label margins to ensure enough room to draw the text rownames
 and colnames.</p></dd>
 
 
 <dt id="arg-interpolate">interpolate<a class="anchor" aria-label="anchor" href="#arg-interpolate"></a></dt>
-<dd><p>logical whether to implement image interpolation,
+<dd><p><code>logical</code> whether to implement image interpolation,
 by default TRUE when useRaster=TRUE.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>logical whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> whether to print verbose output.</p></dd>
 
 
 <dt id="arg-xpd">xpd<a class="anchor" aria-label="anchor" href="#arg-xpd"></a></dt>
-<dd><p>NULLL or logical used for <code>graphics::par("xpd")</code> to define whether
-to crop displayed output to the plot area. If xpd=NULL then graphics::par("xpd")
-will not be modified, otherwise graphics::par("xpd"=xpd) will be defined while
-adding any cell notes, then reverted to its previous value afterward.
+<dd><p>NULL or <code>logical</code> used for <code>graphics::par("xpd")</code>
+whether to crop displayed output to the plot area.</p><ul><li><p>If xpd=NULL then <code>graphics::par("xpd")</code>
+will not be modified, otherwise <code>graphics::par("xpd"=xpd)</code>
+will be defined while adding any cell notes,
+then reverted to its previous value afterward.
 This parameter is mainly useful when cellnote labels may overhang the
 plot space, and would be cropped and not visible if
-<code>graphics::par("xpd"=TRUE)</code>.</p></dd>
+<code>graphics::par("xpd"=TRUE)</code>.</p></li>
+</ul></dd>
 
 
 <dt id="arg-bty">bty<a class="anchor" aria-label="anchor" href="#arg-bty"></a></dt>
-<dd><p><code>character</code> used to control box type, default <code>graphics::par("bty")</code></p></dd>
+<dd><p><code>character</code> used to control box type, default
+<code>graphics::par("bty")</code></p></dd>
 
 
 <dt id="arg-flip">flip<a class="anchor" aria-label="anchor" href="#arg-flip"></a></dt>
@@ -197,15 +202,15 @@ plot space, and would be cropped and not visible if
 
 
 <dt id="arg-keeptextalpha">keepTextAlpha<a class="anchor" aria-label="anchor" href="#arg-keeptextalpha"></a></dt>
-<dd><p>logical passed to <code><a href="setTextContrastColor.html">setTextContrastColor</a></code>
-indicating whether the text label color should inherit the alpha
-transparency from the background color. If TRUE then fully transparent
-background colors will not have a visible label.</p></dd>
+<dd><p><code>logical</code> defaulit FALSE,
+passed to <code><a href="setTextContrastColor.html">setTextContrastColor()</a></code>, whether the text label color
+should inherit the alpha transparency from the background color.
+If TRUE then fully transparent background colors will not have
+a visible label.</p></dd>
 
 
 <dt id="arg-dotest">doTest<a class="anchor" aria-label="anchor" href="#arg-dotest"></a></dt>
-<dd><p>logical whether to run a test showing basic features of
-<code>imageByColors</code>.</p></dd>
+<dd><p><code>logical</code> whether to run a test showing basic features.</p></dd>
 
 
 <dt id="arg-add">add<a class="anchor" aria-label="anchor" href="#arg-add"></a></dt>
@@ -291,7 +296,7 @@ columns, but not always the same columns per row.</p></li>
 <span class="r-in"><span><span class="fu">imageByColors</span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="imageByColors-1.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># useRaster=TRUE, edges are slightly blurred with small tables</span></span></span>
+<span class="r-in"><span><span class="co"># using useRaster, edges are slightly blurred with small tables</span></span></span>
 <span class="r-in"><span><span class="fu">imageByColors</span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span>, useRaster<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
 <span class="r-plt img"><img src="imageByColors-2.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span></span></span>

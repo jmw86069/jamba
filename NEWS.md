@@ -47,6 +47,11 @@ output, even using `cli::ansi_html()`.
 * `showColors()` no longer calls `adjustAxisLabelMargins()` when
 axis is hidden by `xaxt="n"` or `yaxt="n"` for respective axis labels.
 
+## new functions
+
+* `logFoldAxis()`, `pvalueAxis()` easy presets for `minorLogTicksAxis()`
+
+
 # jamba 1.0.0
 
 * CRAN release version.

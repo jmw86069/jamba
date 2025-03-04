@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,18 +63,22 @@
 
 
 <dl><dt id="arg-preset">preset<a class="anchor" aria-label="anchor" href="#arg-preset"></a></dt>
-<dd><p>character vector of coordinate positions, or "default"
-to use the <code>x,y</code> coordinates.</p></dd>
+<dd><p><code>character</code> vector of coordinate positions, or the default
+"default" to use the <code>x,y</code> coordinates.</p><ul><li><p>Recognized terms: center, bottom, top, left, right, topleft,
+topright, bottomleft, bottomright.</p></li>
+</ul></dd>
 
 
 <dt id="arg-x-y">x, y<a class="anchor" aria-label="anchor" href="#arg-x-y"></a></dt>
-<dd><p>numeric vectors indicating the default coordinates <code>x,y</code>.</p></dd>
+<dd><p><code>numeric</code> vectors indicating the default coordinates <code>x,y</code>.</p></dd>
 
 
 <dt id="arg-adjpreset">adjPreset<a class="anchor" aria-label="anchor" href="#arg-adjpreset"></a></dt>
-<dd><p>character vector of text label positions, or
-"default" to use <code>preset</code>, or when <code>preset="default"</code> the
-<code>adjX,adjY</code> values are used.</p></dd>
+<dd><p><code>character</code> vector of text label positions, or
+the default "default" to use <code>preset</code>, or when <code>preset="default"</code> the
+<code>adjX,adjY</code> values are used.</p><ul><li><p>Recognized terms: center, bottom, top, left, right, topleft,
+topright, bottomleft, bottomright.</p></li>
+</ul></dd>
 
 
 <dt id="arg-adjx-adjy">adjX, adjY<a class="anchor" aria-label="anchor" href="#arg-adjx-adjy"></a></dt>
@@ -83,7 +87,7 @@ values, as described for <code>adj</code> in <code><a href="https://rdrr.io/r/gr
 
 
 <dt id="arg-adjoffsetx-adjoffsety">adjOffsetX, adjOffsetY<a class="anchor" aria-label="anchor" href="#arg-adjoffsetx-adjoffsety"></a></dt>
-<dd><p>numeric vector used to apply an offset
+<dd><p><code>numeric</code> vector used to apply an offset
 value to the <code>adjX,adjY</code> values, where positive values would
 place a label farther away from center. Note these units are
 relative to the text label size, when used with <code><a href="https://rdrr.io/r/graphics/text.html" class="external-link">graphics::text()</a></code>,
@@ -100,7 +104,7 @@ which may be applied around multi-panel plot figures.</p></li>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>logical indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> indicating whether to print verbose output.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -237,7 +241,7 @@ The <code>preset</code> value takes priority over the supplied <code>x,y</code> 
 <span class="r-plt img"><img src="coordPresets-4.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># demonstrate margin coordinates</span></span></span>
-<span class="r-in"><span><span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"oma"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_par.html" class="external-link">with_par</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"oma"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="nullPlot.html">nullPlot</a></span><span class="op">(</span>xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span><span class="va">cpxy</span> <span class="op">&lt;-</span> <span class="fu">coordPresets</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"top"</span>, <span class="st">"bottom"</span>, <span class="st">"left"</span>, <span class="st">"right"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>   preset_type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"plot"</span>, <span class="st">"figure"</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>;</span></span>
@@ -248,8 +252,8 @@ The <code>preset</code> value takes priority over the supplied <code>x,y</code> 
 <span class="r-in"><span><span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">cpxy</span><span class="op">$</span><span class="va">x</span>, <span class="va">cpxy</span><span class="op">$</span><span class="va">y</span>, cex<span class="op">=</span><span class="fl">2</span>,</span></span>
 <span class="r-in"><span>   col<span class="op">=</span><span class="st">"red4"</span>, bg<span class="op">=</span><span class="st">"red1"</span>, xpd<span class="op">=</span><span class="cn">NA</span>,</span></span>
 <span class="r-in"><span>   pch<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">23</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="coordPresets-5.png" alt="" width="768" height="768"></span>
-<span class="r-in"><span><span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"oma"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

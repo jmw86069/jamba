@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,42 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.1" id="jamba-101">jamba 1.0.1<a class="anchor" aria-label="anchor" href="#jamba-101"></a></h2>
+<div class="section level3">
+<h3 id="changes-per-cran-comments-1-0-1">Changes per CRAN comments.<a class="anchor" aria-label="anchor" href="#changes-per-cran-comments-1-0-1"></a></h3>
+<ul><li><p>All uses of <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code> and <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>, which previously altered its value, were replaced with the <code>withr</code> equivalent, to preserve the user environment. Notable exception is <code><a href="../reference/setPrompt.html">setPrompt()</a></code> whose change to <code>options("prompt")</code> is the specific purpose of the function. Other exceptions are Jam options, whose changes are intended.</p></li>
+<li><p>Removed all cases of <code>\dontrun{}</code>, involving the xlsx functions. They now use <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile()</a></code> and perform a proper, small example.</p></li>
+<li><p>Confirmed all functions default <code>verbose=FALSE</code> except <code><a href="../reference/reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code> whose verbose output is intended, but the option to silence does exist, as it should.</p></li>
+<li><p>Removed two stray instances of unintended always-verbose output that called <code><a href="../reference/printDebug.html">printDebug()</a></code>. All calls to <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="../reference/printDebug.html">printDebug()</a></code> are wrapped inside <code>if(verbose){}</code> blocks.</p></li>
+<li><p><code><a href="../reference/jargs.html">jargs()</a></code> now uses <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code> instead of <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code>, so it can be silenced.</p></li>
+<li><p>The only remaining use of <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code> outside <code>if(verbose){}</code> involves <code><a href="../reference/printDebug.html">printDebug()</a></code>, whose core purpose is to print its output. Upon testing, <code>cli</code> functions could not be made reliable for HTML/RMarkdown output, even using <code><a href="https://cli.r-lib.org/reference/ansi_html.html" class="external-link">cli::ansi_html()</a></code>.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-notable-changes-1-0-1">Other notable changes<a class="anchor" aria-label="anchor" href="#other-notable-changes-1-0-1"></a></h3>
+<ul><li>
+<p><code><a href="../reference/decideMfrow.html">decideMfrow()</a></code></p>
+<ul><li>new argument <code>xyratio=1</code> to control the target plot aspect ratio. Also corrected issue causing blank</li>
+<li>new argument <code>trimExtra=TRUE</code> to control whether blank columns or rows are trimmed, to prevent <code>n=4</code> from returning <code>c(3, 2)</code> in some circumstances.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/sqrtAxis.html">sqrtAxis()</a></code></p>
+<ul><li>Now passes u5.bias to internal call to pretty(), with <code>u5.bias=1</code> the new default to maintain previous behavior.</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/adjustAxisLabelMargins.html">adjustAxisLabelMargins()</a></code></p>
+<ul><li>breaking change: returns <code>list</code> named <code>"mai"</code> suitable to use with <code>graphics::par(adjustAxisLabelMargins())</code>.</li>
+<li>It no longer updates the user <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par()</a></code>, due to helpful CRAN policy. Makes sense to push this decision outside the function.</li>
+</ul></li>
+<li><p><code><a href="../reference/showColors.html">showColors()</a></code> no longer calls <code><a href="../reference/adjustAxisLabelMargins.html">adjustAxisLabelMargins()</a></code> when axis is hidden by <code>xaxt="n"</code> or <code>yaxt="n"</code> for respective axis labels.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-1-0-1">new functions<a class="anchor" aria-label="anchor" href="#new-functions-1-0-1"></a></h3>
+<ul><li>
+<code><a href="../reference/minorLogTicksAxis.html">logFoldAxis()</a></code>, <code><a href="../reference/minorLogTicksAxis.html">pvalueAxis()</a></code> easy presets for <code><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code>
+</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="jamba-100">jamba 1.0.0<a class="anchor" aria-label="anchor" href="#jamba-100"></a></h2>
 <ul><li>CRAN release version.</li>
 <li>Added missing returns, examples.</li>
@@ -45,6 +81,7 @@
 <li>Moved IRanges to Enhances.</li>
 <li>Updated <code><a href="../reference/uniques.html">uniques()</a></code> when S4Vectors is not available.</li>
 <li>Added CITATION, updated LICENSE, fixed URL</li>
+<li>Updated some tests to use testthat stop_if logic.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.107.900" id="jamba-00107900">jamba 0.0.107.900<a class="anchor" aria-label="anchor" href="#jamba-00107900"></a></h2>

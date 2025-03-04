@@ -4,7 +4,7 @@
 # jamba
 
 The goal of jamba is to provide useful custom functions for R data
-analysis and visualization. jamba version **0.0.107.900**
+analysis and visualization. jamba version **1.0.1**
 
 ## Package Reference
 
@@ -90,9 +90,7 @@ Small and large efficiencies are used wherever possible. The
 additional optimizations for speed and custom needs. It sorts chromosome
 names, gene names, micro-RNA names, etc.
 
-## Example R functions
-
-### Efficient alphanumeric sort
+## Alphanumeric sort
 
 - `mixedSort()` - highly efficient alphanumeric sort, for example chr1,
   chr2, chr3, chr10, etc.
@@ -119,7 +117,7 @@ Example:
 
 </div>
 
-### Base R plotting
+## Base R plotting
 
 These functions help with base R plots, in all those little cases when
 the amazing `ggplot2` package is not a smooth fit.
@@ -137,8 +135,9 @@ the amazing `ggplot2` package is not a smooth fit.
 - `imageByColors()` - wrapper to `image()` for a matrix or data.frame of
   colors, with optional labels
   <img src="man/figures/README-imageByColors-1.png" alt="Example color matrix as plotted using the image by colors function()"  />
-- `minorLogTicksAxis()` - log-transformed axis labels, flexible log
-  base, and option for properly adjusted `log2(1 + x)` format.
+- `minorLogTicksAxis()`, `logFoldAxis()`, `pvalueAxis()` - log axis tick
+  marks and labels, compatible with `offset` for example
+  `log(offset + x)`.
 - `sqrtAxis()` - draw a square-root transformed axis, with proper
   labels.
 - `drawLabels()` - draw square colorized text labels
@@ -150,7 +149,7 @@ the amazing `ggplot2` package is not a smooth fit.
   multipanel output in base R plotting.
 - `getPlotAspect()` - determine visible plot aspect ratio.
 
-### Excel export
+## Excel export
 
 Every Bioinformatician/statistician needs to write data to Excel, the
 `writeOpenxlsx()` function is consistent and makes it look pretty. You
@@ -162,104 +161,142 @@ go back and custom-format everything.
 - `applyXlsxCategoricalFormat()` - apply categorical colors to Excel
 - `applyXlsxConditionalFormat()` - apply conditional colors to Excel
 
-### Color
+## Colors
 
 Almost everything uses color somewhere, especially on R console, and in
 every R plot.
 
-- `getColorRamp()` - flexible to create or retrieve color gradients
-- `warpRamp()` - “bend” a color gradient to enhance the visual range
-- `color2gradient()` - convert a color to gradient of n colors; or do
-  the same for a vector
-- `makeColorDarker()` - adjust darkness and saturation
-- `showColors()` - display a vector or list of colors
-- `fixYellow()` - adjust the weird green-yellow, by personal preference
-- `printDebug()` - pretty colorized text output using `crayon` package.
-- `printDebugHtml()` - pretty colorized HTML output, usable in
-  RMarkdown.
-- `rainbow2()` - rainbow categorical colors with enhanced visual
+- `getColorRamp()` - retrieve or create color palettes
+- `setTextContrastColor()` - find contrasting font color for colored
+  background
+- `makeColorDarker()` - make a color darker (or lighter, or saturated)
+- `color2gradient()` - split one color to a gradient of `n` colors
+- `showColors()` - display a vector or `list` of colors
+- `rainbow2()` - enhances `rainbow()` categorical colors for visual
   contrast.
+- `warpRamp()` - “bend” a color gradient to enhance the visual range
+- `fixYellow()` - opinionated reduction of yellow-green hue
+- `printDebug()` - colorized text output to console or RMarkdown
+- `printDebugHtml()` - colorized HTML output in RMarkdown or web pages
+- `kable_coloring()` - colored `kableExtra::kable()` RMarkdown tables,
+  if `kableExtra` package is installed.
+- `col2alpha()`, `alpha2col()` - get or set alpha transparency
+- `col2hcl()`, `col2hsl()`, `col2hsv()`, `hcl2col()`, `hsl2col()`,
+  `hsv2col()`, `rgb2col()` - consistent color conversions.
+- `color_dither()` - split color into two to make color stripes
 
 <img src="man/figures/README-colorshow-1.png" alt="Image showing a series of color palettes, adjusting contrast with lens, and expanding palettes with color2gradient()"  />
 
-### List
+## List Functions
 
-Cool methods to operate on super-long lists in one call, to avoid
-looping through the list either with `for()` loops, `lapply()` or
-`map()` functions.
+Efficient methods to operate on lists in one call, to avoid looping
+through the list either with `for()` loops, `lapply()` or `map()`
+functions. Driven by speed with 10k-100k rows, typical biological
+datasets.
 
-- `cPaste()` - highly efficient `paste()` over a large list of vectors
-- `cPasteS()` - as above but using `mixedSort()` before `paste()`.
-- `cPasteU()` - as above but using `uniques()` before `paste()`.
-- `cPasteSU()` - as above but using `mixedSort()` and `uniques()` before
-  `paste()`.
-- `uniques()` - efficient `unique()` over a list of vectors
-- `sclass()` - runs `class()` on a list
-- `sdim()`, `ssdim()` - dimensions of list objects, or nested list of
-  lists
-- `rbindList()` - efficient `do.call(rbind, ...)` to bind rows into a
-  matrix or data.frame, useful when following `strsplit()`.
-- `mergeAllXY()` - merge a list of `data.frame` objects
-- `rmNULL()` - remove NULL or empty elements from a list, with optional
-  replacement
+Compared to convenient alternatives, `apply()` or tidyverse, typically
+order of magnitude faster. (Ymmv.) Notable exceptions: `data.table` and
+Bioconductor `S4Vectors`. Both are amazing, and are fairly heavy
+installations. `S4Vectors` is used when available.
 
-### Names
+- `cPaste()` - `paste(..., collapse)` a list of vectors
+- `cPasteS()` - `cPaste()` with `mixedSort()`
+- `cPasteU()` - `cPaste()` with `unique()` (actually `uniques()`)
+- `cPasteSU()` - `cPaste()` with `mixedSort()` and `unique()`
+- `uniques()` - `unique()` across a list of vectors
+- `sclass()` - `class()` a list
+- `sdim()` - `dim()` across a list, or S4 object, or non-list object
+- `ssdim()` - `sdim()` across a list
+- `sdima()` - `sdim()` for `attributes()`
+- `rbindList()` - `do.call(rbind, ...)` to bind rows into a `matrix` or
+  `data.frame`, useful together with `strsplit()`.
+- `mergeAllXY()` - `merge(..., all.x=TRUE, all.y=TRUE)` a list of
+  `data.frame`
+- `rmNULL()` - remove NULL from a list, with optional replacement
+- `rmNAs()` - `rmNA()` across a list, with option replacement(s)
+- `showColors()` - display colors
+- `heads()` - `head()` across a list
 
-We use R names as an additional method to make sure everything is kept
-in the proper order. Many R functions return results using input names,
-so it helps to have a really solid naming strategy. For the R functions
-that remove names – I highly recommend adding them back yourself!
+## Unique names with versions
 
-- `makeNames()` - make unique names, using flexible logic
-- `nameVector()` - add names to a vector, using its own value, or
-  supplied names
-- `nameVectorN()` - make named vector using the names of a vector
-  (useful inside `lapply()`) or any function that returns data using
-  names of the input vector.
+R object names provide an additional method to confirm data are kept in
+the proper order. Duplicated names may be silently ignored, which
+motivated the easy approach to “make unique names”.
 
-### data.frame/matrix/tibble
+- `makeNames()` - make unique names, with flexible rules
+- `nameVector()` - add unique names using `makeNames()`
+- `nameVectorN()` - make vector of names, named with `makeNames()`.
+  Useful inside `lapply()` which returns names but only when provided.
 
-- `pasteByRow()` - fast, flexible row-paste with delimiters, optionally
-  remove blanks
-- `pasteByRowOrdered()` - as above but returns ordered factor, using
-  existing factor orders from each column when present
-- `rowGroupMeans()`, `rowRmMadOutliers()` - efficient grouped row
-  functions
-- `mergeAllXY()` - merge a list of `data.frame` into one
+## data.frame/matrix/tibble
+
+- `mixedSortDF()` - `mixedSort()` by columns or rownames
+- `pasteByRow()` - fast row-paste with delimiters, default skips blanks
+- `pasteByRowOrdered()` - nifty alternative that honors factor levels
+- `rowGroupMeans()`, `rowRmMadOutliers()` - grouped row functions
+- `mergeAllXY()` - merge a list of `data.frame` into one, keeping all
+  rows
 - `renameColumn()` - rename columns `from` and `to`.
 - `kable_coloring()` - flexible colorized `data.frame` output in
   Rmarkdown.
 
-### String / grep
+## String / grep
 
-- `gsubOrdered()` - gsub that returns ordered factor, maintians the
-  previous factor order
-- `grepls()` - grep the environment (including attached packages) for
-  object names
+- `tcount()` - `table()` sorted high-to-low, with minimum count filter
+- `middle()` - show `n` entries from start, middle, then end.
+- `gsubOrdered()` - `gsub()` that returns ordered factor, inherits
+  existing
+- `gsubs()` - `gsub()` a vector of patterns/replacements.
+- `grepls()` - grep the environment object names, including attached
+  packages
 - `vgrep()`, `vigrep()` - value-grep shortcut
-- `unvgrep()`, `unvigrep()` - un-grep – remove matched results from the
-  output.
-- `provigrep()` - progressive grep, searches each pattern in order,
-  returning results in that order
-- `igrepHas()` - rapid case-insensitive grep presence/absense test
+- `unvgrep()`, `unvigrep()` - un-grep, remove matched results
+- `provigrep()` - progressive grep, returns matches in order of patterns
+- `igrepHas()` - case-insensitive grep-any
 - `ucfirst()` - upper-case the first letter of each word.
 - `padString()`, `padInteger()` - produce strings from numeric values
   with consistent leading zeros.
 
-### Numeric
+## Numeric
 
-- `noiseFloor()` - apply noise floor (and ceiling) with flexible
-  replacement values
-- `warpAroundZero()` - warp a numeric vector symmetrically around zero
+- `formatInt()` - opinionated `format()` for integers.
+- `normScale()` - scale between 0 and 1 or custom range
+- `noiseFloor()` - apply noise floor, ceiling, with flexible
+  replacements
+- `log2signed()`, `exp2signed()` - log2 with offset, and reciprocal
 - `rowGroupMeans()`, `rowRmMadOutliers()` - efficient grouped row
   functions
-- `deg2rad()`, `rad2deg()` - convert degrees to radians
+- `deg2rad()`, `rad2deg()` - interconvert degrees and radians
 - `rmNA()` - remove NA values, with optional replacement
+- `warpAroundZero()` - warp a numeric vector symmetrically around zero
 - `rmInfinite()` - remove infinite values, with optional replacement.
 - `formatInt()` - convenient `format()` for integer output, with
   comma-delimiter by default
 
-### Practical / helpful
+### Common usage
+
+- convert zero to NA:
+
+``` r
+noiseFloor(0:10, minimum=1e-20, newValue=NA)
+#>  [1] NA  1  2  3  4  5  6  7  8  9 10
+```
+
+- convert values below floor to floor:
+
+``` r
+noiseFloor(0:10, minimum=3)
+#>  [1]  3  3  3  3  4  5  6  7  8  9 10
+```
+
+- convert values below floor or NA to floor:
+
+``` r
+noiseFloor(c(0:10, NA), minimum=3, adjustNA=TRUE)
+#>  [1]  3  3  3  3  4  5  6  7  8  9 10  3
+```
+
+## Practical / helpful
 
 - `jargs()` - pretty function arguments, optional pattern search
   argument name
@@ -301,101 +338,111 @@ jargs(plotSmoothScatter)
 - `isTRUEV()`, `isFALSEV()` - vectorized test for TRUE or FALSE values,
   since `isTRUE()` only operates on single values, and does not allow
   `NA`.
-
-``` r
-withr::with_options(list(jam.htmlOut=TRUE, jam.comment=FALSE), {
-   jargs(plotSmoothScatter)
-})
-```
-
-                x = ,
-                y = NULL,
-             bwpi = 50,
-            binpi = 50,
-       bandwidthN = NULL,
-             nbin = NULL,
-           expand = c(0.04, 0.04),
-      transFactor = 0.25,
-
-transformation = function( x ) x^transFactor, xlim = NULL, ylim = NULL,
-xlab = NULL, ylab = NULL, nrpoints = 0, colramp = c(“white”,
-“lightblue”, “blue”, “orange”, “orangered2”), col = “black”, doTest =
-FALSE, fillBackground = TRUE, naAction = c(“remove”, “floor0”,
-“floor1”), xaxt = “s”, yaxt = “s”, add = FALSE, asp = NULL,
-applyRangeCeiling = TRUE, useRaster = TRUE, verbose = FALSE, … =
+- `reload_rmarkdown_cache()` - load RMarkdown cache folder into
+  environment
+- `call_fn_ellipsis()` - for developers, call child function while
+  passing only acceptable arguments in `...`. Instead of:
+  `something(x, ...)`, use: `call_fn_ellipsis(something, x, ...)` and
+  never worry about `...`.
+- `log2signed()`, `exp2signed()` - convenient `log2(1 + x)` or its
+  reciprocal, using customizable offset.
+- `newestFile()` - most recently modified file from a vector of files
 
 ### R console
 
-- `printDebug()` - pretty colorized text output using `crayon` package.
-- `setPrompt()` - pretty colorized R console prompt with project name
-  and R version
-- `newestFile()` - most recently modified file from a vector of files
+- `jargs()` - Jam argument list - see “Practical” above for example
+- `lldf()` - `ls()` with `object.size()` into `data.frame`
+- `middle()` - Similar to `head()` and `tail()`, `middle()` shows `n`
+  entries from beginning, middle, to end.
+- `printDebug()` - colorized text output
+- `setPrompt()` - colorized R console prompt with project name and R
+  version
 
 ### RMarkdown
 
-Two functions help RMarkdown output
+- `reload_rmarkdown_cache()` - when rendering RMarkdown with
+  `cache=TRUE`, this function reads the cache to reload the environment
+  without re-processing, to recover the exact result for continued work.
 
 - `printDebugHtml()` - colored HTML output.
 
-  - shortcut for `printDebug(..., htmlOut=TRUE, comments=FALSE)`
-  - or enabled with `options("jam.htmlOut"=TRUE, "jam.comment"=FALSE)`
-    to convert all `printDebug()` output to HTML- and Rmd-friendly
-    format. Typical output includes “\##” prefix, so copy-paste from
-    console is safe, however in RMarkdown “\##” prefix is a heading, so
-    we add `comment=FALSE`.
-
-- `kable_coloring()` - colorizes `kable()` and `kableExtra::kable()`
-  output using named vector of colors with `colorSub`.
-
-The RMarkdown chunk must include: `results='asis'`
+  - Shortcut for `printDebug(..., htmlOut=TRUE, comments=FALSE)`, or
+    `options("jam.htmlOut"=TRUE, "jam.comment"=FALSE)`.
+  - The RMarkdown chunk must include: `results='asis'`
 
 ``` r
-printDebugHtml("printDebugHtml(): ", "Output should be colorized.");
+printDebugHtml("printDebugHtml(): ",
+  "Output is colorized: ",
+  head(LETTERS, 8))
 ```
 
-(<span style="color:#00C3C3FF">21:03:40</span>) 01Mar2025:
+(<span style="color:#00C3C3FF">21:00:32</span>) 03Mar2025:
 <span style="color:#FF7F00FF">printDebugHtml():
-</span><span style="color:#1E90FFFF">Output should be
-colorized.</span><br/>
-
-``` r
-
-printDebugHtml("printDebugHtml(..., fgText=c(\"red\", \"gold\")): ",
-  "Output should be ", "colorized.",
-  fgText=c("red", "gold", "skyblue"));
-```
-
-(<span style="color:#00C3C3FF">21:03:40</span>) 01Mar2025:
-<span style="color:#FF0000FF">printDebugHtml(…, fgText=c(“red”,
-“gold”)): </span><span style="color:#CEA800FF">Output should be
-</span><span style="color:#6BB5D2FF">colorized.</span><br/>
+</span><span style="color:#1E90FFFF">Output is colorized:
+</span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br/>
 
 ``` r
 
 withr::with_options(list(jam.htmlOut=TRUE, jam.comment=FALSE), {
-  printDebug(c("printDebug()", " using withr::with_options(): "),
-    sep="",
-    c("Output should be ", "colorized."));
+  printDebugHtml(c("printDebug() using withr::with_options(): "),
+    c("Output should be colorized: "),
+    head(LETTERS, 8));
 })
 ```
 
-(<span style="color:#00C3C3FF">21:03:40</span>) 01Mar2025:
-<span style="color:#FF7F00FF">printDebug()</span><span style="color:#ED983BFF">
-using withr::with_options(): </span><span style="color:#1E90FFFF">Output
-should be </span><span style="color:#5BAEFFFF">colorized.</span><br/>
+(<span style="color:#00C3C3FF">21:00:33</span>) 03Mar2025:
+<span style="color:#FF7F00FF">printDebug() using withr::with_options():
+</span><span style="color:#1E90FFFF">Output should be colorized:
+</span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br/>
+
+- `kable_coloring()` - applies categorical colors to `kable()` output
+  using `kableExtra::kable()`.
+
+  - It also applies a contrasting text color.
+  - Unfortunately, the HTML output is not compatible with this page on
+    Github, see package function docs in RStudio.
+
+``` r
+expt_df <- data.frame(
+  Sample_ID="",
+  Treatment=rep(c("Vehicle", "Dex"), each=6),
+  Genotype=rep(c("Wildtype", "Knockout"), each=3),
+  Rep=paste0("rep", c(1:3)))
+expt_df$Sample_ID <- pasteByRow(expt_df[, 2:4])
+
+# define colors
+colorSub <- c(Vehicle="palegoldenrod",
+  Dex="navy",
+  Wildtype="gold",
+  Knockout="firebrick",
+  nameVector(color2gradient("grey48", n=3, dex=10), rep("rep", 3), suffix=""),
+  nameVector(
+    color2gradient(n=3,
+      c("goldenrod1", "indianred3", "royalblue3", "darkorchid4")),
+    expt_df$Sample_ID))
+kbl <- kable_coloring(
+  expt_df,
+  caption="Experiment design table showing categorical color assignment.",
+  colorSub)
+```
 
 ## Other related Jam packages
 
-- `jamma` – MA-plots (also known as “mean-variance”, “Bland-Altman”, or
-  “mean-difference” plots), relies upon `jamba::plotSmoothScatter()`;
-  `centerGeneData()` to apply flexible row-centering with optional
-  groups and control samples; `jammanorm()` - normalize data based upon
-  MA-plot output
-- `colorjam` – `colorjam::rainbowJam()` for scalable categorical colors
-  using alternating luminance and chroma values.
-- `genejam` – fast, consistent conversion of gene symbols to the most
-  current gene nomenclature
-- `splicejam` – Sashimi plots for RNA-seq data
-- `multienrichjam` – multiple gene set enrichment analysis and
-  visualization
-- `platjam` – platform technology functions, importers for NanoString
+Jam Github R packages are being transitioned to CRAN/Bioconductor:
+
+- `venndir`: Venn diagrams with direction, designed for published
+  figures.
+- `multienrichjam`: Multi-enrichment pathway analysis and visualization
+  tools.
+- `splicejam`: Sashimi plots for RNA-seq coverage and junction data.
+- `jamma`: MA-plots as a unified ***data signal*** quality control
+  toolset.
+- `colorjam`: `rainbowJam()`, Categorical colors with improved visual
+  contrast.
+- `genejam`: Fast, structured approach to gene symbol integration.
+- `platjam`: Platform specific functions: Nanostring, Salmon,
+  Proteomics, Lipidomics; NGS coverage heatmaps.
+- `jamses`: `heatmap_se()` friendly wrapper for ComplexHeatmap; other
+  integrated methods for factor-aware design/contrasts, normalization,
+  contrasts, heatmaps.
+- `jamsession`: properly save/load R objects, R sessions, R functions.

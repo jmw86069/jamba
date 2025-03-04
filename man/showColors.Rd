@@ -43,7 +43,8 @@ label margins to accomodate the label size.
 the respective margin will not be adjusted.
 \item The arguments in \code{...} take precedence over \code{graphics::par()},
 when deciding whether to adjust margins. However if \code{xaxt="s"} and
-\code{par("xaxt"="n")} the margin will be adjusted but not displayed.
+\code{graphics::par("xaxt"="n")} the margin will be adjusted but not
+displayed.
 In this way the axes can be adjusted without displaying the labels,
 so the labels can be rendered later if needed.
 }}

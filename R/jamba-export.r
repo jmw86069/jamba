@@ -203,6 +203,7 @@
 #'    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 #' df;
 #' # write to tempfile for examples
+#' if (check_pkg_installed("openxlsx")) {
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    writeOpenxlsx(x=df,
 #'       file=out_xlsx,
@@ -220,6 +221,7 @@
 #'    # now read it back
 #'    df_list <- readOpenxlsx(xlsx=out_xlsx);
 #'    sdim(df_list)
+#' }
 #'
 #' @export
 writeOpenxlsx <- function
@@ -920,6 +922,7 @@ writeOpenxlsx <- function
 #'
 #' @examples
 #' # write to tempfile for examples
+#' if (check_pkg_installed("openxlsx")) {
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
 #'    writeOpenxlsx(x=df,
@@ -932,7 +935,7 @@ writeOpenxlsx <- function
 #'       intRule=c(0,3,5),
 #'       intStyle=c("#FFFFFF", "#1E90FF", "#9932CC")
 #'    )
-#'
+#' }
 #' @export
 applyXlsxConditionalFormat <- function
 (xlsxFile,
@@ -1264,6 +1267,7 @@ applyXlsxConditionalFormat <- function
 #'
 #' @examples
 #' # write to tempfile for examples
+#' if (check_pkg_installed("openxlsx")) {
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
 #'    writeOpenxlsx(x=df,
@@ -1277,6 +1281,7 @@ applyXlsxConditionalFormat <- function
 #'       sheet="jamba_test",
 #'       colorSub=colorSub
 #'    )
+#' }
 #'
 #' @export
 applyXlsxCategoricalFormat <- function
@@ -1727,6 +1732,7 @@ applyXlsxCategoricalFormat <- function
 #'
 #' @examples
 #' # write to tempfile for examples
+#' if (check_pkg_installed("openxlsx")) {
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
 #'    writeOpenxlsx(x=df,
@@ -1738,6 +1744,7 @@ applyXlsxCategoricalFormat <- function
 #'       sheet="jamba_test",
 #'       widths=rep(20, ncol(df))
 #'    )
+#' }
 #'
 #' @export
 set_xlsx_colwidths <- function
@@ -1803,6 +1810,7 @@ set_xlsx_colwidths <- function
 #'
 #' @examples
 #' # write to tempfile for examples
+#' if (check_pkg_installed("openxlsx")) {
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
 #'    writeOpenxlsx(x=df,
@@ -1821,6 +1829,7 @@ set_xlsx_colwidths <- function
 #'       rows=seq_len(nrow(df)+1),
 #'       heights=rep(17, nrow(df)+1)
 #'    )
+#' }
 #'
 #' @export
 set_xlsx_rowheights <- function
@@ -1955,6 +1964,7 @@ set_xlsx_rowheights <- function
 #'    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 #' df;
 #' # write to tempfile for examples
+#' if (check_pkg_installed("openxlsx")) {
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    writeOpenxlsx(x=df,
 #'       file=out_xlsx,
@@ -1963,6 +1973,7 @@ set_xlsx_rowheights <- function
 #'    # now read it back
 #'    df_list <- readOpenxlsx(xlsx=out_xlsx);
 #'    df_list[[1]]
+#' }
 #'
 #' @export
 readOpenxlsx <- function

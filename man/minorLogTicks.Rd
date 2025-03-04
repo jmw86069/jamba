@@ -17,7 +17,7 @@ minorLogTicks(
   col = "black",
   col.ticks = col,
   combine = FALSE,
-  logAxisType = c("normal", "flipped", "pvalue"),
+  logAxisType = c("normal", "flip", "pvalue"),
   verbose = FALSE,
   ...
 )
@@ -88,35 +88,56 @@ minor ticks into one continuous set of major tick marks.}
 }
 \value{
 \code{list} of axis tick positions, and corresponding labels,
-for major and minor ticks.
-Major ticks are defined as one tick per log unit
-exponentiated. For example, 1, 10, 100, 1000 when \code{displayBase=10}.
+for major and minor ticks. Note that labels may be \code{numeric},
+\code{character}, or \code{expression}. Specifically when \code{expression}
+the \code{graphics::axis()} must be called once per label.
+\itemize{
+\item majorTicks: \code{numeric} position of each major tick mark
+\item minorTicks: \code{numeric} position of each minor tick mark
+\item allTicks: \code{numeric} position of each major tick mark
+\item majorLabels: label to show for each tick mark
+\item minorLabels: label to show for each tick mark
+\item minorSet: the \code{numeric} steps requested for minor ticks
+\item minorWhich: the \code{numeric} steps requested for minor labels
+\item allLabelsDF: \code{data.frame} with all tick marks and labels, with
+colname \code{"use"} indicating whether the label is displayed beside
+each tick mark.
+}
 }
 \description{
 Calculate major and minor tick marks for log-scale axis
 }
 \details{
+This function is called by \code{minorLogTicksAxis()}, and
+it may be better to use that function, or \code{logFoldAxis()}
+or \code{pvalueAxis()} which has better preset options.
+
 This function calculates log units for the axis of an
-existing base R plot. It
-calculates appropriate tick and label positions for major
-steps, which are typically in log steps; and minor steps, whic
-are typically a subset of steps at one lower log order.
+existing base R plot.
+It calculates appropriate tick and label positions for:
+\itemize{
+\item major steps, which are typically in log steps; and
+\item minor steps, which are typically a subset of steps at one
+lower log order.
+}
+
 For example, log 10 steps would be: \code{c(1, 10, 100, 1000)},
 and minor steps would be \code{c(2, 5, 20, 50, 200, 500, 2000, 5000)}.
+\subsection{Motivation}{
 
-This function was motivated in order to label log-transformed
-data properly in some special cases, like using \code{log2(1+x)}
-where the resulting values are shifted "off by one" using
-standard log-scaled axis tick marks and labels.
-
-Also, when using log fold change values, this function
-creates axis labels which indicate negative fold change
+This function is motivated to fill a few difficult cases:
+\enumerate{
+\item Label axis ticks properly
+when used together with \code{offset}. For example \code{log2(1 + x)}
+uses \code{offset=1}. Other offsets can be used as relevant.
+\item Create axis labels which indicate negative fold change
 values, for example \code{-2} in log2 fold change units would
-be labeled with fold change \code{-4}, and not \code{0.0625} which
-represents a fractional value.
-
-Use the argument \code{symmetricZero=TRUE} when using directional
-log fold change values.
+be labeled with fold change \code{-4}, and not \code{0.0625}.
+\item Use symmetric tick marks around x=0 when applied to log fold changes.
+\item Display actual P-values when plotting \code{log10(Pvalue)}, which
+is common for volcano plots.
+}
+}
 }
 \examples{
 ## This example shows how to draw axis labels manually,
@@ -138,6 +159,7 @@ graphics::text(x=log10(1+c(0,5,50,1000)), y=rep(1.7, 4),
    label=c(0,5,50,1000), srt=90);
 
 nullPlot(xlim=c(-4,10), doMargins=FALSE);
+abline(v=0, lty=2)
 graphics::axis(3, las=2);
 minorLogTicksAxis(1, logBase=2, displayBase=10, symmetricZero=TRUE);
 
