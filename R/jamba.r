@@ -216,53 +216,82 @@ getDate <- function
 #'
 #' set R prompt with project name and R version
 #'
-#' This function sets the R prompt including project name, the R
-#' version, and the process ID. It is intended to be useful by
-#' reinforcing the active project for an R session, particularly when
-#' there may be multiple R sessions active. The R version can be useful
-#' when running R on different machines, to reinforce which version of
-#' R is active on the given machine. The process ID is mainly helpful in
-#' the event an R process spins out of control, and it would be useful
-#' to know definitively which exact process ID is stuck, so that it can
-#' be killed without affecting other R sessions inadvertently.
+#' This function sets a simple, colorized R prompt with useful
+#' information:
+#' * `projectName`
+#' * R version, major and minor included
+#' * Process ID (PID)
 #'
 #' The prompt is defined in `options("prompt")`.
 #'
-#' Note that in some cases, the color encoding of the prompt interferes
-#' with word wrapping, the symptom is that when typing text into the R console
-#' a long line will begin to word wrap prematurely, before the text reaches
-#' the edge of the screen. There are two frequent causes of this issue:
+#' ## Where Am I?
 #'
-#' * `options("width")` is sometimes defined too narrow for the
-#' screen, which can happen when resizing the console, or when
-#' accessing an R session via GNU screen, or tmux, and the environment
-#' variable has not been propagated to the terminal window. Usually
-#' this issue is resolved by defining `options("width")` manually,
-#' or by simply resizing the terminal window, which may trigger the
-#' appropriate environment variable updates.
-#' * The `locale` can sometimes be mismatched with the terminal window,
-#' usually caused by some terminal emulation layer which is not
-#' properly detecting the compatibility of the server. It may happen
-#' for example, when using PuTTY on Windows, or when using GNU screen or
-#' tmux on linux or Mac OSX. To troubleshoot, check
-#' `Sys.env("LC_ALL")` which may be `"C"` or another locale such as
-#' `"en_US.UTF-8"`. Note that switching locale may have the effect of
-#' correcting the word wrap, but may adversely affect display of
-#' non-standard unicode characters.
+#' It is useful for the question: "What version of R?"
+#' In rare cases, multiple R versions can be active at once (!), see
+#' the `rig` package for this exciting capability.
 #'
-#' In any event, R uses readline for unix-like systems by default, and
-#' issues related to using color prompt are handled at that level. For example,
-#' in some Mac OSX consoles, there are alternate color escape sequences which
-#' are used to tell readline to ignore an escape sequence when it counts the
-#' number of characters being displayed by the prompt.
+#' ## What Am I Doing?
 #'
-#' @returns `list` named `"prompt"` suitable to use in `options()`
+#' The core question addressed is : "What am I working on?"
+#' The project name is especially useful when working
+#' with multiple active R sessions.
+#'
+#' ## How Do I Stop This Thing?
+#'
+#' It may also be useful for the question "How do I stop this thing",
+#' by returning the Process ID to be used to kill a long-running process
+#' without fear of killing the **wrong** long-running process.
+#'
+#' ## Can It Have Color?
+#'
+#' Then of course, meeting the above requirements, at least make it pretty.
+#'
+#' ## Word-Wrap Gone Awry
+#'
+#' A color-encoded prompt may sometimes interfere
+#' with word-wrapping on the R console.
+#' A long line may wrap prematurely
+#' before reaching the right edge of the screen.
+#' There are two frequent causes of this issue:
+#'
+#' 1. `options("width")` is sometimes defined too narrow for the
+#' screen. When resizing the console, this option should be updated,
+#' and sometimes this update fails. To fix, either resize the window
+#' briefly again, or define `options("width")` manually.
+#' (Or debug the reason that this option is not being updated.)
+#' 2. The terminal `locale` is sometimes mismatched with the terminal,
+#' usually caused by a layer of terminal emulation which is not
+#' compatible with ANSI color codes, or ANSI escape codes.
+#'
+#'    * Some examples: 'PuTTY' on 'Windows', GNU 'screen', 'tmux'.
+#'    * Check `Sys.env("LC_ALL")`. The most common results are
+#'    `"C"` for generic C-type output, or a Unicode/UTF-8 locale such as
+#'    `"en_US.UTF-8"` ('enUS' is English-USA in this context).
+#'    In general, Unicode/UTF-8 is recommended, with benefit that
+#'    it more readily displays other Unicode characters.
+#'    However, sometimes the terminal environment (PuTTY or iTerm)
+#'    is expecting one locale, but is receiving another. Either
+#'    switching the terminal expected locale, or the R console locale,
+#'    may resolve the mismatch.
+#'
+#' R uses 'readline' for unix-like systems by default, and
+#' issues related to using color prompt are handled at that level.
+#'
+#' The 'readline' library allows escaping ANSI color characters so they
+#' do not contribute to the estimated line width, and these codes are
+#' used in `setPrompt()`.
+#'
+#' The final workaround is `useColor=FALSE`, but that would be a sad
+#' outcome.
+#'
+#' @returns `list` named `"prompt"`, suitable to use in `options()`
 #'    with the recommended prompt.
 #'    When `updateOptions=FALSE` use: `options(setPrompt("projectName"))`
 #'
 #' @family jam practical functions
 #'
-#' @param projectName `character` string representing the active project.
+#' @param projectName `character` string, default "unnamed", used as
+#'    a label to represent the project work.
 #' @param useColor `logical` whether to define a color prompt if the
 #'    `crayon` package is installed.
 #' @param projectColor,bracketColor,Rcolors,PIDcolor,promptColor `character`
@@ -313,7 +342,7 @@ getDate <- function
 #'
 #' @export
 setPrompt <- function
-(projectName=NULL,
+(projectName="unnamed",
  useColor=TRUE,
  projectColor="yellow",
  bracketColor="white",
@@ -336,12 +365,8 @@ setPrompt <- function
    ## is problematic.
    ##
    ## if projectName is not supplied, try .GlobalEnv
-   if (length(projectName) == 0) {
-      if (exists("projectName", envir=.GlobalEnv)) {
-         projectName <- get("projectName", envir=.GlobalEnv);
-      } else {
-         projectName <- "unnamed";
-      }
+   if (length(projectName) > 1) {
+      projectName <- cPaste(projectName, sep="-");
    }
    if (length(useColor) > 0 &&
          useColor &&
@@ -1008,17 +1033,17 @@ groupedAxis <- function
 }
 
 
-#' convert column number to Excel column name
+#' convert column number to 'Excel' column name
 #'
-#' convert column number to Excel column name
+#' convert column number to 'Excel' column name
 #'
-#' The purpose is to convert an `integer` column number into a valid Excel
+#' The purpose is to convert an `integer` column number into a valid 'Excel'
 #' column name, using `LETTERS` starting at A.
 #' This function implements an arbitrary number of digits, which may or
-#' may not be compatible with each version of Excel.  18,278 columns
+#' may not be compatible with each version of 'Excel'.  18,278 columns
 #' would be the maximum for three digits, "A" through "ZZZ".
 #'
-#' This function is useful when referencing Excel columns via another
+#' This function is useful when referencing 'Excel' columns via another
 #' interface such as via openxlsx. It is also used by `makeNames()`
 #' when the `numberStyle="letters"`, in order to provide letter suffix values.
 #'

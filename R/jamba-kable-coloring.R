@@ -1,7 +1,7 @@
 
-#' Extend kableExtra colorization of Rmarkdown tables
+#' Extend kableExtra colorization of 'Rmarkdown' tables
 #'
-#' Extend kableExtra colorization of Rmarkdown tables
+#' Extend kableExtra colorization of 'Rmarkdown' tables
 #'
 #' This function extends the `kableExtra` package, and is only
 #' available for use if the `kableExtra` package is installed. It is
@@ -9,7 +9,7 @@
 #' data.frame, but otherwise uses the `kableExtra` functions to
 #' apply those colors.
 #'
-#' The use case is to provide colorized HTML output for RMarkdown,
+#' The use case is to provide colorized HTML output for 'Rmarkdown',
 #' it has not been tested with other `format` output.
 #'
 #' The argument `colorSub` accepts:
@@ -23,7 +23,7 @@
 #' `function` as described above.
 #'
 #' @returns object with class `c("kableExtra", "knitr_kable")` by default
-#'    when `return_type="kable"`, suitable to render inside an RMarkdown
+#'    when `return_type="kable"`, suitable to render inside an 'Rmarkdown'
 #'    or HTML context. Or returns `data.frame` when `return_type="data.frame"`.
 #'
 #' @param df `data.frame` input. Note that `kable` input is not supported.
@@ -113,7 +113,7 @@
 #'    expt_df,
 #'    caption="Experiment design table showing categorical color assignment.",
 #'    colorSub)
-#' # Note that the HTML table is rendered in RMarkdown, not pkgdown
+#' # Note that the HTML table is rendered in 'Rmarkdown', not pkgdown
 #' kbl
 #'
 #' # return_type="data.frame" is a data.frame with HTML contents

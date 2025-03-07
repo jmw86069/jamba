@@ -215,7 +215,7 @@ relative to the background color in \code{bgText}.}
 output, using format
 \verb{<span style="color:fg;background-color:bg">text</span>}.
 This argument is not yet implemented, more testing is required
-to determine the best mechanism to use for things like RMarkdown
+to determine the best mechanism to use for things like 'Rmarkdown'
 rendering, and R-shiny app rendering.}
 }
 \value{
@@ -278,7 +278,7 @@ and within each vector of \code{...} printed the corresponding color vector
 is recycled to the length of that vector.
 }
 
-For use inside Rmarkdown \code{.Rmd} documents, current recommendation is
+For use inside 'Rmarkdown' \code{.Rmd} documents, current recommendation is
 to define the R output with \code{results='asis'} like this:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{\\`\\`\\`\{r block_name, results='asis'\}
@@ -290,7 +290,7 @@ Then define a global option to turn off the comment prefix in
 \code{printDebug()}: \code{options("jam.comment"=FALSE)}
 
 For colorized text, it may require \code{"html_output"} rendering of the
-\code{.Rmd} Rmarkdown file, as well as this option to enable HTML formatting
+\code{.Rmd} 'Rmarkdown' file, as well as this option to enable HTML formatting
 by \code{printDebug()}: \code{options("jam.htmlOut"=TRUE)}.
 
 This function prints colorized output to the R console, using the
@@ -298,8 +298,8 @@ same logic as \code{printDebug} except by default the color is inverted
 so the default \code{fgText} colors are applied to the background.
 
 This function prints colorized output in HTML form, using the
-same logic as \code{printDebug} except by default the output is HTML.
-The intended use is for RMarkdown with chunk option \code{results='asis'},
+same logic as \code{printDebug()} except by default the output is HTML.
+The intended use is for 'Rmarkdown' with chunk option \code{results='asis'},
 which causes the HTML code to be interpreted directly as HTML.
 
 This function internally calls \code{printDebug()} which then calls

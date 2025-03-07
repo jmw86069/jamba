@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lldf</span><span class="op">(</span></span>
 <span>  n <span class="op">=</span> <span class="cn">Inf</span>,</span>
-<span>  envir <span class="op">=</span> <span class="va">.GlobalEnv</span>,</span>
+<span>  envir <span class="op">=</span> <span class="op">-</span><span class="fl">1L</span>,</span>
 <span>  items <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  use_utils_objectsize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  all.names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -63,15 +63,18 @@ include in the output <code>data.frame</code>.</p></dd>
 
 
 <dt id="arg-envir">envir<a class="anchor" aria-label="anchor" href="#arg-envir"></a></dt>
-<dd><p><code>environment</code> where the list of objects is obtained.
-Note this environment is also where objects are evaluated,
-so the <code>envir</code> and <code>items</code> should be compatible.</p></dd>
+<dd><p><code>environment</code> where the list of objects is obtained,
+default <code>-1L</code> searches the environment of the caller, usually
+the user workspace.
+Other recognized options:</p><ul><li><p><code>character</code> string suitable for <code><a href="https://rdrr.io/r/base/as.environment.html" class="external-link">as.environment()</a></code> which
+recognizes the search path returned by <code><a href="https://rdrr.io/r/base/search.html" class="external-link">search()</a></code></p></li>
+<li><p><code>integer</code> or <code>numeric</code> equivalent to environment relative position
+as used in <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code> argument <code>pos</code>.</p></li>
+</ul></dd>
 
 
 <dt id="arg-items">items<a class="anchor" aria-label="anchor" href="#arg-items"></a></dt>
-<dd><p>optional <code>character</code> vector of items to include
-in the output <code>data.frame</code>. Note that these items should be
-available in the environment <code>envir</code>.</p></dd>
+<dd><p><code>character</code> of items to include, default NULL.</p></dd>
 
 
 <dt id="arg-use-utils-objectsize">use_utils_objectsize<a class="anchor" aria-label="anchor" href="#arg-use-utils-objectsize"></a></dt>
@@ -87,7 +90,8 @@ hidden objects whose name begin with <code>"."</code> such as <code>".First"</co
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>additional arguments are passed to <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code></p></dd>
+<dd><p>additional arguments are passed to <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code>, notably
+<code>pattern</code> can be passed to subset objects by regular expression.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -135,8 +139,9 @@ otherwise falls back to <code><a href="https://rdrr.io/r/utils/object.size.html"
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">lldf</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                      name   class bytes    size</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> .Random.seed .Random.seed integer  2552 2.49 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $size</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># custom environment</span></span></span>
 <span class="r-in"><span><span class="va">newenv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span><span class="op">)</span>;</span></span>

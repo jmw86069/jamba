@@ -79,7 +79,7 @@ formatting. In most cases startRow=2, which allows one row for column
 headers. However, if there are multiple header rows, startRow should be
 1 more than the number of header rows.}
 
-\item{overwrite}{logical indicating whether the original Excel files will
+\item{overwrite}{logical indicating whether the original 'Excel' files will
 be replaced with the new one, or whether a new file will be created.}
 
 \item{...}{additional parameters are ignored.}
@@ -95,11 +95,11 @@ Xlsx Conditional formatting
 }
 \details{
 This function is a convenient wrapper for applying conditional formatting
-to Excel xlsx worksheets, with reasonable settings for commonly used
+to 'Excel' 'xlsx' worksheets, with reasonable settings for commonly used
 data types.
 
 Note that this function does not apply cell formatting, such as numeric
-formatting as displayed in Excel.
+formatting as displayed in 'Excel'.
 
 A description of column types follows:
 \describe{
@@ -141,9 +141,9 @@ P-value approaches 0.01, then 0.0001.}
 For each column type, one can describe the column using integer indices,
 or colnames, or optionally use the Grep parameters. The Grep parameters
 are intended for pattern matching, and may contain a vector of grep patterns
-which are used by \code{\link{provigrep}} to match to colnames. The Grep
+which are used by \code{provigrep()} to match to colnames. The Grep
 method is particularly useful when applying conditional formatting for
-multiple worksheets in the same .xlsx file, where the colnames are not
+multiple worksheets in the same 'xlsx' file, where the colnames are not
 identical in each worksheet.
 
 Each column type has an associated 3-threshold rule, and three associated
@@ -154,9 +154,9 @@ in order to apply different color gradients to different columns. Note
 that styles are by default "stacked", which
 maintains font and cell border styles without removing them. However, it
 this "stacking" means that applying two rules to the same cell will not
-work, since only the first rule will be applied by Microsoft Excel.
+work, since only the first rule will be applied by 'Microsoft Excel'.
 Interestingly, if multiple conditional rules are applied to the same
-cell, they will be visible in order inside the Microsoft Excel
+cell, they will be visible in order inside the 'Microsoft Excel'
 application.
 }
 \examples{

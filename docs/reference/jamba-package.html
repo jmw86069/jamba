@@ -11,7 +11,7 @@ important dependencies for other Jam R packages."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,9 +50,9 @@ important dependencies for other Jam R packages.</p>
 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The goal will be to
-maintain these methods as lightweight as possible, so
-their inclusion in an analysis workflow will not incur
+    <p>See the function reference for a complete list of functions.</p>
+<p>The goal is to implement methods as lightweight as possible, so
+so inclusion in an analysis workflow will not incur
 a noticeable burden.</p>
     </div>
     <div class="section level2">
@@ -107,14 +107,23 @@ manipulation and display</p></li>
     <h2 id="miscellaneous-helper-functions">miscellaneous helper functions<a class="anchor" aria-label="anchor" href="#miscellaneous-helper-functions"></a></h2>
 
 
-<ul><li><p><code><a href="printDebug.html">printDebug()</a></code> colored text output to console, RMarkdown, HTML.</p></li>
+<ul><li><p><code><a href="printDebug.html">printDebug()</a></code> colored text output to console, 'Rmarkdown', HTML</p></li>
+<li><p><code><a href="kable_coloring.html">kable_coloring()</a></code> colored <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kableExtra::kable()</a></code> output for 'Rmarkdown'</p></li>
 <li><p><code><a href="setPrompt.html">setPrompt()</a></code> colored R prompt</p></li>
 <li><p><code><a href="deg2rad.html">deg2rad()</a></code>, <code><a href="rad2deg.html">rad2deg()</a></code> interconvert degrees to radians.</p></li>
 <li><p><code><a href="getDate.html">getDate()</a></code>, <code><a href="asDate.html">asDate()</a></code>, <code><a href="dateToDaysOld.html">dateToDaysOld()</a></code> human-readable,
 opinionated date formatting</p></li>
-<li><p><code><a href="padString.html">padString()</a></code>, <code><a href="padInteger.html">padInteger()</a></code> pad character or integer strings.</p></li>
+<li><p><code><a href="padString.html">padString()</a></code>, <code><a href="padInteger.html">padInteger()</a></code> pad character or integer strings</p></li>
 <li><p><code><a href="rmNA.html">rmNA()</a></code>, <code><a href="rmNULL.html">rmNULL()</a></code>, <code><a href="rmInfinite.html">rmInfinite()</a></code> remove or replace missing or NA
-values with defined alternatives.</p></li>
+values with defined alternatives</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="export-and-import-functions">export and import functions<a class="anchor" aria-label="anchor" href="#export-and-import-functions"></a></h2>
+
+
+<ul><li><p><code><a href="readOpenxlsx.html">readOpenxlsx()</a></code> import worksheets from 'xlsx' 'Excel' files.</p></li>
+<li><p><code><a href="writeOpenxlsx.html">writeOpenxlsx()</a></code> export worksheets to 'xlsx' 'Excel' files with color,
+formatting, and styling.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="jam-options">Jam options<a class="anchor" aria-label="anchor" href="#jam-options"></a></h2>

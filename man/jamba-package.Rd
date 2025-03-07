@@ -11,9 +11,10 @@ which are re-usable for routine R analysis work, and are
 important dependencies for other Jam R packages.
 }
 \details{
-The goal will be to
-maintain these methods as lightweight as possible, so
-their inclusion in an analysis workflow will not incur
+See the function reference for a complete list of functions.
+
+The goal is to implement methods as lightweight as possible, so
+so inclusion in an analysis workflow will not incur
 a noticeable burden.
 }
 \section{plot functions}{
@@ -70,14 +71,24 @@ manipulation and display
 \section{miscellaneous helper functions}{
 
 \itemize{
-\item \code{\link[=printDebug]{printDebug()}} colored text output to console, RMarkdown, HTML.
+\item \code{\link[=printDebug]{printDebug()}} colored text output to console, 'Rmarkdown', HTML
+\item \code{\link[=kable_coloring]{kable_coloring()}} colored \code{kableExtra::kable()} output for 'Rmarkdown'
 \item \code{\link[=setPrompt]{setPrompt()}} colored R prompt
 \item \code{\link[=deg2rad]{deg2rad()}}, \code{\link[=rad2deg]{rad2deg()}} interconvert degrees to radians.
 \item \code{\link[=getDate]{getDate()}}, \code{\link[=asDate]{asDate()}}, \code{\link[=dateToDaysOld]{dateToDaysOld()}} human-readable,
 opinionated date formatting
-\item \code{\link[=padString]{padString()}}, \code{\link[=padInteger]{padInteger()}} pad character or integer strings.
+\item \code{\link[=padString]{padString()}}, \code{\link[=padInteger]{padInteger()}} pad character or integer strings
 \item \code{\link[=rmNA]{rmNA()}}, \code{\link[=rmNULL]{rmNULL()}}, \code{\link[=rmInfinite]{rmInfinite()}} remove or replace missing or NA
-values with defined alternatives.
+values with defined alternatives
+}
+}
+
+\section{export and import functions}{
+
+\itemize{
+\item \code{\link[=readOpenxlsx]{readOpenxlsx()}} import worksheets from 'xlsx' 'Excel' files.
+\item \code{\link[=writeOpenxlsx]{writeOpenxlsx()}} export worksheets to 'xlsx' 'Excel' files with color,
+formatting, and styling.
 }
 }
 

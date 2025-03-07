@@ -100,7 +100,7 @@ not expected to be a fixed contrasting color.
 The function draws the label n times with the chosed background
 color, then the label itself atop the background text. It does not
 typically have a noticeable effect on rendering time, but it may
-impact downstream uses in vector file formats like SVG and PDF, where
+impact downstream uses in vector file formats like 'SVG' and 'PDF', where
 text is stored as proper text and font objects. Take care when editing
 text that the underlying shadow text is also edited in sync.
 

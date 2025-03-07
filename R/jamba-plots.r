@@ -169,7 +169,7 @@
 #'    This technique has two benefits:
 #'    1. It produces substantially faster plot output.
 #'    2. Output contains substantially fewer plot objects, which results
-#'    in much smaller file sizes when saving in PDF or SVG format.
+#'    in much smaller file sizes when saving in 'PDF' or 'SVG' format.
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are passed to called functions,
 #'    including `getColorRamp()`, `nullPlot()`, `smoothScatterJam()`.
@@ -1153,7 +1153,7 @@ usrBox <- function
 #'    raster image is created instead of polygons, then the bitmap is scaled
 #'    to fit the plot space. Otherwise, individual polygons can be obscured
 #'    on monitor screens, or may result in an extremely large file size when
-#'    writing to vector image format such as PDF or SVG.
+#'    writing to vector image format such as 'PDF' or 'SVG'.
 #' @param fixRasterRatio `logical` whether to implement a simple workaround
 #'    to the requirement for square pixels, in the event the x- and y-axis
 #'    dimensions are not roughly equal.
@@ -1644,7 +1644,7 @@ imageDefault <- function
 #' The function draws the label n times with the chosed background
 #' color, then the label itself atop the background text. It does not
 #' typically have a noticeable effect on rendering time, but it may
-#' impact downstream uses in vector file formats like SVG and PDF, where
+#' impact downstream uses in vector file formats like 'SVG' and 'PDF', where
 #' text is stored as proper text and font objects. Take care when editing
 #' text that the underlying shadow text is also edited in sync.
 #'
@@ -2117,7 +2117,7 @@ adjustAxisLabelMargins <- function
 #' @param useOnePanel `logical` indicating whether to define multiple panels
 #'    on one page. Therefore `useOnePanel=TRUE` will create multiple
 #'    pages with one panel on each page, which may work well for
-#'    output in multi-page PDF files.
+#'    output in multi-page 'PDF' files.
 #' @param ablineV,ablineH `numeric` vector representing abline
 #'    vertical and horizontal positions, respectively.
 #'    These values are mostly helpful in multi-panel plots,

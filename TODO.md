@@ -1,5 +1,11 @@
 # TODO for jamba
 
+## 05mar2025
+
+* Do not modify `globalenv()`
+* Capitalize app names, add tick mark quotes around apps or APIs, 
+e.g. 'Excel', 'Rmarkdown'.
+
 ## 01mar2025
 
 * DONE. Fix missing `\value()` in `make_html_styles()`, `provigrep()`.

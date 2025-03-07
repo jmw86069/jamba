@@ -42,7 +42,7 @@
 #' and within each vector of `...` printed the corresponding color vector
 #' is recycled to the length of that vector.
 #'
-#' For use inside Rmarkdown `.Rmd` documents, current recommendation is
+#' For use inside 'Rmarkdown' `.Rmd` documents, current recommendation is
 #' to define the R output with `results='asis'` like this:
 #'
 #' ```
@@ -55,7 +55,7 @@
 #' `printDebug()`: `options("jam.comment"=FALSE)`
 #'
 #' For colorized text, it may require `"html_output"` rendering of the
-#' `.Rmd` Rmarkdown file, as well as this option to enable HTML formatting
+#' `.Rmd` 'Rmarkdown' file, as well as this option to enable HTML formatting
 #' by `printDebug()`: `options("jam.htmlOut"=TRUE)`.
 #'
 #' @param ... `character`, `factor`, `numeric` or compatible atomic vectors
@@ -187,7 +187,7 @@
 #'    output, using format
 #'    `<span style="color:fg;background-color:bg">text</span>`.
 #'    This argument is not yet implemented, more testing is required
-#'    to determine the best mechanism to use for things like RMarkdown
+#'    to determine the best mechanism to use for things like 'Rmarkdown'
 #'    rendering, and R-shiny app rendering.
 #'
 #' @returns `NULL` invisibly, this function is called for the side effect
@@ -801,8 +801,8 @@ printDebugI <- function
 #' print colorized output to HTML
 #'
 #' This function prints colorized output in HTML form, using the
-#' same logic as `printDebug` except by default the output is HTML.
-#' The intended use is for RMarkdown with chunk option `results='asis'`,
+#' same logic as `printDebug()` except by default the output is HTML.
+#' The intended use is for 'Rmarkdown' with chunk option `results='asis'`,
 #' which causes the HTML code to be interpreted directly as HTML.
 #'
 #' This function internally calls `printDebug()` which then calls

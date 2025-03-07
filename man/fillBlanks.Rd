@@ -30,7 +30,7 @@ Fill blank entries in a vector
 \details{
 This function takes a character vector and fills any blank (missing)
 entries with the last non-blank entry in the vector. It is intended
-for situations like imported Excel data, where there may be one
+for situations like imported 'Excel' data, where there may be one
 header value representing a series of cells.
 
 The method used does not loop through the data, and should scale

@@ -186,7 +186,7 @@ This technique has two benefits:
 \enumerate{
 \item It produces substantially faster plot output.
 \item Output contains substantially fewer plot objects, which results
-in much smaller file sizes when saving in PDF or SVG format.
+in much smaller file sizes when saving in 'PDF' or 'SVG' format.
 }}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output.}

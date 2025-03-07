@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba-kable-coloring.R
 \name{kable_coloring}
 \alias{kable_coloring}
-\title{Extend kableExtra colorization of Rmarkdown tables}
+\title{Extend kableExtra colorization of 'Rmarkdown' tables}
 \usage{
 kable_coloring(
   df,
@@ -107,11 +107,11 @@ which allows the usual customizations on the initial call.}
 }
 \value{
 object with class \code{c("kableExtra", "knitr_kable")} by default
-when \code{return_type="kable"}, suitable to render inside an RMarkdown
+when \code{return_type="kable"}, suitable to render inside an 'Rmarkdown'
 or HTML context. Or returns \code{data.frame} when \code{return_type="data.frame"}.
 }
 \description{
-Extend kableExtra colorization of Rmarkdown tables
+Extend kableExtra colorization of 'Rmarkdown' tables
 }
 \details{
 This function extends the \code{kableExtra} package, and is only
@@ -120,7 +120,7 @@ intended to allow specific color assignment of elements in a
 data.frame, but otherwise uses the \code{kableExtra} functions to
 apply those colors.
 
-The use case is to provide colorized HTML output for RMarkdown,
+The use case is to provide colorized HTML output for 'Rmarkdown',
 it has not been tested with other \code{format} output.
 
 The argument \code{colorSub} accepts:
@@ -160,7 +160,7 @@ kbl <- kable_coloring(
    expt_df,
    caption="Experiment design table showing categorical color assignment.",
    colorSub)
-# Note that the HTML table is rendered in RMarkdown, not pkgdown
+# Note that the HTML table is rendered in 'Rmarkdown', not pkgdown
 kbl
 
 # return_type="data.frame" is a data.frame with HTML contents

@@ -734,13 +734,13 @@ makeNames <- function
    ## NAME_r2, NAME_r3, etc.
    ##
    ## numberStyle="number" uses integers as the suffix
-   ## numberStyle="letters" uses lowercase letters as digits, similar to Excel column names
-   ## numberStyle="LETTERS" uses uppercase letters as digits, similar to Excel column names
-   ## Be aware that letters can only go to roughly 18,000 entries, given the current implementation
-   ## of colNum2excelName
+   ## numberStyle="letters" uses lowercase letters as digits
+   ## numberStyle="LETTERS" uses uppercase letters as digits
+   ## Be aware that letters can only go to roughly 18,000 entries,
+   ## given the current implementation of colNum2excelName
    ##
-   ## When useNchar is numeric, it sets doPadInteger=TRUE, and will use at least
-   ## that many digits in padding the integer.
+   ## When useNchar is numeric, it sets doPadInteger=TRUE,
+   ## and will use at least that many digits in padding the integer.
    ##
    ##
    ## TODO:
@@ -2046,7 +2046,7 @@ renameColumn <- function
 #'
 #' This function takes a character vector and fills any blank (missing)
 #' entries with the last non-blank entry in the vector. It is intended
-#' for situations like imported Excel data, where there may be one
+#' for situations like imported 'Excel' data, where there may be one
 #' header value representing a series of cells.
 #'
 #' The method used does not loop through the data, and should scale

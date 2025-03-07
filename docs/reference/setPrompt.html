@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">setPrompt</span><span class="op">(</span></span>
-<span>  projectName <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  projectName <span class="op">=</span> <span class="st">"unnamed"</span>,</span>
 <span>  useColor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  projectColor <span class="op">=</span> <span class="st">"yellow"</span>,</span>
 <span>  bracketColor <span class="op">=</span> <span class="st">"white"</span>,</span>
@@ -66,7 +66,8 @@
 
 
 <dl><dt id="arg-projectname">projectName<a class="anchor" aria-label="anchor" href="#arg-projectname"></a></dt>
-<dd><p><code>character</code> string representing the active project.</p></dd>
+<dd><p><code>character</code> string, default "unnamed", used as
+a label to represent the project work.</p></dd>
 
 
 <dt id="arg-usecolor">useColor<a class="anchor" aria-label="anchor" href="#arg-usecolor"></a></dt>
@@ -136,46 +137,85 @@ only relevant with the argument <code>useColor=TRUE</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>list</code> named <code>"prompt"</code> suitable to use in <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>
+    <p><code>list</code> named <code>"prompt"</code>, suitable to use in <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>
 with the recommended prompt.
 When <code>updateOptions=FALSE</code> use: <code>options(setPrompt("projectName"))</code></p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function sets the R prompt including project name, the R
-version, and the process ID. It is intended to be useful by
-reinforcing the active project for an R session, particularly when
-there may be multiple R sessions active. The R version can be useful
-when running R on different machines, to reinforce which version of
-R is active on the given machine. The process ID is mainly helpful in
-the event an R process spins out of control, and it would be useful
-to know definitively which exact process ID is stuck, so that it can
-be killed without affecting other R sessions inadvertently.</p>
-<p>The prompt is defined in <code>options("prompt")</code>.</p>
-<p>Note that in some cases, the color encoding of the prompt interferes
-with word wrapping, the symptom is that when typing text into the R console
-a long line will begin to word wrap prematurely, before the text reaches
-the edge of the screen. There are two frequent causes of this issue:</p><ul><li><p><code>options("width")</code> is sometimes defined too narrow for the
-screen, which can happen when resizing the console, or when
-accessing an R session via GNU screen, or tmux, and the environment
-variable has not been propagated to the terminal window. Usually
-this issue is resolved by defining <code>options("width")</code> manually,
-or by simply resizing the terminal window, which may trigger the
-appropriate environment variable updates.</p></li>
-<li><p>The <code>locale</code> can sometimes be mismatched with the terminal window,
-usually caused by some terminal emulation layer which is not
-properly detecting the compatibility of the server. It may happen
-for example, when using PuTTY on Windows, or when using GNU screen or
-tmux on linux or Mac OSX. To troubleshoot, check
-<code>Sys.env("LC_ALL")</code> which may be <code>"C"</code> or another locale such as
-<code>"en_US.UTF-8"</code>. Note that switching locale may have the effect of
-correcting the word wrap, but may adversely affect display of
-non-standard unicode characters.</p></li>
-</ul><p>In any event, R uses readline for unix-like systems by default, and
-issues related to using color prompt are handled at that level. For example,
-in some Mac OSX consoles, there are alternate color escape sequences which
-are used to tell readline to ignore an escape sequence when it counts the
-number of characters being displayed by the prompt.</p>
+    <p>This function sets a simple, colorized R prompt with useful
+information:</p><ul><li><p><code>projectName</code></p></li>
+<li><p>R version, major and minor included</p></li>
+<li><p>Process ID (PID)</p></li>
+</ul><p>The prompt is defined in <code>options("prompt")</code>.</p><div class="section">
+<h3 id="where-am-i-">Where Am I?<a class="anchor" aria-label="anchor" href="#where-am-i-"></a></h3>
+
+
+<p>It is useful for the question: "What version of R?"
+In rare cases, multiple R versions can be active at once (!), see
+the <code>rig</code> package for this exciting capability.</p>
+</div>
+
+<div class="section">
+<h3 id="what-am-i-doing-">What Am I Doing?<a class="anchor" aria-label="anchor" href="#what-am-i-doing-"></a></h3>
+
+
+<p>The core question addressed is : "What am I working on?"
+The project name is especially useful when working
+with multiple active R sessions.</p>
+</div>
+
+<div class="section">
+<h3 id="how-do-i-stop-this-thing-">How Do I Stop This Thing?<a class="anchor" aria-label="anchor" href="#how-do-i-stop-this-thing-"></a></h3>
+
+
+<p>It may also be useful for the question "How do I stop this thing",
+by returning the Process ID to be used to kill a long-running process
+without fear of killing the <strong>wrong</strong> long-running process.</p>
+</div>
+
+<div class="section">
+<h3 id="can-it-have-color-">Can It Have Color?<a class="anchor" aria-label="anchor" href="#can-it-have-color-"></a></h3>
+
+
+<p>Then of course, meeting the above requirements, at least make it pretty.</p>
+</div>
+
+<div class="section">
+<h3 id="word-wrap-gone-awry">Word-Wrap Gone Awry<a class="anchor" aria-label="anchor" href="#word-wrap-gone-awry"></a></h3>
+
+
+<p>A color-encoded prompt may sometimes interfere
+with word-wrapping on the R console.
+A long line may wrap prematurely
+before reaching the right edge of the screen.
+There are two frequent causes of this issue:</p><ol><li><p><code>options("width")</code> is sometimes defined too narrow for the
+screen. When resizing the console, this option should be updated,
+and sometimes this update fails. To fix, either resize the window
+briefly again, or define <code>options("width")</code> manually.
+(Or debug the reason that this option is not being updated.)</p></li>
+<li><p>The terminal <code>locale</code> is sometimes mismatched with the terminal,
+usually caused by a layer of terminal emulation which is not
+compatible with ANSI color codes, or ANSI escape codes.</p><ul><li><p>Some examples: 'PuTTY' on 'Windows', GNU 'screen', 'tmux'.</p></li>
+<li><p>Check <code>Sys.env("LC_ALL")</code>. The most common results are
+<code>"C"</code> for generic C-type output, or a Unicode/UTF-8 locale such as
+<code>"en_US.UTF-8"</code> ('enUS' is English-USA in this context).
+In general, Unicode/UTF-8 is recommended, with benefit that
+it more readily displays other Unicode characters.
+However, sometimes the terminal environment (PuTTY or iTerm)
+is expecting one locale, but is receiving another. Either
+switching the terminal expected locale, or the R console locale,
+may resolve the mismatch.</p></li>
+</ul></li>
+</ol><p>R uses 'readline' for unix-like systems by default, and
+issues related to using color prompt are handled at that level.</p>
+<p>The 'readline' library allows escaping ANSI color characters so they
+do not contribute to the estimated line width, and these codes are
+used in <code>setPrompt()</code>.</p>
+<p>The final workaround is <code>useColor=FALSE</code>, but that would be a sad
+outcome.</p>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

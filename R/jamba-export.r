@@ -1,6 +1,6 @@
-#' Export a data.frame to Excel xlsx format
+#' Export a data.frame to 'Excel' 'xlsx' format
 #'
-#' Export a data.frame to Excel xlsx format
+#' Export a data.frame to 'Excel' 'xlsx' format
 #'
 #' This function is a minor but useful customization of the
 #' `openxlsx::saveWorkbook()` and associated functions, intended
@@ -8,7 +8,7 @@
 #' types, typically relevant to statistical values, and
 #' in some cases, gene or transcript expression values.
 #'
-#' There are numerous configurable options when saving an Excel
+#' There are numerous configurable options when saving an 'Excel'
 #' worksheet, most of the defaults in this function are intended
 #' not to require changes, but are listed as formal function
 #' arguments to make each option visibly obvious.
@@ -37,11 +37,11 @@
 #'    notation.}
 #'    \item{fc}{numeric fold change, whose values are expected to range
 #'    from 1 and higher, and -1 and lower. Decimal places are by default
-#'    configured to show one decimal place, to simplify the Excel visual
+#'    configured to show one decimal place, to simplify the 'Excel' visual
 #'    summary.}
 #'    \item{lfc}{numeric log fold change, whose values are expected to be
 #'    centered at zero. Decimal places are by default
-#'    configured to show one decimal place, to simplify the Excel visual
+#'    configured to show one decimal place, to simplify the 'Excel' visual
 #'    summary.}
 #'    \item{highlight}{character and undefined columns to be highlighted
 #'    with a brighter background color, and bold text.}
@@ -64,8 +64,8 @@
 #'    can be used in argument `wb` to provide a speed boost when
 #'    saving multiple sheets to the same file.
 #'
-#' @param x `data.frame` to be saved to an Excel xlsx file.
-#' @param file `character` valid path to save an Excel xlsx file. If the file
+#' @param x `data.frame` to be saved to an 'Excel' 'xlsx' file.
+#' @param file `character` valid path to save an 'Excel' 'xlsx' file. If the file
 #'    exists, and `append=TRUE` the new data will be added to the existing
 #'    file withthe defined `sheetName`.
 #'    * Note when `file=NULL` the output is not saved to a file,
@@ -81,7 +81,7 @@
 #'    output file, by preventing the slow read/write steps each time
 #'    a new sheet is added.
 #' @param sheetName `character` value less with a valid
-#'    Excel xlsx worksheet name. At this time (version 0.0.29.900) the
+#'    'Excel' 'xlsx' worksheet name. At this time (version 0.0.29.900) the
 #'    sheetName is restricted to 31 characters, with no puntuation except
 #'    "-" and "_".
 #' @param startRow,startCol `integer` indicating the row and column number
@@ -93,14 +93,14 @@
 #' @param wrapCells `logical` default FALSE, indicating whether to
 #'    enable word-wrap within cells.
 #' @param headerColors,columnColors,highlightHeaderColors,highlightColors,borderColor,borderPosition
-#'    default values for the Excel worksheet background and border
-#'    colors. As of version 0.0.29.900, colors must use Excel-valid
+#'    default values for the 'Excel' worksheet background and border
+#'    colors. As of version 0.0.29.900, colors must use valid 'Excel'
 #'    color names.
 #' @param highlightColumns,numColumns,fcColumns,lfcColumns,hitColumns,intColumns,pvalueColumns
 #'    `integer` vector referring the column number in the input `data.frame`
 #'    `x` to define as each column type, as relevant.
 #' @param numFormat,fcFormat,lfcFormat,hitFormat,intFormat,pvalueFormat
-#'    `character` string with valid Excel cell formatting, for example
+#'    `character` string with valid 'Excel' cell formatting, for example
 #'    `"#,##0.00"` defines a column to use comma-delimited numbers above
 #'    one thousand, and display two decimal places in all numeric cells.
 #'    See `[https://support.microsoft.com]` topic
@@ -131,14 +131,14 @@
 #'    The whitespace at the end of positive values and zero are used
 #'    to align all values at the same decimal position.
 #' @param numRule,fcRule,lfcRule,hitRule,intRule,pvalueRule `numeric` vector
-#'    `length=3` indicating the breakpoints for Excel to apply conditional
+#'    `length=3` indicating the breakpoints for 'Excel' to apply conditional
 #'    color formatting, using the corresponding style.
 #'    Note that all conditional formatting applied by this function uses
 #'    the `"3-Color Scale"`, therefore there should be three values,
 #'    and three corresponding colors in the corresponding Style arguments.
 #' @param numStyle,fcStyle,lfcStyle,intStyle,hitStyle,pvalueStyle `character`
 #'    vector `length=3` containing three valid R colors. Note that alpha
-#'    transparency will be removed prior to use in Excel, as required.
+#'    transparency will be removed prior to use in 'Excel', as required.
 #'    Note that all conditional formatting applied by this function uses
 #'    the `"3-Color Scale"`, therefore there should be three colors,
 #'    which match three values in the corresponding Rule arguments.
@@ -151,28 +151,28 @@
 #' @param colorSub `character` vector of R colors, whose names refer to
 #'    cell values in the input `x` data.frame.
 #' @param freezePaneColumn,freezePaneRow `integer` value of the row or
-#'    column before which the Excel "freeze panes" is applied.
+#'    column before which the 'Excel' "freeze panes" is applied.
 #'    Note that these values are adjusted relative by `startRow` and
-#'    `startCol` in the Excel worksheet, so that the values are applied
+#'    `startCol` in the 'Excel' worksheet, so that the values are applied
 #'    relative to the `data.frame` argument `x`.
 #' @param doFilter `logical` indicating whether to enable column
 #'    filtering by default.
 #' @param fontName `character` default font configuration, containing
-#'    a valid Excel font name.
-#' @param fontSize `numeric` default font size in Excel point units.
+#'    a valid 'Excel' font name.
+#' @param fontSize `numeric` default font size in 'Excel' point units.
 #' @param minWidth,maxWidth,autoWidth `numeric` minimum, maximum size
-#'    for each Excel cell, in character units as defined by Excel,
+#'    for each 'Excel' cell, in character units as defined by 'Excel',
 #'    used when `autoWidth=TRUE` to restrict cell widths to this range.
 #'    Note that the argument `colWidths` is generally preferred, if the
 #'    numeric widths can be reasonable calculated or anticipated upfront.
-#'    When `autoWidth=FALSE` Excel typically auto-sizes cells to the width
+#'    When `autoWidth=FALSE` 'Excel' typically auto-sizes cells to the width
 #'    of the largest value in each column, which may not be ideal when
 #'    values are extremely large.
 #' @param wrapHeaders `logical` indicating whether to enable word wrap
 #'    for column headers, which is helpful when `autoWidth=TRUE` since
 #'    it fixed the cell width while allowing the column header to be seen.
 #' @param headerRowMultiplier `numeric` value to define the row height of
-#'    the first header row in Excel. This value is defined as a multiple
+#'    the first header row in 'Excel'. This value is defined as a multiple
 #'    of subsequent rows, and should usually represent the maximum number
 #'    of lines after word-wrapping, as relevant. This argument
 #'    is helpful when `wrapHeaders=TRUE` and `autoWidth=TRUE`.
@@ -182,7 +182,7 @@
 #'    therefore the length of `colWidths` in that case will be
 #'    `ncol(x) + 1`.
 #' @param keepRownames `logical` indicating whether to include
-#'    `rownames(x)` in its own column in Excel.
+#'    `rownames(x)` in its own column in 'Excel'.
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are passed to `applyXlsxConditionalFormat()`
 #'    and `applyXlsxCategoricalFormat()` as relevant.
@@ -814,11 +814,11 @@ writeOpenxlsx <- function
 #' Xlsx Conditional formatting
 #'
 #' This function is a convenient wrapper for applying conditional formatting
-#' to Excel xlsx worksheets, with reasonable settings for commonly used
+#' to 'Excel' 'xlsx' worksheets, with reasonable settings for commonly used
 #' data types.
 #'
 #' Note that this function does not apply cell formatting, such as numeric
-#' formatting as displayed in Excel.
+#' formatting as displayed in 'Excel'.
 #'
 #' A description of column types follows:
 #'    \describe{
@@ -860,9 +860,9 @@ writeOpenxlsx <- function
 #' For each column type, one can describe the column using integer indices,
 #' or colnames, or optionally use the Grep parameters. The Grep parameters
 #' are intended for pattern matching, and may contain a vector of grep patterns
-#' which are used by \code{\link{provigrep}} to match to colnames. The Grep
+#' which are used by `provigrep()` to match to colnames. The Grep
 #' method is particularly useful when applying conditional formatting for
-#' multiple worksheets in the same .xlsx file, where the colnames are not
+#' multiple worksheets in the same 'xlsx' file, where the colnames are not
 #' identical in each worksheet.
 #'
 #' Each column type has an associated 3-threshold rule, and three associated
@@ -873,9 +873,9 @@ writeOpenxlsx <- function
 #' that styles are by default "stacked", which
 #' maintains font and cell border styles without removing them. However, it
 #' this "stacking" means that applying two rules to the same cell will not
-#' work, since only the first rule will be applied by Microsoft Excel.
+#' work, since only the first rule will be applied by 'Microsoft Excel'.
 #' Interestingly, if multiple conditional rules are applied to the same
-#' cell, they will be visible in order inside the Microsoft Excel
+#' cell, they will be visible in order inside the 'Microsoft Excel'
 #' application.
 #'
 #' @family jam export functions
@@ -916,7 +916,7 @@ writeOpenxlsx <- function
 #'    formatting. In most cases startRow=2, which allows one row for column
 #'    headers. However, if there are multiple header rows, startRow should be
 #'    1 more than the number of header rows.
-#' @param overwrite logical indicating whether the original Excel files will
+#' @param overwrite logical indicating whether the original 'Excel' files will
 #'    be replaced with the new one, or whether a new file will be created.
 #' @param ... additional parameters are ignored.
 #'
@@ -1211,9 +1211,9 @@ applyXlsxConditionalFormat <- function
    invisible(wb);
 }
 
-#' Add categorical colors to Excel xlsx worksheets
+#' Add categorical colors to 'Excel' 'xlsx' worksheets
 #'
-#' Add categorical colors to Excel xlsx worksheets
+#' Add categorical colors to 'Excel' 'xlsx' worksheets
 #'
 #' This function is a convenient wrapper for applying categorical
 #' color formatting to cell background colors, and applies a contrasting
@@ -1234,7 +1234,7 @@ applyXlsxConditionalFormat <- function
 #'    `xlsxFile` is a `Workbook` the output is not saved to a file.
 #' @param sheet `integer` index of the worksheet or worksheets.
 #' @param rowRange,colRange `integer` vectors of rows and columns
-#'    to apply categorical colors in the Excel xlsx worksheet,
+#'    to apply categorical colors in the 'Excel' 'xlsx' worksheet,
 #'    passed as `openxlsx::readWorkbook(..., rows=rowRange, cols=colRange)`.
 #'    This step defines which columns are read from each workbook,
 #'    however when `colorSub` is provided as a `list` whose names
@@ -1254,8 +1254,8 @@ applyXlsxConditionalFormat <- function
 #'    is used to define a contrasting text color to be visible on
 #'    the colored background.
 #' @param trimCatNames `logical` whether to trim whitespace and punctuation
-#'    from `colorSub` and from Excel cell fields before matching colors
-#'    to Excel values.
+#'    from `colorSub` and from 'Excel' cell fields before matching colors
+#'    to 'Excel' values.
 #' @param overwrite `logical` indicating whether new cell color styles
 #'    should be forced overwrite of previous cell styles.
 #' @param wrapText `logical` indicating whether to wrap text.
@@ -1861,9 +1861,9 @@ set_xlsx_rowheights <- function
 }
 
 
-#' Import one or more data.frame from Excel xlsx format
+#' Import one or more data.frame from 'Excel' 'xlsx' format
 #'
-#' Import one or more data.frame from Excel xlsx format
+#' Import one or more data.frame from 'Excel' 'xlsx' format
 #'
 #' This function is equivalent to `openxlsx::read.xlsx()`
 #' with a few minor additions:
@@ -1890,7 +1890,7 @@ set_xlsx_rowheights <- function
 #'
 #' @returns `list` of `data.frame` objects, one per sheet in `xlsx`.
 #'
-#' @param xlsx `character` path to an Excel file in `xlsx` format,
+#' @param xlsx `character` path to an 'Excel' file in `xlsx` format,
 #'    compatible with `openxlsx::read.xlsx()`.
 #' @param sheet one of `NULL`, `character`, or `integer` vector,
 #'    where: `sheet=NULL` will import every sheet; `character` is

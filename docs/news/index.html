@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,26 @@
       <small>Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.2" id="jamba-102">jamba 1.0.2<a class="anchor" aria-label="anchor" href="#jamba-102"></a></h2>
+<div class="section level3">
+<h3 id="changes-per-cran-comments-1-0-2">Changes per CRAN comments.<a class="anchor" aria-label="anchor" href="#changes-per-cran-comments-1-0-2"></a></h3>
+<ul><li>Used tick marks around software names.</li>
+<li>
+<code><a href="../reference/lldf.html">lldf()</a></code> now defaults to <code>envir=-1L</code>, the parent environment which is also usually <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv()</a></code>. It now also recognizes <code>character</code> and <code>integer</code> input, equivalent to <code>pos</code> and <code>name</code> arguments of <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code>.</li>
+<li>
+<code><a href="../reference/setPrompt.html">setPrompt()</a></code> new default <code>projectName="unnamed"</code> matches previous behavior, and no longer searches <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv()</a></code> for <code>projectName</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="potentially-breaking-changes-1-0-2">Potentially breaking changes<a class="anchor" aria-label="anchor" href="#potentially-breaking-changes-1-0-2"></a></h3>
+<ul><li>
+<p><code><a href="../reference/reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code></p>
+<ul><li>Now defaults to <code>envir=new.env()</code> instead of using <code>.GlobalEnv</code>, which was already preferred. It is now the default behavior per CRAN policy, and it makes sense.</li>
+<li>It now returns <code>envir</code> invisibly, not the <code>character</code> object list.</li>
+<li>For previous behavior, one can set <code>envir=.GlobalEnv</code> or <code>envir=globalenv()</code> and ignore the output.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="jamba-101">jamba 1.0.1<a class="anchor" aria-label="anchor" href="#jamba-101"></a></h2>
 <div class="section level3">

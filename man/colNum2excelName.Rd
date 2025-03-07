@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba.r
 \name{colNum2excelName}
 \alias{colNum2excelName}
-\title{convert column number to Excel column name}
+\title{convert column number to 'Excel' column name}
 \usage{
 colNum2excelName(x, useLetters = LETTERS, zeroVal = "a", ...)
 }
@@ -23,16 +23,16 @@ input values, but this basic mechanism is used to handle the possibility.}
 \code{character} vector with length(x)
 }
 \description{
-convert column number to Excel column name
+convert column number to 'Excel' column name
 }
 \details{
-The purpose is to convert an \code{integer} column number into a valid Excel
+The purpose is to convert an \code{integer} column number into a valid 'Excel'
 column name, using \code{LETTERS} starting at A.
 This function implements an arbitrary number of digits, which may or
-may not be compatible with each version of Excel.  18,278 columns
+may not be compatible with each version of 'Excel'.  18,278 columns
 would be the maximum for three digits, "A" through "ZZZ".
 
-This function is useful when referencing Excel columns via another
+This function is useful when referencing 'Excel' columns via another
 interface such as via openxlsx. It is also used by \code{makeNames()}
 when the \code{numberStyle="letters"}, in order to provide letter suffix values.
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba-export.r
 \name{writeOpenxlsx}
 \alias{writeOpenxlsx}
-\title{Export a data.frame to Excel xlsx format}
+\title{Export a data.frame to 'Excel' 'xlsx' format}
 \usage{
 writeOpenxlsx(
   x,
@@ -64,9 +64,9 @@ writeOpenxlsx(
 )
 }
 \arguments{
-\item{x}{\code{data.frame} to be saved to an Excel xlsx file.}
+\item{x}{\code{data.frame} to be saved to an 'Excel' 'xlsx' file.}
 
-\item{file}{\code{character} valid path to save an Excel xlsx file. If the file
+\item{file}{\code{character} valid path to save an 'Excel' 'xlsx' file. If the file
 exists, and \code{append=TRUE} the new data will be added to the existing
 file withthe defined \code{sheetName}.
 \itemize{
@@ -86,7 +86,7 @@ output file, by preventing the slow read/write steps each time
 a new sheet is added.}
 
 \item{sheetName}{\code{character} value less with a valid
-Excel xlsx worksheet name. At this time (version 0.0.29.900) the
+'Excel' 'xlsx' worksheet name. At this time (version 0.0.29.900) the
 sheetName is restricted to 31 characters, with no puntuation except
 "-" and "_".}
 
@@ -98,14 +98,14 @@ default are 1.}
 or to write over an existing file. The \code{append=TRUE} is useful when
 adding a worksheet to an existing file.}
 
-\item{headerColors, columnColors, highlightHeaderColors, highlightColors, borderColor, borderPosition}{default values for the Excel worksheet background and border
-colors. As of version 0.0.29.900, colors must use Excel-valid
+\item{headerColors, columnColors, highlightHeaderColors, highlightColors, borderColor, borderPosition}{default values for the 'Excel' worksheet background and border
+colors. As of version 0.0.29.900, colors must use valid 'Excel'
 color names.}
 
 \item{highlightColumns, numColumns, fcColumns, lfcColumns, hitColumns, intColumns, pvalueColumns}{\code{integer} vector referring the column number in the input \code{data.frame}
 \code{x} to define as each column type, as relevant.}
 
-\item{numFormat, fcFormat, lfcFormat, hitFormat, intFormat, pvalueFormat}{\code{character} string with valid Excel cell formatting, for example
+\item{numFormat, fcFormat, lfcFormat, hitFormat, intFormat, pvalueFormat}{\code{character} string with valid 'Excel' cell formatting, for example
 \code{"#,##0.00"} defines a column to use comma-delimited numbers above
 one thousand, and display two decimal places in all numeric cells.
 See \verb{[https://support.microsoft.com]} topic
@@ -139,7 +139,7 @@ to align all values at the same decimal position.
 }}
 
 \item{numRule, fcRule, lfcRule, hitRule, intRule, pvalueRule}{\code{numeric} vector
-\code{length=3} indicating the breakpoints for Excel to apply conditional
+\code{length=3} indicating the breakpoints for 'Excel' to apply conditional
 color formatting, using the corresponding style.
 Note that all conditional formatting applied by this function uses
 the \code{"3-Color Scale"}, therefore there should be three values,
@@ -147,7 +147,7 @@ and three corresponding colors in the corresponding Style arguments.}
 
 \item{numStyle, fcStyle, lfcStyle, intStyle, hitStyle, pvalueStyle}{\code{character}
 vector \code{length=3} containing three valid R colors. Note that alpha
-transparency will be removed prior to use in Excel, as required.
+transparency will be removed prior to use in 'Excel', as required.
 Note that all conditional formatting applied by this function uses
 the \code{"3-Color Scale"}, therefore there should be three colors,
 which match three values in the corresponding Rule arguments.}
@@ -164,25 +164,25 @@ text color. This argument requires \code{colorSub} be defined.}
 cell values in the input \code{x} data.frame.}
 
 \item{freezePaneColumn, freezePaneRow}{\code{integer} value of the row or
-column before which the Excel "freeze panes" is applied.
+column before which the 'Excel' "freeze panes" is applied.
 Note that these values are adjusted relative by \code{startRow} and
-\code{startCol} in the Excel worksheet, so that the values are applied
+\code{startCol} in the 'Excel' worksheet, so that the values are applied
 relative to the \code{data.frame} argument \code{x}.}
 
 \item{doFilter}{\code{logical} indicating whether to enable column
 filtering by default.}
 
 \item{fontName}{\code{character} default font configuration, containing
-a valid Excel font name.}
+a valid 'Excel' font name.}
 
-\item{fontSize}{\code{numeric} default font size in Excel point units.}
+\item{fontSize}{\code{numeric} default font size in 'Excel' point units.}
 
 \item{minWidth, maxWidth, autoWidth}{\code{numeric} minimum, maximum size
-for each Excel cell, in character units as defined by Excel,
+for each 'Excel' cell, in character units as defined by 'Excel',
 used when \code{autoWidth=TRUE} to restrict cell widths to this range.
 Note that the argument \code{colWidths} is generally preferred, if the
 numeric widths can be reasonable calculated or anticipated upfront.
-When \code{autoWidth=FALSE} Excel typically auto-sizes cells to the width
+When \code{autoWidth=FALSE} 'Excel' typically auto-sizes cells to the width
 of the largest value in each column, which may not be ideal when
 values are extremely large.}
 
@@ -200,13 +200,13 @@ for column headers, which is helpful when \code{autoWidth=TRUE} since
 it fixed the cell width while allowing the column header to be seen.}
 
 \item{headerRowMultiplier}{\code{numeric} value to define the row height of
-the first header row in Excel. This value is defined as a multiple
+the first header row in 'Excel'. This value is defined as a multiple
 of subsequent rows, and should usually represent the maximum number
 of lines after word-wrapping, as relevant. This argument
 is helpful when \code{wrapHeaders=TRUE} and \code{autoWidth=TRUE}.}
 
 \item{keepRownames}{\code{logical} indicating whether to include
-\code{rownames(x)} in its own column in Excel.}
+\code{rownames(x)} in its own column in 'Excel'.}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output.}
 
@@ -220,7 +220,7 @@ can be used in argument \code{wb} to provide a speed boost when
 saving multiple sheets to the same file.
 }
 \description{
-Export a data.frame to Excel xlsx format
+Export a data.frame to 'Excel' 'xlsx' format
 }
 \details{
 This function is a minor but useful customization of the
@@ -229,7 +229,7 @@ to provide some pre-configured formatting of known column
 types, typically relevant to statistical values, and
 in some cases, gene or transcript expression values.
 
-There are numerous configurable options when saving an Excel
+There are numerous configurable options when saving an 'Excel'
 worksheet, most of the defaults in this function are intended
 not to require changes, but are listed as formal function
 arguments to make each option visibly obvious.
@@ -258,11 +258,11 @@ near zero, and values are formatted consistently with scientific
 notation.}
 \item{fc}{numeric fold change, whose values are expected to range
 from 1 and higher, and -1 and lower. Decimal places are by default
-configured to show one decimal place, to simplify the Excel visual
+configured to show one decimal place, to simplify the 'Excel' visual
 summary.}
 \item{lfc}{numeric log fold change, whose values are expected to be
 centered at zero. Decimal places are by default
-configured to show one decimal place, to simplify the Excel visual
+configured to show one decimal place, to simplify the 'Excel' visual
 summary.}
 \item{highlight}{character and undefined columns to be highlighted
 with a brighter background color, and bold text.}

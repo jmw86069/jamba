@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="jamba">jamba<a class="anchor" aria-label="anchor" href="#jamba"></a>
 </h1></div>
-<p>The goal of jamba is to provide useful custom functions for R data analysis and visualization. jamba version <strong>1.0.1</strong></p>
+<p>The goal of jamba is to provide useful custom functions for R data analysis and visualization. jamba version <strong>1.0.2</strong></p>
 <div class="section level2">
 <h2 id="package-reference">Package Reference<a class="anchor" aria-label="anchor" href="#package-reference"></a>
 </h2>
@@ -512,7 +512,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/printDebug.html">printDebugHtml</a></span><span class="op">(</span><span class="st">"printDebugHtml(): "</span>,</span>
 <span>  <span class="st">"Output is colorized: "</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>(<span style="color:#00C3C3FF">21:00:32</span>) 03Mar2025: <span style="color:#FF7F00FF">printDebugHtml(): </span><span style="color:#1E90FFFF">Output is colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
+<p>(<span style="color:#00C3C3FF">12:05:41</span>) 07Mar2025: <span style="color:#FF7F00FF">printDebugHtml(): </span><span style="color:#1E90FFFF">Output is colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_options.html" class="external-link">with_options</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>jam.htmlOut<span class="op">=</span><span class="cn">TRUE</span>, jam.comment<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, <span class="op">{</span></span>
@@ -520,7 +520,7 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Output should be colorized: "</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span>;</span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>(<span style="color:#00C3C3FF">21:00:33</span>) 03Mar2025: <span style="color:#FF7F00FF">printDebug() using withr::with_options(): </span><span style="color:#1E90FFFF">Output should be colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
+<p>(<span style="color:#00C3C3FF">12:05:41</span>) 07Mar2025: <span style="color:#FF7F00FF">printDebug() using withr::with_options(): </span><span style="color:#1E90FFFF">Output should be colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
 <ul>
 <li>
 <p><code><a href="reference/kable_coloring.html">kable_coloring()</a></code> - applies categorical colors to <code>kable()</code> output using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kableExtra::kable()</a></code>.</p>

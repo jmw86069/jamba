@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba-export.r
 \name{applyXlsxCategoricalFormat}
 \alias{applyXlsxCategoricalFormat}
-\title{Add categorical colors to Excel xlsx worksheets}
+\title{Add categorical colors to 'Excel' 'xlsx' worksheets}
 \usage{
 applyXlsxCategoricalFormat(
   xlsxFile,
@@ -27,7 +27,7 @@ or \code{Workbook} object defined in the \code{openxlsx} package. When
 \item{sheet}{\code{integer} index of the worksheet or worksheets.}
 
 \item{rowRange, colRange}{\code{integer} vectors of rows and columns
-to apply categorical colors in the Excel xlsx worksheet,
+to apply categorical colors in the 'Excel' 'xlsx' worksheet,
 passed as \code{openxlsx::readWorkbook(..., rows=rowRange, cols=colRange)}.
 This step defines which columns are read from each workbook,
 however when \code{colorSub} is provided as a \code{list} whose names
@@ -52,8 +52,8 @@ is used to define a contrasting text color to be visible on
 the colored background.}
 
 \item{trimCatNames}{\code{logical} whether to trim whitespace and punctuation
-from \code{colorSub} and from Excel cell fields before matching colors
-to Excel values.}
+from \code{colorSub} and from 'Excel' cell fields before matching colors
+to 'Excel' values.}
 
 \item{overwrite}{\code{logical} indicating whether new cell color styles
 should be forced overwrite of previous cell styles.}
@@ -75,7 +75,7 @@ can be used in argument \code{wb} to provide a speed boost when
 saving multiple sheets to the same file.
 }
 \description{
-Add categorical colors to Excel xlsx worksheets
+Add categorical colors to 'Excel' 'xlsx' worksheets
 }
 \details{
 This function is a convenient wrapper for applying categorical

@@ -95,7 +95,7 @@ is especially useful for large data matrices. In this case a bitmap
 raster image is created instead of polygons, then the bitmap is scaled
 to fit the plot space. Otherwise, individual polygons can be obscured
 on monitor screens, or may result in an extremely large file size when
-writing to vector image format such as PDF or SVG.}
+writing to vector image format such as 'PDF' or 'SVG'.}
 
 \item{fixRasterRatio}{\code{logical} whether to implement a simple workaround
 to the requirement for square pixels, in the event the x- and y-axis

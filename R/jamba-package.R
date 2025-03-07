@@ -4,9 +4,10 @@
 #' which are re-usable for routine R analysis work, and are
 #' important dependencies for other Jam R packages.
 #'
-#' The goal will be to
-#' maintain these methods as lightweight as possible, so
-#' their inclusion in an analysis workflow will not incur
+#' See the function reference for a complete list of functions.
+#'
+#' The goal is to implement methods as lightweight as possible, so
+#' so inclusion in an analysis workflow will not incur
 #' a noticeable burden.
 #'
 #' @section plot functions:
@@ -49,14 +50,20 @@
 #'    manipulation and display
 #'
 #' @section miscellaneous helper functions:
-#'    * [printDebug()] colored text output to console, RMarkdown, HTML.
+#'    * [printDebug()] colored text output to console, 'Rmarkdown', HTML
+#'    * [kable_coloring()] colored `kableExtra::kable()` output for 'Rmarkdown'
 #'    * [setPrompt()] colored R prompt
 #'    * [deg2rad()], [rad2deg()] interconvert degrees to radians.
 #'    * [getDate()], [asDate()], [dateToDaysOld()] human-readable,
 #'    opinionated date formatting
-#'    * [padString()], [padInteger()] pad character or integer strings.
+#'    * [padString()], [padInteger()] pad character or integer strings
 #'    * [rmNA()], [rmNULL()], [rmInfinite()] remove or replace missing or NA
-#'    values with defined alternatives.
+#'    values with defined alternatives
+#'
+#' @section export and import functions:
+#'    * [readOpenxlsx()] import worksheets from 'xlsx' 'Excel' files.
+#'    * [writeOpenxlsx()] export worksheets to 'xlsx' 'Excel' files with color,
+#'    formatting, and styling.
 #'
 #' @section Jam options:
 #'    The `jamba` package recognizes some global options, but limits these

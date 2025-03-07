@@ -2,7 +2,7 @@
 % Please edit documentation in R/jamba-export.r
 \name{readOpenxlsx}
 \alias{readOpenxlsx}
-\title{Import one or more data.frame from Excel xlsx format}
+\title{Import one or more data.frame from 'Excel' 'xlsx' format}
 \usage{
 readOpenxlsx(
   xlsx,
@@ -19,7 +19,7 @@ readOpenxlsx(
 )
 }
 \arguments{
-\item{xlsx}{\code{character} path to an Excel file in \code{xlsx} format,
+\item{xlsx}{\code{character} path to an 'Excel' file in \code{xlsx} format,
 compatible with \code{openxlsx::read.xlsx()}.}
 
 \item{sheet}{one of \code{NULL}, \code{character}, or \code{integer} vector,
@@ -101,7 +101,7 @@ seen in real data.}
 \code{list} of \code{data.frame} objects, one per sheet in \code{xlsx}.
 }
 \description{
-Import one or more data.frame from Excel xlsx format
+Import one or more data.frame from 'Excel' 'xlsx' format
 }
 \details{
 This function is equivalent to \code{openxlsx::read.xlsx()}

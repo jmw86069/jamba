@@ -1,3 +1,25 @@
+# jamba 1.0.2
+
+## Changes per CRAN comments.
+
+* Used tick marks around software names.
+* `lldf()` now defaults to `envir=-1L`, the parent environment which
+is also usually `globalenv()`. It now also recognizes `character`
+and `integer` input, equivalent to `pos` and `name` arguments of `ls()`.
+* `setPrompt()` new default `projectName="unnamed"` matches previous
+behavior, and no longer searches `globalenv()` for `projectName`.
+
+## Potentially breaking changes
+
+* `reload_rmarkdown_cache()`
+
+   * Now defaults to `envir=new.env()` instead of using `.GlobalEnv`,
+   which was already preferred. It is now the default behavior per
+   CRAN policy, and it makes sense.
+   * It now returns `envir` invisibly, not the `character` object list.
+   * For previous behavior, one can set `envir=.GlobalEnv` or
+   `envir=globalenv()` and ignore the output.
+
 # jamba 1.0.1
 
 ## Changes per CRAN comments.

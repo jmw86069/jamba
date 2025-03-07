@@ -6,7 +6,7 @@
 \usage{
 lldf(
   n = Inf,
-  envir = .GlobalEnv,
+  envir = -1L,
   items = NULL,
   use_utils_objectsize = TRUE,
   all.names = TRUE,
@@ -17,13 +17,18 @@ lldf(
 \item{n}{\code{integer} or \code{Inf} indicating how many objects to
 include in the output \code{data.frame}.}
 
-\item{envir}{\code{environment} where the list of objects is obtained.
-Note this environment is also where objects are evaluated,
-so the \code{envir} and \code{items} should be compatible.}
+\item{envir}{\code{environment} where the list of objects is obtained,
+default \code{-1L} searches the environment of the caller, usually
+the user workspace.
+Other recognized options:
+\itemize{
+\item \code{character} string suitable for \code{as.environment()} which
+recognizes the search path returned by \code{search()}
+\item \code{integer} or \code{numeric} equivalent to environment relative position
+as used in \code{ls()} argument \code{pos}.
+}}
 
-\item{items}{optional \code{character} vector of items to include
-in the output \code{data.frame}. Note that these items should be
-available in the environment \code{envir}.}
+\item{items}{\code{character} of items to include, default NULL.}
 
 \item{use_utils_objectsize}{\code{logical}, default TRUE, whether to prefer
 \code{utils::object.size()}, otherwise it will attempt to use
@@ -33,7 +38,8 @@ available in the environment \code{envir}.}
 to include all names, where \code{all.names=TRUE} will include
 hidden objects whose name begin with \code{"."} such as \code{".First"}.}
 
-\item{...}{additional arguments are passed to \code{ls()}}
+\item{...}{additional arguments are passed to \code{ls()}, notably
+\code{pattern} can be passed to subset objects by regular expression.}
 }
 \value{
 \code{data.frame} with summary of objects and object sizes,

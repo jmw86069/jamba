@@ -4,7 +4,7 @@
 # jamba
 
 The goal of jamba is to provide useful custom functions for R data
-analysis and visualization. jamba version **1.0.1**
+analysis and visualization. jamba version **1.0.2**
 
 ## Package Reference
 
@@ -376,7 +376,7 @@ printDebugHtml("printDebugHtml(): ",
   head(LETTERS, 8))
 ```
 
-(<span style="color:#00C3C3FF">21:00:32</span>) 03Mar2025:
+(<span style="color:#00C3C3FF">12:05:41</span>) 07Mar2025:
 <span style="color:#FF7F00FF">printDebugHtml():
 </span><span style="color:#1E90FFFF">Output is colorized:
 </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br/>
@@ -390,7 +390,7 @@ withr::with_options(list(jam.htmlOut=TRUE, jam.comment=FALSE), {
 })
 ```
 
-(<span style="color:#00C3C3FF">21:00:33</span>) 03Mar2025:
+(<span style="color:#00C3C3FF">12:05:41</span>) 07Mar2025:
 <span style="color:#FF7F00FF">printDebug() using withr::with_options():
 </span><span style="color:#1E90FFFF">Output should be colorized:
 </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br/>

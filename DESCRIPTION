@@ -1,18 +1,19 @@
 Package: jamba
 Title: Just Analysis Methods Base
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(
     person(given="James M.",
        family="Ward",
        email="jmw86069@gmail.com",
        comment=c(ORCID="0000-0002-9510-2848"),
        role=c("aut", "cre", "cph")))
-Description: Jam base functions focused on bioinformatics.
-    Efficient gene-centric alphanumeric sort,
-    unique name version assignment, colorized console and HTML output,
+Description: Just analysis methods ('jam') base functions
+    focused on bioinformatics.
+    Version- and gene-centric alphanumeric sort,
+    unique name and version assignment, colorized console and 'HTML' output,
     color ramp and palette manipulation,
-    Rmarkdown cache import, styled Excel worksheet export,
-    rasterized and interpolated smooth scatter and image plots,
+    'Rmarkdown' cache import, styled 'Excel' worksheet import and export,
+    interpolated raster output from smooth scatter and image plots,
     list to delimited vector, efficient list tools.
 biocViews:
 Depends: R (>= 3.0.0)

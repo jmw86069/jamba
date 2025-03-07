@@ -2,13 +2,13 @@
 % Please edit documentation in R/jamba-load-cache.R
 \name{reload_rmarkdown_cache}
 \alias{reload_rmarkdown_cache}
-\title{Reload Rmarkdown cache}
+\title{Reload 'Rmarkdown' cache}
 \usage{
 reload_rmarkdown_cache(
   dir = ".",
   maxnum = 1000,
   max_cache_name = NULL,
-  envir = globalenv(),
+  envir = new.env(),
   file_sort = c("globals", "objects", "ctime", "mtime"),
   preferred_load_types = c("lazyLoad", "load"),
   dryrun = FALSE,
@@ -17,72 +17,67 @@ reload_rmarkdown_cache(
 )
 }
 \arguments{
-\item{dir}{\code{character} path to the directory that contains Rmarkdown
+\item{dir}{\code{character} path to the directory that contains 'Rmarkdown'
 cache files. Each file is recognized by the file extension \code{".rdx"}.}
 
 \item{maxnum}{\code{integer} indicating the maximum number of cache files
 to re-load, in order.}
 
 \item{max_cache_name}{\code{character} optional string indicating the
-name of an Rmarkdown cache chunk where this function will stop
+name of an 'Rmarkdown' cache chunk where this function will stop
 loading cache data. All cache files after this point will
 not be loaded. This option is intended to help recreate the
-data available to a particular Rmarkdown chunk during
+data available to a particular 'Rmarkdown' chunk during
 processing.}
 
-\item{envir}{\code{environment} where cache data will be loaded.}
+\item{envir}{\code{environment} in which data is populated, default \code{new.env()}
+creates a new \code{environment} which is returned invisibly.}
 
-\item{file_sort}{\code{character} string indicating how to sort cache files
-to place them in proper order for re-loading. The default is to use
-one RMarkdown cache index file, which should accurately reflect only
-RMarkdown chunks present in the .Rmd file during rendering, and
-in the order they appear in that file.
-Using \code{"mtime"} or \code{"ctime"} below will sort files by the modification
-or creation time, respectively, and is less accurate, but often
-sufficient for most purposes. It would only be advised if for
-some reason the \code{"__globals"} or \code{"__objects"} files are not present.
+\item{file_sort}{\code{character} string indicating how to sort cache files,
+default uses best available, in order: "globals" (global index file),
+"objects" (object index file), "ctime" (creation time),
+"mtime" (modification time). The global index is preferred, and
+other options are intended for rare scenarios when the global
+index is not available. The methods using \code{"mtime"} or \code{"ctime"}
+\strong{is less accurate}, yet may be sufficient for simple output.
 \itemize{
 \item \code{"globals"} uses the \code{"__globals"} file in the cache directory.
 \item \code{"objects"} uses the \code{"__objects"} file in the cache directory.
-\item \code{ctime} sorts by file creation time, default
+\item \code{ctime} sorts by file creation time
 \item \code{mtime} sorts by file modification time
 }}
 
 \item{preferred_load_types}{\code{character} string indicating the preferred
-load mechanism to use.
-By default either option is permitted, depending upon the files
-present: it will use \code{lazyLoad()} if \code{.rdx/.rdb} files are present,
-otherwise it falls back to using \code{load()} for \code{.RData} files.
-\itemize{
-\item \code{"lazyLoad"} will try to use \code{lazyLoad()} to load \code{.rdx/.rdb} files
-\item \code{"load"} will try to use \code{load()} to load \code{.RData} files
-\item Remove \code{"lazyLoad"} to prevent lazy-loading of cached objects.
-}}
+load mechanism, default uses \code{"lazyLoad"} if '.rdx'/'.rdb' files
+are available, otherwise \code{"load"} to load '.RData'/'.rda' files.
+The 'lazyLoad' '.rdx'/.'rdb' files are created when 'Rmarkdown'
+options include \verb{cache=TRUE, cache.lazy=TRUE}. The load option
+is used when \verb{cache=TRUE, cache.lazy=FALSE} which is preferred
+for some analyses involving large data objects.}
 
-\item{dryrun}{\code{logical} indicating whether to perform a dry-run,
-which prints messages but does not process the data.}
+\item{dryrun}{\code{logical} default FALSE, whether to perform a dry-run,
+which prints messages and does not load the data.}
 
-\item{verbose}{\code{logical} indicating whether to print verbose output.
-Note that this variable is not passed along to \code{load()}, since it
-is inconsistent with \code{lazyLoad()}.}
+\item{verbose}{\code{logical} default TRUE, whether to print verbose output.
+This argument is not passed to other functions.}
 
 \item{...}{additional arguments are passed to \code{lazyLoad()} or \code{load()}
 as relevant to the method used to re-load the cache object data.}
 }
 \value{
-No return value, this function is called for side effects,
-populating data into the environment \code{envir}.
+\code{envir} is returned invisibly, with data objects populated
+into that \code{environment}.
 }
 \description{
-Reload Rmarkdown cache in the order files were created, into an
+Reload 'Rmarkdown' cache in the order files were created, into an
 R environment
 }
 \details{
-This function is intended to help re-load Rmarkdown cache files
-created during the processing/rendering of an Rmarkdown file.
+This function is intended to help re-load 'Rmarkdown' cache files
+created during the processing/rendering of an 'Rmarkdown' file.
 
 By default, all cached R objects are loaded into the
-global environment \code{globalenv()}, However,
+environment defined by \code{envir}, However,
 \strong{it is recommended that \code{envir} is used to define a new environment}
 into which the cached session is loaded.
 

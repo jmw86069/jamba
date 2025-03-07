@@ -159,7 +159,7 @@ columns will fit on one page.}
 \item{useOnePanel}{\code{logical} indicating whether to define multiple panels
 on one page. Therefore \code{useOnePanel=TRUE} will create multiple
 pages with one panel on each page, which may work well for
-output in multi-page PDF files.}
+output in multi-page 'PDF' files.}
 
 \item{ablineV, ablineH}{\code{numeric} vector representing abline
 vertical and horizontal positions, respectively.

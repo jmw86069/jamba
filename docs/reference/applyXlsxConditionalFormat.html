@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,7 +141,7 @@ headers. However, if there are multiple header rows, startRow should be
 
 
 <dt id="arg-overwrite">overwrite<a class="anchor" aria-label="anchor" href="#arg-overwrite"></a></dt>
-<dd><p>logical indicating whether the original Excel files will
+<dd><p>logical indicating whether the original 'Excel' files will
 be replaced with the new one, or whether a new file will be created.</p></dd>
 
 
@@ -159,10 +159,10 @@ saving multiple sheets to the same file.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function is a convenient wrapper for applying conditional formatting
-to Excel xlsx worksheets, with reasonable settings for commonly used
+to 'Excel' 'xlsx' worksheets, with reasonable settings for commonly used
 data types.</p>
 <p>Note that this function does not apply cell formatting, such as numeric
-formatting as displayed in Excel.</p>
+formatting as displayed in 'Excel'.</p>
 <p>A description of column types follows:</p><dl><dt>"fc"</dt>
 <dd><p>Fold change, typically positive and negative values,
 which are formatted to show one decimal place, and use commas
@@ -212,9 +212,9 @@ P-value approaches 0.01, then 0.0001.</p></dd>
 </dl><p>For each column type, one can describe the column using integer indices,
 or colnames, or optionally use the Grep parameters. The Grep parameters
 are intended for pattern matching, and may contain a vector of grep patterns
-which are used by <code><a href="provigrep.html">provigrep</a></code> to match to colnames. The Grep
+which are used by <code><a href="provigrep.html">provigrep()</a></code> to match to colnames. The Grep
 method is particularly useful when applying conditional formatting for
-multiple worksheets in the same .xlsx file, where the colnames are not
+multiple worksheets in the same 'xlsx' file, where the colnames are not
 identical in each worksheet.</p>
 <p>Each column type has an associated 3-threshold rule, and three associated
 colors. In order to apply different thresholds, one would need to call
@@ -224,9 +224,9 @@ in order to apply different color gradients to different columns. Note
 that styles are by default "stacked", which
 maintains font and cell border styles without removing them. However, it
 this "stacking" means that applying two rules to the same cell will not
-work, since only the first rule will be applied by Microsoft Excel.
+work, since only the first rule will be applied by 'Microsoft Excel'.
 Interestingly, if multiple conditional rules are applied to the same
-cell, they will be visible in order inside the Microsoft Excel
+cell, they will be visible in order inside the 'Microsoft Excel'
 application.</p>
     </div>
     <div class="section level2">
