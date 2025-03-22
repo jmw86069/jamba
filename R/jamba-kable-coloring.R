@@ -88,7 +88,7 @@
 #' @param ... additional arguments are passed to `kableExtra::kable()`
 #'    which allows the usual customizations on the initial call.
 #'
-#' @examplesIf all(check_pkg_installed(c("circlize", "kableExtra")))
+#' @examplesIf (requireNamespace("kableExtra", quietly=TRUE))
 #' expt_df <- data.frame(
 #'    Sample_ID="",
 #'    Treatment=rep(c("Vehicle", "Dex"), each=6),

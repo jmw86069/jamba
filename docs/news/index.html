@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,23 @@
       <small>Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.3" id="jamba-103">jamba 1.0.3<a class="anchor" aria-label="anchor" href="#jamba-103"></a></h2>
+<div class="section level3">
+<h3 id="changes-per-cran-additional-issues-1-0-3">Changes per CRAN additional issues<a class="anchor" aria-label="anchor" href="#changes-per-cran-additional-issues-1-0-3"></a></h3>
+<ul><li>‘jamba-vignette.Rmd’ now uses <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace("kableExtra", quietly=TRUE)</a></code>.</li>
+<li>
+<code><a href="../reference/kable_coloring.html">kable_coloring()</a></code> changed <a href="https://github.com/examplesId" class="external-link">@examplesId</a> to use ‘requireNamespace(“kableExtra”, quietly=TRUE)’. Apparently one platform (r-oldrel-macos-arm64) did not enforce the check for ‘kableExtra’ possibly due to <code><a href="../reference/check_pkg_installed.html">check_pkg_installed()</a></code> differences on that platform. See changes below to <code><a href="../reference/check_pkg_installed.html">check_pkg_installed()</a></code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-to-existing-functions-1-0-3">Changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-1-0-3"></a></h3>
+<ul><li>
+<p><code><a href="../reference/check_pkg_installed.html">check_pkg_installed()</a></code> was modified to provide two methods:</p>
+<ul><li>“packagedir” confirms the package directory exists and contains the file ‘DESCRIPTION’. It is possible that that check that the file exists is enough improvement over simply using <code><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar()</a></code> on the directory, that the checks on ‘r-oldrel-macos-arm64’ would now succeed, however that environment is not available for testing. (The development environment is already R-4.3.3 on MacOS with M1 chip, though other libraries could differ with the official test system.)</li>
+<li>“requireNamespace” runs <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace(x, quietly=TRUE)</a></code> which loads the package namespace but does not attach it. This approach is slower, but more accurate.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2" id="jamba-102">jamba 1.0.2<a class="anchor" aria-label="anchor" href="#jamba-102"></a></h2>
 <div class="section level3">

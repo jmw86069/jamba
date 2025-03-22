@@ -561,7 +561,7 @@ colorSub <- c(Vehicle="palegoldenrod",
     color2gradient(n=3,
       c("goldenrod1", "indianred3", "royalblue3", "darkorchid4")),
     expt_df$Sample_ID))
-if (check_pkg_installed("kableExtra")) {
+if (requireNamespace("kableExtra", quietly=FALSE)) {
    kbl <- kable_coloring(
      expt_df,
      caption="Experiment design table showing categorical color assignment.",

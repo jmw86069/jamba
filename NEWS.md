@@ -1,3 +1,29 @@
+# jamba 1.0.3
+
+## Changes per CRAN additional issues
+
+* 'jamba-vignette.Rmd' now uses `requireNamespace("kableExtra", quietly=TRUE)`.
+* `kable_coloring()` changed @examplesId to use
+'requireNamespace("kableExtra", quietly=TRUE)'. Apparently one platform
+(r-oldrel-macos-arm64) did not enforce the check for 'kableExtra'
+possibly due to `check_pkg_installed()` differences on that platform.
+See changes below to `check_pkg_installed()`.
+
+## Changes to existing functions
+
+* `check_pkg_installed()` was modified to provide two methods:
+
+  * "packagedir" confirms the package directory exists and contains
+  the file 'DESCRIPTION'. It is possible that that check that the
+  file exists is enough improvement over simply using `nchar()`
+  on the directory, that the checks on 'r-oldrel-macos-arm64' would
+  now succeed, however that environment is not available for testing.
+  (The development environment is already R-4.3.3 on MacOS with M1 chip,
+  though other libraries could differ with the official test system.)
+  * "requireNamespace" runs `requireNamespace(x, quietly=TRUE)` which
+  loads the package namespace but does not attach it. This approach is
+  slower, but more accurate.
+
 # jamba 1.0.2
 
 ## Changes per CRAN comments.

@@ -135,7 +135,7 @@ each list element should contain either a \code{character} vector, or
 }
 }
 \examples{
-\dontshow{if (all(check_pkg_installed(c("circlize", "kableExtra")))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if ((requireNamespace("kableExtra", quietly=TRUE))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 expt_df <- data.frame(
    Sample_ID="",
    Treatment=rep(c("Vehicle", "Dex"), each=6),

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
                         <h4 data-toc-skip class="author">James M.
 Ward</h4>
             
-            <h4 data-toc-skip class="date">2025-03-07</h4>
+            <h4 data-toc-skip class="date">2025-03-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/vignettes/jamba-vignette.Rmd" class="external-link"><code>vignettes/jamba-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>jamba-vignette.Rmd</code></div>
@@ -327,7 +327,7 @@ lighter/darker pattern for visual distinction.</p></li>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/printDebug.html">printDebugHtml</a></span><span class="op">(</span><span class="st">"printDebugHtml(): "</span>,</span>
 <span>  <span class="st">"Output is colorized: "</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>(<span style="color:#00C3C3FF">12:07:22</span>) 07Mar2025: <span style="color:#FF7F00FF">printDebugHtml(): </span><span style="color:#1E90FFFF">Output is colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
+<p>(<span style="color:#00C3C3FF">14:38:41</span>) 22Mar2025: <span style="color:#FF7F00FF">printDebugHtml(): </span><span style="color:#1E90FFFF">Output is colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_options.html" class="external-link">with_options</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>jam.htmlOut<span class="op">=</span><span class="cn">TRUE</span>, jam.comment<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, <span class="op">{</span></span>
@@ -335,7 +335,7 @@ lighter/darker pattern for visual distinction.</p></li>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Output should be colorized: "</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span>;</span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>(<span style="color:#00C3C3FF">12:07:22</span>) 07Mar2025: <span style="color:#FF7F00FF">printDebug() using withr::with_options():
+<p>(<span style="color:#00C3C3FF">14:38:42</span>) 22Mar2025: <span style="color:#FF7F00FF">printDebug() using withr::with_options():
 </span><span style="color:#1E90FFFF">Output should be colorized:
 </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
 </div>
@@ -747,7 +747,7 @@ also applies a contrasting text color.</li>
 <span>    <span class="fu"><a href="../reference/color2gradient.html">color2gradient</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">3</span>,</span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"goldenrod1"</span>, <span class="st">"indianred3"</span>, <span class="st">"royalblue3"</span>, <span class="st">"darkorchid4"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    <span class="va">expt_df</span><span class="op">$</span><span class="va">Sample_ID</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/check_pkg_installed.html">check_pkg_installed</a></span><span class="op">(</span><span class="st">"kableExtra"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"kableExtra"</span>, quietly<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>   <span class="va">kbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kable_coloring.html">kable_coloring</a></span><span class="op">(</span></span>
 <span>     <span class="va">expt_df</span>,</span>
 <span>     caption<span class="op">=</span><span class="st">"Experiment design table showing categorical color assignment."</span>,</span>

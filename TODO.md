@@ -1,5 +1,9 @@
 # TODO for jamba
 
+## 12mar2025
+
+* DONE. Fix notice from Dr. Brian Ripley regarding package checks.
+
 ## 05mar2025
 
 * Do not modify `globalenv()`
