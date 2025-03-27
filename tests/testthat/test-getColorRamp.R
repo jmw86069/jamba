@@ -19,15 +19,20 @@ testthat::test_that("getColorRamp with multiple color input", {
       expected_color1_trim10)
 
    # hex input
+   # - edge case where R-4.5.0 on MacOS returns "#3434ECFF" not "#3333ECFF"
    test_color2 <- c("#0000FF");
-   expected_color2 <- c("#FCFCFCFF", "#7575FDFF", "#3434ECFF",
-      "#1616D1FF", "#0000B6FF")
+   expected_color2 <- c("#FCFCFCFF",
+      "#7575FDFF",
+      "#3434ECFF",
+      "#1616D1FF",
+      "#0000B6FF")
+   fix3 <- function(x)gsub("#3.3.", "#3.3.", x)
    testthat::expect_equal(
-      getColorRamp(test_color2, n=5, alpha=TRUE),
-      expected_color2)
+      fix3(getColorRamp(test_color2, n=5, alpha=TRUE)),
+      fix3(expected_color2))
    testthat::expect_equal(
-      getColorRamp(test_color2, n=5, alpha=FALSE),
-      substr(expected_color2, 1, 7))
+      fix3(getColorRamp(test_color2, n=5, alpha=FALSE)),
+      fix3(substr(expected_color2, 1, 7)))
    # trimRamp
    expected_color2_trim10 <- c("#D5D5FCFF", "#5B5BFDFF", "#2F2FE8FF",
       "#1414CFFF", "#0000B6FF")

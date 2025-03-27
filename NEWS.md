@@ -1,3 +1,18 @@
+# jamba 1.0.4
+
+## Changes per CRAN additional issues
+
+* Updated tests in `test-getColorRamp.r` due to obscure, non-reproducible
+error during automated CRAN package checks on MacOS aarch64-apple-darwin24.3.0,
+R-4.5.0 development.
+
+   * The test failed when `getColorRamp()` returning "#3333ECFF" instead of
+   "#3434ECFF" on R-4.5.0 devel version, 'test-getColorRamp.r:25:4'.
+   * The ugly workaround ignores the possibly underlying cause, which
+   resembles a rounding error with hex color values.
+   * The error was not reproducible on R-4.5.0 platform aarch64-apple-darwin20.
+
+
 # jamba 1.0.3
 
 ## Changes per CRAN additional issues
