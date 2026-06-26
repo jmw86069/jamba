@@ -144,10 +144,10 @@ smoothScatterJam(x=x1, y=y1, bandwidth=c(0.05, 0.3))
 \seealso{
 \code{graphics::smoothScatter()}
 
-Other jam internal functions: 
-\code{\link{handleArgsText}()},
-\code{\link{jamCalcDensity}()},
-\code{\link{make_html_styles}()},
-\code{\link{make_styles}()}
+Other jam internal functions:
+\code{\link[=handleArgsText]{handleArgsText()}},
+\code{\link[=jamCalcDensity]{jamCalcDensity()}},
+\code{\link[=make_html_styles]{make_html_styles()}},
+\code{\link[=make_styles]{make_styles()}}
 }
 \concept{jam internal functions}

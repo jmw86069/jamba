@@ -135,7 +135,7 @@ each list element should contain either a \code{character} vector, or
 }
 }
 \examples{
-\dontshow{if ((requireNamespace("kableExtra", quietly=TRUE))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if ((requireNamespace("kableExtra", quietly=TRUE))) withAutoprint(\{ # examplesIf}
 expt_df <- data.frame(
    Sample_ID="",
    Treatment=rep(c("Vehicle", "Dex"), each=6),
@@ -172,55 +172,56 @@ kdf3;
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other jam color functions: 
-\code{\link{alpha2col}()},
-\code{\link{applyCLrange}()},
-\code{\link{col2alpha}()},
-\code{\link{col2hcl}()},
-\code{\link{col2hsl}()},
-\code{\link{col2hsv}()},
-\code{\link{color2gradient}()},
-\code{\link{fixYellow}()},
-\code{\link{fixYellowHue}()},
-\code{\link{getColorRamp}()},
-\code{\link{hcl2col}()},
-\code{\link{hsl2col}()},
-\code{\link{hsv2col}()},
-\code{\link{isColor}()},
-\code{\link{makeColorDarker}()},
-\code{\link{rainbow2}()},
-\code{\link{rgb2col}()},
-\code{\link{setCLranges}()},
-\code{\link{setTextContrastColor}()},
-\code{\link{showColors}()},
-\code{\link{unalpha}()},
-\code{\link{warpRamp}()}
+Other jam color functions:
+\code{\link[=alpha2col]{alpha2col()}},
+\code{\link[=applyCLrange]{applyCLrange()}},
+\code{\link[=col2alpha]{col2alpha()}},
+\code{\link[=col2hcl]{col2hcl()}},
+\code{\link[=col2hsl]{col2hsl()}},
+\code{\link[=col2hsv]{col2hsv()}},
+\code{\link[=color2gradient]{color2gradient()}},
+\code{\link[=fixYellow]{fixYellow()}},
+\code{\link[=fixYellowHue]{fixYellowHue()}},
+\code{\link[=getColorRamp]{getColorRamp()}},
+\code{\link[=hcl2col]{hcl2col()}},
+\code{\link[=hsl2col]{hsl2col()}},
+\code{\link[=hsv2col]{hsv2col()}},
+\code{\link[=isColor]{isColor()}},
+\code{\link[=makeColorDarker]{makeColorDarker()}},
+\code{\link[=rainbow2]{rainbow2()}},
+\code{\link[=rgb2col]{rgb2col()}},
+\code{\link[=setCLranges]{setCLranges()}},
+\code{\link[=setTextContrastColor]{setTextContrastColor()}},
+\code{\link[=showColors]{showColors()}},
+\code{\link[=unalpha]{unalpha()}},
+\code{\link[=warpRamp]{warpRamp()}}
 
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{call_fn_ellipsis}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{getAxisLabel}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{printDebug}()},
-\code{\link{reload_rmarkdown_cache}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{setPrompt}()}
+Other jam practical functions:
+\code{\link[=breakDensity]{breakDensity()}},
+\code{\link[=call_fn_ellipsis]{call_fn_ellipsis()}},
+\code{\link[=checkLightMode]{checkLightMode()}},
+\code{\link[=check_pkg_installed]{check_pkg_installed()}},
+\code{\link[=colNum2excelName]{colNum2excelName()}},
+\code{\link[=color_dither]{color_dither()}},
+\code{\link[=exp2signed]{exp2signed()}},
+\code{\link[=getAxisLabel]{getAxisLabel()}},
+\code{\link[=isFALSEV]{isFALSEV()}},
+\code{\link[=isTRUEV]{isTRUEV()}},
+\code{\link[=jargs]{jargs()}},
+\code{\link[=lldf]{lldf()}},
+\code{\link[=log2signed]{log2signed()}},
+\code{\link[=middle]{middle()}},
+\code{\link[=minorLogTicks]{minorLogTicks()}},
+\code{\link[=newestFile]{newestFile()}},
+\code{\link[=printDebug]{printDebug()}},
+\code{\link[=reload_qmd_cache]{reload_qmd_cache()}},
+\code{\link[=reload_rmarkdown_cache]{reload_rmarkdown_cache()}},
+\code{\link[=renameColumn]{renameColumn()}},
+\code{\link[=rmInfinite]{rmInfinite()}},
+\code{\link[=rmNA]{rmNA()}},
+\code{\link[=rmNAs]{rmNAs()}},
+\code{\link[=rmNULL]{rmNULL()}},
+\code{\link[=setPrompt]{setPrompt()}}
 }
 \concept{jam color functions}
 \concept{jam practical functions}

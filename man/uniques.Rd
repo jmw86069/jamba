@@ -20,7 +20,7 @@ uniques(
 \item{keepNames}{boolean indicating whether to keep the list element
 names in the returned results.}
 
-\item{incomparables}{see \code{\link[=unique]{unique()}} for details, this value is only
+\item{incomparables}{see \code{unique()} for details, this value is only
 sent to \code{S4Vectors::unique()} when the Bioconductor package
 \code{S4Vectors} is installed, and is ignored otherwise for efficiency.}
 
@@ -65,18 +65,18 @@ uniques(L1, useBioc=FALSE);
 
 }
 \seealso{
-Other jam list functions: 
-\code{\link{cPaste}()},
-\code{\link{heads}()},
-\code{\link{jam_rapply}()},
-\code{\link{list2df}()},
-\code{\link{mergeAllXY}()},
-\code{\link{mixedSorts}()},
-\code{\link{rbindList}()},
-\code{\link{relist_named}()},
-\code{\link{rlengths}()},
-\code{\link{sclass}()},
-\code{\link{sdim}()},
-\code{\link{unnestList}()}
+Other jam list functions:
+\code{\link[=cPaste]{cPaste()}},
+\code{\link[=heads]{heads()}},
+\code{\link[=jam_rapply]{jam_rapply()}},
+\code{\link[=list2df]{list2df()}},
+\code{\link[=mergeAllXY]{mergeAllXY()}},
+\code{\link[=mixedSorts]{mixedSorts()}},
+\code{\link[=rbindList]{rbindList()}},
+\code{\link[=relist_named]{relist_named()}},
+\code{\link[=rlengths]{rlengths()}},
+\code{\link[=sclass]{sclass()}},
+\code{\link[=sdim]{sdim()}},
+\code{\link[=unnestList]{unnestList()}}
 }
 \concept{jam list functions}

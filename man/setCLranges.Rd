@@ -16,37 +16,46 @@ setCLranges(
 )
 }
 \arguments{
-\item{lightMode}{boolean indicating whether the background color
-is light (TRUE is bright), or dark (FALSE is dark.) By default
-it calls \code{checkLightMode()} which queries \code{getOption("lightMode")}.}
+\item{lightMode}{\code{logical} indicating whether the background color
+is light (TRUE is bright), or dark (FALSE is dark.)
+\itemize{
+\item When TRUE or FALSE, it will set default values for Crange and Lrange.
+\item When NULL, it will use one or both of Crange,Lrange when supplied,
+and uses \code{getOption("jam.Crange")} and \code{getOption("jam.Lrange")}
+by default when not explicitly provided.
+\item If lightMode is NULL and one or both of Crange, Lrange are NULL,
+it calls \code{checkLightMode()} then assigns appropriate default values.
+\item To detect lightMode again, use \code{lightMode=checkLightMode()}.
+}}
 
-\item{Crange}{numeric range of chroma values, ranging
+\item{Crange}{\code{numeric} range of chroma values, ranging
 between 0 and 100. By default, \code{getOptions("Crange")} is used,
 otherwise defaults will be assigned based upon \code{lightMode}.}
 
-\item{Lrange}{numeric range of luminance values, ranging
+\item{Lrange}{\code{numeric} range of luminance values, ranging
 between 0 and 100. By default, \code{getOptions("Crange")} is used,
 otherwise defaults will be assigned based upon \code{lightMode}.}
 
-\item{Cgrey}{numeric chroma (C) value, which defines grey colors at or
+\item{Cgrey}{\code{numeric} chroma (C) value, which defines grey colors at or
 below this chroma. Any colors at or below the grey cutoff will have
-their C values unchanged. This mechanism prevents converting black
-to red, for example. To disable the effect, set \code{Cgrey=-1}.}
+their C values unchanged.
+This threshold prevents colorizing greyscale colors via Crange.
+To disable the effect, set \code{Cgrey=-1}.}
 
-\item{adjustRgb}{numeric color adjustment factor, used during the
+\item{adjustRgb}{\code{numeric} color adjustment factor, used during the
 conversion of RGB colors to the ANSI-compatible colors used
 by the \code{crayon} pacakge. The ANSI color range does not include
 a full RGB palette, and the conversion is somewhat lossy.
 By default, \code{getOptions("jam.adjustRgb")} is used to store a
 globally re-usable value.}
 
-\item{setOptions}{character or logical whether to update \code{options()}
-\code{"jam.Crange"} and \code{"jam.Lrange"}, with the following behavior:
+\item{setOptions}{\code{character} or \code{logical} whether to update \code{options()}
+\code{"jam.Crange"} and \code{"jam.Lrange"}, with default 'FALSE'.
+It has the following behavior:
 \itemize{
-\item \code{"ifnull"} will update only \code{options()} which were previously \code{NULL}
-\item \code{FALSE} or \code{"FALSE"} does not update \code{options()}
-\item \code{TRUE} or \code{"TRUE"} will update \code{options()} with values determined
-by this function.
+\item \code{FALSE} or \code{"FALSE"} does not update options.
+\item \code{TRUE} or \code{"TRUE"} will update options 'jam.Crange' and 'jam.Lrange'.
+\item \code{"ifnull"} will update only \code{options()} which were previously blank.
 }}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output.}
@@ -54,7 +63,7 @@ by this function.
 \item{...}{additional arguments are ignored.}
 }
 \value{
-\code{list} with elements:
+\code{list}, invisibly, with elements:
 \describe{
 \item{Crange}{Numeric vector of length 2, defining the
 HCL chroma (C) range.}
@@ -94,28 +103,28 @@ setCLranges(lightMode=FALSE)
 
 }
 \seealso{
-Other jam color functions: 
-\code{\link{alpha2col}()},
-\code{\link{applyCLrange}()},
-\code{\link{col2alpha}()},
-\code{\link{col2hcl}()},
-\code{\link{col2hsl}()},
-\code{\link{col2hsv}()},
-\code{\link{color2gradient}()},
-\code{\link{fixYellow}()},
-\code{\link{fixYellowHue}()},
-\code{\link{getColorRamp}()},
-\code{\link{hcl2col}()},
-\code{\link{hsl2col}()},
-\code{\link{hsv2col}()},
-\code{\link{isColor}()},
-\code{\link{kable_coloring}()},
-\code{\link{makeColorDarker}()},
-\code{\link{rainbow2}()},
-\code{\link{rgb2col}()},
-\code{\link{setTextContrastColor}()},
-\code{\link{showColors}()},
-\code{\link{unalpha}()},
-\code{\link{warpRamp}()}
+Other jam color functions:
+\code{\link[=alpha2col]{alpha2col()}},
+\code{\link[=applyCLrange]{applyCLrange()}},
+\code{\link[=col2alpha]{col2alpha()}},
+\code{\link[=col2hcl]{col2hcl()}},
+\code{\link[=col2hsl]{col2hsl()}},
+\code{\link[=col2hsv]{col2hsv()}},
+\code{\link[=color2gradient]{color2gradient()}},
+\code{\link[=fixYellow]{fixYellow()}},
+\code{\link[=fixYellowHue]{fixYellowHue()}},
+\code{\link[=getColorRamp]{getColorRamp()}},
+\code{\link[=hcl2col]{hcl2col()}},
+\code{\link[=hsl2col]{hsl2col()}},
+\code{\link[=hsv2col]{hsv2col()}},
+\code{\link[=isColor]{isColor()}},
+\code{\link[=kable_coloring]{kable_coloring()}},
+\code{\link[=makeColorDarker]{makeColorDarker()}},
+\code{\link[=rainbow2]{rainbow2()}},
+\code{\link[=rgb2col]{rgb2col()}},
+\code{\link[=setTextContrastColor]{setTextContrastColor()}},
+\code{\link[=showColors]{showColors()}},
+\code{\link[=unalpha]{unalpha()}},
+\code{\link[=warpRamp]{warpRamp()}}
 }
 \concept{jam color functions}

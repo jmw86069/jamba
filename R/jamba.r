@@ -1946,7 +1946,7 @@ jargs <- function
  useMessage=TRUE,
  asList=TRUE,
  useColor=TRUE,
- lightMode=NULL,
+ lightMode=getOption("jam.lightMode"),
  Crange=getOption("jam.Crange"),
  Lrange=getOption("jam.Lrange"),
  adjustRgb=getOption("jam.adjustRgb"),
@@ -1968,21 +1968,14 @@ jargs <- function
    ## useColor=TRUE because why not, right?
 
    ## Check lightMode, whether the background color is light or not
-   if (length(lightMode) == 0 && length(Crange) > 0 && length(Lrange) > 0) {
-      # use them as-is
-      if (length(adjustRgb) == 0) {
-         adjustRgb <- CLranges$adjustRgb;
-      }
-   } else {
-      CLranges <- setCLranges(lightMode=lightMode,
-         Crange=Crange,
-         Lrange=Lrange,
-         adjustRgb=adjustRgb,
-         ...);
-      adjustRgb <- CLranges$adjustRgb;
-      Crange <- CLranges$Crange;
-      Lrange <- CLranges$Lrange;
-   }
+   CLranges <- setCLranges(lightMode=lightMode,
+      Crange=Crange,
+      Lrange=Lrange,
+      adjustRgb=adjustRgb,
+      ...);
+   adjustRgb <- CLranges$adjustRgb;
+   Crange <- CLranges$Crange;
+   Lrange <- CLranges$Lrange;
 
    if (useColor) {
       if (requireNamespace("crayon", quietly=TRUE)) {
@@ -3103,6 +3096,12 @@ sdim <- function
             ...);
          iDim;
       });
+   } else if (inherits(x, "S7_object")) {
+      S7_props <- setdiff(names(attributes(x)),
+         c("class", "S7_class"));
+      S7_sdim <- sdima(x);
+      sd1 <- subset(S7_sdim, rownames(S7_sdim) %in% S7_props);
+      return(sd1);
    } else if (is.environment(x)) {
       ## handle environment by using ls(x) which maintains order,
       ## instead of names(x) which is in random order

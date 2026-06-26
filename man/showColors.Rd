@@ -19,8 +19,24 @@ showColors(
 \item{x}{one of these input types:
 \itemize{
 \item \code{character} vector of colors
-\item \code{function} to produce colors, for example \code{circlize::colorRamp2()}
-\item \code{list} with any combination of \code{character} or \code{function}
+\item \code{list} with any combination of \code{character} or \code{function}.
+Each element of the \code{list} is displayed on its own row.
+List names are shown on the y-axis.
+\item \code{function}: color function in one of two formats:
+\enumerate{
+\item \code{circlize::colorRamp2()} which defines numeric breaks, and
+one color \emph{at} each break. This function is used by ComplexHeatmap
+and is unique and useful in defining the color at each break and
+not in between each break. The benefit is that a specific color
+is known to mean exactly the numeric value, instead of assigning the
+color to some intermediate mean of adjacent breaks, then interpolating
+the color between them.
+\item \code{function} as defined in color packages such as \code{viridis::viridis(10)}
+where the number \code{10} defines the number of colors to produce.
+For these functions, colors are displayed ranging from 0 to 1,
+intending to mean lowest (0) to highest (1) color, with n steps.
+}
+\item 'ggplot' or 'ggproto' object, see Details.
 }}
 
 \item{labelCells}{\code{logical} whether to label colors atop the color itself.
@@ -76,6 +92,50 @@ plot space.
 
 When supplied a \code{list}, each row in \code{imageByColors()} represents
 an entry in the \code{list}. Nothing fancy.
+
+When input is \code{function}, it is assumed to be one of these
+formats:
+\enumerate{
+\item \code{viridis::viridis(n)}
+\itemize{
+\item Sequential colors with \code{n} steps
+representing colors from lowest to highest value.
+\item This format does not apply any numeric range,
+no numeric threshold is implied in the function at all.
+It simply takes its internal range of colors and produces
+\code{n} output colors, usually using \code{colorRampPalette()}
+to interpolate intermediate colors when needed.
+\item Common examples are R packages such as 'viridis'
+which provide several different color gradients.
+}
+\item \code{circlize::colorRamp2()}
+\itemize{
+\item Colors associated with specific \code{numeric} values.
+\item A distinctive feature of \code{colorRamp2()} color \code{function}
+is that it assigns a vector of 'colors' to a vector
+of \code{numeric} values. This mechanism is important when
+it is useful to know exactly what \code{numeric} value
+is represented by a color.
+\item A common alternative is to assign colors \emph{between}
+\code{numeric} breaks, in which case the defined color
+is associated with an intermediate value betweenbreaks.
+}
+\item \code{ggplot} or \code{ggproto} scales object produced by 'ggplot2'.
+\itemize{
+\item Given a \code{ggplot2::ggplot} object, it will use
+'colour' or 'fill' aesthetics present in the 'mapping',
+only when there is an explicit color assignment.
+It does not currently determine the default color
+aesthetic function to use.
+\item A \code{ggproto} object produced by a color scales function,
+for example \code{ggplot2::scale_color_discrete()},
+for aesthetics 'color', 'colour', or 'fill'.
+\item It makes reasonable attempt to recognize custom limits,
+for example '_gradientn()' functions which may have
+specific 'values' (scaled from 0 to 1) buthent applied to
+specific 'limits' (scaled per user coordinates).
+}
+}
 }
 \examples{
 x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7));
@@ -130,48 +190,48 @@ showColors(list(
 
 }
 \seealso{
-Other jam plot functions: 
-\code{\link{adjustAxisLabelMargins}()},
-\code{\link{coordPresets}()},
-\code{\link{decideMfrow}()},
-\code{\link{drawLabels}()},
-\code{\link{getPlotAspect}()},
-\code{\link{groupedAxis}()},
-\code{\link{imageByColors}()},
-\code{\link{imageDefault}()},
-\code{\link{minorLogTicksAxis}()},
-\code{\link{nullPlot}()},
-\code{\link{plotPolygonDensity}()},
-\code{\link{plotRidges}()},
-\code{\link{plotSmoothScatter}()},
-\code{\link{shadowText}()},
-\code{\link{shadowText_options}()},
-\code{\link{sqrtAxis}()},
-\code{\link{usrBox}()}
+Other jam plot functions:
+\code{\link[=adjustAxisLabelMargins]{adjustAxisLabelMargins()}},
+\code{\link[=coordPresets]{coordPresets()}},
+\code{\link[=decideMfrow]{decideMfrow()}},
+\code{\link[=drawLabels]{drawLabels()}},
+\code{\link[=getPlotAspect]{getPlotAspect()}},
+\code{\link[=groupedAxis]{groupedAxis()}},
+\code{\link[=imageByColors]{imageByColors()}},
+\code{\link[=imageDefault]{imageDefault()}},
+\code{\link[=minorLogTicksAxis]{minorLogTicksAxis()}},
+\code{\link[=nullPlot]{nullPlot()}},
+\code{\link[=plotPolygonDensity]{plotPolygonDensity()}},
+\code{\link[=plotRidges]{plotRidges()}},
+\code{\link[=plotSmoothScatter]{plotSmoothScatter()}},
+\code{\link[=shadowText]{shadowText()}},
+\code{\link[=shadowText_options]{shadowText_options()}},
+\code{\link[=sqrtAxis]{sqrtAxis()}},
+\code{\link[=usrBox]{usrBox()}}
 
-Other jam color functions: 
-\code{\link{alpha2col}()},
-\code{\link{applyCLrange}()},
-\code{\link{col2alpha}()},
-\code{\link{col2hcl}()},
-\code{\link{col2hsl}()},
-\code{\link{col2hsv}()},
-\code{\link{color2gradient}()},
-\code{\link{fixYellow}()},
-\code{\link{fixYellowHue}()},
-\code{\link{getColorRamp}()},
-\code{\link{hcl2col}()},
-\code{\link{hsl2col}()},
-\code{\link{hsv2col}()},
-\code{\link{isColor}()},
-\code{\link{kable_coloring}()},
-\code{\link{makeColorDarker}()},
-\code{\link{rainbow2}()},
-\code{\link{rgb2col}()},
-\code{\link{setCLranges}()},
-\code{\link{setTextContrastColor}()},
-\code{\link{unalpha}()},
-\code{\link{warpRamp}()}
+Other jam color functions:
+\code{\link[=alpha2col]{alpha2col()}},
+\code{\link[=applyCLrange]{applyCLrange()}},
+\code{\link[=col2alpha]{col2alpha()}},
+\code{\link[=col2hcl]{col2hcl()}},
+\code{\link[=col2hsl]{col2hsl()}},
+\code{\link[=col2hsv]{col2hsv()}},
+\code{\link[=color2gradient]{color2gradient()}},
+\code{\link[=fixYellow]{fixYellow()}},
+\code{\link[=fixYellowHue]{fixYellowHue()}},
+\code{\link[=getColorRamp]{getColorRamp()}},
+\code{\link[=hcl2col]{hcl2col()}},
+\code{\link[=hsl2col]{hsl2col()}},
+\code{\link[=hsv2col]{hsv2col()}},
+\code{\link[=isColor]{isColor()}},
+\code{\link[=kable_coloring]{kable_coloring()}},
+\code{\link[=makeColorDarker]{makeColorDarker()}},
+\code{\link[=rainbow2]{rainbow2()}},
+\code{\link[=rgb2col]{rgb2col()}},
+\code{\link[=setCLranges]{setCLranges()}},
+\code{\link[=setTextContrastColor]{setTextContrastColor()}},
+\code{\link[=unalpha]{unalpha()}},
+\code{\link[=warpRamp]{warpRamp()}}
 }
 \concept{jam color functions}
 \concept{jam plot functions}

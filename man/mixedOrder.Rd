@@ -180,10 +180,10 @@ factor1[mixedOrder(factor1, honorFactor=TRUE)]
 \seealso{
 \code{gtools::mixedorder()}, \code{gtools::mixedsort()}
 
-Other jam sort functions: 
-\code{\link{mixedSort}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mixedSorts}()},
-\code{\link{mmixedOrder}()}
+Other jam sort functions:
+\code{\link[=mixedSort]{mixedSort()}},
+\code{\link[=mixedSortDF]{mixedSortDF()}},
+\code{\link[=mixedSorts]{mixedSorts()}},
+\code{\link[=mmixedOrder]{mmixedOrder()}}
 }
 \concept{jam sort functions}

@@ -10,14 +10,70 @@
 #'
 #' When supplied a `list`, each row in `imageByColors()` represents
 #' an entry in the `list`. Nothing fancy.
+#' 
+#' When input is `function`, it is assumed to be one of these
+#' formats:
+#' 
+#' 1. `viridis::viridis(n)`
+#' 
+#'    * Sequential colors with `n` steps
+#'    representing colors from lowest to highest value.
+#'    * This format does not apply any numeric range,
+#'    no numeric threshold is implied in the function at all.
+#'    It simply takes its internal range of colors and produces
+#'    `n` output colors, usually using `colorRampPalette()`
+#'    to interpolate intermediate colors when needed.
+#'    * Common examples are R packages such as 'viridis'
+#'    which provide several different color gradients.
+#'  
+#' 2. `circlize::colorRamp2()`
+#' 
+#'    * Colors associated with specific `numeric` values.
+#'    * A distinctive feature of `colorRamp2()` color `function`
+#'    is that it assigns a vector of 'colors' to a vector
+#'    of `numeric` values. This mechanism is important when
+#'    it is useful to know exactly what `numeric` value
+#'    is represented by a color.
+#'    * A common alternative is to assign colors *between*
+#'    `numeric` breaks, in which case the defined color
+#'    is associated with an intermediate value betweenbreaks.
+#' 
+#' 3. `ggplot` or `ggproto` scales object produced by 'ggplot2'.
+#' 
+#'    * Given a `ggplot2::ggplot` object, it will use
+#'    'colour' or 'fill' aesthetics present in the 'mapping',
+#'    only when there is an explicit color assignment.
+#'    It does not currently determine the default color
+#'    aesthetic function to use. 
+#'    * A `ggproto` object produced by a color scales function,
+#'    for example `ggplot2::scale_color_discrete()`,
+#'    for aesthetics 'color', 'colour', or 'fill'.
+#'    * It makes reasonable attempt to recognize custom limits,
+#'    for example '_gradientn()' functions which may have
+#'    specific 'values' (scaled from 0 to 1) buthent applied to
+#'    specific 'limits' (scaled per user coordinates).
 #'
 #' @family jam plot functions
 #' @family jam color functions
 #'
 #' @param x one of these input types:
 #'    * `character` vector of colors
-#'    * `function` to produce colors, for example `circlize::colorRamp2()`
-#'    * `list` with any combination of `character` or `function`
+#'    * `list` with any combination of `character` or `function`.
+#'    Each element of the `list` is displayed on its own row.
+#'    List names are shown on the y-axis.
+#'    * `function`: color function in one of two formats:
+#'       1. `circlize::colorRamp2()` which defines numeric breaks, and
+#'       one color *at* each break. This function is used by ComplexHeatmap
+#'       and is unique and useful in defining the color at each break and
+#'       not in between each break. The benefit is that a specific color
+#'       is known to mean exactly the numeric value, instead of assigning the
+#'       color to some intermediate mean of adjacent breaks, then interpolating
+#'       the color between them.
+#'       2. `function` as defined in color packages such as `viridis::viridis(10)`
+#'       where the number `10` defines the number of colors to produce.
+#'       For these functions, colors are displayed ranging from 0 to 1,
+#'       intending to mean lowest (0) to highest (1) color, with n steps.
+#'    * 'ggplot' or 'ggproto' object, see Details.
 #' @param labelCells `logical` whether to label colors atop the color itself.
 #'    If NULL (default) it will only display labels with 40 or fewer items
 #'    on either axis.
@@ -121,12 +177,98 @@ showColors <- function
       return(invisible(x));
    }
 
-   # light wrapper to convert a function to vector of colors
+   # wrapper to convert ggplot2 ScaleDiscrete or ScaleContinuous
+   # to color
+   ggplot2_scale_to_color <- function(gdc, ...)
+   {
+      if (inherits(gdc, "ScaleDiscrete")) {
+         # named colors
+         ggenv <- environment(environment(gdc$palette)$f);
+         if ("values" %in% ls(ggenv)) {
+            ggcolors <- ggenv$values;
+            if (length(names(ggcolors)) == 0) {
+               names(ggcolors) <- seq_along(ggcolors);
+            } else {
+               ggcolors <- ggcolors[mixedOrder(names(ggcolors))];
+            }
+         } else if ("fun" %in% ls(ggenv)) {
+            ggcolorfun <- ggenv$fun
+            ## nlevels is not accurate
+            # if (length(n) == 0 && is.numeric(ggenv$nlevels)){
+            #    n <- ggenv$nlevels;
+            # }
+            ggcolors <- rmNA(getColorRamp(col=ggcolorfun,
+               # n=n,
+               # gradientN=gradientN,
+               ...));
+            names(ggcolors) <- seq_along(ggcolors);
+            # Todo: Consider attr(ggcolors, 'label')
+            # with mash-up of ggplot2 information:
+            # palette (character), type(character)
+         } else{
+            stop("ScaleDiscrete does not have 'values' nor 'fun'.");
+         }
+         ggcolors
+      } else if (inherits(gdc, c("ScaleContinuous", "ScaleBinned"))) {
+         if (!any(c("fill", "color", "colour") %in% gdc$aesthetics)) {
+            # if not a fill or color, return NULL
+            return(NULL)
+         }
+         ggenv1 <- environment(environment(gdc$palette)$f);
+         # Sometimes palette is defined as a function,
+         # otherwise try fallback_palette
+         nseq <- seq(from=0, to=1, length.out=11);
+         if (length(gdc$call$values) >= 2) {
+            nseq_add <- eval(gdc$call$values);
+            # Decision: Keep original nseq but make sure
+            # the original values are represented
+            nseq <- sort(unique(c(nseq, nseq_add)));
+         }
+         if (length(gdc$limits) == 2) {
+            names(nseq) <- format(digits=2,
+               normScale(nseq,
+                  low=0,
+                  high=1,
+                  from=gdc$limits[1],
+                  to=gdc$limits[2]))
+         } else {
+            names(nseq) <- format(digits=2, nseq);
+         }
+         if (length(gdc$palette) > 0) {
+            # ggenv <- environment(environment(gdc$palette)$f);
+            ggcolors <- gdc$palette(nseq);
+            names(ggcolors) <- names(nseq);
+         } else if (length(gdc$palette) == 0 &&
+            length(gdc$fallback_palette) > 0) {
+            nseq <- seq(from=0, to=1, length.out=11)
+            ggcolors <- gdc$fallback_palette(nseq);
+            names(ggcolors) <- names(nseq);
+         } else{
+            stop("ScaleContinuous not recognized.");
+         }
+         ggcolors;
+         }
+   }
+
+   # wrapper to convert a function or ggplot2 object to colors
    fn_to_color <- function(f, n=7, ...) {
       if (is.function(f)) {
          # circlize::colorRamp2() output
          if (all(c("colors", "breaks") %in% names(attributes(f)))) {
             colorset <- tryCatch({
+               # legend_at,legend_labels are custom attributes
+               # defined in colorjam for divergent and linear colors
+               # which may have a numeric floor.
+               if (length(attr(f, "legend_at")) > 0) {
+                  br <- attr(f, "legend_at");
+                  brnames <- attr(f, "legend_labels");
+                  if (length(brnames) != length(br)) {
+                     brnames <- format(digits=2, br);
+                  }
+                  colorset1 <- f(br);
+                  names(colorset1) <- brnames;
+                  return(colorset1)
+               }
                br <- attr(f, "breaks");
                if (length(br) > 0) {
                   if ("matrix" %in% class(attr(f, "colors"))) {
@@ -156,17 +298,61 @@ showColors <- function
          }
       } else if (is.character(f)) {
          colorset <- f
+      } else if (inherits(f, c("ScaleDiscrete",
+         "ScaleContinuous",
+         "ScaleBinned"))) {
+         colorset <- ggplot2_scale_to_color(f, ...);
       } else {
          colorset <- NULL
       }
       colorset
    }
 
+   #######################################
+   ## Iterate input colors
+   if (inherits(x, c("ggplot", "ggplot2::ggplot"))) {
+      # Todo: Consider including only mapped aesthetics
+      # Todo: Consider sniffing default aesthetics when
+      #    not explicitly defined
+      xmapped <- intersect(c("color", "colour", "fill"),
+         names(x$mapping))
+      if (length(xmapped) == 0) {
+         return(NULL)
+      }
+      # # Todo: Consider including only aesthetics in a layer
+      # xlayers <- x$layers;
+      x <- x$scales$scales;
+      xaes <- sapply(x, function(ix){
+         ix$aesthetics;
+      });
+      xkeep <- xaes %in% xmapped;
+      if (!any(xkeep)) {
+         return(NULL)
+      }
+      x <- x[xkeep];
+      # replace with legend name if defined
+      xnames <- sapply(seq_along(x), function(ix){
+         if (length(x[[ix]]$name) == 1 && nchar(x[[ix]]$name) > 0) {
+            x[[ix]]$name
+         } else {
+            x[[ix]]$aesthetics
+         }
+      })
+      names(x) <- makeNames(xnames);
+   } else if (inherits(x, "ggproto")) {
+      if (!any(c("color", "colour", "fill") %in% x$aesthetics)) {
+         return(NULL)
+      }
+      x <- list(x);
+      names(x) <- x[[1]]$aesthetics;
+      # names(x) <- paste0(x[[1]]$aesthetics, "\n", head(class(x[[1]]), 1))
+   }
    if (igrepHas("list", class(x))) {
       # convert any entries from function to color vector
       x <- lapply(x, function(i){
-         if (length(i) > 0 && is.function(i)) {
-            fn_to_color(i)
+         if (length(i) > 0 &&
+            (is.function(i) || !is.atomic(i))) {
+            fn_to_color(i, ...)
          } else {
             i
          }
@@ -211,8 +397,8 @@ showColors <- function
       }
    } else {
       makeUnique <- head(makeUnique, 1);
-      if (is.function(x)) {
-         x <- fn_to_color(x);
+      if (is.function(x) || !is.atomic(x)) {
+         x <- fn_to_color(x, ...);
          if (length(x) == 0) {
             return(invisible(x));
          }

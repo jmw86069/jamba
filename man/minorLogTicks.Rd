@@ -82,7 +82,7 @@ minor ticks into one continuous set of major tick marks.}
 \item pvalue: used for \code{-log10(pvalue)} orientation.
 }}
 
-\item{verbose}{logical indicating whether to print verbose output.}
+\item{verbose}{\code{logical} whether to print verbose output.}
 
 \item{...}{additional parameters are ignored.}
 }
@@ -91,6 +91,8 @@ minor ticks into one continuous set of major tick marks.}
 for major and minor ticks. Note that labels may be \code{numeric},
 \code{character}, or \code{expression}. Specifically when \code{expression}
 the \code{graphics::axis()} must be called once per label.
+Ticks and labels are restricted to the 'lims' range rounded up
+to the nearest integer.
 \itemize{
 \item majorTicks: \code{numeric} position of each major tick mark
 \item minorTicks: \code{numeric} position of each minor tick mark
@@ -179,30 +181,31 @@ graphics::points(y=rep(0.95, 4), x=log2(1+x1), pch=20, cex=2, col="blue");
 
 }
 \seealso{
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{call_fn_ellipsis}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{getAxisLabel}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{middle}()},
-\code{\link{newestFile}()},
-\code{\link{printDebug}()},
-\code{\link{reload_rmarkdown_cache}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{setPrompt}()}
+Other jam practical functions:
+\code{\link[=breakDensity]{breakDensity()}},
+\code{\link[=call_fn_ellipsis]{call_fn_ellipsis()}},
+\code{\link[=checkLightMode]{checkLightMode()}},
+\code{\link[=check_pkg_installed]{check_pkg_installed()}},
+\code{\link[=colNum2excelName]{colNum2excelName()}},
+\code{\link[=color_dither]{color_dither()}},
+\code{\link[=exp2signed]{exp2signed()}},
+\code{\link[=getAxisLabel]{getAxisLabel()}},
+\code{\link[=isFALSEV]{isFALSEV()}},
+\code{\link[=isTRUEV]{isTRUEV()}},
+\code{\link[=jargs]{jargs()}},
+\code{\link[=kable_coloring]{kable_coloring()}},
+\code{\link[=lldf]{lldf()}},
+\code{\link[=log2signed]{log2signed()}},
+\code{\link[=middle]{middle()}},
+\code{\link[=newestFile]{newestFile()}},
+\code{\link[=printDebug]{printDebug()}},
+\code{\link[=reload_qmd_cache]{reload_qmd_cache()}},
+\code{\link[=reload_rmarkdown_cache]{reload_rmarkdown_cache()}},
+\code{\link[=renameColumn]{renameColumn()}},
+\code{\link[=rmInfinite]{rmInfinite()}},
+\code{\link[=rmNA]{rmNA()}},
+\code{\link[=rmNAs]{rmNAs()}},
+\code{\link[=rmNULL]{rmNULL()}},
+\code{\link[=setPrompt]{setPrompt()}}
 }
 \concept{jam practical functions}

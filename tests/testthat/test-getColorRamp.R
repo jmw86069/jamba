@@ -60,12 +60,14 @@ testthat::test_that("getColorRamp with named color ramp input", {
    test_color_ramp1 <- c("RdBu");
    expected_color_ramp1 <- c("#67001FFF", "#E48267FF", "#F7F7F7FF",
       "#69ABCFFF", "#053061FF")
+   attr(expected_color_ramp1, "divergent") <- TRUE;
    testthat::expect_equal(
       getColorRamp(test_color_ramp1, n=5, alpha=TRUE),
       expected_color_ramp1)
    # trimRamp
    expected_color_ramp1_trim11 <- c("#9C1127FF", "#EF9B7AFF", "#F7F7F7FF",
       "#86BDDAFF", "#195696FF")
+   attr(expected_color_ramp1_trim11, "divergent") <- TRUE;
    testthat::expect_equal(
       getColorRamp(test_color_ramp1, n=5, alpha=TRUE, trimRamp=c(1, 1)),
       expected_color_ramp1_trim11)
@@ -74,12 +76,14 @@ testthat::test_that("getColorRamp with named color ramp input", {
    test_color_ramp2 <- c("RdBu_r");
    expected_color_ramp2 <- c("#053061FF", "#6AABD0FF", "#F7F7F7FF",
       "#E48166FF", "#67001FFF")
+   attr(expected_color_ramp2, "divergent") <- TRUE;
    testthat::expect_equal(
       getColorRamp(test_color_ramp2, n=5, alpha=TRUE),
       expected_color_ramp2)
    # trimRamp
    expected_color_ramp2_trim11 <- c("#195696FF", "#86BDDAFF", "#F7F7F7FF",
       "#EF9B7AFF", "#9C1127FF")
+   attr(expected_color_ramp2_trim11, "divergent") <- TRUE;
    testthat::expect_equal(
       getColorRamp(test_color_ramp2, n=5, alpha=TRUE, trimRamp=c(1, 1)),
       expected_color_ramp2_trim11)

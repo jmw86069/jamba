@@ -108,10 +108,10 @@ make_html_styles(style=c("red", "orange"), text=c("one ", "two"))
 
 }
 \seealso{
-Other jam internal functions: 
-\code{\link{handleArgsText}()},
-\code{\link{jamCalcDensity}()},
-\code{\link{make_styles}()},
-\code{\link{smoothScatterJam}()}
+Other jam internal functions:
+\code{\link[=handleArgsText]{handleArgsText()}},
+\code{\link[=jamCalcDensity]{jamCalcDensity()}},
+\code{\link[=make_styles]{make_styles()}},
+\code{\link[=smoothScatterJam]{smoothScatterJam()}}
 }
 \concept{jam internal functions}

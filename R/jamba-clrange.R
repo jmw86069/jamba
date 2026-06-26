@@ -2,58 +2,96 @@
 #'
 #' check lightMode for light background color
 #'
-#' Check the lightMode status through function parameter, options, or
-#' environment variable. If the function defines lightMode, it is used as-is.
-#' If lightMode is NULL, then options("jam.lightMode") is used if defined.
-#' Otherwise, it tries to detect whether the R session is running inside
-#' Rstudio using the environmental variable "RSTUDIO", and if so it assumes
-#' lightMode==TRUE.
+#' Check the lightMode status through options('jam.lightMode'),
+#' or by determining the running environment.
+#' 
+#' Logic is applied as follows:
+#' 
+#' * When `lightMode` is defined upfront as `logical`, it is used.
+#' * When `getOption('jam.lightMode')` is defined, it is used.
+#' * When `lightMode` is NULL, it will apply a suitable default:
+#' 
+#'    * If running inside knitr, it will apply `html_default` for html output,
+#' and `knitr_default` otherwise. Typically both produce white background,
+#' however this gives the option for custom background color.
+#'    * If running inside Positron or RStudio, it will attempt to run
+#' `rstudioapi::getThemeInfo()` and use the resulting 'theme$dark',
+#' otherwise it applies `positron_default`.
+#'    * All other cases use `other_default`, default is FALSE to
+#' apply to linux remote shell session with dark background.
+#' 
+#' To set a persistent default lightMode, add this line to .Rprofile:
+#' 
+#' * `options("jam.lightMode"=TRUE)`
 #'
-#' To set a default lightMode, add options("jam.lightMode"=TRUE) to .Rprofile, or
-#' to the relevant R script.
-#'
-#' @returns logical or length=1, indicating whether lightMode is defined
+#' @returns `logical` indicating whether lightMode is defined
 #'
 #' @family jam practical functions
 #'
 #' @param lightMode `logical` or NULL, indicating whether the lightMode
 #'    parameter has been defined in the function call.
+#'    The default `getOption("jam.lightMode")` is NULL unless assigned.
+#'    When NULL it will use logic described in Details.
+#'    When assigned, it is used as-is.
+#' @param positron_default `logical` default TRUE, applied only when
+#'    running inside Positron, and when `rstudioapi::getThemeInfo()` is
+#'    not available, which is default for Positron as of jamba-1.0.5.
+#'    When running inside RStudio, it calls `rstudioapi::getThemeInfo()`
+#'    to determine whether the theme is light or dark.
+#' @param html_default `logical` default TRUE, applied when knitr
+#'    is running with html output.
+#' @param knitr_default `logical` default TRUE, applied when knitr
+#'    is running.
+#' @param other_default `logical` default FALSE, applied when running
+#'    outside Positron or RStudio.
 #' @param ... Additional arguments are ignored.
 #'
 #' @examples
-#' checkLightMode(TRUE);
+#' checkLightMode(FALSE);
 #' checkLightMode();
 #'
 #' @export
 checkLightMode <- function
-(lightMode=NULL,
+(lightMode=getOption("jam.lightMode"),
+ positron_default=getOption("jam.lightMode.positron", TRUE),
+ html_default=getOption("jam.lightMode.html", TRUE),
+ knitr_default=getOption("jam.lightMode.knitr", TRUE),
+ other_default=getOption("jam.lightMode.other", FALSE),
  ...)
 {
    ## Check lightMode, whether the background color is light or not
-   if (length(lightMode) == 0) {
-      jam_lightMode <- getOption("jam.lightMode");
-      if (length(jam_lightMode) > 0) {
-         lightMode <- (jam_lightMode %in% c(1, "TRUE"));
-      } else if (Sys.getenv("RSTUDIO") == 1) {
-         ## Use rstudioapi if available
-         if (requireNamespace("rstudioapi", quietly=TRUE)) {
-            if (rstudioapi::isAvailable() && rstudioapi::hasFun("getThemeInfo")) {
-               theme <- rstudioapi::getThemeInfo();
-               lightMode <- !(theme$dark);
-            } else {
-               lightMode <- TRUE;
-            }
+   if (length(lightMode) > 0) {
+      # Existing lightMode must be TRUE, 1, "TRUE", or "T"
+      lightMode <- head(unlist(lightMode), 1);
+      lightMode <- (isTRUE(lightMode) ||
+        (is.numeric(lightMode) && lightMode > 0) ||
+        (lightMode %in% c("TRUE", "T")));
+   } else if (isTRUE(getOption("knitr.in.progress"))) {
+      if (requireNamespace("knitr", quietly=TRUE) &&
+        knitr::is_html_output()) {
+         lightMode <- html_default;
+      } else {
+         lightMode <- knitr_default
+      }
+   } else if ("1" %in% Sys.getenv("RSTUDIO") ||
+      "1" %in% Sys.getenv("POSITRON")) {
+      ## Use rstudioapi::getThemeInfo() if available
+      if (requireNamespace("rstudioapi", quietly=TRUE)) {
+         if (rstudioapi::isAvailable() && rstudioapi::hasFun("getThemeInfo")) {
+            theme <- rstudioapi::getThemeInfo();
+            lightMode <- !(theme$dark);
          } else {
-            # Default for RStudio is white background
-            lightMode <- TRUE;
+            lightMode <- positron_default;
          }
       } else {
-         lightMode <- FALSE;
+         # Default for Positron / RStudio is white background
+         lightMode <- positron_default;
       }
-   } else if (!is.logical(lightMode)) {
-      as.logical(head(lightMode, 1))
+   } else {
+      lightMode <- other_default;
    }
-   return(head(lightMode, 1));
+
+   return(lightMode);
 }
 
 
@@ -77,35 +115,42 @@ checkLightMode <- function
 #'
 #' @family jam color functions
 #'
-#' @param lightMode boolean indicating whether the background color
-#'    is light (TRUE is bright), or dark (FALSE is dark.) By default
-#'    it calls `checkLightMode()` which queries `getOption("lightMode")`.
-#' @param Crange numeric range of chroma values, ranging
+#' @param lightMode `logical` indicating whether the background color
+#'    is light (TRUE is bright), or dark (FALSE is dark.)
+#'    * When TRUE or FALSE, it will set default values for Crange and Lrange.
+#'    * When NULL, it will use one or both of Crange,Lrange when supplied,
+#'    and uses `getOption("jam.Crange")` and `getOption("jam.Lrange")`
+#'    by default when not explicitly provided.
+#'    * If lightMode is NULL and one or both of Crange, Lrange are NULL,
+#'    it calls `checkLightMode()` then assigns appropriate default values.
+#'    * To detect lightMode again, use `lightMode=checkLightMode()`.
+#' @param Crange `numeric` range of chroma values, ranging
 #'    between 0 and 100. By default, `getOptions("Crange")` is used,
 #'    otherwise defaults will be assigned based upon `lightMode`.
-#' @param Lrange numeric range of luminance values, ranging
+#' @param Lrange `numeric` range of luminance values, ranging
 #'    between 0 and 100. By default, `getOptions("Crange")` is used,
 #'    otherwise defaults will be assigned based upon `lightMode`.
-#' @param Cgrey numeric chroma (C) value, which defines grey colors at or
+#' @param Cgrey `numeric` chroma (C) value, which defines grey colors at or
 #'    below this chroma. Any colors at or below the grey cutoff will have
-#'    their C values unchanged. This mechanism prevents converting black
-#'    to red, for example. To disable the effect, set `Cgrey=-1`.
-#' @param adjustRgb numeric color adjustment factor, used during the
+#'    their C values unchanged.
+#'    This threshold prevents colorizing greyscale colors via Crange.
+#'    To disable the effect, set `Cgrey=-1`.
+#' @param adjustRgb `numeric` color adjustment factor, used during the
 #'    conversion of RGB colors to the ANSI-compatible colors used
 #'    by the `crayon` pacakge. The ANSI color range does not include
 #'    a full RGB palette, and the conversion is somewhat lossy.
 #'    By default, `getOptions("jam.adjustRgb")` is used to store a
 #'    globally re-usable value.
-#' @param setOptions character or logical whether to update `options()`
-#'    `"jam.Crange"` and `"jam.Lrange"`, with the following behavior:
-#'    * `"ifnull"` will update only `options()` which were previously `NULL`
-#'    * `FALSE` or `"FALSE"` does not update `options()`
-#'    * `TRUE` or `"TRUE"` will update `options()` with values determined
-#'    by this function.
+#' @param setOptions `character` or `logical` whether to update `options()`
+#'    `"jam.Crange"` and `"jam.Lrange"`, with default 'FALSE'.
+#'    It has the following behavior:
+#'    * `FALSE` or `"FALSE"` does not update options.
+#'    * `TRUE` or `"TRUE"` will update options 'jam.Crange' and 'jam.Lrange'.
+#'    * `"ifnull"` will update only `options()` which were previously blank.
 #' @param verbose `logical` indicating whether to print verbose output.
 #' @param ... additional arguments are ignored.
 #'
-#' @returns `list` with elements:
+#' @returns `list`, invisibly, with elements:
 #'    \describe{
 #'       \item{Crange}{Numeric vector of length 2, defining the
 #'       HCL chroma (C) range.}
@@ -138,56 +183,68 @@ setCLranges <- function
    ## luminance Lrange values, dependent upon
    ## lightMode=TRUE (light background) or lightMode=FALSE (dark background)
    if (length(setOptions) == 0) {
-      setOptions <- "ifnull";
+      setOptions <- "FALSE";
    } else {
       setOptions <- as.character(setOptions);
    }
+   setOptions <- head(setOptions, 1);
 
-   ## Remove NA values and convert Lrange and Crange to range format
-   if (length(rmNA(Lrange)) > 0) {
-      Lrange <- range(rmNA(Lrange));
-   } else {
-      Lrange <- NULL;
-   }
-   if (length(rmNA(Crange)) > 0) {
-      Crange <- range(rmNA(Crange));
-   } else {
-      Crange <- NULL;
-   }
+   # When lightMode is NULL use Lrange, Crange as supplied
+   # When lightMode is TRUE or FALSE, override existing values with defaults
+   Lrange_values <- list(
+      lite=c(5, 70),
+      dark=c(45, 100))
+   Crange_values <- list(
+      lite=c(10, 190),
+      dark=c(30, 190));
 
-   ## First time through, these values are empty
-   ## so we use checkLightMode() default values
+   Lrange <- rmNA(Lrange);
+   Crange <- rmNA(Crange);
+   ##
    if (length(lightMode) == 0) {
-      setLightMode <- checkLightMode();
-   } else {
-      setLightMode <- lightMode;
-   }
-   if (length(Lrange) == 0 && length(Crange) == 0) {
-      lightMode <- setLightMode;
-   }
-   if (verbose) {
-      printDebug("setCLranges(): ",
-         "lightMode: ", rmNULL(nullValue="NULL", lightMode),
-         ", setLightMode: ", setLightMode);
-   }
-
-   ## When lightMode is NULL use Lrange, Crange as supplied
-   ## When lightMode is TRUE or FALSE, override existing values with defaults
-   Lrange_default_lite <- c(5, 70);
-   Crange_default_lite <- c(10, 190);
-   Lrange_default_dark <- c(45, 100);
-   Crange_default_dark <- c(30, 190);
-
-   ## Define Crange and Lrange when lightMode is not NULL
-   if (length(lightMode) > 0) {
-      ## If lightMode is defined, its status overrides any exising values
-      if (TRUE %in% lightMode) {
-         Lrange <- Lrange_default_lite;
-         Crange <- Crange_default_lite;
+      if (length(Crange) > 0 && length(Lrange) > 0) {
+         # use Crange and Lrange as-is
+         if (length(adjustRgb) == 0) {
+            adjustRgb <- 0;
+         }
+         lightMode <- NULL;
+      } else if (length(Crange) > 0) {
+         lightMode <- checkLightMode(lightMode=NULL, ...);
+         lightTerm <- ifelse(lightMode, "lite", "dark")
+         Lrange <- Lrange_values[[lightTerm]];
+         if (verbose) {
+            printDebug("setCLranges(): ",
+               "Defined default values: ",
+               "Lrange=c(", Lrange, ")");
+         }
+      } else if (length(Lrange) > 0) {
+         lightMode <- checkLightMode(lightMode=NULL, ...);
+         lightTerm <- ifelse(lightMode, "lite", "dark")
+         Crange <- Crange_values[[lightTerm]];
+         if (verbose) {
+            printDebug("setCLranges(): ",
+               "Defined default values: ",
+               "Crange=c(", Crange, ")");
+         }
       } else {
-         Lrange <- Lrange_default_dark;
-         Crange <- Crange_default_dark;
+         lightMode <- checkLightMode(lightMode=NULL, ...);
+         lightTerm <- ifelse(lightMode, "lite", "dark")
+         Crange <- Crange_values[[lightTerm]];
+         Lrange <- Lrange_values[[lightTerm]];
+         if (verbose) {
+            printDebug("setCLranges(): ",
+               "Defined default values: ",
+               "lightMode=", lightMode,
+               "; Crange=c(", Crange,
+               "); Lrange=c(", Lrange, ")");
+         }
       }
+   } else {
+      lightMode <- checkLightMode(lightMode,
+         ...);
+      lightTerm <- ifelse(lightMode, "lite", "dark")
+      Crange <- Crange_values[[lightTerm]];
+      Lrange <- Lrange_values[[lightTerm]];
       if (verbose) {
          printDebug("setCLranges(): ",
             "Defined default values: ",
@@ -195,37 +252,10 @@ setCLranges <- function
             "; Crange=c(", Crange,
             "); Lrange=c(", Lrange, ")");
       }
-   } else {
-      # define only ranges that are not yet defined
-      if (length(Lrange) == 0) {
-         if (TRUE %in% setLightMode) {
-            Lrange <- Lrange_default_lite;
-         } else {
-            Lrange <- Lrange_default_dark;
-         }
-         if (verbose) {
-            printDebug("setCLranges(): ",
-               "Defined default values: ",
-               "Lrange=c(", Lrange, ")");
-         }
-      } else {
-         Lrange <- range(Lrange, na.rm=TRUE);
-      }
-      if (length(Crange) == 0) {
-         if (TRUE %in% setLightMode) {
-            Crange <- Crange_default_lite;
-         } else {
-            Crange <- Crange_default_dark;
-         }
-         if (verbose) {
-            printDebug("setCLranges(): ",
-               "Defined default values: ",
-               "Crange=c(", Crange, ")");
-         }
-      } else {
-         Crange <- range(Crange, na.rm=TRUE);
-      }
    }
+
+   Crange <- range(Crange);
+   Lrange <- range(Lrange);
 
    # define adjustRgb=0 as needed
    if (length(rmNA(adjustRgb)) == 0) {
@@ -273,7 +303,7 @@ setCLranges <- function
             "No options() were updated.");
       } else {
          printDebug("setCLranges(): ",
-            "These options() were updated: ",
+            "These options() were updated via setOptions '", setOptions, "': ",
             updatedOptions);
       }
    }
@@ -283,7 +313,7 @@ setCLranges <- function
       Lrange=Lrange,
       adjustRgb=adjustRgb,
       Cgrey=Cgrey);
-   return(CLranges);
+   return(invisible(CLranges));
 }
 
 #' Apply CL color range
@@ -647,3 +677,4 @@ fixYellow <- function
       ...);
    return(col2);
 }
+  

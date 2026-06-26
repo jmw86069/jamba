@@ -58,8 +58,8 @@ to potential randomness during clustering.
 
 }
 \seealso{
-Other jam heatmap functions: 
-\code{\link{cell_fun_label}()},
-\code{\link{heatmap_column_order}()}
+Other jam heatmap functions:
+\code{\link[=cell_fun_label]{cell_fun_label()}},
+\code{\link[=heatmap_column_order]{heatmap_column_order()}}
 }
 \concept{jam heatmap functions}

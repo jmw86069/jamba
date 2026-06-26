@@ -127,14 +127,14 @@ proigrep(c("[ABCD]", "[CDEF]", "[FGHI]"), LETTERS, maxValues=1)
 
 }
 \seealso{
-Other jam grep functions: 
-\code{\link{grepls}()},
-\code{\link{igrep}()},
-\code{\link{igrepHas}()},
-\code{\link{igrepl}()},
-\code{\link{unigrep}()},
-\code{\link{unvigrep}()},
-\code{\link{vgrep}()},
-\code{\link{vigrep}()}
+Other jam grep functions:
+\code{\link[=grepls]{grepls()}},
+\code{\link[=igrep]{igrep()}},
+\code{\link[=igrepHas]{igrepHas()}},
+\code{\link[=igrepl]{igrepl()}},
+\code{\link[=unigrep]{unigrep()}},
+\code{\link[=unvigrep]{unvigrep()}},
+\code{\link[=vgrep]{vgrep()}},
+\code{\link[=vigrep]{vigrep()}}
 }
 \concept{jam grep functions}

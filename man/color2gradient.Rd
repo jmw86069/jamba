@@ -123,28 +123,28 @@ showColors(list(
 
 }
 \seealso{
-Other jam color functions: 
-\code{\link{alpha2col}()},
-\code{\link{applyCLrange}()},
-\code{\link{col2alpha}()},
-\code{\link{col2hcl}()},
-\code{\link{col2hsl}()},
-\code{\link{col2hsv}()},
-\code{\link{fixYellow}()},
-\code{\link{fixYellowHue}()},
-\code{\link{getColorRamp}()},
-\code{\link{hcl2col}()},
-\code{\link{hsl2col}()},
-\code{\link{hsv2col}()},
-\code{\link{isColor}()},
-\code{\link{kable_coloring}()},
-\code{\link{makeColorDarker}()},
-\code{\link{rainbow2}()},
-\code{\link{rgb2col}()},
-\code{\link{setCLranges}()},
-\code{\link{setTextContrastColor}()},
-\code{\link{showColors}()},
-\code{\link{unalpha}()},
-\code{\link{warpRamp}()}
+Other jam color functions:
+\code{\link[=alpha2col]{alpha2col()}},
+\code{\link[=applyCLrange]{applyCLrange()}},
+\code{\link[=col2alpha]{col2alpha()}},
+\code{\link[=col2hcl]{col2hcl()}},
+\code{\link[=col2hsl]{col2hsl()}},
+\code{\link[=col2hsv]{col2hsv()}},
+\code{\link[=fixYellow]{fixYellow()}},
+\code{\link[=fixYellowHue]{fixYellowHue()}},
+\code{\link[=getColorRamp]{getColorRamp()}},
+\code{\link[=hcl2col]{hcl2col()}},
+\code{\link[=hsl2col]{hsl2col()}},
+\code{\link[=hsv2col]{hsv2col()}},
+\code{\link[=isColor]{isColor()}},
+\code{\link[=kable_coloring]{kable_coloring()}},
+\code{\link[=makeColorDarker]{makeColorDarker()}},
+\code{\link[=rainbow2]{rainbow2()}},
+\code{\link[=rgb2col]{rgb2col()}},
+\code{\link[=setCLranges]{setCLranges()}},
+\code{\link[=setTextContrastColor]{setTextContrastColor()}},
+\code{\link[=showColors]{showColors()}},
+\code{\link[=unalpha]{unalpha()}},
+\code{\link[=warpRamp]{warpRamp()}}
 }
 \concept{jam color functions}

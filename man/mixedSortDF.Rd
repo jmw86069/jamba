@@ -172,10 +172,10 @@ mixedSortDF(testinfo, byCols="mtime")
 
 }
 \seealso{
-Other jam sort functions: 
-\code{\link{mixedOrder}()},
-\code{\link{mixedSort}()},
-\code{\link{mixedSorts}()},
-\code{\link{mmixedOrder}()}
+Other jam sort functions:
+\code{\link[=mixedOrder]{mixedOrder()}},
+\code{\link[=mixedSort]{mixedSort()}},
+\code{\link[=mixedSorts]{mixedSorts()}},
+\code{\link[=mmixedOrder]{mmixedOrder()}}
 }
 \concept{jam sort functions}

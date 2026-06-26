@@ -1,6 +1,6 @@
 Package: jamba
 Title: Just Analysis Methods Base
-Version: 1.0.4
+Version: 1.0.4.9000
 Authors@R: c(
     person(given="James M.",
        family="Ward",
@@ -56,5 +56,5 @@ URL: https://jmw86069.github.io/jamba/
 BugReports: https://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0

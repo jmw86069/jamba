@@ -9,3 +9,5 @@ prep_CRAN_release_dec2022.md
 ^TODO.*
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^doc$
+^Meta$

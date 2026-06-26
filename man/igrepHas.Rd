@@ -53,14 +53,14 @@ igrepHas("matrix", a);
 \seealso{
 \code{base::grep()}
 
-Other jam grep functions: 
-\code{\link{grepls}()},
-\code{\link{igrep}()},
-\code{\link{igrepl}()},
-\code{\link{provigrep}()},
-\code{\link{unigrep}()},
-\code{\link{unvigrep}()},
-\code{\link{vgrep}()},
-\code{\link{vigrep}()}
+Other jam grep functions:
+\code{\link[=grepls]{grepls()}},
+\code{\link[=igrep]{igrep()}},
+\code{\link[=igrepl]{igrepl()}},
+\code{\link[=provigrep]{provigrep()}},
+\code{\link[=unigrep]{unigrep()}},
+\code{\link[=unvigrep]{unvigrep()}},
+\code{\link[=vgrep]{vgrep()}},
+\code{\link[=vigrep]{vigrep()}}
 }
 \concept{jam grep functions}

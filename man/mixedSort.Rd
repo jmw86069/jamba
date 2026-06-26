@@ -140,10 +140,10 @@ mixedSort(factor(c("CNOT9", "Cnot8", "Cnot9", "Cnot10")), useCaseTiebreak=FALSE)
 
 }
 \seealso{
-Other jam sort functions: 
-\code{\link{mixedOrder}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mixedSorts}()},
-\code{\link{mmixedOrder}()}
+Other jam sort functions:
+\code{\link[=mixedOrder]{mixedOrder()}},
+\code{\link[=mixedSortDF]{mixedSortDF()}},
+\code{\link[=mixedSorts]{mixedSorts()}},
+\code{\link[=mmixedOrder]{mmixedOrder()}}
 }
 \concept{jam sort functions}

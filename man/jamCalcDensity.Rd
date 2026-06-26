@@ -37,10 +37,10 @@ sdim(jamCalcDensity(cbind(x=rnorm(1000) + 4, y=rnorm(1000) + 4), nbin=30))
 
 }
 \seealso{
-Other jam internal functions: 
-\code{\link{handleArgsText}()},
-\code{\link{make_html_styles}()},
-\code{\link{make_styles}()},
-\code{\link{smoothScatterJam}()}
+Other jam internal functions:
+\code{\link[=handleArgsText]{handleArgsText()}},
+\code{\link[=make_html_styles]{make_html_styles()}},
+\code{\link[=make_styles]{make_styles()}},
+\code{\link[=smoothScatterJam]{smoothScatterJam()}}
 }
 \concept{jam internal functions}

@@ -42,18 +42,18 @@ heads(l, n=c(2, 1, 3, 5))
 
 }
 \seealso{
-Other jam list functions: 
-\code{\link{cPaste}()},
-\code{\link{jam_rapply}()},
-\code{\link{list2df}()},
-\code{\link{mergeAllXY}()},
-\code{\link{mixedSorts}()},
-\code{\link{rbindList}()},
-\code{\link{relist_named}()},
-\code{\link{rlengths}()},
-\code{\link{sclass}()},
-\code{\link{sdim}()},
-\code{\link{uniques}()},
-\code{\link{unnestList}()}
+Other jam list functions:
+\code{\link[=cPaste]{cPaste()}},
+\code{\link[=jam_rapply]{jam_rapply()}},
+\code{\link[=list2df]{list2df()}},
+\code{\link[=mergeAllXY]{mergeAllXY()}},
+\code{\link[=mixedSorts]{mixedSorts()}},
+\code{\link[=rbindList]{rbindList()}},
+\code{\link[=relist_named]{relist_named()}},
+\code{\link[=rlengths]{rlengths()}},
+\code{\link[=sclass]{sclass()}},
+\code{\link[=sdim]{sdim()}},
+\code{\link[=uniques]{uniques()}},
+\code{\link[=unnestList]{unnestList()}}
 }
 \concept{jam list functions}

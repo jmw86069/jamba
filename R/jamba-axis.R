@@ -232,12 +232,15 @@ getAxisLabel <- function
 #'    to cex=1 for default text size. These factors are applied in
 #'    addition to existing `graphics::par("cex")` values, preserving any
 #'    global text size defined there.
-#' @param doMajor,doMinor,doLabels,doMinorLabels `logical`, default TRUE,
+#' @param doMajor,doMinor,doLabels `logical`, default TRUE,
 #'    whether to display each type of tick and label.
 #'    * `doMajor` display major ticks, at `displayBase` positions
 #'    * `doMinor` display minor ticks at intermediate positions
 #'    * `doLabels` display any labels
 #'    * `doMinorLabels` display minor labels
+#' @param doMinorLabels `logical` whether to display numeric labels for
+#'    minor ticks. Default NULL will show labels with fewer then 18
+#'    minor labels in range.
 #' @param asValues `logical`, default TRUE, whether to print the
 #'    exponentiated value, otherwise FALSE will print the log value.
 #' @param logAxisType `character` string with the type of axis values:
@@ -314,7 +317,7 @@ minorLogTicksAxis <- function
  doMajor=TRUE,
  doMinor=TRUE,
  doLabels=TRUE,
- doMinorLabels=TRUE,
+ doMinorLabels=NULL,
  asValues=TRUE,
  logAxisType=c("normal",
     "flip",
@@ -380,6 +383,10 @@ minorLogTicksAxis <- function
    minorTicks <- mltMinor$tick;
    minorLabels <- mltMinor$text;
 
+   ## 1.0.5 - set doMinorLabels by number of majorTicks
+   if (length(doMinorLabels) == 0) {
+      doMinorLabels <- (sum(!is.na(mlt$minorLabels)) < 18);
+   }
    ## Optionally format numbers, mostly to add commas per thousands place
    if (doFormat) {
       if (verbose) {
@@ -432,7 +439,7 @@ minorLogTicksAxis <- function
                at=majorTicks[i],
                tcl=graphics::par("tcl")*majorCex*cex,
                labels=majorLabels[i],
-               padj=padj[2],
+               padj=ifelse(majorTicks[i] < 0, 1 - padj[2], padj[2]),
                cex.axis=majorCex*cex,
                col="transparent",
                col.ticks=col.ticks,
@@ -444,7 +451,7 @@ minorLogTicksAxis <- function
             at=majorTicks,
             tcl=graphics::par("tcl")*majorCex*cex,
             labels=majorLabels,
-            padj=padj[2],
+            padj=ifelse(majorTicks < 0, 1 - padj[2], padj[2]),
             cex.axis=majorCex*cex,
             col="transparent",
             col.ticks=col.ticks,
@@ -462,7 +469,7 @@ minorLogTicksAxis <- function
                at=minorTicks[i],
                tcl=graphics::par("tcl")*minorCex*cex,
                labels=minorLabels[i],
-               padj=padj[1],
+               padj=ifelse(minorTicks[i] < 0, 1 - padj[1], padj[1]),
                cex.axis=minorCex*cex,
                col="transparent",
                col.ticks=col.ticks,
@@ -474,7 +481,7 @@ minorLogTicksAxis <- function
             at=minorTicks,
             tcl=graphics::par("tcl")*minorCex*cex,
             labels=minorLabels,
-            padj=padj[1],
+            padj=ifelse(minorTicks < 0, 1 - padj[1], padj[1]),
             cex.axis=minorCex*cex,
             col="transparent",
             col.ticks=col.ticks,
@@ -531,6 +538,8 @@ minorLogTicksAxis <- function
 #'    for major and minor ticks. Note that labels may be `numeric`,
 #'    `character`, or `expression`. Specifically when `expression`
 #'    the `graphics::axis()` must be called once per label.
+#'    Ticks and labels are restricted to the 'lims' range rounded up
+#'    to the nearest integer.
 #'    * majorTicks: `numeric` position of each major tick mark
 #'    * minorTicks: `numeric` position of each minor tick mark
 #'    * allTicks: `numeric` position of each major tick mark
@@ -627,7 +636,7 @@ minorLogTicksAxis <- function
 #'    * normal: typical axis style and orientation
 #'    * flipped: used for reverse orientation
 #'    * pvalue: used for `-log10(pvalue)` orientation.
-#' @param verbose logical indicating whether to print verbose output.
+#' @param verbose `logical` whether to print verbose output.
 #' @param ... additional parameters are ignored.
 #'
 #' @export
@@ -684,6 +693,7 @@ minorLogTicks <- function
    } else {
       lims <- range(lims, na.rm=TRUE);
    }
+   actual_lims <- lims;
    ## Now set the floor and raise the roof to the nearest integer at or
    ## just beyond the given range of values.
    if ("pvalue" %in% logAxisType) {
@@ -1013,6 +1023,18 @@ minorLogTicks <- function
       minorSet=minorSet,
       minorWhich=minorWhich,
       allLabelsDF=allLabelsDF);
+  
+   # 1.0.5 - filter to return labels actually in plot range
+   keep_major <- (retVals$majorTicks >= min(lims) & retVals$majorTicks <= max(lims));
+   keep_minor <- (retVals$minorTicks >= min(lims) & retVals$minorTicks <= max(lims));
+   keep_all <- (retVals$allTicks >= min(lims) & retVals$allTicks <= max(lims));
+   keep_alldf <- (retVals$allLabelsDF$tick >= min(lims) & retVals$allLabelsDF$tick <= max(lims));
+   retVals$majorTicks <- retVals$majorTicks[keep_major];
+   retVals$majorLabels <- retVals$majorLabels[keep_major];
+   retVals$minorTicks <- retVals$minorTicks[keep_minor];
+   retVals$minorLabels <- retVals$minorLabels[keep_minor];
+   retVals$allTicks <- retVals$allTicks[keep_all];
+   retVals$allLabelsDF <- subset(retVals$allLabelsDF, keep_alldf)
    return(retVals);
 }
 
@@ -1194,20 +1216,10 @@ logFoldAxis <- function
       if (length(minorWhich) == 0) {
          minorWhich <- c(2, 5)
       }
-      if (length(doMinorLabels) == 0) {
-         if (doMinor) {
-            doMinorLabels <- TRUE
-         } else {
-            doMinorLabels <- FALSE
-         }
-      }
    }
    if (displayBase == 2) {
       if (length(minorWhich) == 0) {
          minorWhich <- c(1.5)
-      }
-      if (length(doMinorLabels) == 0) {
-         doMinorLabels <- FALSE
       }
    }
 

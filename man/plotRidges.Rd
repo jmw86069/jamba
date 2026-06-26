@@ -92,7 +92,7 @@ This function plots each item as a ridgeline plot in the same
 plot window using \code{ggplot2::ggplot()}.
 }
 \examples{
-\dontshow{if ((requireNamespace("ggridges", quietly=TRUE))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if ((requireNamespace("ggridges", quietly=TRUE))) withAutoprint(\{ # examplesIf}
 # multiple columns
 set.seed(123);
 xm <- do.call(cbind, lapply(1:4, function(i){stats::rnorm(2000)}))
@@ -104,23 +104,23 @@ plotRidges(x)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other jam plot functions: 
-\code{\link{adjustAxisLabelMargins}()},
-\code{\link{coordPresets}()},
-\code{\link{decideMfrow}()},
-\code{\link{drawLabels}()},
-\code{\link{getPlotAspect}()},
-\code{\link{groupedAxis}()},
-\code{\link{imageByColors}()},
-\code{\link{imageDefault}()},
-\code{\link{minorLogTicksAxis}()},
-\code{\link{nullPlot}()},
-\code{\link{plotPolygonDensity}()},
-\code{\link{plotSmoothScatter}()},
-\code{\link{shadowText}()},
-\code{\link{shadowText_options}()},
-\code{\link{showColors}()},
-\code{\link{sqrtAxis}()},
-\code{\link{usrBox}()}
+Other jam plot functions:
+\code{\link[=adjustAxisLabelMargins]{adjustAxisLabelMargins()}},
+\code{\link[=coordPresets]{coordPresets()}},
+\code{\link[=decideMfrow]{decideMfrow()}},
+\code{\link[=drawLabels]{drawLabels()}},
+\code{\link[=getPlotAspect]{getPlotAspect()}},
+\code{\link[=groupedAxis]{groupedAxis()}},
+\code{\link[=imageByColors]{imageByColors()}},
+\code{\link[=imageDefault]{imageDefault()}},
+\code{\link[=minorLogTicksAxis]{minorLogTicksAxis()}},
+\code{\link[=nullPlot]{nullPlot()}},
+\code{\link[=plotPolygonDensity]{plotPolygonDensity()}},
+\code{\link[=plotSmoothScatter]{plotSmoothScatter()}},
+\code{\link[=shadowText]{shadowText()}},
+\code{\link[=shadowText_options]{shadowText_options()}},
+\code{\link[=showColors]{showColors()}},
+\code{\link[=sqrtAxis]{sqrtAxis()}},
+\code{\link[=usrBox]{usrBox()}}
 }
 \concept{jam plot functions}

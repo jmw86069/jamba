@@ -83,12 +83,12 @@ graphics::legend("topleft",
 
 }
 \seealso{
-Other jam numeric functions: 
-\code{\link{deg2rad}()},
-\code{\link{noiseFloor}()},
-\code{\link{normScale}()},
-\code{\link{rad2deg}()},
-\code{\link{rowGroupMeans}()},
-\code{\link{rowRmMadOutliers}()}
+Other jam numeric functions:
+\code{\link[=deg2rad]{deg2rad()}},
+\code{\link[=noiseFloor]{noiseFloor()}},
+\code{\link[=normScale]{normScale()}},
+\code{\link[=rad2deg]{rad2deg()}},
+\code{\link[=rowGroupMeans]{rowGroupMeans()}},
+\code{\link[=rowRmMadOutliers]{rowRmMadOutliers()}}
 }
 \concept{jam numeric functions}

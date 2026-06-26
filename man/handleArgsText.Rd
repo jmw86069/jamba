@@ -93,10 +93,10 @@ cat(paste0(handleArgsText(formals(graphics::hist.default)), "\n"), sep="")
 
 }
 \seealso{
-Other jam internal functions: 
-\code{\link{jamCalcDensity}()},
-\code{\link{make_html_styles}()},
-\code{\link{make_styles}()},
-\code{\link{smoothScatterJam}()}
+Other jam internal functions:
+\code{\link[=jamCalcDensity]{jamCalcDensity()}},
+\code{\link[=make_html_styles]{make_html_styles()}},
+\code{\link[=make_styles]{make_styles()}},
+\code{\link[=smoothScatterJam]{smoothScatterJam()}}
 }
 \concept{jam internal functions}

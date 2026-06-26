@@ -12,19 +12,20 @@ writeOpenxlsx(
   startRow = 1,
   startCol = 1,
   append = FALSE,
+  colorSub = NULL,
   headerColors = c("lightskyblue1", "lightskyblue2"),
   columnColors = c("aliceblue", "azure2"),
   highlightHeaderColors = c("tan1", "tan2"),
   highlightColors = c("moccasin", "navajowhite"),
   borderColor = "gray75",
   borderPosition = "BottomRight",
-  highlightColumns = NULL,
   numColumns = NULL,
   fcColumns = NULL,
   lfcColumns = NULL,
   hitColumns = NULL,
   intColumns = NULL,
   pvalueColumns = NULL,
+  highlightColumns = NULL,
   numFormat = "#,##0.00",
   fcFormat = "#,##0.0",
   lfcFormat = "#,##0.0",
@@ -45,7 +46,6 @@ writeOpenxlsx(
   pvalueStyle = c("#F77F30", "#FDC99B", "#EEECE1"),
   doConditional = TRUE,
   doCategorical = TRUE,
-  colorSub = NULL,
   freezePaneColumn = 0,
   freezePaneRow = 2,
   doFilter = TRUE,
@@ -66,19 +66,28 @@ writeOpenxlsx(
 \arguments{
 \item{x}{\code{data.frame} to be saved to an 'Excel' 'xlsx' file.}
 
-\item{file}{\code{character} valid path to save an 'Excel' 'xlsx' file. If the file
-exists, and \code{append=TRUE} the new data will be added to the existing
-file withthe defined \code{sheetName}.
+\item{file}{\code{character} valid path to save an 'Excel' 'xlsx' file.
+If the file exists, and \code{append=TRUE} the new data will
+be added to the existing file using the defined \code{sheetName}.
 \itemize{
-\item Note when \code{file=NULL} the output is not saved to a file,
+\item Note When \code{file=NULL} the output is not saved to a file,
 instead the \code{Workbook} object is returned by this function.
 The \code{Workbook} object can be passed as argument \code{wb} in order
 to add multiple sheets to the same Workbook prior to saving
-them together. This operation is intended to provide a
-substantial improvement in speed.
+them together in one final step. This pattern is recommended
+when saving multiple sheets together into one file, as it
+saves much time by avoiding repeated save/load steps.
 }}
 
-\item{wb}{\code{Workbook} object as defined in R package \code{openxlsx}.
+\item{wb}{\code{Workbook} object as defined in R package \code{openxlsx},
+default NULL with \code{append=TRUE} will create a new workbook
+when \code{file} does not exist, or will load \code{file} when it exists.
+When provided \code{wb} it will be used as the input regardless of
+'append'.
+
+This argument is intended to help build a workbook before saving
+the final result, which is more efficient for multi-sheet
+save operations by avoiding repeated save/load operations.
 When this argument is defined, data is not imported from \code{file},
 and instead the workbook data is used from \code{wb}. This option is
 intended to improve speed of writing several sheets to the same
@@ -86,31 +95,60 @@ output file, by preventing the slow read/write steps each time
 a new sheet is added.}
 
 \item{sheetName}{\code{character} value less with a valid
-'Excel' 'xlsx' worksheet name. At this time (version 0.0.29.900) the
-sheetName is restricted to 31 characters, with no puntuation except
-"-" and "_".}
+'Excel' 'xlsx' worksheet name. At this time, June 2026, the
+'sheetName' is restricted to 31 characters, with no punctuation
+permitted except for '-' and '_'. It does permit spaces ' '.}
 
 \item{startRow, startCol}{\code{integer} indicating the row and column number
 to start with the top,left cell written to the worksheet,
-default are 1.}
+defaults are 1.}
 
 \item{append}{\code{logical} default FALSE, whether to append to file (TRUE),
 or to write over an existing file. The \code{append=TRUE} is useful when
-adding a worksheet to an existing file.}
+adding a worksheet to an existing file.
+
+\strong{Document Colors:}}
+
+\item{colorSub}{\code{character} vector of R colors, whose names refer to
+cell values in the input \code{x} data.frame.}
 
 \item{headerColors, columnColors, highlightHeaderColors, highlightColors, borderColor, borderPosition}{default values for the 'Excel' worksheet background and border
 colors. As of version 0.0.29.900, colors must use valid 'Excel'
-color names.}
+color names.
+\itemize{
+\item Default values use alternating pale blue background in each column,
+changing to alternative tan background for highlighted columns.
+The default border is light grey (grey75) placed 'BottomRight'.
+}
 
-\item{highlightColumns, numColumns, fcColumns, lfcColumns, hitColumns, intColumns, pvalueColumns}{\code{integer} vector referring the column number in the input \code{data.frame}
+\strong{Column Type Assignment:}}
+
+\item{numColumns, fcColumns, lfcColumns, hitColumns, intColumns, pvalueColumns}{\code{integer} vector referring the column number in the input \code{data.frame}
 \code{x} to define as each column type, as relevant.}
+
+\item{highlightColumns}{\code{integer} vector with one or more columns
+to be highlighted. Highlighted columns use \code{highlightHeaderColors}
+and \code{highlightColors} for the header and cells, respectively,
+and apply bold font text by default.
+
+\strong{Column Type Format:}}
 
 \item{numFormat, fcFormat, lfcFormat, hitFormat, intFormat, pvalueFormat}{\code{character} string with valid 'Excel' cell formatting, for example
 \code{"#,##0.00"} defines a column to use comma-delimited numbers above
 one thousand, and display two decimal places in all numeric cells.
+\itemize{
+\item \code{IntFormat} default shows only integer values, even when the underlying
+Excel value contains decimal, fractional values.
+\item \code{numFormat} default shows up to two decimal positions.
+\item \code{fcFormat}, \code{lfcFormat}, \code{hitFormat} default show one decimal position.
+\item \code{pvalueFormat} default shows the decimal value for values > 0.01,
+and the exponent format for values below 0.01.
+}
+
 See \verb{[https://support.microsoft.com]} topic
 \code{"Excel Create and apply a custom number format."} or
-\code{"Excel Number format codes"} for more details. Some examples below:
+\code{"Excel Number format codes"} for more details.
+Some examples below:
 \itemize{
 \item \code{"#,##0"} : display only integer values, using comma as delimiter
 for every thousands place.
@@ -136,76 +174,108 @@ Values equal to zero are represented with two trailing digits,
 and whitespace (\code{"_"}) equal to width \code{")"}.
 The whitespace at the end of positive values and zero are used
 to align all values at the same decimal position.
-}}
+}
+
+\strong{Column Type Rules:}}
 
 \item{numRule, fcRule, lfcRule, hitRule, intRule, pvalueRule}{\code{numeric} vector
 \code{length=3} indicating the breakpoints for 'Excel' to apply conditional
 color formatting, using the corresponding style.
 Note that all conditional formatting applied by this function uses
 the \code{"3-Color Scale"}, therefore there should be three values,
-and three corresponding colors in the corresponding Style arguments.}
+and three corresponding colors in the corresponding Style arguments.
+\itemize{
+\item \code{numRule} default: 1, 10, 20
+\item \code{fcRule} default: -6, 0, 6
+\item \code{lfcRule} default: -3, 0, 3
+\item \code{hitRule} default: -1.5, 0, 1.5
+\item \code{intRule} default: 0, 100, 10000
+\item \code{pvalueRule} default: 0, 0.01, 0.05
+}
 
-\item{numStyle, fcStyle, lfcStyle, intStyle, hitStyle, pvalueStyle}{\code{character}
-vector \code{length=3} containing three valid R colors. Note that alpha
-transparency will be removed prior to use in 'Excel', as required.
-Note that all conditional formatting applied by this function uses
-the \code{"3-Color Scale"}, therefore there should be three colors,
-which match three values in the corresponding Rule arguments.}
+\strong{Column Type Styles:}}
 
-\item{doConditional}{\code{logical} indicating whether to apply conditional
-formatting of cells, with this function only the background cell
-color (and contrasting text color) is affected.}
+\item{numStyle, fcStyle, lfcStyle, intStyle, hitStyle, pvalueStyle}{\code{character} vector length 3, containing three valid R colors,
+applied using \code{"3-Color Scale"} conditional formatting,
+together with the corresponding format, for example \code{numStyle}
+is applied to \code{numColumns} using \code{numRule}, then the cells
+are formatted with \code{numFormat}.
+\itemize{
+\item \code{fcStyle}, \code{lfcStyle}, \code{hitStyle} use blue-white-red divergent
+colors, expected to be centered at zero by \code{fcRule} for example.
+\item \code{numStyle} uses a purple gradient inspired by RColorBrewer "Purples".
+\item \code{intStyle} uses red-orange colors inspired by RColorBrewer "OrRd".
+\item \code{pvalueStyle} uses red-orange colors, reversed so that significant
+values, beginning at 0.05 by default, become more red red.
+}
 
-\item{doCategorical}{\code{logical} indicating whether to apply categorical
-color formatting, of only the background cell colors and contrasting
-text color. This argument requires \code{colorSub} be defined.}
+Alpha transparency is removed, as required.
 
-\item{colorSub}{\code{character} vector of R colors, whose names refer to
-cell values in the input \code{x} data.frame.}
+\strong{Enable Conditional and Categorical Formatting:}}
+
+\item{doConditional}{\code{logical} default TRUE, whether to apply
+conditional formatting.
+Note only the background cell color is affected,
+as well as contrasting text color.}
+
+\item{doCategorical}{\code{logical} default TRUE, whether to apply
+categorical color formatting, only relevant when \code{colorSub}
+is defined.
+Note only the background cell color is affected,
+as well as contrasting text color.
+
+\strong{Document Customization:}}
 
 \item{freezePaneColumn, freezePaneRow}{\code{integer} value of the row or
 column before which the 'Excel' "freeze panes" is applied.
-Note that these values are adjusted relative by \code{startRow} and
-\code{startCol} in the 'Excel' worksheet, so that the values are applied
-relative to the \code{data.frame} argument \code{x}.}
+Default \code{freezePaneColumn=0} will not maintain any columns.
+Default \code{freezePaneRow=2} will maintain the first row of column
+headers. Units are relative to the \code{data.frame} being saved,
+and will automatically be adjusted by \code{startRow} and \code{startCol}
+where applicable.}
 
-\item{doFilter}{\code{logical} indicating whether to enable column
+\item{doFilter}{\code{logical} default TRUE, whether to enable column
 filtering by default.}
 
-\item{fontName}{\code{character} default font configuration, containing
-a valid 'Excel' font name.}
+\item{fontName}{\code{character} font, default 'Arial', with
+a valid 'Excel' font name for the output document.}
 
-\item{fontSize}{\code{numeric} default font size in 'Excel' point units.}
+\item{fontSize}{\code{numeric} default 12, font size in 'Excel' points.}
 
-\item{minWidth, maxWidth, autoWidth}{\code{numeric} minimum, maximum size
-for each 'Excel' cell, in character units as defined by 'Excel',
-used when \code{autoWidth=TRUE} to restrict cell widths to this range.
-Note that the argument \code{colWidths} is generally preferred, if the
-numeric widths can be reasonable calculated or anticipated upfront.
-When \code{autoWidth=FALSE} 'Excel' typically auto-sizes cells to the width
-of the largest value in each column, which may not be ideal when
-values are extremely large.}
+\item{minWidth, maxWidth}{\code{numeric} minimum, maximum size, defaults
+8 and 30, respectively, and which uses \code{options()}
+'openxlsx.minWidth' and 'openxlsx.maxWidth' when defined.
+Units are character units as defined by 'Excel', and are
+used when \code{autoWidth=TRUE} as default, to restrict cell widths.
+Argument \code{colWidths} is usually preferred, where possible.}
+
+\item{autoWidth}{\code{logical} default TRUE, whether to permit Excel to
+attempt automatic column widths, within \code{minWidth} \code{maxWidth}
+widths. Excel has a tendency to set the column width based
+upon column values, and not the column header, therefore
+\code{colWidths} is recommended.}
 
 \item{colWidths}{\code{numeric} width of each column in \code{x}, recycled
-to the total number of columns required. Note that when
-\code{keepRownames=TRUE}, the first column will contain \code{rownames(x)},
-therefore the length of \code{colWidths} in that case will be
-\code{ncol(x) + 1}.}
+to the total number of columns required. Default NULL does not
+apply specific widths, instead Excel will attempt default widths.
+When \code{keepRownames=TRUE}, the first column contains \code{rownames(x)},
+therefore the length of expected \code{colWidths} is \code{ncol(x) + 1}.}
 
-\item{wrapCells}{\code{logical} default FALSE, indicating whether to
-enable word-wrap within cells.}
+\item{wrapCells}{\code{logical} default FALSE, whether to word-wrap
+within cells. The default FALSE is effective when used together
+with specific \code{colWidths}.}
 
-\item{wrapHeaders}{\code{logical} indicating whether to enable word wrap
+\item{wrapHeaders}{\code{logical} default TRUE, whether to enable word wrap
 for column headers, which is helpful when \code{autoWidth=TRUE} since
 it fixed the cell width while allowing the column header to be seen.}
 
-\item{headerRowMultiplier}{\code{numeric} value to define the row height of
+\item{headerRowMultiplier}{\code{numeric} default 5, the row height of
 the first header row in 'Excel'. This value is defined as a multiple
 of subsequent rows, and should usually represent the maximum number
 of lines after word-wrapping, as relevant. This argument
 is helpful when \code{wrapHeaders=TRUE} and \code{autoWidth=TRUE}.}
 
-\item{keepRownames}{\code{logical} indicating whether to include
+\item{keepRownames}{\code{logical} default FALSE, whether to include
 \code{rownames(x)} in its own column in 'Excel'.}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output.}
@@ -229,6 +299,14 @@ to provide some pre-configured formatting of known column
 types, typically relevant to statistical values, and
 in some cases, gene or transcript expression values.
 
+\strong{Important Note:}
+Within 'Microsoft Excel', it stores the complete numeric
+value, and simply displays that value with any customized
+format as defined.
+When using 'Microsoft Excel' to export to a text file,
+it will apply this visible formatting during that step,
+which may cause some information to be lost.
+
 There are numerous configurable options when saving an 'Excel'
 worksheet, most of the defaults in this function are intended
 not to require changes, but are listed as formal function
@@ -238,6 +316,19 @@ If \code{colorSub} is supplied as a named vector of colors, then
 by default text values will be colorized accordingly, which
 can be especially helpful when including data with categorical
 text values.
+
+Conditional formatting is applied to several recognized types
+of data types, defined by \code{numColumns}, \code{intColumns}, \code{fcColumns},
+\code{lfcColumns}, \code{pvalueColumns}, \code{hitColumns}.
+
+Conditional formatting is much more efficient than applying
+specific colors to each cell in a large worksheet, for example
+if using a color \code{function} to assign colors to \code{numeric} values,
+it would need to be applied as individual color styles, and
+each unique style is stored as such in the Excel workbook.
+A column with 12,000 distinct numeric values may therefore
+contain hundreds or thousands of individual cell style definitions,
+which is very inefficient for an Excel workbook.
 
 This function pre-configures formatting options for the following
 column data types, each of which has conditional
@@ -316,11 +407,11 @@ if (check_pkg_installed("openxlsx")) {
 
 }
 \seealso{
-Other jam export functions: 
-\code{\link{applyXlsxCategoricalFormat}()},
-\code{\link{applyXlsxConditionalFormat}()},
-\code{\link{readOpenxlsx}()},
-\code{\link{set_xlsx_colwidths}()},
-\code{\link{set_xlsx_rowheights}()}
+Other jam export functions:
+\code{\link[=applyXlsxCategoricalFormat]{applyXlsxCategoricalFormat()}},
+\code{\link[=applyXlsxConditionalFormat]{applyXlsxConditionalFormat()}},
+\code{\link[=readOpenxlsx]{readOpenxlsx()}},
+\code{\link[=set_xlsx_colwidths]{set_xlsx_colwidths()}},
+\code{\link[=set_xlsx_rowheights]{set_xlsx_rowheights()}}
 }
 \concept{jam export functions}

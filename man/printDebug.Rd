@@ -13,7 +13,6 @@ printDebug(
   bgText = NULL,
   fgTime = getOption("jam.fgTime", "cyan2"),
   timeStamp = getOption("jam.timeStamp", TRUE),
-  comment = getOption("jam.comment", !htmlOut),
   formatNumbers = getOption("jam.formatNumbers", TRUE),
   trim = getOption("jam.trim", TRUE),
   digits = getOption("jam.digits"),
@@ -32,7 +31,7 @@ printDebug(
   dex = 2,
   darkFactor = c(1, 1.5),
   sFactor = c(1, 1.5),
-  lightMode = checkLightMode(),
+  lightMode = NULL,
   Crange = getOption("jam.Crange"),
   Lrange = getOption("jam.Lrange"),
   removeNA = FALSE,
@@ -45,7 +44,8 @@ printDebug(
   file = getOption("jam.file", ""),
   append = getOption("jam.append", TRUE),
   invert = getOption("jam.invert", FALSE),
-  htmlOut = getOption("jam.htmlOut", FALSE)
+  htmlOut = getOption("jam.htmlOut"),
+  comment = getOption("jam.comment")
 )
 
 printDebugI(..., invert = TRUE)
@@ -108,9 +108,6 @@ which is default. When \code{invert=TRUE}, which is default for
 \item{fgTime}{\code{character} R color to colorize the time}
 
 \item{timeStamp}{\code{logical} whether to include a time stamp in output}
-
-\item{comment}{\code{logical} whether to prefix output with '## ' as a comment,
-or \code{character} string used as a prefix.}
 
 \item{formatNumbers}{\code{logical} whether to format numbers using
 \code{format()} which controls the number of digits displayed, and is
@@ -200,7 +197,8 @@ indent width. Note that the \code{indent} text is not colorized.}
 \item{keepNA}{\code{logical}, default TRUE, whether to keep and print NA values.}
 
 \item{file}{argument passed to \code{cat()} to send output to a file or
-compatible output of \code{cat()}.}
+compatible output of \code{cat()}. When not provided, all output is
+sent using \code{message()}.}
 
 \item{append}{\code{logical} whether to append output, passed to \code{cat()}
 when \code{file} is defined.}
@@ -214,13 +212,22 @@ relative to the background color in \code{bgText}.}
 \item{htmlOut}{\code{logical} indicating whether to print HTML span
 output, using format
 \verb{<span style="color:fg;background-color:bg">text</span>}.
-This argument is not yet implemented, more testing is required
-to determine the best mechanism to use for things like 'Rmarkdown'
-rendering, and R-shiny app rendering.}
+Default NULL will set TRUE when knitr is running, and knitr output
+is HTML. When using inside Rmarkdown or Quarto, add chunk option:
+\code{results='asis'}.}
+
+\item{comment}{\code{logical} whether to prefix output with ' ## ' as a comment,
+or \code{character} string used as a prefix. New in 1.0.5 is a leading space
+to prevent being converted to a markdown header when rendered in
+Rmarkdown or Quarto documents. The comment is useful when printed
+alongside R code, so that copy-and-paste will not include this text
+as R code.
+Default NULL will set FALSE when knitr is running.}
 }
 \value{
 \code{NULL} invisibly, this function is called for the side effect
-of printing output using \code{cat()}.
+of printing output using \code{message()} for console output, or
+\code{cat()} when saving to a file.
 
 \code{NULL} invisibly, this function is called for the side effect
 of printing output using \code{cat()}.
@@ -278,31 +285,33 @@ and within each vector of \code{...} printed the corresponding color vector
 is recycled to the length of that vector.
 }
 
-For use inside 'Rmarkdown' \code{.Rmd} documents, current recommendation is
-to define the R output with \code{results='asis'} like this:
+For use inside 'Rmarkdown' \code{.Rmd} and Quarto 'qmd' documents, the
+default condition will set 'htmlOutput=TRUE' when knitr is producing
+an HTML output file, and 'htmlOutput=FALSE' otherwise.
+The argument 'comment' now uses a leading space ' ## ' to prevent being
+interpreted as a markdown heading, however when run inside knitr,
+the default is 'comment=FALSE'.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{\\`\\`\\`\{r block_name, results='asis'\}
+For proper output with colorized text, define the chunk option
+\code{results='asis'} like this:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{```\{r block_name, results='asis'\}
 # some R code here
-\\`\\`\\`
+```
 }\if{html}{\out{</div>}}
 
-Then define a global option to turn off the comment prefix in
-\code{printDebug()}: \code{options("jam.comment"=FALSE)}
-
-For colorized text, it may require \code{"html_output"} rendering of the
-\code{.Rmd} 'Rmarkdown' file, as well as this option to enable HTML formatting
-by \code{printDebug()}: \code{options("jam.htmlOut"=TRUE)}.
-
-This function prints colorized output to the R console, using the
+The \code{printDebugI()} function prints colorized output to the R console, using the
 same logic as \code{printDebug} except by default the color is inverted
 so the default \code{fgText} colors are applied to the background.
 
-This function prints colorized output in HTML form, using the
-same logic as \code{printDebug()} except by default the output is HTML.
-The intended use is for 'Rmarkdown' with chunk option \code{results='asis'},
+The \code{printDebugHtml()} function prints colorized output in HTML form,
+using the same logic as \code{printDebug()} except by default the output is HTML.
+It also sets 'comment=FALSE' by default.
+
+Set the Rmarkdown or Quarto chunk option \code{results='asis'}
 which causes the HTML code to be interpreted directly as HTML.
 
-This function internally calls \code{printDebug()} which then calls
+The \code{printDebugHtml()} function internally calls \code{printDebug()} which then calls
 \code{make_html_styles()}. The text is surrounded by \verb{<span color='#FFFFFF'>}
 HTML formatting.
 }
@@ -339,82 +348,31 @@ printDebug(1:10, fgText="orange", dex=2);
 
 }
 \seealso{
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{call_fn_ellipsis}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{getAxisLabel}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{reload_rmarkdown_cache}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{setPrompt}()}
-
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{call_fn_ellipsis}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{getAxisLabel}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{reload_rmarkdown_cache}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{setPrompt}()}
-
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{call_fn_ellipsis}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{getAxisLabel}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{reload_rmarkdown_cache}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{setPrompt}()}
+Other jam practical functions:
+\code{\link[=breakDensity]{breakDensity()}},
+\code{\link[=call_fn_ellipsis]{call_fn_ellipsis()}},
+\code{\link[=checkLightMode]{checkLightMode()}},
+\code{\link[=check_pkg_installed]{check_pkg_installed()}},
+\code{\link[=colNum2excelName]{colNum2excelName()}},
+\code{\link[=color_dither]{color_dither()}},
+\code{\link[=exp2signed]{exp2signed()}},
+\code{\link[=getAxisLabel]{getAxisLabel()}},
+\code{\link[=isFALSEV]{isFALSEV()}},
+\code{\link[=isTRUEV]{isTRUEV()}},
+\code{\link[=jargs]{jargs()}},
+\code{\link[=kable_coloring]{kable_coloring()}},
+\code{\link[=lldf]{lldf()}},
+\code{\link[=log2signed]{log2signed()}},
+\code{\link[=middle]{middle()}},
+\code{\link[=minorLogTicks]{minorLogTicks()}},
+\code{\link[=newestFile]{newestFile()}},
+\code{\link[=reload_qmd_cache]{reload_qmd_cache()}},
+\code{\link[=reload_rmarkdown_cache]{reload_rmarkdown_cache()}},
+\code{\link[=renameColumn]{renameColumn()}},
+\code{\link[=rmInfinite]{rmInfinite()}},
+\code{\link[=rmNA]{rmNA()}},
+\code{\link[=rmNAs]{rmNAs()}},
+\code{\link[=rmNULL]{rmNULL()}},
+\code{\link[=setPrompt]{setPrompt()}}
 }
 \concept{jam practical functions}

@@ -1009,6 +1009,9 @@ makeColorDarker <- function
    } else {
       fixAlpha <- col2alpha(hexColor);
    }
+   if (length(hexColor) == 0) {
+      return(hexColor);
+   }
 
    ## Optimization step: convert only the unique colors...
    hexColorAll <- hexColor;
@@ -1344,6 +1347,10 @@ makeColorDarker <- function
 #'
 #' @returns `character` vector of R colors, or when N is NULL,
 #'    `function` sufficient to create R colors.
+#'    When returning `character` vector of R colors, it will
+#'    include attribute 'divergent=TRUE' as `logical` value, when
+#'    a divergent color ramp was used, for example "RdBu" or "RdBu_r"
+#'    from RColorBrewer.
 #'
 #' @export
 getColorRamp <- function
@@ -1424,12 +1431,10 @@ getColorRamp <- function
                col);
          }
          brewerN <- RColorBrewer::brewer.pal.info[col, "maxcolors"];
-         if (lens != 0 && length(divergent) == 0) {
-            if ("div" %in% RColorBrewer::brewer.pal.info[col, "category"]) {
-               divergent <- TRUE;
-            } else {
-               divergent <- FALSE;
-            }
+         if ("div" %in% RColorBrewer::brewer.pal.info[col, "category"]) {
+            divergent <- TRUE;
+         } else {
+            divergent <- FALSE;
          }
          colorFunc <- function(n){
             if (n <= brewerN) {
@@ -1573,6 +1578,9 @@ getColorRamp <- function
       }
       if (length(cols) != n) {
          cols <- grDevices::colorRampPalette(cols, alpha=alpha)(n);
+      }
+      if (length(divergent) == 1 && isTRUE(divergent)) {
+         attr(cols, "divergent") <- divergent;
       }
    } else {
       ## Get color function

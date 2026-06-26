@@ -88,10 +88,10 @@ factor1[mmixedOrder(list(factor1), honorFactor=TRUE)]
 
 }
 \seealso{
-Other jam sort functions: 
-\code{\link{mixedOrder}()},
-\code{\link{mixedSort}()},
-\code{\link{mixedSortDF}()},
-\code{\link{mixedSorts}()}
+Other jam sort functions:
+\code{\link[=mixedOrder]{mixedOrder()}},
+\code{\link[=mixedSort]{mixedSort()}},
+\code{\link[=mixedSortDF]{mixedSortDF()}},
+\code{\link[=mixedSorts]{mixedSorts()}}
 }
 \concept{jam sort functions}

@@ -10,60 +10,71 @@
 #' so inclusion in an analysis workflow will not incur
 #' a noticeable burden.
 #'
+#' @importFrom methods as
+#' @importFrom utils head
+#' @importFrom utils tail
+#' 
 #' @section plot functions:
-#'    * [plotSmoothScatter()] smoothScatter() enhanced for more visual detail
-#'    * [imageDefault()] enhanced rasterized image() with fixed aspect ratio
-#'    * [imageByColors()] for `data.frame` of colors and optional
+#'    * `plotSmoothScatter()` enhanced variant of `smoothScatter()`
+#'    to show more visual detail
+#'    * `imageDefault()` enhanced rasterized `image()` with fixed aspect ratio
+#'    * `imageByColors()` for `data.frame` of colors and optional
 #'    labels centered across repeated values.
-#'    * [showColors()] color display for vector, list, color function,
+#'    * `showColors()` color display for vector, list, color function,
 #'    or mixed formats.
-#'    * [nullPlot()] blank plot that labels the current margin sizes
-#'    * [minorLogTicksAxis()] log-scale axis ticks in base R with
+#'    * `nullPlot()` blank plot that labels the current margin sizes
+#'    * `minorLogTicksAxis()` log-scale axis ticks in base R with
 #'    custom log base, optional offset, e.g. `log2(1 + x)`
-#'    * [shadowText()] base R text labels with shadow or outline or both,
-#'    also [shadowText_options()].
-#'    * [getPlotAspect()], [decideMfrow()] convenience base R graphics.
+#'    * `shadowText()` base R text labels with shadow or outline or both,
+#'    also `shadowText_options()`.
+#'    * `getPlotAspect()`, `decideMfrow()` convenience base R graphics.
 #'
 #' @section string functions:
-#'    * [mixedSort()], [mixedOrder()], [mixedSortDF()] - efficient
+#'    * `mixedSort()`, `mixedOrder()`, `mixedSortDF()` - efficient
 #'    alphanumeric "version" sort, with options helpful for gene symbols.
-#'    * [vgrep()], [vigrep()], [igrep()], [vigrep()] fast grep wrappers
+#'    * `vgrep()`, `vigrep()`, `igrep()`, `vigrep()` fast grep wrappers
 #'    for value-return, case-insensitive search.
-#'    * [provigrep()], [proigrep()] - progressive, ordered grep to use
+#'    * `provigrep()`, `proigrep()` - progressive, ordered grep to use
 #'    pattern matching to re-order a vector.
-#'    * [makeNames()] create unique, versioned names with custom format
-#'    * [nameVector()] apply names to vector dynamically
-#'    * [nameVectorN()] vector of named names useful with [lapply()].
-#'    * [pasteByRow()], [pasteByRowOrdered()] paste data.frame and matrix
+#'    * `makeNames()` create unique, versioned names with custom format
+#'    * `nameVector()` apply names to vector dynamically
+#'    * `nameVectorN()` vector of named names useful with `lapply()`.
+#'    * `pasteByRow()`, `pasteByRowOrdered()` paste data.frame and matrix
 #'    values by row, skipping blanks, optional factor order.
-#'    * [rbindList()] convert list to `matrix` or `data.frame`.
-#'    * [tcount()] extends `table()` to sort by size and optional minimum
+#'    * `rbindList()` convert list to `matrix` or `data.frame`.
+#'    * `tcount()` extends `table()` to sort by size and optional minimum
 #'    count filter.
 #'
 #' @section color functions:
-#'    * [rgb2col()], [col2hcl()], [col2hcl()], [col2hsv()], [hsv2col()] color
+#'    * `rgb2col()`, `col2hcl()`, `col2hcl()`, `col2hsv()`, `hsv2col()` color
 #'    interconversion
-#'    * [setTextContrastColor()] text contrast color per given background color
-#'    * [getColorRamp()] catch-all to get named gradients, or expand
+#'    * `setTextContrastColor()` text contrast color per given background color
+#'    * `getColorRamp()` catch-all to get named gradients, or expand
 #'    one or more colors to gradient.
-#'    * [makeColorDarker()], [color2gradient()], [showColors()] color
-#'    manipulation and display
+#'    * `makeColorDarker()`, `color2gradient()` create light/dark altered
+#'    variants of colors.
+#'    * `showColors()` versatile display of color as `character` vector or
+#'    `list` of `character` or `function`.
 #'
 #' @section miscellaneous helper functions:
-#'    * [printDebug()] colored text output to console, 'Rmarkdown', HTML
-#'    * [kable_coloring()] colored `kableExtra::kable()` output for 'Rmarkdown'
-#'    * [setPrompt()] colored R prompt
-#'    * [deg2rad()], [rad2deg()] interconvert degrees to radians.
-#'    * [getDate()], [asDate()], [dateToDaysOld()] human-readable,
+#'    * `printDebug()` colored text output to console, 'Rmarkdown', HTML
+#'    * `kable_coloring()` colored `kableExtra::kable()` output for 'Rmarkdown'
+#'    * `setPrompt()` colored R prompt
+#'    * `deg2rad()`, `rad2deg()` interconvert degrees to radians.
+#'    * `getDate()`, `asDate()`, `dateToDaysOld()` human-readable,
 #'    opinionated date formatting
-#'    * [padString()], [padInteger()] pad character or integer strings
-#'    * [rmNA()], [rmNULL()], [rmInfinite()] remove or replace missing or NA
+#'    * `padString()`, `padInteger()` pad character or integer strings
+#'    * `rmNA()`, `rmNULL()`, `rmInfinite()` remove or replace missing or NA
 #'    values with defined alternatives
 #'
 #' @section export and import functions:
-#'    * [readOpenxlsx()] import worksheets from 'xlsx' 'Excel' files.
-#'    * [writeOpenxlsx()] export worksheets to 'xlsx' 'Excel' files with color,
+#'    * `readOpenxlsx()` import worksheets from 'xlsx' 'Excel' files.
+#'    * `writeOpenxlsx()` export worksheets to 'xlsx' 'Excel' files with color,
 #'    formatting, and styling.
+#'    * `reload_rmarkdown_cache()` load Rmarkdown cache data into an `environment`
+#'    for re-use.
+#'    * `reload_qmd_cache()` load Quarto .qmd cache data into an `environment`
+#'    for re-use.
 #'
 #' @section Jam options:
 #'    The `jamba` package recognizes some global options, but limits these
@@ -80,11 +91,3 @@
 #'
 #' @keywords internal
 "_PACKAGE"
-
-
-## usethis namespace: start
-#' @importFrom methods as
-#' @importFrom utils head
-#' @importFrom utils tail
-## usethis namespace: end
-NULL

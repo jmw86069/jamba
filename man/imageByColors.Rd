@@ -207,23 +207,23 @@ imageByColors(df1, cellnote=df1, useRaster=TRUE, adjBy="column",
    srtCellnote=list(c(90,0,0), c(0,45), c(0,0,0), c(0,90,0)));
 }
 \seealso{
-Other jam plot functions: 
-\code{\link{adjustAxisLabelMargins}()},
-\code{\link{coordPresets}()},
-\code{\link{decideMfrow}()},
-\code{\link{drawLabels}()},
-\code{\link{getPlotAspect}()},
-\code{\link{groupedAxis}()},
-\code{\link{imageDefault}()},
-\code{\link{minorLogTicksAxis}()},
-\code{\link{nullPlot}()},
-\code{\link{plotPolygonDensity}()},
-\code{\link{plotRidges}()},
-\code{\link{plotSmoothScatter}()},
-\code{\link{shadowText}()},
-\code{\link{shadowText_options}()},
-\code{\link{showColors}()},
-\code{\link{sqrtAxis}()},
-\code{\link{usrBox}()}
+Other jam plot functions:
+\code{\link[=adjustAxisLabelMargins]{adjustAxisLabelMargins()}},
+\code{\link[=coordPresets]{coordPresets()}},
+\code{\link[=decideMfrow]{decideMfrow()}},
+\code{\link[=drawLabels]{drawLabels()}},
+\code{\link[=getPlotAspect]{getPlotAspect()}},
+\code{\link[=groupedAxis]{groupedAxis()}},
+\code{\link[=imageDefault]{imageDefault()}},
+\code{\link[=minorLogTicksAxis]{minorLogTicksAxis()}},
+\code{\link[=nullPlot]{nullPlot()}},
+\code{\link[=plotPolygonDensity]{plotPolygonDensity()}},
+\code{\link[=plotRidges]{plotRidges()}},
+\code{\link[=plotSmoothScatter]{plotSmoothScatter()}},
+\code{\link[=shadowText]{shadowText()}},
+\code{\link[=shadowText_options]{shadowText_options()}},
+\code{\link[=showColors]{showColors()}},
+\code{\link[=sqrtAxis]{sqrtAxis()}},
+\code{\link[=usrBox]{usrBox()}}
 }
 \concept{jam plot functions}

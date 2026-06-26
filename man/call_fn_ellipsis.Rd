@@ -21,23 +21,75 @@ Safely call a function using ellipsis
 \details{
 This function is a wrapper function intended to help
 pass ellipsis arguments \code{...} from a parent function
-to an external function in a safe way. It will only
-include arguments from \code{...} that are recognized by
-the external function.
-
-The logic is described as follows:
-\itemize{
-\item When the external function \code{FUN} arguments \code{formals()} include
-ellipsis \code{...}, then the ellipsis \code{...} will be passed as-is without
-change. In this way, any arguments inside the original ellipsis \code{...}
-will either match arguments in \code{FUN}, or will be ignored in that
-function ellipsis \code{...}.
-\item When the external function \code{FUN} arguments \code{formals()} do not
-include ellipsis \code{...}, then named arguments in \code{...} are passed
-to \code{FUN} only when the arguments names are recognized by \code{FUN}.
+to an external function in a safe way.
+\enumerate{
+\item If the target function itself accepts '...' then all
+arguments are passed.
+\item If the target function does not accept '...', then
+only the arguments whose names are defined in \code{formals()}
+will be passed along. All other arguments are not passed to
+the target function.
+\item As of version 1.0.5, when there are duplicated argument
+names in the input '...', only the first instance of each
+argument name is passed along, while also applying rules
+1 and 2 as described above.
 }
 
-Note that arguments therefore must be named.
+Note that all arguments in the input '...' must be named.
+\subsection{Duplicate arguments as default values}{
+
+When providing a 'default value' for an argument, consider
+a function with arguments 'x' and 'y'. We may want to use
+'y=2' as a default value for 'y', without providing 'y'
+as a formal argument in the wrapper function. By accepting
+'...' the wrapper function can be simplified by having fewer
+named arguments.
+
+We have two options for handling the default 'y=2'.
+
+First, we may permit the user to supply a custom value to
+be used as priority when available. In this case, place
+'...' before the 'y=2' default argument, as shown below:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{test_fn <- function(x, y, ...) \{ x + y \}
+wrapper <- function(x, ...) \{
+   call_fn_ellipsis(test_fn,
+      ...,
+      x=x,
+      y=2)
+\}
+wrapper(x=1, y=4)
+#> output:
+#> 5
+}\if{html}{\out{</div>}}
+
+In this case (above), the user-supplied 'y=4' will be accepted
+before the default 'y=2', and therefore the output will be
+
+\code{1 + 4 = 5}
+
+The second option is to force the default 'y=2' to be used,
+thereby ignoring the user-defined 'y=4'. In this case,
+place '...' after the 'y=2' default argument value.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{test_fn <- function(x, y, ...) \{ x + y \}
+wrapper2 <- function(x, ...) \{
+   call_fn_ellipsis(test_fn,
+      x=x,
+      y=2,
+      ...)
+\}
+wrapper2(x=1, y=4)
+#> output:
+#> 3
+}\if{html}{\out{</div>}}
+
+In this case (above) the 'y=2' appears before the user-defined
+'y=4' in the argument stack, therefore 'y=2' takes priority.
+The output will be
+
+\code{1 + 2 = 3}
+}
 }
 \examples{
 new_mean <- function(x, trim=0, na.rm=FALSE) {
@@ -57,30 +109,31 @@ call_fn_ellipsis(new_mean, x=x, na.rm=TRUE, color="red")
 
 }
 \seealso{
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{checkLightMode}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{getAxisLabel}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{printDebug}()},
-\code{\link{reload_rmarkdown_cache}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{setPrompt}()}
+Other jam practical functions:
+\code{\link[=breakDensity]{breakDensity()}},
+\code{\link[=checkLightMode]{checkLightMode()}},
+\code{\link[=check_pkg_installed]{check_pkg_installed()}},
+\code{\link[=colNum2excelName]{colNum2excelName()}},
+\code{\link[=color_dither]{color_dither()}},
+\code{\link[=exp2signed]{exp2signed()}},
+\code{\link[=getAxisLabel]{getAxisLabel()}},
+\code{\link[=isFALSEV]{isFALSEV()}},
+\code{\link[=isTRUEV]{isTRUEV()}},
+\code{\link[=jargs]{jargs()}},
+\code{\link[=kable_coloring]{kable_coloring()}},
+\code{\link[=lldf]{lldf()}},
+\code{\link[=log2signed]{log2signed()}},
+\code{\link[=middle]{middle()}},
+\code{\link[=minorLogTicks]{minorLogTicks()}},
+\code{\link[=newestFile]{newestFile()}},
+\code{\link[=printDebug]{printDebug()}},
+\code{\link[=reload_qmd_cache]{reload_qmd_cache()}},
+\code{\link[=reload_rmarkdown_cache]{reload_rmarkdown_cache()}},
+\code{\link[=renameColumn]{renameColumn()}},
+\code{\link[=rmInfinite]{rmInfinite()}},
+\code{\link[=rmNA]{rmNA()}},
+\code{\link[=rmNAs]{rmNAs()}},
+\code{\link[=rmNULL]{rmNULL()}},
+\code{\link[=setPrompt]{setPrompt()}}
 }
 \concept{jam practical functions}

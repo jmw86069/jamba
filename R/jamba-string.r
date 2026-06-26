@@ -1293,7 +1293,7 @@ rmInfinite <- function
 #' @param x input list of vectors
 #' @param keepNames boolean indicating whether to keep the list element
 #'    names in the returned results.
-#' @param incomparables see [unique()] for details, this value is only
+#' @param incomparables see `unique()` for details, this value is only
 #'    sent to `S4Vectors::unique()` when the Bioconductor package
 #'    `S4Vectors` is installed, and is ignored otherwise for efficiency.
 #' @param useBioc `logical`, default TRUE,  indicating whether this
@@ -1508,7 +1508,7 @@ uniques <- function
 #' @param x `list` of vectors
 #' @param sep `character` delimiter used to paste multiple values together
 #' @param doSort `logical` indicating whether to sort each vector
-#'    using [mixedOrder()].
+#'    using `mixedOrder()`.
 #' @param makeUnique `logical` indicating whether to make each vector in
 #'    the input list unique before pasting its values together.
 #' @param na.rm `logical` indicating whether to remove NA values from

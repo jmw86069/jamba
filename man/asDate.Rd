@@ -29,8 +29,8 @@ asDate(getDate());
 
 }
 \seealso{
-Other jam date functions: 
-\code{\link{dateToDaysOld}()},
-\code{\link{getDate}()}
+Other jam date functions:
+\code{\link[=dateToDaysOld]{dateToDaysOld()}},
+\code{\link[=getDate]{getDate()}}
 }
 \concept{jam date functions}

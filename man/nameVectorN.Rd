@@ -79,21 +79,21 @@ lapply(nameVectorN(K), function(i){
 
 }
 \seealso{
-Other jam string functions: 
-\code{\link{asSize}()},
-\code{\link{breaksByVector}()},
-\code{\link{fillBlanks}()},
-\code{\link{formatInt}()},
-\code{\link{gsubOrdered}()},
-\code{\link{gsubs}()},
-\code{\link{makeNames}()},
-\code{\link{nameVector}()},
-\code{\link{padInteger}()},
-\code{\link{padString}()},
-\code{\link{pasteByRow}()},
-\code{\link{pasteByRowOrdered}()},
-\code{\link{sizeAsNum}()},
-\code{\link{tcount}()},
-\code{\link{ucfirst}()}
+Other jam string functions:
+\code{\link[=asSize]{asSize()}},
+\code{\link[=breaksByVector]{breaksByVector()}},
+\code{\link[=fillBlanks]{fillBlanks()}},
+\code{\link[=formatInt]{formatInt()}},
+\code{\link[=gsubOrdered]{gsubOrdered()}},
+\code{\link[=gsubs]{gsubs()}},
+\code{\link[=makeNames]{makeNames()}},
+\code{\link[=nameVector]{nameVector()}},
+\code{\link[=padInteger]{padInteger()}},
+\code{\link[=padString]{padString()}},
+\code{\link[=pasteByRow]{pasteByRow()}},
+\code{\link[=pasteByRowOrdered]{pasteByRowOrdered()}},
+\code{\link[=sizeAsNum]{sizeAsNum()}},
+\code{\link[=tcount]{tcount()}},
+\code{\link[=ucfirst]{ucfirst()}}
 }
 \concept{jam string functions}

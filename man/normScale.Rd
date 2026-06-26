@@ -88,12 +88,12 @@ normScale(c(10,20,40,30), from=50, to=65);
 
 }
 \seealso{
-Other jam numeric functions: 
-\code{\link{deg2rad}()},
-\code{\link{noiseFloor}()},
-\code{\link{rad2deg}()},
-\code{\link{rowGroupMeans}()},
-\code{\link{rowRmMadOutliers}()},
-\code{\link{warpAroundZero}()}
+Other jam numeric functions:
+\code{\link[=deg2rad]{deg2rad()}},
+\code{\link[=noiseFloor]{noiseFloor()}},
+\code{\link[=rad2deg]{rad2deg()}},
+\code{\link[=rowGroupMeans]{rowGroupMeans()}},
+\code{\link[=rowRmMadOutliers]{rowRmMadOutliers()}},
+\code{\link[=warpAroundZero]{warpAroundZero()}}
 }
 \concept{jam numeric functions}

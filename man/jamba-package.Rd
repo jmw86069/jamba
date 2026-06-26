@@ -20,37 +20,38 @@ a noticeable burden.
 \section{plot functions}{
 
 \itemize{
-\item \code{\link[=plotSmoothScatter]{plotSmoothScatter()}} smoothScatter() enhanced for more visual detail
-\item \code{\link[=imageDefault]{imageDefault()}} enhanced rasterized image() with fixed aspect ratio
-\item \code{\link[=imageByColors]{imageByColors()}} for \code{data.frame} of colors and optional
+\item \code{plotSmoothScatter()} enhanced variant of \code{smoothScatter()}
+to show more visual detail
+\item \code{imageDefault()} enhanced rasterized \code{image()} with fixed aspect ratio
+\item \code{imageByColors()} for \code{data.frame} of colors and optional
 labels centered across repeated values.
-\item \code{\link[=showColors]{showColors()}} color display for vector, list, color function,
+\item \code{showColors()} color display for vector, list, color function,
 or mixed formats.
-\item \code{\link[=nullPlot]{nullPlot()}} blank plot that labels the current margin sizes
-\item \code{\link[=minorLogTicksAxis]{minorLogTicksAxis()}} log-scale axis ticks in base R with
+\item \code{nullPlot()} blank plot that labels the current margin sizes
+\item \code{minorLogTicksAxis()} log-scale axis ticks in base R with
 custom log base, optional offset, e.g. \code{log2(1 + x)}
-\item \code{\link[=shadowText]{shadowText()}} base R text labels with shadow or outline or both,
-also \code{\link[=shadowText_options]{shadowText_options()}}.
-\item \code{\link[=getPlotAspect]{getPlotAspect()}}, \code{\link[=decideMfrow]{decideMfrow()}} convenience base R graphics.
+\item \code{shadowText()} base R text labels with shadow or outline or both,
+also \code{shadowText_options()}.
+\item \code{getPlotAspect()}, \code{decideMfrow()} convenience base R graphics.
 }
 }
 
 \section{string functions}{
 
 \itemize{
-\item \code{\link[=mixedSort]{mixedSort()}}, \code{\link[=mixedOrder]{mixedOrder()}}, \code{\link[=mixedSortDF]{mixedSortDF()}} - efficient
+\item \code{mixedSort()}, \code{mixedOrder()}, \code{mixedSortDF()} - efficient
 alphanumeric "version" sort, with options helpful for gene symbols.
-\item \code{\link[=vgrep]{vgrep()}}, \code{\link[=vigrep]{vigrep()}}, \code{\link[=igrep]{igrep()}}, \code{\link[=vigrep]{vigrep()}} fast grep wrappers
+\item \code{vgrep()}, \code{vigrep()}, \code{igrep()}, \code{vigrep()} fast grep wrappers
 for value-return, case-insensitive search.
-\item \code{\link[=provigrep]{provigrep()}}, \code{\link[=proigrep]{proigrep()}} - progressive, ordered grep to use
+\item \code{provigrep()}, \code{proigrep()} - progressive, ordered grep to use
 pattern matching to re-order a vector.
-\item \code{\link[=makeNames]{makeNames()}} create unique, versioned names with custom format
-\item \code{\link[=nameVector]{nameVector()}} apply names to vector dynamically
-\item \code{\link[=nameVectorN]{nameVectorN()}} vector of named names useful with \code{\link[=lapply]{lapply()}}.
-\item \code{\link[=pasteByRow]{pasteByRow()}}, \code{\link[=pasteByRowOrdered]{pasteByRowOrdered()}} paste data.frame and matrix
+\item \code{makeNames()} create unique, versioned names with custom format
+\item \code{nameVector()} apply names to vector dynamically
+\item \code{nameVectorN()} vector of named names useful with \code{lapply()}.
+\item \code{pasteByRow()}, \code{pasteByRowOrdered()} paste data.frame and matrix
 values by row, skipping blanks, optional factor order.
-\item \code{\link[=rbindList]{rbindList()}} convert list to \code{matrix} or \code{data.frame}.
-\item \code{\link[=tcount]{tcount()}} extends \code{table()} to sort by size and optional minimum
+\item \code{rbindList()} convert list to \code{matrix} or \code{data.frame}.
+\item \code{tcount()} extends \code{table()} to sort by size and optional minimum
 count filter.
 }
 }
@@ -58,27 +59,29 @@ count filter.
 \section{color functions}{
 
 \itemize{
-\item \code{\link[=rgb2col]{rgb2col()}}, \code{\link[=col2hcl]{col2hcl()}}, \code{\link[=col2hcl]{col2hcl()}}, \code{\link[=col2hsv]{col2hsv()}}, \code{\link[=hsv2col]{hsv2col()}} color
+\item \code{rgb2col()}, \code{col2hcl()}, \code{col2hcl()}, \code{col2hsv()}, \code{hsv2col()} color
 interconversion
-\item \code{\link[=setTextContrastColor]{setTextContrastColor()}} text contrast color per given background color
-\item \code{\link[=getColorRamp]{getColorRamp()}} catch-all to get named gradients, or expand
+\item \code{setTextContrastColor()} text contrast color per given background color
+\item \code{getColorRamp()} catch-all to get named gradients, or expand
 one or more colors to gradient.
-\item \code{\link[=makeColorDarker]{makeColorDarker()}}, \code{\link[=color2gradient]{color2gradient()}}, \code{\link[=showColors]{showColors()}} color
-manipulation and display
+\item \code{makeColorDarker()}, \code{color2gradient()} create light/dark altered
+variants of colors.
+\item \code{showColors()} versatile display of color as \code{character} vector or
+\code{list} of \code{character} or \code{function}.
 }
 }
 
 \section{miscellaneous helper functions}{
 
 \itemize{
-\item \code{\link[=printDebug]{printDebug()}} colored text output to console, 'Rmarkdown', HTML
-\item \code{\link[=kable_coloring]{kable_coloring()}} colored \code{kableExtra::kable()} output for 'Rmarkdown'
-\item \code{\link[=setPrompt]{setPrompt()}} colored R prompt
-\item \code{\link[=deg2rad]{deg2rad()}}, \code{\link[=rad2deg]{rad2deg()}} interconvert degrees to radians.
-\item \code{\link[=getDate]{getDate()}}, \code{\link[=asDate]{asDate()}}, \code{\link[=dateToDaysOld]{dateToDaysOld()}} human-readable,
+\item \code{printDebug()} colored text output to console, 'Rmarkdown', HTML
+\item \code{kable_coloring()} colored \code{kableExtra::kable()} output for 'Rmarkdown'
+\item \code{setPrompt()} colored R prompt
+\item \code{deg2rad()}, \code{rad2deg()} interconvert degrees to radians.
+\item \code{getDate()}, \code{asDate()}, \code{dateToDaysOld()} human-readable,
 opinionated date formatting
-\item \code{\link[=padString]{padString()}}, \code{\link[=padInteger]{padInteger()}} pad character or integer strings
-\item \code{\link[=rmNA]{rmNA()}}, \code{\link[=rmNULL]{rmNULL()}}, \code{\link[=rmInfinite]{rmInfinite()}} remove or replace missing or NA
+\item \code{padString()}, \code{padInteger()} pad character or integer strings
+\item \code{rmNA()}, \code{rmNULL()}, \code{rmInfinite()} remove or replace missing or NA
 values with defined alternatives
 }
 }
@@ -86,9 +89,13 @@ values with defined alternatives
 \section{export and import functions}{
 
 \itemize{
-\item \code{\link[=readOpenxlsx]{readOpenxlsx()}} import worksheets from 'xlsx' 'Excel' files.
-\item \code{\link[=writeOpenxlsx]{writeOpenxlsx()}} export worksheets to 'xlsx' 'Excel' files with color,
+\item \code{readOpenxlsx()} import worksheets from 'xlsx' 'Excel' files.
+\item \code{writeOpenxlsx()} export worksheets to 'xlsx' 'Excel' files with color,
 formatting, and styling.
+\item \code{reload_rmarkdown_cache()} load Rmarkdown cache data into an \code{environment}
+for re-use.
+\item \code{reload_qmd_cache()} load Quarto .qmd cache data into an \code{environment}
+for re-use.
 }
 }
 
@@ -119,6 +126,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: James M. Ward \email{jmw86069@gmail.com} (\href{https://orcid.org/0000-0002-9510-2848}{ORCID}) [copyright holder]
+
+Authors:
+\itemize{
+  \item James M. Ward \email{jmw86069@gmail.com} (\href{https://orcid.org/0000-0002-9510-2848}{ORCID}) [copyright holder]
+}
 
 }
 \keyword{internal}

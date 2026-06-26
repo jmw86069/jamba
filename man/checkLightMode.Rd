@@ -4,61 +4,102 @@
 \alias{checkLightMode}
 \title{check lightMode for light background color}
 \usage{
-checkLightMode(lightMode = NULL, ...)
+checkLightMode(
+  lightMode = getOption("jam.lightMode"),
+  positron_default = getOption("jam.lightMode.positron", TRUE),
+  html_default = getOption("jam.lightMode.html", TRUE),
+  knitr_default = getOption("jam.lightMode.knitr", TRUE),
+  other_default = getOption("jam.lightMode.other", FALSE),
+  ...
+)
 }
 \arguments{
 \item{lightMode}{\code{logical} or NULL, indicating whether the lightMode
-parameter has been defined in the function call.}
+parameter has been defined in the function call.
+The default \code{getOption("jam.lightMode")} is NULL unless assigned.
+When NULL it will use logic described in Details.
+When assigned, it is used as-is.}
+
+\item{positron_default}{\code{logical} default TRUE, applied only when
+running inside Positron, and when \code{rstudioapi::getThemeInfo()} is
+not available, which is default for Positron as of jamba-1.0.5.
+When running inside RStudio, it calls \code{rstudioapi::getThemeInfo()}
+to determine whether the theme is light or dark.}
+
+\item{html_default}{\code{logical} default TRUE, applied when knitr
+is running with html output.}
+
+\item{knitr_default}{\code{logical} default TRUE, applied when knitr
+is running.}
+
+\item{other_default}{\code{logical} default FALSE, applied when running
+outside Positron or RStudio.}
 
 \item{...}{Additional arguments are ignored.}
 }
 \value{
-logical or length=1, indicating whether lightMode is defined
+\code{logical} indicating whether lightMode is defined
 }
 \description{
 check lightMode for light background color
 }
 \details{
-Check the lightMode status through function parameter, options, or
-environment variable. If the function defines lightMode, it is used as-is.
-If lightMode is NULL, then options("jam.lightMode") is used if defined.
-Otherwise, it tries to detect whether the R session is running inside
-Rstudio using the environmental variable "RSTUDIO", and if so it assumes
-lightMode==TRUE.
+Check the lightMode status through options('jam.lightMode'),
+or by determining the running environment.
 
-To set a default lightMode, add options("jam.lightMode"=TRUE) to .Rprofile, or
-to the relevant R script.
+Logic is applied as follows:
+\itemize{
+\item When \code{lightMode} is defined upfront as \code{logical}, it is used.
+\item When \code{getOption('jam.lightMode')} is defined, it is used.
+\item When \code{lightMode} is NULL, it will apply a suitable default:
+\itemize{
+\item If running inside knitr, it will apply \code{html_default} for html output,
+and \code{knitr_default} otherwise. Typically both produce white background,
+however this gives the option for custom background color.
+\item If running inside Positron or RStudio, it will attempt to run
+\code{rstudioapi::getThemeInfo()} and use the resulting 'theme$dark',
+otherwise it applies \code{positron_default}.
+\item All other cases use \code{other_default}, default is FALSE to
+apply to linux remote shell session with dark background.
+}
+}
+
+To set a persistent default lightMode, add this line to .Rprofile:
+\itemize{
+\item \code{options("jam.lightMode"=TRUE)}
+}
 }
 \examples{
-checkLightMode(TRUE);
+checkLightMode(FALSE);
 checkLightMode();
 
 }
 \seealso{
-Other jam practical functions: 
-\code{\link{breakDensity}()},
-\code{\link{call_fn_ellipsis}()},
-\code{\link{check_pkg_installed}()},
-\code{\link{colNum2excelName}()},
-\code{\link{color_dither}()},
-\code{\link{exp2signed}()},
-\code{\link{getAxisLabel}()},
-\code{\link{isFALSEV}()},
-\code{\link{isTRUEV}()},
-\code{\link{jargs}()},
-\code{\link{kable_coloring}()},
-\code{\link{lldf}()},
-\code{\link{log2signed}()},
-\code{\link{middle}()},
-\code{\link{minorLogTicks}()},
-\code{\link{newestFile}()},
-\code{\link{printDebug}()},
-\code{\link{reload_rmarkdown_cache}()},
-\code{\link{renameColumn}()},
-\code{\link{rmInfinite}()},
-\code{\link{rmNA}()},
-\code{\link{rmNAs}()},
-\code{\link{rmNULL}()},
-\code{\link{setPrompt}()}
+Other jam practical functions:
+\code{\link[=breakDensity]{breakDensity()}},
+\code{\link[=call_fn_ellipsis]{call_fn_ellipsis()}},
+\code{\link[=check_pkg_installed]{check_pkg_installed()}},
+\code{\link[=colNum2excelName]{colNum2excelName()}},
+\code{\link[=color_dither]{color_dither()}},
+\code{\link[=exp2signed]{exp2signed()}},
+\code{\link[=getAxisLabel]{getAxisLabel()}},
+\code{\link[=isFALSEV]{isFALSEV()}},
+\code{\link[=isTRUEV]{isTRUEV()}},
+\code{\link[=jargs]{jargs()}},
+\code{\link[=kable_coloring]{kable_coloring()}},
+\code{\link[=lldf]{lldf()}},
+\code{\link[=log2signed]{log2signed()}},
+\code{\link[=middle]{middle()}},
+\code{\link[=minorLogTicks]{minorLogTicks()}},
+\code{\link[=newestFile]{newestFile()}},
+\code{\link[=printDebug]{printDebug()}},
+\code{\link[=reload_qmd_cache]{reload_qmd_cache()}},
+\code{\link[=reload_rmarkdown_cache]{reload_rmarkdown_cache()}},
+\code{\link[=renameColumn]{renameColumn()}},
+\code{\link[=rmInfinite]{rmInfinite()}},
+\code{\link[=rmNA]{rmNA()}},
+\code{\link[=rmNAs]{rmNAs()}},
+\code{\link[=rmNULL]{rmNULL()}},
+\code{\link[=setPrompt]{setPrompt()}}
 }
 \concept{jam practical functions}

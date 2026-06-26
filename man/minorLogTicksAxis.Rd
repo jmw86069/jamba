@@ -18,7 +18,7 @@ minorLogTicksAxis(
   doMajor = TRUE,
   doMinor = TRUE,
   doLabels = TRUE,
-  doMinorLabels = TRUE,
+  doMinorLabels = NULL,
   asValues = TRUE,
   logAxisType = c("normal", "flip", "pvalue"),
   padj = NULL,
@@ -100,7 +100,7 @@ to cex=1 for default text size. These factors are applied in
 addition to existing \code{graphics::par("cex")} values, preserving any
 global text size defined there.}
 
-\item{doMajor, doMinor, doLabels, doMinorLabels}{\code{logical}, default TRUE,
+\item{doMajor, doMinor, doLabels}{\code{logical}, default TRUE,
 whether to display each type of tick and label.
 \itemize{
 \item \code{doMajor} display major ticks, at \code{displayBase} positions
@@ -108,6 +108,10 @@ whether to display each type of tick and label.
 \item \code{doLabels} display any labels
 \item \code{doMinorLabels} display minor labels
 }}
+
+\item{doMinorLabels}{\code{logical} whether to display numeric labels for
+minor ticks. Default NULL will show labels with fewer then 18
+minor labels in range.}
 
 \item{asValues}{\code{logical}, default TRUE, whether to print the
 exponentiated value, otherwise FALSE will print the log value.}
@@ -258,23 +262,23 @@ logFoldAxis(1, displayBase=10)
 pvalueAxis(2)
 }
 \seealso{
-Other jam plot functions: 
-\code{\link{adjustAxisLabelMargins}()},
-\code{\link{coordPresets}()},
-\code{\link{decideMfrow}()},
-\code{\link{drawLabels}()},
-\code{\link{getPlotAspect}()},
-\code{\link{groupedAxis}()},
-\code{\link{imageByColors}()},
-\code{\link{imageDefault}()},
-\code{\link{nullPlot}()},
-\code{\link{plotPolygonDensity}()},
-\code{\link{plotRidges}()},
-\code{\link{plotSmoothScatter}()},
-\code{\link{shadowText}()},
-\code{\link{shadowText_options}()},
-\code{\link{showColors}()},
-\code{\link{sqrtAxis}()},
-\code{\link{usrBox}()}
+Other jam plot functions:
+\code{\link[=adjustAxisLabelMargins]{adjustAxisLabelMargins()}},
+\code{\link[=coordPresets]{coordPresets()}},
+\code{\link[=decideMfrow]{decideMfrow()}},
+\code{\link[=drawLabels]{drawLabels()}},
+\code{\link[=getPlotAspect]{getPlotAspect()}},
+\code{\link[=groupedAxis]{groupedAxis()}},
+\code{\link[=imageByColors]{imageByColors()}},
+\code{\link[=imageDefault]{imageDefault()}},
+\code{\link[=nullPlot]{nullPlot()}},
+\code{\link[=plotPolygonDensity]{plotPolygonDensity()}},
+\code{\link[=plotRidges]{plotRidges()}},
+\code{\link[=plotSmoothScatter]{plotSmoothScatter()}},
+\code{\link[=shadowText]{shadowText()}},
+\code{\link[=shadowText_options]{shadowText_options()}},
+\code{\link[=showColors]{showColors()}},
+\code{\link[=sqrtAxis]{sqrtAxis()}},
+\code{\link[=usrBox]{usrBox()}}
 }
 \concept{jam plot functions}

@@ -105,11 +105,11 @@ if (check_pkg_installed("openxlsx")) {
 
 }
 \seealso{
-Other jam export functions: 
-\code{\link{applyXlsxConditionalFormat}()},
-\code{\link{readOpenxlsx}()},
-\code{\link{set_xlsx_colwidths}()},
-\code{\link{set_xlsx_rowheights}()},
-\code{\link{writeOpenxlsx}()}
+Other jam export functions:
+\code{\link[=applyXlsxConditionalFormat]{applyXlsxConditionalFormat()}},
+\code{\link[=readOpenxlsx]{readOpenxlsx()}},
+\code{\link[=set_xlsx_colwidths]{set_xlsx_colwidths()}},
+\code{\link[=set_xlsx_rowheights]{set_xlsx_rowheights()}},
+\code{\link[=writeOpenxlsx]{writeOpenxlsx()}}
 }
 \concept{jam export functions}

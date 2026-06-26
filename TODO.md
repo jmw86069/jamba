@@ -1,5 +1,87 @@
 # TODO for jamba
 
+## 26jun2026
+
+* Prepare release for CRAN.
+
+## 15jun2026
+
+* `writeOpenxlsx()`
+
+   * option to accept `list` input for colorSub, named by colnames(x).
+   * Refactor pvalueColumns,lfcColumns,fcColumns, etc.
+   into 'params' as list named by type, with suitable defaults.
+   Lifecycle could recognize explicit arguments and warn deprecation.
+   Defaults could be defined separately?
+
+* DEFER. `writeOpenxlsx()` option to write to a specific col,row region
+of an existing workbook sheet.
+* `readOpenxlsx()` improve handling of 'startRow', 'rows', 'cols'.
+* DONE. `showColors()` should use attributes 'legend_at', and 'legend_labels'
+when input is a `function` and they exist.
+
+* DONE. `reload_qmd_cache()` - add for qmd cache compatibility.
+* DONE. `sdim()`, `ssdim()`: Add S7 compatibility for properties.
+* DONE. `makeColorDarker()` investigate error when length(x)==0.
+* DONE. `kable_coloring()` accept `colorSub` as `list` named by column,
+which may contain `function` to apply to `numeric` columns.
+* `getColorRamp()` recognize jam density color scale (somehow).
+Use `plotSmoothScatter()` and `jamma::volcano_plot()` for guidance.
+* DONE. `minorLogTicksAxis()` the minor labels are offset slightly left,
+which is fine for positive values. Should be opposite for negative,
+or centered properly.
+* DONE. `printDebug()` could detect whether running inside knitr to HTML
+output, and disable commenting, enable HTML automatically.
+* DONE. Update `checkLightMode()` to use `Sys.getenv("POSITRON")`.
+Try to add some guess for Positron theme being light or dark.
+* DONE. `jargs()` should respect options('jam.lightMode') and call `checkLightMode()`
+* DONE. `call_fn_ellipsis()` should remove duplicates in '...' before
+calling the target function.
+
+## 07apr2026 / 20jan2026
+
+* `readOpenxlsx()`
+
+   * Fix `startRow`, `startCol`, `rows`, `cols` which are not working as intended.
+   * Consider supporting `startRow`, `startCol` as vectors.
+   * Consider some way to "detect" tables within one worksheet.
+
+* DEFER. `mixedSort()` consider recognizing `data.frame` and calling `mixedSortDF()`.
+* DEFER. `mixedSorts()` confirm it does not accept `data.frame` input, which would
+sort each column independently.
+* Consider some method for `printDebugList()` to accept `list` input.
+
+## 03dec2025
+
+* DEFER. Consider adding `centerGeneData()` from the jamma package.
+* DEFER. Bug: jargs() message is not properly adding newline in RStudio Windows.
+Possibly RStudio issue, symptom is prompt/command not shown on a new line,
+instead appears at the end of the previous command output.
+* Consider adding attribute 'divergent=TRUE' to indicate divergent color ramps,
+to `getColorRamp()` output, and for `warpRamp()` input.
+
+## 18nov2025
+
+* `getColorRamp()` bug when n is smaller than gradientN, test with "Paired"
+and n=12. It seems to muddy the colors. gradientN should not be used for
+known categorical color sets when n is smaller than the available colors.
+* `shadowText()`: investigate when outline cannot be thinner, for example with
+small figure dimensions it seems the minimum outline stays wider than intended.
+Unclear if there is internal rounding to decimal at some step?
+
+## 11aug2025
+
+* `writeOpenxlsx()` will not overwrite an open Excel file on Windows 11,
+and appears to give no obvious error or feedback.
+
+   * Workflow: Existing Excel file. Run `writeOpenxlsx(..., append=FALSE)`.
+   It should overwrite the existing file but does not if Excel has the file
+   open. Some type of file locking.
+   * Find out how to check for this situation, potentially warn or return
+   error to force some resolution.
+   * It should not "silently" do nothing - it should indicate the file could
+   not be saved. Probably warrants `stop()` to force an error condition.
+
 ## 12mar2025
 
 * DONE. Fix notice from Dr. Brian Ripley regarding package checks.

@@ -1,3 +1,46 @@
+# jamba 1.0.4.9000
+
+## New functions
+
+* `reload_qmd_cache()` which mimics `reload_rmarkdown_cache()`
+to reload Quarto '.qmd' cache data. Currently requires cache
+path, and path to the Quarto '.qmd' file. See help docs for
+caveats.
+
+## Enhancements to Existing Functions
+
+* `call_fn_ellipsis()` now removes any duplicated argument names in the
+input '...' before passing to the target function. Added tests.
+* `printDebug()` now uses `message()` instead of `cat()` so it
+can be silenced. This was a previous CRAN suggestion, and correct.
+Arguments 'htmlOutput' and 'comment' detect knitr running, and
+knitr HTML output, and then defines suitable defaults.
+Argument 'comment' now uses leading space ' ## ' by default
+to avoid becoming markdown header.
+* `makeColorDarker()` now returns NULL for empty input.
+* `sdim()` now handles S7 objects, showing dimensions of properties.
+* `checkLightMode()` now recognizes running inside Positron,
+defaults to TRUE. Positron does not provide the theme via an API,
+and can be set via `options('jam.lightMode'=FALSE)`.
+* `getColorRamp()` returns attribute 'divergent' with `logical` when
+using divergent color scale with a vector of colors.
+* `showColors()` now accepts 'ggplot' and 'ggproto' objects, will
+recognize when mapping is defined for 'colour' and 'fill', and for
+continuous and discrete colors.
+With colorRamp2 function input, it uses attributes 'legend_at' and
+'legend_labels' when defined, instead of 'breaks' used for the ramp.
+* `setCLranges()` changed so lightMode=NULL will use Crange,Lrange when
+provided, otherwise detects defaults. It does not set options by default.
+* `jargs()` now properly uses lightMode to set text brightness.
+* `minorLogTicksAxis()` major and minor label adjustment 'padj'
+is applied with mirror adjustment negative axis coordinates.
+* `logFoldAxis()` and `minorLogTicksAxis()` new default 'doMinorLabels=NULL'
+will set TRUE when there are fewer than 18 minor labels in 'lims' range,
+showing minor ticks otherwise (when enabled).
+* `minorLogTicks()` now filters output for the 'lims' range rounded up to
+the next highest magnitude integer.
+
+
 # jamba 1.0.4
 
 ## Changes per CRAN additional issues

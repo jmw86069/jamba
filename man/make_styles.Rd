@@ -120,10 +120,10 @@ cat(make_styles(style=c("red", "yellow"), text=c("one ", "two")), "\n")
 
 }
 \seealso{
-Other jam internal functions: 
-\code{\link{handleArgsText}()},
-\code{\link{jamCalcDensity}()},
-\code{\link{make_html_styles}()},
-\code{\link{smoothScatterJam}()}
+Other jam internal functions:
+\code{\link[=handleArgsText]{handleArgsText()}},
+\code{\link[=jamCalcDensity]{jamCalcDensity()}},
+\code{\link[=make_html_styles]{make_html_styles()}},
+\code{\link[=smoothScatterJam]{smoothScatterJam()}}
 }
 \concept{jam internal functions}
