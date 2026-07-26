@@ -22,7 +22,7 @@ readOpenxlsx(
 \item{xlsx}{\code{character} path to an 'Excel' file in \code{xlsx} format,
 compatible with \code{openxlsx::read.xlsx()}.}
 
-\item{sheet}{one of \code{NULL}, \code{character}, or \code{integer} vector,
+\item{sheet}{one of 'NULL', \code{character}, or \code{integer} vector,
 where: \code{sheet=NULL} will import every sheet; \code{character} is
 a vector of sheet names; and \code{integer} is a vector of sheet
 index values. The sheet names are determined with
@@ -124,7 +124,7 @@ output.
 \item When both \code{startRow} and \code{rows} are applied, \code{rows} takes priority
 and will be used instead of \code{startRows}. In fact \code{startRows} will be
 defined \code{startRows <- min(rows)} for each relevant worksheet. However,
-for each worksheet either argument can be \code{NULL}.
+for each worksheet either argument can be 'NULL'.
 }
 }
 \examples{
@@ -143,7 +143,7 @@ df <- data.frame(name=LETTERS[1:7],
    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 df;
 # write to tempfile for examples
-if (check_pkg_installed("openxlsx")) {
+\dontrun{
    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    writeOpenxlsx(x=df,
       file=out_xlsx,

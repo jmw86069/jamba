@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,69 @@
 
 <div id="todo-for-jamba" class="section level1">
 
+<div class="section level2">
+<h2 id="id_17jul2026">17jul2026<a class="anchor" aria-label="anchor" href="#id_17jul2026"></a></h2>
+<ul><li>Consider <code>plotlySmoothScatter()</code> with hover text options, for example include multiple points in the hover text, or indicate number of points.</li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_26jun2026">26jun2026<a class="anchor" aria-label="anchor" href="#id_26jun2026"></a></h2>
+<ul><li>Prepare release for CRAN.</li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_15jun2026">15jun2026<a class="anchor" aria-label="anchor" href="#id_15jun2026"></a></h2>
+<ul><li>
+<p><code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code></p>
+<ul><li>option to accept <code>list</code> input for colorSub, named by colnames(x).</li>
+<li>Refactor pvalueColumns,lfcColumns,fcColumns, etc. into ‘params’ as list named by type, with suitable defaults. Lifecycle could recognize explicit arguments and warn deprecation. Defaults could be defined separately?</li>
+</ul></li>
+<li><p>DEFER. <code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> option to write to a specific col,row region of an existing workbook sheet.</p></li>
+<li><p><code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code> improve handling of ‘startRow’, ‘rows’, ‘cols’.</p></li>
+<li><p>DONE. <code><a href="reference/showColors.html">showColors()</a></code> should use attributes ‘legend_at’, and ‘legend_labels’ when input is a <code>function</code> and they exist.</p></li>
+<li><p>DONE. <code><a href="reference/reload_qmd_cache.html">reload_qmd_cache()</a></code> - add for qmd cache compatibility.</p></li>
+<li><p>DONE. <code><a href="reference/sdim.html">sdim()</a></code>, <code><a href="reference/sdim.html">ssdim()</a></code>: Add S7 compatibility for properties.</p></li>
+<li><p>DONE. <code><a href="reference/makeColorDarker.html">makeColorDarker()</a></code> investigate error when length(x)==0.</p></li>
+<li><p>DONE. <code><a href="reference/kable_coloring.html">kable_coloring()</a></code> accept <code>colorSub</code> as <code>list</code> named by column, which may contain <code>function</code> to apply to <code>numeric</code> columns.</p></li>
+<li><p><code><a href="reference/getColorRamp.html">getColorRamp()</a></code> recognize jam density color scale (somehow). Use <code><a href="reference/plotSmoothScatter.html">plotSmoothScatter()</a></code> and <code><a href="https://rdrr.io/pkg/jamma/man/volcano_plot.html" class="external-link">jamma::volcano_plot()</a></code> for guidance.</p></li>
+<li><p>DONE. <code><a href="reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> the minor labels are offset slightly left, which is fine for positive values. Should be opposite for negative, or centered properly.</p></li>
+<li><p>DONE. <code><a href="reference/printDebug.html">printDebug()</a></code> could detect whether running inside knitr to HTML output, and disable commenting, enable HTML automatically.</p></li>
+<li><p>DONE. Update <code><a href="reference/checkLightMode.html">checkLightMode()</a></code> to use <code>Sys.getenv("POSITRON")</code>. Try to add some guess for Positron theme being light or dark.</p></li>
+<li><p>DONE. <code><a href="reference/jargs.html">jargs()</a></code> should respect options(‘jam.lightMode’) and call <code><a href="reference/checkLightMode.html">checkLightMode()</a></code></p></li>
+<li><p>DONE. <code><a href="reference/call_fn_ellipsis.html">call_fn_ellipsis()</a></code> should remove duplicates in ‘…’ before calling the target function.</p></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_07apr2026--20jan2026">07apr2026 / 20jan2026<a class="anchor" aria-label="anchor" href="#id_07apr2026--20jan2026"></a></h2>
+<ul><li>
+<p><code><a href="reference/readOpenxlsx.html">readOpenxlsx()</a></code></p>
+<ul><li>Fix <code>startRow</code>, <code>startCol</code>, <code>rows</code>, <code>cols</code> which are not working as intended.</li>
+<li>Consider supporting <code>startRow</code>, <code>startCol</code> as vectors.</li>
+<li>Consider some way to “detect” tables within one worksheet.</li>
+</ul></li>
+<li><p>DEFER. <code><a href="reference/mixedSort.html">mixedSort()</a></code> consider recognizing <code>data.frame</code> and calling <code><a href="reference/mixedSortDF.html">mixedSortDF()</a></code>.</p></li>
+<li><p>DEFER. <code><a href="reference/mixedSorts.html">mixedSorts()</a></code> confirm it does not accept <code>data.frame</code> input, which would sort each column independently.</p></li>
+<li><p>Consider some method for <code>printDebugList()</code> to accept <code>list</code> input.</p></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_03dec2025">03dec2025<a class="anchor" aria-label="anchor" href="#id_03dec2025"></a></h2>
+<ul><li>DEFER. Consider adding <code>centerGeneData()</code> from the jamma package.</li>
+<li>DEFER. Bug: jargs() message is not properly adding newline in RStudio Windows. Possibly RStudio issue, symptom is prompt/command not shown on a new line, instead appears at the end of the previous command output.</li>
+<li>Consider adding attribute ‘divergent=TRUE’ to indicate divergent color ramps, to <code><a href="reference/getColorRamp.html">getColorRamp()</a></code> output, and for <code><a href="reference/warpRamp.html">warpRamp()</a></code> input.</li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_18nov2025">18nov2025<a class="anchor" aria-label="anchor" href="#id_18nov2025"></a></h2>
+<ul><li>
+<code><a href="reference/getColorRamp.html">getColorRamp()</a></code> bug when n is smaller than gradientN, test with “Paired” and n=12. It seems to muddy the colors. gradientN should not be used for known categorical color sets when n is smaller than the available colors.</li>
+<li>
+<code><a href="reference/shadowText.html">shadowText()</a></code>: investigate when outline cannot be thinner, for example with small figure dimensions it seems the minimum outline stays wider than intended. Unclear if there is internal rounding to decimal at some step?</li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_11aug2025">11aug2025<a class="anchor" aria-label="anchor" href="#id_11aug2025"></a></h2>
+<ul><li>
+<p><code><a href="reference/writeOpenxlsx.html">writeOpenxlsx()</a></code> will not overwrite an open Excel file on Windows 11, and appears to give no obvious error or feedback.</p>
+<ul><li>Workflow: Existing Excel file. Run <code>writeOpenxlsx(..., append=FALSE)</code>. It should overwrite the existing file but does not if Excel has the file open. Some type of file locking.</li>
+<li>Find out how to check for this situation, potentially warn or return error to force some resolution.</li>
+<li>It should not “silently” do nothing - it should indicate the file could not be saved. Probably warrants <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> to force an error condition.</li>
+</ul></li>
+</ul></div>
 <div class="section level2">
 <h2 id="id_12mar2025">12mar2025<a class="anchor" aria-label="anchor" href="#id_12mar2025"></a></h2>
 <ul><li>DONE. Fix notice from Dr. Brian Ripley regarding package checks.</li>
@@ -422,7 +485,7 @@
 <h2 id="id_11jul2023">11jul2023<a class="anchor" aria-label="anchor" href="#id_11jul2023"></a></h2>
 <ul><li>
 <p>DONE: <code><a href="reference/grepls.html">grepls()</a></code></p>
-<ul><li>not properly applying regular expressions to search package functions, for example <code><a href="http://github.com/jmw86069/multienrichjam" class="external-link">library(multienrichjam);jamba::grepls("^enrich")</a></code> returns no results, but <code>jamba::grepls("enrich")</code> does return results.</li>
+<ul><li>not properly applying regular expressions to search package functions, for example <code><a href="https://jmw86069.github.io/multienrichjam/" class="external-link">library(multienrichjam);jamba::grepls("^enrich")</a></code> returns no results, but <code>jamba::grepls("enrich")</code> does return results.</li>
 </ul></li>
 <li>
 <p>DONE: migrate <code>multienrichjam::gsubs()</code> into jamba.</p>
@@ -538,7 +601,7 @@
 <ul><li>
 <p><code><a href="reference/jargs.html">jargs()</a></code> is janky for some functions, for example arguments that begin with parentheses. Other non-standard formatting has previously caused problems, but examples like embedded functions appear to work fine.</p>
 <ul><li>Example that works: <code><a href="https://rdrr.io/pkg/jamses/man/heatmap_se.html" class="external-link">jamses::heatmap_se()</a></code> argument <code>cluster_rows=function(x, ...){ amap::hcluster(x, ...) }</code>. Actually, this one fails to insert a comma between internal function arguments. Sigh.</li>
-<li>Example that fails: <code><a href="https://rdrr.io/pkg/multienrichjam/man/layout_with_qfr.html" class="external-link">multienrichjam::layout_with_qfr()</a></code> argument <code>repulse.rad=(igraph::vcount(g)^repulse)</code>
+<li>Example that fails: <code><a href="https://jmw86069.github.io/multienrichjam/reference/layout_with_qfr.html" class="external-link">multienrichjam::layout_with_qfr()</a></code> argument <code>repulse.rad=(igraph::vcount(g)^repulse)</code>
 </li>
 <li>Design idea: write a test routine that calls <code><a href="reference/jargs.html">jamba::jargs()</a></code> on all functions in a package, captures text output, then searches for any argument that spans multiple lines. Then print a visual summary to check for potential problems.</li>
 </ul></li>
@@ -930,7 +993,7 @@
 <div class="section level3">
 <h3 id="rbindlist">rbindList<a class="anchor" aria-label="anchor" href="#rbindlist"></a></h3>
 <ul><li>optional recursive operation, in the event of a nested list of data.frames, it should recurse through the list, calling rbindList() on each list element and progressive build up one resulting data.frame or matrix.</li>
-<li>optional ability to handle different colnames; alternative is to review <code><a href="https://rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> as potential replacement.</li>
+<li>optional ability to handle different colnames; alternative is to review <code><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> as potential replacement.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="imagebycolors">imageByColors<a class="anchor" aria-label="anchor" href="#imagebycolors"></a></h3>
@@ -955,7 +1018,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

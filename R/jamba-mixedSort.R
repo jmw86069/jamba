@@ -83,7 +83,7 @@
 #' @param verbose `logical` whether to print verbose output.
 #' @param NAlast `logical` deprecated in favor of argument `na.last`
 #'    for consistency with `base::sort()`.
-#' @param ... additional parameters are sent to \code{\link{mixedOrder}}.
+#' @param ... additional parameters are sent to `mixedOrder()`.
 #'
 #' @examples
 #' x <- c("miR-12","miR-1","miR-122","miR-1b", "miR-1a", "miR-2");
@@ -340,7 +340,7 @@ mixedOrder <- function
    ## ties, intended to be used by mmixedOrder.
    returnType <- match.arg(returnType);
    if (length(x) < 1) {
-      return(NULL);
+      return(numeric(0));
    } else if (length(x) == 1) {
       return(1);
    }

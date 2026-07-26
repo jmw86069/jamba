@@ -26,7 +26,7 @@ whenever a blank cell is introduced into the resulting matrix}
 
 \item{nullValue}{optional value used to replace NULL entries in
 the input list, useful especially when the data was produced
-by \code{strsplit()} with \code{""}. Use \code{nullValue=""} to replace \code{NULL}
+by \code{strsplit()} with \code{""}. Use \code{nullValue=""} to replace 'NULL'
 with \code{""} and preserve the original list length. Otherwise when
 \code{nullValue=NULL} any empty entries will be silently dropped.}
 

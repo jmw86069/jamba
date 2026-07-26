@@ -19,8 +19,8 @@ case-insensitive grep, returning unmatched indices
 This function is a simple wrapper around \code{base::grep()} which
 runs in case-insensitive mode, and returns unmatched entries.
 It is mainly used to save keystrokes,
-but is consistently named alongside \code{\link{vgrep}} and
-\code{\link{vigrep}}, and quite helpful for writing concise code.
+but is consistently named alongside \code{vgrep()} and
+\code{vigrep()}, and quite helpful for writing concise code.
 }
 \examples{
 V <- paste0(LETTERS[1:5], LETTERS[4:8]);

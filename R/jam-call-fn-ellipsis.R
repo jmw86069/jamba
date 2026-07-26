@@ -51,7 +51,9 @@
 #' In this case (above), the user-supplied 'y=4' will be accepted
 #' before the default 'y=2', and therefore the output will be  
 #' 
-#' `1 + 4 = 5`
+#' ```
+#' 1 + 4 = 5
+#' ```
 #' 
 #' The second option is to force the default 'y=2' to be used,
 #' thereby ignoring the user-defined 'y=4'. In this case,
@@ -74,7 +76,9 @@
 #' 'y=4' in the argument stack, therefore 'y=2' takes priority.
 #' The output will be  
 #' 
-#' `1 + 2 = 3`
+#' ```
+#' 1 + 2 = 3
+#' ```
 #' 
 #' @family jam practical functions
 #'

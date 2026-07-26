@@ -1,0 +1,228 @@
+# Xlsx Conditional formatting
+
+Xlsx Conditional formatting
+
+## Usage
+
+``` r
+applyXlsxConditionalFormat(
+  xlsxFile,
+  sheet = 1,
+  fcColumns = NULL,
+  fcGrep = NULL,
+  fcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
+  fcRule = c(-6, 0, 6),
+  fcType = "colourScale",
+  lfcColumns = NULL,
+  lfcGrep = NULL,
+  lfcStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
+  lfcRule = c(-3, 0, 3),
+  lfcType = "colourScale",
+  hitColumns = NULL,
+  hitGrep = NULL,
+  hitStyle = c("#4F81BD", "#EEECE1", "#C0504D"),
+  hitRule = c(-1.5, 0, 1.5),
+  hitType = "colourScale",
+  intColumns = NULL,
+  intGrep = NULL,
+  intStyle = c("#EEECE1", "#FDC99B", "#F77F30"),
+  intRule = c(0, 100, 10000),
+  intType = "colourScale",
+  numColumns = NULL,
+  numGrep = NULL,
+  numStyle = c("#F2F0F7", "#B4B1D4", "#938EC2"),
+  numRule = c(1, 10, 20),
+  numType = "colourScale",
+  pvalueColumns = NULL,
+  pvalueGrep = NULL,
+  pvalueStyle = c("#F77F30", "#FDC99B", "#EEECE1"),
+  pvalueRule = c(0, 0.01, 0.05),
+  pvalueType = "colourScale",
+  verbose = FALSE,
+  startRow = 2,
+  overwrite = TRUE,
+  ...
+)
+```
+
+## Arguments
+
+- xlsxFile:
+
+  `character` filename to a file with ".xlsx" extension, or `Workbook`
+  object defined in the `openxlsx` package. When `xlsxFile` is a
+  `Workbook` the output is not saved to a file.
+
+- sheet:
+
+  integer or character, either the worksheet number, in order or
+  character worksheet name. This vector can contain multiple values,
+  which will cause conditional formatting to be applied to each
+  worksheet in the order given.
+
+- fcColumns, lfcColumns, hitColumns, intColumns, numColumns,
+  pvalueColumns:
+
+  integer column indices, or character colnames indicating which columns
+  are to be treated as each of the various column types.
+
+- fcGrep, lfcGrep, hitGrep, intGrep, numGrep, pvalueGrep:
+
+  optional character vector which is used by
+  [`provigrep`](https://jmw86069.github.io/jamba/reference/provigrep.md)
+  to colnames(x). This process may be more convenient to apply
+  formatting to known colname character patterns, rather than supplying
+  exact column indices or colnames.
+
+- fcStyle, lfcStyle, hitStyle, intStyle, numStyle, pvalueStyle:
+
+  color vector of length=3, corresponding to the numeric thresholds
+  defined by the corresponding Rules.
+
+- fcRule, lfcRule, hitRule, intRule, numRule, pvalueRule:
+
+  numeric vector of length=3, used to define three numeric thresholds
+  for color gradients to be applied.
+
+- fcType, lfcType, hitType, intType, numType, pvalueType:
+
+  character string indicating the type of conditional rule to apply,
+  which in most cases should be "colourScale" which allows three numeric
+  thresholds, and three corresponding colors. For other allowed values,
+  see
+  [`openxlsx::conditionalFormatting()`](https://rdrr.io/pkg/openxlsx/man/conditionalFormatting.html).
+
+- verbose:
+
+  logical indicating whether to print verbose output.
+
+- startRow:
+
+  integer indicating which row to begin applying conditional formatting.
+  In most cases startRow=2, which allows one row for column headers.
+  However, if there are multiple header rows, startRow should be 1 more
+  than the number of header rows.
+
+- overwrite:
+
+  logical indicating whether the original 'Excel' files will be replaced
+  with the new one, or whether a new file will be created.
+
+- ...:
+
+  additional parameters are ignored.
+
+## Value
+
+`Workbook` object as defined by the `openxlsx` package is returned
+invisibly with [`invisible()`](https://rdrr.io/r/base/invisible.html).
+This `Workbook` can be used in argument `wb` to provide a speed boost
+when saving multiple sheets to the same file.
+
+## Details
+
+This function is a convenient wrapper for applying conditional
+formatting to 'Excel' 'xlsx' worksheets, with reasonable settings for
+commonly used data types.
+
+Note that this function does not apply cell formatting, such as numeric
+formatting as displayed in 'Excel'.
+
+A description of column types follows:
+
+- "fc":
+
+  Fold change, typically positive and negative values, which are
+  formatted to show one decimal place, and use commas to separate
+  thousands places, e.g. 1,020.1. Colors are applied with a neutral
+  midpoint, coloring values which are above and below zero.
+
+- "lfc":
+
+  log fold change, typically positive and negative values, which are
+  formatted to show one decimal place, and use commas to separate
+  thousands places, e.g. 12.1. Colors are applied with a neutral
+  midpoint, coloring values which are above and below zero. Log fold
+  changes have slightly different color thresholds than fold changes.
+
+- "hit":
+
+  Hit columns, often just values like `c(-1,0,1)`, but which could be
+  fold changes for statistical hits for example. They are formatted to
+  show one decimal place, and use commas to separate thousands places,
+  e.g. 1.5. Colors are applied with a neutral midpoint, coloring values
+  which are above and below zero, typically with a fairly low threshold.
+
+- "int":
+
+  Integer columns, which are formatted to hide decimal place values even
+  if present, which can help clean up visible tabular data. They are
+  formatted to use commas to separate thousands places, e.g. 1,020.
+  Colors are applied with a baseline of zero, intended for highlighting
+  two thresholds of values above zero.
+
+- "num":
+
+  Numeric columns, which are formatted to display 2 decimal places, and
+  to use commas to separate thousands places, e.g. 1,020.1. Colors are
+  applied with a baseline of zero, intended for highlighting two
+  thresholds of values above zero.
+
+- "pvalue":
+
+  P-value columns, which are formatted to display scientific notation
+  always, for consistency, with two decimal places, e.g. 1.02e-02.
+  Colors are applied starting at white for P-value of 1
+  (non-significant) and becoming more red as the P-value approaches
+  0.01, then 0.0001.
+
+For each column type, one can describe the column using integer indices,
+or colnames, or optionally use the Grep parameters. The Grep parameters
+are intended for pattern matching, and may contain a vector of grep
+patterns which are used by
+[`provigrep()`](https://jmw86069.github.io/jamba/reference/provigrep.md)
+to match to colnames. The Grep method is particularly useful when
+applying conditional formatting for multiple worksheets in the same
+'xlsx' file, where the colnames are not identical in each worksheet.
+
+Each column type has an associated 3-threshold rule, and three
+associated colors. In order to apply different thresholds, one would
+need to call this function multiple times, specifying different subsets
+of columns corresponding to each set of thresholds. The same process is
+required in order to apply different color gradients to different
+columns. Note that styles are by default "stacked", which maintains font
+and cell border styles without removing them. However, it this
+"stacking" means that applying two rules to the same cell will not work,
+since only the first rule will be applied by 'Microsoft Excel'.
+Interestingly, if multiple conditional rules are applied to the same
+cell, they will be visible in order inside the 'Microsoft Excel'
+application.
+
+## See also
+
+Other jam export functions:
+[`applyXlsxCategoricalFormat()`](https://jmw86069.github.io/jamba/reference/applyXlsxCategoricalFormat.md),
+[`readOpenxlsx()`](https://jmw86069.github.io/jamba/reference/readOpenxlsx.md),
+[`set_xlsx_colwidths()`](https://jmw86069.github.io/jamba/reference/set_xlsx_colwidths.md),
+[`set_xlsx_rowheights()`](https://jmw86069.github.io/jamba/reference/set_xlsx_rowheights.md),
+[`writeOpenxlsx()`](https://jmw86069.github.io/jamba/reference/writeOpenxlsx.md)
+
+## Examples
+
+``` r
+# write to tempfile for examples
+if (check_pkg_installed("openxlsx")) {
+   out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
+   df <- data.frame(a=LETTERS[1:5], b=1:5);
+   writeOpenxlsx(x=df,
+      file=out_xlsx,
+      sheetName="jamba_test");
+
+   applyXlsxConditionalFormat(out_xlsx,
+      sheet="jamba_test",
+      intColumns=2,
+      intRule=c(0,3,5),
+      intStyle=c("#FFFFFF", "#1E90FF", "#9932CC")
+   )
+}
+```

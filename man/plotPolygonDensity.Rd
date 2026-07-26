@@ -184,7 +184,7 @@ quantile value of the density \code{y} values to use for the ylim. This
 threshold is only applied when \code{ylim} is NULL.}
 
 \item{ylim, xlim}{\code{numeric} y-axis and x-axis ranges, respectively.
-When either is \code{NULL}, the axis range is determined independently
+When either is 'NULL', the axis range is determined independently
 for each plot panel. Either value can be supplied as a \code{list}
 to control the numeric range for each individual plot, relevant
 only when \code{x} is supplied as a multi-column matrix.}

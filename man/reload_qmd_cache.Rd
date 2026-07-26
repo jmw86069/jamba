@@ -105,8 +105,8 @@ For example \code{dir='document.name_cache/html/'} implies
 correct order of each output chunk. The Quarto output no
 longer includes an index file with cache files in order.
 \item The order of R chunk names is parsed, therefore must
-follow basic formatting '{r chunkname, ...}'
-or '{r, chunkname, chunk.options, ...}' for example.
+follow basic formatting 'r chunkname, ...'
+or 'r, chunkname, chunk.options, ...' for example.
 \item Chunks display a modified time stamp, to help recognize
 when the caching may have been refreshed out of order
 compared to the Quarto document.

@@ -1,5 +1,10 @@
 # TODO for jamba
 
+## 17jul2026
+
+* Consider `plotlySmoothScatter()` with hover text options, for example
+include multiple points in the hover text, or indicate number of points.
+
 ## 26jun2026
 
 * Prepare release for CRAN.

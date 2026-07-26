@@ -1,6 +1,6 @@
 Package: jamba
 Title: Just Analysis Methods Base
-Version: 1.0.4.9000
+Version: 1.0.5
 Authors@R: c(
     person(given="James M.",
        family="Ward",
@@ -46,7 +46,6 @@ Enhances:
     circlize,
     GenomicRanges,
     igraph,
-    pryr,
     rstudioapi,
     Matrix,
     sparseMatrixStats
@@ -57,4 +56,4 @@ BugReports: https://github.com/jmw86069/jamba/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.0.0.9000

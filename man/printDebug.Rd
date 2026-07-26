@@ -4,7 +4,7 @@
 \alias{printDebug}
 \alias{printDebugI}
 \alias{printDebugHtml}
-\title{print colorized output to R console}
+\title{Print colorized output to R console}
 \usage{
 printDebug(
   ...,
@@ -64,7 +64,7 @@ and when multiple vector values are contained in one \code{...} element,
 the color defined in \code{fgText} is extended.
 The input types recognized:
 \itemize{
-\item \code{NULL} when no color is defined, one of two outputs:
+\item 'NULL' when no color is defined, one of two outputs:
 \enumerate{
 \item When all values in \code{...} represent colors, these colors are
 used to colorize the output text. When \code{names()} are present
@@ -89,7 +89,7 @@ This behavior is controlled by default argument \code{splitComments=TRUE}.
 When multiple colors are defined for the \code{list} element, these
 values are recycled to the vector length.
 \item \strong{Note}: When \code{invert=TRUE} the values for \code{fgText} and \code{bgText} are
-reversed, and if the resulting \code{fgText} is \code{NULL} then its color
+reversed, and if the resulting \code{fgText} is 'NULL' then its color
 is defined by \code{setTextContrastColor()} in order to define a contrasting
 text color.
 }}
@@ -101,7 +101,7 @@ input \code{...} values.}
 
 \item{bgText}{\code{vector} of R colors, or \code{list} of vectors, used to define
 the background color, using the same approach described for \code{fgText}.
-Note that \code{NULL} or \code{NA} defines the absence of any background color,
+Note that 'NULL' or \code{NA} defines the absence of any background color,
 which is default. When \code{invert=TRUE}, which is default for
 \code{printDebugI()}, the values for \code{fgText} and \code{bgText} are reversed.}
 
@@ -116,8 +116,8 @@ that contain \code{integers} may be represented as \code{14.0000000001}.}
 
 \item{trim, digits, nsmall, justify, big.mark, small.mark, zero.print, width}{arguments passed to \code{format()}.}
 
-\item{doColor}{\code{logical} or \code{NULL} indicating whether to colorize output.
-When \code{doColor} is \code{NULL}, if the \code{"crayon"} package is available,
+\item{doColor}{\code{logical} or 'NULL' indicating whether to colorize output.
+When \code{doColor} is 'NULL', if the \code{"crayon"} package is available,
 and if crayon detects color is permitted, color is enabled.}
 
 \item{splitComments}{\code{logical} whether to color each element independently
@@ -130,7 +130,7 @@ by default "" so text separation is expected in the input data.}
 \item{sep}{\code{character} separator used to separate vector elements, when
 a list items contains a vector.}
 
-\item{doReset}{\code{logical} or \code{NULL}, indicating whether to apply
+\item{doReset}{\code{logical} or 'NULL', indicating whether to apply
 \code{crayon::reset()} to the delimiter \code{sep}. When \code{doReset=TRUE} the
 style on the delimiter is forced to reset, using \code{crayon::reset()},
 or to remove pre-existing style with \code{crayon::strip_style()}. When
@@ -155,7 +155,7 @@ applied directly without adjustment.}
 background color is light, where \code{lightMode=TRUE} indicates the
 background is white or light enough to require darker text,
 imposing a maximum brightness for colors displayed.
-When \code{NULL} it calls \code{checkLightMode()}, which uses:
+When 'NULL' it calls \code{checkLightMode()}, which uses:
 \itemize{
 \item \code{getOption("jam.lightMode")} if defined
 \item otherwise attempts to detect whether the session is running inside
@@ -205,7 +205,7 @@ when \code{file} is defined.}
 
 \item{invert}{\code{logical} indicating whether foreground and background
 colors should be switched, as is default for \code{printDebugI()}.
-Note when the resulting \code{fgText} is \code{NULL}, its color is defined
+Note when the resulting \code{fgText} is 'NULL', its color is defined
 by \code{setTextContrastColor()} to define a contrasting text color
 relative to the background color in \code{bgText}.}
 
@@ -225,18 +225,19 @@ as R code.
 Default NULL will set FALSE when knitr is running.}
 }
 \value{
-\code{NULL} invisibly, this function is called for the side effect
+NULL invisibly, this function is called for the side effect
 of printing output using \code{message()} for console output, or
 \code{cat()} when saving to a file.
 
-\code{NULL} invisibly, this function is called for the side effect
+NULL invisibly, this function is called for the side effect
 of printing output using \code{cat()}.
 
-\code{NULL} invisibly, this function is called for the side effect
+NULL invisibly, this function is called for the side effect
 of printing output using \code{cat()}.
 }
 \description{
-print colorized output to R console
+Print colorized output to R console using R messages, with
+convenient time stamp, for debug type output.
 
 print colorized output to R console, inverted
 
@@ -247,22 +248,31 @@ This function prints colorized output to the R console, with some
 rules for colorizing the output to help visually distinguish items.
 
 The main intent is to use this function to print pretty debug messages,
-because color helps identify.
+because color helps identify patterns.
+
+For use inside 'Rmarkdown' \code{.Rmd} and 'Quarto' 'qmd' documents, the
+default condition will set 'htmlOutput=TRUE' when knitr is producing
+an HTML output file, and 'htmlOutput=FALSE' otherwise.
+The argument 'comment' now uses a leading space ' ## ' to prevent being
+interpreted as a markdown heading, however when run inside knitr,
+the default is 'comment=FALSE'.
+
+In 'Rmarkdown' and 'Quarto', define the chunk option
+\code{results='asis'} to enable properly colored text.
 
 By default, output has the following configurable properties:
 \itemize{
-\item each line begins with a comment, controlled by default
-\code{comment=getOption("jam.comment", TRUE)} which by default uses \code{"##"},
-but which can be defined to use a different prefix, or \code{FALSE}
-for no prefix at all.
-\item each line includes time and date stamp controlled by
-\code{timeStamp=getOption("jam.timeStamp", TRUE)} which by default includes the
+\item Each line begins with a comment, controlled by default
+\code{comment=getOption("jam.comment", TRUE)} with default ' ## '.
+It can be customized, or \code{FALSE} for no prefix at all.
+\item Each line includes time and date stamp controlled by
+\code{timeStamp=getOption("jam.timeStamp", TRUE)}, by default the
 current time and date.
-\item each line formats \code{numeric} values, controlled by
+\item Each line formats \code{numeric} values, controlled by
 \code{formatNumbers=getOption("jam.formatNumbers", TRUE)}, which determines
 whether to apply arguments \code{big.mark} and \code{small.mark} to make numeric
 values more readable.
-\item each entry in \code{...} is printed with its own foreground color \code{fgText},
+\item Each entry in \code{...} is printed with its own foreground color \code{fgText},
 background color \code{bgText}, with a slight lighter/darker dithering effect
 to add minor visual distinction for multiple values.
 \item Values in each \code{vector} are concatenated by \code{sep=","} by default.
@@ -284,21 +294,6 @@ the \code{list} overall is recycled to the length \code{...} to be printed,
 and within each vector of \code{...} printed the corresponding color vector
 is recycled to the length of that vector.
 }
-
-For use inside 'Rmarkdown' \code{.Rmd} and Quarto 'qmd' documents, the
-default condition will set 'htmlOutput=TRUE' when knitr is producing
-an HTML output file, and 'htmlOutput=FALSE' otherwise.
-The argument 'comment' now uses a leading space ' ## ' to prevent being
-interpreted as a markdown heading, however when run inside knitr,
-the default is 'comment=FALSE'.
-
-For proper output with colorized text, define the chunk option
-\code{results='asis'} like this:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{```\{r block_name, results='asis'\}
-# some R code here
-```
-}\if{html}{\out{</div>}}
 
 The \code{printDebugI()} function prints colorized output to the R console, using the
 same logic as \code{printDebug} except by default the color is inverted

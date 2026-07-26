@@ -20,7 +20,7 @@ Convert R color to HSV matrix
 \details{
 This function takes a valid R color and converts to a HSV matrix. The
 output can be effectively returned to R color with
-\code{\link{hsv2col}}, usually after manipulating the
+\code{hsv2col()}, usually after manipulating the
 HSV color matrix.
 }
 \examples{

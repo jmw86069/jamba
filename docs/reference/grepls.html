@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,14 +105,14 @@ substring, for example <code>grepls("statshits")</code>.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam grep functions:
-<code><a href="igrep.html">igrep</a>()</code>,
-<code><a href="igrepHas.html">igrepHas</a>()</code>,
-<code><a href="igrepl.html">igrepl</a>()</code>,
-<code><a href="provigrep.html">provigrep</a>()</code>,
-<code><a href="unigrep.html">unigrep</a>()</code>,
-<code><a href="unvigrep.html">unvigrep</a>()</code>,
-<code><a href="vgrep.html">vgrep</a>()</code>,
-<code><a href="vigrep.html">vigrep</a>()</code></p></div>
+<code><a href="igrep.html">igrep()</a></code>,
+<code><a href="igrepHas.html">igrepHas()</a></code>,
+<code><a href="igrepl.html">igrepl()</a></code>,
+<code><a href="provigrep.html">provigrep()</a></code>,
+<code><a href="unigrep.html">unigrep()</a></code>,
+<code><a href="unvigrep.html">unvigrep()</a></code>,
+<code><a href="vgrep.html">vgrep()</a></code>,
+<code><a href="vigrep.html">vigrep()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -125,7 +125,7 @@ substring, for example <code>grepls("statshits")</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "unigrep"   "unvigrep"  "vgrep"     "vigrep"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:base`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "agrep"   "agrepl"  "grep"    "grepRaw" "grepl"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "agrep"   "agrepl"  "grep"    "grepRaw" "grepl"   "grepv"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Find objects in the local environment</span></span></span>
@@ -142,6 +142,9 @@ substring, for example <code>grepls("statshits")</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:jamba`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "drawLabels"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`package:datasets`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "penguins_raw"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:base`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "all.equal.raw"      "as.data.frame.raw"  "as.raw"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "charToRaw"          "grepRaw"            "is.raw"            </span>
@@ -152,6 +155,9 @@ substring, for example <code>grepls("statshits")</code>.</p>
 <span class="r-in"><span><span class="co"># Require "Raw" to be case-sensitive</span></span></span>
 <span class="r-in"><span><span class="fu">grepls</span><span class="op">(</span><span class="st">"Raw"</span>, ignore.case<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:jamba`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`package:datasets`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`package:base`</span>
@@ -169,7 +175,7 @@ substring, for example <code>grepls("statshits")</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

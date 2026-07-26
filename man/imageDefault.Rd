@@ -132,14 +132,14 @@ debugging.}
 Display a color raster image
 }
 \details{
-This function augments the \code{\link[graphics]{image}} function, in
+This function augments the \code{graphics::image()} function, in
 that it handles the useRaster parameter for non-symmetric data matrices,
 in order to minimize the distortion from image-smoothing when pixels are
 not square.
 
 The function also by default creates the image map using coordinates where
 each integer represents the center point of one column or row of data,
-known in the default \code{\link[graphics]{image}} function as \code{oldstyle=TRUE}.
+known in the default \code{graphics::image()} function as \code{oldstyle=TRUE}.
 For consistency, \code{imageDefault} will only accept \code{oldstyle=TRUE}.
 }
 \examples{
@@ -147,7 +147,7 @@ ps <- plotSmoothScatter(doTest=TRUE)
 
 }
 \seealso{
-\code{\link[graphics]{image}}
+\code{graphics::image()}
 
 Other jam plot functions:
 \code{\link[=adjustAxisLabelMargins]{adjustAxisLabelMargins()}},

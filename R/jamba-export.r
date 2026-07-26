@@ -72,12 +72,6 @@
 #' is defined, which allows conditional formatting of cells based upon
 #' expected ranges of values.
 #'
-#' A screenshot of the file produced by the example is shown below.
-#'
-#' \if{html}{\figure{writeopenxlsx.png}{xlsx screenshot}}
-#'
-#' \if{latex}{\figure{writeopenxlsx.png}{options: width=0.5in}}
-#'
 #' @family jam export functions
 #'
 #' @returns `Workbook` object as defined by the `openxlsx` package
@@ -287,7 +281,7 @@
 #'    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 #' df;
 #' # write to tempfile for examples
-#' if (check_pkg_installed("openxlsx")) {
+#' \dontrun{
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    writeOpenxlsx(x=df,
 #'       file=out_xlsx,
@@ -977,7 +971,7 @@ writeOpenxlsx <- function
 #'    integer column indices, or character colnames indicating which columns
 #'    are to be treated as each of the various column types.
 #' @param fcGrep,lfcGrep,hitGrep,intGrep,numGrep,pvalueGrep
-#'    optional character vector which is used by \code{\link{provigrep}} to
+#'    optional character vector which is used by `provigrep()` to
 #'    colnames(x). This process may be more convenient to apply formatting
 #'    to known colname character patterns, rather than supplying exact column
 #'    indices or colnames.
@@ -1003,7 +997,7 @@ writeOpenxlsx <- function
 #'
 #' @examples
 #' # write to tempfile for examples
-#' if (check_pkg_installed("openxlsx")) {
+#' \dontrun{
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
 #'    writeOpenxlsx(x=df,
@@ -1348,7 +1342,7 @@ applyXlsxConditionalFormat <- function
 #'
 #' @examples
 #' # write to tempfile for examples
-#' if (check_pkg_installed("openxlsx")) {
+#' \dontrun{
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
 #'    writeOpenxlsx(x=df,
@@ -1540,7 +1534,7 @@ applyXlsxCategoricalFormat <- function
    ## param wb,sheet,stack arguments passed to `openxlsx::addStyle()`
    ## param verbose `logical` indicating whether to print verbose output.
    ##
-   ## returns `NULL`, this function is called for the by-product
+   ## returns 'NULL', this function is called for the by-product
    ##    of adjusting
    apply_matching_styles <- function
    (style_coord_list,
@@ -1813,7 +1807,7 @@ applyXlsxCategoricalFormat <- function
 #'
 #' @examples
 #' # write to tempfile for examples
-#' if (check_pkg_installed("openxlsx")) {
+#' \dontrun{
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
 #'    writeOpenxlsx(x=df,
@@ -1891,7 +1885,7 @@ set_xlsx_colwidths <- function
 #'
 #' @examples
 #' # write to tempfile for examples
-#' if (check_pkg_installed("openxlsx")) {
+#' \dontrun{
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    df <- data.frame(a=LETTERS[1:5], b=1:5);
 #'    writeOpenxlsx(x=df,
@@ -1965,7 +1959,7 @@ set_xlsx_rowheights <- function
 #' * When both `startRow` and `rows` are applied, `rows` takes priority
 #' and will be used instead of `startRows`. In fact `startRows` will be
 #' defined `startRows <- min(rows)` for each relevant worksheet. However,
-#' for each worksheet either argument can be `NULL`.
+#' for each worksheet either argument can be 'NULL'.
 #'
 #' @family jam export functions
 #'
@@ -1973,7 +1967,7 @@ set_xlsx_rowheights <- function
 #'
 #' @param xlsx `character` path to an 'Excel' file in `xlsx` format,
 #'    compatible with `openxlsx::read.xlsx()`.
-#' @param sheet one of `NULL`, `character`, or `integer` vector,
+#' @param sheet one of 'NULL', `character`, or `integer` vector,
 #'    where: `sheet=NULL` will import every sheet; `character` is
 #'    a vector of sheet names; and `integer` is a vector of sheet
 #'    index values. The sheet names are determined with
@@ -2045,7 +2039,7 @@ set_xlsx_rowheights <- function
 #'    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 #' df;
 #' # write to tempfile for examples
-#' if (check_pkg_installed("openxlsx")) {
+#' \dontrun{
 #'    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
 #'    writeOpenxlsx(x=df,
 #'       file=out_xlsx,

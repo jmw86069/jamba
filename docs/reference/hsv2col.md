@@ -1,0 +1,82 @@
+# Convert HSV matrix to R color
+
+Converts a HSV color matrix to R hex color
+
+## Usage
+
+``` r
+hsv2col(hsvValue, ...)
+```
+
+## Arguments
+
+- hsvValue:
+
+  `numeric` HSV matrix, with rownames c("h","s","v") in any order, and
+  optionally "alpha" rowname for alpha transparency.
+
+- ...:
+
+  additional arguments are ignored.
+
+## Value
+
+`character` vector of R colors.
+
+## Details
+
+This function augments the
+[`grDevices::hsv()`](https://rdrr.io/r/grDevices/hsv.html) function in
+that it handles output from
+[`grDevices::rgb2hsv()`](https://rdrr.io/r/grDevices/rgb2hsv.html) or
+[`col2hsv()`](https://jmw86069.github.io/jamba/reference/col2hsv.md),
+sufficient to run a series of conversion functions, e.g.
+`hsv2col(col2hsv("red"))`. This function also maintains alpha
+transparency, which is not maintained by the
+[`grDevices::hsv()`](https://rdrr.io/r/grDevices/hsv.html) function.
+
+## See also
+
+Other jam color functions:
+[`alpha2col()`](https://jmw86069.github.io/jamba/reference/alpha2col.md),
+[`applyCLrange()`](https://jmw86069.github.io/jamba/reference/applyCLrange.md),
+[`col2alpha()`](https://jmw86069.github.io/jamba/reference/col2alpha.md),
+[`col2hcl()`](https://jmw86069.github.io/jamba/reference/col2hcl.md),
+[`col2hsl()`](https://jmw86069.github.io/jamba/reference/col2hsl.md),
+[`col2hsv()`](https://jmw86069.github.io/jamba/reference/col2hsv.md),
+[`color2gradient()`](https://jmw86069.github.io/jamba/reference/color2gradient.md),
+[`fixYellow()`](https://jmw86069.github.io/jamba/reference/fixYellow.md),
+[`fixYellowHue()`](https://jmw86069.github.io/jamba/reference/fixYellowHue.md),
+[`getColorRamp()`](https://jmw86069.github.io/jamba/reference/getColorRamp.md),
+[`hcl2col()`](https://jmw86069.github.io/jamba/reference/hcl2col.md),
+[`hsl2col()`](https://jmw86069.github.io/jamba/reference/hsl2col.md),
+[`isColor()`](https://jmw86069.github.io/jamba/reference/isColor.md),
+[`kable_coloring()`](https://jmw86069.github.io/jamba/reference/kable_coloring.md),
+[`makeColorDarker()`](https://jmw86069.github.io/jamba/reference/makeColorDarker.md),
+[`rainbow2()`](https://jmw86069.github.io/jamba/reference/rainbow2.md),
+[`rgb2col()`](https://jmw86069.github.io/jamba/reference/rgb2col.md),
+[`setCLranges()`](https://jmw86069.github.io/jamba/reference/setCLranges.md),
+[`setTextContrastColor()`](https://jmw86069.github.io/jamba/reference/setTextContrastColor.md),
+[`showColors()`](https://jmw86069.github.io/jamba/reference/showColors.md),
+[`unalpha()`](https://jmw86069.github.io/jamba/reference/unalpha.md),
+[`warpRamp()`](https://jmw86069.github.io/jamba/reference/warpRamp.md)
+
+## Examples
+
+``` r
+# start with a color vector
+# red and blue with partial transparency
+colorV <- c("#FF000055", "#00339999");
+
+# confirm the hsv matrix maintains transparency
+col2hsv(colorV);
+#>            [,1]      [,2]
+#> h     0.0000000 0.6111111
+#> s     1.0000000 1.0000000
+#> v     1.0000000 0.6000000
+#> alpha 0.3333333 0.6000000
+
+# convert back to the original color
+hsv2col(col2hsv(colorV));
+#> [1] "#FF000055" "#00339999"
+```

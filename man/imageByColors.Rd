@@ -35,15 +35,15 @@ imageByColors(
 \arguments{
 \item{x}{\code{matrix} or \code{data.frame} containing colors}
 
-\item{useRaster}{\code{logical} sent to \code{\link{imageDefault}} to enable
+\item{useRaster}{\code{logical} sent to \code{imageDefault()} to enable
 raster rendering, as opposed to polygon rendering. This parameter is
 highly recommended when the matrix is large (>50 columns or rows).}
 
-\item{fixRasterRatio}{\code{logical} sent to \code{\link{imageDefault}}.}
+\item{fixRasterRatio}{\code{logical} sent to \code{imageDefault()}.}
 
-\item{maxRatioFix}{\code{numeric} sent to \code{\link{imageDefault}}.}
+\item{maxRatioFix}{\code{numeric} sent to \code{imageDefault()}.}
 
-\item{xaxt, yaxt}{\code{character} values compatible with \code{\link[graphics]{par}} to
+\item{xaxt, yaxt}{\code{character} values compatible with \code{graphics::par()} to
 determine whether x- and y-axes are plotted. Set both to "n" to
 suppress display of axes.}
 
@@ -53,7 +53,7 @@ would have been used to create the plot.}
 \item{cellnote}{\code{matrix} or \code{data.frame} of labels to be displayed on the
 image. If groupCellnotes==TRUE labels will be placed in the center
 of consecutive cells with the same label and identical color.
-Currently, cell text is colored using \code{\link{setTextContrastColor}}
+Currently, cell text is colored using \code{setTextContrastColor()}
 which uses either white or black depending upon the brightness of
 the background color.}
 
@@ -148,9 +148,9 @@ an image visualization.
 Display color raster image using a matrix of colors
 }
 \details{
-This function is similar to \code{\link[graphics]{image}} except that
+This function is similar to \code{graphics::image()} except that
 it takes a matrix which already has colors defined for each cell.
-This function calls \code{\link{imageDefault}} which enables updated
+This function calls \code{imageDefault()} which enables updated
 use of the \code{useRaster} functionality.
 
 Additionally, if \code{cellnote} is supplied, which contains a matrix

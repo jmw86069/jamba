@@ -61,8 +61,8 @@ substitutes 0 for any NA values.}
 Convert RGB color matrix to R color
 }
 \details{
-This function intends to augment the \code{\link[grDevices]{rgb}} function, which
-does not handle output from \code{\link[grDevices]{col2rgb}}. The goal is to handle
+This function intends to augment the \code{grDevices::rgb()} function, which
+does not handle output from \code{grDevices::col2rgb()}. The goal is to handle
 multiple color conversions, e.g. \code{rgb2col(grDevices::col2rgb("red"))}. This
 function also maintains alpha transparency when supplied.
 

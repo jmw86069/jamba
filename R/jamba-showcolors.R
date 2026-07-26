@@ -106,7 +106,7 @@
 #'
 #' @returns invisible color `matrix` used by `imageByColors()`. When
 #'    the input `x` is empty, or cannot be converted to colors when
-#'    `x` contains a `function`, the output returns `NULL`.
+#'    `x` contains a `function`, the output returns 'NULL'.
 #'
 #' @examples
 #' x <- color2gradient(list(Reds=c("red"), Blues=c("blue")), n=c(4,7));
@@ -212,7 +212,7 @@ showColors <- function
       } else if (inherits(gdc, c("ScaleContinuous", "ScaleBinned"))) {
          if (!any(c("fill", "color", "colour") %in% gdc$aesthetics)) {
             # if not a fill or color, return NULL
-            return(NULL)
+            return(invisible(character(0)))
          }
          ggenv1 <- environment(environment(gdc$palette)$f);
          # Sometimes palette is defined as a function,
@@ -317,7 +317,7 @@ showColors <- function
       xmapped <- intersect(c("color", "colour", "fill"),
          names(x$mapping))
       if (length(xmapped) == 0) {
-         return(NULL)
+         return(invisible(character(0)))
       }
       # # Todo: Consider including only aesthetics in a layer
       # xlayers <- x$layers;
@@ -327,7 +327,7 @@ showColors <- function
       });
       xkeep <- xaes %in% xmapped;
       if (!any(xkeep)) {
-         return(NULL)
+         return(invisible(character(0)))
       }
       x <- x[xkeep];
       # replace with legend name if defined
@@ -341,7 +341,7 @@ showColors <- function
       names(x) <- makeNames(xnames);
    } else if (inherits(x, "ggproto")) {
       if (!any(c("color", "colour", "fill") %in% x$aesthetics)) {
-         return(NULL)
+         return(invisible(character(0)))
       }
       x <- list(x);
       names(x) <- x[[1]]$aesthetics;

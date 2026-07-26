@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@
 in the <code>data.frame</code> which are given these assigned colors</p></li>
 <li><p><code>function</code> that takes column values as input, and returns
 a <code>character</code> vector with one color per value, using <code>NA</code>
-or <code>NULL</code> to indicate <code>"transparent"</code></p></li>
+or 'NULL' to indicate <code>"transparent"</code></p></li>
 <li><p><code>list</code> whose names match <code>colnames(df)</code>, where each entry
 contains either <code>character</code> or <code>function</code> option as described
 above. A <code>character</code> vector should be named by values expected
@@ -125,7 +125,7 @@ or disable word-wrapping by column. Some helpful examples:</p><ul><li><p><code>b
 <li><p><code>border_right="1px solid #DDDDDD"</code>: light gray 1 pixel right border</p></li>
 <li><p><code>extra_css=NULL</code>: disables word-wrap</p></li>
 <li><p><code>extra_css="whitespace: nowrap;"</code>: enables text word-wrap</p></li>
-<li><p>when all options above contain only <code>FALSE</code> or <code>NULL</code>, then
+<li><p>when all options above contain only <code>FALSE</code> or 'NULL', then
 <code><a href="https://rdrr.io/pkg/kableExtra/man/column_spec.html" class="external-link">kableExtra::column_spec()</a></code> is not applied.</p></li>
 </ul></dd>
 
@@ -133,7 +133,7 @@ or disable word-wrapping by column. Some helpful examples:</p><ul><li><p><code>b
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
 <dd><p><code>character</code> passed to <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>, default <code>"html"</code>
 which is the intended format for most scenarios.
-It can be set to <code>NULL</code> to enable auto-detection of the format.</p></dd>
+It can be set to 'NULL' to enable auto-detection of the format.</p></dd>
 
 
 <dt id="arg-format-args">format.args<a class="anchor" aria-label="anchor" href="#arg-format-args"></a></dt>
@@ -144,7 +144,7 @@ intended mainly for <code>numeric</code> columns.</p></dd>
 <dt id="arg-row-names">row.names<a class="anchor" aria-label="anchor" href="#arg-row-names"></a></dt>
 <dd><p><code>logical</code> indicating whether to include <code>rownames(df)</code>.
 When <code>row.names=NA</code> the default is to display rownames if they
-are not <code>NULL</code> and not equal to <code>1:nrow(df)</code>.</p></dd>
+are not 'NULL' and not equal to <code>1:nrow(df)</code>.</p></dd>
 
 
 <dt id="arg-align">align<a class="anchor" aria-label="anchor" href="#arg-align"></a></dt>
@@ -196,53 +196,54 @@ each list element should contain either a <code>character</code> vector, or
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam color functions:
-<code><a href="alpha2col.html">alpha2col</a>()</code>,
-<code><a href="applyCLrange.html">applyCLrange</a>()</code>,
-<code><a href="col2alpha.html">col2alpha</a>()</code>,
-<code><a href="col2hcl.html">col2hcl</a>()</code>,
-<code><a href="col2hsl.html">col2hsl</a>()</code>,
-<code><a href="col2hsv.html">col2hsv</a>()</code>,
-<code><a href="color2gradient.html">color2gradient</a>()</code>,
-<code><a href="fixYellow.html">fixYellow</a>()</code>,
-<code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
-<code><a href="getColorRamp.html">getColorRamp</a>()</code>,
-<code><a href="hcl2col.html">hcl2col</a>()</code>,
-<code><a href="hsl2col.html">hsl2col</a>()</code>,
-<code><a href="hsv2col.html">hsv2col</a>()</code>,
-<code><a href="isColor.html">isColor</a>()</code>,
-<code><a href="makeColorDarker.html">makeColorDarker</a>()</code>,
-<code><a href="rainbow2.html">rainbow2</a>()</code>,
-<code><a href="rgb2col.html">rgb2col</a>()</code>,
-<code><a href="setCLranges.html">setCLranges</a>()</code>,
-<code><a href="setTextContrastColor.html">setTextContrastColor</a>()</code>,
-<code><a href="showColors.html">showColors</a>()</code>,
-<code><a href="unalpha.html">unalpha</a>()</code>,
-<code><a href="warpRamp.html">warpRamp</a>()</code></p>
+<code><a href="alpha2col.html">alpha2col()</a></code>,
+<code><a href="applyCLrange.html">applyCLrange()</a></code>,
+<code><a href="col2alpha.html">col2alpha()</a></code>,
+<code><a href="col2hcl.html">col2hcl()</a></code>,
+<code><a href="col2hsl.html">col2hsl()</a></code>,
+<code><a href="col2hsv.html">col2hsv()</a></code>,
+<code><a href="color2gradient.html">color2gradient()</a></code>,
+<code><a href="fixYellow.html">fixYellow()</a></code>,
+<code><a href="fixYellowHue.html">fixYellowHue()</a></code>,
+<code><a href="getColorRamp.html">getColorRamp()</a></code>,
+<code><a href="hcl2col.html">hcl2col()</a></code>,
+<code><a href="hsl2col.html">hsl2col()</a></code>,
+<code><a href="hsv2col.html">hsv2col()</a></code>,
+<code><a href="isColor.html">isColor()</a></code>,
+<code><a href="makeColorDarker.html">makeColorDarker()</a></code>,
+<code><a href="rainbow2.html">rainbow2()</a></code>,
+<code><a href="rgb2col.html">rgb2col()</a></code>,
+<code><a href="setCLranges.html">setCLranges()</a></code>,
+<code><a href="setTextContrastColor.html">setTextContrastColor()</a></code>,
+<code><a href="showColors.html">showColors()</a></code>,
+<code><a href="unalpha.html">unalpha()</a></code>,
+<code><a href="warpRamp.html">warpRamp()</a></code></p>
 <p>Other jam practical functions:
-<code><a href="breakDensity.html">breakDensity</a>()</code>,
-<code><a href="call_fn_ellipsis.html">call_fn_ellipsis</a>()</code>,
-<code><a href="checkLightMode.html">checkLightMode</a>()</code>,
-<code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
-<code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
-<code><a href="color_dither.html">color_dither</a>()</code>,
-<code><a href="exp2signed.html">exp2signed</a>()</code>,
-<code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
-<code><a href="isFALSEV.html">isFALSEV</a>()</code>,
-<code><a href="isTRUEV.html">isTRUEV</a>()</code>,
-<code><a href="jargs.html">jargs</a>()</code>,
-<code><a href="lldf.html">lldf</a>()</code>,
-<code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="middle.html">middle</a>()</code>,
-<code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
-<code><a href="newestFile.html">newestFile</a>()</code>,
-<code><a href="printDebug.html">printDebug</a>()</code>,
-<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache</a>()</code>,
-<code><a href="renameColumn.html">renameColumn</a>()</code>,
-<code><a href="rmInfinite.html">rmInfinite</a>()</code>,
-<code><a href="rmNA.html">rmNA</a>()</code>,
-<code><a href="rmNAs.html">rmNAs</a>()</code>,
-<code><a href="rmNULL.html">rmNULL</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
+<code><a href="breakDensity.html">breakDensity()</a></code>,
+<code><a href="call_fn_ellipsis.html">call_fn_ellipsis()</a></code>,
+<code><a href="checkLightMode.html">checkLightMode()</a></code>,
+<code><a href="check_pkg_installed.html">check_pkg_installed()</a></code>,
+<code><a href="colNum2excelName.html">colNum2excelName()</a></code>,
+<code><a href="color_dither.html">color_dither()</a></code>,
+<code><a href="exp2signed.html">exp2signed()</a></code>,
+<code><a href="getAxisLabel.html">getAxisLabel()</a></code>,
+<code><a href="isFALSEV.html">isFALSEV()</a></code>,
+<code><a href="isTRUEV.html">isTRUEV()</a></code>,
+<code><a href="jargs.html">jargs()</a></code>,
+<code><a href="lldf.html">lldf()</a></code>,
+<code><a href="log2signed.html">log2signed()</a></code>,
+<code><a href="middle.html">middle()</a></code>,
+<code><a href="minorLogTicks.html">minorLogTicks()</a></code>,
+<code><a href="newestFile.html">newestFile()</a></code>,
+<code><a href="printDebug.html">printDebug()</a></code>,
+<code><a href="reload_qmd_cache.html">reload_qmd_cache()</a></code>,
+<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code>,
+<code><a href="renameColumn.html">renameColumn()</a></code>,
+<code><a href="rmInfinite.html">rmInfinite()</a></code>,
+<code><a href="rmNA.html">rmNA()</a></code>,
+<code><a href="rmNAs.html">rmNAs()</a></code>,
+<code><a href="rmNULL.html">rmNULL()</a></code>,
+<code><a href="setPrompt.html">setPrompt()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -428,7 +429,7 @@ each list element should contain either a <code>character</code> vector, or
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

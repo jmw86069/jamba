@@ -165,7 +165,7 @@ heatmap_row_order <- function
 #' @param hm `Heatmap` or `HeatmapList` object as defined by the
 #'    Bioconductor package via `ComplexHeatmap::Heatmap()`.
 #' @param which_heatmap used to specify a specific heatmap with `hm` is
-#'    provided as a `HeatmapList`. When `NULL` (default) the first heatmap
+#'    provided as a `HeatmapList`. When 'NULL' (default) the first heatmap
 #'    in `hm@ht_list` is used. When one value is supplied, only that heatmap
 #'    is used. When multiple values are supplied, a `list` is returned.
 #'    Input can be either:

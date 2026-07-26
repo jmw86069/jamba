@@ -70,7 +70,7 @@ sort order, when FALSE it sorts as \code{character}.}
 
 \item{xclass}{\code{character} vector of classes in \code{x}, used for slight
 optimization to re-use this vector if it has already been
-defined for \code{x}. When \code{NULL} it is created within this function.}
+defined for \code{x}. When 'NULL' it is created within this function.}
 
 \item{indent}{\code{numeric} used only when \code{verbose=TRUE} to determine
 the number of spaces indented for verbose output, passed to
@@ -79,7 +79,7 @@ the number of spaces indented for verbose output, passed to
 \item{debug}{\code{logical}, default FALSE, whether to print detailed
 debug output.}
 
-\item{...}{additional parameters are sent to \code{\link{mixedOrder}}.}
+\item{...}{additional parameters are sent to \code{mixedOrder()}.}
 }
 \value{
 \code{list} after applying \code{mixedSort()} to its elements.

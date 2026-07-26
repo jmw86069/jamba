@@ -38,7 +38,7 @@ rainbow2 <- function
    #
    n <- head(n, 1);
    if (length(n) == 0 || n == 0) {
-      return(NULL)
+      return(invisible(character(0)))
    }
    if (length(s) == 0) {
       s <- c(1, 0.7, 0.85, 0.55);

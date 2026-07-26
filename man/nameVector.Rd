@@ -35,10 +35,10 @@ assign unique names for a vector
 }
 \details{
 This function assigns unique names to a vector, if necessary it runs
-\code{\link{makeNames}} to create unique names. It differs from
-\code{\link[stats]{setNames}} in that it ensures names are unique,
+\code{makeNames()} to create unique names. It differs from
+\code{stats::setNames()} in that it ensures names are unique,
 and when no names are supplied, it uses the vector itself to define
-names. It is helpful to run this function inside an \code{\link[base]{lapply}}
+names. It is helpful to run this function inside an \code{base::lapply()}
 function call, which by default maintains names, but does not assign
 names if the input data did not already have them.
 

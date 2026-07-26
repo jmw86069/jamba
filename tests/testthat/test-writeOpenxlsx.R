@@ -1,6 +1,7 @@
 
 
 testthat::test_that("writeOpenxlsx, startRow=1, startCol=1", {
+   testthat::skip_on_cran()
    testthat::skip_if_not_installed("openxlsx")
 
    x <- data.frame(VARNAME=1:5,

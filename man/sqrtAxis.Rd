@@ -62,7 +62,7 @@ transformation like \code{sqrt(abs(x)) * sign(x)}.
 If \code{x} is supplied, it is used to define the numeric range, otherwise
 the observed range is taken based upon \code{side}. If neither \code{x} nor \code{side}
 is supplied, or if the numeric range is empty or zero width,
-it returns \code{NULL}.
+it returns 'NULL'.
 
 The main goal of this function is to provide reasonably placed
 tick marks using integer values.

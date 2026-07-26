@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,58 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.5" id="jamba-105">jamba 1.0.5<a class="anchor" aria-label="anchor" href="#jamba-105"></a></h2>
+<ul><li>Changed various <code>NULL</code> to ‘NULL’ in help docs.</li>
+</ul><div class="section level3">
+<h3 id="test-error-fix-1-0-5">Test Error Fix<a class="anchor" aria-label="anchor" href="#test-error-fix-1-0-5"></a></h3>
+<ul><li>‘test-kable-coloring.R’ was updated to compare the computed RGB color to the <code><a href="../reference/kable_coloring.html">kable_coloring()</a></code> output, targeting the test error seen only with M1mac.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-1-0-5">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-0-5"></a></h3>
+<ul><li>
+<code><a href="../reference/reload_qmd_cache.html">reload_qmd_cache()</a></code> which mimics <code><a href="../reference/reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code> to reload Quarto ‘.qmd’ cache data. Currently requires cache path, and path to the Quarto ‘.qmd’ file. See help docs for caveats.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="enhancements-to-existing-functions-1-0-5">Enhancements to Existing Functions<a class="anchor" aria-label="anchor" href="#enhancements-to-existing-functions-1-0-5"></a></h3>
+<ul><li>
+<code><a href="../reference/call_fn_ellipsis.html">call_fn_ellipsis()</a></code> now removes any duplicated argument names in the input ‘…’ before passing to the target function. Added tests.</li>
+<li>
+<code><a href="../reference/printDebug.html">printDebug()</a></code> now uses <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code> instead of <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code> so it can be silenced. This was a previous CRAN suggestion, appreciated. Arguments ‘htmlOutput’ and ‘comment’ detect knitr running, and knitr HTML output, and then defines suitable defaults. Argument ‘comment’ now uses leading space ’ ## ’ by default to avoid becoming markdown header.</li>
+<li>
+<code><a href="../reference/makeColorDarker.html">makeColorDarker()</a></code> now returns NULL for empty input.</li>
+<li>
+<code><a href="../reference/sdim.html">sdim()</a></code> now handles S7 objects, showing dimensions of properties.</li>
+<li>
+<code><a href="../reference/checkLightMode.html">checkLightMode()</a></code> now recognizes running inside Positron, defaults to TRUE. Positron does not provide the theme via an API, and can be set via <code>options('jam.lightMode'=FALSE)</code>.</li>
+<li>
+<code><a href="../reference/getColorRamp.html">getColorRamp()</a></code> returns attribute ‘divergent’ with <code>logical</code> when using divergent color scale with a vector of colors.</li>
+<li>
+<code><a href="../reference/showColors.html">showColors()</a></code> now accepts ‘ggplot’ and ‘ggproto’ objects, will recognize when mapping is defined for ‘colour’ and ‘fill’, and for continuous and discrete colors. With colorRamp2 function input, it uses attributes ‘legend_at’ and ‘legend_labels’ when defined, instead of ‘breaks’ used for the ramp.</li>
+<li>
+<code><a href="../reference/setCLranges.html">setCLranges()</a></code> changed so lightMode=NULL will use Crange,Lrange when provided, otherwise detects defaults. It does not set options by default.</li>
+<li>
+<code><a href="../reference/jargs.html">jargs()</a></code> now properly uses lightMode to set text brightness.</li>
+<li>
+<code><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> major and minor label adjustment ‘padj’ is applied with mirror adjustment negative axis coordinates.</li>
+<li>
+<code><a href="../reference/minorLogTicksAxis.html">logFoldAxis()</a></code> and <code><a href="../reference/minorLogTicksAxis.html">minorLogTicksAxis()</a></code> new default ‘doMinorLabels=NULL’ will set TRUE when there are fewer than 18 minor labels in ‘lims’ range, showing minor ticks otherwise (when enabled).</li>
+<li>
+<code><a href="../reference/minorLogTicks.html">minorLogTicks()</a></code> now filters output for the ‘lims’ range rounded up to the next highest magnitude integer.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.4" id="jamba-104">jamba 1.0.4<a class="anchor" aria-label="anchor" href="#jamba-104"></a></h2><p class="text-muted">CRAN release: 2025-03-23</p>
+<div class="section level3">
+<h3 id="changes-per-cran-additional-issues-1-0-4">Changes per CRAN additional issues<a class="anchor" aria-label="anchor" href="#changes-per-cran-additional-issues-1-0-4"></a></h3>
+<ul><li>
+<p>Updated tests in <code>test-getColorRamp.r</code> due to obscure, non-reproducible error during automated CRAN package checks on MacOS aarch64-apple-darwin24.3.0, R-4.5.0 development.</p>
+<ul><li>The test failed when <code><a href="../reference/getColorRamp.html">getColorRamp()</a></code> returning “#3333ECFF” instead of “#3434ECFF” on R-4.5.0 devel version, ‘test-getColorRamp.r:25:4’.</li>
+<li>The ugly workaround ignores the possibly underlying cause, which resembles a rounding error with hex color values.</li>
+<li>The error was not reproducible on R-4.5.0 platform aarch64-apple-darwin20.</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.3" id="jamba-103">jamba 1.0.3<a class="anchor" aria-label="anchor" href="#jamba-103"></a></h2>
 <div class="section level3">
 <h3 id="changes-per-cran-additional-issues-1-0-3">Changes per CRAN additional issues<a class="anchor" aria-label="anchor" href="#changes-per-cran-additional-issues-1-0-3"></a></h3>
@@ -54,7 +106,7 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.2" id="jamba-102">jamba 1.0.2<a class="anchor" aria-label="anchor" href="#jamba-102"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.0.2" id="jamba-102">jamba 1.0.2<a class="anchor" aria-label="anchor" href="#jamba-102"></a></h2><p class="text-muted">CRAN release: 2025-03-10</p>
 <div class="section level3">
 <h3 id="changes-per-cran-comments-1-0-2">Changes per CRAN comments.<a class="anchor" aria-label="anchor" href="#changes-per-cran-comments-1-0-2"></a></h3>
 <ul><li>Used tick marks around software names.</li>
@@ -973,7 +1025,7 @@
 <div class="section level3">
 <h3 id="changes-to-existing-functions-0-0-68-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-68-900"></a></h3>
 <ul><li>
-<code><a href="../reference/lldf.html">lldf()</a></code> new argument <code>use_utils_objectsize=TRUE</code> to prefer <code><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">utils::object.size()</a></code> instead of <code><a href="https://rdrr.io/pkg/pryr/man/object_size.html" class="external-link">pryr::object_size()</a></code> after observing some cases where object sizes were vastly over-stated for unusual Bioconductor object types. It is unclear to me exactly how the memory usage is determined, and which function is correct, so for now the two alternatives will remain in <code><a href="../reference/lldf.html">lldf()</a></code>.</li>
+<code><a href="../reference/lldf.html">lldf()</a></code> new argument <code>use_utils_objectsize=TRUE</code> to prefer <code><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">utils::object.size()</a></code> instead of <code>pryr::object_size()</code> after observing some cases where object sizes were vastly over-stated for unusual Bioconductor object types. It is unclear to me exactly how the memory usage is determined, and which function is correct, so for now the two alternatives will remain in <code><a href="../reference/lldf.html">lldf()</a></code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -1033,7 +1085,7 @@
 <div class="section level3">
 <h3 id="new-function-0-0-63-900">new function<a class="anchor" aria-label="anchor" href="#new-function-0-0-63-900"></a></h3>
 <ul><li>
-<code><a href="../reference/lldf.html">lldf()</a></code> is a lightweight extension to <code>utils::ls()</code> that returns a <code>data.frame</code> with object name and size, sorted largest to smallest. I found myself using this function several times after becoming more aware of object sizes while using <code><a href="https://rdrr.io/pkg/jamsession/man/save_jamsession.html" class="external-link">jamsession::save_jamsession()</a></code>.</li>
+<code><a href="../reference/lldf.html">lldf()</a></code> is a lightweight extension to <code>utils::ls()</code> that returns a <code>data.frame</code> with object name and size, sorted largest to smallest. I found myself using this function several times after becoming more aware of object sizes while using <code><a href="https://jmw86069.github.io/jamsession/reference/save_jamsession.html" class="external-link">jamsession::save_jamsession()</a></code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-to-existing-functions-0-0-63-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-63-900"></a></h3>
@@ -1258,7 +1310,7 @@
 <div class="section level3">
 <h3 id="changes-to-existing-functions-0-0-50-900">changes to existing functions<a class="anchor" aria-label="anchor" href="#changes-to-existing-functions-0-0-50-900"></a></h3>
 <ul><li>
-<code><a href="../reference/shadowText.html">shadowText()</a></code> was updated to use several <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> as default argument values. Although <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> is not always an ideal mechanism, for purely visual effects it is not in conflict with statistical reproducibility, and allows some overall graphical settings to be maintained when <code><a href="../reference/shadowText.html">shadowText()</a></code> is being called through internal <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> functions. For example setting <code>text &lt;- jamba::shadowText</code> then calling a default base R plot function will use the <code><a href="../reference/shadowText.html">jamba::shadowText()</a></code> in place of <code><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text()</a></code>, but without allowing any customization. The <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> mechanic allows some custom settings to be honored. The primary driver for these changes is in <code><a href="https://rdrr.io/pkg/multienrichjam/man/jam_igraph.html" class="external-link">multienrichjam::jam_igraph()</a></code> which plots <code>igraph</code> objects with some customization, one option is <code>use_shadowText=TRUE</code> which invokes <code><a href="../reference/shadowText.html">jamba::shadowText()</a></code>. It is desirable to adjust the contrast of the outline effect so it does not completely obscure the underlying network graph display.</li>
+<code><a href="../reference/shadowText.html">shadowText()</a></code> was updated to use several <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> as default argument values. Although <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> is not always an ideal mechanism, for purely visual effects it is not in conflict with statistical reproducibility, and allows some overall graphical settings to be maintained when <code><a href="../reference/shadowText.html">shadowText()</a></code> is being called through internal <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> functions. For example setting <code>text &lt;- jamba::shadowText</code> then calling a default base R plot function will use the <code><a href="../reference/shadowText.html">jamba::shadowText()</a></code> in place of <code><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text()</a></code>, but without allowing any customization. The <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> mechanic allows some custom settings to be honored. The primary driver for these changes is in <code><a href="https://jmw86069.github.io/multienrichjam/reference/jam_igraph.html" class="external-link">multienrichjam::jam_igraph()</a></code> which plots <code>igraph</code> objects with some customization, one option is <code>use_shadowText=TRUE</code> which invokes <code><a href="../reference/shadowText.html">jamba::shadowText()</a></code>. It is desirable to adjust the contrast of the outline effect so it does not completely obscure the underlying network graph display.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -1857,7 +1909,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

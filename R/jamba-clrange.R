@@ -368,14 +368,14 @@ setCLranges <- function
 #' @family jam color functions
 #'
 #' @param x vector of R colors
-#' @param lightMode `NULL` or `logical`. When `lightMode=NULL` then
+#' @param lightMode 'NULL' or `logical`. When `lightMode=NULL` then
 #'    `Crange` and `Lrange` values are used as-is; when `lightMode=TRUE`
 #'    or `lightMode=FALSE` then default values are used for `Crange` and
 #'    `Lrange` values, where `lightMode=TRUE` is intended for colors
 #'    to have contrast against a light/bright/white background,
 #'    and `lightMode=FALSE` is intended for colors to have contrast
 #'    against a dark background.
-#' @param Crange `NULL` or `numeric` range with minimum and maximum allowed
+#' @param Crange 'NULL' or `numeric` range with minimum and maximum allowed
 #'    values for the chroma (C) component.
 #' @param Lrange `NUL`L or `numeric` range with minimum and maximum allowed
 #'    values for the luminance (L) component.
@@ -397,7 +397,7 @@ setCLranges <- function
 #'    range is equal to `Crange`.
 #' @param fixup `logical` passed to `hcl2col()` and subsequently
 #'    to `colorspace::hex()` when converting colors outside the color
-#'    gamut (visible range.) When `fixup` is `NULL`, the `hcl2col()`
+#'    gamut (visible range.) When `fixup` is 'NULL', the `hcl2col()`
 #'    method applies its own aggressive technique to restrict the color
 #'    range.
 #' @param ... additional argyments are passed to `fixYellowHue()` when

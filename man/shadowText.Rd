@@ -73,14 +73,14 @@ shadows. See examples.}
 \item{font}{\code{character} applied to font family, default \code{graphics::par("font")}.}
 
 \item{doTest}{\code{logical} whether to create a visual example of output. Note
-that it calls \code{\link{usrBox}} to color the plot area, and the
-background can be overridden with something like \code{fill="navy"}.}
+that it calls \code{usrBox()} to color the plot area, and the
+background can be overridden with something like 'fill="navy"'.}
 
-\item{...}{other parameters are passed to \code{\link[graphics]{text}}.
+\item{...}{other parameters are passed to \code{graphics::text()}.
 Note that certain parameters are not vectorized in that function,
-such as \code{srt} which requires only a fixed value. To rotate each
-label independently, multiple calls to \code{\link[graphics]{text}} or
-\code{\link{shadowText}} must be made. Other parameters like \code{adj}
+such as 'srt' which requires only a fixed value. To rotate each
+label independently, multiple calls to \code{graphics::text()} or
+\code{shadowText()} must be made. Other parameters like \code{adj}
 only accept up to two values, and those two values affect all label
 positioning.}
 }

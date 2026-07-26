@@ -1051,7 +1051,7 @@ minorLogTicks <- function
 #' If `x` is supplied, it is used to define the numeric range, otherwise
 #' the observed range is taken based upon `side`. If neither `x` nor `side`
 #' is supplied, or if the numeric range is empty or zero width,
-#' it returns `NULL`.
+#' it returns 'NULL'.
 #'
 #' The main goal of this function is to provide reasonably placed
 #' tick marks using integer values.
@@ -1117,7 +1117,7 @@ sqrtAxis <- function
       plot <- FALSE;
    }
    if (length(side) == 0 && length(x) == 0) {
-      return(NULL)
+      return(invisible(NULL))
    }
 
    if (length(x) > 0) {
@@ -1132,7 +1132,7 @@ sqrtAxis <- function
 
    # if xRange is empty or length 1, return NULL
    if (length(xRange) < 2) {
-      return(NULL)
+      return(invisible(NULL))
    }
 
    subdivideSqrt <- function(atPretty1, n=pretty.n, ...) {

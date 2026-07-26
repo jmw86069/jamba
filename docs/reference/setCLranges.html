@@ -11,7 +11,7 @@ on a light or dark background."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,32 +66,39 @@ on a light or dark background.</p>
 
 
 <dl><dt id="arg-lightmode">lightMode<a class="anchor" aria-label="anchor" href="#arg-lightmode"></a></dt>
-<dd><p>boolean indicating whether the background color
-is light (TRUE is bright), or dark (FALSE is dark.) By default
-it calls <code><a href="checkLightMode.html">checkLightMode()</a></code> which queries <code>getOption("lightMode")</code>.</p></dd>
+<dd><p><code>logical</code> indicating whether the background color
+is light (TRUE is bright), or dark (FALSE is dark.)</p><ul><li><p>When TRUE or FALSE, it will set default values for Crange and Lrange.</p></li>
+<li><p>When NULL, it will use one or both of Crange,Lrange when supplied,
+and uses <code>getOption("jam.Crange")</code> and <code>getOption("jam.Lrange")</code>
+by default when not explicitly provided.</p></li>
+<li><p>If lightMode is NULL and one or both of Crange, Lrange are NULL,
+it calls <code><a href="checkLightMode.html">checkLightMode()</a></code> then assigns appropriate default values.</p></li>
+<li><p>To detect lightMode again, use <code>lightMode=checkLightMode()</code>.</p></li>
+</ul></dd>
 
 
 <dt id="arg-crange">Crange<a class="anchor" aria-label="anchor" href="#arg-crange"></a></dt>
-<dd><p>numeric range of chroma values, ranging
+<dd><p><code>numeric</code> range of chroma values, ranging
 between 0 and 100. By default, <code>getOptions("Crange")</code> is used,
 otherwise defaults will be assigned based upon <code>lightMode</code>.</p></dd>
 
 
 <dt id="arg-lrange">Lrange<a class="anchor" aria-label="anchor" href="#arg-lrange"></a></dt>
-<dd><p>numeric range of luminance values, ranging
+<dd><p><code>numeric</code> range of luminance values, ranging
 between 0 and 100. By default, <code>getOptions("Crange")</code> is used,
 otherwise defaults will be assigned based upon <code>lightMode</code>.</p></dd>
 
 
 <dt id="arg-cgrey">Cgrey<a class="anchor" aria-label="anchor" href="#arg-cgrey"></a></dt>
-<dd><p>numeric chroma (C) value, which defines grey colors at or
+<dd><p><code>numeric</code> chroma (C) value, which defines grey colors at or
 below this chroma. Any colors at or below the grey cutoff will have
-their C values unchanged. This mechanism prevents converting black
-to red, for example. To disable the effect, set <code>Cgrey=-1</code>.</p></dd>
+their C values unchanged.
+This threshold prevents colorizing greyscale colors via Crange.
+To disable the effect, set <code>Cgrey=-1</code>.</p></dd>
 
 
 <dt id="arg-adjustrgb">adjustRgb<a class="anchor" aria-label="anchor" href="#arg-adjustrgb"></a></dt>
-<dd><p>numeric color adjustment factor, used during the
+<dd><p><code>numeric</code> color adjustment factor, used during the
 conversion of RGB colors to the ANSI-compatible colors used
 by the <code>crayon</code> pacakge. The ANSI color range does not include
 a full RGB palette, and the conversion is somewhat lossy.
@@ -100,11 +107,11 @@ globally re-usable value.</p></dd>
 
 
 <dt id="arg-setoptions">setOptions<a class="anchor" aria-label="anchor" href="#arg-setoptions"></a></dt>
-<dd><p>character or logical whether to update <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>
-<code>"jam.Crange"</code> and <code>"jam.Lrange"</code>, with the following behavior:</p><ul><li><p><code>"ifnull"</code> will update only <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> which were previously <code>NULL</code></p></li>
-<li><p><code>FALSE</code> or <code>"FALSE"</code> does not update <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code></p></li>
-<li><p><code>TRUE</code> or <code>"TRUE"</code> will update <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> with values determined
-by this function.</p></li>
+<dd><p><code>character</code> or <code>logical</code> whether to update <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>
+<code>"jam.Crange"</code> and <code>"jam.Lrange"</code>, with default 'FALSE'.
+It has the following behavior:</p><ul><li><p><code>FALSE</code> or <code>"FALSE"</code> does not update options.</p></li>
+<li><p><code>TRUE</code> or <code>"TRUE"</code> will update options 'jam.Crange' and 'jam.Lrange'.</p></li>
+<li><p><code>"ifnull"</code> will update only <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> which were previously blank.</p></li>
 </ul></dd>
 
 
@@ -118,7 +125,7 @@ by this function.</p></li>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>list</code> with elements:</p><dl><dt>Crange</dt>
+    <p><code>list</code>, invisibly, with elements:</p><dl><dt>Crange</dt>
 <dd><p>Numeric vector of length 2, defining the
 HCL chroma (C) range.</p></dd>
 
@@ -154,45 +161,33 @@ to have a light or dark background.</p></li>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam color functions:
-<code><a href="alpha2col.html">alpha2col</a>()</code>,
-<code><a href="applyCLrange.html">applyCLrange</a>()</code>,
-<code><a href="col2alpha.html">col2alpha</a>()</code>,
-<code><a href="col2hcl.html">col2hcl</a>()</code>,
-<code><a href="col2hsl.html">col2hsl</a>()</code>,
-<code><a href="col2hsv.html">col2hsv</a>()</code>,
-<code><a href="color2gradient.html">color2gradient</a>()</code>,
-<code><a href="fixYellow.html">fixYellow</a>()</code>,
-<code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
-<code><a href="getColorRamp.html">getColorRamp</a>()</code>,
-<code><a href="hcl2col.html">hcl2col</a>()</code>,
-<code><a href="hsl2col.html">hsl2col</a>()</code>,
-<code><a href="hsv2col.html">hsv2col</a>()</code>,
-<code><a href="isColor.html">isColor</a>()</code>,
-<code><a href="kable_coloring.html">kable_coloring</a>()</code>,
-<code><a href="makeColorDarker.html">makeColorDarker</a>()</code>,
-<code><a href="rainbow2.html">rainbow2</a>()</code>,
-<code><a href="rgb2col.html">rgb2col</a>()</code>,
-<code><a href="setTextContrastColor.html">setTextContrastColor</a>()</code>,
-<code><a href="showColors.html">showColors</a>()</code>,
-<code><a href="unalpha.html">unalpha</a>()</code>,
-<code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
+<code><a href="alpha2col.html">alpha2col()</a></code>,
+<code><a href="applyCLrange.html">applyCLrange()</a></code>,
+<code><a href="col2alpha.html">col2alpha()</a></code>,
+<code><a href="col2hcl.html">col2hcl()</a></code>,
+<code><a href="col2hsl.html">col2hsl()</a></code>,
+<code><a href="col2hsv.html">col2hsv()</a></code>,
+<code><a href="color2gradient.html">color2gradient()</a></code>,
+<code><a href="fixYellow.html">fixYellow()</a></code>,
+<code><a href="fixYellowHue.html">fixYellowHue()</a></code>,
+<code><a href="getColorRamp.html">getColorRamp()</a></code>,
+<code><a href="hcl2col.html">hcl2col()</a></code>,
+<code><a href="hsl2col.html">hsl2col()</a></code>,
+<code><a href="hsv2col.html">hsv2col()</a></code>,
+<code><a href="isColor.html">isColor()</a></code>,
+<code><a href="kable_coloring.html">kable_coloring()</a></code>,
+<code><a href="makeColorDarker.html">makeColorDarker()</a></code>,
+<code><a href="rainbow2.html">rainbow2()</a></code>,
+<code><a href="rgb2col.html">rgb2col()</a></code>,
+<code><a href="setTextContrastColor.html">setTextContrastColor()</a></code>,
+<code><a href="showColors.html">showColors()</a></code>,
+<code><a href="unalpha.html">unalpha()</a></code>,
+<code><a href="warpRamp.html">warpRamp()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">setCLranges</span><span class="op">(</span>lightMode<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Crange</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  30 190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Lrange</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  45 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $adjustRgb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Cgrey</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -205,7 +200,7 @@ to have a light or dark background.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

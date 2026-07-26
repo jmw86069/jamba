@@ -24,9 +24,9 @@ make_html_styles(
 )
 }
 \arguments{
-\item{style}{\code{character} vector of one or more styles. When \code{NULL} or \code{NA},
+\item{style}{\code{character} vector of one or more styles. When 'NULL' or \code{NA},
 no style is applied, except when \code{bg_style} is supplied
-and is neither \code{NA} nor \code{NULL}, in which case entries with
+and is neither \code{NA} nor 'NULL', in which case entries with
 a \code{bg_style} and no \code{style} will use \code{setTextContrastColor()}
 to define a contrasting \code{style}.}
 
@@ -37,7 +37,7 @@ more values,.}
 applied to the background instead of foreground. This argument
 is ignored when \code{bg_style} is supplied.}
 
-\item{bg_style}{\code{NULL} or a \code{character} vector of one or more background
+\item{bg_style}{'NULL' or a \code{character} vector of one or more background
 styles. When this argument is not NULL, it applies both the foreground
 \code{style} and background \code{bg_style} together, and therefore ignores
 \code{Crange} and \code{Lrange} settings.}
@@ -82,7 +82,7 @@ the ratio of square roots.  alphaPower=100 for minimal adjustment.}
 \code{Crange} and \code{Lrange} options during the subsequent call to
 \code{setCLranges()}. By default,
 \itemize{
-\item \code{"ifnull"} will update only options which were previously \code{NULL};
+\item \code{"ifnull"} will update only options which were previously 'NULL';
 \item \code{"FALSE"} prevents modifying the global options;
 \item \code{"TRUE"} will update these options with the current values.
 }}

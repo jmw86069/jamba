@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,7 @@ for first and second arguments, TRUE, FALSE, NULL, respectively.</p></dd>
 
 
 <dt id="arg-lightmode">lightMode<a class="anchor" aria-label="anchor" href="#arg-lightmode"></a></dt>
-<dd><p><code>logical</code> or <code>NULL</code>, indicating whether the text background
+<dd><p><code>logical</code> or 'NULL', indicating whether the text background
 color is light, thus imposing a maximum brightness for colors displayed.
 It use lightMode if defined by the function caller, otherwise it will
 use <code>getOption("jam.lightMode")</code> if defined, lastly it will attempt to
@@ -163,36 +163,36 @@ steps required.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam internal functions:
-<code><a href="jamCalcDensity.html">jamCalcDensity</a>()</code>,
-<code><a href="make_html_styles.html">make_html_styles</a>()</code>,
-<code><a href="make_styles.html">make_styles</a>()</code>,
-<code><a href="smoothScatterJam.html">smoothScatterJam</a>()</code></p></div>
+<code><a href="jamCalcDensity.html">jamCalcDensity()</a></code>,
+<code><a href="make_html_styles.html">make_html_styles()</a></code>,
+<code><a href="make_styles.html">make_styles()</a></code>,
+<code><a href="smoothScatterJam.html">smoothScatterJam()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">handleArgsText</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/formals.html" class="external-link">formals</a></span><span class="op">(</span><span class="fu">graphics</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist.default</a></span><span class="op">)</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">x</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">breaks</span><span style="color: #87D7AF;">="Sturges"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">freq</span><span style="color: #87D7AF;">=NULL</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">probability</span><span style="color: #87D7AF;">=!freq</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">include.lowest</span><span style="color: #87D7AF;">=TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">right</span><span style="color: #87D7AF;">=TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">fuzz</span><span style="color: #87D7AF;">=1e-07</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">density</span><span style="color: #87D7AF;">=NULL</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">angle</span><span style="color: #87D7AF;">=45</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #87D7AF;">col=</span><span style="color: #C6C6C6;">"lightgray"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">border</span><span style="color: #87D7AF;">=NULL</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">main</span><span style="color: #87D7AF;">=paste("Histogram of", xname)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">xlim</span><span style="color: #87D7AF;">=range(breaks)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">ylim</span><span style="color: #87D7AF;">=NULL</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">xlab</span><span style="color: #87D7AF;">=xname</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">breaks</span><span style="color: #5FD7AF;">="Sturges"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">freq</span><span style="color: #5FD7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">probability</span><span style="color: #5FD7AF;">=!freq</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">include.lowest</span><span style="color: #5FD7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">right</span><span style="color: #5FD7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">fuzz</span><span style="color: #5FD7AF;">=1e-07</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">density</span><span style="color: #5FD7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">angle</span><span style="color: #5FD7AF;">=45</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #5FAFAF;">col</span><span style="color: #5FD7AF;">=</span><span style="color: #9E9E9E;">"lightgray"</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">border</span><span style="color: #5FD7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">main</span><span style="color: #5FD7AF;">=paste("Histogram of", xname)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">xlim</span><span style="color: #5FD7AF;">=range(breaks)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">ylim</span><span style="color: #5FD7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">xlab</span><span style="color: #5FD7AF;">=xname</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">ylab</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">axes</span><span style="color: #87D7AF;">=TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">plot</span><span style="color: #87D7AF;">=TRUE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">labels</span><span style="color: #87D7AF;">=FALSE</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">nclass</span><span style="color: #87D7AF;">=NULL</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">warn.unused</span><span style="color: #87D7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">axes</span><span style="color: #5FD7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">plot</span><span style="color: #5FD7AF;">=TRUE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">labels</span><span style="color: #5FD7AF;">=FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">nclass</span><span style="color: #5FD7AF;">=NULL</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">warn.unused</span><span style="color: #5FD7AF;">=TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #AF87FF;">...</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -206,7 +206,7 @@ steps required.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

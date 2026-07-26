@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,46 +67,91 @@ from ellipsis <code>...</code></p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function is a wrapper function intended to help
 pass ellipsis arguments <code>...</code> from a parent function
-to an external function in a safe way. It will only
-include arguments from <code>...</code> that are recognized by
-the external function.</p>
-<p>The logic is described as follows:</p><ul><li><p>When the external function <code>FUN</code> arguments <code><a href="https://rdrr.io/r/base/formals.html" class="external-link">formals()</a></code> include
-ellipsis <code>...</code>, then the ellipsis <code>...</code> will be passed as-is without
-change. In this way, any arguments inside the original ellipsis <code>...</code>
-will either match arguments in <code>FUN</code>, or will be ignored in that
-function ellipsis <code>...</code>.</p></li>
-<li><p>When the external function <code>FUN</code> arguments <code><a href="https://rdrr.io/r/base/formals.html" class="external-link">formals()</a></code> do not
-include ellipsis <code>...</code>, then named arguments in <code>...</code> are passed
-to <code>FUN</code> only when the arguments names are recognized by <code>FUN</code>.</p></li>
-</ul><p>Note that arguments therefore must be named.</p>
+to an external function in a safe way.</p><ol><li><p>If the target function itself accepts '...' then all
+arguments are passed.</p></li>
+<li><p>If the target function does not accept '...', then
+only the arguments whose names are defined in <code><a href="https://rdrr.io/r/base/formals.html" class="external-link">formals()</a></code>
+will be passed along. All other arguments are not passed to
+the target function.</p></li>
+<li><p>As of version 1.0.5, when there are duplicated argument
+names in the input '...', only the first instance of each
+argument name is passed along, while also applying rules
+1 and 2 as described above.</p></li>
+</ol><p>Note that all arguments in the input '...' must be named.</p><div class="section">
+<h3 id="duplicate-arguments-as-default-values">Duplicate arguments as default values<a class="anchor" aria-label="anchor" href="#duplicate-arguments-as-default-values"></a></h3>
+
+
+<p>When providing a 'default value' for an argument, consider
+a function with arguments 'x' and 'y'. We may want to use
+'y=2' as a default value for 'y', without providing 'y'
+as a formal argument in the wrapper function. By accepting
+'...' the wrapper function can be simplified by having fewer
+named arguments.</p>
+<p>We have two options for handling the default 'y=2'.</p>
+<p>First, we may permit the user to supply a custom value to
+be used as priority when available. In this case, place
+'...' before the 'y=2' default argument, as shown below:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>test_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) { x <span class="sc">+</span> y }</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>wrapper <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>   <span class="fu">call_fn_ellipsis</span>(test_fn,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      ...,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      <span class="at">x=</span>x,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      <span class="at">y=</span><span class="dv">2</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>}</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">wrapper</span>(<span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span><span class="dv">4</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; output:</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 5</span></span></code></pre><p></p></div>
+<p>In this case (above), the user-supplied 'y=4' will be accepted
+before the default 'y=2', and therefore the output will be</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">4</span> <span class="ot">=</span> <span class="dv">5</span></span></code></pre><p></p></div>
+<p>The second option is to force the default 'y=2' to be used,
+thereby ignoring the user-defined 'y=4'. In this case,
+place '...' after the 'y=2' default argument value.</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>test_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, ...) { x <span class="sc">+</span> y }</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>wrapper2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>   <span class="fu">call_fn_ellipsis</span>(test_fn,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      <span class="at">x=</span>x,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      <span class="at">y=</span><span class="dv">2</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      ...)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>}</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">wrapper2</span>(<span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span><span class="dv">4</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; output:</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 3</span></span></code></pre><p></p></div>
+<p>In this case (above) the 'y=2' appears before the user-defined
+'y=4' in the argument stack, therefore 'y=2' takes priority.
+The output will be</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="ot">=</span> <span class="dv">3</span></span></code></pre><p></p></div>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam practical functions:
-<code><a href="breakDensity.html">breakDensity</a>()</code>,
-<code><a href="checkLightMode.html">checkLightMode</a>()</code>,
-<code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
-<code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
-<code><a href="color_dither.html">color_dither</a>()</code>,
-<code><a href="exp2signed.html">exp2signed</a>()</code>,
-<code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
-<code><a href="isFALSEV.html">isFALSEV</a>()</code>,
-<code><a href="isTRUEV.html">isTRUEV</a>()</code>,
-<code><a href="jargs.html">jargs</a>()</code>,
-<code><a href="kable_coloring.html">kable_coloring</a>()</code>,
-<code><a href="lldf.html">lldf</a>()</code>,
-<code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="middle.html">middle</a>()</code>,
-<code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
-<code><a href="newestFile.html">newestFile</a>()</code>,
-<code><a href="printDebug.html">printDebug</a>()</code>,
-<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache</a>()</code>,
-<code><a href="renameColumn.html">renameColumn</a>()</code>,
-<code><a href="rmInfinite.html">rmInfinite</a>()</code>,
-<code><a href="rmNA.html">rmNA</a>()</code>,
-<code><a href="rmNAs.html">rmNAs</a>()</code>,
-<code><a href="rmNULL.html">rmNULL</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
+<code><a href="breakDensity.html">breakDensity()</a></code>,
+<code><a href="checkLightMode.html">checkLightMode()</a></code>,
+<code><a href="check_pkg_installed.html">check_pkg_installed()</a></code>,
+<code><a href="colNum2excelName.html">colNum2excelName()</a></code>,
+<code><a href="color_dither.html">color_dither()</a></code>,
+<code><a href="exp2signed.html">exp2signed()</a></code>,
+<code><a href="getAxisLabel.html">getAxisLabel()</a></code>,
+<code><a href="isFALSEV.html">isFALSEV()</a></code>,
+<code><a href="isTRUEV.html">isTRUEV()</a></code>,
+<code><a href="jargs.html">jargs()</a></code>,
+<code><a href="kable_coloring.html">kable_coloring()</a></code>,
+<code><a href="lldf.html">lldf()</a></code>,
+<code><a href="log2signed.html">log2signed()</a></code>,
+<code><a href="middle.html">middle()</a></code>,
+<code><a href="minorLogTicks.html">minorLogTicks()</a></code>,
+<code><a href="newestFile.html">newestFile()</a></code>,
+<code><a href="printDebug.html">printDebug()</a></code>,
+<code><a href="reload_qmd_cache.html">reload_qmd_cache()</a></code>,
+<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code>,
+<code><a href="renameColumn.html">renameColumn()</a></code>,
+<code><a href="rmInfinite.html">rmInfinite()</a></code>,
+<code><a href="rmNA.html">rmNA()</a></code>,
+<code><a href="rmNAs.html">rmNAs()</a></code>,
+<code><a href="rmNULL.html">rmNULL()</a></code>,
+<code><a href="setPrompt.html">setPrompt()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -141,7 +186,7 @@ to <code>FUN</code> only when the arguments names are recognized by <code>FUN</c
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

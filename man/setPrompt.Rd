@@ -47,7 +47,7 @@ hung and needs to be stopped directly.}
 \item{resetPrompt}{\code{logical} whether to revert all changes to the prompt
 back to the default R prompt, that is, no color and no projectName.}
 
-\item{addEscape}{\code{logical} or \code{NULL} indicating whether to wrap color
+\item{addEscape}{\code{logical} or 'NULL' indicating whether to wrap color
 encoding ANSI inside additional escape sequences. This change is
 helpful for linux-based (readline-based) R consoles, by telling
 the console not to count ANSI color control characters as visible
@@ -57,7 +57,7 @@ If you find that the word-wrap is incorrect in the R console, try
 \code{addEscape=TRUE}. Apparently most versions of RStudio will already
 adjust (and prevent) colorizing the prompt during editing, presumably
 to sidestep the problem of calculating the correct character length.
-By default when \code{addEscape} is \code{NULL}, it checks whether environmental
+By default when \code{addEscape} is 'NULL', it checks whether environmental
 variable \code{RSTUDIO} equals \code{"1"} (running inside RStudio) then sets
 \code{addEscape=FALSE}; otherwise it defines \code{addEscape=TRUE}.
 In most cases for commandline prompts, \code{addEscape=TRUE} is helpful

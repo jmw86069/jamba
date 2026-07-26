@@ -51,7 +51,7 @@ is horizontal.}
 
 \item{sep}{\code{character} string, default \code{"\\n"} newline, used when
 there are multiple labels per cell, which also requires
-\code{m} as a list, and \code{show} is \code{NULL} or has multiple values.}
+\code{m} as a list, and \code{show} is 'NULL' or has multiple values.}
 
 \item{verbose}{\code{logical} indicating whether to print verbose output,
 specifically printing label information for position \verb{(1, 1)}.

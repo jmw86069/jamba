@@ -24,7 +24,7 @@ jargs(
 \arguments{
 \item{x}{\code{function} or character name of a function.}
 
-\item{grepString}{\code{NULL}, \code{logical}, or \code{character} grep regular expression
+\item{grepString}{'NULL', \code{logical}, or \code{character} grep regular expression
 pattern used to filter function arguments by name. Very useful to
 search a function for arguments with a substring \code{"row"}.
 \itemize{
@@ -51,7 +51,7 @@ display results as a \code{data.frame}.}
 \item{useColor}{\code{logical} whether to display results in color, if the crayon
 package is available, and terminal console is capable.}
 
-\item{lightMode}{\code{logical} or \code{NULL}, indicating whether the text background
+\item{lightMode}{\code{logical} or 'NULL', indicating whether the text background
 color is light, thus imposing a maximum brightness for colors displayed.
 It use lightMode if defined by the function caller, otherwise it will
 use \code{getOption("jam.lightMode")} if defined, lastly it will attempt to
@@ -83,7 +83,7 @@ output, useful because parameters are hard!}
 \item{...}{Additional arguments are installed.}
 }
 \value{
-\code{NULL} this function called for the byproduct of printing
+'NULL' this function called for the byproduct of printing
 its output.
 }
 \description{

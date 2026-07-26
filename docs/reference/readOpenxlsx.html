@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@ compatible with <code><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" 
 
 
 <dt id="arg-sheet">sheet<a class="anchor" aria-label="anchor" href="#arg-sheet"></a></dt>
-<dd><p>one of <code>NULL</code>, <code>character</code>, or <code>integer</code> vector,
+<dd><p>one of 'NULL', <code>character</code>, or <code>integer</code> vector,
 where: <code>sheet=NULL</code> will import every sheet; <code>character</code> is
 a vector of sheet names; and <code>integer</code> is a vector of sheet
 index values. The sheet names are determined with
@@ -171,16 +171,16 @@ output.</p></li>
 <li><p>When both <code>startRow</code> and <code>rows</code> are applied, <code>rows</code> takes priority
 and will be used instead of <code>startRows</code>. In fact <code>startRows</code> will be
 defined <code>startRows &lt;- min(rows)</code> for each relevant worksheet. However,
-for each worksheet either argument can be <code>NULL</code>.</p></li>
+for each worksheet either argument can be 'NULL'.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam export functions:
-<code><a href="applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat</a>()</code>,
-<code><a href="applyXlsxConditionalFormat.html">applyXlsxConditionalFormat</a>()</code>,
-<code><a href="set_xlsx_colwidths.html">set_xlsx_colwidths</a>()</code>,
-<code><a href="set_xlsx_rowheights.html">set_xlsx_rowheights</a>()</code>,
-<code><a href="writeOpenxlsx.html">writeOpenxlsx</a>()</code></p></div>
+<code><a href="applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>,
+<code><a href="applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code>,
+<code><a href="set_xlsx_colwidths.html">set_xlsx_colwidths()</a></code>,
+<code><a href="set_xlsx_rowheights.html">set_xlsx_rowheights()</a></code>,
+<code><a href="writeOpenxlsx.html">writeOpenxlsx()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -238,7 +238,7 @@ for each worksheet either argument can be <code>NULL</code>.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

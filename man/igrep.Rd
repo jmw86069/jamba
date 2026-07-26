@@ -18,8 +18,8 @@ case-insensitive grep
 \details{
 This function is a simple wrapper around \code{base::grep()} which
 runs in case-insensitive mode. It is mainly used to save keystrokes,
-but is consistently named alongside \code{\link{vgrep}} and
-\code{\link{vigrep}}.
+but is consistently named alongside \code{vgrep()} and
+\code{vigrep()}.
 }
 \examples{
 V <- paste0(LETTERS[1:5], LETTERS[4:8]);

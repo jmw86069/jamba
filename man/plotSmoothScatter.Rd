@@ -84,9 +84,9 @@ typically related to square root or cube root transformation. Note
 that the default uses \code{transFactor} but if a custom function is
 supplied, it will not use \code{transFactor} unless specified.}
 
-\item{xlim}{\code{numeric} x-axis range, or \code{NULL} to use the data range.}
+\item{xlim}{\code{numeric} x-axis range, or 'NULL' to use the data range.}
 
-\item{ylim}{\code{numeric} y-axis range, or \code{NULL} to use the data range.}
+\item{ylim}{\code{numeric} y-axis range, or 'NULL' to use the data range.}
 
 \item{xlab, ylab}{\code{character} labels for x- and y-axis, respectively.}
 

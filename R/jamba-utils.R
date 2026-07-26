@@ -79,7 +79,7 @@ check_pkg_installed <- function
  ...)
 {
    if (length(x) == 0) {
-      return(NULL)
+      return(invisible(logical(0)))
    }
    useMethod <- match.arg(useMethod,
       several.ok=TRUE);

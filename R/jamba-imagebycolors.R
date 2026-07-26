@@ -3,9 +3,9 @@
 #'
 #' Display color raster image using a matrix of colors
 #'
-#' This function is similar to \code{\link[graphics]{image}} except that
+#' This function is similar to `graphics::image()` except that
 #' it takes a matrix which already has colors defined for each cell.
-#' This function calls \code{\link{imageDefault}} which enables updated
+#' This function calls `imageDefault()` which enables updated
 #' use of the \code{useRaster} functionality.
 #'
 #' Additionally, if \code{cellnote} is supplied, which contains a matrix
@@ -50,12 +50,12 @@
 #'    an image visualization.
 #'
 #' @param x `matrix` or `data.frame` containing colors
-#' @param useRaster `logical` sent to \code{\link{imageDefault}} to enable
+#' @param useRaster `logical` sent to `imageDefault()` to enable
 #'    raster rendering, as opposed to polygon rendering. This parameter is
 #'    highly recommended when the matrix is large (>50 columns or rows).
-#' @param fixRasterRatio `logical` sent to \code{\link{imageDefault}}.
-#' @param maxRatioFix `numeric` sent to \code{\link{imageDefault}}.
-#' @param xaxt,yaxt `character` values compatible with \code{\link[graphics]{par}} to
+#' @param fixRasterRatio `logical` sent to `imageDefault()`.
+#' @param maxRatioFix `numeric` sent to `imageDefault()`.
+#' @param xaxt,yaxt `character` values compatible with `graphics::par()` to
 #'    determine whether x- and y-axes are plotted. Set both to "n" to
 #'    suppress display of axes.
 #' @param doPlot `logical` whether to create a plot, or simply return data which
@@ -63,7 +63,7 @@
 #' @param cellnote `matrix` or `data.frame` of labels to be displayed on the
 #'    image. If groupCellnotes==TRUE labels will be placed in the center
 #'    of consecutive cells with the same label and identical color.
-#'    Currently, cell text is colored using \code{\link{setTextContrastColor}}
+#'    Currently, cell text is colored using `setTextContrastColor()`
 #'    which uses either white or black depending upon the brightness of
 #'    the background color.
 #' @param cexCellnote,srtCellnote,fontCellnote `numeric` vectors, with values

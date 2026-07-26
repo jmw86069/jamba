@@ -62,7 +62,7 @@ of sorting by x itself.}
 \item{NAlast}{\code{logical} deprecated in favor of argument \code{na.last}
 for consistency with \code{base::sort()}.}
 
-\item{...}{additional parameters are sent to \code{\link{mixedOrder}}.}
+\item{...}{additional parameters are sent to \code{mixedOrder()}.}
 }
 \value{
 \code{vector} of values from argument \code{x}, ordered by

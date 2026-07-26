@@ -35,7 +35,7 @@ function argument values.}
 \item{col1, col2, colT, colF, colNULL}{\code{character} colors used as defaults
 for first and second arguments, TRUE, FALSE, NULL, respectively.}
 
-\item{lightMode}{\code{logical} or \code{NULL}, indicating whether the text background
+\item{lightMode}{\code{logical} or 'NULL', indicating whether the text background
 color is light, thus imposing a maximum brightness for colors displayed.
 It use lightMode if defined by the function caller, otherwise it will
 use \code{getOption("jam.lightMode")} if defined, lastly it will attempt to

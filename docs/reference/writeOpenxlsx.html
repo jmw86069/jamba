@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,19 +51,20 @@
 <span>  startRow <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  startCol <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  append <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  colorSub <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  headerColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lightskyblue1"</span>, <span class="st">"lightskyblue2"</span><span class="op">)</span>,</span>
 <span>  columnColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aliceblue"</span>, <span class="st">"azure2"</span><span class="op">)</span>,</span>
 <span>  highlightHeaderColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tan1"</span>, <span class="st">"tan2"</span><span class="op">)</span>,</span>
 <span>  highlightColors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"moccasin"</span>, <span class="st">"navajowhite"</span><span class="op">)</span>,</span>
 <span>  borderColor <span class="op">=</span> <span class="st">"gray75"</span>,</span>
 <span>  borderPosition <span class="op">=</span> <span class="st">"BottomRight"</span>,</span>
-<span>  highlightColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  numColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fcColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lfcColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  hitColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  intColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pvalueColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  highlightColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  numFormat <span class="op">=</span> <span class="st">"#,##0.00"</span>,</span>
 <span>  fcFormat <span class="op">=</span> <span class="st">"#,##0.0"</span>,</span>
 <span>  lfcFormat <span class="op">=</span> <span class="st">"#,##0.0"</span>,</span>
@@ -84,7 +85,6 @@
 <span>  pvalueStyle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#F77F30"</span>, <span class="st">"#FDC99B"</span>, <span class="st">"#EEECE1"</span><span class="op">)</span>,</span>
 <span>  doConditional <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  doCategorical <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  colorSub <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  freezePaneColumn <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  freezePaneRow <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  doFilter <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -112,19 +112,27 @@
 
 
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
-<dd><p><code>character</code> valid path to save an 'Excel' 'xlsx' file. If the file
-exists, and <code>append=TRUE</code> the new data will be added to the existing
-file withthe defined <code>sheetName</code>.</p><ul><li><p>Note when <code>file=NULL</code> the output is not saved to a file,
+<dd><p><code>character</code> valid path to save an 'Excel' 'xlsx' file.
+If the file exists, and <code>append=TRUE</code> the new data will
+be added to the existing file using the defined <code>sheetName</code>.</p><ul><li><p>Note When <code>file=NULL</code> the output is not saved to a file,
 instead the <code>Workbook</code> object is returned by this function.
 The <code>Workbook</code> object can be passed as argument <code>wb</code> in order
 to add multiple sheets to the same Workbook prior to saving
-them together. This operation is intended to provide a
-substantial improvement in speed.</p></li>
+them together in one final step. This pattern is recommended
+when saving multiple sheets together into one file, as it
+saves much time by avoiding repeated save/load steps.</p></li>
 </ul></dd>
 
 
 <dt id="arg-wb">wb<a class="anchor" aria-label="anchor" href="#arg-wb"></a></dt>
-<dd><p><code>Workbook</code> object as defined in R package <code>openxlsx</code>.
+<dd><p><code>Workbook</code> object as defined in R package <code>openxlsx</code>,
+default NULL with <code>append=TRUE</code> will create a new workbook
+when <code>file</code> does not exist, or will load <code>file</code> when it exists.
+When provided <code>wb</code> it will be used as the input regardless of
+'append'.</p>
+<p>This argument is intended to help build a workbook before saving
+the final result, which is more efficient for multi-sheet
+save operations by avoiding repeated save/load operations.
 When this argument is defined, data is not imported from <code>file</code>,
 and instead the workbook data is used from <code>wb</code>. This option is
 intended to improve speed of writing several sheets to the same
@@ -134,41 +142,64 @@ a new sheet is added.</p></dd>
 
 <dt id="arg-sheetname">sheetName<a class="anchor" aria-label="anchor" href="#arg-sheetname"></a></dt>
 <dd><p><code>character</code> value less with a valid
-'Excel' 'xlsx' worksheet name. At this time (version 0.0.29.900) the
-sheetName is restricted to 31 characters, with no puntuation except
-"-" and "_".</p></dd>
+'Excel' 'xlsx' worksheet name. At this time, June 2026, the
+'sheetName' is restricted to 31 characters, with no punctuation
+permitted except for '-' and '_'. It does permit spaces ' '.</p></dd>
 
 
 <dt id="arg-startrow-startcol">startRow, startCol<a class="anchor" aria-label="anchor" href="#arg-startrow-startcol"></a></dt>
 <dd><p><code>integer</code> indicating the row and column number
 to start with the top,left cell written to the worksheet,
-default are 1.</p></dd>
+defaults are 1.</p></dd>
 
 
 <dt id="arg-append">append<a class="anchor" aria-label="anchor" href="#arg-append"></a></dt>
 <dd><p><code>logical</code> default FALSE, whether to append to file (TRUE),
 or to write over an existing file. The <code>append=TRUE</code> is useful when
-adding a worksheet to an existing file.</p></dd>
+adding a worksheet to an existing file.</p>
+<p><strong>Document Colors:</strong></p></dd>
+
+
+<dt id="arg-colorsub">colorSub<a class="anchor" aria-label="anchor" href="#arg-colorsub"></a></dt>
+<dd><p><code>character</code> vector of R colors, whose names refer to
+cell values in the input <code>x</code> data.frame.</p></dd>
 
 
 <dt id="arg-headercolors-columncolors-highlightheadercolors-highlightcolors-bordercolor-borderposition">headerColors, columnColors, highlightHeaderColors, highlightColors, borderColor, borderPosition<a class="anchor" aria-label="anchor" href="#arg-headercolors-columncolors-highlightheadercolors-highlightcolors-bordercolor-borderposition"></a></dt>
 <dd><p>default values for the 'Excel' worksheet background and border
 colors. As of version 0.0.29.900, colors must use valid 'Excel'
-color names.</p></dd>
+color names.</p><ul><li><p>Default values use alternating pale blue background in each column,
+changing to alternative tan background for highlighted columns.
+The default border is light grey (grey75) placed 'BottomRight'.</p></li>
+</ul><p><strong>Column Type Assignment:</strong></p></dd>
 
 
-<dt id="arg-highlightcolumns-numcolumns-fccolumns-lfccolumns-hitcolumns-intcolumns-pvaluecolumns">highlightColumns, numColumns, fcColumns, lfcColumns, hitColumns, intColumns, pvalueColumns<a class="anchor" aria-label="anchor" href="#arg-highlightcolumns-numcolumns-fccolumns-lfccolumns-hitcolumns-intcolumns-pvaluecolumns"></a></dt>
+<dt id="arg-numcolumns-fccolumns-lfccolumns-hitcolumns-intcolumns-pvaluecolumns">numColumns, fcColumns, lfcColumns, hitColumns, intColumns, pvalueColumns<a class="anchor" aria-label="anchor" href="#arg-numcolumns-fccolumns-lfccolumns-hitcolumns-intcolumns-pvaluecolumns"></a></dt>
 <dd><p><code>integer</code> vector referring the column number in the input <code>data.frame</code>
 <code>x</code> to define as each column type, as relevant.</p></dd>
+
+
+<dt id="arg-highlightcolumns">highlightColumns<a class="anchor" aria-label="anchor" href="#arg-highlightcolumns"></a></dt>
+<dd><p><code>integer</code> vector with one or more columns
+to be highlighted. Highlighted columns use <code>highlightHeaderColors</code>
+and <code>highlightColors</code> for the header and cells, respectively,
+and apply bold font text by default.</p>
+<p><strong>Column Type Format:</strong></p></dd>
 
 
 <dt id="arg-numformat-fcformat-lfcformat-hitformat-intformat-pvalueformat">numFormat, fcFormat, lfcFormat, hitFormat, intFormat, pvalueFormat<a class="anchor" aria-label="anchor" href="#arg-numformat-fcformat-lfcformat-hitformat-intformat-pvalueformat"></a></dt>
 <dd><p><code>character</code> string with valid 'Excel' cell formatting, for example
 <code>"#,##0.00"</code> defines a column to use comma-delimited numbers above
-one thousand, and display two decimal places in all numeric cells.
-See <code>[https://support.microsoft.com]</code> topic
+one thousand, and display two decimal places in all numeric cells.</p><ul><li><p><code>IntFormat</code> default shows only integer values, even when the underlying
+Excel value contains decimal, fractional values.</p></li>
+<li><p><code>numFormat</code> default shows up to two decimal positions.</p></li>
+<li><p><code>fcFormat</code>, <code>lfcFormat</code>, <code>hitFormat</code> default show one decimal position.</p></li>
+<li><p><code>pvalueFormat</code> default shows the decimal value for values &gt; 0.01,
+and the exponent format for values below 0.01.</p></li>
+</ul><p>See <code>[https://support.microsoft.com]</code> topic
 <code>"Excel Create and apply a custom number format."</code> or
-<code>"Excel Number format codes"</code> for more details. Some examples below:</p><ul><li><p><code>"#,##0"</code> : display only integer values, using comma as delimiter
+<code>"Excel Number format codes"</code> for more details.
+Some examples below:</p><ul><li><p><code>"#,##0"</code> : display only integer values, using comma as delimiter
 for every thousands place.
 The number <code>2142.12</code> would be represented: <code>"2,142"</code></p></li>
 <li><p><code>"###0.0"</code> : display numeric values rounded to the <code>0.1</code> place,
@@ -192,7 +223,7 @@ Values equal to zero are represented with two trailing digits,
 and whitespace (<code>"_"</code>) equal to width <code>")"</code>.
 The whitespace at the end of positive values and zero are used
 to align all values at the same decimal position.</p></li>
-</ul></dd>
+</ul><p><strong>Column Type Rules:</strong></p></dd>
 
 
 <dt id="arg-numrule-fcrule-lfcrule-hitrule-intrule-pvaluerule">numRule, fcRule, lfcRule, hitRule, intRule, pvalueRule<a class="anchor" aria-label="anchor" href="#arg-numrule-fcrule-lfcrule-hitrule-intrule-pvaluerule"></a></dt>
@@ -201,89 +232,109 @@ to align all values at the same decimal position.</p></li>
 color formatting, using the corresponding style.
 Note that all conditional formatting applied by this function uses
 the <code>"3-Color Scale"</code>, therefore there should be three values,
-and three corresponding colors in the corresponding Style arguments.</p></dd>
+and three corresponding colors in the corresponding Style arguments.</p><ul><li><p><code>numRule</code> default: 1, 10, 20</p></li>
+<li><p><code>fcRule</code> default: -6, 0, 6</p></li>
+<li><p><code>lfcRule</code> default: -3, 0, 3</p></li>
+<li><p><code>hitRule</code> default: -1.5, 0, 1.5</p></li>
+<li><p><code>intRule</code> default: 0, 100, 10000</p></li>
+<li><p><code>pvalueRule</code> default: 0, 0.01, 0.05</p></li>
+</ul><p><strong>Column Type Styles:</strong></p></dd>
 
 
 <dt id="arg-numstyle-fcstyle-lfcstyle-intstyle-hitstyle-pvaluestyle">numStyle, fcStyle, lfcStyle, intStyle, hitStyle, pvalueStyle<a class="anchor" aria-label="anchor" href="#arg-numstyle-fcstyle-lfcstyle-intstyle-hitstyle-pvaluestyle"></a></dt>
-<dd><p><code>character</code>
-vector <code>length=3</code> containing three valid R colors. Note that alpha
-transparency will be removed prior to use in 'Excel', as required.
-Note that all conditional formatting applied by this function uses
-the <code>"3-Color Scale"</code>, therefore there should be three colors,
-which match three values in the corresponding Rule arguments.</p></dd>
+<dd><p><code>character</code> vector length 3, containing three valid R colors,
+applied using <code>"3-Color Scale"</code> conditional formatting,
+together with the corresponding format, for example <code>numStyle</code>
+is applied to <code>numColumns</code> using <code>numRule</code>, then the cells
+are formatted with <code>numFormat</code>.</p><ul><li><p><code>fcStyle</code>, <code>lfcStyle</code>, <code>hitStyle</code> use blue-white-red divergent
+colors, expected to be centered at zero by <code>fcRule</code> for example.</p></li>
+<li><p><code>numStyle</code> uses a purple gradient inspired by RColorBrewer "Purples".</p></li>
+<li><p><code>intStyle</code> uses red-orange colors inspired by RColorBrewer "OrRd".</p></li>
+<li><p><code>pvalueStyle</code> uses red-orange colors, reversed so that significant
+values, beginning at 0.05 by default, become more red red.</p></li>
+</ul><p>Alpha transparency is removed, as required.</p>
+<p><strong>Enable Conditional and Categorical Formatting:</strong></p></dd>
 
 
 <dt id="arg-doconditional">doConditional<a class="anchor" aria-label="anchor" href="#arg-doconditional"></a></dt>
-<dd><p><code>logical</code> indicating whether to apply conditional
-formatting of cells, with this function only the background cell
-color (and contrasting text color) is affected.</p></dd>
+<dd><p><code>logical</code> default TRUE, whether to apply
+conditional formatting.
+Note only the background cell color is affected,
+as well as contrasting text color.</p></dd>
 
 
 <dt id="arg-docategorical">doCategorical<a class="anchor" aria-label="anchor" href="#arg-docategorical"></a></dt>
-<dd><p><code>logical</code> indicating whether to apply categorical
-color formatting, of only the background cell colors and contrasting
-text color. This argument requires <code>colorSub</code> be defined.</p></dd>
-
-
-<dt id="arg-colorsub">colorSub<a class="anchor" aria-label="anchor" href="#arg-colorsub"></a></dt>
-<dd><p><code>character</code> vector of R colors, whose names refer to
-cell values in the input <code>x</code> data.frame.</p></dd>
+<dd><p><code>logical</code> default TRUE, whether to apply
+categorical color formatting, only relevant when <code>colorSub</code>
+is defined.
+Note only the background cell color is affected,
+as well as contrasting text color.</p>
+<p><strong>Document Customization:</strong></p></dd>
 
 
 <dt id="arg-freezepanecolumn-freezepanerow">freezePaneColumn, freezePaneRow<a class="anchor" aria-label="anchor" href="#arg-freezepanecolumn-freezepanerow"></a></dt>
 <dd><p><code>integer</code> value of the row or
 column before which the 'Excel' "freeze panes" is applied.
-Note that these values are adjusted relative by <code>startRow</code> and
-<code>startCol</code> in the 'Excel' worksheet, so that the values are applied
-relative to the <code>data.frame</code> argument <code>x</code>.</p></dd>
+Default <code>freezePaneColumn=0</code> will not maintain any columns.
+Default <code>freezePaneRow=2</code> will maintain the first row of column
+headers. Units are relative to the <code>data.frame</code> being saved,
+and will automatically be adjusted by <code>startRow</code> and <code>startCol</code>
+where applicable.</p></dd>
 
 
 <dt id="arg-dofilter">doFilter<a class="anchor" aria-label="anchor" href="#arg-dofilter"></a></dt>
-<dd><p><code>logical</code> indicating whether to enable column
+<dd><p><code>logical</code> default TRUE, whether to enable column
 filtering by default.</p></dd>
 
 
 <dt id="arg-fontname">fontName<a class="anchor" aria-label="anchor" href="#arg-fontname"></a></dt>
-<dd><p><code>character</code> default font configuration, containing
-a valid 'Excel' font name.</p></dd>
+<dd><p><code>character</code> font, default 'Arial', with
+a valid 'Excel' font name for the output document.</p></dd>
 
 
 <dt id="arg-fontsize">fontSize<a class="anchor" aria-label="anchor" href="#arg-fontsize"></a></dt>
-<dd><p><code>numeric</code> default font size in 'Excel' point units.</p></dd>
+<dd><p><code>numeric</code> default 12, font size in 'Excel' points.</p></dd>
 
 
-<dt id="arg-minwidth-maxwidth-autowidth">minWidth, maxWidth, autoWidth<a class="anchor" aria-label="anchor" href="#arg-minwidth-maxwidth-autowidth"></a></dt>
-<dd><p><code>numeric</code> minimum, maximum size
-for each 'Excel' cell, in character units as defined by 'Excel',
-used when <code>autoWidth=TRUE</code> to restrict cell widths to this range.
-Note that the argument <code>colWidths</code> is generally preferred, if the
-numeric widths can be reasonable calculated or anticipated upfront.
-When <code>autoWidth=FALSE</code> 'Excel' typically auto-sizes cells to the width
-of the largest value in each column, which may not be ideal when
-values are extremely large.</p></dd>
+<dt id="arg-minwidth-maxwidth">minWidth, maxWidth<a class="anchor" aria-label="anchor" href="#arg-minwidth-maxwidth"></a></dt>
+<dd><p><code>numeric</code> minimum, maximum size, defaults
+8 and 30, respectively, and which uses <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>
+'openxlsx.minWidth' and 'openxlsx.maxWidth' when defined.
+Units are character units as defined by 'Excel', and are
+used when <code>autoWidth=TRUE</code> as default, to restrict cell widths.
+Argument <code>colWidths</code> is usually preferred, where possible.</p></dd>
+
+
+<dt id="arg-autowidth">autoWidth<a class="anchor" aria-label="anchor" href="#arg-autowidth"></a></dt>
+<dd><p><code>logical</code> default TRUE, whether to permit Excel to
+attempt automatic column widths, within <code>minWidth</code> <code>maxWidth</code>
+widths. Excel has a tendency to set the column width based
+upon column values, and not the column header, therefore
+<code>colWidths</code> is recommended.</p></dd>
 
 
 <dt id="arg-colwidths">colWidths<a class="anchor" aria-label="anchor" href="#arg-colwidths"></a></dt>
 <dd><p><code>numeric</code> width of each column in <code>x</code>, recycled
-to the total number of columns required. Note that when
-<code>keepRownames=TRUE</code>, the first column will contain <code>rownames(x)</code>,
-therefore the length of <code>colWidths</code> in that case will be
-<code>ncol(x) + 1</code>.</p></dd>
+to the total number of columns required. Default NULL does not
+apply specific widths, instead Excel will attempt default widths.
+When <code>keepRownames=TRUE</code>, the first column contains <code>rownames(x)</code>,
+therefore the length of expected <code>colWidths</code> is <code>ncol(x) + 1</code>.</p></dd>
 
 
 <dt id="arg-wrapcells">wrapCells<a class="anchor" aria-label="anchor" href="#arg-wrapcells"></a></dt>
-<dd><p><code>logical</code> default FALSE, indicating whether to
-enable word-wrap within cells.</p></dd>
+<dd><p><code>logical</code> default FALSE, whether to word-wrap
+within cells. The default FALSE is effective when used together
+with specific <code>colWidths</code>.</p></dd>
 
 
 <dt id="arg-wrapheaders">wrapHeaders<a class="anchor" aria-label="anchor" href="#arg-wrapheaders"></a></dt>
-<dd><p><code>logical</code> indicating whether to enable word wrap
+<dd><p><code>logical</code> default TRUE, whether to enable word wrap
 for column headers, which is helpful when <code>autoWidth=TRUE</code> since
 it fixed the cell width while allowing the column header to be seen.</p></dd>
 
 
 <dt id="arg-headerrowmultiplier">headerRowMultiplier<a class="anchor" aria-label="anchor" href="#arg-headerrowmultiplier"></a></dt>
-<dd><p><code>numeric</code> value to define the row height of
+<dd><p><code>numeric</code> default 5, the row height of
 the first header row in 'Excel'. This value is defined as a multiple
 of subsequent rows, and should usually represent the maximum number
 of lines after word-wrapping, as relevant. This argument
@@ -291,7 +342,7 @@ is helpful when <code>wrapHeaders=TRUE</code> and <code>autoWidth=TRUE</code>.</
 
 
 <dt id="arg-keeprownames">keepRownames<a class="anchor" aria-label="anchor" href="#arg-keeprownames"></a></dt>
-<dd><p><code>logical</code> indicating whether to include
+<dd><p><code>logical</code> default FALSE, whether to include
 <code>rownames(x)</code> in its own column in 'Excel'.</p></dd>
 
 
@@ -318,6 +369,13 @@ saving multiple sheets to the same file.</p>
 to provide some pre-configured formatting of known column
 types, typically relevant to statistical values, and
 in some cases, gene or transcript expression values.</p>
+<p><strong>Important Note:</strong>
+Within 'Microsoft Excel', it stores the complete numeric
+value, and simply displays that value with any customized
+format as defined.
+When using 'Microsoft Excel' to export to a text file,
+it will apply this visible formatting during that step,
+which may cause some information to be lost.</p>
 <p>There are numerous configurable options when saving an 'Excel'
 worksheet, most of the defaults in this function are intended
 not to require changes, but are listed as formal function
@@ -326,6 +384,17 @@ arguments to make each option visibly obvious.</p>
 by default text values will be colorized accordingly, which
 can be especially helpful when including data with categorical
 text values.</p>
+<p>Conditional formatting is applied to several recognized types
+of data types, defined by <code>numColumns</code>, <code>intColumns</code>, <code>fcColumns</code>,
+<code>lfcColumns</code>, <code>pvalueColumns</code>, <code>hitColumns</code>.</p>
+<p>Conditional formatting is much more efficient than applying
+specific colors to each cell in a large worksheet, for example
+if using a color <code>function</code> to assign colors to <code>numeric</code> values,
+it would need to be applied as individual color styles, and
+each unique style is stored as such in the Excel workbook.
+A column with 12,000 distinct numeric values may therefore
+contain hundreds or thousands of individual cell style definitions,
+which is very inefficient for an Excel workbook.</p>
 <p>This function pre-configures formatting options for the following
 column data types, each of which has conditional
 color-formatting, defined numeric ranges, and color scales.</p>
@@ -376,11 +445,11 @@ expected ranges of values.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam export functions:
-<code><a href="applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat</a>()</code>,
-<code><a href="applyXlsxConditionalFormat.html">applyXlsxConditionalFormat</a>()</code>,
-<code><a href="readOpenxlsx.html">readOpenxlsx</a>()</code>,
-<code><a href="set_xlsx_colwidths.html">set_xlsx_colwidths</a>()</code>,
-<code><a href="set_xlsx_rowheights.html">set_xlsx_rowheights</a>()</code></p></div>
+<code><a href="applyXlsxCategoricalFormat.html">applyXlsxCategoricalFormat()</a></code>,
+<code><a href="applyXlsxConditionalFormat.html">applyXlsxConditionalFormat()</a></code>,
+<code><a href="readOpenxlsx.html">readOpenxlsx()</a></code>,
+<code><a href="set_xlsx_colwidths.html">set_xlsx_colwidths()</a></code>,
+<code><a href="set_xlsx_rowheights.html">set_xlsx_rowheights()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -408,7 +477,7 @@ expected ranges of values.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6    F  4096 22.4007715  5.945047  2.5716883 3.366732e-07   0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7    G 16384 26.1106827  8.898972  3.1536387 8.554139e-09   1</span>
 <span class="r-in"><span><span class="co"># write to tempfile for examples</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="check_pkg_installed.html">check_pkg_installed</a></span><span class="op">(</span><span class="st">"openxlsx"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span>   <span class="va">out_xlsx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern<span class="op">=</span><span class="st">"writeOpenxlsx_"</span>, fileext<span class="op">=</span><span class="st">".xlsx"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>   <span class="fu">writeOpenxlsx</span><span class="op">(</span>x<span class="op">=</span><span class="va">df</span>,</span></span>
 <span class="r-in"><span>      file<span class="op">=</span><span class="va">out_xlsx</span>,</span></span>
@@ -426,9 +495,7 @@ expected ranges of values.</p>
 <span class="r-in"><span>   <span class="co"># now read it back</span></span></span>
 <span class="r-in"><span>   <span class="va">df_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="readOpenxlsx.html">readOpenxlsx</a></span><span class="op">(</span>xlsx<span class="op">=</span><span class="va">out_xlsx</span><span class="op">)</span>;</span></span>
 <span class="r-in"><span>   <span class="fu"><a href="sdim.html">sdim</a></span><span class="op">(</span><span class="va">df_list</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            rows cols      class</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> jamba_test    7    7 data.frame</span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -441,7 +508,7 @@ expected ranges of values.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

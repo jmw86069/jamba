@@ -12,7 +12,7 @@ jamCalcDensity(x, nbin, bandwidth = NULL, range.x)
 \item{nbin}{\code{integer} number of bins to subdivide the scatterplot,
 expanded to length 2 to accommodate x and y axis bins.}
 
-\item{bandwidth}{\code{numeric} or \code{NULL} representing the bandwidth used
+\item{bandwidth}{\code{numeric} or 'NULL' representing the bandwidth used
 for point density determination.}
 
 \item{range.x}{\code{numeric} vector length 2 representing the range of

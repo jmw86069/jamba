@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,8 +61,22 @@
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>one of these input types:</p><ul><li><p><code>character</code> vector of colors</p></li>
-<li><p><code>function</code> to produce colors, for example <code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code></p></li>
-<li><p><code>list</code> with any combination of <code>character</code> or <code>function</code></p></li>
+<li><p><code>list</code> with any combination of <code>character</code> or <code>function</code>.
+Each element of the <code>list</code> is displayed on its own row.
+List names are shown on the y-axis.</p></li>
+<li><p><code>function</code>: color function in one of two formats:</p><ol><li><p><code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code> which defines numeric breaks, and
+one color <em>at</em> each break. This function is used by ComplexHeatmap
+and is unique and useful in defining the color at each break and
+not in between each break. The benefit is that a specific color
+is known to mean exactly the numeric value, instead of assigning the
+color to some intermediate mean of adjacent breaks, then interpolating
+the color between them.</p></li>
+<li><p><code>function</code> as defined in color packages such as <code>viridis::viridis(10)</code>
+where the number <code>10</code> defines the number of colors to produce.
+For these functions, colors are displayed ranging from 0 to 1,
+intending to mean lowest (0) to highest (1) color, with n steps.</p></li>
+</ol></li>
+<li><p>'ggplot' or 'ggproto' object, see Details.</p></li>
 </ul></dd>
 
 
@@ -120,7 +134,7 @@ Note this function returns the color matrix invisibly.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>invisible color <code>matrix</code> used by <code><a href="imageByColors.html">imageByColors()</a></code>. When
 the input <code>x</code> is empty, or cannot be converted to colors when
-<code>x</code> contains a <code>function</code>, the output returns <code>NULL</code>.</p>
+<code>x</code> contains a <code>function</code>, the output returns 'NULL'.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -129,50 +143,84 @@ the input <code>x</code> is empty, or cannot be converted to colors when
 plot space.</p>
 <p>When supplied a <code>list</code>, each row in <code><a href="imageByColors.html">imageByColors()</a></code> represents
 an entry in the <code>list</code>. Nothing fancy.</p>
-    </div>
+<p>When input is <code>function</code>, it is assumed to be one of these
+formats:</p><ol><li><p><code>viridis::viridis(n)</code></p><ul><li><p>Sequential colors with <code>n</code> steps
+representing colors from lowest to highest value.</p></li>
+<li><p>This format does not apply any numeric range,
+no numeric threshold is implied in the function at all.
+It simply takes its internal range of colors and produces
+<code>n</code> output colors, usually using <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>
+to interpolate intermediate colors when needed.</p></li>
+<li><p>Common examples are R packages such as 'viridis'
+which provide several different color gradients.</p></li>
+</ul></li>
+<li><p><code><a href="https://rdrr.io/pkg/circlize/man/colorRamp2.html" class="external-link">circlize::colorRamp2()</a></code></p><ul><li><p>Colors associated with specific <code>numeric</code> values.</p></li>
+<li><p>A distinctive feature of <code>colorRamp2()</code> color <code>function</code>
+is that it assigns a vector of 'colors' to a vector
+of <code>numeric</code> values. This mechanism is important when
+it is useful to know exactly what <code>numeric</code> value
+is represented by a color.</p></li>
+<li><p>A common alternative is to assign colors <em>between</em>
+<code>numeric</code> breaks, in which case the defined color
+is associated with an intermediate value betweenbreaks.</p></li>
+</ul></li>
+<li><p><code>ggplot</code> or <code>ggproto</code> scales object produced by 'ggplot2'.</p><ul><li><p>Given a <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot</a></code> object, it will use
+'colour' or 'fill' aesthetics present in the 'mapping',
+only when there is an explicit color assignment.
+It does not currently determine the default color
+aesthetic function to use.</p></li>
+<li><p>A <code>ggproto</code> object produced by a color scales function,
+for example <code><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">ggplot2::scale_color_discrete()</a></code>,
+for aesthetics 'color', 'colour', or 'fill'.</p></li>
+<li><p>It makes reasonable attempt to recognize custom limits,
+for example '_gradientn()' functions which may have
+specific 'values' (scaled from 0 to 1) buthent applied to
+specific 'limits' (scaled per user coordinates).</p></li>
+</ul></li>
+</ol></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam plot functions:
-<code><a href="adjustAxisLabelMargins.html">adjustAxisLabelMargins</a>()</code>,
-<code><a href="coordPresets.html">coordPresets</a>()</code>,
-<code><a href="decideMfrow.html">decideMfrow</a>()</code>,
-<code><a href="drawLabels.html">drawLabels</a>()</code>,
-<code><a href="getPlotAspect.html">getPlotAspect</a>()</code>,
-<code><a href="groupedAxis.html">groupedAxis</a>()</code>,
-<code><a href="imageByColors.html">imageByColors</a>()</code>,
-<code><a href="imageDefault.html">imageDefault</a>()</code>,
-<code><a href="minorLogTicksAxis.html">minorLogTicksAxis</a>()</code>,
-<code><a href="nullPlot.html">nullPlot</a>()</code>,
-<code><a href="plotPolygonDensity.html">plotPolygonDensity</a>()</code>,
-<code><a href="plotRidges.html">plotRidges</a>()</code>,
-<code><a href="plotSmoothScatter.html">plotSmoothScatter</a>()</code>,
-<code><a href="shadowText.html">shadowText</a>()</code>,
-<code><a href="shadowText_options.html">shadowText_options</a>()</code>,
-<code><a href="sqrtAxis.html">sqrtAxis</a>()</code>,
-<code><a href="usrBox.html">usrBox</a>()</code></p>
+<code><a href="adjustAxisLabelMargins.html">adjustAxisLabelMargins()</a></code>,
+<code><a href="coordPresets.html">coordPresets()</a></code>,
+<code><a href="decideMfrow.html">decideMfrow()</a></code>,
+<code><a href="drawLabels.html">drawLabels()</a></code>,
+<code><a href="getPlotAspect.html">getPlotAspect()</a></code>,
+<code><a href="groupedAxis.html">groupedAxis()</a></code>,
+<code><a href="imageByColors.html">imageByColors()</a></code>,
+<code><a href="imageDefault.html">imageDefault()</a></code>,
+<code><a href="minorLogTicksAxis.html">minorLogTicksAxis()</a></code>,
+<code><a href="nullPlot.html">nullPlot()</a></code>,
+<code><a href="plotPolygonDensity.html">plotPolygonDensity()</a></code>,
+<code><a href="plotRidges.html">plotRidges()</a></code>,
+<code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code>,
+<code><a href="shadowText.html">shadowText()</a></code>,
+<code><a href="shadowText_options.html">shadowText_options()</a></code>,
+<code><a href="sqrtAxis.html">sqrtAxis()</a></code>,
+<code><a href="usrBox.html">usrBox()</a></code></p>
 <p>Other jam color functions:
-<code><a href="alpha2col.html">alpha2col</a>()</code>,
-<code><a href="applyCLrange.html">applyCLrange</a>()</code>,
-<code><a href="col2alpha.html">col2alpha</a>()</code>,
-<code><a href="col2hcl.html">col2hcl</a>()</code>,
-<code><a href="col2hsl.html">col2hsl</a>()</code>,
-<code><a href="col2hsv.html">col2hsv</a>()</code>,
-<code><a href="color2gradient.html">color2gradient</a>()</code>,
-<code><a href="fixYellow.html">fixYellow</a>()</code>,
-<code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
-<code><a href="getColorRamp.html">getColorRamp</a>()</code>,
-<code><a href="hcl2col.html">hcl2col</a>()</code>,
-<code><a href="hsl2col.html">hsl2col</a>()</code>,
-<code><a href="hsv2col.html">hsv2col</a>()</code>,
-<code><a href="isColor.html">isColor</a>()</code>,
-<code><a href="kable_coloring.html">kable_coloring</a>()</code>,
-<code><a href="makeColorDarker.html">makeColorDarker</a>()</code>,
-<code><a href="rainbow2.html">rainbow2</a>()</code>,
-<code><a href="rgb2col.html">rgb2col</a>()</code>,
-<code><a href="setCLranges.html">setCLranges</a>()</code>,
-<code><a href="setTextContrastColor.html">setTextContrastColor</a>()</code>,
-<code><a href="unalpha.html">unalpha</a>()</code>,
-<code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
+<code><a href="alpha2col.html">alpha2col()</a></code>,
+<code><a href="applyCLrange.html">applyCLrange()</a></code>,
+<code><a href="col2alpha.html">col2alpha()</a></code>,
+<code><a href="col2hcl.html">col2hcl()</a></code>,
+<code><a href="col2hsl.html">col2hsl()</a></code>,
+<code><a href="col2hsv.html">col2hsv()</a></code>,
+<code><a href="color2gradient.html">color2gradient()</a></code>,
+<code><a href="fixYellow.html">fixYellow()</a></code>,
+<code><a href="fixYellowHue.html">fixYellowHue()</a></code>,
+<code><a href="getColorRamp.html">getColorRamp()</a></code>,
+<code><a href="hcl2col.html">hcl2col()</a></code>,
+<code><a href="hsl2col.html">hsl2col()</a></code>,
+<code><a href="hsv2col.html">hsv2col()</a></code>,
+<code><a href="isColor.html">isColor()</a></code>,
+<code><a href="kable_coloring.html">kable_coloring()</a></code>,
+<code><a href="makeColorDarker.html">makeColorDarker()</a></code>,
+<code><a href="rainbow2.html">rainbow2()</a></code>,
+<code><a href="rgb2col.html">rgb2col()</a></code>,
+<code><a href="setCLranges.html">setCLranges()</a></code>,
+<code><a href="setTextContrastColor.html">setTextContrastColor()</a></code>,
+<code><a href="unalpha.html">unalpha()</a></code>,
+<code><a href="warpRamp.html">warpRamp()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -253,7 +301,7 @@ an entry in the <code>list</code>. Nothing fancy.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

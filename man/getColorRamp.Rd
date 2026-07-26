@@ -116,7 +116,7 @@ a vector of colors, or a function names, and returns a simple
 vector of colors of the appropriate length, suitable as input
 to a number of plotting functions.
 
-When \code{n} is \code{NULL}, this function returns a color function,
+When \code{n} is 'NULL', this function returns a color function,
 wrapped by \code{grDevices::colorRampPalette()}. The colors used
 are defined by \code{gradientN}, so the \code{grDevices::colorRampPalette()}
 function actually uses a starting palette of \code{gradientN} number

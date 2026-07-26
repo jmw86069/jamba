@@ -19,7 +19,7 @@ applyCLrange(
 \arguments{
 \item{x}{vector of R colors}
 
-\item{lightMode}{\code{NULL} or \code{logical}. When \code{lightMode=NULL} then
+\item{lightMode}{'NULL' or \code{logical}. When \code{lightMode=NULL} then
 \code{Crange} and \code{Lrange} values are used as-is; when \code{lightMode=TRUE}
 or \code{lightMode=FALSE} then default values are used for \code{Crange} and
 \code{Lrange} values, where \code{lightMode=TRUE} is intended for colors
@@ -27,7 +27,7 @@ to have contrast against a light/bright/white background,
 and \code{lightMode=FALSE} is intended for colors to have contrast
 against a dark background.}
 
-\item{Crange}{\code{NULL} or \code{numeric} range with minimum and maximum allowed
+\item{Crange}{'NULL' or \code{numeric} range with minimum and maximum allowed
 values for the chroma (C) component.}
 
 \item{Lrange}{\code{NUL}L or \code{numeric} range with minimum and maximum allowed
@@ -54,7 +54,7 @@ range is equal to \code{Crange}.}
 
 \item{fixup}{\code{logical} passed to \code{hcl2col()} and subsequently
 to \code{colorspace::hex()} when converting colors outside the color
-gamut (visible range.) When \code{fixup} is \code{NULL}, the \code{hcl2col()}
+gamut (visible range.) When \code{fixup} is 'NULL', the \code{hcl2col()}
 method applies its own aggressive technique to restrict the color
 range.}
 

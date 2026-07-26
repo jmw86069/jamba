@@ -32,7 +32,7 @@ kable_coloring(
 in the \code{data.frame} which are given these assigned colors
 \item \code{function} that takes column values as input, and returns
 a \code{character} vector with one color per value, using \code{NA}
-or \code{NULL} to indicate \code{"transparent"}
+or 'NULL' to indicate \code{"transparent"}
 \item \code{list} whose names match \code{colnames(df)}, where each entry
 contains either \code{character} or \code{function} option as described
 above. A \code{character} vector should be named by values expected
@@ -73,20 +73,20 @@ or disable word-wrapping by column. Some helpful examples:
 \item \code{border_right="1px solid #DDDDDD"}: light gray 1 pixel right border
 \item \code{extra_css=NULL}: disables word-wrap
 \item \code{extra_css="whitespace: nowrap;"}: enables text word-wrap
-\item when all options above contain only \code{FALSE} or \code{NULL}, then
+\item when all options above contain only \code{FALSE} or 'NULL', then
 \code{kableExtra::column_spec()} is not applied.
 }}
 
 \item{format}{\code{character} passed to \code{knitr::kable()}, default \code{"html"}
 which is the intended format for most scenarios.
-It can be set to \code{NULL} to enable auto-detection of the format.}
+It can be set to 'NULL' to enable auto-detection of the format.}
 
 \item{format.args}{\code{list} of arguments passed to \code{base::format()}
 intended mainly for \code{numeric} columns.}
 
 \item{row.names}{\code{logical} indicating whether to include \code{rownames(df)}.
 When \code{row.names=NA} the default is to display rownames if they
-are not \code{NULL} and not equal to \code{1:nrow(df)}.}
+are not 'NULL' and not equal to \code{1:nrow(df)}.}
 
 \item{align}{\code{character} passed to \code{kableExtra::kable()} to define
 alignment of each column.}

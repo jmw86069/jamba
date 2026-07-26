@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">checkLightMode</span><span class="op">(</span>lightMode <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">checkLightMode</span><span class="op">(</span></span>
+<span>  lightMode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.lightMode"</span><span class="op">)</span>,</span>
+<span>  positron_default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.lightMode.positron"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  html_default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.lightMode.html"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  knitr_default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.lightMode.knitr"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  other_default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"jam.lightMode.other"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -52,7 +59,33 @@
 
 <dl><dt id="arg-lightmode">lightMode<a class="anchor" aria-label="anchor" href="#arg-lightmode"></a></dt>
 <dd><p><code>logical</code> or NULL, indicating whether the lightMode
-parameter has been defined in the function call.</p></dd>
+parameter has been defined in the function call.
+The default <code>getOption("jam.lightMode")</code> is NULL unless assigned.
+When NULL it will use logic described in Details.
+When assigned, it is used as-is.</p></dd>
+
+
+<dt id="arg-positron-default">positron_default<a class="anchor" aria-label="anchor" href="#arg-positron-default"></a></dt>
+<dd><p><code>logical</code> default TRUE, applied only when
+running inside Positron, and when <code><a href="https://rstudio.github.io/rstudioapi/reference/getThemeInfo.html" class="external-link">rstudioapi::getThemeInfo()</a></code> is
+not available, which is default for Positron as of jamba-1.0.5.
+When running inside RStudio, it calls <code><a href="https://rstudio.github.io/rstudioapi/reference/getThemeInfo.html" class="external-link">rstudioapi::getThemeInfo()</a></code>
+to determine whether the theme is light or dark.</p></dd>
+
+
+<dt id="arg-html-default">html_default<a class="anchor" aria-label="anchor" href="#arg-html-default"></a></dt>
+<dd><p><code>logical</code> default TRUE, applied when knitr
+is running with html output.</p></dd>
+
+
+<dt id="arg-knitr-default">knitr_default<a class="anchor" aria-label="anchor" href="#arg-knitr-default"></a></dt>
+<dd><p><code>logical</code> default TRUE, applied when knitr
+is running.</p></dd>
+
+
+<dt id="arg-other-default">other_default<a class="anchor" aria-label="anchor" href="#arg-other-default"></a></dt>
+<dd><p><code>logical</code> default FALSE, applied when running
+outside Positron or RStudio.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -61,54 +94,61 @@ parameter has been defined in the function call.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>logical or length=1, indicating whether lightMode is defined</p>
+    <p><code>logical</code> indicating whether lightMode is defined</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Check the lightMode status through function parameter, options, or
-environment variable. If the function defines lightMode, it is used as-is.
-If lightMode is NULL, then options("jam.lightMode") is used if defined.
-Otherwise, it tries to detect whether the R session is running inside
-Rstudio using the environmental variable "RSTUDIO", and if so it assumes
-lightMode==TRUE.</p>
-<p>To set a default lightMode, add options("jam.lightMode"=TRUE) to .Rprofile, or
-to the relevant R script.</p>
-    </div>
+    <p>Check the lightMode status through options('jam.lightMode'),
+or by determining the running environment.</p>
+<p>Logic is applied as follows:</p><ul><li><p>When <code>lightMode</code> is defined upfront as <code>logical</code>, it is used.</p></li>
+<li><p>When <code>getOption('jam.lightMode')</code> is defined, it is used.</p></li>
+<li><p>When <code>lightMode</code> is NULL, it will apply a suitable default:</p><ul><li><p>If running inside knitr, it will apply <code>html_default</code> for html output,
+and <code>knitr_default</code> otherwise. Typically both produce white background,
+however this gives the option for custom background color.</p></li>
+<li><p>If running inside Positron or RStudio, it will attempt to run
+<code><a href="https://rstudio.github.io/rstudioapi/reference/getThemeInfo.html" class="external-link">rstudioapi::getThemeInfo()</a></code> and use the resulting 'theme$dark',
+otherwise it applies <code>positron_default</code>.</p></li>
+<li><p>All other cases use <code>other_default</code>, default is FALSE to
+apply to linux remote shell session with dark background.</p></li>
+</ul></li>
+</ul><p>To set a persistent default lightMode, add this line to .Rprofile:</p><ul><li><p><code>options("jam.lightMode"=TRUE)</code></p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam practical functions:
-<code><a href="breakDensity.html">breakDensity</a>()</code>,
-<code><a href="call_fn_ellipsis.html">call_fn_ellipsis</a>()</code>,
-<code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
-<code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
-<code><a href="color_dither.html">color_dither</a>()</code>,
-<code><a href="exp2signed.html">exp2signed</a>()</code>,
-<code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
-<code><a href="isFALSEV.html">isFALSEV</a>()</code>,
-<code><a href="isTRUEV.html">isTRUEV</a>()</code>,
-<code><a href="jargs.html">jargs</a>()</code>,
-<code><a href="kable_coloring.html">kable_coloring</a>()</code>,
-<code><a href="lldf.html">lldf</a>()</code>,
-<code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="middle.html">middle</a>()</code>,
-<code><a href="minorLogTicks.html">minorLogTicks</a>()</code>,
-<code><a href="newestFile.html">newestFile</a>()</code>,
-<code><a href="printDebug.html">printDebug</a>()</code>,
-<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache</a>()</code>,
-<code><a href="renameColumn.html">renameColumn</a>()</code>,
-<code><a href="rmInfinite.html">rmInfinite</a>()</code>,
-<code><a href="rmNA.html">rmNA</a>()</code>,
-<code><a href="rmNAs.html">rmNAs</a>()</code>,
-<code><a href="rmNULL.html">rmNULL</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
+<code><a href="breakDensity.html">breakDensity()</a></code>,
+<code><a href="call_fn_ellipsis.html">call_fn_ellipsis()</a></code>,
+<code><a href="check_pkg_installed.html">check_pkg_installed()</a></code>,
+<code><a href="colNum2excelName.html">colNum2excelName()</a></code>,
+<code><a href="color_dither.html">color_dither()</a></code>,
+<code><a href="exp2signed.html">exp2signed()</a></code>,
+<code><a href="getAxisLabel.html">getAxisLabel()</a></code>,
+<code><a href="isFALSEV.html">isFALSEV()</a></code>,
+<code><a href="isTRUEV.html">isTRUEV()</a></code>,
+<code><a href="jargs.html">jargs()</a></code>,
+<code><a href="kable_coloring.html">kable_coloring()</a></code>,
+<code><a href="lldf.html">lldf()</a></code>,
+<code><a href="log2signed.html">log2signed()</a></code>,
+<code><a href="middle.html">middle()</a></code>,
+<code><a href="minorLogTicks.html">minorLogTicks()</a></code>,
+<code><a href="newestFile.html">newestFile()</a></code>,
+<code><a href="printDebug.html">printDebug()</a></code>,
+<code><a href="reload_qmd_cache.html">reload_qmd_cache()</a></code>,
+<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code>,
+<code><a href="renameColumn.html">renameColumn()</a></code>,
+<code><a href="rmInfinite.html">rmInfinite()</a></code>,
+<code><a href="rmNA.html">rmNA()</a></code>,
+<code><a href="rmNAs.html">rmNAs()</a></code>,
+<code><a href="rmNULL.html">rmNULL()</a></code>,
+<code><a href="setPrompt.html">setPrompt()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">checkLightMode</span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu">checkLightMode</span><span class="op">(</span><span class="op">)</span>;</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">checkLightMode</span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="fu">checkLightMode</span><span class="op">(</span><span class="op">)</span>;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -121,7 +161,7 @@ to the relevant R script.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

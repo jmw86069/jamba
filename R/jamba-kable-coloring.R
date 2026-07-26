@@ -32,7 +32,7 @@
 #'    in the `data.frame` which are given these assigned colors
 #'    * `function` that takes column values as input, and returns
 #'    a `character` vector with one color per value, using `NA`
-#'    or `NULL` to indicate `"transparent"`
+#'    or 'NULL' to indicate `"transparent"`
 #'    * `list` whose names match `colnames(df)`, where each entry
 #'    contains either `character` or `function` option as described
 #'    above. A `character` vector should be named by values expected
@@ -66,16 +66,16 @@
 #'    * `border_right="1px solid #DDDDDD"`: light gray 1 pixel right border
 #'    * `extra_css=NULL`: disables word-wrap
 #'    * `extra_css="whitespace: nowrap;"`: enables text word-wrap
-#'    * when all options above contain only `FALSE` or `NULL`, then
+#'    * when all options above contain only `FALSE` or 'NULL', then
 #'    `kableExtra::column_spec()` is not applied.
 #' @param format `character` passed to `knitr::kable()`, default `"html"`
 #'    which is the intended format for most scenarios.
-#'    It can be set to `NULL` to enable auto-detection of the format.
+#'    It can be set to 'NULL' to enable auto-detection of the format.
 #' @param format.args `list` of arguments passed to `base::format()`
 #'    intended mainly for `numeric` columns.
 #' @param row.names `logical` indicating whether to include `rownames(df)`.
 #'    When `row.names=NA` the default is to display rownames if they
-#'    are not `NULL` and not equal to `1:nrow(df)`.
+#'    are not 'NULL' and not equal to `1:nrow(df)`.
 #' @param align `character` passed to `kableExtra::kable()` to define
 #'    alignment of each column.
 #' @param return_type `character` string indicating the type of data

@@ -17,7 +17,7 @@
 #'    `nchar(x)` is required to determine padding.
 #' @param padCharacter `character` with nchar(padCharacter)==1, used to pad
 #'    each digit as a prefix.
-#' @param useNchar `NULL` or `integer` number of digits used, or if the maximum
+#' @param useNchar 'NULL' or `integer` number of digits used, or if the maximum
 #'    `nchar(x)` is higher, that number of digits is used. Note `useNchar` is
 #'    mostly useful when all numbers are less than 10, but the desired output
 #'    is to have a fixed number of digits 2 or higher.
@@ -145,7 +145,7 @@ dateToDaysOld <- function
 #' convert date DDmmmYYYY to Date
 #'
 #' This function converts a text date string to Date object, mainly to
-#' allow date-related math operations, for example \code{\link[base]{difftime}}.
+#' allow date-related math operations, for example `base::difftime()`.
 #'
 #' @family jam date functions
 #'
@@ -308,7 +308,7 @@ getDate <- function
 #'    hung and needs to be stopped directly.
 #' @param resetPrompt `logical` whether to revert all changes to the prompt
 #'    back to the default R prompt, that is, no color and no projectName.
-#' @param addEscape `logical` or `NULL` indicating whether to wrap color
+#' @param addEscape `logical` or 'NULL' indicating whether to wrap color
 #'    encoding ANSI inside additional escape sequences. This change is
 #'    helpful for linux-based (readline-based) R consoles, by telling
 #'    the console not to count ANSI color control characters as visible
@@ -318,7 +318,7 @@ getDate <- function
 #'    `addEscape=TRUE`. Apparently most versions of RStudio will already
 #'    adjust (and prevent) colorizing the prompt during editing, presumably
 #'    to sidestep the problem of calculating the correct character length.
-#'    By default when `addEscape` is `NULL`, it checks whether environmental
+#'    By default when `addEscape` is 'NULL', it checks whether environmental
 #'    variable `RSTUDIO` equals `"1"` (running inside RStudio) then sets
 #'    `addEscape=FALSE`; otherwise it defines `addEscape=TRUE`.
 #'    In most cases for commandline prompts, `addEscape=TRUE` is helpful
@@ -1420,9 +1420,9 @@ tcount <- function
 #'
 #' @family jam internal functions
 #'
-#' @param style `character` vector of one or more styles. When `NULL` or `NA`,
+#' @param style `character` vector of one or more styles. When 'NULL' or `NA`,
 #'    no style is applied, except when `bg_style` is supplied
-#'    and is neither `NA` nor `NULL`, in which case entries with
+#'    and is neither `NA` nor 'NULL', in which case entries with
 #'    a `bg_style` and no `style` will use `setTextContrastColor()`
 #'    to define a contrasting `style`.
 #' @param text `character` vector (or coerced to `character`) of one or
@@ -1430,7 +1430,7 @@ tcount <- function
 #' @param bg `logical` indicating whether the `style` should be
 #'    applied to the background instead of foreground. This argument
 #'    is ignored when `bg_style` is supplied.
-#' @param bg_style `NULL` or a `character` vector of one or more background
+#' @param bg_style 'NULL' or a `character` vector of one or more background
 #'    styles. When this argument is not NULL, it applies both the foreground
 #'    `style` and background `bg_style` together, and therefore ignores
 #'    `Crange` and `Lrange` settings.
@@ -1470,7 +1470,7 @@ tcount <- function
 #' @param setOptions `character` or `logical` whether to update
 #'    `Crange` and `Lrange` options during the subsequent call to
 #'    `setCLranges()`. By default,
-#'    * `"ifnull"` will update only options which were previously `NULL`;
+#'    * `"ifnull"` will update only options which were previously 'NULL';
 #'    * `"FALSE"` prevents modifying the global options;
 #'    * `"TRUE"` will update these options with the current values.
 #' @param verbose `logical` indicating whether to print verbose output
@@ -1886,7 +1886,7 @@ make_styles <- function
 #' @family jam practical functions
 #'
 #' @param x `function` or character name of a function.
-#' @param grepString `NULL`, `logical`, or `character` grep regular expression
+#' @param grepString 'NULL', `logical`, or `character` grep regular expression
 #'    pattern used to filter function arguments by name. Very useful to
 #'    search a function for arguments with a substring `"row"`.
 #'    * If `logical`, it is assumed to be sortVars, and indicates whether
@@ -1904,7 +1904,7 @@ make_styles <- function
 #'    display results as a `data.frame`.
 #' @param useColor `logical` whether to display results in color, if the crayon
 #'    package is available, and terminal console is capable.
-#' @param lightMode `logical` or `NULL`, indicating whether the text background
+#' @param lightMode `logical` or 'NULL', indicating whether the text background
 #'    color is light, thus imposing a maximum brightness for colors displayed.
 #'    It use lightMode if defined by the function caller, otherwise it will
 #'    use `getOption("jam.lightMode")` if defined, lastly it will attempt to
@@ -1928,7 +1928,7 @@ make_styles <- function
 #'    output, useful because parameters are hard!
 #' @param ... Additional arguments are installed.
 #'
-#' @returns `NULL` this function called for the byproduct of printing
+#' @returns 'NULL' this function called for the byproduct of printing
 #'    its output.
 #'
 #' @examples
@@ -3681,7 +3681,7 @@ warpAroundZero <- function
 #'
 #' @param x `list` or vector
 #' @param doSum `logical` indicating whether to return the overall sum
-#'    of lengths. When `NULL` it will return the aggregate length of
+#'    of lengths. When 'NULL' it will return the aggregate length of
 #'    each list element in `x`. When `FALSE` it will return the same
 #'    list structure of x, with the length of each. When `TRUE` it will
 #'    return the total length of all elements in `x` as one value.

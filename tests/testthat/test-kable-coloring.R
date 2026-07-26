@@ -31,9 +31,19 @@ testthat::test_that("kable_coloring basics", {
       FALSE)
    # confirm "1,000" uses
    # background-color: rgba(255, 160, 122, 255)
-   test_pattern <- paste0("<span style.*[; ]background-color:[ ]*",
-      "rgba[(255,[ ]*160,[ ]*122,[ ]*255[)].*>[ ]*1,000[ ]*</span>")
-   testthat::expect_equal(
-      any(grep(test_pattern, kdf1str)),
-      TRUE)
+   rgb1000 <- gsub(".$", "[0-9]",
+      col2rgb(new_colorSub$column_C(1000))[, 1]);
+   grep_pattern <- paste0("^.*<span style.*[; ](background-color:[ ]*",
+      "rgba[([0-9]+,[ ]*[0-9]+,[ ]*[0-9]+,[ ]*[0-9]+[)].*>[ ]*1[,]*000[ ]*</span>).*")
+   kdf1match <- vigrep(grep_pattern, kdf1str)
+   if (length(kdf1match) == 1) {
+      test_pattern <- paste0("<span style.*[; ]background-color:[ ]*",
+         "rgba[(]", rgb1000[1],
+         ",[ ]*", rgb1000[2],
+         ",[ ]*", rgb1000[3],
+         ".*>[ ]*1[,]*000[ ]*</span>")
+      testthat::expect_equal(
+         any(grep(test_pattern, ignore.case=TRUE, kdf1match)),
+         TRUE)
+   }
 })

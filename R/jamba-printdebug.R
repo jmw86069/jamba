@@ -1,28 +1,38 @@
 
-#' print colorized output to R console
+#' Print colorized output to R console
 #'
-#' print colorized output to R console
+#' Print colorized output to R console using R messages, with
+#' convenient time stamp, for debug type output.
 #'
 #' This function prints colorized output to the R console, with some
 #' rules for colorizing the output to help visually distinguish items.
 #'
 #' The main intent is to use this function to print pretty debug messages,
-#' because color helps identify.
+#' because color helps identify patterns.
+#'
+#' For use inside 'Rmarkdown' `.Rmd` and 'Quarto' 'qmd' documents, the
+#' default condition will set 'htmlOutput=TRUE' when knitr is producing
+#' an HTML output file, and 'htmlOutput=FALSE' otherwise.
+#' The argument 'comment' now uses a leading space ' ## ' to prevent being
+#' interpreted as a markdown heading, however when run inside knitr,
+#' the default is 'comment=FALSE'.
+#' 
+#' In 'Rmarkdown' and 'Quarto', define the chunk option
+#' `results='asis'` to enable properly colored text.
 #'
 #' By default, output has the following configurable properties:
 #'
-#' * each line begins with a comment, controlled by default
-#' `comment=getOption("jam.comment", TRUE)` which by default uses `"##"`,
-#' but which can be defined to use a different prefix, or `FALSE`
-#' for no prefix at all.
-#' * each line includes time and date stamp controlled by
-#' `timeStamp=getOption("jam.timeStamp", TRUE)` which by default includes the
+#' * Each line begins with a comment, controlled by default
+#' `comment=getOption("jam.comment", TRUE)` with default ' ## '.
+#' It can be customized, or `FALSE` for no prefix at all.
+#' * Each line includes time and date stamp controlled by
+#' `timeStamp=getOption("jam.timeStamp", TRUE)`, by default the
 #' current time and date.
-#' * each line formats `numeric` values, controlled by
+#' * Each line formats `numeric` values, controlled by
 #' `formatNumbers=getOption("jam.formatNumbers", TRUE)`, which determines
 #' whether to apply arguments `big.mark` and `small.mark` to make numeric
 #' values more readable.
-#' * each entry in `...` is printed with its own foreground color `fgText`,
+#' * Each entry in `...` is printed with its own foreground color `fgText`,
 #' background color `bgText`, with a slight lighter/darker dithering effect
 #' to add minor visual distinction for multiple values.
 #' * Values in each `vector` are concatenated by `sep=","` by default.
@@ -42,22 +52,6 @@
 #' and within each vector of `...` printed the corresponding color vector
 #' is recycled to the length of that vector.
 #'
-#' For use inside 'Rmarkdown' `.Rmd` and Quarto 'qmd' documents, the
-#' default condition will set 'htmlOutput=TRUE' when knitr is producing
-#' an HTML output file, and 'htmlOutput=FALSE' otherwise.
-#' The argument 'comment' now uses a leading space ' ## ' to prevent being
-#' interpreted as a markdown heading, however when run inside knitr,
-#' the default is 'comment=FALSE'.
-#' 
-#' For proper output with colorized text, define the chunk option
-#' `results='asis'` like this:
-#'
-#' `````
-#' ```{r block_name, results='asis'}
-#' # some R code here
-#' ```
-#' `````
-#'
 #' @param ... `character`, `factor`, `numeric` or compatible atomic vectors
 #'    to be printed to the R console. These arguments are recognized as
 #'    any un-named argument, or any argument whose name does not match the
@@ -67,7 +61,7 @@
 #'    and when multiple vector values are contained in one `...` element,
 #'    the color defined in `fgText` is extended.
 #'    The input types recognized:
-#'    * `NULL` when no color is defined, one of two outputs:
+#'    * 'NULL' when no color is defined, one of two outputs:
 #'       1. When all values in `...` represent colors, these colors are
 #'       used to colorize the output text. When `names()` are present
 #'       they are used as the text labels in place of the vector value.
@@ -91,7 +85,7 @@
 #'    When multiple colors are defined for the `list` element, these
 #'    values are recycled to the vector length.
 #'    * **Note**: When `invert=TRUE` the values for `fgText` and `bgText` are
-#'    reversed, and if the resulting `fgText` is `NULL` then its color
+#'    reversed, and if the resulting `fgText` is 'NULL' then its color
 #'    is defined by `setTextContrastColor()` in order to define a contrasting
 #'    text color.
 #' @param fgDefault `character` defaults to
@@ -100,7 +94,7 @@
 #'    input `...` values.
 #' @param bgText `vector` of R colors, or `list` of vectors, used to define
 #'    the background color, using the same approach described for `fgText`.
-#'    Note that `NULL` or `NA` defines the absence of any background color,
+#'    Note that 'NULL' or `NA` defines the absence of any background color,
 #'    which is default. When `invert=TRUE`, which is default for
 #'    `printDebugI()`, the values for `fgText` and `bgText` are reversed.
 #' @param fgTime `character` R color to colorize the time
@@ -111,8 +105,8 @@
 #'    that contain `integers` may be represented as `14.0000000001`.
 #' @param trim,digits,nsmall,justify,big.mark,small.mark,zero.print,width
 #'    arguments passed to `format()`.
-#' @param doColor `logical` or `NULL` indicating whether to colorize output.
-#'    When `doColor` is `NULL`, if the `"crayon"` package is available,
+#' @param doColor `logical` or 'NULL' indicating whether to colorize output.
+#'    When `doColor` is 'NULL', if the `"crayon"` package is available,
 #'    and if crayon detects color is permitted, color is enabled.
 #' @param splitComments `logical` whether to color each element independently
 #'    without light-dark alternating pattern. The intensity of the
@@ -121,7 +115,7 @@
 #'    by default "" so text separation is expected in the input data.
 #' @param sep `character` separator used to separate vector elements, when
 #'    a list items contains a vector.
-#' @param doReset `logical` or `NULL`, indicating whether to apply
+#' @param doReset `logical` or 'NULL', indicating whether to apply
 #'    `crayon::reset()` to the delimiter `sep`. When `doReset=TRUE` the
 #'    style on the delimiter is forced to reset, using `crayon::reset()`,
 #'    or to remove pre-existing style with `crayon::strip_style()`. When
@@ -146,7 +140,7 @@
 #'    background color is light, where `lightMode=TRUE` indicates the
 #'    background is white or light enough to require darker text,
 #'    imposing a maximum brightness for colors displayed.
-#'    When `NULL` it calls `checkLightMode()`, which uses:
+#'    When 'NULL' it calls `checkLightMode()`, which uses:
 #'    * `getOption("jam.lightMode")` if defined
 #'    * otherwise attempts to detect whether the session is running inside
 #'    RStudio, by checking for environmental variable `"RSTUDIO"`,
@@ -179,7 +173,7 @@
 #'    when `file` is defined.
 #' @param invert `logical` indicating whether foreground and background
 #'    colors should be switched, as is default for `printDebugI()`.
-#'    Note when the resulting `fgText` is `NULL`, its color is defined
+#'    Note when the resulting `fgText` is 'NULL', its color is defined
 #'    by `setTextContrastColor()` to define a contrasting text color
 #'    relative to the background color in `bgText`.
 #' @param htmlOut `logical` indicating whether to print HTML span
@@ -196,7 +190,7 @@
 #'    as R code.
 #'    Default NULL will set FALSE when knitr is running.
 #'
-#' @returns `NULL` invisibly, this function is called for the side effect
+#' @returns NULL invisibly, this function is called for the side effect
 #'    of printing output using `message()` for console output, or
 #'    `cat()` when saving to a file.
 #'
@@ -802,7 +796,7 @@ printDebug <- function
 #'
 #' @family jam practical functions
 #'
-#' @returns `NULL` invisibly, this function is called for the side effect
+#' @returns NULL invisibly, this function is called for the side effect
 #'    of printing output using `cat()`.
 #'
 #' @rdname printDebug
@@ -834,7 +828,7 @@ printDebugI <- function
 #'
 #' @family jam practical functions
 #'
-#' @returns `NULL` invisibly, this function is called for the side effect
+#' @returns NULL invisibly, this function is called for the side effect
 #'    of printing output using `cat()`.
 #'
 #' @rdname printDebug

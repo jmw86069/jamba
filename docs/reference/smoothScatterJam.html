@@ -9,7 +9,7 @@ plotSmoothScatter()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,7 +134,7 @@ typically related to square root or cube root transformation.</p></dd>
 
 
 <dt id="arg-postplothook">postPlotHook<a class="anchor" aria-label="anchor" href="#arg-postplothook"></a></dt>
-<dd><p><code>function</code> or <code>NULL</code>, NULL default.
+<dd><p><code>function</code> or 'NULL', NULL default.
 When <code>function</code> is supplied, it is called after producing the image.
 By default it is simply used to draw a box around the image,
 but could be used to layer additional information atop the image plot,
@@ -189,7 +189,7 @@ by other mechanisms, e.g. log-scaled y-axis tick marks.</p></dd>
 
 
 <dt id="arg-useraster">useRaster<a class="anchor" aria-label="anchor" href="#arg-useraster"></a></dt>
-<dd><p><code>NULL</code> or <code>logical</code> indicating whether to invoke
+<dd><p>'NULL' or <code>logical</code> indicating whether to invoke
 <code><a href="https://rdrr.io/r/graphics/rasterImage.html" class="external-link">graphics::rasterImage()</a></code> to produce a raster image.
 If NULL, it determines whether to produce a raster image within the
 <code><a href="imageDefault.html">imageDefault()</a></code> function, which checks the options
@@ -226,10 +226,10 @@ when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">graphics::smoothScatter()</a></code></p>
 <p>Other jam internal functions:
-<code><a href="handleArgsText.html">handleArgsText</a>()</code>,
-<code><a href="jamCalcDensity.html">jamCalcDensity</a>()</code>,
-<code><a href="make_html_styles.html">make_html_styles</a>()</code>,
-<code><a href="make_styles.html">make_styles</a>()</code></p></div>
+<code><a href="handleArgsText.html">handleArgsText()</a></code>,
+<code><a href="jamCalcDensity.html">jamCalcDensity()</a></code>,
+<code><a href="make_html_styles.html">make_html_styles()</a></code>,
+<code><a href="make_styles.html">make_styles()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -250,7 +250,7 @@ when the x- and y-axis ranges are not similar, e.g. where the x-axis spans
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

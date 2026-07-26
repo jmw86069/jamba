@@ -13,7 +13,7 @@ padInteger(x, padCharacter = "0", useNchar = NULL, ...)
 \item{padCharacter}{\code{character} with nchar(padCharacter)==1, used to pad
 each digit as a prefix.}
 
-\item{useNchar}{\code{NULL} or \code{integer} number of digits used, or if the maximum
+\item{useNchar}{'NULL' or \code{integer} number of digits used, or if the maximum
 \code{nchar(x)} is higher, that number of digits is used. Note \code{useNchar} is
 mostly useful when all numbers are less than 10, but the desired output
 is to have a fixed number of digits 2 or higher.}

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -148,7 +148,7 @@ minor ticks into one continuous set of major tick marks.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>logical indicating whether to print verbose output.</p></dd>
+<dd><p><code>logical</code> whether to print verbose output.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -160,7 +160,9 @@ minor ticks into one continuous set of major tick marks.</p></dd>
     <p><code>list</code> of axis tick positions, and corresponding labels,
 for major and minor ticks. Note that labels may be <code>numeric</code>,
 <code>character</code>, or <code>expression</code>. Specifically when <code>expression</code>
-the <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code> must be called once per label.</p><ul><li><p>majorTicks: <code>numeric</code> position of each major tick mark</p></li>
+the <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">graphics::axis()</a></code> must be called once per label.
+Ticks and labels are restricted to the 'lims' range rounded up
+to the nearest integer.</p><ul><li><p>majorTicks: <code>numeric</code> position of each major tick mark</p></li>
 <li><p>minorTicks: <code>numeric</code> position of each minor tick mark</p></li>
 <li><p>allTicks: <code>numeric</code> position of each major tick mark</p></li>
 <li><p>majorLabels: label to show for each tick mark</p></li>
@@ -201,30 +203,31 @@ is common for volcano plots.</p></li>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam practical functions:
-<code><a href="breakDensity.html">breakDensity</a>()</code>,
-<code><a href="call_fn_ellipsis.html">call_fn_ellipsis</a>()</code>,
-<code><a href="checkLightMode.html">checkLightMode</a>()</code>,
-<code><a href="check_pkg_installed.html">check_pkg_installed</a>()</code>,
-<code><a href="colNum2excelName.html">colNum2excelName</a>()</code>,
-<code><a href="color_dither.html">color_dither</a>()</code>,
-<code><a href="exp2signed.html">exp2signed</a>()</code>,
-<code><a href="getAxisLabel.html">getAxisLabel</a>()</code>,
-<code><a href="isFALSEV.html">isFALSEV</a>()</code>,
-<code><a href="isTRUEV.html">isTRUEV</a>()</code>,
-<code><a href="jargs.html">jargs</a>()</code>,
-<code><a href="kable_coloring.html">kable_coloring</a>()</code>,
-<code><a href="lldf.html">lldf</a>()</code>,
-<code><a href="log2signed.html">log2signed</a>()</code>,
-<code><a href="middle.html">middle</a>()</code>,
-<code><a href="newestFile.html">newestFile</a>()</code>,
-<code><a href="printDebug.html">printDebug</a>()</code>,
-<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache</a>()</code>,
-<code><a href="renameColumn.html">renameColumn</a>()</code>,
-<code><a href="rmInfinite.html">rmInfinite</a>()</code>,
-<code><a href="rmNA.html">rmNA</a>()</code>,
-<code><a href="rmNAs.html">rmNAs</a>()</code>,
-<code><a href="rmNULL.html">rmNULL</a>()</code>,
-<code><a href="setPrompt.html">setPrompt</a>()</code></p></div>
+<code><a href="breakDensity.html">breakDensity()</a></code>,
+<code><a href="call_fn_ellipsis.html">call_fn_ellipsis()</a></code>,
+<code><a href="checkLightMode.html">checkLightMode()</a></code>,
+<code><a href="check_pkg_installed.html">check_pkg_installed()</a></code>,
+<code><a href="colNum2excelName.html">colNum2excelName()</a></code>,
+<code><a href="color_dither.html">color_dither()</a></code>,
+<code><a href="exp2signed.html">exp2signed()</a></code>,
+<code><a href="getAxisLabel.html">getAxisLabel()</a></code>,
+<code><a href="isFALSEV.html">isFALSEV()</a></code>,
+<code><a href="isTRUEV.html">isTRUEV()</a></code>,
+<code><a href="jargs.html">jargs()</a></code>,
+<code><a href="kable_coloring.html">kable_coloring()</a></code>,
+<code><a href="lldf.html">lldf()</a></code>,
+<code><a href="log2signed.html">log2signed()</a></code>,
+<code><a href="middle.html">middle()</a></code>,
+<code><a href="newestFile.html">newestFile()</a></code>,
+<code><a href="printDebug.html">printDebug()</a></code>,
+<code><a href="reload_qmd_cache.html">reload_qmd_cache()</a></code>,
+<code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code>,
+<code><a href="renameColumn.html">renameColumn()</a></code>,
+<code><a href="rmInfinite.html">rmInfinite()</a></code>,
+<code><a href="rmNA.html">rmNA()</a></code>,
+<code><a href="rmNAs.html">rmNAs()</a></code>,
+<code><a href="rmNULL.html">rmNULL()</a></code>,
+<code><a href="setPrompt.html">setPrompt()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -281,7 +284,7 @@ is common for volcano plots.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -7,8 +7,8 @@
 #' object size, and sorting to display the top `n` objects by
 #' size, largest first.
 #'
-#' This package will call `pryr::object_size` if available,
-#' otherwise falls back to `utils::object.size()`.
+#' As of version 1.0.5, 'pryr' is no longer available and
+#' therefore is not used to determine object size.
 #'
 #' @family jam practical functions
 #'
@@ -26,9 +26,8 @@
 #'    * `integer` or `numeric` equivalent to environment relative position
 #'    as used in `ls()` argument `pos`.
 #' @param items `character` of items to include, default NULL.
-#' @param use_utils_objectsize `logical`, default TRUE, whether to prefer
-#'    `utils::object.size()`, otherwise it will attempt to use
-#'    `pryr::object_size()` if the package is installed.
+#' @param use_utils_objectsize `logical`, default TRUE, included for
+#'    backward compatibility. There is only one method used.
 #' @param all.names `logical` passed to `base::ls()` indicating whether
 #'    to include all names, where `all.names=TRUE` will include
 #'    hidden objects whose name begin with `"."` such as `".First"`.
@@ -55,12 +54,12 @@ lldf <- function
  ...)
 {
    # light check for pryr package without using require()
-   if (!use_utils_objectsize &&
-         requireNamespace("pryr", quietly=TRUE)) {
-      osfun <- pryr::object_size;
-   } else {
-      osfun <- utils::object.size;
-   }
+   # if (!use_utils_objectsize &&
+   #       requireNamespace("pryr", quietly=TRUE)) {
+   #    osfun <- pryr::object_size;
+   # } else {
+   osfun <- utils::object.size;
+   # }
    if (length(n) == 0) {
       n <- Inf;
    }

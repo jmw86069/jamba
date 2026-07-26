@@ -11,7 +11,7 @@ important dependencies for other Jam R packages."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,8 +59,9 @@ a noticeable burden.</p>
     <h2 id="plot-functions">plot functions<a class="anchor" aria-label="anchor" href="#plot-functions"></a></h2>
 
 
-<ul><li><p><code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code> smoothScatter() enhanced for more visual detail</p></li>
-<li><p><code><a href="imageDefault.html">imageDefault()</a></code> enhanced rasterized image() with fixed aspect ratio</p></li>
+<ul><li><p><code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code> enhanced variant of <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">smoothScatter()</a></code>
+to show more visual detail</p></li>
+<li><p><code><a href="imageDefault.html">imageDefault()</a></code> enhanced rasterized <code><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image()</a></code> with fixed aspect ratio</p></li>
 <li><p><code><a href="imageByColors.html">imageByColors()</a></code> for <code>data.frame</code> of colors and optional
 labels centered across repeated values.</p></li>
 <li><p><code><a href="showColors.html">showColors()</a></code> color display for vector, list, color function,
@@ -100,8 +101,10 @@ interconversion</p></li>
 <li><p><code><a href="setTextContrastColor.html">setTextContrastColor()</a></code> text contrast color per given background color</p></li>
 <li><p><code><a href="getColorRamp.html">getColorRamp()</a></code> catch-all to get named gradients, or expand
 one or more colors to gradient.</p></li>
-<li><p><code><a href="makeColorDarker.html">makeColorDarker()</a></code>, <code><a href="color2gradient.html">color2gradient()</a></code>, <code><a href="showColors.html">showColors()</a></code> color
-manipulation and display</p></li>
+<li><p><code><a href="makeColorDarker.html">makeColorDarker()</a></code>, <code><a href="color2gradient.html">color2gradient()</a></code> create light/dark altered
+variants of colors.</p></li>
+<li><p><code><a href="showColors.html">showColors()</a></code> versatile display of color as <code>character</code> vector or
+<code>list</code> of <code>character</code> or <code>function</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="miscellaneous-helper-functions">miscellaneous helper functions<a class="anchor" aria-label="anchor" href="#miscellaneous-helper-functions"></a></h2>
@@ -124,6 +127,10 @@ values with defined alternatives</p></li>
 <ul><li><p><code><a href="readOpenxlsx.html">readOpenxlsx()</a></code> import worksheets from 'xlsx' 'Excel' files.</p></li>
 <li><p><code><a href="writeOpenxlsx.html">writeOpenxlsx()</a></code> export worksheets to 'xlsx' 'Excel' files with color,
 formatting, and styling.</p></li>
+<li><p><code><a href="reload_rmarkdown_cache.html">reload_rmarkdown_cache()</a></code> load Rmarkdown cache data into an <code>environment</code>
+for re-use.</p></li>
+<li><p><code><a href="reload_qmd_cache.html">reload_qmd_cache()</a></code> load Quarto .qmd cache data into an <code>environment</code>
+for re-use.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="jam-options">Jam options<a class="anchor" aria-label="anchor" href="#jam-options"></a></h2>
@@ -149,7 +156,8 @@ see <code><a href="shadowText_options.html">shadowText_options()</a></code> for 
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p><strong>Maintainer</strong>: James M. Ward <a href="mailto:jmw86069@gmail.com">jmw86069@gmail.com</a> (<a href="https://orcid.org/0000-0002-9510-2848" class="external-link">ORCID</a>) [copyright holder]</p>
-    </div>
+<p>Authors:</p><ul><li><p>James M. Ward <a href="mailto:jmw86069@gmail.com">jmw86069@gmail.com</a> (<a href="https://orcid.org/0000-0002-9510-2848" class="external-link">ORCID</a>) [copyright holder]</p></li>
+</ul></div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -160,7 +168,7 @@ see <code><a href="shadowText_options.html">shadowText_options()</a></code> for 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

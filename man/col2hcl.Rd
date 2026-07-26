@@ -37,8 +37,8 @@ convert R color to HCL color matrix
 }
 \details{
 This function takes an R color and converts to an HCL matrix, using
-the colorspace package, and \code{\link[colorspace]{RGB}} and
-\code{\link[colorspace]{polarLUV}} functions. It is also used to
+the colorspace package, and \code{colorspace::RGB()} and
+\code{colorspace::polarLUV()} functions. It is also used to
 maintain alpha transparency, to enable interconversion via other
 color manipulation functions as well.
 

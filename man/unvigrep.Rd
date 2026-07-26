@@ -19,8 +19,8 @@ case-insensitive grep, returning unmatched values
 This function is a simple wrapper around \code{base::grep()} which
 runs in case-insensitive mode, and returns unmatched values.
 It is mainly used to save keystrokes,
-but is consistently named alongside \code{\link{vgrep}} and
-\code{\link{vigrep}}, and quite helpful for writing concise code.
+but is consistently named alongside \code{vgrep()} and
+\code{vigrep()}, and quite helpful for writing concise code.
 It is particularly useful for removing unwanted entries from a long
 vector, for example removing accession numbers from a long
 vector of gene symbols in order to review gene annotations.

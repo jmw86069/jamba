@@ -134,8 +134,8 @@ vgrep <- function
 #'
 #' This function is a simple wrapper around `base::grep()` which
 #' runs in case-insensitive mode. It is mainly used to save keystrokes,
-#' but is consistently named alongside \code{\link{vgrep}} and
-#' \code{\link{vigrep}}.
+#' but is consistently named alongside `vgrep()` and
+#' `vigrep()`.
 #'
 #' @param ...,ignore.case parameters sent to `base::grep()`
 #'
@@ -200,8 +200,8 @@ igrepl <- function
 #' This function is a simple wrapper around `base::grep()` which
 #' runs in case-insensitive mode, and returns unmatched entries.
 #' It is mainly used to save keystrokes,
-#' but is consistently named alongside \code{\link{vgrep}} and
-#' \code{\link{vigrep}}, and quite helpful for writing concise code.
+#' but is consistently named alongside `vgrep()` and
+#' `vigrep()`, and quite helpful for writing concise code.
 #'
 #' @param ...,ignore.case,invert parameters sent to `base::grep()`
 #'
@@ -229,8 +229,8 @@ unigrep <- function
 #' This function is a simple wrapper around `base::grep()` which
 #' runs in case-insensitive mode, and returns unmatched values.
 #' It is mainly used to save keystrokes,
-#' but is consistently named alongside \code{\link{vgrep}} and
-#' \code{\link{vigrep}}, and quite helpful for writing concise code.
+#' but is consistently named alongside `vgrep()` and
+#' `vigrep()`, and quite helpful for writing concise code.
 #' It is particularly useful for removing unwanted entries from a long
 #' vector, for example removing accession numbers from a long
 #' vector of gene symbols in order to review gene annotations.
@@ -493,7 +493,7 @@ proigrep <- function
 #'    whenever a blank cell is introduced into the resulting matrix
 #' @param nullValue optional value used to replace NULL entries in
 #'    the input list, useful especially when the data was produced
-#'    by `strsplit()` with `""`. Use `nullValue=""` to replace `NULL`
+#'    by `strsplit()` with `""`. Use `nullValue=""` to replace 'NULL'
 #'    with `""` and preserve the original list length. Otherwise when
 #'    `nullValue=NULL` any empty entries will be silently dropped.
 #' @param keepListNames `logical` whether to use list names as rownames
@@ -560,7 +560,7 @@ rbindList <- function
          xLslen[xLslen == 0] <- 1;
       }
       if (all(xLslen == 0)) {
-         return(NULL);
+         return(invisible(NULL));
       }
       x <- x[!xLslen == 0];
       xLslen <- xLslen[!xLslen == 0];
@@ -603,7 +603,6 @@ rbindList <- function
       }
       #xDF <- unlistDataFrame(as.data.frame(xDF), verbose=verbose, ...);
       xDF <- data.frame(check.names=FALSE,
-         stringsAsFactors=FALSE,
          xDF);
    }
    return(xDF);
@@ -613,12 +612,12 @@ rbindList <- function
 #'
 #' make unique vector names
 #'
-#' This function extends the basic goal from \code{\link[base]{make.names}}
+#' This function extends the basic goal from `base::make.names()`
 #' which is intended to make syntactically valid names from a character vector.
 #' This makeNames function makes names unique, and offers configurable methods
 #' to handle duplicate names. By default, any duplicated entries receive a
 #' suffix _v# where # is s running count of entries observed, starting at 1.
-#' The \code{\link[base]{make.names}} function, by contrast, renames the
+#' The `base::make.names()` function, by contrast, renames the
 #' second observed entry starting at .1, leaving the original entry
 #' unchanged. Optionally, makeNames can rename all entries with a numeric
 #' suffix, for consistency.
@@ -630,15 +629,15 @@ rbindList <- function
 #'
 #' Also, makeNames always allows "_".
 #'
-#' This makeNames function is similar to \code{\link[base]{make.unique}}
+#' This makeNames function is similar to `base::make.unique()`
 #' which also converts a vector into a unique vector by adding suffix values,
-#' however the \code{\link[base]{make.unique}} function intends to allow
+#' however the `base::make.unique()` function intends to allow
 #' repeated operations which recognize duplicated entries and continually
 #' increment the suffix number. This makeNames function currently does not
 #' handle repeat operations. The recommended approach to workaround having
 #' pre-existing versioned names would be to remove suffix values prior to
 #' running this function. One small distinction from
-#' \code{\link[base]{make.unique}} is that makeNames does version the first
+#' `base::make.unique()` is that makeNames does version the first
 #' entry in a set.
 #'
 #' @returns character vector of unique names
@@ -871,10 +870,10 @@ makeNames <- function
 #' assign unique names for a vector
 #'
 #' This function assigns unique names to a vector, if necessary it runs
-#' \code{\link{makeNames}} to create unique names. It differs from
-#' \code{\link[stats]{setNames}} in that it ensures names are unique,
+#' `makeNames()` to create unique names. It differs from
+#' `stats::setNames()` in that it ensures names are unique,
 #' and when no names are supplied, it uses the vector itself to define
-#' names. It is helpful to run this function inside an \code{\link[base]{lapply}}
+#' names. It is helpful to run this function inside an `base::lapply()`
 #' function call, which by default maintains names, but does not assign
 #' names if the input data did not already have them.
 #'
@@ -969,12 +968,12 @@ nameVector <- function
 #'
 #' This function creates a vector from the names of the input vector,
 #' then assigns the same as names. The utility is mainly for
-#' \code{\link[base]{lapply}} functions which maintain the name of a vector
-#' in its output. The reason to run \code{\link[base]{lapply}} using names
+#' `base::lapply()` functions which maintain the name of a vector
+#' in its output. The reason to run `base::lapply()` using names
 #' is so the lapply function is operating only on the name and not the
 #' data it references, which can be convenient when the name of the element
 #' is useful to known inside the function body. The reason to name the names,
-#' is so the list object returned by \code{\link[base]{lapply}} is also named
+#' is so the list object returned by `base::lapply()` is also named
 #' with these same consistent names.
 #'
 #' Consider a list of data.frames, each of which represents stats results
@@ -985,7 +984,7 @@ nameVector <- function
 #' could for example be added to the data.frame.
 #'
 #' @returns vector of names, whose names are uniquely assigned using
-#'    \code{\link{makeNames}} using the values of the vector.
+#'    `makeNames()` using the values of the vector.
 #'
 #' @family jam string functions
 #'
@@ -2247,7 +2246,7 @@ list2df <- function
 #' Jam-specific recursive apply
 #'
 #' This function is a very lightweight customization to `base::rapply()`,
-#' specifically that it does not remove `NULL` entries.
+#' specifically that it does not remove 'NULL' entries.
 #'
 #' @family jam list functions
 #'
@@ -2332,7 +2331,7 @@ jam_rapply <- function
 #' @inheritParams mixedSort
 #' @param xclass `character` vector of classes in `x`, used for slight
 #'    optimization to re-use this vector if it has already been
-#'    defined for `x`. When `NULL` it is created within this function.
+#'    defined for `x`. When 'NULL' it is created within this function.
 #' @param indent `numeric` used only when `verbose=TRUE` to determine
 #'    the number of spaces indented for verbose output, passed to
 #'    `printDebug()`.

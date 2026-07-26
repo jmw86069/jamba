@@ -56,7 +56,7 @@ worksheet in the order given.}
 \item{fcColumns, lfcColumns, hitColumns, intColumns, numColumns, pvalueColumns}{integer column indices, or character colnames indicating which columns
 are to be treated as each of the various column types.}
 
-\item{fcGrep, lfcGrep, hitGrep, intGrep, numGrep, pvalueGrep}{optional character vector which is used by \code{\link{provigrep}} to
+\item{fcGrep, lfcGrep, hitGrep, intGrep, numGrep, pvalueGrep}{optional character vector which is used by \code{provigrep()} to
 colnames(x). This process may be more convenient to apply formatting
 to known colname character patterns, rather than supplying exact column
 indices or colnames.}
@@ -161,7 +161,7 @@ application.
 }
 \examples{
 # write to tempfile for examples
-if (check_pkg_installed("openxlsx")) {
+\dontrun{
    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    df <- data.frame(a=LETTERS[1:5], b=1:5);
    writeOpenxlsx(x=df,

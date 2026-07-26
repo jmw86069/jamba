@@ -20,8 +20,8 @@
 #'    correct order of each output chunk. The Quarto output no
 #'    longer includes an index file with cache files in order.
 #'    * The order of R chunk names is parsed, therefore must
-#'    follow basic formatting '{r chunkname, ...}'
-#'    or '{r, chunkname, chunk.options, ...}' for example.
+#'    follow basic formatting 'r chunkname, ...'
+#'    or 'r, chunkname, chunk.options, ...' for example.
 #'    * Chunks display a modified time stamp, to help recognize
 #'    when the caching may have been refreshed out of order
 #'    compared to the Quarto document.
@@ -173,8 +173,13 @@ reload_qmd_cache <- function
    rdx_mtimes <- format(rdx_files_info$mtime);
    rdx_mtimes_rank <- rank(rdx_files_info$mtime)
    rdx_mtimes_ranknum <- as.numeric(factor(rank(rdx_files_info$mtime)))
-   rdx_mtimes_ramp <- colorRampPalette(c("gold3", "orangered",
-      "firebrick", "darkorchid", "royalblue1", "aquamarine"))(max(rdx_mtimes_ranknum))
+   rdx_mtimes_ramp <- grDevices::colorRampPalette(
+      c("gold3",
+         "orangered",
+         "firebrick",
+         "darkorchid",
+         "royalblue1",
+         "aquamarine"))(max(rdx_mtimes_ranknum))
    rdx_mtimes_color <- rdx_mtimes_ramp[rdx_mtimes_ranknum];
    names(rdx_mtimes_color) <- rdx_files;
    names(rdx_mtimes) <- rdx_files;

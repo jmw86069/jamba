@@ -13,7 +13,7 @@ Log fold axis"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@ with numeric offset.</p>
 <span>  doMajor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  doMinor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  doLabels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  doMinorLabels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  doMinorLabels <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  asValues <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  logAxisType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>, <span class="st">"flip"</span>, <span class="st">"pvalue"</span><span class="op">)</span>,</span>
 <span>  padj <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -164,13 +164,19 @@ addition to existing <code>graphics::par("cex")</code> values, preserving any
 global text size defined there.</p></dd>
 
 
-<dt id="arg-domajor-dominor-dolabels-dominorlabels">doMajor, doMinor, doLabels, doMinorLabels<a class="anchor" aria-label="anchor" href="#arg-domajor-dominor-dolabels-dominorlabels"></a></dt>
+<dt id="arg-domajor-dominor-dolabels">doMajor, doMinor, doLabels<a class="anchor" aria-label="anchor" href="#arg-domajor-dominor-dolabels"></a></dt>
 <dd><p><code>logical</code>, default TRUE,
 whether to display each type of tick and label.</p><ul><li><p><code>doMajor</code> display major ticks, at <code>displayBase</code> positions</p></li>
 <li><p><code>doMinor</code> display minor ticks at intermediate positions</p></li>
 <li><p><code>doLabels</code> display any labels</p></li>
 <li><p><code>doMinorLabels</code> display minor labels</p></li>
 </ul></dd>
+
+
+<dt id="arg-dominorlabels">doMinorLabels<a class="anchor" aria-label="anchor" href="#arg-dominorlabels"></a></dt>
+<dd><p><code>logical</code> whether to display numeric labels for
+minor ticks. Default NULL will show labels with fewer then 18
+minor labels in range.</p></dd>
 
 
 <dt id="arg-asvalues">asValues<a class="anchor" aria-label="anchor" href="#arg-asvalues"></a></dt>
@@ -278,23 +284,23 @@ off by setting <code>symmetricZero=FALSE</code>.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam plot functions:
-<code><a href="adjustAxisLabelMargins.html">adjustAxisLabelMargins</a>()</code>,
-<code><a href="coordPresets.html">coordPresets</a>()</code>,
-<code><a href="decideMfrow.html">decideMfrow</a>()</code>,
-<code><a href="drawLabels.html">drawLabels</a>()</code>,
-<code><a href="getPlotAspect.html">getPlotAspect</a>()</code>,
-<code><a href="groupedAxis.html">groupedAxis</a>()</code>,
-<code><a href="imageByColors.html">imageByColors</a>()</code>,
-<code><a href="imageDefault.html">imageDefault</a>()</code>,
-<code><a href="nullPlot.html">nullPlot</a>()</code>,
-<code><a href="plotPolygonDensity.html">plotPolygonDensity</a>()</code>,
-<code><a href="plotRidges.html">plotRidges</a>()</code>,
-<code><a href="plotSmoothScatter.html">plotSmoothScatter</a>()</code>,
-<code><a href="shadowText.html">shadowText</a>()</code>,
-<code><a href="shadowText_options.html">shadowText_options</a>()</code>,
-<code><a href="showColors.html">showColors</a>()</code>,
-<code><a href="sqrtAxis.html">sqrtAxis</a>()</code>,
-<code><a href="usrBox.html">usrBox</a>()</code></p></div>
+<code><a href="adjustAxisLabelMargins.html">adjustAxisLabelMargins()</a></code>,
+<code><a href="coordPresets.html">coordPresets()</a></code>,
+<code><a href="decideMfrow.html">decideMfrow()</a></code>,
+<code><a href="drawLabels.html">drawLabels()</a></code>,
+<code><a href="getPlotAspect.html">getPlotAspect()</a></code>,
+<code><a href="groupedAxis.html">groupedAxis()</a></code>,
+<code><a href="imageByColors.html">imageByColors()</a></code>,
+<code><a href="imageDefault.html">imageDefault()</a></code>,
+<code><a href="nullPlot.html">nullPlot()</a></code>,
+<code><a href="plotPolygonDensity.html">plotPolygonDensity()</a></code>,
+<code><a href="plotRidges.html">plotRidges()</a></code>,
+<code><a href="plotSmoothScatter.html">plotSmoothScatter()</a></code>,
+<code><a href="shadowText.html">shadowText()</a></code>,
+<code><a href="shadowText_options.html">shadowText_options()</a></code>,
+<code><a href="showColors.html">showColors()</a></code>,
+<code><a href="sqrtAxis.html">sqrtAxis()</a></code>,
+<code><a href="usrBox.html">usrBox()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -365,7 +371,7 @@ off by setting <code>symmetricZero=FALSE</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

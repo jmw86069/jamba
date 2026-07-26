@@ -48,7 +48,7 @@ from the very useful \code{openxlsx} R package:
 }
 \examples{
 # write to tempfile for examples
-if (check_pkg_installed("openxlsx")) {
+\dontrun{
    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    df <- data.frame(a=LETTERS[1:5], b=1:5);
    writeOpenxlsx(x=df,

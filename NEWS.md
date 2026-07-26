@@ -1,4 +1,13 @@
-# jamba 1.0.4.9000
+# jamba 1.0.5
+
+* Changed various `NULL` to 'NULL' in help docs.
+* Removed 'pryr' from Enhances.
+
+## Test Error Fix
+
+* 'test-kable-coloring.R' was updated to compare the computed
+RGB color to the `kable_coloring()` output, targeting the
+test error seen only with M1mac.
 
 ## New functions
 
@@ -12,7 +21,7 @@ caveats.
 * `call_fn_ellipsis()` now removes any duplicated argument names in the
 input '...' before passing to the target function. Added tests.
 * `printDebug()` now uses `message()` instead of `cat()` so it
-can be silenced. This was a previous CRAN suggestion, and correct.
+can be silenced. This was a previous CRAN suggestion, appreciated.
 Arguments 'htmlOutput' and 'comment' detect knitr running, and
 knitr HTML output, and then defines suitable defaults.
 Argument 'comment' now uses leading space ' ## ' by default

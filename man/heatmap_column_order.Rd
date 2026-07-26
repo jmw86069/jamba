@@ -11,7 +11,7 @@ heatmap_column_order(hm, which_heatmap = NULL)
 Bioconductor package via \code{ComplexHeatmap::Heatmap()}.}
 
 \item{which_heatmap}{used to specify a specific heatmap with \code{hm} is
-provided as a \code{HeatmapList}. When \code{NULL} (default) the first heatmap
+provided as a \code{HeatmapList}. When 'NULL' (default) the first heatmap
 in \code{hm@ht_list} is used. When one value is supplied, only that heatmap
 is used. When multiple values are supplied, a \code{list} is returned.
 Input can be either:

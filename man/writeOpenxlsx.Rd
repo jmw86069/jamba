@@ -362,12 +362,6 @@ with a brighter background color, and bold text.}
 For each column data type, a color scale and default numeric range
 is defined, which allows conditional formatting of cells based upon
 expected ranges of values.
-
-A screenshot of the file produced by the example is shown below.
-
-\if{html}{\figure{writeopenxlsx.png}{xlsx screenshot}}
-
-\if{latex}{\figure{writeopenxlsx.png}{options: width=0.5in}}
 }
 \examples{
 # set up a test data.frame
@@ -385,7 +379,7 @@ df <- data.frame(name=LETTERS[1:7],
    hit=sample(c(-1,0,0,1,1), replace=TRUE, size=7));
 df;
 # write to tempfile for examples
-if (check_pkg_installed("openxlsx")) {
+\dontrun{
    out_xlsx <- tempfile(pattern="writeOpenxlsx_", fileext=".xlsx")
    writeOpenxlsx(x=df,
       file=out_xlsx,

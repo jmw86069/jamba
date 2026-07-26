@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,9 +68,9 @@
 
 
 <dl><dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
-<dd><p><code>character</code> vector of one or more styles. When <code>NULL</code> or <code>NA</code>,
+<dd><p><code>character</code> vector of one or more styles. When 'NULL' or <code>NA</code>,
 no style is applied, except when <code>bg_style</code> is supplied
-and is neither <code>NA</code> nor <code>NULL</code>, in which case entries with
+and is neither <code>NA</code> nor 'NULL', in which case entries with
 a <code>bg_style</code> and no <code>style</code> will use <code><a href="setTextContrastColor.html">setTextContrastColor()</a></code>
 to define a contrasting <code>style</code>.</p></dd>
 
@@ -87,7 +87,7 @@ is ignored when <code>bg_style</code> is supplied.</p></dd>
 
 
 <dt id="arg-bg-style">bg_style<a class="anchor" aria-label="anchor" href="#arg-bg-style"></a></dt>
-<dd><p><code>NULL</code> or a <code>character</code> vector of one or more background
+<dd><p>'NULL' or a <code>character</code> vector of one or more background
 styles. When this argument is not NULL, it applies both the foreground
 <code>style</code> and background <code>bg_style</code> together, and therefore ignores
 <code>Crange</code> and <code>Lrange</code> settings.</p></dd>
@@ -150,7 +150,7 @@ the ratio of square roots.  alphaPower=100 for minimal adjustment.</p></dd>
 <dt id="arg-setoptions">setOptions<a class="anchor" aria-label="anchor" href="#arg-setoptions"></a></dt>
 <dd><p><code>character</code> or <code>logical</code> whether to update
 <code>Crange</code> and <code>Lrange</code> options during the subsequent call to
-<code><a href="setCLranges.html">setCLranges()</a></code>. By default,</p><ul><li><p><code>"ifnull"</code> will update only options which were previously <code>NULL</code>;</p></li>
+<code><a href="setCLranges.html">setCLranges()</a></code>. By default,</p><ul><li><p><code>"ifnull"</code> will update only options which were previously 'NULL';</p></li>
 <li><p><code>"FALSE"</code> prevents modifying the global options;</p></li>
 <li><p><code>"TRUE"</code> will update these options with the current values.</p></li>
 </ul></dd>
@@ -178,17 +178,17 @@ colorized HTML character vector as output.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam internal functions:
-<code><a href="handleArgsText.html">handleArgsText</a>()</code>,
-<code><a href="jamCalcDensity.html">jamCalcDensity</a>()</code>,
-<code><a href="make_styles.html">make_styles</a>()</code>,
-<code><a href="smoothScatterJam.html">smoothScatterJam</a>()</code></p></div>
+<code><a href="handleArgsText.html">handleArgsText()</a></code>,
+<code><a href="jamCalcDensity.html">jamCalcDensity()</a></code>,
+<code><a href="make_styles.html">make_styles()</a></code>,
+<code><a href="smoothScatterJam.html">smoothScatterJam()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">make_html_styles</span><span class="op">(</span>style<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"orange"</span><span class="op">)</span>, text<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one "</span>, <span class="st">"two"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;span style=\"color:#FF0000\"&gt;one &lt;/span&gt;"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "&lt;span style=\"color:#FFA500\"&gt;two&lt;/span&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;span style=\"color:#F40000\"&gt;one &lt;/span&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "&lt;span style=\"color:#F09800\"&gt;two&lt;/span&gt;" </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -201,7 +201,7 @@ colorized HTML character vector as output.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

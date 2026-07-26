@@ -10,7 +10,7 @@ rlengths(x, doSum = NULL, ...)
 \item{x}{\code{list} or vector}
 
 \item{doSum}{\code{logical} indicating whether to return the overall sum
-of lengths. When \code{NULL} it will return the aggregate length of
+of lengths. When 'NULL' it will return the aggregate length of
 each list element in \code{x}. When \code{FALSE} it will return the same
 list structure of x, with the length of each. When \code{TRUE} it will
 return the total length of all elements in \code{x} as one value.}

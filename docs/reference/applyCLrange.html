@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,7 @@
 
 
 <dt id="arg-lightmode">lightMode<a class="anchor" aria-label="anchor" href="#arg-lightmode"></a></dt>
-<dd><p><code>NULL</code> or <code>logical</code>. When <code>lightMode=NULL</code> then
+<dd><p>'NULL' or <code>logical</code>. When <code>lightMode=NULL</code> then
 <code>Crange</code> and <code>Lrange</code> values are used as-is; when <code>lightMode=TRUE</code>
 or <code>lightMode=FALSE</code> then default values are used for <code>Crange</code> and
 <code>Lrange</code> values, where <code>lightMode=TRUE</code> is intended for colors
@@ -75,7 +75,7 @@ against a dark background.</p></dd>
 
 
 <dt id="arg-crange">Crange<a class="anchor" aria-label="anchor" href="#arg-crange"></a></dt>
-<dd><p><code>NULL</code> or <code>numeric</code> range with minimum and maximum allowed
+<dd><p>'NULL' or <code>numeric</code> range with minimum and maximum allowed
 values for the chroma (C) component.</p></dd>
 
 
@@ -112,7 +112,7 @@ range is equal to <code>Crange</code>.</p></dd>
 <dt id="arg-fixup">fixup<a class="anchor" aria-label="anchor" href="#arg-fixup"></a></dt>
 <dd><p><code>logical</code> passed to <code><a href="hcl2col.html">hcl2col()</a></code> and subsequently
 to <code><a href="https://colorspace.R-Forge.R-project.org/reference/hex.html" class="external-link">colorspace::hex()</a></code> when converting colors outside the color
-gamut (visible range.) When <code>fixup</code> is <code>NULL</code>, the <code><a href="hcl2col.html">hcl2col()</a></code>
+gamut (visible range.) When <code>fixup</code> is 'NULL', the <code><a href="hcl2col.html">hcl2col()</a></code>
 method applies its own aggressive technique to restrict the color
 range.</p></dd>
 
@@ -166,28 +166,28 @@ is still required to have a hue H, it is important not to increase
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other jam color functions:
-<code><a href="alpha2col.html">alpha2col</a>()</code>,
-<code><a href="col2alpha.html">col2alpha</a>()</code>,
-<code><a href="col2hcl.html">col2hcl</a>()</code>,
-<code><a href="col2hsl.html">col2hsl</a>()</code>,
-<code><a href="col2hsv.html">col2hsv</a>()</code>,
-<code><a href="color2gradient.html">color2gradient</a>()</code>,
-<code><a href="fixYellow.html">fixYellow</a>()</code>,
-<code><a href="fixYellowHue.html">fixYellowHue</a>()</code>,
-<code><a href="getColorRamp.html">getColorRamp</a>()</code>,
-<code><a href="hcl2col.html">hcl2col</a>()</code>,
-<code><a href="hsl2col.html">hsl2col</a>()</code>,
-<code><a href="hsv2col.html">hsv2col</a>()</code>,
-<code><a href="isColor.html">isColor</a>()</code>,
-<code><a href="kable_coloring.html">kable_coloring</a>()</code>,
-<code><a href="makeColorDarker.html">makeColorDarker</a>()</code>,
-<code><a href="rainbow2.html">rainbow2</a>()</code>,
-<code><a href="rgb2col.html">rgb2col</a>()</code>,
-<code><a href="setCLranges.html">setCLranges</a>()</code>,
-<code><a href="setTextContrastColor.html">setTextContrastColor</a>()</code>,
-<code><a href="showColors.html">showColors</a>()</code>,
-<code><a href="unalpha.html">unalpha</a>()</code>,
-<code><a href="warpRamp.html">warpRamp</a>()</code></p></div>
+<code><a href="alpha2col.html">alpha2col()</a></code>,
+<code><a href="col2alpha.html">col2alpha()</a></code>,
+<code><a href="col2hcl.html">col2hcl()</a></code>,
+<code><a href="col2hsl.html">col2hsl()</a></code>,
+<code><a href="col2hsv.html">col2hsv()</a></code>,
+<code><a href="color2gradient.html">color2gradient()</a></code>,
+<code><a href="fixYellow.html">fixYellow()</a></code>,
+<code><a href="fixYellowHue.html">fixYellowHue()</a></code>,
+<code><a href="getColorRamp.html">getColorRamp()</a></code>,
+<code><a href="hcl2col.html">hcl2col()</a></code>,
+<code><a href="hsl2col.html">hsl2col()</a></code>,
+<code><a href="hsv2col.html">hsv2col()</a></code>,
+<code><a href="isColor.html">isColor()</a></code>,
+<code><a href="kable_coloring.html">kable_coloring()</a></code>,
+<code><a href="makeColorDarker.html">makeColorDarker()</a></code>,
+<code><a href="rainbow2.html">rainbow2()</a></code>,
+<code><a href="rgb2col.html">rgb2col()</a></code>,
+<code><a href="setCLranges.html">setCLranges()</a></code>,
+<code><a href="setTextContrastColor.html">setTextContrastColor()</a></code>,
+<code><a href="showColors.html">showColors()</a></code>,
+<code><a href="unalpha.html">unalpha()</a></code>,
+<code><a href="warpRamp.html">warpRamp()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -208,7 +208,7 @@ is still required to have a hue H, it is important not to increase
 <span class="r-in"><span>   `lightMode=FALSE, individual`<span class="op">=</span><span class="va">cl_dark_ind</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="applyCLrange-1.png" alt="" width="768" height="768"></span>
 <span class="r-in"><span><span class="fu"><a href="printDebug.html">printDebug</a></span><span class="op">(</span><span class="va">cl</span>, lightMode<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ##  (<span style="color: #00D7D7; font-weight: bold;">14:37:53</span>) 22Mar2025:      <span style="color: #FF0000;">red</span>,<span style="color: #0000FF;">blue</span>,<span style="color: #0000AF;">navy</span>,<span style="color: #D7AF00;">yellow</span>,<span style="color: #FFAF00;">orange</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> (<span style="color: #00D7D7; font-weight: bold;">15:59:57</span>) 25Jul2026:    <span style="color: #FF0000;">red</span>,<span style="color: #0000FF;">blue</span>,<span style="color: #0000AF;">navy</span>,<span style="color: #D7AF00;">yellow</span>,<span style="color: #FFAF00;">orange</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -221,7 +221,7 @@ is still required to have a hue H, it is important not to increase
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -1,9 +1,9 @@
-pandoc: '3.2'
-pkgdown: 2.1.1
+pandoc: 3.8.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   jamba-vignette: jamba-vignette.html
-last_built: 2025-03-22T18:37Z
+last_built: 2026-07-25T19:59Z
 urls:
   reference: https://jmw86069.github.io/jamba/reference
   article: https://jmw86069.github.io/jamba/articles

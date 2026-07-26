@@ -17,7 +17,7 @@ the names(x) are not unique.}
 }
 \value{
 vector of names, whose names are uniquely assigned using
-\code{\link{makeNames}} using the values of the vector.
+\code{makeNames()} using the values of the vector.
 }
 \description{
 define a named vector using vector names
@@ -25,12 +25,12 @@ define a named vector using vector names
 \details{
 This function creates a vector from the names of the input vector,
 then assigns the same as names. The utility is mainly for
-\code{\link[base]{lapply}} functions which maintain the name of a vector
-in its output. The reason to run \code{\link[base]{lapply}} using names
+\code{base::lapply()} functions which maintain the name of a vector
+in its output. The reason to run \code{base::lapply()} using names
 is so the lapply function is operating only on the name and not the
 data it references, which can be convenient when the name of the element
 is useful to known inside the function body. The reason to name the names,
-is so the list object returned by \code{\link[base]{lapply}} is also named
+is so the list object returned by \code{base::lapply()} is also named
 with these same consistent names.
 
 Consider a list of data.frames, each of which represents stats results

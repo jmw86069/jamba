@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">jamba</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
                         <h4 data-toc-skip class="author">James M.
 Ward</h4>
             
-            <h4 data-toc-skip class="date">2025-03-22</h4>
+            <h4 data-toc-skip class="date">2026-07-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jmw86069/jamba/blob/HEAD/vignettes/jamba-vignette.Rmd" class="external-link"><code>vignettes/jamba-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>jamba-vignette.Rmd</code></div>
@@ -145,7 +145,7 @@ per inch * <code>bwpi</code> bandwidth per inch</p>
 <code><a href="https://rdrr.io/r/graphics/smoothScatter.html" class="external-link">smoothScatter()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSmoothScatter.html">plotSmoothScatter</a></span><span class="op">(</span>doTest<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>;</span></code></pre></div>
-<p><img src="jambaVignette-plotSmoothScatter-1.png" alt="Example of smooth scatterplots using the default R function, and enhanced function in the jamba package." width="768"></p>
+<p><img src="jambaVignette-plotSmoothScatter-1.png" class="r-plt" alt="Example of smooth scatterplots using the default R function, and enhanced function in the jamba package." width="768"></p>
 </div>
 <div class="section level4">
 <h4 id="imagebycolors">
@@ -168,7 +168,7 @@ data.frame to label itself:</p>
 <span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"green"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
 <span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">a1</span>, b<span class="op">=</span><span class="va">b1</span>, c<span class="op">=</span><span class="va">c1</span>, d<span class="op">=</span><span class="va">d1</span><span class="op">)</span>;</span>
 <span><span class="fu"><a href="../reference/imageByColors.html">imageByColors</a></span><span class="op">(</span><span class="va">df1</span>, cellnote<span class="op">=</span><span class="va">df1</span><span class="op">)</span>;</span></code></pre></div>
-<p><img src="jambaVignette-imageByColors1-1.png" alt="Example color matrix as plotted using the image by colors function()" width="768"></p>
+<p><img src="jambaVignette-imageByColors1-1.png" class="r-plt" alt="Example color matrix as plotted using the image by colors function()" width="768"></p>
 <p>Labels can be independently rotated and resized, an arbitrary example
 is shown below:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -184,7 +184,7 @@ is shown below:</p>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">45</span><span class="op">)</span>, </span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, </span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">90</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;</span></code></pre></div>
-<p><img src="jambaVignette-imageByColors2-1.png" alt="Example color matrix with rotated and grouped labels as plotted using the image by colors function." width="768"></p>
+<p><img src="jambaVignette-imageByColors2-1.png" class="r-plt" alt="Example color matrix with rotated and grouped labels as plotted using the image by colors function." width="768"></p>
 </div>
 <div class="section level4">
 <h4 id="axis-label-functions">Axis label functions<a class="anchor" aria-label="anchor" href="#axis-label-functions"></a>
@@ -208,7 +208,7 @@ changes, it accepts negative values and flips the sign accordingly.</p>
 <span>   main<span class="op">=</span><span class="st">"Volcano plot\ndisplayBase=2"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/minorLogTicksAxis.html">logFoldAxis</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/minorLogTicksAxis.html">pvalueAxis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jambaVignette-log_ticks_1-1.png" alt="Example showing log tick axis labels with positive and negative values, and P-values." width="768"></p>
+<p><img src="jambaVignette-log_ticks_1-1.png" class="r-plt" alt="Example showing log tick axis labels with positive and negative values, and P-values." width="768"></p>
 </div>
 <div class="section level4">
 <h4 id="plotpolygondensity">
@@ -249,7 +249,7 @@ makes two other options convenient:</p>
 <span>   txt<span class="op">=</span><span class="st">"sqrt-scaled x-axis"</span>,</span>
 <span>   labelCex<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jambaVignette-plot_dens_log-1.png" alt="Example polygon density plot." width="768"></p>
+<p><img src="jambaVignette-plot_dens_log-1.png" class="r-plt" alt="Example polygon density plot." width="768"></p>
 </div>
 <div class="section level4">
 <h4 id="drawlabels">
@@ -272,7 +272,7 @@ text output.</p>
 <span>   txt<span class="op">=</span><span class="st">"sqrt-scaled x-axis"</span>,</span>
 <span>   text_fn<span class="op">=</span><span class="fu">jamba</span><span class="fu">::</span><span class="va"><a href="../reference/shadowText.html">shadowText</a></span>,</span>
 <span>   labelCex<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jambaVignette-draw_labels-1.png" alt="Example showing text labels, and shadow text labels on a colored background." width="768"></p>
+<p><img src="jambaVignette-draw_labels-1.png" class="r-plt" alt="Example showing text labels, and shadow text labels on a colored background." width="768"></p>
 </div>
 </div>
 <div class="section level3">
@@ -327,7 +327,7 @@ lighter/darker pattern for visual distinction.</p></li>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/printDebug.html">printDebugHtml</a></span><span class="op">(</span><span class="st">"printDebugHtml(): "</span>,</span>
 <span>  <span class="st">"Output is colorized: "</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>(<span style="color:#00C3C3FF">14:38:41</span>) 22Mar2025: <span style="color:#FF7F00FF">printDebugHtml(): </span><span style="color:#1E90FFFF">Output is colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
+<p>(<span style="color:#00C3C3FF">16:01:54</span>) 25Jul2026: <span style="color:#FF7F00FF">printDebugHtml(): </span><span style="color:#1E90FFFF">Output is colorized: </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_options.html" class="external-link">with_options</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>jam.htmlOut<span class="op">=</span><span class="cn">TRUE</span>, jam.comment<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, <span class="op">{</span></span>
@@ -335,7 +335,7 @@ lighter/darker pattern for visual distinction.</p></li>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Output should be colorized: "</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span>;</span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>(<span style="color:#00C3C3FF">14:38:42</span>) 22Mar2025: <span style="color:#FF7F00FF">printDebug() using withr::with_options():
+<p>(<span style="color:#00C3C3FF">16:01:55</span>) 25Jul2026: <span style="color:#FF7F00FF">printDebug() using withr::with_options():
 </span><span style="color:#1E90FFFF">Output should be colorized:
 </span><span style="color:#FF7F00FF">A,</span><span style="color:#ED983BFF">B,</span><span style="color:#FF7F00FF">C,</span><span style="color:#ED983BFF">D,</span><span style="color:#FF7F00FF">E,</span><span style="color:#ED983BFF">F,</span><span style="color:#FF7F00FF">G,</span><span style="color:#ED983BFF">H</span><br></p>
 </div>
@@ -373,7 +373,7 @@ CRAN.</p></li>
 <span>   `RdBu_r, lens=-5`<span class="op">=</span><span class="fu"><a href="../reference/warpRamp.html">warpRamp</a></span><span class="op">(</span><span class="fu"><a href="../reference/getColorRamp.html">getColorRamp</a></span><span class="op">(</span><span class="st">"RdBu_r"</span><span class="op">)</span>, lens<span class="op">=</span><span class="op">-</span><span class="fl">5</span><span class="op">)</span>,</span>
 <span>   `rainbow2(15)`<span class="op">=</span><span class="fu"><a href="../reference/rainbow2.html">rainbow2</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span>
 <span>   <span class="op">)</span><span class="op">)</span>;</span></code></pre></div>
-<p><img src="jambaVignette-get_color_ramp-1.png" alt="Example of color gradients using the Brewer package." width="768"></p>
+<p><img src="jambaVignette-get_color_ramp-1.png" class="r-plt" alt="Example of color gradients using the Brewer package." width="768"></p>
 </div>
 </div>
 <div class="section level3">
@@ -767,7 +767,7 @@ also applies a contrasting text color.</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

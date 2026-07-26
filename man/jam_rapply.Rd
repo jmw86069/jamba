@@ -24,7 +24,7 @@ Jam-specific recursive apply
 }
 \details{
 This function is a very lightweight customization to \code{base::rapply()},
-specifically that it does not remove \code{NULL} entries.
+specifically that it does not remove 'NULL' entries.
 }
 \examples{
 L <- list(entryA=c("miR-112", "miR-12", "miR-112"),

@@ -57,7 +57,7 @@
 #'    is horizontal.
 #' @param sep `character` string, default `"\n"` newline, used when
 #'    there are multiple labels per cell, which also requires
-#'    `m` as a list, and `show` is `NULL` or has multiple values.
+#'    `m` as a list, and `show` is 'NULL' or has multiple values.
 #' @param verbose `logical` indicating whether to print verbose output,
 #'    specifically printing label information for position `(1, 1)`.
 #'    This output will only be seen when rendering or building the

@@ -66,7 +66,8 @@ wrapper(x=1, y=4)
 In this case (above), the user-supplied 'y=4' will be accepted
 before the default 'y=2', and therefore the output will be
 
-\code{1 + 4 = 5}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{1 + 4 = 5
+}\if{html}{\out{</div>}}
 
 The second option is to force the default 'y=2' to be used,
 thereby ignoring the user-defined 'y=4'. In this case,
@@ -88,7 +89,8 @@ In this case (above) the 'y=2' appears before the user-defined
 'y=4' in the argument stack, therefore 'y=2' takes priority.
 The output will be
 
-\code{1 + 2 = 3}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{1 + 2 = 3
+}\if{html}{\out{</div>}}
 }
 }
 \examples{

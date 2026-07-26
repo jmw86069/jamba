@@ -12,7 +12,7 @@
 #' @param x `numeric` matrix with two columns representing x,y coordinates.
 #' @param nbin `integer` number of bins to subdivide the scatterplot,
 #'    expanded to length 2 to accommodate x and y axis bins.
-#' @param bandwidth `numeric` or `NULL` representing the bandwidth used
+#' @param bandwidth `numeric` or 'NULL' representing the bandwidth used
 #'    for point density determination.
 #' @param range.x `numeric` vector length 2 representing the range of
 #'    values to consider for point density.

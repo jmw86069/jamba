@@ -80,7 +80,7 @@ Note this function returns the color matrix invisibly.}
 \value{
 invisible color \code{matrix} used by \code{imageByColors()}. When
 the input \code{x} is empty, or cannot be converted to colors when
-\code{x} contains a \code{function}, the output returns \code{NULL}.
+\code{x} contains a \code{function}, the output returns 'NULL'.
 }
 \description{
 Show colors from a vector or list

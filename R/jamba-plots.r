@@ -86,8 +86,8 @@
 #'    typically related to square root or cube root transformation. Note
 #'    that the default uses `transFactor` but if a custom function is
 #'    supplied, it will not use `transFactor` unless specified.
-#' @param xlim `numeric` x-axis range, or `NULL` to use the data range.
-#' @param ylim `numeric` y-axis range, or `NULL` to use the data range.
+#' @param xlim `numeric` x-axis range, or 'NULL' to use the data range.
+#' @param ylim `numeric` y-axis range, or 'NULL' to use the data range.
 #' @param xlab,ylab `character` labels for x- and y-axis, respectively.
 #' @param nrpoints `integer` number of outlier datapoints to display,
 #'    as defined by `graphics::smoothScatter()`, however the default here
@@ -565,7 +565,7 @@ plotSmoothScatter <- function
 #' @param col `character` R color used when `nrpoints>0`.
 #' @param transformation `function` which converts point density to a number,
 #'    typically related to square root or cube root transformation.
-#' @param postPlotHook `function` or `NULL`, NULL default.
+#' @param postPlotHook `function` or 'NULL', NULL default.
 #'    When `function` is supplied, it is called after producing the image.
 #'    By default it is simply used to draw a box around the image,
 #'    but could be used to layer additional information atop the image plot,
@@ -590,7 +590,7 @@ plotSmoothScatter <- function
 #' @param yaxt `character` value compatible with `graphics::par("yaxt")`, mainly useful
 #'    for suppressing the y-axis, in order to produce a custom y-axis
 #'    by other mechanisms, e.g. log-scaled y-axis tick marks.
-#' @param useRaster `NULL` or `logical` indicating whether to invoke
+#' @param useRaster 'NULL' or `logical` indicating whether to invoke
 #'    `graphics::rasterImage()` to produce a raster image.
 #'    If NULL, it determines whether to produce a raster image within the
 #'    `imageDefault()` function, which checks the options
@@ -1053,15 +1053,15 @@ nullPlot <- function
 #' plot elements to be shown, or can be useful precursor to provide a colored
 #' background for the plot.
 #'
-#' The plot space is defined using \code{graphics::par("usr")} and therefore requires
-#' an active R device is already opened.
+#' The plot space is defined using 'graphics::par("usr")'
+#' and therefore requires an active R device is already opened.
 #'
 #' @param fill `character` R color used to fill the background of the plot
 #' @param label `character` text optionally used to label the center of the
-#'    plot space, default `NULL`
+#'    plot space, default 'NULL'
 #' @param parUsr `numeric` vector length 4, indicating the R plot space,
 #'    consistent with \code{graphics::par("usr")}. It can thus be used to define a
-#'    different area, though using the \code{\link[graphics]{rect}} function
+#'    different area, though using the `graphics::rect()` function
 #'    directly seems more appropriate.
 #' @param debug `logical` whether to print the parUsr value being used.
 #' @param ... additional arguments are ignored.
@@ -1072,7 +1072,7 @@ nullPlot <- function
 #'    of adding a box in the usr plot space of an R graphics device.
 #'
 #' @examples
-#' # usrBox() requires that a plot device is already open
+#' # usrBox requires that a plot device is already open
 #' nullPlot(doBoxes=FALSE);
 #' usrBox();
 #'
@@ -1088,11 +1088,21 @@ usrBox <- function
    ## showing the graphics::par("usr") area as defined by R.
    ## This function can also be used to change the plot background color.
    if (debug) {
-      printDebug("parUsr: ", c(format(digits=2, parUsr)), c("orange", "lightblue"));
+      printDebug("parUsr: ",
+         c(format(digits=2, parUsr)),
+         c("orange", "lightblue"));
    }
-   graphics::rect(col=fill, parUsr[1], parUsr[3], parUsr[2], parUsr[4], ...);
-   if (!is.null(label)) {
-      graphics::text(mean(parUsr[c(1,2)]), mean(parUsr[c(3,4)]), label, ...);
+   graphics::rect(col=fill,
+      parUsr[1],
+      parUsr[3],
+      parUsr[2],
+      parUsr[4],
+      ...);
+   if (length(label) > 0) {
+      graphics::text(mean(parUsr[c(1,2)]),
+         mean(parUsr[c(3,4)]),
+         labels=label,
+         ...);
    }
 }
 
@@ -1100,14 +1110,14 @@ usrBox <- function
 #'
 #' Display a color raster image
 #'
-#' This function augments the \code{\link[graphics]{image}} function, in
+#' This function augments the `graphics::image()` function, in
 #' that it handles the useRaster parameter for non-symmetric data matrices,
 #' in order to minimize the distortion from image-smoothing when pixels are
 #' not square.
 #'
 #' The function also by default creates the image map using coordinates where
 #' each integer represents the center point of one column or row of data,
-#' known in the default \code{\link[graphics]{image}} function as \code{oldstyle=TRUE}.
+#' known in the default `graphics::image()` function as \code{oldstyle=TRUE}.
 #' For consistency, \code{imageDefault} will only accept \code{oldstyle=TRUE}.
 #'
 #' @param x `numeric` location of grid lines at which the intervals
@@ -1180,7 +1190,7 @@ usrBox <- function
 #' @returns `list` composed of elements suitable to call
 #'    `graphics::image.default()`.
 #'
-#' @seealso \code{\link[graphics]{image}}
+#' @seealso `graphics::image()`
 #'
 #' @examples
 #' ps <- plotSmoothScatter(doTest=TRUE)
@@ -1681,8 +1691,8 @@ imageDefault <- function
 #' @param alphaOutline,alphaShadow `numeric` alpha transparency to use
 #'    for the outline and shadow colors, respectively.
 #' @param doTest `logical` whether to create a visual example of output. Note
-#'    that it calls \code{\link{usrBox}} to color the plot area, and the
-#'    background can be overridden with something like \code{fill="navy"}.
+#'    that it calls `usrBox()` to color the plot area, and the
+#'    background can be overridden with something like 'fill="navy"'.
 #' @param shadowOrder `character` value indicating when shadows are drawn
 #'    relative to drawing labels: `"each"` draws each shadow with each label,
 #'    so that shadows will overlap previous labels; `"all"` draws all shadows
@@ -1690,11 +1700,11 @@ imageDefault <- function
 #'    shadows. See examples.
 #' @param cex `numeric` scalar applied to font size, default `graphics::par("cex")`.
 #' @param font `character` applied to font family, default `graphics::par("font")`.
-#' @param ... other parameters are passed to \code{\link[graphics]{text}}.
+#' @param ... other parameters are passed to `graphics::text()`.
 #'    Note that certain parameters are not vectorized in that function,
-#'    such as \code{srt} which requires only a fixed value. To rotate each
-#'    label independently, multiple calls to \code{\link[graphics]{text}} or
-#'    \code{\link{shadowText}} must be made. Other parameters like \code{adj}
+#'    such as 'srt' which requires only a fixed value. To rotate each
+#'    label independently, multiple calls to `graphics::text()` or
+#'    `shadowText()` must be made. Other parameters like \code{adj}
 #'    only accept up to two values, and those two values affect all label
 #'    positioning.
 #'
@@ -2135,7 +2145,7 @@ adjustAxisLabelMargins <- function
 #'    quantile value of the density `y` values to use for the ylim. This
 #'    threshold is only applied when `ylim` is NULL.
 #' @param ylim,xlim `numeric` y-axis and x-axis ranges, respectively.
-#'    When either is `NULL`, the axis range is determined independently
+#'    When either is 'NULL', the axis range is determined independently
 #'    for each plot panel. Either value can be supplied as a `list`
 #'    to control the numeric range for each individual plot, relevant
 #'    only when `x` is supplied as a multi-column matrix.
